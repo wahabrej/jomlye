@@ -8,9 +8,10 @@ class AuthController extends GetxController {
   final SpController spController = SpController();
   final ApiServices apiServices = ApiServices();
   final RxBool isLoginLoading = RxBool(false);
-  Future<void> userLogin() async {
     final TextEditingController emailTextEditingController = TextEditingController();
     final TextEditingController passwordTextEditingController = TextEditingController();
+    final RxBool isPasswordShow = RxBool(false);
+  Future<void> userLogin() async {
     try {
       isLoginLoading.value = true;
       Map<String, dynamic> body = {

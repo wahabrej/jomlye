@@ -65,11 +65,8 @@ class LandingScreen extends StatelessWidget {
                        bottom: height/6.8,
                       right: width/25,
                       child: 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: k0Padding),
-                    child: Center(
-                      child: CustomElevatedButton(label: ksSignIn.tr, onPressed: (){},buttonWidth: width-40,buttonColor: cPrimaryColor2),
-                    ),
+                  Center(
+                    child: CustomElevatedButton(label: ksSignIn.tr, onPressed: (){Get.toNamed(krSignInScreen);},buttonWidth: width-40,buttonColor: cPrimaryColor2),
                   ),
                       ),
                       Positioned(

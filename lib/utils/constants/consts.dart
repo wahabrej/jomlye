@@ -17,6 +17,7 @@ const double kCommonBackSpace = 50.0;
 const double kBottomNavHeight = 44.0;
 
 const double k4BorderRadius = 4.0;
+const double k6BorderRadius = 6.0;
 const double k8BorderRadius = 8.0;
 const double k12BorderRadius = 12.0;
 const double k16BorderRadius = 16.0;
