@@ -33,9 +33,9 @@ flutter:
   uses-material-design: true
 
   assets:
-    # - .env
-    # - .env.dev
-    # - .env.example
+    - .env
+    - .env.dev
+    - .env.example
     - assets/images/
     - assets/svgs/
 
