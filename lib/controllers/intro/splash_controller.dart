@@ -12,7 +12,7 @@ class SplashScreenController extends GetxController {
     return Timer(
       duration,
       () async {
-        // Get.offAllNamed(krHome);
+        Get.offAllNamed(krLandingScreen);
       },
     );
   }

@@ -47,6 +47,7 @@ const double h8 = 8.0;
 //* Icon sizes
 const double kIconSize8 = 8.0;
 const double kIconSize12 = 12.0;
+const double kIconSize14 = 14.0;
 const double kIconSize16 = 16.0;
 const double kIconSize20 = 20.0;
 const double kIconSize24 = 24.0;
@@ -57,6 +58,7 @@ const double kHorizontalPadding = 20.0;
 const double k0Padding = 0.0;
 const double k2Padding = 2.0;
 const double k4Padding = 4.0;
+const double k6Padding = 6.0;
 const double k8Padding = 8.0;
 const double k10Padding = 10.0;
 const double k12Padding = 12.0;
@@ -75,6 +77,7 @@ const double k100Padding = 100.0;
 //* empty sized box with only width
 const kEmptySizedBox = SizedBox();
 const kW4sizedBox = SizedBox(width: k4Padding);
+const kW6sizedBox = SizedBox(width: k6Padding);
 const kW8sizedBox = SizedBox(width: k8Padding);
 const kW12sizedBox = SizedBox(width: k12Padding);
 const kW16sizedBox = SizedBox(width: k16Padding);

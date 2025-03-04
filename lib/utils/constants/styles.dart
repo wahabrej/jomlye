@@ -35,6 +35,9 @@ TextStyle semiBold18TextStyle(Color color) {
 TextStyle semiBold20TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w600, fontSize: screenWiseSize(h20, 2), color: color);
 }
+TextStyle regular20TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h20, 2), color: color);
+}
 
 TextStyle semiBold16TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w600, fontSize: screenWiseSize(h16, 2), color: color);

@@ -15,3 +15,12 @@ const String ksUnAuthorizedError = "UnAuthorized request";
 
 //* Common
 const String ksVidflix = "VidFlix";
+
+
+//*initial and splash screen
+const String ksDiscoverAVarietyOfMovies = "Discover a variety of movies, TV shows and series";
+const String ksOurPackages = "Our Packages";
+const String ksSignIn = "Sign In";
+const String ksDontHaveAnyAccount = "Don't have an account yet?";
+const String ksSignUp = "Sign Up";
+const String ksSkip = "Skip";
