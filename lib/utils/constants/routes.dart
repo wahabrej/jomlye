@@ -1,5 +1,5 @@
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/views/splash/splash_screen.dart';
+import 'package:vidflix_flutter_app/screens/splash/splash_screen.dart';
 
 const String krSplashScreen = '/splash-screen';
 const String krHome = '/home';
