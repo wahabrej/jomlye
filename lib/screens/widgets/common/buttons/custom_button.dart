@@ -43,7 +43,7 @@ class CustomElevatedButton extends StatelessWidget {
             minimumSize: WidgetStateProperty.all(Size.zero),
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             shape: WidgetStateProperty.all(RoundedRectangleBorder(
-              borderRadius: isCircularHead ? BorderRadius.circular(50) : BorderRadius.circular(k4BorderRadius),
+              borderRadius: isCircularHead ? BorderRadius.circular(50) : BorderRadius.circular(k6BorderRadius),
               side: BorderSide(color: (buttonColor == cWhiteColor) ? (borderColor ?? cPrimaryColor) : cTransparentColor, width: 1),
             )),
             backgroundColor: WidgetStateProperty.resolveWith<Color>((Set<WidgetState> states) {
@@ -71,7 +71,7 @@ class CustomElevatedButton extends StatelessWidget {
                         size: prefixIconSize ?? screenWiseSize(kIconSize16, 4),
                       ),
                     ),
-                  Text(label.toString(), textAlign: TextAlign.center, style: textStyle),
+                  Text(label.toString(), textAlign: TextAlign.center, style: textStyle??regular14TextStyle(cWhiteColor)),
                   if (suffixIcon != null)
                     Padding(
                       padding: const EdgeInsets.only(left: k8Padding),

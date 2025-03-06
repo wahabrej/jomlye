@@ -296,7 +296,7 @@ class SignUpScreen extends StatelessWidget {
                    ),
                  ),
                 kH16sizedBox,
-                CustomElevatedButton(label: ksSignUp.tr, onPressed: (){},buttonWidth: width-40,buttonColor: cPrimaryColor2),
+                CustomElevatedButton(label: ksSignUp.tr, onPressed: (){Get.toNamed(krChooseInterestScreen);},buttonWidth: width-40,buttonColor: cPrimaryColor2),
                 kH16sizedBox,
                 RichText(
                                 text: TextSpan(

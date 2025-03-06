@@ -39,6 +39,8 @@ class AuthController extends GetxController {
       isPasswordShow.value = false;
       isConfirmPasswordShow.value = false;
       isRememberMe.value = false;
+      selectedInterestIdList.clear();
+      selectedInterestList.clear();
     }
   Future<void> userLogin() async {
     try {
@@ -124,4 +126,65 @@ class AuthController extends GetxController {
       ll('profile error: $e');
     }
   }
+  final RxList<Map<String,dynamic>> interestList = RxList([
+    {"name": "Horror","id":1},
+    {"name": "Horror","id":2},
+    {"name": "Horror","id":3},
+    {"name": "Drama","id":4},
+    {"name": "Drama","id":5},
+    {"name": "Drama","id":6},
+    {"name": "War","id":7},
+    {"name": "War","id":8},
+    {"name": "War","id":9},
+    {"name": "Western","id":10},
+    {"name": "Western","id":11},
+    {"name": "Western","id":12},
+    {"name": "Indian","id":13},
+    {"name": "Indian","id":14},
+    {"name": "Indian","id":15},
+    {"name": "Music","id":16},
+    {"name": "Music","id":17},
+    {"name": "Music","id":18},
+    {"name": "Thriller","id":19},
+    {"name": "Thriller","id":20},
+    {"name": "Thriller","id":21},
+    {"name": "Animation","id":22},
+    {"name": "Animation","id":23},
+    {"name": "Animation","id":24},
+    {"name": "Animation","id":25},
+    {"name": "Animation","id":26},
+    {"name": "Animation","id":27},
+    {"name": "Animation","id":28},
+    {"name": "Animation","id":29},
+    // "Horror",
+    // "Horror",
+    // "Drama",
+    // "Drama",
+    // "Drama",
+    // "War",
+    // "War",
+    // "War",
+    // "Western",
+    // "Western",
+    // "Western",
+    // "Indian",
+    // "Indian",
+    // "Indian",
+    // "Music",
+    // "Music",
+    // "Music",
+    // "Thriller",
+    // "Thriller",
+    // "Thriller",
+    // "Animation",
+    // "Animation",
+    // "Animation",
+    // "Animation",
+    // "Animation",
+    // "Animation",
+    // "Animation",
+    // "Animation",
+  ]);
+  final RxList selectedInterestList = RxList([]);
+  final RxList selectedInterestIdList = RxList([]);
 }

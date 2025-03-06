@@ -57,3 +57,6 @@ const String ksMakeANewPasswordAndContinueExploring = "Make a new password and c
 const String ksNewPassword = "New Password";
 const String ksEnterNewPassword = "Enter New Password";
 const String ksGetStarted = "Get Started";
+const String ksChooseYourInterest = "Choose Your Interest";
+const String ksPersonalizeYourExperienceBySelectingYourFavoriteMovie = "Personalize your experience by selecting your favorite movie genres and TV shows";
+const String ksContinue = "Continue";
