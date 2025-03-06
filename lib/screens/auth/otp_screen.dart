@@ -38,7 +38,6 @@ class OTPScreen extends StatelessWidget {
                         isCircularHead: true),
                   ],
                 ),
-                // const SizedBox(height: 60,),
                 SizedBox(height: height*0.15.h,),
                 Center(
                   child: Container(

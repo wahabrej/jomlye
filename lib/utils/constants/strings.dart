@@ -50,3 +50,5 @@ const String ksSendOTP = "Send OTP";
 const String ksOTPVerification = "OTP Verification";
 const String ksEnterTheVerificationCodeWeJustSentOnYourEmail = "Enter the verification code we just sent on your email.";
 const String ksEnterOTP = "Enter OTP";
+const String ksDontWorryResetItAndGetBackToExploringVideos = "Don't worry! Reset it and get back to exploring videos";
+const String ksEnterEmailAddress = "Enter Email Address";

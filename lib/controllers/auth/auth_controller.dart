@@ -11,6 +11,7 @@ class AuthController extends GetxController {
   //signin
     final TextEditingController emailTextEditingController = TextEditingController();
     final TextEditingController passwordTextEditingController = TextEditingController();
+    final TextEditingController forgotEmailTextEditingController = TextEditingController();
     final TextEditingController phoneNumberTextEditingController = TextEditingController();
     //*sign up
     final TextEditingController firstNameTextEditingController = TextEditingController();
@@ -29,6 +30,7 @@ class AuthController extends GetxController {
     void resetAuth(){
       emailTextEditingController.clear();
       passwordTextEditingController.clear();
+      forgotEmailTextEditingController.clear();
       phoneNumberTextEditingController.clear();
       firstNameTextEditingController.clear();
       lastNameTextEditingController.clear();

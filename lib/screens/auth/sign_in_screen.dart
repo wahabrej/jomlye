@@ -170,8 +170,8 @@ class SignInScreen extends StatelessWidget {
                                 ),
                                 InkWell(
                                     onTap: () {
-                                      // authenticationController.forgetEmailTextEditingController.clear();
-                                      // Get.toNamed(krForgetPasswordScreen);
+                                      authController.forgotEmailTextEditingController.clear();
+                                      Get.toNamed(krForgotPasswordScreen);
                                     },
                                     child: Text(
                                       "${ksForgotPassword.tr}?",
