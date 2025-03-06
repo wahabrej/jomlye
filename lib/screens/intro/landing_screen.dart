@@ -1,4 +1,5 @@
 import 'package:flutter/gestures.dart';
+import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -66,7 +67,9 @@ class LandingScreen extends StatelessWidget {
                       right: width/25,
                       child: 
                   Center(
-                    child: CustomElevatedButton(label: ksSignIn.tr, onPressed: (){Get.toNamed(krSignInScreen);},buttonWidth: width-40,buttonColor: cPrimaryColor2),
+                    child: CustomElevatedButton(label: ksSignIn.tr, onPressed: (){
+                      Get.find<AuthController>().resetAuth();
+                      Get.toNamed(krSignInScreen);},buttonWidth: width-40,buttonColor: cPrimaryColor2),
                   ),
                       ),
                       Positioned(
@@ -83,6 +86,7 @@ class LandingScreen extends StatelessWidget {
                                       style: regular16TextStyle(cPrimaryColor2),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
+                                      Get.find<AuthController>().resetAuth();
                                       Get.toNamed(krSignUpScreen);
                                         },
                                     ),

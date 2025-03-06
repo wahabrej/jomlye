@@ -1,12 +1,11 @@
 import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
-import 'package:vidflix_flutter_app/screens/auth/sign_in_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
-class PhoneSignInScreen extends StatelessWidget {
-  PhoneSignInScreen({super.key});
+class ResetPasswordScreen extends StatelessWidget {
+  ResetPasswordScreen({super.key});
   final AuthController authController = Get.find<AuthController>();
 
   @override
@@ -39,8 +38,7 @@ class PhoneSignInScreen extends StatelessWidget {
                         isCircularHead: true),
                   ],
                 ),
-                // const SizedBox(height: 60,),
-                kH40sizedBox,
+                SizedBox(height: height*0.15.h),
                 Center(
                   child: Container(
                     width: 80,
@@ -62,77 +60,30 @@ class PhoneSignInScreen extends StatelessWidget {
                 kH40sizedBox,
                 Center(
                     child: Text(
-                  "${ksWelcomeBack.tr}!",
+                  "${ksCreateNewPassword.tr}?",
                   style: medium28TextStyle(cWhiteColor),
                 )),
                 kH12sizedBox,
                 Text(
-                  ksPleaseEnterYourDetailsToSignIn.tr,
+                  "${ksMakeANewPasswordAndContinueExploring.tr}.",
                   style: regular16TextStyle(cWhiteColor.withOpacity(0.8)),
                 ),
                 kH16sizedBox,
                 Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      ksContinueWith.tr,
-                      style: regular16TextStyle(cWhiteColor),
-                    )),
-                kH16sizedBox,
-                const Row(
-                  children: [
-                    CommonContainer(
-                      image: kiPhone,
-                      isSelected: true,
-                    ),
-                    kW12sizedBox,
-                    CommonContainer(image: kiGoogle),
-                    kW12sizedBox,
-                    CommonContainer(image: kiFacebook),
-                  ],
-                ),
-                kH16sizedBox,
-                Row(
-                  children: [
-                    SizedBox(
-                      width: width * 0.4,
-                      child: Divider(
-                        thickness: 1,
-                        color: cWhiteColor.withOpacity(0.2),
-                        height: 1,
-                      ),
-                    ),
-                    kW8sizedBox,
-                    Text(
-                      ksOR,
-                      style: regular16TextStyle(cWhiteColor),
-                    ),
-                    kW8sizedBox,
-                    SizedBox(
-                      width: width * 0.4,
-                      child: Divider(
-                        thickness: 1,
-                        color: cWhiteColor.withOpacity(0.2),
-                        height: 1,
-                      ),
-                    ),
-                  ],
-                ),
-                kH16sizedBox,
-                Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      ksPhoneNumber.tr,
+                      ksNewPassword.tr,
                       style: regular16TextStyle(cWhiteColor),
                     )),
                 kH8sizedBox,
-                SizedBox(
+                 SizedBox(
                   height: 46,
                   child: CustomModifiedTextField(
-                    hint: ksEnterHere.tr,
-                    controller: authController.phoneNumberTextEditingController,
+                    hint: ksEnterNewPassword.tr,
+                    controller: authController.passwordTextEditingController,
                     fillColor: cBlackColor,
                     textInputStyle: regular14TextStyle(cWhiteColor),
-                    inputType: TextInputType.number,
+                    obscureText: authController.isPasswordShow.value ? false : true,
                     focusBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(k6BorderRadius),
                       borderSide: const BorderSide(
@@ -140,24 +91,59 @@ class PhoneSignInScreen extends StatelessWidget {
                         color: cPrimaryColor2,
                       ),
                     ),
-                    border: OutlineInputBorder(
+                     border: 
+                  OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(k6BorderRadius),
+                    borderSide:  BorderSide(width: 1,color: cWhiteColor.withOpacity(0.3), style: BorderStyle.solid,),
+                  ),
+                  contentPadding: const EdgeInsets.all(12),
+                  suffixIcon: authController.isPasswordShow.value ?  Icons.visibility:Icons.visibility_off,
+                  onSuffixPress: (){
+                    authController.isPasswordShow.value = ! authController.isPasswordShow.value;
+                  },
+                    ),
+                ),
+                          kH16sizedBox,
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      ksConfirmPassword.tr,
+                      style: regular16TextStyle(cWhiteColor),
+                    )),
+                kH8sizedBox,
+                 SizedBox(
+                  height: 46,
+                  child: CustomModifiedTextField(
+                    hint: ksConfirmPassword.tr,
+                    controller: authController.confirmPasswordTextEditingController,
+                    fillColor: cBlackColor,
+                    textInputStyle: regular14TextStyle(cWhiteColor),
+                    obscureText: authController.isConfirmPasswordShow.value ? false : true,
+                    focusBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(k6BorderRadius),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         width: 1,
-                        color: cWhiteColor.withOpacity(0.3),
-                        style: BorderStyle.solid,
+                        color: cPrimaryColor2,
                       ),
                     ),
-                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                    contentPadding: const EdgeInsets.all(12),
+                     border: 
+                  OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(k6BorderRadius),
+                    borderSide:  BorderSide(width: 1,color: cWhiteColor.withOpacity(0.3), style: BorderStyle.solid,),
                   ),
+                  contentPadding: const EdgeInsets.all(12),
+                  suffixIcon: authController.isConfirmPasswordShow.value ?  Icons.visibility:Icons.visibility_off,
+                  onSuffixPress: (){
+                    authController.isConfirmPasswordShow.value = ! authController.isConfirmPasswordShow.value;
+                  },
+                    ),
                 ),
                 kH16sizedBox,
                 CustomElevatedButton(
-                    label: ksSendOTP.tr,
+                    label: ksGetStarted.tr,
                     onPressed: () {
-                      authController.resetAuth();
-                      Get.toNamed(krOTPScreen);
+                       authController.resetAuth();
+                      showSnackBar(title: "Success", message: "Password Changed Successfully", color: cGreenColor);
                     },
                     buttonWidth: width - 40,
                     buttonColor: cPrimaryColor2),

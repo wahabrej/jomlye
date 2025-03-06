@@ -58,6 +58,7 @@ class SignInScreen extends StatelessWidget {
                  Row(
                   children: [
                     CommonContainer(image: kiPhone,onPressed: () {
+                      authController.resetAuth();
                       Get.toNamed(krPhoneSignInScreen);
                     },),
                     kW12sizedBox,
@@ -170,7 +171,7 @@ class SignInScreen extends StatelessWidget {
                                 ),
                                 InkWell(
                                     onTap: () {
-                                      authController.forgotEmailTextEditingController.clear();
+                                      authController.resetAuth();
                                       Get.toNamed(krForgotPasswordScreen);
                                     },
                                     child: Text(
@@ -192,6 +193,7 @@ class SignInScreen extends StatelessWidget {
                                       style: regular16TextStyle(cPrimaryColor2),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
+                                          authController.resetAuth();
                                           Get.toNamed(krSignUpScreen);
                                         },
                                     ),

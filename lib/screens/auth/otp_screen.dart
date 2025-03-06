@@ -83,6 +83,7 @@ class OTPScreen extends StatelessWidget {
                             onSubmit: (v){
                               if(authController
                                 .otpTextEditingController.text.length==6){
+                                   authController.resetAuth();
                                   showSnackBar(title: "Success", message: "Successfully verified!", color: cGreenColor);
                                 }
                             },

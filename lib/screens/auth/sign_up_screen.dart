@@ -308,6 +308,7 @@ class SignUpScreen extends StatelessWidget {
                                       style: regular16TextStyle(cPrimaryColor2),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
+                                          authController.resetAuth();
                                           Get.toNamed(krSignInScreen);
                                         },
                                     ),
