@@ -83,9 +83,7 @@ class LandingScreen extends StatelessWidget {
                                       style: regular16TextStyle(cPrimaryColor2),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
-                                          // ll("on pressed in sign up");
-                                          // Navigate to Sign Up screen
-                                          // Navigator.pushNamed(context, '/signup');
+                                      Get.toNamed(krSignUpScreen);
                                         },
                                     ),
                                   ],

@@ -6,8 +6,8 @@ import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_checkbox
 import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
-class SignInScreen extends StatelessWidget {
-   SignInScreen({super.key});
+class SignUpScreen extends StatelessWidget {
+   SignUpScreen({super.key});
    final AuthController authController = Get.find<AuthController>();
 
   @override
@@ -47,9 +47,9 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ),
                 kH40sizedBox,
-                Center(child: Text("${ksWelcomeBack.tr}!",style: medium28TextStyle(cWhiteColor),)),
+                Center(child: Text("${ksCreateYourAccountFree.tr}!",style: medium28TextStyle(cWhiteColor),)),
                 kH12sizedBox,
-                Text(ksPleaseEnterYourDetailsToSignIn.tr,style: regular16TextStyle(cWhiteColor.withOpacity(0.8)),),
+                Text(ksPleaseEnterYourDetailsToSignUp.tr,style: regular16TextStyle(cWhiteColor.withOpacity(0.8)),),
                 kH16sizedBox,
                 Align(
                   alignment: Alignment.centerLeft,
@@ -90,14 +90,89 @@ class SignInScreen extends StatelessWidget {
                   ],
                 ),
                 kH16sizedBox,
+                SizedBox(
+                  width: width-40,
+                  child: Row(
+                    children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                          Text(ksFirstName.tr,style: regular16TextStyle(cWhiteColor),),
+                                          kH8sizedBox,
+                                    SizedBox(
+                                      height: 46,
+                                      width: (width-54)/2,
+                                      child: CustomModifiedTextField(
+                                        hint: ksEnterHere.tr,
+                                        controller: authController.firstNameTextEditingController,
+                                        fillColor: cBlackColor,
+                                        textInputStyle: regular14TextStyle(cWhiteColor),
+                                         border: 
+                                      OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(k6BorderRadius),
+                                        borderSide:  BorderSide(width: 1,color: cWhiteColor.withOpacity(0.3), style: BorderStyle.solid,),
+                                      ),
+                                      contentPadding: const EdgeInsets.all(12),
+                                        ),
+                                    ),
+                      ],
+                    ),
+                    kW14sizedBox,
+                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                          Text(ksLastName.tr,style: regular16TextStyle(cWhiteColor),),
+                                          kH8sizedBox,
+                                    SizedBox(
+                                      height: 46,
+                                      width: (width-54)/2,
+                                      child: CustomModifiedTextField(
+                                        hint: ksEnterHere.tr,
+                                        controller: authController.lastNameTextEditingController,
+                                        fillColor: cBlackColor,
+                                        textInputStyle: regular14TextStyle(cWhiteColor),
+                                         border: 
+                                      OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(k6BorderRadius),
+                                        borderSide:  BorderSide(width: 1,color: cWhiteColor.withOpacity(0.3), style: BorderStyle.solid,),
+                                      ),
+                                      contentPadding: const EdgeInsets.all(12),
+                                        ),
+                                    ),
+                      ],
+                    ),
+                    ],
+                  ),
+                ),
+                 kH12sizedBox,             
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(ksUserNameOrEmail.tr,style: regular16TextStyle(cWhiteColor),)),
+                  child: Text(ksUserName.tr,style: regular16TextStyle(cWhiteColor),)),
                 kH8sizedBox,
                 SizedBox(
                   height: 46,
                   child: CustomModifiedTextField(
-                    hint: ksUserNameOrEmail.tr,
+                    hint: ksEnterHere.tr,
+                    controller: authController.userNameTextEditingController,
+                    fillColor: cBlackColor,
+                    textInputStyle: regular14TextStyle(cWhiteColor),
+                     border: 
+                  OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(k6BorderRadius),
+                    borderSide:  BorderSide(width: 1,color: cWhiteColor.withOpacity(0.3), style: BorderStyle.solid,),
+                  ),
+                  contentPadding: const EdgeInsets.all(12),
+                    ),
+                ),
+                kH12sizedBox,
+                           Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(ksEmail.tr,style: regular16TextStyle(cWhiteColor),)),
+                kH8sizedBox,
+                SizedBox(
+                  height: 46,
+                  child: CustomModifiedTextField(
+                    hint: ksEnterHere.tr,
                     controller: authController.emailTextEditingController,
                     fillColor: cBlackColor,
                     textInputStyle: regular14TextStyle(cWhiteColor),
@@ -117,7 +192,7 @@ class SignInScreen extends StatelessWidget {
                 SizedBox(
                   height: 46,
                   child: CustomModifiedTextField(
-                    hint: ksEnterPassword.tr,
+                    hint: ksPassword.tr,
                     controller: authController.passwordTextEditingController,
                     fillColor: cBlackColor,
                     textInputStyle: regular14TextStyle(cWhiteColor),
@@ -134,49 +209,61 @@ class SignInScreen extends StatelessWidget {
                   },
                     ),
                 ),
+                kH12sizedBox,
+                  Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(ksConfirmPassword.tr,style: regular16TextStyle(cWhiteColor),)),
+                kH8sizedBox,
+                SizedBox(
+                  height: 46,
+                  child: CustomModifiedTextField(
+                    hint: ksPassword.tr,
+                    controller: authController.confirmPasswordTextEditingController,
+                    fillColor: cBlackColor,
+                    textInputStyle: regular14TextStyle(cWhiteColor),
+                    obscureText: authController.isConfirmPasswordShow.value ? false : true,
+                     border: 
+                  OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(k6BorderRadius),
+                    borderSide:  BorderSide(width: 1,color: cWhiteColor.withOpacity(0.3), style: BorderStyle.solid,),
+                  ),
+                  contentPadding: const EdgeInsets.all(12),
+                  suffixIcon: authController.isConfirmPasswordShow.value ?  Icons.visibility:Icons.visibility_off,
+                  onSuffixPress: (){
+                    authController.isConfirmPasswordShow.value = ! authController.isConfirmPasswordShow.value;
+                  },
+                    ),
+                ),
                 kH16sizedBox,
-                 Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CustomCheckBox(
-                                  // width: 60,
-                                  // height: 30,
-                                  value: authController
-                                      .isRememberMe.value,
-                                  label: ksRememberMe.tr,
-                                  textStyle: regular14TextStyle(cWhiteColor),
-                                  onChanged: (value) {
-                                    authController
-                                            .isRememberMe.value =
-                                        !authController
-                                            .isRememberMe.value;
-                                  },
-                                ),
-                                InkWell(
-                                    onTap: () {
-                                      // authenticationController.forgetEmailTextEditingController.clear();
-                                      // Get.toNamed(krForgetPasswordScreen);
-                                    },
-                                    child: Text(
-                                      "${ksForgotPassword.tr}?",
-                                      style: regular14TextStyle(cPrimaryColor2),
-                                    )),
-                              ],
-                            ),
+                 Align(
+                  alignment: Alignment.centerLeft,
+                   child: CustomCheckBox(
+                     value: authController
+                         .isRememberMe.value,
+                     label: ksRememberMe.tr,
+                     textStyle: regular14TextStyle(cWhiteColor),
+                     onChanged: (value) {
+                       authController
+                               .isRememberMe.value =
+                           !authController
+                               .isRememberMe.value;
+                     },
+                   ),
+                 ),
                 kH16sizedBox,
-                CustomElevatedButton(label: ksSignIn.tr, onPressed: (){},buttonWidth: width-40,buttonColor: cPrimaryColor2),
+                CustomElevatedButton(label: ksSignUp.tr, onPressed: (){},buttonWidth: width-40,buttonColor: cPrimaryColor2),
                 kH16sizedBox,
                 RichText(
                                 text: TextSpan(
-                                  text: "${ksDontHaveAnyAccount.tr} ",
+                                  text: "${ksAlreadyHaveAnAccount.tr}? ",
                                   style: regular16TextStyle(cWhiteColor),
                                   children: [
                                     TextSpan(
-                                      text: ksSignUp.tr,
+                                      text: ksSignIn.tr,
                                       style: regular16TextStyle(cPrimaryColor2),
                                       recognizer: TapGestureRecognizer()
                                         ..onTap = () {
-                                          Get.toNamed(krSignUpScreen);
+                                          Get.toNamed(krSignInScreen);
                                         },
                                     ),
                                   ],

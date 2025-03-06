@@ -1,4 +1,5 @@
 import 'package:vidflix_flutter_app/screens/auth/sign_in_screen.dart';
+import 'package:vidflix_flutter_app/screens/auth/sign_up_screen.dart';
 import 'package:vidflix_flutter_app/screens/intro/landing_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/screens/intro/splash_screen.dart';
@@ -7,6 +8,7 @@ const String krSplashScreen = '/splash-screen';
 const String krLandingScreen = '/landing-screen';
 //* auth
 const String krSignInScreen = "/signin-screen";
+const String krSignUpScreen = "/signup-screen";
 const String krHome = '/home-screen';
 
 List<GetPage<dynamic>>? routes = [
@@ -14,5 +16,6 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krLandingScreen, page: () => LandingScreen(), transition: Transition.noTransition),
    //* auth
    GetPage(name: krSignInScreen, page: () => SignInScreen(), transition: Transition.noTransition),
+   GetPage(name: krSignUpScreen, page: () => SignUpScreen(), transition: Transition.noTransition),
 
 ];

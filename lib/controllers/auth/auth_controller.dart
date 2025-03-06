@@ -8,10 +8,30 @@ class AuthController extends GetxController {
   final SpController spController = SpController();
   final ApiServices apiServices = ApiServices();
   final RxBool isLoginLoading = RxBool(false);
+  //signin
     final TextEditingController emailTextEditingController = TextEditingController();
     final TextEditingController passwordTextEditingController = TextEditingController();
+    //*sign up
+    final TextEditingController firstNameTextEditingController = TextEditingController();
+    final TextEditingController lastNameTextEditingController = TextEditingController();
+    final TextEditingController userNameTextEditingController = TextEditingController();
+    final TextEditingController confirmPasswordTextEditingController = TextEditingController();
+
     final RxBool isPasswordShow = RxBool(false);
+    final RxBool isConfirmPasswordShow = RxBool(false);
     final RxBool isRememberMe = RxBool(false);
+
+    void resetAuth(){
+      emailTextEditingController.clear();
+      passwordTextEditingController.clear();
+      firstNameTextEditingController.clear();
+      lastNameTextEditingController.clear();
+      userNameTextEditingController.clear();
+      confirmPasswordTextEditingController.clear();
+      isPasswordShow.value = false;
+      isConfirmPasswordShow.value = false;
+      isRememberMe.value = false;
+    }
   Future<void> userLogin() async {
     try {
       isLoginLoading.value = true;
