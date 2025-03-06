@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
+import 'package:vidflix_flutter_app/screens/auth/sign_in_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_checkbox.dart';
@@ -55,9 +56,11 @@ class SignUpScreen extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(ksContinueWith.tr,style: regular16TextStyle(cWhiteColor),)),
                 kH16sizedBox,
-                const Row(
+                 Row(
                   children: [
-                    CommonContainer(image: kiPhone),
+                    CommonContainer(image: kiPhone,onPressed: () {
+                      Get.toNamed(krPhoneSignInScreen);
+                    },),
                     kW12sizedBox,
                     CommonContainer(image: kiGoogle),
                     kW12sizedBox,
@@ -107,6 +110,13 @@ class SignUpScreen extends StatelessWidget {
                                         controller: authController.firstNameTextEditingController,
                                         fillColor: cBlackColor,
                                         textInputStyle: regular14TextStyle(cWhiteColor),
+                                        focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: cPrimaryColor2,
+                      ),
+                    ),
                                          border: 
                                       OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -131,6 +141,13 @@ class SignUpScreen extends StatelessWidget {
                                         controller: authController.lastNameTextEditingController,
                                         fillColor: cBlackColor,
                                         textInputStyle: regular14TextStyle(cWhiteColor),
+                                        focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: cPrimaryColor2,
+                      ),
+                    ),
                                          border: 
                                       OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -156,6 +173,13 @@ class SignUpScreen extends StatelessWidget {
                     controller: authController.userNameTextEditingController,
                     fillColor: cBlackColor,
                     textInputStyle: regular14TextStyle(cWhiteColor),
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: cPrimaryColor2,
+                      ),
+                    ),
                      border: 
                   OutlineInputBorder(
                     borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -176,6 +200,13 @@ class SignUpScreen extends StatelessWidget {
                     controller: authController.emailTextEditingController,
                     fillColor: cBlackColor,
                     textInputStyle: regular14TextStyle(cWhiteColor),
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: cPrimaryColor2,
+                      ),
+                    ),
                      border: 
                   OutlineInputBorder(
                     borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -197,6 +228,13 @@ class SignUpScreen extends StatelessWidget {
                     fillColor: cBlackColor,
                     textInputStyle: regular14TextStyle(cWhiteColor),
                     obscureText: authController.isPasswordShow.value ? false : true,
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: cPrimaryColor2,
+                      ),
+                    ),
                      border: 
                   OutlineInputBorder(
                     borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -222,6 +260,13 @@ class SignUpScreen extends StatelessWidget {
                     fillColor: cBlackColor,
                     textInputStyle: regular14TextStyle(cWhiteColor),
                     obscureText: authController.isConfirmPasswordShow.value ? false : true,
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: cPrimaryColor2,
+                      ),
+                    ),
                      border: 
                   OutlineInputBorder(
                     borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -269,32 +314,12 @@ class SignUpScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              kH40sizedBox,
               ],
             ),
           ),
         ),
       ),
-      ),
-    );
-  }
-}
-
-class CommonContainer extends StatelessWidget {
-  const CommonContainer({super.key, required this.image});
-  final String image;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: (width-64)/3,
-      height: 40,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(k8BorderRadius),
-        color: cWhiteColor.withOpacity(0.1),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.5),
-        child: SvgPicture.asset(image,width: 18,height: 18,),
       ),
     );
   }

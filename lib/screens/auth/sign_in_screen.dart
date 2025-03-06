@@ -55,9 +55,11 @@ class SignInScreen extends StatelessWidget {
                   alignment: Alignment.centerLeft,
                   child: Text(ksContinueWith.tr,style: regular16TextStyle(cWhiteColor),)),
                 kH16sizedBox,
-                const Row(
+                 Row(
                   children: [
-                    CommonContainer(image: kiPhone),
+                    CommonContainer(image: kiPhone,onPressed: () {
+                      Get.toNamed(krPhoneSignInScreen);
+                    },),
                     kW12sizedBox,
                     CommonContainer(image: kiGoogle),
                     kW12sizedBox,
@@ -97,10 +99,17 @@ class SignInScreen extends StatelessWidget {
                 SizedBox(
                   height: 46,
                   child: CustomModifiedTextField(
-                    hint: ksUserNameOrEmail.tr,
+                    hint: ksEnterHere.tr,
                     controller: authController.emailTextEditingController,
                     fillColor: cBlackColor,
                     textInputStyle: regular14TextStyle(cWhiteColor),
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: cPrimaryColor2,
+                      ),
+                    ),
                      border: 
                   OutlineInputBorder(
                     borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -122,6 +131,13 @@ class SignInScreen extends StatelessWidget {
                     fillColor: cBlackColor,
                     textInputStyle: regular14TextStyle(cWhiteColor),
                     obscureText: authController.isPasswordShow.value ? false : true,
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: cPrimaryColor2,
+                      ),
+                    ),
                      border: 
                   OutlineInputBorder(
                     borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -182,6 +198,7 @@ class SignInScreen extends StatelessWidget {
                                   ],
                                 ),
                               ),
+                              kH40sizedBox,
               ],
             ),
           ),
@@ -193,21 +210,27 @@ class SignInScreen extends StatelessWidget {
 }
 
 class CommonContainer extends StatelessWidget {
-  const CommonContainer({super.key, required this.image});
+  const CommonContainer({super.key, required this.image,this.isSelected=false,this.onPressed});
   final String image;
+  final bool? isSelected;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: (width-64)/3,
-      height: 40,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(k8BorderRadius),
-        color: cWhiteColor.withOpacity(0.1),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 10.5),
-        child: SvgPicture.asset(image,width: 18,height: 18,),
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        width: (width-64)/3,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(k8BorderRadius),
+          color: cWhiteColor.withOpacity(0.1),
+          border: Border.all(width: 1,color: isSelected! ? cPrimaryColor2 : cBlackColor),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10.5),
+          child: SvgPicture.asset(image,width: 18,height: 18,),
+        ),
       ),
     );
   }

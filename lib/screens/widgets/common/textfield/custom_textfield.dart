@@ -20,7 +20,7 @@ class CustomModifiedTextField extends StatelessWidget {
   final bool? isFilled;
   final EdgeInsetsGeometry? contentPadding;
   final double? borderRadius;
-  final InputBorder? border;
+  final InputBorder? border,focusBorder;
   final Color? suffixIconColor;
   final double? suffixIconSize;
   final TextAlign? textAlign;
@@ -53,6 +53,7 @@ class CustomModifiedTextField extends StatelessWidget {
     this.isFilled,
     this.borderRadius,
     this.border,
+    this.focusBorder,
     this.suffixIconColor,
     this.suffixIconSize,
     this.textAlign,
@@ -141,7 +142,7 @@ class CustomModifiedTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(borderRadius ?? k4BorderRadius),
             borderSide: const BorderSide(width: 1, style: BorderStyle.solid, color: cRedColor),
           ),
-          focusedBorder: border ??
+          focusedBorder: focusBorder ??
               OutlineInputBorder(
                 borderRadius: BorderRadius.circular(borderRadius ?? k4BorderRadius),
                 borderSide: const BorderSide(width: 0, style: BorderStyle.none),
