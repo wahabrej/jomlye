@@ -11,6 +11,7 @@ class AuthController extends GetxController {
     final TextEditingController emailTextEditingController = TextEditingController();
     final TextEditingController passwordTextEditingController = TextEditingController();
     final RxBool isPasswordShow = RxBool(false);
+    final RxBool isRememberMe = RxBool(false);
   Future<void> userLogin() async {
     try {
       isLoginLoading.value = true;

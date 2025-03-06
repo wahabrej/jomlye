@@ -17,7 +17,7 @@ const String ksUnAuthorizedError = "UnAuthorized request";
 const String ksVidflix = "VidFlix";
 
 
-//*initial and splash screen
+//* initial and splash screen
 const String ksDiscoverAVarietyOfMovies = "Discover a variety of movies, TV shows and series";
 const String ksOurPackages = "Our Packages";
 const String ksSignIn = "Sign In";
@@ -29,5 +29,9 @@ const String ksWelcomeBack = "Welcome Back";
 const String ksPleaseEnterYourDetails = "Please enter your details to Sign in";
 const String ksContinueWith = "Continue With";
 const String ksOR = "OR";
+
+//* auth
 const String ksUserNameOrEmail = "User Name or Email";
 const String ksPassword = "Password";
+const String ksForgotPassword = "Forgot Password";
+const String ksRememberMe = "Remember me";

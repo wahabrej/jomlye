@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
+import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_checkbox.dart';
 import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
@@ -14,21 +16,23 @@ class SignInScreen extends StatelessWidget {
       top: false,
       child: Scaffold(
         backgroundColor: cBlackColor,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                kH24sizedBox,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CustomElevatedButton(label: ksBack, onPressed: (){},prefixIcon: Icons.arrow_back_ios,prefixIconColor: cWhiteColor,buttonWidth: 80,buttonHeight: 32,buttonColor: cWhiteColor.withOpacity(0.1),isCircularHead: true),
-                  ],
-                ),
-                const SizedBox(height: 120,),
-                Center(
+        body: Obx(() => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        kH24sizedBox,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CustomElevatedButton(label: ksBack, onPressed: (){Get.back();},prefixIcon: Icons.arrow_back_ios,prefixIconColor: cWhiteColor,buttonWidth: 80,buttonHeight: 32,buttonColor: cWhiteColor.withOpacity(0.1),isCircularHead: true),
+                          ],
+                        ),
+                        // const SizedBox(height: 60,),
+                        kH40sizedBox,
+                        Center(
                   child: Container(
                     width: 80,
                     height: 80,
@@ -96,6 +100,7 @@ class SignInScreen extends StatelessWidget {
                     hint: ksUserNameOrEmail.tr,
                     controller: authController.emailTextEditingController,
                     fillColor: cBlackColor,
+                    textInputStyle: regular14TextStyle(cWhiteColor),
                      border: 
                   OutlineInputBorder(
                     borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -113,9 +118,10 @@ class SignInScreen extends StatelessWidget {
                   height: 46,
                   child: CustomModifiedTextField(
                     hint: ksPassword.tr,
-                    controller: authController.emailTextEditingController,
+                    controller: authController.passwordTextEditingController,
                     fillColor: cBlackColor,
-                    
+                    textInputStyle: regular14TextStyle(cWhiteColor),
+                    obscureText: authController.isPasswordShow.value ? false : true,
                      border: 
                   OutlineInputBorder(
                     borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -128,10 +134,61 @@ class SignInScreen extends StatelessWidget {
                   },
                     ),
                 ),
+                kH16sizedBox,
+                 Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomCheckBox(
+                                  // width: 60,
+                                  // height: 30,
+                                  value: authController
+                                      .isRememberMe.value,
+                                  label: ksRememberMe.tr,
+                                  textStyle: regular14TextStyle(cWhiteColor),
+                                  onChanged: (value) {
+                                    authController
+                                            .isRememberMe.value =
+                                        !authController
+                                            .isRememberMe.value;
+                                  },
+                                ),
+                                InkWell(
+                                    onTap: () {
+                                      // authenticationController.forgetEmailTextEditingController.clear();
+                                      // Get.toNamed(krForgetPasswordScreen);
+                                    },
+                                    child: Text(
+                                      "${ksForgotPassword.tr}?",
+                                      style: regular14TextStyle(cPrimaryColor2),
+                                    )),
+                              ],
+                            ),
+                kH16sizedBox,
+                CustomElevatedButton(label: ksSignIn.tr, onPressed: (){},buttonWidth: width-40,buttonColor: cPrimaryColor2),
+                kH16sizedBox,
+                RichText(
+                                text: TextSpan(
+                                  text: "${ksDontHaveAnyAccount.tr} ",
+                                  style: regular16TextStyle(cWhiteColor),
+                                  children: [
+                                    TextSpan(
+                                      text: ksSignUp.tr,
+                                      style: regular16TextStyle(cPrimaryColor2),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = () {
+                                          // ll("on pressed in sign up");
+                                          // Navigate to Sign Up screen
+                                          // Navigator.pushNamed(context, '/signup');
+                                        },
+                                    ),
+                                  ],
+                                ),
+                              ),
               ],
             ),
           ),
         ),
+      ),
       ),
     );
   }
