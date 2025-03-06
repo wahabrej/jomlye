@@ -47,3 +47,6 @@ const String ksEmail = "Email";
 const String ksConfirmPassword = "Confirm Password";
 const String ksPhoneNumber = "Phone Number";
 const String ksSendOTP = "Send OTP";
+const String ksOTPVerification = "OTP Verification";
+const String ksEnterTheVerificationCodeWeJustSentOnYourEmail = "Enter the verification code we just sent on your email.";
+const String ksEnterOTP = "Enter OTP";

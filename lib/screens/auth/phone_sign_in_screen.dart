@@ -155,7 +155,9 @@ class PhoneSignInScreen extends StatelessWidget {
                 kH16sizedBox,
                 CustomElevatedButton(
                     label: ksSendOTP.tr,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(krOTPScreen);
+                    },
                     buttonWidth: width - 40,
                     buttonColor: cPrimaryColor2),
                     kH40sizedBox,

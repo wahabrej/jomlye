@@ -224,6 +224,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "pin_code_fields",
+      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/pin_code_fields-8.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "platform",
       "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/platform-3.1.6",
       "packageUri": "lib/",
@@ -386,7 +392,7 @@
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2025-03-04T05:59:35.081516Z",
+  "generated": "2025-03-06T06:05:31.337275Z",
   "generator": "pub",
   "generatorVersion": "3.5.3",
   "flutterRoot": "file:///Users/murad/Downloads/flutter",

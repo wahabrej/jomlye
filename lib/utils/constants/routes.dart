@@ -1,3 +1,4 @@
+import 'package:vidflix_flutter_app/screens/auth/otp_screen.dart';
 import 'package:vidflix_flutter_app/screens/auth/phone_sign_in_screen.dart';
 import 'package:vidflix_flutter_app/screens/auth/sign_in_screen.dart';
 import 'package:vidflix_flutter_app/screens/auth/sign_up_screen.dart';
@@ -11,6 +12,7 @@ const String krLandingScreen = '/landing-screen';
 const String krSignInScreen = "/signin-screen";
 const String krSignUpScreen = "/signup-screen";
 const String krPhoneSignInScreen = "/phonesignin-screen";
+const String krOTPScreen = "/otp-screen";
 const String krHome = '/home-screen';
 
 List<GetPage<dynamic>>? routes = [
@@ -20,5 +22,6 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krSignInScreen, page: () => SignInScreen(), transition: Transition.noTransition),
    GetPage(name: krSignUpScreen, page: () => SignUpScreen(), transition: Transition.noTransition),
    GetPage(name: krPhoneSignInScreen, page: () => PhoneSignInScreen(), transition: Transition.noTransition),
+   GetPage(name: krOTPScreen, page: () => OTPScreen(), transition: Transition.noTransition),
 
 ];

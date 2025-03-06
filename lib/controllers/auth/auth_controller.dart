@@ -18,6 +18,10 @@ class AuthController extends GetxController {
     final TextEditingController userNameTextEditingController = TextEditingController();
     final TextEditingController confirmPasswordTextEditingController = TextEditingController();
 
+    //*otp
+      final TextEditingController otpTextEditingController = TextEditingController();
+
+
     final RxBool isPasswordShow = RxBool(false);
     final RxBool isConfirmPasswordShow = RxBool(false);
     final RxBool isRememberMe = RxBool(false);
