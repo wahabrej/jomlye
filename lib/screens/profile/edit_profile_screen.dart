@@ -1,3 +1,4 @@
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
@@ -64,7 +65,7 @@ class EditProfileScreen extends StatelessWidget {
                         bottom: 2,
                         right: 0,
                         child: InkWell(
-                          onTap: (){
+                          onTap: () {
                             showImageSourcePopup(context);
                           },
                           child: Container(
@@ -73,7 +74,8 @@ class EditProfileScreen extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: cWhiteColor,
-                              border: Border.all(width: 1, color: cPrimaryColor2),
+                              border:
+                                  Border.all(width: 1, color: cPrimaryColor2),
                             ),
                             // child: SvgPicture.asset(kiEditProfile,width: 14.w,height: 14.w,),
                             child: Center(
@@ -281,41 +283,55 @@ class EditProfileScreen extends StatelessWidget {
                   style: regular16TextStyle(cWhiteColor),
                 ),
                 kH8sizedBox,
-           GestureDetector(
-          onTap: () {
-            showGenderMenu(context, profileController);
-          },
-          child: Obx(
-            () => Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                  color: Colors.white.withOpacity(0.3),
+                GestureDetector(
+                  onTap: () {
+                    Get.find<GlobalController>().commonBottomSheet(
+                        context: context,
+                        content: GenderContent(),
+                        bottomSheetHeight: height * 0.3,
+                        onPressCloseButton: () {
+                          Get.back();
+                        },
+                        onPressRightButton: () {},
+                        rightText: "",
+                        rightTextStyle: semiBold14TextStyle(cPrimaryColor2),
+                        title: ksSelectGender.tr,
+                        isRightButtonShow: false,
+                        isBottomSheetRightButtonActive: true.obs);
+                  },
+                  child: Obx(
+                    () => Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: Colors.white.withOpacity(0.3),
+                        ),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      height: 46,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        children: [
+                          Text(
+                            profileController.selectedGender.value.isEmpty
+                                ? ksSelectGender.tr
+                                : profileController.selectedGender.value,
+                            style: semiBold14TextStyle(cWhiteColor),
+                          ),
+                          const Expanded(
+                            child: SizedBox(),
+                          ),
+                          const Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              height: 46,
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              child: Row(
-                children: [
-                  Text(
-                    profileController.selectedGender.value.isEmpty
-                        ? "Select Gender"
-                        : profileController.selectedGender.value,
-                    style: semiBold14TextStyle(cWhiteColor),
-                  ),
-                  const Expanded(child: SizedBox(),),
-                  const Icon(
-                    Icons.keyboard_arrow_down,
-                    color: Colors.white,
-                    size: 20,
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-               kH20sizedBox,
+                kH20sizedBox,
                 Row(
                   children: [
                     CustomElevatedButton(
@@ -350,6 +366,52 @@ class EditProfileScreen extends StatelessWidget {
   }
 }
 
+class GenderContent extends StatelessWidget {
+  GenderContent({super.key});
+  final ProfileController profileController = Get.find<ProfileController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Column(
+          children: [
+            ListView.separated(
+                separatorBuilder: (context, index) => kH8sizedBox,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: profileController.genderList.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      profileController.selectedGender.value =
+                          profileController.genderList[index];
+                          Get.back();
+                    },
+                    child: Container(
+                      width: width - 40,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(k6BorderRadius),
+                        border: Border.all(
+                            width: 1,
+                            color: profileController.selectedGender.value == profileController.genderList[index]
+                                ? cPrimaryColor2:cLineColor),
+                        color: profileController.selectedGender.value == profileController.genderList[index]
+                            ? cPrimaryColor2.withOpacity(0.2) : cWhiteColor,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(k8Padding),
+                        child: Text(
+                          profileController.genderList[index],
+                          style: medium14TextStyle(cBlackColor),
+                        ),
+                      ),
+                    ),
+                  );
+                })
+          ],
+        ));
+  }
+}
 
 void showGenderMenu(BuildContext context, ProfileController controller) {
   final RenderBox renderBox = context.findRenderObject() as RenderBox;
@@ -358,11 +420,10 @@ void showGenderMenu(BuildContext context, ProfileController controller) {
   showMenu(
     context: context,
     position: RelativeRect.fromLTRB(
-      offset.dx, 
-      offset.dy + renderBox.size.height, 
-      offset.dx + renderBox.size.width, 
-      offset.dy + renderBox.size.height * 2
-    ),
+        offset.dx,
+        offset.dy + renderBox.size.height,
+        offset.dx + renderBox.size.width,
+        offset.dy + renderBox.size.height * 2),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(8),
     ),
@@ -380,7 +441,6 @@ void showGenderMenu(BuildContext context, ProfileController controller) {
   );
 }
 
-
 void showImageSourcePopup(BuildContext context) {
   showDialog(
     context: context,
@@ -389,9 +449,10 @@ void showImageSourcePopup(BuildContext context) {
         // shape: RoundedRectangleBorder(
         //   borderRadius: BorderRadius.circular(k8BorderRadius.r),
         // ),
-           backgroundColor: cBlackColor2,
+        backgroundColor: cBlackColor2,
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding,vertical: k40Padding),
+          padding: const EdgeInsets.symmetric(
+              horizontal: k20Padding, vertical: k40Padding),
           width: width.w,
           decoration: BoxDecoration(
             color: cBlackColor2,
@@ -426,10 +487,10 @@ void showImageSourcePopup(BuildContext context) {
                       ),
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: k16Padding.w),
-                        child:  Center(
+                        child: Center(
                             child: Text(
-                         ksCamera,
-                         style: medium14TextStyle(cWhiteColor),
+                          ksCamera,
+                          style: medium14TextStyle(cWhiteColor),
                         )),
                       ),
                     ),
@@ -450,7 +511,7 @@ void showImageSourcePopup(BuildContext context) {
                         borderRadius: BorderRadius.circular(k4BorderRadius.r),
                         color: cPrimaryColor2,
                       ),
-                      child:  Center(
+                      child: Center(
                           child: Text(
                         ksGallery,
                         style: medium14TextStyle(cWhiteColor),
@@ -467,8 +528,6 @@ void showImageSourcePopup(BuildContext context) {
   );
 }
 
-
-
 void showCongratulationsPopup(BuildContext context) {
   showDialog(
     context: context,
@@ -478,121 +537,117 @@ void showCongratulationsPopup(BuildContext context) {
         Get.toNamed(krLandingScreen);
       });
       return Dialog(
-        backgroundColor: cBlackColor2,
-        child: Container(
-          width: width-90,
-          height: height*0.46,
+          backgroundColor: cBlackColor2,
+          child: Container(
+            width: width - 90,
+            height: height * 0.46,
             // color: cBlackColor2,
-          decoration: BoxDecoration(
-            color: cBlackColor2,
-            borderRadius: BorderRadius.circular(k8BorderRadius),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-            child: Column(
-              children: [
-                kH40sizedBox,
-                Stack(
-                  children: [
-                    Container(
-                      width: 100.w,
-                      height: 100.h,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: cPrimaryColor2,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(k25Padding),
-                        child: SvgPicture.asset(kiUser,width: 50.w,height: 50.h,),
-                      ),
-                    ),
-                    Positioned(
-                      top: 20,
-                      left: 0,
-                      child: Container(
-                        width: 6.w,
-                        height: 6.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: cWhiteColor
-                        ),
-                      ),
-                    ),
-                              Positioned(
-                      bottom: 6,
-                      left: 0,
-                      child: Container(
-                        width: 10.w,
-                        height: 10.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: cWhiteColor
-                        ),
-                      ),
-                    ),
-                     Positioned(
-                      bottom: 0,
-                      left: 50,
-                      right: 50,
-                      child: Container(
-                        width: 4.w,
-                        height: 4.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: cWhiteColor
-                        ),
-                      ),
-                    ),
-                             Positioned(
-                      top: 0,
-                      right: 40,
-                      child: Container(
-                        width: 16.w,
-                        height: 16.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: cWhiteColor
-                        ),
-                      ),
-                    ),
-                             Positioned(
-                      top: 0,
-                      right: 40,
-                      child: Container(
-                        width: 16.w,
-                        height: 16.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: cWhiteColor
-                        ),
-                      ),
-                    ),
-                        Positioned(
-                      top: 50,
-                      // bottom: 0,
-                      right: 0,
-                      child: Container(
-                        width: 6.w,
-                        height: 6.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: cWhiteColor
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                kH24sizedBox,
-                Text("Congratulations Mark!",style: medium16TextStyle(cWhiteColor),),
-                kH12sizedBox,
-                Text("Your account has been created successfully. Welcome aboard! Start exploring a world of movies, TV shows, and series tailored just for you. Enjoy your journey!",style: regular14TextStyle(cWhiteColor.withOpacity(0.8)),textAlign: TextAlign.center,),
-              ],
+            decoration: BoxDecoration(
+              color: cBlackColor2,
+              borderRadius: BorderRadius.circular(k8BorderRadius),
             ),
-          ),
-        )
-      );
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: Column(
+                children: [
+                  kH40sizedBox,
+                  Stack(
+                    children: [
+                      Container(
+                        width: 100.w,
+                        height: 100.h,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: cPrimaryColor2,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(k25Padding),
+                          child: SvgPicture.asset(
+                            kiUser,
+                            width: 50.w,
+                            height: 50.h,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        top: 20,
+                        left: 0,
+                        child: Container(
+                          width: 6.w,
+                          height: 6.h,
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: cWhiteColor),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 6,
+                        left: 0,
+                        child: Container(
+                          width: 10.w,
+                          height: 10.h,
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: cWhiteColor),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        left: 50,
+                        right: 50,
+                        child: Container(
+                          width: 4.w,
+                          height: 4.h,
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: cWhiteColor),
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 40,
+                        child: Container(
+                          width: 16.w,
+                          height: 16.h,
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: cWhiteColor),
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 40,
+                        child: Container(
+                          width: 16.w,
+                          height: 16.h,
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: cWhiteColor),
+                        ),
+                      ),
+                      Positioned(
+                        top: 50,
+                        // bottom: 0,
+                        right: 0,
+                        child: Container(
+                          width: 6.w,
+                          height: 6.h,
+                          decoration: const BoxDecoration(
+                              shape: BoxShape.circle, color: cWhiteColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                  kH24sizedBox,
+                  Text(
+                    "Congratulations Mark!",
+                    style: medium16TextStyle(cWhiteColor),
+                  ),
+                  kH12sizedBox,
+                  Text(
+                    "Your account has been created successfully. Welcome aboard! Start exploring a world of movies, TV shows, and series tailored just for you. Enjoy your journey!",
+                    style: regular14TextStyle(cWhiteColor.withOpacity(0.8)),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ));
     },
   );
 }
-
-

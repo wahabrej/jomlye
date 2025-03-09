@@ -1,3 +1,5 @@
+import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_icon_button.dart';
+import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_text_button.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
@@ -10,6 +12,113 @@ class GlobalController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+  }
+
+
+  //* info:: common bottom-sheet
+  void commonBottomSheet(
+      {required context,
+      required Widget content,
+      required onPressCloseButton,
+      required onPressRightButton,
+      required String rightText,
+      required TextStyle rightTextStyle,
+      required String title,
+      required bool isRightButtonShow,
+      double? bottomSheetHeight,
+      bool? isScrollControlled,
+      isSearchShow,
+      RxBool? isBottomSheetRightButtonActive,
+      bool? isDismissible}) {
+    showModalBottomSheet<void>(
+      isDismissible: isDismissible ?? true,
+      isScrollControlled: isScrollControlled ?? false,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return Stack(
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
+              width: width,
+              height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
+              constraints: BoxConstraints(minHeight: bottomSheetHeight ?? height * .5, maxHeight: height * .9),
+              child: Column(
+                children: [
+                  kH4sizedBox,
+                  Container(
+                    decoration: BoxDecoration(
+                      color: cBlackColor,//cLineColor
+                      borderRadius: k4CircularBorderRadius,
+                    ),
+                    height: 5,
+                    width: width * .1,
+                  ),
+                  kH40sizedBox,
+                  const Divider(
+                    thickness: 1,
+                  ),
+                  // if (isSearchShow == true)
+                  //   Padding(
+                  //     padding: const EdgeInsets.only(left: k16Padding, right: k16Padding, top: k16Padding),
+                  //     child: CustomModifiedTextField(
+                  //       borderRadius: h8,
+                  //       controller: searchController,
+                  //       prefixIcon: BipHip.search,
+                  //       suffixIcon: BipHip.voiceFill,
+                  //       hint: ksSearch.tr,
+                  //       contentPadding: const EdgeInsets.symmetric(horizontal: k16Padding),
+                  //       textInputStyle: regular16TextStyle(cBlackColor),
+                  //     ),
+                  //   ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
+                        child: content,
+                      ),
+                    ),
+                  ),
+                  kH4sizedBox,
+                ],
+              ),
+            ),
+            Positioned(
+              top: h12,
+              left: 5,
+              child: CustomIconButton(
+                onPress: onPressCloseButton,
+                icon: Icons.close,
+                iconColor: cIconColor,
+                size: screenWiseSize(kIconSize24, 4),
+              ),
+            ),
+            Positioned(
+              top: h20,
+              child: Text(
+                title,
+                style: semiBold18TextStyle(cBlackColor),
+              ),
+            ),
+            if (isRightButtonShow)
+              Positioned(
+                top: h20,
+                right: 10,
+                child: Obx(() => CustomTextButton(
+                      onPressed: isBottomSheetRightButtonActive!.value ? onPressRightButton : null,
+                      icon: Icons.close,
+                      text: rightText,
+                      textStyle: isBottomSheetRightButtonActive.value ? rightTextStyle : medium14TextStyle(cWhiteColor),//cLineColor2
+                    )),
+              ),
+          ],
+        );
+      },
+    );
   }
 
 }
