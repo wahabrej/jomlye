@@ -60,3 +60,14 @@ const String ksGetStarted = "Get Started";
 const String ksChooseYourInterest = "Choose Your Interest";
 const String ksPersonalizeYourExperienceBySelectingYourFavoriteMovie = "Personalize your experience by selecting your favorite movie genres and TV shows";
 const String ksContinue = "Continue";
+
+//* profile
+const String ksFillYourProfile = "Fill Your Profile";
+const String ksFullName = "Full Name";
+const String ksNickName = "Nickname";
+const String ksEmailAddress = "Email Address";
+const String ksGender = "Gender";
+const String ksSelectGender = "Select Gender";
+const String ksSelectImageSource = "Select image source";
+const String ksGallery = "Gallery";
+const String ksCamera = "Camera";

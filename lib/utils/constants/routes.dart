@@ -5,6 +5,7 @@ import 'package:vidflix_flutter_app/screens/auth/phone_sign_in_screen.dart';
 import 'package:vidflix_flutter_app/screens/auth/sign_in_screen.dart';
 import 'package:vidflix_flutter_app/screens/auth/sign_up_screen.dart';
 import 'package:vidflix_flutter_app/screens/intro/landing_screen.dart';
+import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/screens/intro/splash_screen.dart';
 //*intro
@@ -17,7 +18,11 @@ const String krPhoneSignInScreen = "/phonesignin-screen";
 const String krOTPScreen = "/otp-screen";
 const String krForgotPasswordScreen = "/forgotpassword-screen";
 const String krChooseInterestScreen = "/chooseinterest-screen";
+//*profile
+const String krEditProfileScreen = "/editprofile-screen";
+
 const String krHome = '/home-screen';
+
 
 List<GetPage<dynamic>>? routes = [
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),
@@ -29,5 +34,6 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krOTPScreen, page: () => OTPScreen(), transition: Transition.noTransition),
    GetPage(name: krForgotPasswordScreen, page: () => ForgotPasswordScreen(), transition: Transition.noTransition),
    GetPage(name: krChooseInterestScreen, page: () => ChooseInterestScreen(), transition: Transition.noTransition),
-
+ //* profile
+   GetPage(name: krEditProfileScreen, page: () => EditProfileScreen(), transition: Transition.noTransition),
 ];

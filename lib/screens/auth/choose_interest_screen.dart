@@ -59,26 +59,30 @@ class ChooseInterestScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            if (authController.selectedInterestIdList
-                                .contains(authController.interestList[index]["id"])) {
-                              authController.selectedInterestIdList.remove(authController.interestList[index]["id"]);
-                              authController.selectedInterestList
-                                  .remove(authController.interestList[index]["name"]);
+                            if (authController.selectedInterestIdList.contains(
+                                authController.interestList[index]["id"])) {
+                              authController.selectedInterestIdList.remove(
+                                  authController.interestList[index]["id"]);
+                              authController.selectedInterestList.remove(
+                                  authController.interestList[index]["name"]);
                             } else {
-                              authController.selectedInterestIdList.add(authController.interestList[index]["id"]);
-                              authController.selectedInterestList
-                                  .add(authController.interestList[index]["name"]);
+                              authController.selectedInterestIdList.add(
+                                  authController.interestList[index]["id"]);
+                              authController.selectedInterestList.add(
+                                  authController.interestList[index]["name"]);
                             }
                           },
                           child: Container(
                             width: (width - 72) / 3,
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderRadius:
+                                  BorderRadius.circular(k4BorderRadius),
                               border: Border.all(
                                   width: 1,
                                   color: authController.selectedInterestIdList
-                                          .contains(authController.interestList[index]["id"])
+                                          .contains(authController
+                                              .interestList[index]["id"])
                                       ? cPrimaryColor2
                                       : cBlackColor),
                             ),
@@ -99,9 +103,25 @@ class ChooseInterestScreen extends StatelessWidget {
                 kH20sizedBox,
                 Row(
                   children: [
-                    CustomElevatedButton(label: ksSkip.tr, onPressed: (){},buttonWidth: (width-56)/2,buttonHeight: 46.h,buttonColor: cWhiteColor.withOpacity(0.2),),
+                    CustomElevatedButton(
+                      label: ksSkip.tr,
+                      onPressed: () {
+                        Get.toNamed(krEditProfileScreen);
+                      },
+                      buttonWidth: (width - 56) / 2,
+                      buttonHeight: kButtonHeight.h,
+                      buttonColor: cWhiteColor.withOpacity(0.2),
+                    ),
                     kW16sizedBox,
-                    CustomElevatedButton(label: ksContinue.tr, onPressed: (){},buttonWidth: (width-56)/2,buttonHeight: 46.h,buttonColor: cPrimaryColor2,),
+                    CustomElevatedButton(
+                      label: ksContinue.tr,
+                      onPressed: () {
+                        Get.toNamed(krEditProfileScreen);
+                      },
+                      buttonWidth: (width - 56) / 2,
+                      buttonHeight: kButtonHeight.h,
+                      buttonColor: cPrimaryColor2,
+                    ),
                   ],
                 ),
                 kH40sizedBox,

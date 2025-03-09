@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:vidflix_flutter_app/utils/constants/consts.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 void heightWidthKeyboardValue(context) {

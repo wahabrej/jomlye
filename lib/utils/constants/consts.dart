@@ -11,7 +11,7 @@ const double kSmallDeviceSizeLimit = 750.0;
 //* elevation for different component
 const double kCommonElevation = 0.0;
 
-const double kButtonHeight = 44.0;
+// const double kButtonHeight = 44.0;
 const double kTextfieldHeight = 52.0;
 const double kCommonBackSpace = 50.0;
 const double kBottomNavHeight = 44.0;
@@ -29,8 +29,10 @@ BorderRadius k12CircularBorderRadius = BorderRadius.circular(12.0);
 BorderRadius k16CircularBorderRadius = BorderRadius.circular(16.0);
 BorderRadius k20CircularBorderRadius = BorderRadius.circular(20.0);
 BorderRadius k100CircularBorderRadius = BorderRadius.circular(100.0);
-
+ //
 const double kAppBarSize = 44.0;
+double kTextFieldHeight = 46.0;
+double kButtonHeight = 40.0;
 
 //* size
 const double h36 = 36.0;

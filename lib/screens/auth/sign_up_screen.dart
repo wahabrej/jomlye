@@ -71,7 +71,7 @@ class SignUpScreen extends StatelessWidget {
                 Row(
                   children: [
                     SizedBox(
-                      width: width*0.4,
+                      width: (width-80)/2,
                       child:  Divider(
                         thickness: 1,
                         color: cWhiteColor.withOpacity(0.2),
@@ -83,7 +83,7 @@ class SignUpScreen extends StatelessWidget {
                     Text(ksOR,style: regular16TextStyle(cWhiteColor),),
                     kW8sizedBox,
                            SizedBox(
-                      width: width*0.4,
+                      width: (width-80)/2,
                       child:  Divider(
                         thickness: 1,
                         color: cWhiteColor.withOpacity(0.2),
@@ -103,7 +103,7 @@ class SignUpScreen extends StatelessWidget {
                           Text(ksFirstName.tr,style: regular16TextStyle(cWhiteColor),),
                                           kH8sizedBox,
                                     SizedBox(
-                                      height: 46,
+                                      height: kTextFieldHeight.h,
                                       width: (width-54)/2,
                                       child: CustomModifiedTextField(
                                         hint: ksEnterHere.tr,
@@ -134,7 +134,7 @@ class SignUpScreen extends StatelessWidget {
                           Text(ksLastName.tr,style: regular16TextStyle(cWhiteColor),),
                                           kH8sizedBox,
                                     SizedBox(
-                                      height: 46,
+                                      height: kTextFieldHeight.h,
                                       width: (width-54)/2,
                                       child: CustomModifiedTextField(
                                         hint: ksEnterHere.tr,
@@ -167,7 +167,7 @@ class SignUpScreen extends StatelessWidget {
                   child: Text(ksUserName.tr,style: regular16TextStyle(cWhiteColor),)),
                 kH8sizedBox,
                 SizedBox(
-                  height: 46,
+                  height: kTextFieldHeight.h,
                   child: CustomModifiedTextField(
                     hint: ksEnterHere.tr,
                     controller: authController.userNameTextEditingController,
@@ -194,7 +194,7 @@ class SignUpScreen extends StatelessWidget {
                   child: Text(ksEmail.tr,style: regular16TextStyle(cWhiteColor),)),
                 kH8sizedBox,
                 SizedBox(
-                  height: 46,
+                  height: kTextFieldHeight.h,
                   child: CustomModifiedTextField(
                     hint: ksEnterHere.tr,
                     controller: authController.emailTextEditingController,
@@ -221,7 +221,7 @@ class SignUpScreen extends StatelessWidget {
                   child: Text(ksPassword.tr,style: regular16TextStyle(cWhiteColor),)),
                 kH8sizedBox,
                 SizedBox(
-                  height: 46,
+                  height: kTextFieldHeight.h,
                   child: CustomModifiedTextField(
                     hint: ksPassword.tr,
                     controller: authController.passwordTextEditingController,
@@ -253,7 +253,7 @@ class SignUpScreen extends StatelessWidget {
                   child: Text(ksConfirmPassword.tr,style: regular16TextStyle(cWhiteColor),)),
                 kH8sizedBox,
                 SizedBox(
-                  height: 46,
+                  height: kTextFieldHeight.h,
                   child: CustomModifiedTextField(
                     hint: ksPassword.tr,
                     controller: authController.confirmPasswordTextEditingController,

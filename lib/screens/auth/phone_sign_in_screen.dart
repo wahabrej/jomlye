@@ -94,7 +94,7 @@ class PhoneSignInScreen extends StatelessWidget {
                 Row(
                   children: [
                     SizedBox(
-                      width: width * 0.4,
+                      width: (width-80)/2,
                       child: Divider(
                         thickness: 1,
                         color: cWhiteColor.withOpacity(0.2),
@@ -108,7 +108,7 @@ class PhoneSignInScreen extends StatelessWidget {
                     ),
                     kW8sizedBox,
                     SizedBox(
-                      width: width * 0.4,
+                      width: (width-80)/2,
                       child: Divider(
                         thickness: 1,
                         color: cWhiteColor.withOpacity(0.2),
