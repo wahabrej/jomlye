@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_icon_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_text_button.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
@@ -119,6 +122,40 @@ class GlobalController extends GetxController {
         );
       },
     );
+  }
+
+    ImagePicker _picker = ImagePicker();
+
+  Future<bool> selectImageSource(
+      RxBool isChanged, imageLink, imageFile, String source,
+      [bool? isFromBottomSheet, isList = false]) async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: source == 'gallery' ? ImageSource.gallery : ImageSource.camera,
+        maxHeight: 480,
+        maxWidth: 720,
+      );
+      if (image != null) {
+        final File imageTemporary = File(image.path);
+        if (isList) {
+          imageFile.add(imageTemporary.obs);
+        } else {
+          imageFile(imageTemporary);
+          ll(imageFile.value);
+        }
+        isChanged.value = true;
+        if (isFromBottomSheet != false) {
+          // Get.back();
+        }
+        return true;
+      } else {
+        ll('image not selected');
+        return false;
+      }
+    } on PlatformException catch (e) {
+      ll("Failed to Pick Image $e");
+      return false;
+    }
   }
 
 }

@@ -1,4 +1,5 @@
 import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
+import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
@@ -11,5 +12,6 @@ class BinderController implements Bindings {
     Get.put<GlobalController>(GlobalController());
     Get.put<AuthController>(AuthController());
     Get.put<ProfileController>(ProfileController());
+    Get.put<HomeController>(HomeController());
   }
 }

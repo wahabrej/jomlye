@@ -83,6 +83,7 @@ const kEmptySizedBox = SizedBox();
 const kW4sizedBox = SizedBox(width: k4Padding);
 const kW6sizedBox = SizedBox(width: k6Padding);
 const kW8sizedBox = SizedBox(width: k8Padding);
+const kW10sizedBox = SizedBox(width: k10Padding);
 const kW12sizedBox = SizedBox(width: k12Padding);
 const kW14sizedBox = SizedBox(width: k14Padding);
 const kW16sizedBox = SizedBox(width: k16Padding);

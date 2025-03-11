@@ -15,26 +15,26 @@ class EditProfileScreen extends StatelessWidget {
       top: false,
       child: Scaffold(
         backgroundColor: cBlackColor,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                kH24sizedBox,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CustomElevatedButton(
-                        label: ksBack,
-                        onPressed: () {
-                          Get.back();
-                        },
-                        prefixIcon: Icons.arrow_back_ios,
-                        prefixIconColor: cWhiteColor,
-                        buttonWidth: 80,
-                        buttonHeight: 32,
-                        buttonColor: cWhiteColor.withOpacity(0.1),
+        body: Obx(() => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        kH24sizedBox,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CustomElevatedButton(
+                                label: ksBack,
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                prefixIcon: Icons.arrow_back_ios,
+                                prefixIconColor: cWhiteColor,
+                                buttonWidth: 80,
+                                buttonHeight: 32,
+                                buttonColor: cWhiteColor.withOpacity(0.1),
                         isCircularHead: true),
                   ],
                 ),
@@ -44,7 +44,7 @@ class EditProfileScreen extends StatelessWidget {
                   style: semiBold24TextStyle(cWhiteColor),
                 ),
                 kH60sizedBox,
-                Center(
+       profileController.profileImageFile.value == null ? Center(
                   child: Stack(
                     children: [
                       Container(
@@ -89,6 +89,58 @@ class EditProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                ):Stack(
+                  children: [
+                             Center(
+                                            child: Container(
+                                              width: 100.h,
+                                              height: 100.h,
+                                              decoration: const BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                // border: Border.all(
+                                                //   width: 2,
+                                                //   color: cPrimaryColor
+                                                //       .withOpacity(0.2),
+                                                // ),
+                                              ),
+                                              child: CircleAvatar(
+                                                backgroundColor: cWhiteColor.withOpacity(0.2),
+                                                child: ClipOval(
+                                                  child: Image.file(
+                                                    width: 100.h,
+                                                    height: 100.h,
+                                                    fit: BoxFit.cover,
+                                                    profileController
+                                                        .profileImageFile
+                                                        .value!,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                    Positioned(
+                      top: 0,
+                      left: 60.w,
+                      right: 0,
+                      child: InkWell(
+                        onTap: (){
+                          profileController.isProfileImageChnaged.value = false;
+                          profileController.profileImageLink.value = "";
+                          profileController.profileImageFile.value = null;
+                        },
+                        child: Container(
+                          width: 16.w,
+                          height: 16.h,
+                          decoration: BoxDecoration(
+                            color: cWhiteColor,
+                            shape: BoxShape.circle,
+                            border: Border.all(width: 1,color: cRedColor),
+                          ),
+                          child: const Icon(Icons.close,size: 12,color: cRedColor,),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
                 kH20sizedBox,
                 Text(
@@ -362,6 +414,7 @@ class EditProfileScreen extends StatelessWidget {
           ),
         ),
       ),
+      ),
     );
   }
 }
@@ -471,12 +524,12 @@ void showImageSourcePopup(BuildContext context) {
                 children: [
                   InkWell(
                     onTap: () {
-                      Get.back();
-                      // Get.find<GlobalController>().selectImageSource(
-                      //     Get.find<ProfileController>().isProfileImageChnaged,
-                      //     Get.find<ProfileController>().profileImageLink,
-                      //     Get.find<ProfileController>().profileImageFile,
-                      //     "camera");
+                       Get.back();
+                      Get.find<GlobalController>().selectImageSource(
+                          Get.find<ProfileController>().isProfileImageChnaged,
+                          Get.find<ProfileController>().profileImageLink,
+                          Get.find<ProfileController>().profileImageFile,
+                          "camera");
                     },
                     child: Container(
                       width: (width * 0.6) / 2,
@@ -498,11 +551,11 @@ void showImageSourcePopup(BuildContext context) {
                   InkWell(
                     onTap: () {
                       Get.back();
-                      // Get.find<GlobalController>().selectImageSource(
-                      //     Get.find<ProfileController>().isProfileImageChnaged,
-                      //     Get.find<ProfileController>().profileImageLink,
-                      //     Get.find<ProfileController>().profileImageFile,
-                      //     "gallery");
+                      Get.find<GlobalController>().selectImageSource(
+                          Get.find<ProfileController>().isProfileImageChnaged,
+                          Get.find<ProfileController>().profileImageLink,
+                          Get.find<ProfileController>().profileImageFile,
+                          "gallery");
                     },
                     child: Container(
                       width: (MediaQuery.of(context).size.width * 0.6) / 2,

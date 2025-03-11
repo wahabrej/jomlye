@@ -15,6 +15,12 @@ TextStyle regular14TextStyle(Color color) {
 TextStyle regular12TextStyle(Color color) {
   return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h12, 2), color: color);
 }
+TextStyle regular10TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h10, 2), color: color);
+}
+TextStyle regular8TextStyle(Color color) {
+  return TextStyle(fontWeight: FontWeight.w400, fontSize: screenWiseSize(h8, 2), color: color);
+}
 
 
 TextStyle medium12TextStyle(Color color) {

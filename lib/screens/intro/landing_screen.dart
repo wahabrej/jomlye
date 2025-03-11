@@ -37,9 +37,7 @@ class LandingScreen extends StatelessWidget {
                       ],
                     ),
                     ),
-                    // kH24sizedBox,
                     Positioned(
-                      // height: height/0.76,
                       bottom: height/3.2,
                       right: width/7,
                       child: 
@@ -63,7 +61,7 @@ class LandingScreen extends StatelessWidget {
                       ),
                            Positioned(
                       // height: height/0.595,
-                       bottom: height/6.8,
+                       bottom: height/6.5,
                       right: width/25,
                       child: 
                   Center(

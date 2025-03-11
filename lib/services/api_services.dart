@@ -119,7 +119,7 @@ class ApiServices {
         return jsonDecode(response.body);
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
-        Get.offAllNamed(krHome);
+        Get.offAllNamed(krHomeScreen);
         showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
         return null;
       } else {
@@ -172,7 +172,7 @@ class ApiServices {
         return cm;
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
-        Get.offAllNamed(krHome);
+        Get.offAllNamed(krHomeScreen);
         showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
         return null;
       } else {
@@ -231,7 +231,7 @@ class ApiServices {
         return cm;
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
-        Get.offAllNamed(krHome);
+        Get.offAllNamed(krHomeScreen);
         showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
         return null;
       } else {
@@ -290,7 +290,7 @@ class ApiServices {
         return cm;
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
-        Get.offAllNamed(krHome);
+        Get.offAllNamed(krHomeScreen);
         showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
         return null;
       } else {
@@ -347,7 +347,7 @@ class ApiServices {
         return cm;
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
-        Get.offAllNamed(krHome);
+        Get.offAllNamed(krHomeScreen);
         showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
         return null;
       } else {

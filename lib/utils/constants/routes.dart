@@ -4,6 +4,7 @@ import 'package:vidflix_flutter_app/screens/auth/otp_screen.dart';
 import 'package:vidflix_flutter_app/screens/auth/phone_sign_in_screen.dart';
 import 'package:vidflix_flutter_app/screens/auth/sign_in_screen.dart';
 import 'package:vidflix_flutter_app/screens/auth/sign_up_screen.dart';
+import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/intro/landing_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -21,7 +22,7 @@ const String krChooseInterestScreen = "/chooseinterest-screen";
 //*profile
 const String krEditProfileScreen = "/editprofile-screen";
 
-const String krHome = '/home-screen';
+const String krHomeScreen = '/home-screen';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -36,4 +37,7 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krChooseInterestScreen, page: () => ChooseInterestScreen(), transition: Transition.noTransition),
  //* profile
    GetPage(name: krEditProfileScreen, page: () => EditProfileScreen(), transition: Transition.noTransition),
+   //*Home 
+   GetPage(name: krHomeScreen, page: () => HomeScreen(), transition: Transition.noTransition),
+
 ];

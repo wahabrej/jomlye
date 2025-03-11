@@ -71,3 +71,14 @@ const String ksSelectGender = "Select Gender";
 const String ksSelectImageSource = "Select image source";
 const String ksGallery = "Gallery";
 const String ksCamera = "Camera";
+
+//*Home
+const String ksExploreByGenre = "Explore by Genre";
+const String ksNewRelease = "New Release";
+const String ksViewAll = "View All";
+const String ksTrendingMovies = "Trending Movies";
+const String ksPopularTvShows = "Popular TV Shows";
+const String ksTvSeries = "TV Series";
+const String ksFeaturedTvChannels = "Featured TV Channels";
+const String ksTopArtists = "Top Artists";
+const String ksLatestBlog = "Latest Blog";
