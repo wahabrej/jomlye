@@ -6,6 +6,7 @@ const String kiPhone = "assets/svgs/phone.svg";
 const String kiGoogle = "assets/svgs/google.svg";
 const String kiFacebook = "assets/svgs/facebook.svg";
 const String kiUser = "assets/svgs/user.svg";
+const String kiFilter = "assets/svgs/filter.svg";
 // const String kiGallerySvg = "assets/svgs/gallery.svg";
 // const String kiEditProfile = "assets/svgs/edit_profile.svg";
 //* images

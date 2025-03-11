@@ -253,6 +253,122 @@ class HomeController extends GetxController {
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLhtv6ztC-4z0LOeNh-bvvlqcAmHPQf_iP2enwcFqzX3P1oDBIp8e06M&s"
   ]);
 
+    final RxList<Map<String, dynamic>> viewAllMovieList =
+      RxList<Map<String, dynamic>>([
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": false,
+      "isSeason": true,
+      "season": "Season 1"
+    },
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": true,
+      "isSeason": true,
+      "season": "Season 2"
+    },
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": true,
+      "isSeason": false,
+      "season": "Season 3",
+    },
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": false,
+      "isSeason": false,
+      "season": "Season 1",
+    },
+        {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": false,
+      "isSeason": true,
+      "season": "Season 1"
+    },
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": true,
+      "isSeason": true,
+      "season": "Season 2"
+    },
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": true,
+      "isSeason": false,
+      "season": "Season 3",
+    },
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": false,
+      "isSeason": false,
+      "season": "Season 1",
+    },
+        {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": false,
+      "isSeason": true,
+      "season": "Season 1"
+    },
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": true,
+      "isSeason": true,
+      "season": "Season 2"
+    },
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": true,
+      "isSeason": false,
+      "season": "Season 3",
+    },
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": false,
+      "isSeason": false,
+      "season": "Season 1",
+    },
+        {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": false,
+      "isSeason": true,
+      "season": "Season 1"
+    },
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": true,
+      "isSeason": true,
+      "season": "Season 2"
+    },
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": true,
+      "isSeason": false,
+      "season": "Season 3",
+    },
+    {
+      "movieImage":
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
+      "isPremium": false,
+      "isSeason": false,
+      "season": "Season 1",
+    },
+  ]);
+
   void updateCurrentIndex(int index) {
     currentIndex.value = index;
   }

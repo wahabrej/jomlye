@@ -95,6 +95,8 @@ class ChooseInterestScreen extends StatelessWidget {
                         ));
                   },
                 ),
+               
+               
                 kH20sizedBox,
                 Divider(
                   thickness: 1,

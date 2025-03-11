@@ -80,6 +80,9 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksNewRelease.tr,
                   subtitleText: ksViewAll,
+                  onPressed: (){
+                    Get.toNamed(krViewAllScreen);
+                  },
                 ),
                 kH16sizedBox,
                  Padding(
@@ -467,11 +470,11 @@ class LatestBlogPostContent extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(Icons.calendar_month_rounded,size: kIconSize16,color: cWhiteColor,),
+                         const Icon(Icons.calendar_month_rounded,size: kIconSize16,color: cWhiteColor,),
                           kW4sizedBox,
                           Text(date,style: regular8TextStyle(cWhiteColor),),
                           kW8sizedBox,
-                             Icon(Icons.person_pin_rounded,size: kIconSize16,color: cWhiteColor,),
+                          const Icon(Icons.person_pin_rounded,size: kIconSize16,color: cWhiteColor,),
                           kW4sizedBox,
                           Text(reporter,style: regular8TextStyle(cWhiteColor),),
                         ],
