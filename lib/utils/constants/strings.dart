@@ -92,3 +92,5 @@ const String ksLanguage = "Language";
 const String ksSort = "Sort";
 const String ksReset = "Reset";
 const String ksApply = "Apply";
+const String ksFilterArtists = "Filter Artists";
+const String ksCountry = "Country";

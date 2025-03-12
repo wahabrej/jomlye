@@ -172,7 +172,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                 width: width - 20.w,
                 height: 34.h,
                 child: ListView.separated(
-                  itemCount: homeController.categoriesList.length,
+                  itemCount: homeController.blogCategoriesList.length,
                   separatorBuilder: (context, index) => kW8sizedBox,
                   shrinkWrap: true,
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -180,14 +180,14 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedCategories.value =
-                                homeController.categoriesList[index];
+                            homeController.selectedBlogCategories.value =
+                                homeController.blogCategoriesList[index];
                           },
                           child: Container(
                             decoration: BoxDecoration(
                                 color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedCategories.value ==
-                                      homeController.categoriesList[index] ? Border.all(width: 1, color: 
+                              border: homeController.selectedBlogCategories.value ==
+                                      homeController.blogCategoriesList[index] ? Border.all(width: 1, color: 
                                    cPrimaryColor2):Border.all(width: 0),
                               borderRadius: BorderRadius.circular(6.r),
                             ),
@@ -196,7 +196,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.categoriesList[index],
+                                  homeController.blogCategoriesList[index],
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.clip,

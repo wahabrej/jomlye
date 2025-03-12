@@ -27,10 +27,11 @@ class HomeController extends GetxController {
 
   final RxList genreList =
       RxList(["All", "Action", "War", "Hollywood", "Live", "Movie"]);
+      //*blog
   final RxString selectedGenre = RxString("");
-  final RxList categoriesList =
+  final RxList blogCategoriesList =
       RxList(["News", "Entertainment", "Sport", "Cartoon", "Movie", "Tennis", "Archary"]);
-  final RxString selectedCategories = RxString("");
+  final RxString selectedBlogCategories = RxString("");
   final RxList yearList =
       RxList(["2025", "2024", "2023", "2022", "2021", "2020", "2019","2018","2017","2016","2015"]);
   final RxString selectedYear = RxString("");
@@ -40,11 +41,30 @@ class HomeController extends GetxController {
   final RxList sortList =
       RxList(["Most Popular", "Top Blogs", "Most Read", "Top View", "Top Rated"]);
   final RxString selectedSort = RxString("");
-  void blogFilterValueReset(){
-    selectedCategories.value ="";
+
+    void blogFilterValueReset(){
+    selectedBlogCategories.value ="";
     selectedYear.value = "";
     selectedLanguage.value = "";
     selectedSort.value = "";
+  }
+
+ //*top  artists
+    final RxList artistsCategoriesList =
+      RxList(["Hollywood", "Bollywood", "Dhaliwood", "Taliwood", "Hindi"]);
+  final RxString selectedArtistsCategories = RxString("");
+    final RxList artistsCountryList =
+      RxList(["USA", "Canada", "Turkey", "Pakistan", "Korean","Indian","Bangladeshi"]);
+  final RxString selectedArtistsCountry = RxString("");
+    final RxList artistsSortList =
+      RxList(["Most Popular", "Top Demanded", "Best Actor", "Top Rated", "Top Viewed"]);
+  final RxString selectedArtistsSort = RxString("");
+
+      void artistsFilterValueReset(){
+    selectedArtistsCategories.value ="";
+    selectedArtistsCountry.value = "";
+    selectedLanguage.value = "";
+    selectedArtistsSort.value = "";
   }
 
   final RxList<Map<String, dynamic>> recentMovieList =
