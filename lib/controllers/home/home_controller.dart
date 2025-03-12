@@ -27,7 +27,7 @@ class HomeController extends GetxController {
 
   final RxList genreList =
       RxList(["All", "Action", "War", "Hollywood", "Live", "Movie"]);
-      //*blog
+      //* blog
   final RxString selectedGenre = RxString("");
   final RxList blogCategoriesList =
       RxList(["News", "Entertainment", "Sport", "Cartoon", "Movie", "Tennis", "Archary"]);
@@ -49,7 +49,7 @@ class HomeController extends GetxController {
     selectedSort.value = "";
   }
 
- //*top  artists
+ //* top  artists
     final RxList artistsCategoriesList =
       RxList(["Hollywood", "Bollywood", "Dhaliwood", "Taliwood", "Hindi"]);
   final RxString selectedArtistsCategories = RxString("");
@@ -61,6 +61,21 @@ class HomeController extends GetxController {
   final RxString selectedArtistsSort = RxString("");
 
       void artistsFilterValueReset(){
+    selectedArtistsCategories.value ="";
+    selectedArtistsCountry.value = "";
+    selectedLanguage.value = "";
+    selectedArtistsSort.value = "";
+  }
+
+  //* Tv Channel
+      final RxList tvChannelCategoriesList =
+      RxList(["News", "Drama", "Songs", "Game", "Movies","Sports", "Cricket", "Football"]);
+  final RxString selectedTvChannelCategories = RxString("");
+    final RxList tvChannelsSortList =
+      RxList(["Most Popular", "Top View", "New Add", "Top View", "Top Viewed"]);
+  final RxString selectedTvChannelsSort = RxString("");
+
+      void tvChannelsFilterValueReset(){
     selectedArtistsCategories.value ="";
     selectedArtistsCountry.value = "";
     selectedLanguage.value = "";
