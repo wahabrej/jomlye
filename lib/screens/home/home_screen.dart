@@ -362,6 +362,9 @@ class HomeScreen extends StatelessWidget {
                           HomeTitleContent(
                   title: ksTopArtists.tr,
                   subtitleText: ksViewAll,
+                  onPressed: (){
+                    Get.toNamed(krTopArtistsViewAllScreen);
+                  },
                 ),
                 kH16sizedBox,
                  Padding(
@@ -393,6 +396,9 @@ class HomeScreen extends StatelessWidget {
                           HomeTitleContent(
                   title: ksLatestBlog.tr,
                   subtitleText: ksViewAll,
+                  onPressed: (){
+                    Get.toNamed(krAllBlogsViewAllScreen);
+                  },
                 ),
                 kH16sizedBox,
                  Padding(
@@ -433,8 +439,9 @@ class HomeScreen extends StatelessWidget {
 }
 
 class LatestBlogPostContent extends StatelessWidget {
-  const LatestBlogPostContent({super.key, required this.image, required this.title, required this.subTitle, required this.date, required this.reporter});
+  const LatestBlogPostContent({super.key, required this.image, required this.title, required this.subTitle, required this.date, required this.reporter, this.contentHeight});
   final String image,title,subTitle,date,reporter;
+  final double? contentHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -442,7 +449,7 @@ class LatestBlogPostContent extends StatelessWidget {
       borderRadius: BorderRadius.circular(k6BorderRadius),
       child: Stack(
         children: [
-          Image.network(image,height: 210.h,width: (width-30)/2,fit: BoxFit.cover,),
+          Image.network(image,height: contentHeight ?? 210.h,width: (width-30)/2,fit: BoxFit.cover,),
           Positioned(
             top: 10,
             left: 14,
@@ -571,8 +578,9 @@ class MovieCard extends StatelessWidget {
 }
 
 class TopArtistContent extends StatelessWidget {
-  const TopArtistContent({super.key, required this.image, required this.name});
+  const TopArtistContent({super.key, required this.image, required this.name, this.contentWidth, this.contentHeight});
   final String image,name;
+  final double? contentWidth,contentHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -580,7 +588,7 @@ class TopArtistContent extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(k4BorderRadius),
-          child: Image.network(image,width: 88.w,height: 88.h,fit: BoxFit.cover,)),
+          child: Image.network(image,width: contentWidth ?? 88.w,height: contentHeight ?? 88.h,fit: BoxFit.cover,)),
         Positioned(
           bottom: 4,
           left: 4,
