@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_icon_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_text_button.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -30,6 +28,7 @@ class GlobalController extends GetxController {
       required bool isRightButtonShow,
       double? bottomSheetHeight,
       bool? isScrollControlled,
+      Color? bottomSheetColor,
       isSearchShow,
       RxBool? isBottomSheetRightButtonActive,
       bool? isDismissible}) {
@@ -45,26 +44,30 @@ class GlobalController extends GetxController {
           alignment: Alignment.topCenter,
           children: [
             Container(
-              decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: cWhiteColor),
+              decoration:  BoxDecoration(
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(k16BorderRadius), topRight: Radius.circular(k16BorderRadius)), color: bottomSheetColor ?? cWhiteColor),
               width: width,
               height: MediaQuery.of(context).viewInsets.bottom > 0.0 ? height * .9 : bottomSheetHeight ?? height * .5,
               constraints: BoxConstraints(minHeight: bottomSheetHeight ?? height * .5, maxHeight: height * .9),
               child: Column(
                 children: [
-                  kH4sizedBox,
+                  kH16sizedBox,
                   Container(
                     decoration: BoxDecoration(
-                      color: cBlackColor,//cLineColor
+                      color: cWhiteColor,
                       borderRadius: k4CircularBorderRadius,
                     ),
-                    height: 5,
+                    height: 2,
                     width: width * .1,
                   ),
                   kH40sizedBox,
-                  const Divider(
-                    thickness: 1,
-                  ),
+                   Padding(
+                     padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                     child: Divider(
+                      thickness: 1,
+                      color: cWhiteColor.withOpacity(0.1),
+                                       ),
+                   ),
                   // if (isSearchShow == true)
                   //   Padding(
                   //     padding: const EdgeInsets.only(left: k16Padding, right: k16Padding, top: k16Padding),
@@ -80,31 +83,28 @@ class GlobalController extends GetxController {
                   //   ),
                   Expanded(
                     child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: k16Padding, vertical: k8Padding),
-                        child: content,
-                      ),
+                      child: content,
                     ),
                   ),
                   kH4sizedBox,
                 ],
               ),
             ),
+            // Positioned(
+            //   top: h12,
+            //   left: 5,
+            //   child: CustomIconButton(
+            //     onPress: onPressCloseButton,
+            //     icon: Icons.close,
+            //     iconColor: cIconColor,
+            //     size: screenWiseSize(kIconSize24, 4),
+            //   ),
+            // ),
             Positioned(
-              top: h12,
-              left: 5,
-              child: CustomIconButton(
-                onPress: onPressCloseButton,
-                icon: Icons.close,
-                iconColor: cIconColor,
-                size: screenWiseSize(kIconSize24, 4),
-              ),
-            ),
-            Positioned(
-              top: h20,
+              top: h32,
               child: Text(
                 title,
-                style: semiBold18TextStyle(cBlackColor),
+                style: medium16TextStyle(cWhiteColor),
               ),
             ),
             if (isRightButtonShow)

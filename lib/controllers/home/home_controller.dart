@@ -28,6 +28,24 @@ class HomeController extends GetxController {
   final RxList genreList =
       RxList(["All", "Action", "War", "Hollywood", "Live", "Movie"]);
   final RxString selectedGenre = RxString("");
+  final RxList categoriesList =
+      RxList(["News", "Entertainment", "Sport", "Cartoon", "Movie", "Tennis", "Archary"]);
+  final RxString selectedCategories = RxString("");
+  final RxList yearList =
+      RxList(["2025", "2024", "2023", "2022", "2021", "2020", "2019","2018","2017","2016","2015"]);
+  final RxString selectedYear = RxString("");
+  final RxList languageList =
+      RxList(["Bangla", "Hindi", "English", "Urdu", "Korean", "Tamil", "Arabic"]);
+  final RxString selectedLanguage = RxString("");
+  final RxList sortList =
+      RxList(["Most Popular", "Top Blogs", "Most Read", "Top View", "Top Rated"]);
+  final RxString selectedSort = RxString("");
+  void blogFilterValueReset(){
+    selectedCategories.value ="";
+    selectedYear.value = "";
+    selectedLanguage.value = "";
+    selectedSort.value = "";
+  }
 
   final RxList<Map<String, dynamic>> recentMovieList =
       RxList<Map<String, dynamic>>([

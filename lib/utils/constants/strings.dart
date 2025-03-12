@@ -85,3 +85,10 @@ const String ksLatestBlog = "Latest Blog";
 //view all
 const String ksAllTVChannel = "All TV Channel";
 const String ksAllBlogs = "All Blogs";
+const String ksFilterBlogs = "Filter Blogs";
+const String ksCategories = "Categories";
+const String ksYear = "Year";
+const String ksLanguage = "Language";
+const String ksSort = "Sort";
+const String ksReset = "Reset";
+const String ksApply = "Apply";
