@@ -81,7 +81,8 @@ class HomeScreen extends StatelessWidget {
                   title: ksNewRelease.tr,
                   subtitleText: ksViewAll,
                   onPressed: (){
-                    Get.toNamed(krViewAllScreen);
+                    homeController.selectedTitle.value = ksNewRelease;
+                    Get.toNamed(krMovieViewAllScreen);
                   },
                 ),
                 kH16sizedBox,
@@ -116,6 +117,10 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksTrendingMovies.tr,
                   subtitleText: ksViewAll,
+                          onPressed: (){
+                    homeController.selectedTitle.value = ksTrendingMovies;
+                    Get.toNamed(krMovieViewAllScreen);
+                  },
                 ),
                 kH16sizedBox,
                  Padding(
@@ -149,6 +154,10 @@ class HomeScreen extends StatelessWidget {
                      HomeTitleContent(
                   title: ksPopularTvShows.tr,
                   subtitleText: ksViewAll,
+                    onPressed: (){
+                    homeController.selectedTitle.value = ksPopularTvShows;
+                    Get.toNamed(krMovieViewAllScreen);
+                  },
                 ),
                 kH16sizedBox,
                  Padding(
@@ -287,6 +296,9 @@ class HomeScreen extends StatelessWidget {
                                  HomeTitleContent(
                   title: ksFeaturedTvChannels.tr,
                   subtitleText: ksViewAll,
+                  onPressed: (){
+                    Get.toNamed(krTvChannelsViewAllScreen);
+                  },
                 ),
                  kH16sizedBox,
                  Padding(
@@ -526,7 +538,7 @@ class MovieCard extends StatelessWidget {
           ),
         ),
         Positioned(
-          bottom: 30,
+          bottom: 10,
           left: 10,
           right: 10,
           child: Column(
@@ -589,14 +601,15 @@ class TopArtistContent extends StatelessWidget {
 }
 
 class FeaturedTvChannelsContentContainer extends StatelessWidget {
-  const FeaturedTvChannelsContentContainer({super.key, required this.image});
+  const FeaturedTvChannelsContentContainer({super.key, required this.image, this.containerWidth, this.containerHeight});
   final String image;
+  final double? containerWidth,containerHeight;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 120.w,
-      height: 120.h,
+      width: containerWidth?? 120.w,
+      height: containerHeight?? 120.h,
       decoration: BoxDecoration(
         color: cWhiteColor,
         borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -815,8 +828,8 @@ class HomeSlider extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(8),
+                          color: cWhiteColor.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(8.r),
                           border: Border.all(
                             width: 1.33,
                             color: cPrimaryColor2.withOpacity(0.3),

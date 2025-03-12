@@ -3,8 +3,8 @@ import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
-class ViewAllScreen extends StatelessWidget {
- ViewAllScreen({super.key});
+class MovieViewAllScreen extends StatelessWidget {
+ MovieViewAllScreen({super.key});
  final HomeController homeController = Get.find<HomeController>();
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class ViewAllScreen extends StatelessWidget {
                             children: [
                               const Icon(Icons.arrow_back_ios,size: kIconSize12,color: cWhiteColor,),
                               kW4sizedBox,
-                              Center(child: Text("All TV Series",style: regular16TextStyle(cWhiteColor),)),
+                              Center(child: Text("${homeController.selectedTitle.value}".tr,style: regular16TextStyle(cWhiteColor),)),
                             ],
                           ),
                         ),
@@ -44,18 +44,18 @@ class ViewAllScreen extends StatelessWidget {
                     ),
                      const Expanded(child: SizedBox(),),
                             Container(
-                      width: 46.w,
-                      height: 46.h,
+                      width: 40.w,
+                      height: 40.h,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: cWhiteColor.withOpacity(0.2),
                       ),
-                      child: const Icon(Icons.search,color: cWhiteColor,size: 32,),
+                      child: const Icon(Icons.search,color: cWhiteColor,size: kIconSize24,),
                     ),
                     kW6sizedBox,
                     Container(
-                       width: 46.w,
-                      height: 46.h,
+                       width: 40.w,
+                      height: 40.h,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: cPrimaryColor2,

@@ -2,6 +2,7 @@ import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class HomeController extends GetxController {
   var currentIndex = 0.obs;
+  final RxString selectedTitle = RxString(""); 
 
   final List<Map<String, dynamic>> sliderImages = [
     {
