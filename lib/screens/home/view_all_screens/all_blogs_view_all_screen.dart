@@ -125,15 +125,20 @@ class AllBlogsViewAllScreen extends StatelessWidget {
                   ),
                   itemCount: homeController.latestBlogList.length,
                   itemBuilder: (context, index) {
-                    return LatestBlogPostContent(
-                      contentHeight: 240.h,
-                      image: homeController.latestBlogList[index]["image"],
-                      title: homeController.latestBlogList[index]["title"],
-                      subTitle: homeController.latestBlogList[index]
-                          ["subtitle"],
-                      date: homeController.latestBlogList[index]["date"],
-                      reporter: homeController.latestBlogList[index]
-                          ["reporter"],
+                    return GestureDetector(
+                      onTap: (){
+                        Get.toNamed(krBlogSingleScreen);
+                      },
+                      child: LatestBlogPostContent(
+                        contentHeight: 240.h,
+                        image: homeController.latestBlogList[index]["image"],
+                        title: homeController.latestBlogList[index]["title"],
+                        subTitle: homeController.latestBlogList[index]
+                            ["subtitle"],
+                        date: homeController.latestBlogList[index]["date"],
+                        reporter: homeController.latestBlogList[index]
+                            ["reporter"],
+                      ),
                     );
                   },
                 ),

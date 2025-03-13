@@ -95,3 +95,4 @@ const String ksApply = "Apply";
 const String ksFilterArtists = "Filter Artists";
 const String ksCountry = "Country";
 const String ksFilterTvChannel = "Filter TV Channel";
+const String ksBlogSinglePage = "Blog Single Page";

@@ -423,6 +423,13 @@ class HomeController extends GetxController {
     },
   ]);
 
+  final RxList blogBulletPointList = RxList([
+    "Sed mattis risus vel lectus faucibus, lobortis tristique dolor consequat.",
+    "Praesent interdum mauris sit amet sapien rutrum, non pellentesque urna fermentum.",
+    "Morbi ultricies lectus eget erat lobortis, ut semper sapien porttitor.",
+    "Quisque quis purus sit amet augue imperdiet elementum id fringilla augue.",
+  ]);
+
   void updateCurrentIndex(int index) {
     currentIndex.value = index;
   }
