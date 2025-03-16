@@ -433,4 +433,7 @@ class HomeController extends GetxController {
   void updateCurrentIndex(int index) {
     currentIndex.value = index;
   }
+
+  //!blog
+  final TextEditingController addCommentTextEditingController = TextEditingController();
 }

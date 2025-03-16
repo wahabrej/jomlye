@@ -93,7 +93,7 @@ class EditProfileScreen extends StatelessWidget {
                   children: [
                              Center(
                                             child: Container(
-                                              width: 100.h,
+                                              width: 100.w,
                                               height: 100.h,
                                               decoration: const BoxDecoration(
                                                 shape: BoxShape.circle,
@@ -107,7 +107,7 @@ class EditProfileScreen extends StatelessWidget {
                                                 backgroundColor: cWhiteColor.withOpacity(0.2),
                                                 child: ClipOval(
                                                   child: Image.file(
-                                                    width: 100.h,
+                                                    width: 100.w,
                                                     height: 100.h,
                                                     fit: BoxFit.cover,
                                                     profileController

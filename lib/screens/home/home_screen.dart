@@ -416,12 +416,17 @@ class HomeScreen extends StatelessWidget {
                       physics: const AlwaysScrollableScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return LatestBlogPostContent(
-                          image: homeController.latestBlogList[index]["image"],
-                          title: homeController.latestBlogList[index]["title"],
-                          subTitle: homeController.latestBlogList[index]["subtitle"],
-                          date: homeController.latestBlogList[index]["date"],
-                          reporter: homeController.latestBlogList[index]["reporter"],
+                        return GestureDetector(
+                          onTap: (){
+                            Get.toNamed(krBlogSingleScreen);
+                          },
+                          child: LatestBlogPostContent(
+                            image: homeController.latestBlogList[index]["image"],
+                            title: homeController.latestBlogList[index]["title"],
+                            subTitle: homeController.latestBlogList[index]["subtitle"],
+                            date: homeController.latestBlogList[index]["date"],
+                            reporter: homeController.latestBlogList[index]["reporter"],
+                          ),
                         );
                       },
                     ),
@@ -635,14 +640,15 @@ class HomeTitleContent extends StatelessWidget {
       {super.key,
       required this.title,
       required this.subtitleText,
-      this.onPressed});
+      this.onPressed,this.isHorizontalPadding=true});
   final String title, subtitleText;
   final VoidCallback? onPressed;
+  final bool? isHorizontalPadding;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+      padding: isHorizontalPadding! ? const EdgeInsets.symmetric(horizontal: k20Padding):const EdgeInsets.symmetric(horizontal: k0Padding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

@@ -72,6 +72,7 @@ const double k24Padding = 24.0;
 const double k25Padding = 25.0;
 const double k28Padding = 28.0;
 const double k30Padding = 30.0;
+const double k36Padding = 36.0;
 const double k40Padding = 40.0;
 const double k48Padding = 48.0;
 const double k50Padding = 50.0;
@@ -89,6 +90,7 @@ const kW14sizedBox = SizedBox(width: k14Padding);
 const kW16sizedBox = SizedBox(width: k16Padding);
 const kW20sizedBox = SizedBox(width: k20Padding);
 const kW24sizedBox = SizedBox(width: k24Padding);
+const kW36sizedBox = SizedBox(width: k36Padding);
 
 //* empty sized box with only height
 const kH4sizedBox = SizedBox(height: k4Padding);
