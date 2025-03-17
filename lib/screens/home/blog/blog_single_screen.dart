@@ -215,32 +215,6 @@ class BlogSingleScreen extends StatelessWidget {
                   style: medium16TextStyle(cWhiteColor),
                 ),
                 kH20sizedBox,
-                // ListView.separated(
-                //   shrinkWrap: true,
-                //   padding: const EdgeInsets.all(k0Padding),
-                //   itemCount: homeController.blogBulletPointList.length,
-                //   separatorBuilder: (context,index)=> kH8sizedBox,
-                //   itemBuilder: (context,index){
-                //     return Row(
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: [
-                //         Padding(
-                //           padding: const EdgeInsets.only(top: k8Padding),
-                //           child: Container(
-                //             width: 4,
-                //             height: 4,
-                //             decoration: BoxDecoration(
-                //               shape: BoxShape.circle,
-                //               color: cWhiteColor.withOpacity(0.7),
-                //             ),
-                //           ),
-                //         ),
-                //         kW8sizedBox,
-                //         Expanded(child: Text(homeController.blogBulletPointList[index],style: regular14TextStyle(cWhiteColor.withOpacity(0.7)),overflow: TextOverflow.clip)),
-                //       ],
-                //     );
-                //   }
-                // ),
                 for (int i = 0;
                     i < homeController.blogBulletPointList.length;
                     i++)
@@ -272,25 +246,11 @@ class BlogSingleScreen extends StatelessWidget {
                 kH20sizedBox,
                 Row(
                   children: [
-                    //https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D
-                    // Container(
-                    //   width: 80,
-                    //   height: 80,
-                    //   decoration: BoxDecoration(
-                    //     shape: BoxShape.circle,
-                    //     color: cWhiteColor,
-                    //   ),
-                    // ),
                     Container(
                       width: 80.w,
                       height: 80.h,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        // border: Border.all(
-                        //   width: 2,
-                        //   color: cPrimaryColor
-                        //       .withOpacity(0.2),
-                        // ),
                       ),
                       child: CircleAvatar(
                         backgroundColor: cWhiteColor.withOpacity(0.2),
@@ -476,11 +436,6 @@ class BlogSingleScreen extends StatelessWidget {
                       height: 40.h,
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
-                        // border: Border.all(
-                        //   width: 2,
-                        //   color: cPrimaryColor
-                        //       .withOpacity(0.2),
-                        // ),
                       ),
                       child: CircleAvatar(
                         backgroundColor: cWhiteColor.withOpacity(0.2),
@@ -588,9 +543,6 @@ class BlogSingleScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              // Icon(Icons.access_time,color: cGreyColor.withOpacity(0.8),size: kIconSize16,),
-                              // kW6sizedBox,
-                              // Text("2 years ago",style: regular10TextStyle(cGreyColor.withOpacity(0.8)),),
                             ],
                           ),
                         ),
@@ -712,8 +664,7 @@ class BlogSingleScreen extends StatelessWidget {
                                 color: cWhiteColor,
                                 size: kIconSize20,
                               ),
-                              //  Spacer(),
-                              Expanded(child: SizedBox()),
+                            const Expanded(child: SizedBox()),
                               Row(
                                 children: [
                                   SvgPicture.asset(
@@ -729,9 +680,6 @@ class BlogSingleScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              // Icon(Icons.access_time,color: cGreyColor.withOpacity(0.8),size: kIconSize16,),
-                              // kW6sizedBox,
-                              // Text("2 years ago",style: regular10TextStyle(cGreyColor.withOpacity(0.8)),),
                             ],
                           ),
                         ),
