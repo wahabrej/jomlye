@@ -11,6 +11,7 @@ const Color cGreyBoxColor = Color(0xFFF6F6F6);
 const Color cGreenColor = Color(0xFF55AA00);
 const Color cBlackColor2 = Color(0xFF222222);
 const Color cGreyColor = Color(0xFFF1F1F1);
+const Color cAmberColor = Color(0xFFFFC526);
 const Color cTransparentColor = Colors.transparent;
 
 const Color cLineColor = Color(0xFFD5D8E2);

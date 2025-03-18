@@ -1,6 +1,7 @@
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/view_all_screens/all_blogs_view_all_screen.dart';
+import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -135,50 +136,123 @@ class SearchScreen extends StatelessWidget {
                 ),
               ],
             ),
-            // Container(
-            //   child: SvgPicture.asset(kiSearchResult,width: 200.w,height: 200.h,color: cWhiteColor,)),
-            SizedBox(
-              height: (height*0.75),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(k4BorderRadius),
-                        child: Image.network("https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",width: 70.w,height: 105.h,fit: BoxFit.cover,)),
-                        kW14sizedBox,
-                        Column(
-                          children: [
-                     Container(
-                        margin: const EdgeInsets.only(right: 5),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: cWhiteColor.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(8.r),
-                          border: Border.all(
-                            width: 1.33,
-                            color: cPrimaryColor2.withOpacity(0.3),
-                          ),
-                        ),
-                        child: Text(
-                          "Action",
-                          style: semiBold14TextStyle(cWhiteColor),
+            kH10sizedBox,
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(k4BorderRadius),
+                      child: Image.network("https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",width: 70.w,height: 105.h,fit: BoxFit.cover,)),
+                      kW14sizedBox,
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                    Row(
+                      children: [
+                         Container(
+                      margin: const EdgeInsets.only(right: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: cWhiteColor.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(
+                          width: 1.33,
+                          color: cPrimaryColor2.withOpacity(0.3),
                         ),
                       ),
-                      kH8sizedBox,
-                      Text("Furry 2024 | War movie",style: medium16TextStyle(cWhiteColor),),
-                      kH8sizedBox,
-                      
-                          ],
+                      child: Text(
+                        "Action",
+                        style: semiBold14TextStyle(cWhiteColor),
+                      ),
+                    ),
+                   Container(
+                      margin: const EdgeInsets.only(right: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: cWhiteColor.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(
+                          width: 1.33,
+                          color: cPrimaryColor2.withOpacity(0.3),
                         ),
-                    ],
-                  ),
-                ],
-              )),
-              
+                      ),
+                      child: Text(
+                        "War",
+                        style: semiBold14TextStyle(cWhiteColor),
+                      ),
+                    ),
+                   Container(
+                      margin: const EdgeInsets.only(right: 5),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: k8Padding, vertical: k4Padding),
+                      decoration: BoxDecoration(
+                        color: cWhiteColor.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(
+                          width: 1.33,
+                          color: cPrimaryColor2.withOpacity(0.3),
+                        ),
+                    ),
+                      child: Text(
+                        "Trending",
+                        style: semiBold14TextStyle(cWhiteColor),
+                      ),
+                    ),
+                      ],
+                    ),
+                    kH8sizedBox,
+                    Text("Furry 2024 | War movie",style: medium16TextStyle(cWhiteColor),),
+                    kH8sizedBox,
+                    Row(
+                      children: [
+                        const Icon(Icons.star_rounded,size: kIconSize14,color: cAmberColor,),
+                        kW4sizedBox,
+                        Text("5.0",style: regular10TextStyle(cWhiteColor),),
+                        kW4sizedBox,
+                        const Icon(Icons.access_time_filled,size: kIconSize14,color: cPrimaryColor2,),
+                        kW4sizedBox,
+                        Text("2 hr 30 mins",style: regular10TextStyle(cWhiteColor),),
+                        kW4sizedBox,
+                        const Icon(Icons.calendar_today_rounded,size: kIconSize14,color: cPrimaryColor2,),
+                        kW4sizedBox,
+                        Text("2025",style: regular10TextStyle(cWhiteColor),),
+                      ],
+                    ),
+                    kH8sizedBox,
+                    CustomElevatedButton(label: ksPremium.tr, onPressed: (){},buttonWidth: 60.w,buttonHeight: h24.h,buttonColor: cPrimaryColor2,),
+                        ],
+                      ),
+                      const Expanded(child: SizedBox()),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 36.w,
+                            height: h36.h,
+                            decoration: BoxDecoration(
+                              color: cWhiteColor.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(k8BorderRadius),
+                            ),
+                            child: const Icon(Icons.close,size: kIconSize24,color: cPrimaryColor2,),
+                          ),
+                        ],
+                      ),
+                  ],
+                ),
+              ],
+            ),
+            kH4sizedBox,
+             Divider(
+              thickness: 1,
+              color: cWhiteColor.withOpacity(0.2),
+             ), 
           ],
         ),
       ),
