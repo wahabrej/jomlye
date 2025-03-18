@@ -220,7 +220,7 @@ class SearchScreen extends StatelessWidget {
                         kW4sizedBox,
                         Text("2 hr 30 mins",style: regular10TextStyle(cWhiteColor),),
                         kW4sizedBox,
-                        const Icon(Icons.calendar_today_rounded,size: kIconSize14,color: cPrimaryColor2,),
+                        const Icon(Icons.calendar_month_rounded,size: kIconSize14,color: cPrimaryColor2,),
                         kW4sizedBox,
                         Text("2025",style: regular10TextStyle(cWhiteColor),),
                       ],
