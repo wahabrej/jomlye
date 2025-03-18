@@ -105,7 +105,8 @@ class CustomModifiedTextField extends StatelessWidget {
                     scale: .85,
                     child: Icon(
                       prefixIcon,
-                      size: screenWiseSize(kIconSize20, 4),
+                      size: screenWiseSize(kIconSize24, 4),
+                      color: cWhiteColor,
                     ),
                   ),
                 )

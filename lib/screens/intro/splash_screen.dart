@@ -22,7 +22,6 @@ class SplashScreen extends StatelessWidget {
                 child: SvgPicture.asset(
                   kiSplashImage,
                   width: width,
-                  // height: height,
                   fit: BoxFit.cover,
                 ),
               ),

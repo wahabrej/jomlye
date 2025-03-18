@@ -436,4 +436,9 @@ class HomeController extends GetxController {
 
   //!blog
   final TextEditingController addCommentTextEditingController = TextEditingController();
+
+
+  //!Search
+  final TextEditingController searchTextEditingController = TextEditingController();
+  final RxBool isSearchSuffixIconShow = RxBool(false);
 }

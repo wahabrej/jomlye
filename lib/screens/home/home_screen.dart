@@ -779,14 +779,19 @@ class HomeSlider extends StatelessWidget {
                 Positioned(
                   top: 30,
                   right: 15,
-                  child: Container(
-                    width: 32.w,
-                    height: 32.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: cWhiteColor.withOpacity(0.2),
+                  child: GestureDetector(
+                    onTap: (){
+                      Get.toNamed(krSearchScreen);
+                    },
+                    child: Container(
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: cWhiteColor.withOpacity(0.2),
+                      ),
+                      child: const Icon(Icons.search,color: cWhiteColor,size: kIconSize24,),
                     ),
-                    child: const Icon(Icons.search,color: cWhiteColor,size: kIconSize24,),
                   ),
                 ),
                 Positioned(

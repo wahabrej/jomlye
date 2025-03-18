@@ -102,3 +102,7 @@ const String ksReply = "Reply";
 const String ksAddYourComment = "Add your comment";
 const String ksCancel = "Cancel";
 const String ksPostNow = "Post Now";
+const String ksSearch = "Search";
+const String ksSearchResults = "Search results";
+const String ksNoVideoFound = "No Video Found";
+const String ksNoVideosFoundPleaseCheckFilter = "No videos found. Please check filter or explore other categories for more exciting content!";
