@@ -47,6 +47,7 @@ flutter:
     - .env.example
     - assets/images/
     - assets/svgs/
+    - assets/svgs/profile/
 
   # example:
   # fonts:

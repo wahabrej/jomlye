@@ -14,7 +14,7 @@ const double kCommonElevation = 0.0;
 // const double kButtonHeight = 44.0;
 const double kTextfieldHeight = 52.0;
 const double kCommonBackSpace = 50.0;
-const double kBottomNavHeight = 44.0;
+const double kBottomNavHeight = 60.0;
 
 const double k4BorderRadius = 4.0;
 const double k6BorderRadius = 6.0;

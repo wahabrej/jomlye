@@ -361,14 +361,6 @@ class CastDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                // Image.network("https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg"),
-
-                // return MovieContentContainer(
-                //             movieImage: homeController.recentMovieList[index]["movieImage"],
-                //             seasonName: homeController.recentMovieList[index]["season"],
-                //             isPremium: homeController.recentMovieList[index]["isPremium"],
-                //             isSeason: homeController.recentMovieList[index]["isSeason"],
-                //           );
               ],
             ),
           ),

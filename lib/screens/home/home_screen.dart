@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -438,6 +439,14 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
+          bottomNavigationBar: CustomBottomNavBar(
+            width: width,
+            isFirstButtonClicked: true,
+            isSecondButtonClicked: false,
+            isThirdButtonClicked: false,
+            isFourthButtonClicked: false,
+            isFifthButtonClicked: false,
+          ),
       ),
     );
   }
