@@ -106,12 +106,17 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                       ),
                       itemCount: homeController.topArtistList.length,
                       itemBuilder: (context, index) {
-                              return TopArtistContent(
-                        image: homeController.topArtistList[index]["image"],
-                        name: homeController.topArtistList[index]["name"],
-                        contentWidth: (width-60)/3,
-                        contentHeight: 120.h,
-                        );
+                              return GestureDetector(
+                                onTap: (){
+                                  Get.toNamed(krCastDetailsScreen);
+                                },
+                                child: TopArtistContent(
+                                                        image: homeController.topArtistList[index]["image"],
+                                                        name: homeController.topArtistList[index]["name"],
+                                                        contentWidth: (width-60)/3,
+                                                        contentHeight: 120.h,
+                                                        ),
+                              );
                       },
                     ),
               ],

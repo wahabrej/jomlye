@@ -5,6 +5,7 @@ import 'package:vidflix_flutter_app/screens/auth/phone_sign_in_screen.dart';
 import 'package:vidflix_flutter_app/screens/auth/sign_in_screen.dart';
 import 'package:vidflix_flutter_app/screens/auth/sign_up_screen.dart';
 import 'package:vidflix_flutter_app/screens/home/blog/blog_single_screen.dart';
+import 'package:vidflix_flutter_app/screens/home/cast/cast_details_screen.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/home/search_screen.dart';
 import 'package:vidflix_flutter_app/screens/home/view_all_screens/all_blogs_view_all_screen.dart';
@@ -35,6 +36,7 @@ const String krTopArtistsViewAllScreen = '/topartists-viewall-screen';
 const String krAllBlogsViewAllScreen = '/allblogs-viewall-screen';
 const String krBlogSingleScreen = '/blog-single-screen';
 const String krSearchScreen = '/search-screen';
+const String krCastDetailsScreen = '/cast-details-screen';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -57,5 +59,6 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krAllBlogsViewAllScreen, page: () => AllBlogsViewAllScreen(), transition: Transition.noTransition),
    GetPage(name: krBlogSingleScreen, page: () => BlogSingleScreen(), transition: Transition.noTransition),
    GetPage(name: krSearchScreen, page: () => SearchScreen(), transition: Transition.noTransition),
+   GetPage(name: krCastDetailsScreen, page: () => CastDetailsScreen(), transition: Transition.noTransition),
 
 ];

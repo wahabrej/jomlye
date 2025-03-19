@@ -94,6 +94,7 @@ const kW36sizedBox = SizedBox(width: k36Padding);
 
 //* empty sized box with only height
 const kH4sizedBox = SizedBox(height: k4Padding);
+const kH6sizedBox = SizedBox(height: k6Padding);
 const kH8sizedBox = SizedBox(height: k8Padding);
 const kH12sizedBox = SizedBox(height: k12Padding);
 const kH16sizedBox = SizedBox(height: k16Padding);

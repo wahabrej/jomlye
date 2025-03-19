@@ -182,6 +182,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "flutter_xlider",
+      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/flutter_xlider-3.5.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
       "name": "get",
       "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/get-4.7.2",
       "packageUri": "lib/",
@@ -512,7 +518,7 @@
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2025-03-09T06:47:27.886019Z",
+  "generated": "2025-03-18T10:00:48.022745Z",
   "generator": "pub",
   "generatorVersion": "3.5.3",
   "flutterRoot": "file:///Users/murad/Downloads/flutter",

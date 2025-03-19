@@ -441,4 +441,27 @@ class HomeController extends GetxController {
   //!Search
   final TextEditingController searchTextEditingController = TextEditingController();
   final RxBool isSearchSuffixIconShow = RxBool(false);
+  //! cast details screen
+  final RxInt selectedIndex = RxInt(0); // Default selected index
+  final List<String> tabs = ["Movies", "Gallery", "Personal Information"];
+
+  void changeTab(int index) {
+    selectedIndex.value = index;
+  }
+  final RxList castGalleryList = RxList([
+    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+  ]);
+  final RxDouble lowerValue = RxDouble(0);
+  final RxDouble upperValue = RxDouble(0);
+  
 }
