@@ -38,6 +38,8 @@ const String kiContactUs = "assets/svgs/profile/contact_us.svg";
 const String kiFaq = "assets/svgs/profile/faq.svg";
 const String kiSettings = "assets/svgs/profile/settings.svg";
 const String kiLogout = "assets/svgs/profile/logout.svg";
+const String kiCheck = "assets/svgs/profile/check.svg";
+const String kiActiveCheck = "assets/svgs/profile/active_check.svg";
 //* images
 const String kiGallery = "assets/images/gallery.png";
 const String kiEditProfile = "assets/images/edit_profile.png";

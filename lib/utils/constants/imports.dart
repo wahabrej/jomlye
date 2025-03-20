@@ -15,3 +15,4 @@ export 'package:vidflix_flutter_app/utils/constants/strings.dart';
 export 'package:vidflix_flutter_app/utils/constants/styles.dart';
 export 'package:flutter_svg/flutter_svg.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';
+export 'package:vidflix_flutter_app/utils/constants/images.dart';

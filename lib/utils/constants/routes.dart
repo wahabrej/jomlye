@@ -16,6 +16,7 @@ import 'package:vidflix_flutter_app/screens/intro/landing_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/language_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/profile_screen.dart';
+import 'package:vidflix_flutter_app/screens/profile/subscription_plan_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/screens/intro/splash_screen.dart';
 //*intro
@@ -32,6 +33,7 @@ const String krChooseInterestScreen = "/chooseinterest-screen";
 const String krEditProfileScreen = "/editprofile-screen";
 const String krProfileScreen = "/profile-screen";
 const String krLanguageScreen = "/language-screen";
+const String krSubscriptionPlanScreen = "/subscription-plan-screen";
 //*Home
 const String krHomeScreen = '/home-screen';
 const String krMovieViewAllScreen = '/movie-viewall-screen';
@@ -57,6 +59,7 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krEditProfileScreen, page: () => EditProfileScreen(), transition: Transition.noTransition),
    GetPage(name: krProfileScreen, page: () => ProfileScreen(), transition: Transition.noTransition),
    GetPage(name: krLanguageScreen, page: () => LanguageScreen(), transition: Transition.noTransition),
+   GetPage(name: krSubscriptionPlanScreen, page: () => SubscriptionPlanScreen(), transition: Transition.noTransition),
    //*Home 
    GetPage(name: krHomeScreen, page: () => HomeScreen(), transition: Transition.noTransition),
    GetPage(name: krMovieViewAllScreen, page: () => MovieViewAllScreen(), transition: Transition.noTransition),

@@ -1,6 +1,5 @@
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
@@ -217,6 +216,9 @@ class ProfileScreen extends StatelessWidget {
                   image: kiCrown,
                   title: ksSubscriptionPlan.tr,
                   selectedSubscription: "Free",
+                  onPressed: (){
+                    Get.toNamed(krSubscriptionPlanScreen);
+                  },
                 ),
                 kH8sizedBox,
                 ProfileCommonWidget(
