@@ -441,11 +441,12 @@ class HomeScreen extends StatelessWidget {
         ),
           bottomNavigationBar: CustomBottomNavBar(
             width: width,
-            isFirstButtonClicked: true,
-            isSecondButtonClicked: false,
-            isThirdButtonClicked: false,
-            isFourthButtonClicked: false,
-            isFifthButtonClicked: false,
+            selectedIndex: 0,
+            // isFirstButtonClicked: true,
+            // isSecondButtonClicked: false,
+            // isThirdButtonClicked: false,
+            // isFourthButtonClicked: false,
+            // isFifthButtonClicked: false,
           ),
       ),
     );

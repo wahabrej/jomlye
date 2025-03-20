@@ -165,7 +165,7 @@ class ProfileScreen extends StatelessWidget {
                   kH6sizedBox,
                   Text("info@spagreen.net",style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),),
                   kH30sizedBox,
-                  ProfileCommonWidget(image: kiUser2,title: ksEditProfile.tr,),
+                  ProfileCommonWidget(image: kiUser2,title: ksEditProfile.tr,onPressed: (){Get.toNamed(krEditProfileScreen);},),
                   kH8sizedBox,
                   ProfileCommonWidget(image: kiLock,title: ksChangePassword.tr,),
                   kH8sizedBox,
@@ -209,11 +209,12 @@ class ProfileScreen extends StatelessWidget {
       ),
         bottomNavigationBar: CustomBottomNavBar(
             width: width,
-            isFirstButtonClicked: false,
-            isSecondButtonClicked: false,
-            isThirdButtonClicked: false,
-            isFourthButtonClicked: false,
-            isFifthButtonClicked: true,
+            selectedIndex: 4,
+            // isFirstButtonClicked: false,
+            // isSecondButtonClicked: false,
+            // isThirdButtonClicked: false,
+            // isFourthButtonClicked: false,
+            // isFifthButtonClicked: true,
           ),
     );
   }
