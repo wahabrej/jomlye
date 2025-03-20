@@ -14,6 +14,7 @@ import 'package:vidflix_flutter_app/screens/home/view_all_screens/tv_channels_vi
 import 'package:vidflix_flutter_app/screens/home/view_all_screens/movie_view_all_screen.dart';
 import 'package:vidflix_flutter_app/screens/intro/landing_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
+import 'package:vidflix_flutter_app/screens/profile/language_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/profile_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/screens/intro/splash_screen.dart';
@@ -30,6 +31,7 @@ const String krChooseInterestScreen = "/chooseinterest-screen";
 //*profile
 const String krEditProfileScreen = "/editprofile-screen";
 const String krProfileScreen = "/profile-screen";
+const String krLanguageScreen = "/language-screen";
 //*Home
 const String krHomeScreen = '/home-screen';
 const String krMovieViewAllScreen = '/movie-viewall-screen';
@@ -53,6 +55,8 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krChooseInterestScreen, page: () => ChooseInterestScreen(), transition: Transition.noTransition),
  //* profile
    GetPage(name: krEditProfileScreen, page: () => EditProfileScreen(), transition: Transition.noTransition),
+   GetPage(name: krProfileScreen, page: () => ProfileScreen(), transition: Transition.noTransition),
+   GetPage(name: krLanguageScreen, page: () => LanguageScreen(), transition: Transition.noTransition),
    //*Home 
    GetPage(name: krHomeScreen, page: () => HomeScreen(), transition: Transition.noTransition),
    GetPage(name: krMovieViewAllScreen, page: () => MovieViewAllScreen(), transition: Transition.noTransition),
@@ -62,6 +66,5 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krBlogSingleScreen, page: () => BlogSingleScreen(), transition: Transition.noTransition),
    GetPage(name: krSearchScreen, page: () => SearchScreen(), transition: Transition.noTransition),
    GetPage(name: krCastDetailsScreen, page: () => CastDetailsScreen(), transition: Transition.noTransition),
-   GetPage(name: krProfileScreen, page: () => ProfileScreen(), transition: Transition.noTransition),
 
 ];

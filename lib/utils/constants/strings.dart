@@ -129,3 +129,4 @@ const String ksFaq = "FAQ";
 const String ksSettings = "Settings";
 const String ksLogout = "Logout";
 const String ksSubscriptionPlan = "Subscription Plan";
+const String ksSuggested = "Suggested";

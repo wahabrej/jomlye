@@ -16,4 +16,16 @@ class ProfileController extends GetxController{
     final RxBool isProfileImageChnaged = RxBool(false);
   final RxString profileImageLink = RxString("");
   final Rx<File?> profileImageFile = Rx<File?>(null);
+  final RxList languageList = RxList([
+    "Bangla",
+    "Hindi",
+    "Chinese",
+    "Russian",
+    "Urdu",
+    "German",
+    "Spanish",
+    "French",
+    "Arabic",
+    "Indonesian"
+  ]);
 }
