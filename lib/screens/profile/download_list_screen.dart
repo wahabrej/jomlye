@@ -183,16 +183,21 @@ class CommonMovieListWidget extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: h36.w,
-              height: h36.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(k8BorderRadius),
-                color: cWhiteColor.withOpacity(0.1),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(k10Padding),
-                child: SvgPicture.asset(kiDelete),
+            InkWell(
+              onTap: (){
+                showDeleteDownloadPopup(context);
+              },
+              child: Container(
+                width: h36.w,
+                height: h36.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(k8BorderRadius),
+                  color: cWhiteColor.withOpacity(0.1),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(k10Padding),
+                  child: SvgPicture.asset(kiDelete),
+                ),
               ),
             ),
           ],
@@ -200,4 +205,147 @@ class CommonMovieListWidget extends StatelessWidget {
       ],
     );
   }
+}
+
+
+
+void showDeleteDownloadPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        insetPadding: const EdgeInsets.symmetric(horizontal: k20Padding),
+        backgroundColor: cBlackColor2,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: k20Padding, vertical: k25Padding),
+          width: width.w,
+          decoration: BoxDecoration(
+            color: cBlackColor2,
+            borderRadius: BorderRadius.circular(k16BorderRadius.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: h36.w,
+                    height: h36.h,
+                    decoration: BoxDecoration(
+                      color: cWhiteColor.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(k10Padding),
+                      child: SvgPicture.asset(kiDelete,color: cWhiteColor,),
+                    ),
+                  ),
+                  kW12sizedBox,
+                   Text(
+                ksDeleteVideo.tr,
+                style: semiBold18TextStyle(cWhiteColor),
+              ),
+              const Expanded(child: SizedBox()),
+               InkWell(
+                onTap: (){
+                  Get.back();
+                },
+                child: const Icon(Icons.close,size: kIconSize20,color: cWhiteColor,)),
+                ],
+              ),
+              kH8sizedBox,
+              Divider(
+              thickness: 1,
+              color: cWhiteColor.withOpacity(0.1),
+             ),
+             kH8sizedBox,
+             Text(ksAreYouSureYouDeleteThisVideo,style: regular16TextStyle(cWhiteColor),),
+             kH16sizedBox,
+             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+             CustomElevatedButton(label: ksCancel.tr, onPressed: (){Get.back();},buttonWidth: 80.w,buttonHeight: 30.h,buttonColor: cWhiteColor.withOpacity(0.2),),
+             kW12sizedBox,
+             CustomElevatedButton(label: ksDeleteVideo.tr, onPressed: (){Get.back();},buttonWidth: 110.w,buttonHeight: 30.h,buttonColor: cPrimaryColor2,),
+              ],
+             ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+
+
+void showDeleteNotificationPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        insetPadding: const EdgeInsets.symmetric(horizontal: k20Padding),
+        backgroundColor: cBlackColor2,
+        child: Container(
+          constraints: BoxConstraints(maxWidth: width.w * 0.9),
+          padding: const EdgeInsets.symmetric(
+              horizontal: k20Padding, vertical: k25Padding),
+          width: width.w,
+          decoration: BoxDecoration(
+            color: cBlackColor2,
+            borderRadius: BorderRadius.circular(k16BorderRadius.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: h36.w,
+                    height: h36.h,
+                    decoration: BoxDecoration(
+                      color: cWhiteColor.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(k10Padding),
+                      child: SvgPicture.asset(kiNotification,color: cWhiteColor,),
+                    ),
+                  ),
+                  kW12sizedBox,
+                   Text(
+                ksDeleteNotification.tr,
+                style: semiBold18TextStyle(cWhiteColor),
+              ),
+              const Expanded(child: SizedBox()),
+               InkWell(
+                onTap: (){
+                  Get.back();
+                },
+                child: const Icon(Icons.close,size: kIconSize20,color: cWhiteColor,)),
+                ],
+              ),
+              kH8sizedBox,
+              Divider(
+              thickness: 1,
+              color: cWhiteColor.withOpacity(0.1),
+             ),
+             kH8sizedBox,
+             Text(ksAreYouSureYouDeleteThisNotification.tr,style: regular16TextStyle(cWhiteColor),),
+             kH16sizedBox,
+             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+             CustomElevatedButton(label: ksCancel.tr, onPressed: (){Get.back();},buttonWidth: 80.w,buttonHeight: 30.h,buttonColor: cWhiteColor.withOpacity(0.2),),
+             kW12sizedBox,
+             CustomElevatedButton(label: ksDelete.tr, onPressed: (){Get.back();},buttonWidth: 80.w,buttonHeight: 30.h,buttonColor: cPrimaryColor2,),
+              ],
+             ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
