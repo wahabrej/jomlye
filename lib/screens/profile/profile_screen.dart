@@ -229,6 +229,9 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiFavorite,
                   title: ksFavorite.tr,
+                  onPressed: (){
+                    Get.toNamed(krFavoriteScreen);
+                  },
                 ),
                 kH8sizedBox,
                 ProfileCommonWidget(

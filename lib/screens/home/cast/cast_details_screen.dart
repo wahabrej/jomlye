@@ -1,7 +1,5 @@
-import 'package:flutter_xlider/flutter_xlider.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class CastDetailsScreen extends StatelessWidget {

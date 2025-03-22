@@ -14,6 +14,7 @@ import 'package:vidflix_flutter_app/screens/home/view_all_screens/tv_channels_vi
 import 'package:vidflix_flutter_app/screens/home/view_all_screens/movie_view_all_screen.dart';
 import 'package:vidflix_flutter_app/screens/intro/landing_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
+import 'package:vidflix_flutter_app/screens/profile/favorite_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/language_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/profile_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/subscription_plan_screen.dart';
@@ -43,6 +44,7 @@ const String krAllBlogsViewAllScreen = '/allblogs-viewall-screen';
 const String krBlogSingleScreen = '/blog-single-screen';
 const String krSearchScreen = '/search-screen';
 const String krCastDetailsScreen = '/cast-details-screen';
+const String krFavoriteScreen = '/favorite-screen';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -69,5 +71,6 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krBlogSingleScreen, page: () => BlogSingleScreen(), transition: Transition.noTransition),
    GetPage(name: krSearchScreen, page: () => SearchScreen(), transition: Transition.noTransition),
    GetPage(name: krCastDetailsScreen, page: () => CastDetailsScreen(), transition: Transition.noTransition),
+   GetPage(name: krFavoriteScreen, page: () => FavoriteScreen(), transition: Transition.noTransition),
 
 ];

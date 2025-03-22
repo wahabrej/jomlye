@@ -131,3 +131,6 @@ const String ksLogout = "Logout";
 const String ksSubscriptionPlan = "Subscription Plan";
 const String ksSuggested = "Suggested";
 const String ksUpgrade = "Upgrade";
+const String ksFavoriteList = "Favorite List";
+const String ksTVChannel = "TV Channel";
+const String ksMovies = "Movies";
