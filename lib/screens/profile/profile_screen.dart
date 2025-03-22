@@ -242,6 +242,9 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiDownload,
                   title: ksDownload.tr,
+                  onPressed: (){
+                    Get.toNamed(krDownloadListScreen);
+                  },
                 ),
                 kH8sizedBox,
                 ProfileCommonWidget(

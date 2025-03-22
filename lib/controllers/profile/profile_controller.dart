@@ -115,4 +115,56 @@ class ProfileController extends GetxController{
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8V8uPFT10fPjw59627CgxWeBKWpaaGFLhowPOcO81UExqoLyCwvk9Zq757SbAPbLhA74&usqp=CAU",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8V8uPFT10fPjw59627CgxWeBKWpaaGFLhowPOcO81UExqoLyCwvk9Zq757SbAPbLhA74&usqp=CAU",
   ]);
+  final RxList movieTagList = RxList(["Action", "2024"]);
+  final RxList<Map<String,dynamic>> downloadedMovieList = RxList<Map<String,dynamic>>([
+    {
+      "movieImage": "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+      "movieTagList": ["Action", "2024"],
+      "movieName": "20-Minute Meals: Delicious Recipes.",
+      "movieDuration": "Time duration: 1 hour 20 sec",
+      "movieSize": "12GB",
+    },
+    {
+      "movieImage": "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+      "movieTagList": ["Action", "2024"],
+      "movieName": "20-Minute Meals: Delicious Recipes.",
+      "movieDuration": "Time duration: 1 hour 20 sec",
+      "movieSize": "12GB",
+    },
+    {
+      "movieImage": "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+      "movieTagList": ["Action", "2024"],
+      "movieName": "20-Minute Meals: Delicious Recipes.",
+      "movieDuration": "Time duration: 1 hour 20 sec",
+      "movieSize": "12GB",
+    },
+    {
+      "movieImage": "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+      "movieTagList": ["Action", "2024"],
+      "movieName": "20-Minute Meals: Delicious Recipes.",
+      "movieDuration": "Time duration: 1 hour 20 sec",
+      "movieSize": "12GB",
+    },
+    {
+      "movieImage": "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+      "movieTagList": ["Action", "2024"],
+      "movieName": "20-Minute Meals: Delicious Recipes.",
+      "movieDuration": "Time duration: 1 hour 20 sec",
+      "movieSize": "12GB",
+    },
+    {
+      "movieImage": "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+      "movieTagList": ["Action", "2024"],
+      "movieName": "20-Minute Meals: Delicious Recipes.",
+      "movieDuration": "Time duration: 1 hour 20 sec",
+      "movieSize": "12GB",
+    },
+    {
+      "movieImage": "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+      "movieTagList": ["Action", "2024"],
+      "movieName": "20-Minute Meals: Delicious Recipes.",
+      "movieDuration": "Time duration: 1 hour 20 sec",
+      "movieSize": "12GB",
+    },
+  ]);
 }

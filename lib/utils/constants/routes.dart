@@ -13,6 +13,7 @@ import 'package:vidflix_flutter_app/screens/home/view_all_screens/top_artists_vi
 import 'package:vidflix_flutter_app/screens/home/view_all_screens/tv_channels_view_all_screen.dart';
 import 'package:vidflix_flutter_app/screens/home/view_all_screens/movie_view_all_screen.dart';
 import 'package:vidflix_flutter_app/screens/intro/landing_screen.dart';
+import 'package:vidflix_flutter_app/screens/profile/download_list_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/favorite_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/language_screen.dart';
@@ -49,6 +50,7 @@ const String krCastDetailsScreen = '/cast-details-screen';
 const String krFavoriteScreen = '/favorite-screen';
 const String krPaymentMethodScreen = '/payment-method-screen';
 const String krPaymentSuccessScreen = '/payment-success-screen';
+const String krDownloadListScreen = '/download-list-screen';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -78,5 +80,6 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krFavoriteScreen, page: () => FavoriteScreen(), transition: Transition.noTransition),
    GetPage(name: krPaymentMethodScreen, page: () => PaymentMethodScreen(), transition: Transition.noTransition),
    GetPage(name: krPaymentSuccessScreen, page: () => PaymentSuccessScreen(), transition: Transition.noTransition),
+   GetPage(name: krDownloadListScreen, page: () => DownloadListScreen(), transition: Transition.noTransition),
 
 ];

@@ -139,3 +139,4 @@ const String ksOnlinePayment = "Online Payment";
 const String ksStartPlan = "Start Plan";
 const String ksLetsContinueEnjoyingVidFlix = "Let's continue enjoying VidFlix";
 const String ksBackToHome = "Back To Home";
+const String ksDownloadList = "Download List";
