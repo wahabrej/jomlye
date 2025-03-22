@@ -137,3 +137,5 @@ const String ksMovies = "Movies";
 const String ksSelectMethod = "Select Method";
 const String ksOnlinePayment = "Online Payment";
 const String ksStartPlan = "Start Plan";
+const String ksLetsContinueEnjoyingVidFlix = "Let's continue enjoying VidFlix";
+const String ksBackToHome = "Back To Home";

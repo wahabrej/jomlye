@@ -127,7 +127,9 @@ class PaymentMethodScreen extends StatelessWidget {
                   kH30sizedBox,
                   CustomElevatedButton(
                     label: ksStartPlan.tr,
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.toNamed(krPaymentSuccessScreen);
+                    },
                     buttonColor: cPrimaryColor2,
                     buttonHeight: 40.h,
                     buttonWidth: width - 40,
