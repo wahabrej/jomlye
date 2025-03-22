@@ -16,6 +16,7 @@ import 'package:vidflix_flutter_app/screens/intro/landing_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/favorite_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/language_screen.dart';
+import 'package:vidflix_flutter_app/screens/profile/payment_method_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/profile_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/subscription_plan_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -45,6 +46,7 @@ const String krBlogSingleScreen = '/blog-single-screen';
 const String krSearchScreen = '/search-screen';
 const String krCastDetailsScreen = '/cast-details-screen';
 const String krFavoriteScreen = '/favorite-screen';
+const String krPaymentMethodScreen = '/payment-method-screen';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -72,5 +74,6 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krSearchScreen, page: () => SearchScreen(), transition: Transition.noTransition),
    GetPage(name: krCastDetailsScreen, page: () => CastDetailsScreen(), transition: Transition.noTransition),
    GetPage(name: krFavoriteScreen, page: () => FavoriteScreen(), transition: Transition.noTransition),
+   GetPage(name: krPaymentMethodScreen, page: () => PaymentMethodScreen(), transition: Transition.noTransition),
 
 ];

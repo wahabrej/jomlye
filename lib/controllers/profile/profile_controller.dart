@@ -97,5 +97,22 @@ class ProfileController extends GetxController{
       "season": "Season 1",
     },
   ]);
-
+  final RxInt selectedPaymentMethodIndex = RxInt(-1);
+  final RxList paymentMethodList = RxList([
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHU4tOI-bAL4XVfQSGS1phLDJNB3QaE7tQvAIy6SlhSzSQ48UhwbllHTCCRZHPQCZEWBE&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHU4tOI-bAL4XVfQSGS1phLDJNB3QaE7tQvAIy6SlhSzSQ48UhwbllHTCCRZHPQCZEWBE&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHU4tOI-bAL4XVfQSGS1phLDJNB3QaE7tQvAIy6SlhSzSQ48UhwbllHTCCRZHPQCZEWBE&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHU4tOI-bAL4XVfQSGS1phLDJNB3QaE7tQvAIy6SlhSzSQ48UhwbllHTCCRZHPQCZEWBE&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCyJzFJkymecBHNfTCJtUKIb79dTP1NQhWp2cZdx24aeWvrnP2zukxtoX6PGGm59TaHQ&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCyJzFJkymecBHNfTCJtUKIb79dTP1NQhWp2cZdx24aeWvrnP2zukxtoX6PGGm59TaHQ&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCyJzFJkymecBHNfTCJtUKIb79dTP1NQhWp2cZdx24aeWvrnP2zukxtoX6PGGm59TaHQ&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCyJzFJkymecBHNfTCJtUKIb79dTP1NQhWp2cZdx24aeWvrnP2zukxtoX6PGGm59TaHQ&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOyH__aIgH_qYVbGe-7z_9WHHuPZ0qzVqqZxjohk_QluzBPPBoKi1VrF5dV2cqiRIWc5Y&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOyH__aIgH_qYVbGe-7z_9WHHuPZ0qzVqqZxjohk_QluzBPPBoKi1VrF5dV2cqiRIWc5Y&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOyH__aIgH_qYVbGe-7z_9WHHuPZ0qzVqqZxjohk_QluzBPPBoKi1VrF5dV2cqiRIWc5Y&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOyH__aIgH_qYVbGe-7z_9WHHuPZ0qzVqqZxjohk_QluzBPPBoKi1VrF5dV2cqiRIWc5Y&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8V8uPFT10fPjw59627CgxWeBKWpaaGFLhowPOcO81UExqoLyCwvk9Zq757SbAPbLhA74&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8V8uPFT10fPjw59627CgxWeBKWpaaGFLhowPOcO81UExqoLyCwvk9Zq757SbAPbLhA74&usqp=CAU",
+    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8V8uPFT10fPjw59627CgxWeBKWpaaGFLhowPOcO81UExqoLyCwvk9Zq757SbAPbLhA74&usqp=CAU",
+  ]);
 }

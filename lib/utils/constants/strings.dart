@@ -134,3 +134,6 @@ const String ksUpgrade = "Upgrade";
 const String ksFavoriteList = "Favorite List";
 const String ksTVChannel = "TV Channel";
 const String ksMovies = "Movies";
+const String ksSelectMethod = "Select Method";
+const String ksOnlinePayment = "Online Payment";
+const String ksStartPlan = "Start Plan";

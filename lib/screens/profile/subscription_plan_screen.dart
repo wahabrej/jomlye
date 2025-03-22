@@ -66,7 +66,7 @@ class SubscriptionPlanScreen extends StatelessWidget {
                             style: semiBold20TextStyle(cWhiteColor),
                           ),
                         ],
-                      ),
+                      ),      
                     kH8sizedBox,
                     Divider(
                       color: cWhiteColor.withOpacity(0.2),
@@ -186,7 +186,9 @@ class SubscriptionPlanScreen extends StatelessWidget {
                               ],
                             ),
                             kH35sizedBox,
-                            CustomElevatedButton(label: ksGetStarted.tr, onPressed: (){},buttonColor: cPrimaryColor2,textStyle: regular14TextStyle(cWhiteColor),buttonWidth: width-80,buttonHeight: 40.h,),
+                            CustomElevatedButton(label: ksGetStarted.tr, onPressed: (){
+                              Get.toNamed(krPaymentMethodScreen);
+                            },buttonColor: cPrimaryColor2,textStyle: regular14TextStyle(cWhiteColor),buttonWidth: width-80,buttonHeight: 40.h,),
                           ],
                         ),
                       ),
@@ -265,7 +267,9 @@ class SubscriptionPlanScreen extends StatelessWidget {
                               ],
                             ),
                             kH35sizedBox,
-                            CustomElevatedButton(label: ksGetStarted.tr, onPressed: (){},buttonColor: cPrimaryColor2,textStyle: regular14TextStyle(cWhiteColor),buttonWidth: width-82,buttonHeight: 40.h,),
+                            CustomElevatedButton(label: ksGetStarted.tr, onPressed: (){
+                              Get.toNamed(krPaymentMethodScreen);
+                            },buttonColor: cPrimaryColor2,textStyle: regular14TextStyle(cWhiteColor),buttonWidth: width-82,buttonHeight: 40.h,),
                           ],
                         ),
                       ),
