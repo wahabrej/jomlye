@@ -1,4 +1,3 @@
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -96,7 +95,7 @@ class _BottomNavbarItem extends StatelessWidget {
         onPressed: onPressed,
         child: isSelected
             ? Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
                   color: cPrimaryColor2,
                   borderRadius: BorderRadius.circular(20),
@@ -122,7 +121,7 @@ class _BottomNavbarItem extends StatelessWidget {
                 image.toString(),
                 height: isDeviceScreenLarge() ? 24 : 20,
                 width: isDeviceScreenLarge() ? 24 : 20,
-                color: cIconColor,
+                color: cWhiteColor,
               ),
       ),
     );

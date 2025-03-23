@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: width - 20,
-                    height: 175.h,
+                    height: 150.h,
                     child: ListView.separated(
                       itemCount: homeController.recentMovieList.length,
                       separatorBuilder: (context, index) =>
@@ -129,7 +129,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: width - 20,
-                    height: 175.h,
+                    height: 150.h,
                     child: ListView.separated(
                       itemCount: homeController.trendingMoviesList.length,
                       separatorBuilder: (context, index) =>
@@ -166,7 +166,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: width - 20,
-                    height: 175.h,
+                    height: 150.h,
                     child: ListView.separated(
                       itemCount: homeController.trendingMoviesList.length,
                       separatorBuilder: (context, index) =>
@@ -337,7 +337,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   SizedBox(
                     width: width - 20,
-                    height: 175.h,
+                    height: 150.h,
                     child: ListView.separated(
                       itemCount: homeController.tvSeriesList.length,
                       separatorBuilder: (context, index) =>
@@ -687,8 +687,8 @@ class MovieContentContainer extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          width: (width - 70) / 3,
-          height: 175.h,
+          width: (width - 70) / 2.6,
+          height: 150.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(k6BorderRadius),
           ),
@@ -697,7 +697,7 @@ class MovieContentContainer extends StatelessWidget {
             child: Image.network(
               movieImage??"",
               width: (width - 60) / 3,
-              height: 175.h,
+              height: 150.h,
               fit: BoxFit.cover,
             ),
           ),

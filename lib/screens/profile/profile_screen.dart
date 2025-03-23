@@ -1,5 +1,7 @@
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
+import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_app_bar.dart';
+// import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_app_bar.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
@@ -11,20 +13,73 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cBlackColor,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-          child: Obx(
-            () => Column(
-              children: [
-                kH40sizedBox,
-                Row(
-                  children: [
-                    GestureDetector(
+        //    appBar: PreferredSize(
+        //   preferredSize: Size.fromHeight(kAppBarSize.h),
+        //   //* info:: appBar
+        //   child: CustomAppBar(
+        //     // title: ksSettings.tr,
+        //     leadingWidth: 90,
+        //     leadingWidget:   GestureDetector(
+        //               onTap: () {
+        //                 Get.back();
+        //               },
+        //               child: Container(
+        //                 height: h20,
+        //                 decoration: BoxDecoration(
+        //                   borderRadius: BorderRadius.circular(100.r),
+        //                   color: cWhiteColor.withOpacity(0.2),
+        //                 ),
+        //                 child: Padding(
+        //                   padding: const EdgeInsets.symmetric(
+        //                       horizontal: k12Padding, vertical: k2Padding),
+        //                   child: Row(
+        //                     children: [
+        //                       const Icon(
+        //                         Icons.arrow_back_ios,
+        //                         size: kIconSize12,
+        //                         color: cWhiteColor,
+        //                       ),
+        //                       kW4sizedBox,
+        //                       Center(
+        //                           child: Text(
+        //                         ksProfile.tr,
+        //                         style: regular16TextStyle(cWhiteColor),
+        //                       )),
+        //                     ],
+        //                   ),
+        //                 ),
+        //               ),
+        //             ),
+        //     hasBackButton: false,
+        //     isCenterTitle: false,
+        //     iconColor: cPrimaryColor2,
+        //     appBarColor: cBlackColor,
+        //     onBack: () {
+        //       Get.back();
+        //     },
+        //   ),
+        // ),
+//         appBar: AppBar(
+//   backgroundColor: Colors.transparent,
+//   elevation: 0,
+//   leading: Container(),
+//   toolbarHeight: h32 + k2Padding * 2,
+//   flexibleSpace: PreferredSize(
+//     preferredSize: Size.fromHeight(h32 + k2Padding * 2),
+//     child: CustomBackHeader(),
+//   ),
+// ),
+         appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kAppBarSize.h),
+        //   //* info:: appBar
+          child: CustomAppBar(
+            hasBackButton: false,
+            title:  GestureDetector(
                       onTap: () {
                         Get.back();
                       },
                       child: Container(
+                        width: 90,
                         height: h32,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100.r),
@@ -51,27 +106,87 @@ class ProfileScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Expanded(
-                      child: SizedBox(),
-                    ),
-                    SvgPicture.asset(
+                    actions: [
+                       SvgPicture.asset(
                       kiVidflix,
                       width: h24.w,
                       height: h24.h,
                       color: cPrimaryColor2,
                     ),
                     kW4sizedBox,
-                    Text(
-                      ksVidflix.tr,
-                      style: semiBold20TextStyle(cWhiteColor),
+                    Center(
+                      child: Text(
+                        ksVidflix.tr,
+                        style: semiBold20TextStyle(cWhiteColor),
+                      ),
                     ),
-                  ],
-                ),
-                kH8sizedBox,
-                Divider(
-                  color: cWhiteColor.withOpacity(0.2),
-                ),
+                    kW12sizedBox,
+                    ],
+          ),
+          ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+          child: Obx(
+            () => Column(
+              children: [
                 kH40sizedBox,
+                // Row(
+                //   children: [
+                //     GestureDetector(
+                //       onTap: () {
+                //         Get.back();
+                //       },
+                //       child: Container(
+                //         height: h32,
+                //         decoration: BoxDecoration(
+                //           borderRadius: BorderRadius.circular(100.r),
+                //           color: cWhiteColor.withOpacity(0.2),
+                //         ),
+                //         child: Padding(
+                //           padding: const EdgeInsets.symmetric(
+                //               horizontal: k12Padding, vertical: k2Padding),
+                //           child: Row(
+                //             children: [
+                //               const Icon(
+                //                 Icons.arrow_back_ios,
+                //                 size: kIconSize12,
+                //                 color: cWhiteColor,
+                //               ),
+                //               kW4sizedBox,
+                //               Center(
+                //                   child: Text(
+                //                 ksProfile.tr,
+                //                 style: regular16TextStyle(cWhiteColor),
+                //               )),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     const Expanded(
+                //       child: SizedBox(),
+                //     ),
+                //     SvgPicture.asset(
+                //       kiVidflix,
+                //       width: h24.w,
+                //       height: h24.h,
+                //       color: cPrimaryColor2,
+                //     ),
+                //     kW4sizedBox,
+                //     Text(
+                //       ksVidflix.tr,
+                //       style: semiBold20TextStyle(cWhiteColor),
+                //     ),
+                //   ],
+                // ),
+               
+               
+                // kH8sizedBox,
+                // Divider(
+                //   color: cWhiteColor.withOpacity(0.2),
+                // ),
+                // kH40sizedBox,
                 profileController.profileImageFile.value == null
                     ? Center(
                         child: Stack(
@@ -375,6 +490,61 @@ class ProfileCommonWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class CustomBackHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Get.back();
+          },
+          child: Container(
+            height: h32,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(100.r),
+              color: cWhiteColor.withOpacity(0.2),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: k12Padding, vertical: k2Padding,
+              ),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.arrow_back_ios,
+                    size: kIconSize12,
+                    color: cWhiteColor,
+                  ),
+                  kW4sizedBox,
+                  Center(
+                    child: Text(
+                      ksProfile.tr,
+                      style: regular16TextStyle(cWhiteColor),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const Expanded(child: SizedBox()),
+        SvgPicture.asset(
+          kiVidflix,
+          width: h24.w,
+          height: h24.h,
+          color: cPrimaryColor2,
+        ),
+        kW4sizedBox,
+        Text(
+          ksVidflix.tr,
+          style: semiBold20TextStyle(cWhiteColor),
+        ),
+      ],
     );
   }
 }
