@@ -339,6 +339,9 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiMoney,
                   title: ksPaymentHistory.tr,
+                  onPressed: (){
+                    Get.toNamed(krPaymentHistoryScreen);
+                  },
                 ),
                 kH8sizedBox,
                 ProfileCommonWidget(
