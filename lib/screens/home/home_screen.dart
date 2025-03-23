@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
@@ -202,7 +201,7 @@ class HomeScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               Container(
-                                width: width*0.56,
+                                width: width*0.6,
                                 height: 24.h,
                                 decoration: BoxDecoration(
                                   color: cWhiteColor.withOpacity(0.3),
