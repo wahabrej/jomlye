@@ -325,6 +325,9 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiNotification,
                   title: ksNotification.tr,
+                  onPressed: (){
+                    Get.toNamed(krNotificationScreen);
+                  },
                 ),
                 kH8sizedBox,
                 ProfileCommonWidget(

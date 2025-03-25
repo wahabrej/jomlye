@@ -90,6 +90,9 @@ class DownloadListScreen extends StatelessWidget {
                           ["movieSize"],
                       movieTagList: profileController.downloadedMovieList[index]
                           ["movieTagList"],
+                          deleteonPressed: (){
+                showDeleteDownloadPopup(context);
+              },
                     );
                   },
                 ),
@@ -110,9 +113,10 @@ class CommonMovieListWidget extends StatelessWidget {
       this.movieTagList,
       required this.movieName,
       required this.movieDuration,
-      required this.movieSize});
+      required this.movieSize, this.deleteonPressed});
   final String movieImage, movieName, movieDuration, movieSize;
   final List? movieTagList;
+  final VoidCallback? deleteonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -171,8 +175,8 @@ class CommonMovieListWidget extends StatelessWidget {
                     label: movieSize,
                     onPressed: () {},
                     buttonColor: cPrimaryColor2,
-                    buttonWidth: 50.w,
-                    buttonHeight: 18.h,
+                    buttonWidth: 100.w,
+                    buttonHeight: 20.h,
                   ),
                 ],
               ),
@@ -184,9 +188,7 @@ class CommonMovieListWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             InkWell(
-              onTap: (){
-                showDeleteDownloadPopup(context);
-              },
+              onTap: deleteonPressed,
               child: Container(
                 width: h36.w,
                 height: h36.h,
