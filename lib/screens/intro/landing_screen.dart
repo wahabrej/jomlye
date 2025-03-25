@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -95,23 +94,28 @@ class LandingScreen extends StatelessWidget {
                       Positioned(
                         top: 25,
                         right: 20,
-                        child: Container(
-                          width: 75,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            color: cWhiteColor.withOpacity(0.1),
-                            // color: cPrimaryColor2,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Center(child: Text(ksSkip.tr,style: regular16TextStyle(cWhiteColor),)),
-                                 kW6sizedBox,
-                               const Icon(Icons.arrow_forward_ios,size: kIconSize14,color: cWhiteColor,),
-                            ],
-                          ),
-                          ),
+                        child: InkWell(
+                          onTap: (){
+                            Get.offAllNamed(krHomeScreen);
+                          },
+                          child: Container(
+                            width: 75,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              color: cWhiteColor.withOpacity(0.1),
+                              // color: cPrimaryColor2,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(child: Text(ksSkip.tr,style: regular16TextStyle(cWhiteColor),)),
+                                   kW6sizedBox,
+                                 const Icon(Icons.arrow_forward_ios,size: kIconSize14,color: cWhiteColor,),
+                              ],
+                            ),
+                            ),
+                        ),
                       ),
                      
           ],
