@@ -228,42 +228,9 @@ final String privacyPolicyUrl = "https://api.salebot.app/page/privacy-policy"; /
   void openPrivacyPolicy() {
     Get.to(() => CommonWebViewScreen()); //titleText: ksPrivacyPolicy.tr,urlLink: privacyPolicyUrl,isLoading: privacyIsLoading.value,webViewController: privacyWebViewController,
   }
-
-// late InAppWebViewController privacyWebViewController;
-//   final RxBool privacyIsLoading = RxBool(false);
-//   final String privacyPolicyUrl = "https://livedemo.salebot.app/page/privacy-policy";
-  
-//   ProfileController() {
-//     initializeController();
-//   }
-  
-//   Future<void> initializeController() async {
-//     await Future.delayed(const Duration(milliseconds: 500)); // Wait for WebView initialization
-    
-//     if (privacyWebViewController == null) {
-//       throw Exception('WebView controller failed to initialize');
-//     }
-    
-//     print('WebView controller initialized successfully');
-//   }
-  
-//   void openPrivacyPolicy() async {
-//     try {
-//       if (privacyWebViewController == null) {
-//         await initializeController();
-//       }
-      
-//       assert(privacyWebViewController != null);
-      
-//       Get.to(() => CommonWebViewScreen(
-//         titleText: ksPrivacyPolicy.tr,
-//         urlLink: privacyPolicyUrl,
-//         isLoading: privacyIsLoading.value,
-//         webViewController: privacyWebViewController,
-//       ));
-//     } catch (e) {
-//       print('Error opening privacy policy: $e');
-//       // Handle error appropriately
-//     }
-//   }
+  final RxBool generalNotificationState = RxBool(false);
+  final RxBool newReleaseState = RxBool(false);
+  final RxBool paymentNotificationState = RxBool(false);
+  final RxBool appUpdateState = RxBool(false);
+  final RxBool subscriptionState = RxBool(false);
 }

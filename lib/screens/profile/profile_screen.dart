@@ -396,7 +396,9 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiSettings,
                   title: ksSettings.tr,
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.toNamed(krSettingsScreen);
+                  },
                 ),
                 kH16sizedBox,
                 Divider(

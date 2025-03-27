@@ -22,6 +22,8 @@ import 'package:vidflix_flutter_app/screens/profile/payment_history_screen.dart'
 import 'package:vidflix_flutter_app/screens/profile/payment_method_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/payment_success_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/profile_screen.dart';
+import 'package:vidflix_flutter_app/screens/profile/settings/manage_notification_screen.dart';
+import 'package:vidflix_flutter_app/screens/profile/settings/settings_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/subscription_plan_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/screens/intro/splash_screen.dart';
@@ -42,6 +44,12 @@ const String krLanguageScreen = "/language-screen";
 const String krSubscriptionPlanScreen = "/subscription-plan-screen";
 const String krPaymentHistoryScreen = "/payment-history-screen";
 const String krNotificationScreen = "/notification-screen";
+const String krFavoriteScreen = '/favorite-screen';
+const String krPaymentMethodScreen = '/payment-method-screen';
+const String krPaymentSuccessScreen = '/payment-success-screen';
+const String krDownloadListScreen = '/download-list-screen';
+const String krSettingsScreen = '/settings-screen';
+const String krManageNotificationScreen = '/manage-notification-screen';
 //*Home
 const String krHomeScreen = '/home-screen';
 const String krMovieViewAllScreen = '/movie-viewall-screen';
@@ -51,10 +59,6 @@ const String krAllBlogsViewAllScreen = '/allblogs-viewall-screen';
 const String krBlogSingleScreen = '/blog-single-screen';
 const String krSearchScreen = '/search-screen';
 const String krCastDetailsScreen = '/cast-details-screen';
-const String krFavoriteScreen = '/favorite-screen';
-const String krPaymentMethodScreen = '/payment-method-screen';
-const String krPaymentSuccessScreen = '/payment-success-screen';
-const String krDownloadListScreen = '/download-list-screen';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -74,6 +78,13 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krSubscriptionPlanScreen, page: () => SubscriptionPlanScreen(), transition: Transition.noTransition),
    GetPage(name: krPaymentHistoryScreen, page: () => PaymentHistoryScreen(), transition: Transition.noTransition),
    GetPage(name: krNotificationScreen, page: () => NotificationScreen(), transition: Transition.noTransition),
+   GetPage(name: krFavoriteScreen, page: () => FavoriteScreen(), transition: Transition.noTransition),
+   GetPage(name: krPaymentMethodScreen, page: () => PaymentMethodScreen(), transition: Transition.noTransition),
+   GetPage(name: krPaymentSuccessScreen, page: () => PaymentSuccessScreen(), transition: Transition.noTransition),
+   GetPage(name: krDownloadListScreen, page: () => DownloadListScreen(), transition: Transition.noTransition),
+   GetPage(name: krDownloadListScreen, page: () => DownloadListScreen(), transition: Transition.noTransition),
+   GetPage(name: krSettingsScreen, page: () => SettingsScreen(), transition: Transition.noTransition),
+   GetPage(name: krManageNotificationScreen, page: () => ManageNotificationScreen(), transition: Transition.noTransition),
    //*Home 
    GetPage(name: krHomeScreen, page: () => HomeScreen(), transition: Transition.noTransition),
    GetPage(name: krMovieViewAllScreen, page: () => MovieViewAllScreen(), transition: Transition.noTransition),
@@ -83,9 +94,5 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krBlogSingleScreen, page: () => BlogSingleScreen(), transition: Transition.noTransition),
    GetPage(name: krSearchScreen, page: () => SearchScreen(), transition: Transition.noTransition),
    GetPage(name: krCastDetailsScreen, page: () => CastDetailsScreen(), transition: Transition.noTransition),
-   GetPage(name: krFavoriteScreen, page: () => FavoriteScreen(), transition: Transition.noTransition),
-   GetPage(name: krPaymentMethodScreen, page: () => PaymentMethodScreen(), transition: Transition.noTransition),
-   GetPage(name: krPaymentSuccessScreen, page: () => PaymentSuccessScreen(), transition: Transition.noTransition),
-   GetPage(name: krDownloadListScreen, page: () => DownloadListScreen(), transition: Transition.noTransition),
 
 ];
