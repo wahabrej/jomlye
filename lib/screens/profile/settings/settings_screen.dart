@@ -77,11 +77,11 @@ class SettingsScreen extends StatelessWidget {
                     },
                   ),
                   kH16sizedBox,
-                            ProfileCommonWidget(
+                    ProfileCommonWidget(
                     image: kiDownload,
                     title: ksManageDownload.tr,
                     onPressed: () {
-                      // Get.toNamed(krSettingsScreen);
+                      Get.toNamed(krManageDownloadScreen);
                     },
                   ),
           ],

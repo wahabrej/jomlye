@@ -233,4 +233,5 @@ final String privacyPolicyUrl = "https://api.salebot.app/page/privacy-policy"; /
   final RxBool paymentNotificationState = RxBool(false);
   final RxBool appUpdateState = RxBool(false);
   final RxBool subscriptionState = RxBool(false);
+  final RxBool wifiOnlyState = RxBool(false);
 }

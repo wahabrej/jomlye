@@ -151,3 +151,6 @@ const String ksGeneralNotification = "General Notification";
 const String ksPaymentNotification = "Payment Notification";
 const String ksAppUpdate = "App Update";
 const String ksSubscription= "Subscription";
+const String ksWifiOnly= "Wifi Only";
+const String ksVideoQuality= "Video Quality";
+const String ksDeleteAllDownload = "Delete All Download";
