@@ -1,5 +1,6 @@
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
+import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
@@ -412,6 +413,9 @@ class ProfileScreen extends StatelessWidget {
                   image: kiLogout,
                   title: ksLogout.tr,
                   containerColor: cPrimaryColor2,
+                  onPressed: (){
+                    showLogoutPopup(context);
+                  },
                 ),
                 kH8sizedBox,
                 Text(
@@ -510,6 +514,7 @@ class ProfileCommonWidget extends StatelessWidget {
 }
 
 class CustomBackHeader extends StatelessWidget {
+  const CustomBackHeader({super.key});
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -562,4 +567,75 @@ class CustomBackHeader extends StatelessWidget {
       ],
     );
   }
+}
+
+
+
+void showLogoutPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        insetPadding: const EdgeInsets.symmetric(horizontal: k20Padding),
+        backgroundColor: cBlackColor2,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: k20Padding, vertical: k30Padding),
+          width: width.w,
+          decoration: BoxDecoration(
+            color: cBlackColor2,
+            borderRadius: BorderRadius.circular(k16BorderRadius.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: h36.w,
+                    height: h36.h,
+                    decoration: BoxDecoration(
+                      color: cWhiteColor.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(k10Padding),
+                      child: SvgPicture.asset(kiLogout,color: cWhiteColor,),
+                    ),
+                  ),
+                  kW12sizedBox,
+                   Text(
+                ksLogout.tr,
+                style: semiBold18TextStyle(cWhiteColor),
+              ),
+              const Expanded(child: SizedBox()),
+               InkWell(
+                onTap: (){
+                  Get.back();
+                },
+                child: const Icon(Icons.close,size: kIconSize20,color: cWhiteColor,)),
+                ],
+              ),
+              kH8sizedBox,
+              Divider(
+              thickness: 1,
+              color: cWhiteColor.withOpacity(0.1),
+            ),
+             kH8sizedBox,
+             Text(ksAreYouSureYouWantToLogoutNow.tr,style: regular16TextStyle(cWhiteColor),),
+             kH16sizedBox,
+             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+             CustomElevatedButton(label: ksCancel.tr, onPressed: (){Get.back();},buttonWidth: 72.w,buttonHeight: 36.h,buttonColor: cWhiteColor.withOpacity(0.2),),
+             kW12sizedBox,
+             CustomElevatedButton(label: ksLogout.tr, onPressed: (){Get.offAllNamed(krSignInScreen);},buttonWidth: 72.w,buttonHeight: 36.h,buttonColor: cPrimaryColor2,),
+              ],
+             ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

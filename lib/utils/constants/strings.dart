@@ -146,6 +146,7 @@ const String ksAreYouSureYouDeleteAllVideo = "Are you sure you want to delete al
 const String ksDeleteNotification = "Delete Notification";
 const String ksAreYouSureYouDeleteThisNotification = "Are you sure you want to delete this notification from list?";
 const String ksDelete = "Delete";
+const String ksAreYouSureYouWantToLogoutNow = "Are you sure you want to logout now?";
 const String ksManageNotification = "Manage Notification";
 const String ksManageDownload = "Manage Download";
 const String ksGeneralNotification = "General Notification";

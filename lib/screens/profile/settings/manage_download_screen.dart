@@ -183,7 +183,7 @@ void showDeleteAllPopup(BuildContext context) {
               color: cWhiteColor.withOpacity(0.1),
              ),
              kH8sizedBox,
-             Text(ksAreYouSureYouDeleteAllVideo,style: regular16TextStyle(cWhiteColor),),
+             Text(ksAreYouSureYouDeleteAllVideo.tr,style: regular16TextStyle(cWhiteColor),),
              kH16sizedBox,
              Row(
               mainAxisAlignment: MainAxisAlignment.end,
