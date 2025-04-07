@@ -183,7 +183,7 @@ class CommonMovieListWidget extends StatelessWidget {
             ],
           ),
         ),
-        kW20sizedBox,
+        kW12sizedBox,
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

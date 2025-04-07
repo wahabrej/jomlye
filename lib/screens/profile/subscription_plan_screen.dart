@@ -56,7 +56,7 @@ class SubscriptionPlanScreen extends StatelessWidget {
                           ),
                           SvgPicture.asset(
                             kiVidflix,
-                            width: h24.w,
+                            width: 24.w,
                             height: h24.h,
                             color: cPrimaryColor2,
                           ),
@@ -79,7 +79,7 @@ class SubscriptionPlanScreen extends StatelessWidget {
                         color: cWhiteColor.withOpacity(0.2),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: k20Padding,vertical: k30Padding),
+                        padding: const EdgeInsets.symmetric(horizontal: k10Padding,vertical: k20Padding), //* in figma: padding: const EdgeInsets.symmetric(horizontal: k20Padding,vertical: k30Padding),
                         child: Row(
                           children: [
                             Container(
@@ -96,7 +96,6 @@ class SubscriptionPlanScreen extends StatelessWidget {
                             ),
                             kW12sizedBox,
                             Text("You enrolled free plan!",style: medium16TextStyle(cWhiteColor),),
-                            // kW36sizedBox,
                             const Expanded(child: SizedBox()),
                             Container(
                               decoration: BoxDecoration(
