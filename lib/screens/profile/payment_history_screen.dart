@@ -94,7 +94,7 @@ class PaymentHistoryScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: 6,//!remove it when real data
                   itemBuilder: (context, index) {
-                    return PaymentHistoryWidget(
+                    return const PaymentHistoryWidget(
                         image: kiCrown,
                         packageName: "Basic Plan",
                         transactionId: "Transaction ID: DCB54DO",
@@ -149,31 +149,34 @@ class PaymentHistoryWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Basic Plan",
+                  packageName,
                   style: medium16TextStyle(cWhiteColor),
                 ),
                 kH6sizedBox,
                 Text(
-                  "Transaction ID: DCB54DO",
+                  transactionId,
                   style: regular12TextStyle(cWhiteColor),
                 ),
               ],
             ),
-            const Expanded(child: SizedBox()),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(
-                  "\$20.00",
-                  style: medium16TextStyle(cPrimaryColor2),
-                ),
-                kH6sizedBox,
-                Text(
-                  "18/02/2025, 04:23 am",
-                  style: regular12TextStyle(cWhiteColor),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
+            // const Expanded(child: SizedBox()),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    price,
+                    style: medium16TextStyle(cPrimaryColor2),
+                     overflow: TextOverflow.ellipsis,
+                  ),
+                  kH6sizedBox,
+                  Text(
+                    dateTime,
+                    style: regular12TextStyle(cWhiteColor),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
             const Icon(
               Icons.arrow_forward_ios_rounded,

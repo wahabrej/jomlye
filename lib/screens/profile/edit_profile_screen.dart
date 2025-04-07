@@ -2,7 +2,7 @@ import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
+import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_app_bar.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class EditProfileScreen extends StatelessWidget {
@@ -15,29 +15,68 @@ class EditProfileScreen extends StatelessWidget {
       top: false,
       child: Scaffold(
         backgroundColor: cBlackColor,
+        appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kAppBarSize.h),
+        //* info:: appBar
+        child: CustomAppBar(
+          hasBackButton: false,
+          title: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Container(
+              width: 80.w,
+              height: h32,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100.r),
+                color: cWhiteColor.withOpacity(0.2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: k12Padding, vertical: k2Padding),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.arrow_back_ios,
+                      size: kIconSize12,
+                      color: cWhiteColor,
+                    ),
+                    kW4sizedBox,
+                    Center(
+                        child: Text(
+                      ksBack.tr,
+                      style: regular16TextStyle(cWhiteColor),
+                    )),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
         body: Obx(() => Padding(
                   padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                   child: SingleChildScrollView(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        kH24sizedBox,
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            CustomElevatedButton(
-                                label: ksBack,
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                prefixIcon: Icons.arrow_back_ios,
-                                prefixIconColor: cWhiteColor,
-                                buttonWidth: 80,
-                                buttonHeight: 32,
-                                buttonColor: cWhiteColor.withOpacity(0.1),
-                        isCircularHead: true),
-                  ],
-                ),
+                //         kH24sizedBox,
+                //         Row(
+                //           mainAxisAlignment: MainAxisAlignment.start,
+                //           children: [
+                //             CustomElevatedButton(
+                //                 label: ksBack,
+                //                 onPressed: () {
+                //                   Get.back();
+                //                 },
+                //                 prefixIcon: Icons.arrow_back_ios,
+                //                 prefixIconColor: cWhiteColor,
+                //                 buttonWidth: 80,
+                //                 buttonHeight: 32,
+                //                 buttonColor: cWhiteColor.withOpacity(0.1),
+                //         isCircularHead: true),
+                //   ],
+                // ),
                 kH20sizedBox,
                 Text(
                   ksFillYourProfile,
