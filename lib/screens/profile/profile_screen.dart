@@ -1,6 +1,5 @@
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_app_bar.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
@@ -357,6 +356,9 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiAdd,
                   title: ksPlaylist.tr,
+                  onPressed: (){
+                    Get.toNamed(krPlayListScreen);
+                  },
                 ),
                 kH8sizedBox,
                 ProfileCommonWidget(

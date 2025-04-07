@@ -42,6 +42,7 @@ const String kiCheck = "assets/svgs/profile/check.svg";
 const String kiActiveCheck = "assets/svgs/profile/active_check.svg";
 const String kiCheck2 = "assets/svgs/profile/check2.svg";
 const String kiDelete = "assets/svgs/profile/delete.svg";
+const String kiPlay = "assets/svgs/play.svg";
 //* images
 const String kiGallery = "assets/images/gallery.png";
 const String kiEditProfile = "assets/images/edit_profile.png";
