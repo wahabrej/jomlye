@@ -234,4 +234,26 @@ final String privacyPolicyUrl = "https://api.salebot.app/page/privacy-policy"; /
   final RxBool appUpdateState = RxBool(false);
   final RxBool subscriptionState = RxBool(false);
   final RxBool wifiOnlyState = RxBool(false);
+  final RxList<Map<String,dynamic>> videoQualityList = RxList<Map<String,dynamic>>([
+    {
+      "quality": "1080p",
+      "state": true,
+    },
+    {
+      "quality": "720p",
+      "state": false,
+    },
+    {
+      "quality": "440p",
+      "state": false,
+    },
+    {
+      "quality": "240p",
+      "state": false,
+    },
+    {
+      "quality": "144p",
+      "state": false,
+    },
+  ]);
 }

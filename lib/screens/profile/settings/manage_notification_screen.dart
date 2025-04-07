@@ -1,5 +1,4 @@
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_app_bar.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class ManageNotificationScreen extends StatelessWidget {
