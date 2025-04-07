@@ -84,6 +84,7 @@ class OTPScreen extends StatelessWidget {
                               if(authController
                                 .otpTextEditingController.text.length==6){
                                    authController.resetAuth();
+                                  Get.toNamed(krResetPasswordScreen);
                                   showSnackBar(title: "Success", message: "Successfully verified!", color: cGreenColor);
                                 }
                             },

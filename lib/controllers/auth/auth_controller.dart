@@ -22,6 +22,11 @@ class AuthController extends GetxController {
     //*otp
       final TextEditingController otpTextEditingController = TextEditingController();
 
+   //* Create new password
+    final TextEditingController newPasswordTextEditingController = TextEditingController();
+    final TextEditingController confirmNewPasswordTextEditingController = TextEditingController();
+
+
 
     final RxBool isPasswordShow = RxBool(false);
     final RxBool isConfirmPasswordShow = RxBool(false);
