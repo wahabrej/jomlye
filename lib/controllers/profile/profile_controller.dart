@@ -256,4 +256,10 @@ final String privacyPolicyUrl = "https://api.salebot.app/page/privacy-policy"; /
       "state": false,
     },
   ]);
+  final TextEditingController oldPasswordTextEditingController = TextEditingController();
+  final TextEditingController newPasswordTextEditingController = TextEditingController();
+  final TextEditingController confirmNewPasswordTextEditingController = TextEditingController();
+  final RxBool isOldPasswordShow = RxBool(false);
+  final RxBool isNewPasswordShow = RxBool(false);
+  final RxBool isConfirmNewPasswordShow = RxBool(false);
 }

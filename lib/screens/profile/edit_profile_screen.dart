@@ -2,7 +2,6 @@ import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_app_bar.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class EditProfileScreen extends StatelessWidget {

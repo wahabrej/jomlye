@@ -310,6 +310,9 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiLock,
                   title: ksChangePassword.tr,
+                  onPressed: (){
+                    Get.toNamed(krChangePasswordScreen);
+                  },
                 ),
                 kH8sizedBox,
                 ProfileCommonWidget(
