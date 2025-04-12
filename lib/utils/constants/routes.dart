@@ -17,6 +17,7 @@ import 'package:vidflix_flutter_app/screens/intro/landing_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/change_password_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/download_list_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
+import 'package:vidflix_flutter_app/screens/profile/faq_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/favorite_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/language_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/notification_screen.dart';
@@ -60,6 +61,7 @@ const String krManageDownloadScreen = '/manage-download-screen';
 const String krVideoQualityScreen = '/video-quality-screen';
 const String krPlayListScreen = '/playlist-screen';
 const String krChangePasswordScreen = '/change-password-screen';
+const String krFaqScereen = '/faq-screen';
 
 //*Home
 const String krHomeScreen = '/home-screen';
@@ -101,6 +103,7 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krVideoQualityScreen, page: () => VideoQualityScreen(), transition: Transition.noTransition),
    GetPage(name: krPlayListScreen, page: () => PlayListScreen(), transition: Transition.noTransition),
    GetPage(name: krChangePasswordScreen, page: () => ChangePasswordScreen(), transition: Transition.noTransition),
+   GetPage(name: krFaqScereen, page: () => FAQScreen(), transition: Transition.noTransition),
    //*Home 
    GetPage(name: krHomeScreen, page: () => HomeScreen(), transition: Transition.noTransition),
    GetPage(name: krMovieViewAllScreen, page: () => MovieViewAllScreen(), transition: Transition.noTransition),

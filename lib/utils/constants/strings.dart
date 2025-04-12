@@ -157,3 +157,5 @@ const String ksWifiOnly= "Wifi Only";
 const String ksVideoQuality= "Video Quality";
 const String ksDeleteAllDownload = "Delete All Download";
 const String ksDeleteAll = "Delete All";
+const String ksFrequentlyAskedQuestions = "Frequently Asked Questions";
+const String ksPurchaseAndPayment = "Purchase & Payment";
