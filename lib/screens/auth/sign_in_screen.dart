@@ -156,8 +156,6 @@ class SignInScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomCheckBox(
-                                  // width: 60,
-                                  // height: 30,
                                   value: authController
                                       .isRememberMe.value,
                                   label: ksRememberMe.tr,

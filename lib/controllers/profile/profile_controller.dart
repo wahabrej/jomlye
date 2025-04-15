@@ -311,4 +311,11 @@ class ProfileController extends GetxController {
     },
   ]);
   final RxInt selectedFaqIndex = RxInt(0);
+  // final TextEditingController fullNameTextEditingController2 = TextEditingController();
+    final TextEditingController emailTextEditingController =
+      TextEditingController();
+    final TextEditingController subjectTextEditingController =
+      TextEditingController();
+    final TextEditingController messageTextEditingController =
+      TextEditingController();
 }

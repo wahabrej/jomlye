@@ -336,12 +336,16 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiContactUs,
                   title: ksContactUs.tr,
+                     onPressed: (){
+                    Get.toNamed(krContactUsScreen);
+                  },
                 ),
                 kH8sizedBox,
                 ProfileCommonWidget(
                   image: kiFaq,
                   title: ksFaq.tr,
                   onPressed: (){
+                    profileController.selectedFaqIndex.value = -1;
                     Get.toNamed(krFaqScereen);
                   },
                 ),
