@@ -1,4 +1,5 @@
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
@@ -186,7 +187,6 @@ class ContactUsScreen extends StatelessWidget {
               ),
               kH8sizedBox,
               SizedBox(
-                // height: 46,
                 child: CustomModifiedTextField(
                   hint: ksWriteYourMessage.tr,
                   controller: profileController.messageTextEditingController,
@@ -212,6 +212,13 @@ class ContactUsScreen extends StatelessWidget {
                   ),
                   contentPadding: const EdgeInsets.all(12),
                 ),
+              ),
+              kH20sizedBox,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomElevatedButton(label: ksSend.tr, onPressed: (){},buttonColor: cPrimaryColor2,buttonWidth: 120.w,),
+                ],
               ),
             ],
           ),
