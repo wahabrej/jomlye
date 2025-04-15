@@ -19,7 +19,7 @@ class FAQScreen extends StatelessWidget {
               Get.back();
             },
             child: Container(
-              width: 220.w,
+              width: 200.w,
               height: h32,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100.r),
@@ -36,11 +36,15 @@ class FAQScreen extends StatelessWidget {
                       color: cWhiteColor,
                     ),
                     kW4sizedBox,
-                    Center(
-                        child: Text(
-                      ksFrequentlyAskedQuestions.tr,
-                      style: regular16TextStyle(cWhiteColor),
-                    )),
+                    SizedBox(
+                      width: 160.w,
+                      child: Center(
+                          child: Text(
+                        ksFrequentlyAskedQuestions.tr,
+                        style: regular16TextStyle(cWhiteColor),
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                    ),
                   ],
                 ),
               ),
@@ -106,12 +110,16 @@ class FAQScreen extends StatelessWidget {
                                            padding: const EdgeInsets.only(top: k20Padding,right: k20Padding,left: k20Padding),
                                            child: Row(
                                              children: [
-                                               Text(
-                                                profileController
-                                                        .faqPurchaseAndPayment[index]
-                                                    ["question"],
-                                                style: medium16TextStyle(cWhiteColor),
-                                                ),
+                                               SizedBox(
+                                                width: width-101,
+                                                 child: Text(
+                                                  profileController
+                                                          .faqPurchaseAndPayment[index]
+                                                      ["question"],
+                                                  style: medium16TextStyle(cWhiteColor),
+                                                  overflow: TextOverflow.clip,
+                                                  ),
+                                               ),
                                              const Expanded(child: SizedBox(),),
                                               Padding(
                                                padding: const EdgeInsets.only(bottom: k10Padding),
@@ -133,7 +141,7 @@ class FAQScreen extends StatelessWidget {
                                               padding: const EdgeInsets.only(left: k20Padding,right: k20Padding,bottom: k20Padding,top: k16Padding),
                                               child: SizedBox(
                                                 width: width-105,
-                                                child: Text( profileController
+                                                child: Text(profileController
                                                               .faqPurchaseAndPayment[index]
                                                           ["answer"],style: regular14TextStyle(cWhiteColor.withOpacity(0.7),),),
                                               ),
