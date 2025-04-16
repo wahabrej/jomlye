@@ -32,6 +32,7 @@ import 'package:vidflix_flutter_app/screens/profile/settings/manage_notification
 import 'package:vidflix_flutter_app/screens/profile/settings/settings_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/settings/video_quality_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/subscription_plan_screen.dart';
+import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/screens/intro/splash_screen.dart';
 //*intro
@@ -75,6 +76,9 @@ const String krBlogSingleScreen = '/blog-single-screen';
 const String krSearchScreen = '/search-screen';
 const String krCastDetailsScreen = '/cast-details-screen';
 
+//*Video Player Screen
+const String krVideoPlayerScreen = '/video-player-screen';
+
 
 List<GetPage<dynamic>>? routes = [
   GetPage(name: krSplashScreen, page: () => const SplashScreen(), transition: Transition.noTransition),
@@ -116,5 +120,8 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krBlogSingleScreen, page: () => BlogSingleScreen(), transition: Transition.noTransition),
    GetPage(name: krSearchScreen, page: () => SearchScreen(), transition: Transition.noTransition),
    GetPage(name: krCastDetailsScreen, page: () => CastDetailsScreen(), transition: Transition.noTransition),
+
+   //* video player
+   GetPage(name: krVideoPlayerScreen, page: () => VideoPlayerScreen(), transition: Transition.noTransition),
 
 ];

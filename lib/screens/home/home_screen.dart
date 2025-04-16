@@ -1,5 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flick_video_player/flick_video_player.dart';
+import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
+import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
@@ -36,8 +39,7 @@ class HomeScreen extends StatelessWidget {
                         height: 34.h,
                         child: ListView.separated(
                           itemCount: homeController.genreList.length,
-                          separatorBuilder: (context, index) =>
-                              kW8sizedBox,
+                          separatorBuilder: (context, index) => kW8sizedBox,
                           shrinkWrap: true,
                           physics: const AlwaysScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
@@ -49,7 +51,8 @@ class HomeScreen extends StatelessWidget {
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: homeController.selectedGenre.value ==
+                                      color: homeController
+                                                  .selectedGenre.value ==
                                               homeController.genreList[index]
                                           ? cPrimaryColor2
                                           : cWhiteColor.withOpacity(0.1),
@@ -62,7 +65,8 @@ class HomeScreen extends StatelessWidget {
                                       child: Center(
                                         child: Text(
                                           homeController.genreList[index],
-                                          style: regular14TextStyle(cWhiteColor),
+                                          style:
+                                              regular14TextStyle(cWhiteColor),
                                           textAlign: TextAlign.center,
                                           overflow: TextOverflow.clip,
                                         ),
@@ -80,112 +84,133 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksNewRelease.tr,
                   subtitleText: ksViewAll,
-                  onPressed: (){
+                  onPressed: () {
                     homeController.selectedTitle.value = ksNewRelease;
                     Get.toNamed(krMovieViewAllScreen);
                   },
                 ),
                 kH16sizedBox,
-                 Padding(
-                                  padding: const EdgeInsets.only(left: k20Padding),
-                                  child: Row(
-                children: [
-                  SizedBox(
-                    width: width - 20,
-                    height: 150.h,
-                    child: ListView.separated(
-                      itemCount: homeController.recentMovieList.length,
-                      separatorBuilder: (context, index) =>
-                          kW8sizedBox,
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return MovieContentContainer(
-                          movieImage: homeController.recentMovieList[index]["movieImage"],
-                          seasonName: homeController.recentMovieList[index]["season"],
-                          isPremium: homeController.recentMovieList[index]["isPremium"],
-                          isSeason: homeController.recentMovieList[index]["isSeason"],
-                        );
-                      },
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: k20Padding),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: width - 20,
+                        height: 150.h,
+                        child: ListView.separated(
+                          itemCount: homeController.recentMovieList.length,
+                          separatorBuilder: (context, index) => kW8sizedBox,
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                const String videoUrl =
+                                    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4";
+                                Get.find<AllVideoPlayerController>()
+                                    .flickManager = FlickManager(
+                                  videoPlayerController:
+                                      VideoPlayerController.network(videoUrl),
+                                );
+                                Get.toNamed(krVideoPlayerScreen);
+                              },
+                              child: MovieContentContainer(
+                                movieImage: homeController
+                                    .recentMovieList[index]["movieImage"],
+                                seasonName: homeController
+                                    .recentMovieList[index]["season"],
+                                isPremium: homeController.recentMovieList[index]
+                                    ["isPremium"],
+                                isSeason: homeController.recentMovieList[index]
+                                    ["isSeason"],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-                                  ),
-                                ),
-                                  kH16sizedBox,
+                ),
+                kH16sizedBox,
                 HomeTitleContent(
                   title: ksTrendingMovies.tr,
                   subtitleText: ksViewAll,
-                          onPressed: (){
+                  onPressed: () {
                     homeController.selectedTitle.value = ksTrendingMovies;
                     Get.toNamed(krMovieViewAllScreen);
                   },
                 ),
                 kH16sizedBox,
-                 Padding(
-                                  padding: const EdgeInsets.only(left: k20Padding),
-                                  child: Row(
-                children: [
-                  SizedBox(
-                    width: width - 20,
-                    height: 150.h,
-                    child: ListView.separated(
-                      itemCount: homeController.trendingMoviesList.length,
-                      separatorBuilder: (context, index) =>
-                          kW8sizedBox,
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return MovieContentContainer(
-                          movieImage: homeController.trendingMoviesList[index]["movieImage"],
-                          seasonName: homeController.trendingMoviesList[index]["season"],
-                          isPremium: homeController.trendingMoviesList[index]["isPremium"],
-                          isSeason: homeController.trendingMoviesList[index]["isSeason"],
-                        );
-                      },
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: k20Padding),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: width - 20,
+                        height: 150.h,
+                        child: ListView.separated(
+                          itemCount: homeController.trendingMoviesList.length,
+                          separatorBuilder: (context, index) => kW8sizedBox,
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return MovieContentContainer(
+                              movieImage: homeController
+                                  .trendingMoviesList[index]["movieImage"],
+                              seasonName: homeController
+                                  .trendingMoviesList[index]["season"],
+                              isPremium: homeController
+                                  .trendingMoviesList[index]["isPremium"],
+                              isSeason: homeController.trendingMoviesList[index]
+                                  ["isSeason"],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-                ),
                 ),
                 kH16sizedBox,
-                     HomeTitleContent(
+                HomeTitleContent(
                   title: ksPopularTvShows.tr,
                   subtitleText: ksViewAll,
-                    onPressed: (){
+                  onPressed: () {
                     homeController.selectedTitle.value = ksPopularTvShows;
                     Get.toNamed(krMovieViewAllScreen);
                   },
                 ),
                 kH16sizedBox,
-                 Padding(
-                                  padding: const EdgeInsets.only(left: k20Padding),
-                                  child: Row(
-                children: [
-                  SizedBox(
-                    width: width - 20,
-                    height: 150.h,
-                    child: ListView.separated(
-                      itemCount: homeController.trendingMoviesList.length,
-                      separatorBuilder: (context, index) =>
-                          kW8sizedBox,
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return MovieContentContainer(
-                          movieImage: homeController.trendingMoviesList[index]["movieImage"],
-                          seasonName: homeController.trendingMoviesList[index]["season"],
-                          isPremium: homeController.trendingMoviesList[index]["isPremium"],
-                          isSeason: homeController.trendingMoviesList[index]["isSeason"],
-                        );
-                      },
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: k20Padding),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: width - 20,
+                        height: 150.h,
+                        child: ListView.separated(
+                          itemCount: homeController.trendingMoviesList.length,
+                          separatorBuilder: (context, index) => kW8sizedBox,
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return MovieContentContainer(
+                              movieImage: homeController
+                                  .trendingMoviesList[index]["movieImage"],
+                              seasonName: homeController
+                                  .trendingMoviesList[index]["season"],
+                              isPremium: homeController
+                                  .trendingMoviesList[index]["isPremium"],
+                              isSeason: homeController.trendingMoviesList[index]
+                                  ["isSeason"],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-                ),
                 ),
                 kH20sizedBox,
                 Padding(
@@ -193,268 +218,325 @@ class HomeScreen extends StatelessWidget {
                   child: Stack(
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(k6BorderRadius),
-                        child: Image.network("https://i.ytimg.com/vi/Le_aY-4FJ7E/maxresdefault.jpg",width: width-40,height: 210.h,fit: BoxFit.cover,)),
-                        Positioned(
-                          top: 60,
-                          right: width*0.15,
-                          child: Column(
-                            children: [
-                              Container(
-                                width: width*0.6,
-                                height: 24.h,
-                                decoration: BoxDecoration(
-                                  color: cWhiteColor.withOpacity(0.3),
-                                  borderRadius: BorderRadius.circular(100.r),
-                                ),
-                                child: Padding(
-                                  padding:  EdgeInsets.symmetric(horizontal: 6.w,vertical: 3.h),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                     Row(
+                          borderRadius: BorderRadius.circular(k6BorderRadius),
+                          child: Image.network(
+                            "https://i.ytimg.com/vi/Le_aY-4FJ7E/maxresdefault.jpg",
+                            width: width - 40,
+                            height: 210.h,
+                            fit: BoxFit.cover,
+                          )),
+                      Positioned(
+                        top: 60,
+                        right: width * 0.15,
+                        child: Column(
+                          children: [
+                            Container(
+                              width: width * 0.6,
+                              height: 24.h,
+                              decoration: BoxDecoration(
+                                color: cWhiteColor.withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(100.r),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 6.w, vertical: 3.h),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
                                       children: [
-                                        const Icon(Icons.star,color: cPrimaryColor2,size: kIconSize20,),
-                                      kW6sizedBox,
-                                      Text("4.6",style: regular12TextStyle(cWhiteColor),),
-                                      kW6sizedBox,
-                                      VerticalDivider(
-                                        width: 1,
-                                        thickness: 1,
-                                        color: cWhiteColor.withOpacity(0.5),
-                                      ),
+                                        const Icon(
+                                          Icons.star,
+                                          color: cPrimaryColor2,
+                                          size: kIconSize20,
+                                        ),
+                                        kW6sizedBox,
+                                        Text(
+                                          "4.6",
+                                          style:
+                                              regular12TextStyle(cWhiteColor),
+                                        ),
+                                        kW6sizedBox,
+                                        VerticalDivider(
+                                          width: 1,
+                                          thickness: 1,
+                                          color: cWhiteColor.withOpacity(0.5),
+                                        ),
                                       ],
-                                     ),
-                                           Row(
+                                    ),
+                                    Row(
                                       children: [
-                                        const Icon(Icons.access_time_filled_sharp,color: cPrimaryColor2,size: kIconSize20,),
-                                      kW6sizedBox,
-                                      Text("2 hr 30 mins",style: regular12TextStyle(cWhiteColor),),
-                                      kW6sizedBox,
-                                      VerticalDivider(
-                                        width: 1,
-                                        thickness: 1,
-                                        color: cWhiteColor.withOpacity(0.5),
-                                      ),
+                                        const Icon(
+                                          Icons.access_time_filled_sharp,
+                                          color: cPrimaryColor2,
+                                          size: kIconSize20,
+                                        ),
+                                        kW6sizedBox,
+                                        Text(
+                                          "2 hr 30 mins",
+                                          style:
+                                              regular12TextStyle(cWhiteColor),
+                                        ),
+                                        kW6sizedBox,
+                                        VerticalDivider(
+                                          width: 1,
+                                          thickness: 1,
+                                          color: cWhiteColor.withOpacity(0.5),
+                                        ),
                                       ],
-                                     ),
-                                           Row(
+                                    ),
+                                    Row(
                                       children: [
-                                         const Icon(Icons.calendar_today_outlined,color: cPrimaryColor2,size: kIconSize20,),
-                                      kW6sizedBox,
-                                      Text("2024",style: regular12TextStyle(cWhiteColor),),
+                                        const Icon(
+                                          Icons.calendar_today_outlined,
+                                          color: cPrimaryColor2,
+                                          size: kIconSize20,
+                                        ),
+                                        kW6sizedBox,
+                                        Text(
+                                          "2024",
+                                          style:
+                                              regular12TextStyle(cWhiteColor),
+                                        ),
                                       ],
-                                     ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              Text("3 idiots",style: TextStyle(fontSize: 32,fontWeight: FontWeight.w700,color: cWhiteColor),),
-                              Container(
-                                width: 46.w,
-                                height: 46.h,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: cPrimaryColor2,
-                                ),
-                                child: const Icon(Icons.play_arrow,size: kIconSize28,color: cWhiteColor,),
+                            ),
+                            const Text(
+                              "3 idiots",
+                              style: TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w700,
+                                  color: cWhiteColor),
+                            ),
+                            Container(
+                              width: 46.w,
+                              height: 46.h,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: cPrimaryColor2,
                               ),
-                            ],
-                          ),
+                              child: const Icon(
+                                Icons.play_arrow,
+                                size: kIconSize28,
+                                color: cWhiteColor,
+                              ),
+                            ),
+                          ],
                         ),
+                      ),
                     ],
                   ),
                 ),
                 kH16sizedBox,
-                               Padding(
-                                  padding: const EdgeInsets.only(left: k20Padding),
-                                  child: Row(
-                children: [
-                  SizedBox(
-                    width: width - 20,
-                    height: 140.h,
-                    child: ListView.separated(
-                      itemCount: homeController.recentPlayedMovies.length,
-                      separatorBuilder: (context, index) =>
-                          kW10sizedBox,
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return MovieCard(
-                          imageUrl: homeController.recentPlayedMovies[index]["imageUrl"],
-                          title: homeController.recentPlayedMovies[index]["title"],
-                          duration: homeController.recentPlayedMovies[index]["duration"],
-                        );
-                      },
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: k20Padding),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: width - 20,
+                        height: 140.h,
+                        child: ListView.separated(
+                          itemCount: homeController.recentPlayedMovies.length,
+                          separatorBuilder: (context, index) => kW10sizedBox,
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return MovieCard(
+                              imageUrl: homeController.recentPlayedMovies[index]
+                                  ["imageUrl"],
+                              title: homeController.recentPlayedMovies[index]
+                                  ["title"],
+                              duration: homeController.recentPlayedMovies[index]
+                                  ["duration"],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-                ),
                 ),
                 kH16sizedBox,
-                                 HomeTitleContent(
+                HomeTitleContent(
                   title: ksFeaturedTvChannels.tr,
                   subtitleText: ksViewAll,
-                  onPressed: (){
+                  onPressed: () {
                     Get.toNamed(krTvChannelsViewAllScreen);
                   },
                 ),
-                 kH16sizedBox,
-                 Padding(
-                                  padding: const EdgeInsets.only(left: k20Padding),
-                                  child: Row(
-                children: [
-                  SizedBox(
-                    width: width - 20,
-                    height: 120.h,
-                    child: ListView.separated(
-                      itemCount: homeController.tvSeriesList.length,
-                      separatorBuilder: (context, index) =>
-                          kW8sizedBox,
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return FeaturedTvChannelsContentContainer(
-                          image: homeController.featuredTvChannelsList[index],
-                        );
-                      },
-                    ),
+                kH16sizedBox,
+                Padding(
+                  padding: const EdgeInsets.only(left: k20Padding),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: width - 20,
+                        height: 120.h,
+                        child: ListView.separated(
+                          itemCount: homeController.tvSeriesList.length,
+                          separatorBuilder: (context, index) => kW8sizedBox,
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return FeaturedTvChannelsContentContainer(
+                              image:
+                                  homeController.featuredTvChannelsList[index],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-                ),
                 ),
                 kH16sizedBox,
-                                     HomeTitleContent(
+                HomeTitleContent(
                   title: ksTvSeries.tr,
                   subtitleText: ksViewAll,
                 ),
                 kH16sizedBox,
-                 Padding(
-                                  padding: const EdgeInsets.only(left: k20Padding),
-                                  child: Row(
-                children: [
-                  SizedBox(
-                    width: width - 20,
-                    height: 150.h,
-                    child: ListView.separated(
-                      itemCount: homeController.tvSeriesList.length,
-                      separatorBuilder: (context, index) =>
-                          kW10sizedBox,
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return MovieContentContainer(
-                          movieImage: homeController.tvSeriesList[index]["movieImage"],
-                          seasonName: homeController.tvSeriesList[index]["season"],
-                          isPremium: homeController.tvSeriesList[index]["isPremium"],
-                          isSeason: homeController.tvSeriesList[index]["isSeason"],
-                        );
-                      },
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: k20Padding),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: width - 20,
+                        height: 150.h,
+                        child: ListView.separated(
+                          itemCount: homeController.tvSeriesList.length,
+                          separatorBuilder: (context, index) => kW10sizedBox,
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return MovieContentContainer(
+                              movieImage: homeController.tvSeriesList[index]
+                                  ["movieImage"],
+                              seasonName: homeController.tvSeriesList[index]
+                                  ["season"],
+                              isPremium: homeController.tvSeriesList[index]
+                                  ["isPremium"],
+                              isSeason: homeController.tvSeriesList[index]
+                                  ["isSeason"],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-                ),
                 ),
                 kH16sizedBox,
-                          HomeTitleContent(
+                HomeTitleContent(
                   title: ksTopArtists.tr,
                   subtitleText: ksViewAll,
-                  onPressed: (){
+                  onPressed: () {
                     Get.toNamed(krTopArtistsViewAllScreen);
                   },
                 ),
                 kH16sizedBox,
-                 Padding(
-                                  padding: const EdgeInsets.only(left: k20Padding),
-                                  child: Row(
-                children: [
-                  SizedBox(
-                    width: width - 20,
-                    height: 88.h,
-                    child: ListView.separated(
-                      itemCount: homeController.topArtistList.length,
-                      separatorBuilder: (context, index) =>
-                          kW10sizedBox,
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return TopArtistContent(
-                        image: homeController.topArtistList[index]["image"],
-                        name: homeController.topArtistList[index]["name"],
-                        );
-                      },
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(left: k20Padding),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: width - 20,
+                        height: 88.h,
+                        child: ListView.separated(
+                          itemCount: homeController.topArtistList.length,
+                          separatorBuilder: (context, index) => kW10sizedBox,
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return TopArtistContent(
+                              image: homeController.topArtistList[index]
+                                  ["image"],
+                              name: homeController.topArtistList[index]["name"],
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
-                ],
                 ),
-                ),
-                                kH16sizedBox,
-                          HomeTitleContent(
+                kH16sizedBox,
+                HomeTitleContent(
                   title: ksLatestBlog.tr,
                   subtitleText: ksViewAll,
-                  onPressed: (){
+                  onPressed: () {
                     Get.toNamed(krAllBlogsViewAllScreen);
                   },
                 ),
                 kH16sizedBox,
-                 Padding(
-                                  padding: const EdgeInsets.only(left: k20Padding),
-                                  child: Row(
-                children: [
-                  SizedBox(
-                    width: width - 20,
-                    height: 210.h,
-                    child: ListView.separated(
-                      itemCount: homeController.latestBlogList.length,
-                      separatorBuilder: (context, index) =>
-                          kW10sizedBox,
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: (){
-                            Get.toNamed(krBlogSingleScreen);
+                Padding(
+                  padding: const EdgeInsets.only(left: k20Padding),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: width - 20,
+                        height: 210.h,
+                        child: ListView.separated(
+                          itemCount: homeController.latestBlogList.length,
+                          separatorBuilder: (context, index) => kW10sizedBox,
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Get.toNamed(krBlogSingleScreen);
+                              },
+                              child: LatestBlogPostContent(
+                                image: homeController.latestBlogList[index]
+                                    ["image"],
+                                title: homeController.latestBlogList[index]
+                                    ["title"],
+                                subTitle: homeController.latestBlogList[index]
+                                    ["subtitle"],
+                                date: homeController.latestBlogList[index]
+                                    ["date"],
+                                reporter: homeController.latestBlogList[index]
+                                    ["reporter"],
+                              ),
+                            );
                           },
-                          child: LatestBlogPostContent(
-                            image: homeController.latestBlogList[index]["image"],
-                            title: homeController.latestBlogList[index]["title"],
-                            subTitle: homeController.latestBlogList[index]["subtitle"],
-                            date: homeController.latestBlogList[index]["date"],
-                            reporter: homeController.latestBlogList[index]["reporter"],
-                          ),
-                        );
-                      },
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-                ),
                 ),
               ],
             ),
           ),
         ),
-          bottomNavigationBar: CustomBottomNavBar(
-            width: width,
-            selectedIndex: 0,
-            // isFirstButtonClicked: true,
-            // isSecondButtonClicked: false,
-            // isThirdButtonClicked: false,
-            // isFourthButtonClicked: false,
-            // isFifthButtonClicked: false,
-          ),
+        bottomNavigationBar: CustomBottomNavBar(
+          width: width,
+          selectedIndex: 0,
+          // isFirstButtonClicked: true,
+          // isSecondButtonClicked: false,
+          // isThirdButtonClicked: false,
+          // isFourthButtonClicked: false,
+          // isFifthButtonClicked: false,
+        ),
       ),
     );
   }
 }
 
 class LatestBlogPostContent extends StatelessWidget {
-  const LatestBlogPostContent({super.key, required this.image, required this.title, required this.subTitle, required this.date, required this.reporter, this.contentHeight});
-  final String image,title,subTitle,date,reporter;
+  const LatestBlogPostContent(
+      {super.key,
+      required this.image,
+      required this.title,
+      required this.subTitle,
+      required this.date,
+      required this.reporter,
+      this.contentHeight});
+  final String image, title, subTitle, date, reporter;
   final double? contentHeight;
 
   @override
@@ -463,7 +545,12 @@ class LatestBlogPostContent extends StatelessWidget {
       borderRadius: BorderRadius.circular(k6BorderRadius),
       child: Stack(
         children: [
-          Image.network(image,height: contentHeight ?? 210.h,width: (width-30)/2,fit: BoxFit.cover,),
+          Image.network(
+            image,
+            height: contentHeight ?? 210.h,
+            width: (width - 30) / 2,
+            fit: BoxFit.cover,
+          ),
           Positioned(
             top: 10,
             left: 14,
@@ -474,8 +561,12 @@ class LatestBlogPostContent extends StatelessWidget {
                 color: cPrimaryColor2,
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: k4Padding,vertical: k2Padding),
-                child: Text("News",style: regular10TextStyle(cWhiteColor),),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: k4Padding, vertical: k2Padding),
+                child: Text(
+                  "News",
+                  style: regular10TextStyle(cWhiteColor),
+                ),
               ),
             ),
           ),
@@ -495,24 +586,48 @@ class LatestBlogPostContent extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      child: Text(title,style: semiBold10TextStyle(cWhiteColor),maxLines: 1,overflow: TextOverflow.ellipsis,)),
-                      kH4sizedBox,
+                        child: Text(
+                      title,
+                      style: semiBold10TextStyle(cWhiteColor),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )),
+                    kH4sizedBox,
                     SizedBox(
-                      child: Text(subTitle,style: regular8TextStyle(cWhiteColor.withOpacity(0.5)),maxLines: 1,overflow: TextOverflow.ellipsis,)),
-                       kH4sizedBox,
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                         const Icon(Icons.calendar_month_rounded,size: kIconSize16,color: cWhiteColor,),
-                          kW4sizedBox,
-                          Text(date,style: regular8TextStyle(cWhiteColor),),
-                          kW8sizedBox,
-                          const Icon(Icons.person_pin_rounded,size: kIconSize16,color: cWhiteColor,),
-                          kW4sizedBox,
-                          Text(reporter,style: regular8TextStyle(cWhiteColor),),
-                        ],
-                      ),
-                  kH16sizedBox,
+                        child: Text(
+                      subTitle,
+                      style: regular8TextStyle(cWhiteColor.withOpacity(0.5)),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )),
+                    kH4sizedBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        const Icon(
+                          Icons.calendar_month_rounded,
+                          size: kIconSize16,
+                          color: cWhiteColor,
+                        ),
+                        kW4sizedBox,
+                        Text(
+                          date,
+                          style: regular8TextStyle(cWhiteColor),
+                        ),
+                        kW8sizedBox,
+                        const Icon(
+                          Icons.person_pin_rounded,
+                          size: kIconSize16,
+                          color: cWhiteColor,
+                        ),
+                        kW4sizedBox,
+                        Text(
+                          reporter,
+                          style: regular8TextStyle(cWhiteColor),
+                        ),
+                      ],
+                    ),
+                    kH16sizedBox,
                   ],
                 ),
               ),
@@ -524,11 +639,14 @@ class LatestBlogPostContent extends StatelessWidget {
   }
 }
 
-
 class MovieCard extends StatelessWidget {
-
-  const MovieCard({super.key, required this.imageUrl, required this.title, required this.duration,});
-  final String imageUrl,title,duration;
+  const MovieCard({
+    super.key,
+    required this.imageUrl,
+    required this.title,
+    required this.duration,
+  });
+  final String imageUrl, title, duration;
 
   @override
   Widget build(BuildContext context) {
@@ -544,8 +662,8 @@ class MovieCard extends StatelessWidget {
           ),
         ),
         Container(
-           width: 100.w,
-            height: 140.h,
+          width: 100.w,
+          height: 140.h,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
             gradient: LinearGradient(
@@ -570,10 +688,7 @@ class MovieCard extends StatelessWidget {
                 style: semiBold12TextStyle(cWhiteColor),
               ),
               kH4sizedBox,
-              Text(
-                duration,
-                style: regular10TextStyle(cWhiteColor)
-              ),
+              Text(duration, style: regular10TextStyle(cWhiteColor)),
               kH4sizedBox,
               Container(
                 height: 3,
@@ -592,17 +707,27 @@ class MovieCard extends StatelessWidget {
 }
 
 class TopArtistContent extends StatelessWidget {
-  const TopArtistContent({super.key, required this.image, required this.name, this.contentWidth, this.contentHeight});
-  final String image,name;
-  final double? contentWidth,contentHeight;
+  const TopArtistContent(
+      {super.key,
+      required this.image,
+      required this.name,
+      this.contentWidth,
+      this.contentHeight});
+  final String image, name;
+  final double? contentWidth, contentHeight;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         ClipRRect(
-          borderRadius: BorderRadius.circular(k4BorderRadius),
-          child: Image.network(image,width: contentWidth ?? 88.w,height: contentHeight ?? 88.h,fit: BoxFit.cover,)),
+            borderRadius: BorderRadius.circular(k4BorderRadius),
+            child: Image.network(
+              image,
+              width: contentWidth ?? 88.w,
+              height: contentHeight ?? 88.h,
+              fit: BoxFit.cover,
+            )),
         Positioned(
           bottom: 4,
           left: 4,
@@ -614,7 +739,11 @@ class TopArtistContent extends StatelessWidget {
               borderRadius: BorderRadius.circular(k4BorderRadius),
               color: cBlackColor.withOpacity(0.6),
             ),
-            child: Center(child: Text(name,style: semiBold10TextStyle(cWhiteColor),)),
+            child: Center(
+                child: Text(
+              name,
+              style: semiBold10TextStyle(cWhiteColor),
+            )),
           ),
         ),
       ],
@@ -623,22 +752,28 @@ class TopArtistContent extends StatelessWidget {
 }
 
 class FeaturedTvChannelsContentContainer extends StatelessWidget {
-  const FeaturedTvChannelsContentContainer({super.key, required this.image, this.containerWidth, this.containerHeight});
+  const FeaturedTvChannelsContentContainer(
+      {super.key,
+      required this.image,
+      this.containerWidth,
+      this.containerHeight});
   final String image;
-  final double? containerWidth,containerHeight;
+  final double? containerWidth, containerHeight;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: containerWidth?? 120.w,
-      height: containerHeight?? 120.h,
+      width: containerWidth ?? 120.w,
+      height: containerHeight ?? 120.h,
       decoration: BoxDecoration(
         color: cWhiteColor,
         borderRadius: BorderRadius.circular(k6BorderRadius),
       ),
       child: Padding(
         padding: const EdgeInsets.all(k20Padding),
-        child: Image.network(image,),
+        child: Image.network(
+          image,
+        ),
       ),
     );
   }
@@ -649,7 +784,8 @@ class HomeTitleContent extends StatelessWidget {
       {super.key,
       required this.title,
       required this.subtitleText,
-      this.onPressed,this.isHorizontalPadding=true});
+      this.onPressed,
+      this.isHorizontalPadding = true});
   final String title, subtitleText;
   final VoidCallback? onPressed;
   final bool? isHorizontalPadding;
@@ -657,7 +793,9 @@ class HomeTitleContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: isHorizontalPadding! ? const EdgeInsets.symmetric(horizontal: k20Padding):const EdgeInsets.symmetric(horizontal: k0Padding),
+      padding: isHorizontalPadding!
+          ? const EdgeInsets.symmetric(horizontal: k20Padding)
+          : const EdgeInsets.symmetric(horizontal: k0Padding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -678,9 +816,14 @@ class HomeTitleContent extends StatelessWidget {
 }
 
 class MovieContentContainer extends StatelessWidget {
-  const MovieContentContainer({super.key, this.movieImage, this.seasonName, this.isPremium, this.isSeason});
-  final String? movieImage,seasonName;
-  final bool? isPremium,isSeason;
+  const MovieContentContainer(
+      {super.key,
+      this.movieImage,
+      this.seasonName,
+      this.isPremium,
+      this.isSeason});
+  final String? movieImage, seasonName;
+  final bool? isPremium, isSeason;
 
   @override
   Widget build(BuildContext context) {
@@ -695,45 +838,53 @@ class MovieContentContainer extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(k6BorderRadius),
             child: Image.network(
-              movieImage??"",
+              movieImage ?? "",
               width: (width - 60) / 3,
               height: 150.h,
               fit: BoxFit.cover,
             ),
           ),
         ),
-        if(isPremium==true)
-        Positioned(
-          top: 4,
-          right: 4,
-          child: Container(
-            height: 16.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(k6BorderRadius),
-              color: cPrimaryColor2,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k4Padding,vertical: 1),
-              child: Center(child: Text(isPremium! ? "Premium":"",style: regular10TextStyle(cWhiteColor),)),
-            ),
-          )
-        ),
-        if(isSeason==true)
-         Positioned(
-          top: 4,
-          left: 4,
-          child: Container(
-            height: 16.h,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(k6BorderRadius),
-              color: cBlackColor.withOpacity(0.4),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k4Padding,vertical: 1),
-              child: Center(child: Text(seasonName??"",style: regular10TextStyle(cWhiteColor),)),
-            ),
-          )
-        ),
+        if (isPremium == true)
+          Positioned(
+              top: 4,
+              right: 4,
+              child: Container(
+                height: 16.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(k6BorderRadius),
+                  color: cPrimaryColor2,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: k4Padding, vertical: 1),
+                  child: Center(
+                      child: Text(
+                    isPremium! ? "Premium" : "",
+                    style: regular10TextStyle(cWhiteColor),
+                  )),
+                ),
+              )),
+        if (isSeason == true)
+          Positioned(
+              top: 4,
+              left: 4,
+              child: Container(
+                height: 16.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(k6BorderRadius),
+                  color: cBlackColor.withOpacity(0.4),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: k4Padding, vertical: 1),
+                  child: Center(
+                      child: Text(
+                    seasonName ?? "",
+                    style: regular10TextStyle(cWhiteColor),
+                  )),
+                ),
+              )),
       ],
     );
   }
@@ -774,14 +925,21 @@ class HomeSlider extends StatelessWidget {
                     ),
                   ),
                 ),
-                  Positioned(
+                Positioned(
                   top: 30,
                   left: 15,
                   child: Row(
                     children: [
-                      SvgPicture.asset(kiVidflix,width: 28.w,height: 28.w,),
+                      SvgPicture.asset(
+                        kiVidflix,
+                        width: 28.w,
+                        height: 28.w,
+                      ),
                       kW6sizedBox,
-                      Text(ksVidflix.tr,style: semiBold18TextStyle(cWhiteColor),),
+                      Text(
+                        ksVidflix.tr,
+                        style: semiBold18TextStyle(cWhiteColor),
+                      ),
                     ],
                   ),
                 ),
@@ -789,7 +947,7 @@ class HomeSlider extends StatelessWidget {
                   top: 30,
                   right: 15,
                   child: GestureDetector(
-                    onTap: (){
+                    onTap: () {
                       Get.toNamed(krSearchScreen);
                     },
                     child: Container(
@@ -799,7 +957,11 @@ class HomeSlider extends StatelessWidget {
                         shape: BoxShape.circle,
                         color: cWhiteColor.withOpacity(0.2),
                       ),
-                      child: const Icon(Icons.search,color: cWhiteColor,size: kIconSize24,),
+                      child: const Icon(
+                        Icons.search,
+                        color: cWhiteColor,
+                        size: kIconSize24,
+                      ),
                     ),
                   ),
                 ),
@@ -883,15 +1045,19 @@ class HomeSlider extends StatelessWidget {
                 Positioned(
                   bottom: 2,
                   left: width * 0.5,
-                  child:    Container(
-                                width: 40.w,
-                                height: 40.h,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: cPrimaryColor2,
-                                ),
-                                child: const Icon(Icons.play_arrow,size: kIconSize28,color: cWhiteColor,),
-                              ),
+                  child: Container(
+                    width: 40.w,
+                    height: 40.h,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: cPrimaryColor2,
+                    ),
+                    child: const Icon(
+                      Icons.play_arrow,
+                      size: kIconSize28,
+                      color: cWhiteColor,
+                    ),
+                  ),
                 ),
               ],
             );
