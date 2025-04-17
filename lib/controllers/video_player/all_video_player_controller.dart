@@ -27,4 +27,7 @@ class AllVideoPlayerController extends GetxController {
   }
 
   late FlickManager flickManager;
+  final RxList movieTypeList = RxList([
+  "HD","Action", "Super Hit", "Block Buster"
+  ]);
 }

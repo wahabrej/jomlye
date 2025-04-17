@@ -165,3 +165,6 @@ const String ksMessage = "Message";
 const String ksWriteYourMessage = "Write your message";
 const String ksEnterSubject = "Enter subject";
 const String ksSend = "Send";
+//* player screen
+const String ksTitle = "Title";
+const String ksReadMore = "Read More";
