@@ -1,5 +1,6 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/gestures.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
@@ -12,8 +13,7 @@ class VideoPlayerScreen extends StatelessWidget {
   VideoPlayerScreen({super.key});
   final AllVideoPlayerController allVideoPlayerController =
       Get.find<AllVideoPlayerController>();
-  final HomeController homeController =
-      Get.find<HomeController>();
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,8 @@ class VideoPlayerScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -142,7 +143,8 @@ class VideoPlayerScreen extends StatelessWidget {
                                 width: 1,
                                 color: cPrimaryColor2.withOpacity(0.5),
                               ),
-                              borderRadius: BorderRadius.circular(k4BorderRadius),
+                              borderRadius:
+                                  BorderRadius.circular(k4BorderRadius),
                             ),
                             padding: const EdgeInsets.symmetric(
                               horizontal: k4Padding,
@@ -176,7 +178,8 @@ class VideoPlayerScreen extends StatelessWidget {
                         TextSpan(
                           text:
                               "Village boy Raju's heart belongs to his childhood sweetheart, Mita. When she leaves for the city and rejects his love, Raju sets out on a mission to win not just her heart. ",
-                          style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),
+                          style:
+                              regular14TextStyle(cWhiteColor.withOpacity(0.5)),
                         ),
                         TextSpan(
                           text: "Read More",
@@ -190,89 +193,107 @@ class VideoPlayerScreen extends StatelessWidget {
                     ),
                   ),
                   kH16sizedBox,
-                 const Row(
+                  Row(
                     children: [
-                      CommonContainer(image: kiCrown,),
+                      CommonContainer(
+                        image: kiCrown,
+                      ),
                       kW10sizedBox,
-                      CommonContainer(image: kiFavorite,),
+                      CommonContainer(
+                        image: kiFavorite,
+                      ),
                       kW10sizedBox,
-                      CommonContainer(image: kiAdd,),
+                      CommonContainer(
+                        image: kiAdd,
+                      ),
                       kW10sizedBox,
-                      CommonContainer(image: kiDownload,),
+                      CommonContainer(
+                        image: kiDownload,
+                      ),
                       kW10sizedBox,
-                      CommonContainer(image: kiShare,),
+                      CommonContainer(
+                        image: kiShare,
+                        onPressed: () {
+                          Share.share('Check out this awesome app! 🚀');
+                        },
+                      ),
                     ],
                   ),
                   kH16sizedBox,
-                  Text(ksRelatedVideos.tr,style: medium16TextStyle(cWhiteColor),),
+                  Text(
+                    ksRelatedVideos.tr,
+                    style: medium16TextStyle(cWhiteColor),
+                  ),
                   kH16sizedBox,
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: width - 20,
-                          height: 150.h,
-                          child: ListView.separated(
-                            itemCount: homeController.tvSeriesList.length,
-                            separatorBuilder: (context, index) => kW10sizedBox,
-                            shrinkWrap: true,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return MovieContentContainer(
-                                movieImage: homeController.tvSeriesList[index]
-                                    ["movieImage"],
-                                seasonName: homeController.tvSeriesList[index]
-                                    ["season"],
-                                isPremium: homeController.tvSeriesList[index]
-                                    ["isPremium"],
-                                isSeason: homeController.tvSeriesList[index]
-                                    ["isSeason"],
-                              );
-                            },
-                          ),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: width - 20,
+                        height: 150.h,
+                        child: ListView.separated(
+                          itemCount: homeController.tvSeriesList.length,
+                          separatorBuilder: (context, index) => kW10sizedBox,
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return MovieContentContainer(
+                              movieImage: homeController.tvSeriesList[index]
+                                  ["movieImage"],
+                              seasonName: homeController.tvSeriesList[index]
+                                  ["season"],
+                              isPremium: homeController.tvSeriesList[index]
+                                  ["isPremium"],
+                              isSeason: homeController.tvSeriesList[index]
+                                  ["isSeason"],
+                            );
+                          },
                         ),
-                      ],
-                    ),
-                     kH16sizedBox,
-                  Text(ksRecommended.tr,style: medium16TextStyle(cWhiteColor),),
+                      ),
+                    ],
+                  ),
                   kH16sizedBox,
-                    Row(
-                      children: [
-                        SizedBox(
-                          width: width - 20,
-                          height: 150.h,
-                          child: ListView.separated(
-                            itemCount: homeController.tvSeriesList.length,
-                            separatorBuilder: (context, index) => kW10sizedBox,
-                            shrinkWrap: true,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return MovieContentContainer(
-                                movieImage: homeController.tvSeriesList[index]
-                                    ["movieImage"],
-                                seasonName: homeController.tvSeriesList[index]
-                                    ["season"],
-                                isPremium: homeController.tvSeriesList[index]
-                                    ["isPremium"],
-                                isSeason: homeController.tvSeriesList[index]
-                                    ["isSeason"],
-                              );
-                            },
-                          ),
+                  Text(
+                    ksRecommended.tr,
+                    style: medium16TextStyle(cWhiteColor),
+                  ),
+                  kH16sizedBox,
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: width - 20,
+                        height: 150.h,
+                        child: ListView.separated(
+                          itemCount: homeController.tvSeriesList.length,
+                          separatorBuilder: (context, index) => kW10sizedBox,
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return MovieContentContainer(
+                              movieImage: homeController.tvSeriesList[index]
+                                  ["movieImage"],
+                              seasonName: homeController.tvSeriesList[index]
+                                  ["season"],
+                              isPremium: homeController.tvSeriesList[index]
+                                  ["isPremium"],
+                              isSeason: homeController.tvSeriesList[index]
+                                  ["isSeason"],
+                            );
+                          },
                         ),
-                      ],
-                    ),
-        
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
             //!Comment Widget
-           Padding(
-             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-             child: Column(
-              children: [
-                   kH20sizedBox,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: Column(
+                children: [
+                  kH20sizedBox,
                   Container(
                     width: width,
                     decoration: BoxDecoration(
@@ -450,24 +471,27 @@ class VideoPlayerScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                               kH12sizedBox,
-                               Padding(
-                                 padding: EdgeInsets.only(left: 52.w),
-                                 child: SizedBox(
-                                  width: width-72,
-                                   child: Column(
-                                     children: [
-                                       Divider(thickness: 1,color: cWhiteColor.withOpacity(0.14),),
-                                                            Text(
-                                          "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
-                                          style: regular14TextStyle(cWhiteColor),
-                                        ),
-                                     ],
-                                   ),
-                                 ),
-                               ),
+                  kH12sizedBox,
+                  Padding(
+                    padding: EdgeInsets.only(left: 52.w),
+                    child: SizedBox(
+                      width: width - 72,
+                      child: Column(
+                        children: [
+                          Divider(
+                            thickness: 1,
+                            color: cWhiteColor.withOpacity(0.14),
+                          ),
+                          Text(
+                            "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
+                            style: regular14TextStyle(cWhiteColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   kH20sizedBox,
-                                  Row(
+                  Row(
                     children: [
                       Container(
                         width: 40.w,
@@ -564,7 +588,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                   color: cWhiteColor,
                                   size: kIconSize20,
                                 ),
-                              const Expanded(child: SizedBox()),
+                                const Expanded(child: SizedBox()),
                                 Row(
                                   children: [
                                     SvgPicture.asset(
@@ -587,82 +611,109 @@ class VideoPlayerScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                               kH12sizedBox,
-                               Padding(
-                                 padding: EdgeInsets.only(left: 52.w),
-                                 child: SizedBox(
-                                  width: width-72,
-                                   child: Column(
-                                     children: [
-                                       Divider(thickness: 1,color: cWhiteColor.withOpacity(0.14),),
-                                                            Text(
-                                          "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
-                                          style: regular14TextStyle(cWhiteColor),
-                                        ),
-                                     ],
-                                   ),
-                                 ),
-                               ),
-                               kH12sizedBox,
-                               Divider(
-                                thickness: 1,
-                                color: cWhiteColor.withOpacity(0.14),
-                               ),
-                               kH20sizedBox,
-                               Text(ksAddYourComment.tr,style: medium16TextStyle(cWhiteColor),),
-                               kH20sizedBox,
-                                               CustomModifiedTextField(
-                                                 hint: ksEnterHere.tr,
-                                                 controller: homeController.addCommentTextEditingController,
-                                                 fillColor: cBlackColor,
-                                                 textInputStyle: regular14TextStyle(cWhiteColor),
-                                                 focusBorder: OutlineInputBorder(
-                                                   borderRadius: BorderRadius.circular(k6BorderRadius),
-                                                   borderSide: const BorderSide(
-                                                     width: 1,
-                                                     color: cPrimaryColor2,
-                                                   ),
-                                                 ),
-                                                 maxLines: 4,
-                                                 inputAction: TextInputAction.newline,
-                                                 inputType: TextInputType.multiline,
-                                                  border: 
-                                               OutlineInputBorder(
-                                                 borderRadius: BorderRadius.circular(k6BorderRadius),
-                                                 borderSide:  BorderSide(width: 1,color: cWhiteColor.withOpacity(0.3), style: BorderStyle.solid,),
-                                               ),
-                                               contentPadding: const EdgeInsets.all(12),
-                                                 ),
-                                                 kH12sizedBox,
-                                                 Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Container(
-                                                      width: 34.w,
-                                                      height: 34.h,
-                                                      decoration: BoxDecoration(
-                                                        borderRadius: BorderRadius.circular(k6BorderRadius),
-                                                        color: cWhiteColor.withOpacity(0.1),
-                                                      ),
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(9.0),
-                                                        child: SvgPicture.asset(kiEmoji,width: 16.w,height: 16.h,color: cWhiteColor,),
-                                                      ),
-                                                    ),
-                                                    Row(
-                                                      children: [
-                                                    CustomElevatedButton(label: ksCancel.tr, onPressed: (){},buttonColor: cWhiteColor.withOpacity(0.1),textStyle: regular16TextStyle(cWhiteColor),buttonWidth: 70.w,buttonHeight: h36.h,),
-                                                    kW12sizedBox,
-                                                    CustomElevatedButton(label: ksPostNow.tr, onPressed: (){},buttonColor: cPrimaryColor2,textStyle: regular16TextStyle(cWhiteColor),buttonWidth: 90.w,buttonHeight: h36.h,),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                 ),
-                                                 kH20sizedBox,
-              ],
-             ),
-           ),
-             
+                  kH12sizedBox,
+                  Padding(
+                    padding: EdgeInsets.only(left: 52.w),
+                    child: SizedBox(
+                      width: width - 72,
+                      child: Column(
+                        children: [
+                          Divider(
+                            thickness: 1,
+                            color: cWhiteColor.withOpacity(0.14),
+                          ),
+                          Text(
+                            "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
+                            style: regular14TextStyle(cWhiteColor),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  kH12sizedBox,
+                  Divider(
+                    thickness: 1,
+                    color: cWhiteColor.withOpacity(0.14),
+                  ),
+                  kH20sizedBox,
+                  Text(
+                    ksAddYourComment.tr,
+                    style: medium16TextStyle(cWhiteColor),
+                  ),
+                  kH20sizedBox,
+                  CustomModifiedTextField(
+                    hint: ksEnterHere.tr,
+                    controller: homeController.addCommentTextEditingController,
+                    fillColor: cBlackColor,
+                    textInputStyle: regular14TextStyle(cWhiteColor),
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: cPrimaryColor2,
+                      ),
+                    ),
+                    maxLines: 4,
+                    inputAction: TextInputAction.newline,
+                    inputType: TextInputType.multiline,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: cWhiteColor.withOpacity(0.3),
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                    contentPadding: const EdgeInsets.all(12),
+                  ),
+                  kH12sizedBox,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 34.w,
+                        height: 34.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(k6BorderRadius),
+                          color: cWhiteColor.withOpacity(0.1),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(9.0),
+                          child: SvgPicture.asset(
+                            kiEmoji,
+                            width: 16.w,
+                            height: 16.h,
+                            color: cWhiteColor,
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          CustomElevatedButton(
+                            label: ksCancel.tr,
+                            onPressed: () {},
+                            buttonColor: cWhiteColor.withOpacity(0.1),
+                            textStyle: regular16TextStyle(cWhiteColor),
+                            buttonWidth: 70.w,
+                            buttonHeight: h36.h,
+                          ),
+                          kW12sizedBox,
+                          CustomElevatedButton(
+                            label: ksPostNow.tr,
+                            onPressed: () {},
+                            buttonColor: cPrimaryColor2,
+                            textStyle: regular16TextStyle(cWhiteColor),
+                            buttonWidth: 90.w,
+                            buttonHeight: h36.h,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  kH20sizedBox,
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -671,21 +722,25 @@ class VideoPlayerScreen extends StatelessWidget {
 }
 
 class CommonContainer extends StatelessWidget {
-  const CommonContainer({super.key, required this.image});
+  const CommonContainer({super.key, required this.image, this.onPressed});
   final String image;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 40.w,
-      height: 40.h,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: cWhiteColor.withOpacity(0.2),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(k12Padding),
-        child: SvgPicture.asset(image),
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        width: 40.w,
+        height: 40.h,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: cWhiteColor.withOpacity(0.2),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(k12Padding),
+          child: SvgPicture.asset(image),
+        ),
       ),
     );
   }
