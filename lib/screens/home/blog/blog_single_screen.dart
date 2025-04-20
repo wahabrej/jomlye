@@ -374,6 +374,7 @@ class BlogSingleScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                //!comment widget
                 kH20sizedBox,
                 Container(
                   width: width - 40,
