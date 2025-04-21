@@ -31,6 +31,7 @@ class ApiServices {
         uri,
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
+          "Accept": "application/json",
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -45,6 +46,7 @@ class ApiServices {
         body: body,
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
+          "Accept": "application/json",
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -59,6 +61,7 @@ class ApiServices {
         body: body,
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
+          "Accept": "application/json",
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -73,6 +76,7 @@ class ApiServices {
         body: body,
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
+          "Accept": "application/json",
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -114,9 +118,8 @@ class ApiServices {
         final object = json.decode(response.body.toString());
         final prettyString = const JsonEncoder.withIndent('  ').convert(object);
         ll("Response : $prettyString");
-        // CommonDM cm = convertToCommonObject(jsonDecode(response.body));
-        // return cm;
-        return jsonDecode(response.body);
+        CommonDM cm = convertToCommonObject(jsonDecode(response.body));
+        return cm;
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
         Get.offAllNamed(krHomeScreen);
@@ -145,6 +148,8 @@ class ApiServices {
     }
   }
 
+  
+  
   // dio post type of request
   Future<dynamic> commonPostDio({
     required String url,
@@ -196,7 +201,8 @@ class ApiServices {
       dio.close();
     }
   }
-
+ 
+ 
   Future<dynamic> mediaUpload({
     String? token,
     required String url,

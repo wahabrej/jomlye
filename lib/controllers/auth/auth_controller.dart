@@ -1,8 +1,10 @@
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
+import 'package:vidflix_flutter_app/models/auth/login_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:vidflix_flutter_app/utils/constants/urls.dart';
 
 class AuthController extends GetxController {
   final SpController spController = SpController();
@@ -47,7 +49,7 @@ class AuthController extends GetxController {
       selectedInterestIdList.clear();
       selectedInterestList.clear();
     }
-  Future<void> userLogin() async {
+     Future<void> userLogin() async {
     try {
       isLoginLoading.value = true;
       Map<String, dynamic> body = {
@@ -56,41 +58,41 @@ class AuthController extends GetxController {
       };
       ll("body : $body");
       var response = await apiServices.commonApiCall(
-        url: 'login url', //!change it
+        url: kuLogin,
         body: body,
-        requestMethod: post,
+        requestMethod: kPost,
       ) as CommonDM;
 
-      if (response.success == true) {
-        // LoginModel loginData = LoginModel.fromJson(response.data);
+      if (response.code == 200) {
+        ll("Login success");
 
-        isLoginLoading.value = false;
-        // Get.offAllNamed(krHomeScreen);//!needed
+         Get.offAllNamed(krHomeScreen);
+        // isStayLoggedInChecked.value = false;
       }
-      //  else {
-      //   if (response.code == 410) {
-      //     // CommonUnVerifyModel commonUnVerifyModel = CommonUnVerifyModel.fromJson(response.data);
-      //     // verificationToken.value = commonUnVerifyModel.token.toString();
-      //     // parentRoute.value = "login";
-      //     // resetOTPScreen();
-      //     isLoginLoading.value = false;
-      //     // Get.toNamed(krOTP);
-      //     showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-      //   } else {
-      //     ErrorModel errorModel = ErrorModel.fromJson(response.data);
-      //     isLoginLoading.value = false;
-      //     if (errorModel.errors.isEmpty) {
-      //       showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
-      //     }
       else {
-        showSnackBar(title: ksError.tr, message: "Login Error!", color: cRedColor);
+         ll("Login failed");
+        showSnackBar(
+            title: ksError.tr, message: "Login Error!", color: cPrimaryColor2);
       }
     } catch (e) {
+      ll("Login catch");
       isLoginLoading.value = false;
       ll('userLogin error: $e');
     }
   }
 
+
+          // LoginModel loginData = LoginModel.fromJson(response.data);
+        // await spController.saveBearerToken(loginData.token);
+        // await spController.saveRememberMe(isStayLoggedInChecked.value);
+        // await spController.saveUserName(loginData.name.toString());
+        // await spController.saveLocation(loginData.location.toString());
+        // await spController.saveUserImage(loginData.profileImage.toString());
+        // await spController.saveUserEmail(loginData.email.toString());
+        // await spController.saveUserPassword(passwordTextEditingController.text.toString());
+        // await spController.saveUserPhone(loginData.phone.toString());
+        // await spController.saveUserId(loginData.id);
+        // bool? isRememberMe = await spController.getRememberMe();
   final RxBool isProfileLoading = RxBool(false);
   Future<void> getProfile() async {
     try {
@@ -104,7 +106,7 @@ class AuthController extends GetxController {
         body: body,
       ) as CommonDM;
 
-      if (response.success == true) {
+      if (response.code == 200) {
         // profileModel.value = ProfileModel.fromJson(response.data);//!needed
         // await spController.saveUserName(profileModel.value?.name.toString());
         // await spController.saveLocation(profileModel.value?.address.toString());
@@ -121,9 +123,9 @@ class AuthController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isProfileLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cRedColor);
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
         }
       }
     } catch (e) {
