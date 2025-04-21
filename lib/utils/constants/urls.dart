@@ -9,6 +9,9 @@ const String kuForgetPassword = "forgot-password";
 const String kuVerifyOtp = "verify-otp";
 const String kuResestPassword = "reset-password";
 const String kuLogout = "logout";
+//*interest
+const String kuInterest = "interest";
+
 //*User profile
 const String kuProfile = "profile";
 const String kuUpdateProfile = "profile-update";

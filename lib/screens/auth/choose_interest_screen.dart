@@ -60,16 +60,16 @@ class ChooseInterestScreen extends StatelessWidget {
                     return Obx(() => GestureDetector(
                           onTap: () {
                             if (authController.selectedInterestIdList.contains(
-                                authController.interestList[index]["id"])) {
+                                authController.interestList[index].id)) {
                               authController.selectedInterestIdList.remove(
-                                  authController.interestList[index]["id"]);
+                                  authController.interestList[index].id);
                               authController.selectedInterestList.remove(
-                                  authController.interestList[index]["name"]);
+                                  authController.interestList[index].title);
                             } else {
                               authController.selectedInterestIdList.add(
-                                  authController.interestList[index]["id"]);
+                                  authController.interestList[index].id);
                               authController.selectedInterestList.add(
-                                  authController.interestList[index]["name"]);
+                                  authController.interestList[index].title);
                             }
                           },
                           child: Container(
@@ -82,13 +82,13 @@ class ChooseInterestScreen extends StatelessWidget {
                                   width: 1,
                                   color: authController.selectedInterestIdList
                                           .contains(authController
-                                              .interestList[index]["id"])
+                                              .interestList[index].id)
                                       ? cPrimaryColor2
                                       : cBlackColor),
                             ),
                             alignment: Alignment.center,
                             child: Text(
-                              authController.interestList[index]["name"],
+                              authController.interestList[index].title,
                               style: regular14TextStyle(cWhiteColor),
                             ),
                           ),
