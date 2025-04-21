@@ -378,7 +378,8 @@ class SignUpScreen extends StatelessWidget {
                   CustomElevatedButton(
                       label: ksSignUp.tr,
                       onPressed: () async {
-                        // await authController.signUp();
+                        await authController.signUp();
+                        //!chnage here logic
                         await authController.getInterestList();
                         Get.toNamed(krChooseInterestScreen);
                       },

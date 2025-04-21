@@ -1,5 +1,6 @@
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/auth/interest_model.dart';
+import 'package:vidflix_flutter_app/models/auth/login_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
@@ -63,8 +64,15 @@ class AuthController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
+          SignInModel loginData = SignInModel.fromJson(response.data);
+        await spController.saveBearerToken(loginData.token);
+        await spController.saveRememberMe(isRememberMe);
+        await spController.saveUserId(loginData.user!.id);
+        await spController.saveUserImage(loginData.user!.image);
+        await spController.saveUserEmail(loginData.user!.email);
+        await spController.saveUserFirstName(loginData.user!.firstName);
+        await spController.saveUserLastName(loginData.user!.firstName);
          Get.offAllNamed(krHomeScreen);
-        // isStayLoggedInChecked.value = false;
       }
       else {
         showSnackBar(
@@ -77,12 +85,9 @@ class AuthController extends GetxController {
 
 
 //sign up
-// final RxBool isSignUpLoading = RxBool(false);
  Future<void> signUp() async {
     try {
       Map<String, dynamic> body = {
-        // 'email': emailTextEditingController.text.trim().toString(),
-        // "password": passwordTextEditingController.text.toString(),
         "first_name": firstNameTextEditingController.text.trim().toString(),
         "last_name": lastNameTextEditingController.text.trim().toString(),
         "username": userNameTextEditingController.text.trim().toString(),

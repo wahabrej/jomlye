@@ -122,7 +122,6 @@ class ApiServices {
         return cm;
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
-        Get.offAllNamed(krHomeScreen);
         showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
         return null;
       } else {

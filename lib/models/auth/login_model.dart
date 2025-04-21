@@ -1,15 +1,15 @@
-class LoginModel {
+class SignInModel {
     final String? token;
     final String? type;
     final User? user;
 
-    LoginModel({
+    SignInModel({
         this.token,
         this.type,
         this.user,
     });
 
-    factory LoginModel.fromJson(Map<String, dynamic> json) => LoginModel(
+    factory SignInModel.fromJson(Map<String, dynamic> json) => SignInModel(
         token: json["token"],
         type: json["type"],
         user: json["user"] == null ? null : User.fromJson(json["user"]),

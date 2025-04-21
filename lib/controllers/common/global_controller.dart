@@ -15,6 +15,13 @@ class GlobalController extends GetxController {
     super.onInit();
   }
 
+  //* globally handler user name,email, and others
+  final RxString userFirstName = RxString("");
+  final RxString userLastName = RxString("");
+  final RxString  userEmail = RxString("");
+  final RxString  userImage = RxString("");
+  final RxInt  userId = RxInt(-1);
+
 
   //* info:: common bottom-sheet
   void commonBottomSheet(
@@ -66,7 +73,7 @@ class GlobalController extends GetxController {
                      child: Divider(
                       thickness: 1,
                       color: cWhiteColor.withOpacity(0.1),
-                                       ),
+                    ),
                    ),
                   // if (isSearchShow == true)
                   //   Padding(
