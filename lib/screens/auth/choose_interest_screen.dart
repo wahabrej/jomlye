@@ -117,8 +117,9 @@ class ChooseInterestScreen extends StatelessWidget {
                     kW16sizedBox,
                     CustomElevatedButton(
                       label: ksContinue.tr,
-                      onPressed: () {
-                        Get.toNamed(krEditProfileScreen);
+                      onPressed: () async{
+                        await authController.interestStore();
+                        // Get.toNamed(krEditProfileScreen);
                       },
                       buttonWidth: (width - 56) / 2,
                       buttonHeight: kButtonHeight.h,

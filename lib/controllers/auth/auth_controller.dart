@@ -1,6 +1,5 @@
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/auth/interest_model.dart';
-import 'package:vidflix_flutter_app/models/auth/login_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
@@ -184,6 +183,33 @@ class AuthController extends GetxController {
       ll('getInterestList error: $e');
     }
   }
+
+  // selectedInterestIdList
+   Future<void> interestStore() async {
+    try {
+      Map<String, dynamic> body = {
+        "email": "rokyh459@gmail.com",//!change it(its hard coded)
+        for(int i=0;i<selectedInterestIdList.length;i++) "interest_ids[$i]" : "${selectedInterestIdList[i]}"
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuInterestStore,
+        body: body,
+        requestMethod: kPost,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+         Get.toNamed(krHomeScreen);
+      }
+      else {
+        showSnackBar(
+            title: ksError.tr, message: "interestStore Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('interestStore error: $e');
+    }
+  }
+
   // final RxList<Map<String,dynamic>> interestList = RxList([
   //   {"name": "Horror","id":1},
   //   {"name": "Horror","id":2},

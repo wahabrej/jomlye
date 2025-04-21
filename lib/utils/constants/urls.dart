@@ -11,6 +11,7 @@ const String kuResestPassword = "reset-password";
 const String kuLogout = "logout";
 //*interest
 const String kuInterest = "interest";
+const String kuInterestStore = "interest-store";
 
 //*User profile
 const String kuProfile = "profile";
