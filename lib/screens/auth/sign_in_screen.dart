@@ -179,7 +179,7 @@ class SignInScreen extends StatelessWidget {
                               ],
                             ),
                 kH16sizedBox,
-                CustomElevatedButton(label: ksSignIn.tr, onPressed: ()async{await authController.userLogin();},buttonWidth: width-40,buttonColor: cPrimaryColor2),
+                CustomElevatedButton(label: ksSignIn.tr, onPressed: ()async{await authController.signIn();},buttonWidth: width-40,buttonColor: cPrimaryColor2),
                 kH16sizedBox,
                 RichText(
                                 text: TextSpan(

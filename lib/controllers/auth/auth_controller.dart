@@ -9,7 +9,6 @@ import 'package:vidflix_flutter_app/utils/constants/urls.dart';
 class AuthController extends GetxController {
   final SpController spController = SpController();
   final ApiServices apiServices = ApiServices();
-  final RxBool isLoginLoading = RxBool(false);
   //signin
     final TextEditingController emailTextEditingController = TextEditingController();
     final TextEditingController passwordTextEditingController = TextEditingController();
@@ -49,38 +48,67 @@ class AuthController extends GetxController {
       selectedInterestIdList.clear();
       selectedInterestList.clear();
     }
-     Future<void> userLogin() async {
+    //sign in
+     Future<void> signIn() async {
     try {
-      isLoginLoading.value = true;
       Map<String, dynamic> body = {
         'email': emailTextEditingController.text.trim().toString(),
         "password": passwordTextEditingController.text.toString(),
       };
       ll("body : $body");
       var response = await apiServices.commonApiCall(
-        url: kuLogin,
+        url: kuSignIn,
         body: body,
         requestMethod: kPost,
       ) as CommonDM;
 
       if (response.code == 200) {
-        ll("Login success");
-
          Get.offAllNamed(krHomeScreen);
         // isStayLoggedInChecked.value = false;
       }
       else {
-         ll("Login failed");
         showSnackBar(
-            title: ksError.tr, message: "Login Error!", color: cPrimaryColor2);
+            title: ksError.tr, message: "signIn Error!", color: cPrimaryColor2);
       }
     } catch (e) {
-      ll("Login catch");
-      isLoginLoading.value = false;
-      ll('userLogin error: $e');
+      ll('signIn error: $e');
     }
   }
 
+
+//sign up
+// final RxBool isSignUpLoading = RxBool(false);
+ Future<void> signUp() async {
+    try {
+      Map<String, dynamic> body = {
+        // 'email': emailTextEditingController.text.trim().toString(),
+        // "password": passwordTextEditingController.text.toString(),
+        "first_name": firstNameTextEditingController.text.trim().toString(),
+        "last_name": lastNameTextEditingController.text.trim().toString(),
+        "username": userNameTextEditingController.text.trim().toString(),
+        "email": emailTextEditingController.text.trim().toString(),
+        "password": passwordTextEditingController.text.trim().toString(),
+        "confirm_password": confirmPasswordTextEditingController.text.trim().toString(),
+        "user_type": "user",
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuSignUp,
+        body: body,
+        requestMethod: kPost,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+         Get.toNamed(krChooseInterestScreen);
+      }
+      else {
+        showSnackBar(
+            title: ksError.tr, message: "signUp Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('signUp error: $e');
+    }
+  }
 
           // LoginModel loginData = LoginModel.fromJson(response.data);
         // await spController.saveBearerToken(loginData.token);
