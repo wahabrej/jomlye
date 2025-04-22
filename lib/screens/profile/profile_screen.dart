@@ -256,6 +256,11 @@ class ProfileScreen extends StatelessWidget {
                   image: kiUser2,
                   title: ksEditProfile.tr,
                   onPressed: () {
+                    profileController.firstNameTextEditingController.text = globalController.userFirstName.value;
+                    profileController.lastNameTextEditingController.text = globalController.userLastName.value;
+                    profileController.emailTextEditingController.text = globalController.userEmail.value;
+                    profileController.phoneTextEditingController.text = globalController.userPhone.value;
+                    profileController.getUserImage.value = globalController.userImage.value;
                     Get.toNamed(krEditProfileScreen);
                   },
                 ),

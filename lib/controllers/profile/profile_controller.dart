@@ -1,19 +1,20 @@
 import 'dart:io';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
+import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
+import 'package:vidflix_flutter_app/models/common/common_user_model.dart';
+import 'package:vidflix_flutter_app/models/profile/update_profile_model.dart';
 import 'package:vidflix_flutter_app/screens/profile/common_webview_screen.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:vidflix_flutter_app/utils/constants/urls.dart';
 
 class ProfileController extends GetxController {
   final SpController spController = SpController();
   final ApiServices apiServices = ApiServices();
   final TextEditingController fullNameTextEditingController =
-      TextEditingController();
-  final TextEditingController nickNameTextEditingController =
-      TextEditingController();
-  final TextEditingController phoneNumberTextEditingController =
       TextEditingController();
   final RxString selectedGender = RxString("");
   final RxList<String> genderList = RxList(["Male", "Female"]);
@@ -318,4 +319,66 @@ class ProfileController extends GetxController {
       TextEditingController();
     final TextEditingController messageTextEditingController =
       TextEditingController();
+  //!profile update
+  final TextEditingController firstNameTextEditingController = TextEditingController();
+  final TextEditingController lastNameTextEditingController = TextEditingController();
+  final TextEditingController phoneTextEditingController = TextEditingController();
+  final RxString getUserImage = RxString("");
+//sign up
+final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null);
+  Future<void> updateProfile() async {
+    try {
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        "user_id": Get.find<GlobalController>().userId.value.toString(),
+        "first_name": firstNameTextEditingController.text.trim().toString(),
+        "last_name": lastNameTextEditingController.text.trim().toString(),
+        "phone": phoneTextEditingController.text.trim().toString(),
+        "email": emailTextEditingController.text.trim().toString(),
+        "gender": "1",
+        // "username": userNameTextEditingController.text.trim().toString(),
+        // "email": emailTextEditingController.text.trim().toString(),
+        // "password": passwordTextEditingController.text.trim().toString(),
+        // "confirm_password":
+        //     confirmPasswordTextEditingController.text.trim().toString(),
+        // "user_type": "user",
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuUpdateProfile,
+        body: body,
+        requestMethod: kPost,
+        token: token,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        // ll("user email is ${userData.value?.email}");
+        // ll("user phone is ${userData.value?.phone}");
+        // ll("user data is ${userData.value}");
+        updateProfileModel.value = UpdateProfileModel.fromJson(response.data);
+        await spController.saveUserImage(updateProfileModel.value?.details?.image);
+        await spController.saveUserEmail(updateProfileModel.value?.details?.email);
+        await spController.saveUserFirstName(updateProfileModel.value?.details?.firstName);
+        await spController.saveUserLastName(updateProfileModel.value?.details?.lastName);
+        await spController.saveUserPhoneNumber(updateProfileModel.value?.details?.phone);
+        Get.find<GlobalController>().userFirstName.value =
+            await spController.getUserFirstName() ?? "";
+         Get.find<GlobalController>().userLastName.value =
+            await spController.getUserLastName() ?? "";
+         Get.find<GlobalController>().userEmail.value =
+            await spController.getUserEmail() ?? "";
+         Get.find<GlobalController>().userImage.value =
+            await spController.getUserImage() ?? "";
+         Get.find<GlobalController>().userPhone.value =
+            await spController.getUserPhoneNumber() ?? "";
+        Get.back();
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "signUp Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('updateProfile error: $e');
+    }
+  }
+
 }

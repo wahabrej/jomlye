@@ -8,6 +8,7 @@ const kUserEmail = "kUserEmail";
 const kFirstName = "kFirstName";
 const kLastName = "kLastName";
 const kUserPassword = "kUserPassword";
+const kPhoneNumber = "kPhoneNumber";
 
 class SpController {
   //* save Bearer Token
@@ -74,7 +75,7 @@ class SpController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(kFirstName);
   }
-    //* save user first name
+    //* save user last name
   Future<void> saveUserLastName(lastName) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString(kLastName, lastName.toString());
@@ -83,6 +84,17 @@ class SpController {
   Future<String?> getUserLastName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(kLastName);
+  }
+
+   //* save user phone number
+  Future<void> saveUserPhoneNumber(phoneNumber) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kPhoneNumber, phoneNumber.toString());
+  }
+
+  Future<String?> getUserPhoneNumber() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kPhoneNumber);
   }
 
       //* save user password

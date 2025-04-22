@@ -85,6 +85,7 @@ class AuthController extends GetxController {
         await spController.saveUserEmail(loginData.user!.email);
         await spController.saveUserFirstName(loginData.user!.firstName);
         await spController.saveUserLastName(loginData.user!.lastName);
+        await spController.saveUserPhoneNumber(loginData.user!.phone);
         Get.offAllNamed(krHomeScreen);
         globalController.userFirstName.value =
             await spController.getUserFirstName() ?? "";
@@ -97,6 +98,8 @@ class AuthController extends GetxController {
         globalController.userId.value = await spController.getUserId() ?? -1;
         globalController.userToken.value =
             await spController.getBearerToken() ?? "";
+        globalController.userPhone.value =
+            await spController.getUserPhoneNumber() ?? "";
       } else {
         showSnackBar(
             title: ksError.tr, message: "signIn Error!", color: cPrimaryColor2);

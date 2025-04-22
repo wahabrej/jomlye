@@ -24,12 +24,15 @@ class SplashScreenController extends GetxController {
   Future<void> getRemember() async {
     bool? state = await spController.getRememberMe();
     // String? token2 = await spController.getBearerToken();
-    globalController.userFirstName.value = await spController.getUserFirstName()??"";
-    globalController.userLastName.value = await spController.getUserLastName()??"";
-    globalController.userEmail.value = await spController.getUserEmail()??"";
-    globalController.userImage.value = await spController.getUserImage()??"";
-    globalController.userId.value = await spController.getUserId()??-1;
-    globalController.userToken.value = await spController.getBearerToken()??"";
+    globalController.userFirstName.value =
+        await spController.getUserFirstName() ?? "";
+    globalController.userLastName.value =
+        await spController.getUserLastName() ?? "";
+    globalController.userEmail.value = await spController.getUserEmail() ?? "";
+    globalController.userImage.value = await spController.getUserImage() ?? "";
+    globalController.userId.value = await spController.getUserId() ?? -1;
+    globalController.userToken.value = await spController.getBearerToken() ?? "";
+    globalController.userPhone.value = await spController.getUserPhoneNumber() ?? "";
     if (state == null || state == false) {
       rememberStatus = false;
       ll("the remember status is $state");
@@ -44,22 +47,24 @@ class SplashScreenController extends GetxController {
     return Timer(
       duration,
       () async {
-        if (globalController.userToken.value!="") {
+        if (globalController.userToken.value != "") {
           Get.offAndToNamed(krHomeScreen);
           Get.put<HomeController>(HomeController());
           Get.put<ProfileController>(ProfileController());
         } else {
-           if(rememberStatus==false){
-           Get.find<AuthController>().emailTextEditingController.text = "";
-           Get.find<AuthController>().passwordTextEditingController.text = "";
-            SharedPreferences preferences = await SharedPreferences.getInstance();
+          if (rememberStatus == false) {
+            Get.find<AuthController>().emailTextEditingController.text = "";
+            Get.find<AuthController>().passwordTextEditingController.text = "";
+            SharedPreferences preferences =
+                await SharedPreferences.getInstance();
             await preferences.clear();
-          //   Get.find<AuthenticationController>().canLogin.value = false;
-          //   Get.find<AuthenticationController>().isStayLoggedInChecked.value = false;
-          }
-          else{
-            Get.find<AuthController>().emailTextEditingController.text = await spController.getUserEmail()??"";
-            Get.find<AuthController>().passwordTextEditingController.text = await spController.getUserPassword()??"";
+            //   Get.find<AuthenticationController>().canLogin.value = false;
+            //   Get.find<AuthenticationController>().isStayLoggedInChecked.value = false;
+          } else {
+            Get.find<AuthController>().emailTextEditingController.text =
+                await spController.getUserEmail() ?? "";
+            Get.find<AuthController>().passwordTextEditingController.text =
+                await spController.getUserPassword() ?? "";
             // authController.canLogin.value = true;
             // authController.isStayLoggedInChecked.value = true;
           }

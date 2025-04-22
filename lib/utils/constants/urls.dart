@@ -15,5 +15,5 @@ const String kuInterestStore = "interest-store";
 
 //*User profile
 const String kuProfile = "profile";
-const String kuUpdateProfile = "profile-update";
+const String kuUpdateProfile = "update-profile";
 

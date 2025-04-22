@@ -92,11 +92,18 @@ class EditProfileScreen extends StatelessWidget {
                           color: cWhiteColor.withOpacity(0.2),
                           shape: BoxShape.circle,
                         ),
-                        child: Image.asset(
-                          kiGallery,
+                        child: Image.network(
+                          profileController.getUserImage.value,
                           width: 50,
                           height: 50,
                           color: cWhiteColor,
+                                 errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(
+                                      Icons.person,
+                                      size: 80,
+                                      color: cPrimaryColor2,
+                                    ),
                         ),
                       ),
                       Positioned(
@@ -182,7 +189,7 @@ class EditProfileScreen extends StatelessWidget {
                 ),
                 kH20sizedBox,
                 Text(
-                  ksFullName.tr,
+                  ksFirstName.tr,
                   style: regular16TextStyle(cWhiteColor),
                 ),
                 kH8sizedBox,
@@ -190,7 +197,7 @@ class EditProfileScreen extends StatelessWidget {
                   height: kTextFieldHeight,
                   child: CustomModifiedTextField(
                     hint: ksEnterHere.tr,
-                    controller: profileController.fullNameTextEditingController,
+                    controller: profileController.firstNameTextEditingController,
                     fillColor: cBlackColor,
                     textInputStyle: regular14TextStyle(cWhiteColor),
                     focusBorder: OutlineInputBorder(
@@ -213,7 +220,7 @@ class EditProfileScreen extends StatelessWidget {
                 ),
                 kH12sizedBox,
                 Text(
-                  ksNickName.tr,
+                  ksLastName.tr,
                   style: regular16TextStyle(cWhiteColor),
                 ),
                 kH8sizedBox,
@@ -221,7 +228,38 @@ class EditProfileScreen extends StatelessWidget {
                   height: kTextFieldHeight,
                   child: CustomModifiedTextField(
                     hint: ksEnterHere.tr,
-                    controller: profileController.nickNameTextEditingController,
+                    controller: profileController.lastNameTextEditingController,
+                    fillColor: cBlackColor,
+                    textInputStyle: regular14TextStyle(cWhiteColor),
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: cPrimaryColor2,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: cWhiteColor.withOpacity(0.3),
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                    contentPadding: const EdgeInsets.all(12),
+                  ),
+                ),
+                kH12sizedBox,
+                Text(
+                  ksPhoneNumber.tr,
+                  style: regular16TextStyle(cWhiteColor),
+                ),
+                kH8sizedBox,
+                  SizedBox(
+                  height: kTextFieldHeight,
+                  child: CustomModifiedTextField(
+                    hint: ksEnterHere.tr,
+                    controller: profileController.phoneTextEditingController,
                     fillColor: cBlackColor,
                     textInputStyle: regular14TextStyle(cWhiteColor),
                     focusBorder: OutlineInputBorder(
@@ -346,7 +384,7 @@ class EditProfileScreen extends StatelessWidget {
                   height: kTextFieldHeight,
                   child: CustomModifiedTextField(
                     hint: ksEnterEmailAddress.tr,
-                    controller: profileController.nickNameTextEditingController,
+                    controller: profileController.emailTextEditingController,
                     fillColor: cBlackColor,
                     textInputStyle: regular14TextStyle(cWhiteColor),
                     focusBorder: OutlineInputBorder(
@@ -377,8 +415,9 @@ class EditProfileScreen extends StatelessWidget {
                   onTap: () {
                     Get.find<GlobalController>().commonBottomSheet(
                         context: context,
+                        bottomSheetColor: cBlackColor2,
                         content: GenderContent(),
-                        bottomSheetHeight: height * 0.3,
+                        bottomSheetHeight: height * 0.25,
                         onPressCloseButton: () {
                           Get.back();
                         },
@@ -436,9 +475,10 @@ class EditProfileScreen extends StatelessWidget {
                     kW16sizedBox,
                     CustomElevatedButton(
                       label: ksContinue.tr,
-                      onPressed: () {
+                      onPressed: () async{
+                        await profileController.updateProfile();
                         // Get.toNamed(krEditProfileScreen);
-                        showCongratulationsPopup(context);
+                        // showCongratulationsPopup(context);
                       },
                       buttonWidth: (width - 56) / 2,
                       buttonHeight: kButtonHeight.h,
@@ -465,35 +505,40 @@ class GenderContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Column(
           children: [
+            kH8sizedBox,
             ListView.separated(
-                separatorBuilder: (context, index) => kH8sizedBox,
+                separatorBuilder: (context, index) => kH12sizedBox,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: profileController.genderList.length,
                 itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      profileController.selectedGender.value =
-                          profileController.genderList[index];
-                          Get.back();
-                    },
-                    child: Container(
-                      width: width - 40,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(k6BorderRadius),
-                        border: Border.all(
-                            width: 1,
-                            color: profileController.selectedGender.value == profileController.genderList[index]
-                                ? cPrimaryColor2:cLineColor),
-                        color: profileController.selectedGender.value == profileController.genderList[index]
-                            ? cPrimaryColor2.withOpacity(0.2) : cWhiteColor,
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(k8Padding),
-                        child: Text(
-                          profileController.genderList[index],
-                          style: medium14TextStyle(cBlackColor),
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                    child: InkWell(
+                      onTap: () {
+                        profileController.selectedGender.value =
+                            profileController.genderList[index];
+                            Get.back();
+                      },
+                      child: Container(
+                        width: width - 40,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(k6BorderRadius),
+                          border: Border.all(
+                              width: 1,
+                              color: profileController.selectedGender.value == profileController.genderList[index]
+                                  ? cPrimaryColor2:cLineColor),
+                          color:cBlackColor2,
+                          // color: profileController.selectedGender.value == profileController.genderList[index]
+                          //     ? cPrimaryColor2.withOpacity(0.2) : cBlackColor2,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(k8Padding),
+                          child: Text(
+                            profileController.genderList[index],
+                            style: medium14TextStyle(cWhiteColor),
+                          ),
                         ),
                       ),
                     ),
@@ -625,7 +670,7 @@ void showCongratulationsPopup(BuildContext context) {
     builder: (BuildContext context) {
       Future.delayed(const Duration(seconds: 3), () {
         Navigator.of(context).pop();
-        Get.toNamed(krLandingScreen);
+        Get.toNamed(krProfileScreen);
       });
       return Dialog(
           backgroundColor: cBlackColor2,

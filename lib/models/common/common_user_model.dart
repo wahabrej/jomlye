@@ -10,7 +10,7 @@ class CommonUserModel {
     final dynamic image;
     final dynamic dateOfBirth;
     final String? userType;
-    final int? gender;
+    final dynamic gender;
     final dynamic token;
     final String? theme;
     final String? themeColor;
