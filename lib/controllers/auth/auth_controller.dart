@@ -246,8 +246,8 @@ class AuthController extends GetxController {
     }
   }
 
-    //! logout
-   void logout()async{
+    //! signOut
+   void signOut()async{
           await SpController().onLogout();
         // resetLoginScreen();
         bool? isRememberMe = await spController.getRememberMe();
@@ -263,7 +263,7 @@ class AuthController extends GetxController {
           }
           else{
             emailTextEditingController.text = await spController.getUserEmail()??"";
-            // passwordTextEditingController.text = await spController.getUserPassword()??"";
+            passwordTextEditingController.text = await spController.getUserPassword()??"";
             // canLogin.value = true;
             // isStayLoggedInChecked.value = true;
           }

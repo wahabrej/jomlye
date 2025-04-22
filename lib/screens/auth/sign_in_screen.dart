@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
+import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_checkbox.dart';
@@ -179,7 +180,9 @@ class SignInScreen extends StatelessWidget {
                               ],
                             ),
                 kH16sizedBox,
-                CustomElevatedButton(label: ksSignIn.tr, onPressed: ()async{await authController.signIn();},buttonWidth: width-40,buttonColor: cPrimaryColor2),
+                CustomElevatedButton(label: ksSignIn.tr, onPressed: ()async{
+                  await SpController().saveUserPassword(authController.passwordTextEditingController.text.toString());
+                  await authController.signIn();},buttonWidth: width-40,buttonColor: cPrimaryColor2),
                 kH16sizedBox,
                 RichText(
                                 text: TextSpan(

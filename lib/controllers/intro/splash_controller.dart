@@ -9,7 +9,6 @@ import '../profile/profile_controller.dart';
 
 class SplashScreenController extends GetxController {
   final GlobalController globalController = Get.find<GlobalController>();
-  final AuthController authController = Get.find<AuthController>();
   final SpController spController = SpController();
   final ApiServices apiServices = ApiServices();
 
@@ -51,16 +50,16 @@ class SplashScreenController extends GetxController {
           Get.put<ProfileController>(ProfileController());
         } else {
            if(rememberStatus==false){
-           authController.emailTextEditingController.text = "";
-           authController.passwordTextEditingController.text = "";
+           Get.find<AuthController>().emailTextEditingController.text = "";
+           Get.find<AuthController>().passwordTextEditingController.text = "";
             SharedPreferences preferences = await SharedPreferences.getInstance();
             await preferences.clear();
           //   Get.find<AuthenticationController>().canLogin.value = false;
           //   Get.find<AuthenticationController>().isStayLoggedInChecked.value = false;
           }
           else{
-            authController.emailTextEditingController.text = await spController.getUserEmail()??"";
-            authController.passwordTextEditingController.text = await spController.getUserPassword()??"";
+            Get.find<AuthController>().emailTextEditingController.text = await spController.getUserEmail()??"";
+            Get.find<AuthController>().passwordTextEditingController.text = await spController.getUserPassword()??"";
             // authController.canLogin.value = true;
             // authController.isStayLoggedInChecked.value = true;
           }

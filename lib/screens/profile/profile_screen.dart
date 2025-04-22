@@ -612,7 +612,7 @@ void showLogoutPopup(BuildContext context) {
                   CustomElevatedButton(
                     label: ksLogout.tr,
                     onPressed: () {
-                      Get.find<AuthController>().logout();
+                      Get.find<AuthController>().signOut();
                     },
                     buttonWidth: 72.w,
                     buttonHeight: 36.h,
