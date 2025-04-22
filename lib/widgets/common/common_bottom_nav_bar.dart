@@ -1,3 +1,4 @@
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -58,7 +59,14 @@ class CustomBottomNavBar extends StatelessWidget {
                 width: width,
                 isSelected: selectedIndex == 4,
                 title: "Profile",
-                onPressed: () => Get.toNamed(krProfileScreen),
+                onPressed: () {
+                  if(Get.find<GlobalController>().userToken.value==""){
+                    Get.toNamed(krSignInScreen);
+                  }
+                  else{
+                    Get.toNamed(krProfileScreen);
+                  }
+                },
                 image: kiProfile,
               ),
             ],
@@ -109,7 +117,7 @@ class _BottomNavbarItem extends StatelessWidget {
                       width: isDeviceScreenLarge() ? 24 : 20,
                       color: cWhiteColor,
                     ),
-                    SizedBox(width: 6),
+                    const SizedBox(width: 6),
                     Text(
                       title,
                       style: medium16TextStyle(cWhiteColor),
@@ -119,8 +127,8 @@ class _BottomNavbarItem extends StatelessWidget {
               )
             : SvgPicture.asset(
                 image.toString(),
-                height: isDeviceScreenLarge() ? 24 : 20,
-                width: isDeviceScreenLarge() ? 24 : 20,
+                height: isDeviceScreenLarge() ? kIconSize24 : kIconSize20,
+                width: isDeviceScreenLarge() ? kIconSize24 : kIconSize20,
                 color: cWhiteColor,
               ),
       ),

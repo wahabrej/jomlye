@@ -7,6 +7,7 @@ const kUserImage = "kUserImage";
 const kUserEmail = "kUserEmail";
 const kFirstName = "kFirstName";
 const kLastName = "kLastName";
+const kUserPassword = "kUserPassword";
 
 class SpController {
   //* save Bearer Token
@@ -82,6 +83,17 @@ class SpController {
   Future<String?> getUserLastName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(kLastName);
+  }
+
+      //* save user password
+  Future<void> saveUserPassword(password) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kUserPassword, password.toString());
+  }
+
+  Future<String?> getUserPassword() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kUserPassword);
   }
 
 

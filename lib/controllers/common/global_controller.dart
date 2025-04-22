@@ -20,6 +20,7 @@ class GlobalController extends GetxController {
   final RxString userLastName = RxString("");
   final RxString  userEmail = RxString("");
   final RxString  userImage = RxString("");
+  final RxString  userToken = RxString("");
   final RxInt  userId = RxInt(-1);
 
 

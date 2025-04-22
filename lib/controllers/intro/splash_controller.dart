@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
@@ -7,6 +9,7 @@ import '../profile/profile_controller.dart';
 
 class SplashScreenController extends GetxController {
   final GlobalController globalController = Get.find<GlobalController>();
+  final AuthController authController = Get.find<AuthController>();
   final SpController spController = SpController();
   final ApiServices apiServices = ApiServices();
 
@@ -18,16 +21,16 @@ class SplashScreenController extends GetxController {
   }
 
   bool rememberStatus = false;
-  String token = "";
+  // String token = "";
   Future<void> getRemember() async {
     bool? state = await spController.getRememberMe();
-    String? token2 = await spController.getBearerToken();
+    // String? token2 = await spController.getBearerToken();
     globalController.userFirstName.value = await spController.getUserFirstName()??"";
     globalController.userLastName.value = await spController.getUserLastName()??"";
     globalController.userEmail.value = await spController.getUserEmail()??"";
     globalController.userImage.value = await spController.getUserImage()??"";
     globalController.userId.value = await spController.getUserId()??-1;
-    token = token2??"";
+    globalController.userToken.value = await spController.getBearerToken()??"";
     if (state == null || state == false) {
       rememberStatus = false;
       ll("the remember status is $state");
@@ -42,26 +45,26 @@ class SplashScreenController extends GetxController {
     return Timer(
       duration,
       () async {
-        if (token!="") {
+        if (globalController.userToken.value!="") {
           Get.offAndToNamed(krHomeScreen);
           Get.put<HomeController>(HomeController());
           Get.put<ProfileController>(ProfileController());
         } else {
-          // if(rememberStatus==false){
-          //   //  Get.find<AuthenticationController>().emailTextEditingController.text = "";
-          //   // Get.find<AuthenticationController>().passwordTextEditingController.text = "";
-          //   SharedPreferences preferences = await SharedPreferences.getInstance();
-          //   await preferences.clear();
+           if(rememberStatus==false){
+           authController.emailTextEditingController.text = "";
+           authController.passwordTextEditingController.text = "";
+            SharedPreferences preferences = await SharedPreferences.getInstance();
+            await preferences.clear();
           //   Get.find<AuthenticationController>().canLogin.value = false;
           //   Get.find<AuthenticationController>().isStayLoggedInChecked.value = false;
-          // }
-          // else{
-        //  Get.find<AuthenticationController>().emailTextEditingController.text = await spController.getUserEmail()??"";
-        //     Get.find<AuthenticationController>().passwordTextEditingController.text = await spController.getUserPassword()??"";
-            //   Get.find<AuthenticationController>().canLogin.value = true;
-            // Get.find<AuthenticationController>().isStayLoggedInChecked.value = true;
-          // }
-          Get.offAllNamed(krSignInScreen);
+          }
+          else{
+            authController.emailTextEditingController.text = await spController.getUserEmail()??"";
+            authController.passwordTextEditingController.text = await spController.getUserPassword()??"";
+            // authController.canLogin.value = true;
+            // authController.isStayLoggedInChecked.value = true;
+          }
+          Get.offAllNamed(krHomeScreen);
         }
       },
     );

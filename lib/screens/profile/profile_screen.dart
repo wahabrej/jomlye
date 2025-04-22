@@ -1,3 +1,5 @@
+import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
@@ -7,66 +9,67 @@ import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
   final ProfileController profileController = Get.find<ProfileController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: cBlackColor,
-         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kAppBarSize.h),
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kAppBarSize.h),
         //   //* info:: appBar
-          child: CustomAppBar(
-            hasBackButton: false,
-            title:  GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Container(
-                        width: 90,
-                        height: h32,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100.r),
-                          color: cWhiteColor.withOpacity(0.2),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: k12Padding, vertical: k2Padding),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.arrow_back_ios,
-                                size: kIconSize12,
-                                color: cWhiteColor,
-                              ),
-                              kW4sizedBox,
-                              Center(
-                                  child: Text(
-                                ksProfile.tr,
-                                style: regular16TextStyle(cWhiteColor),
-                              )),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    actions: [
-                       SvgPicture.asset(
-                      kiVidflix,
-                      width: h24.w,
-                      height: h24.h,
-                      color: cPrimaryColor2,
+        child: CustomAppBar(
+          hasBackButton: false,
+          title: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Container(
+              width: 90,
+              height: h32,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100.r),
+                color: cWhiteColor.withOpacity(0.2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: k12Padding, vertical: k2Padding),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.arrow_back_ios,
+                      size: kIconSize12,
+                      color: cWhiteColor,
                     ),
                     kW4sizedBox,
                     Center(
-                      child: Text(
-                        ksVidflix.tr,
-                        style: semiBold20TextStyle(cWhiteColor),
-                      ),
-                    ),
-                    kW12sizedBox,
-                    ],
+                        child: Text(
+                      ksProfile.tr,
+                      style: regular16TextStyle(cWhiteColor),
+                    )),
+                  ],
+                ),
+              ),
+            ),
           ),
-          ),
+          actions: [
+            SvgPicture.asset(
+              kiVidflix,
+              width: h24.w,
+              height: h24.h,
+              color: cPrimaryColor2,
+            ),
+            kW4sizedBox,
+            Center(
+              child: Text(
+                ksVidflix.tr,
+                style: semiBold20TextStyle(cWhiteColor),
+              ),
+            ),
+            kW12sizedBox,
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
@@ -123,8 +126,7 @@ class ProfileScreen extends StatelessWidget {
                 //     ),
                 //   ],
                 // ),
-               
-               
+
                 // kH8sizedBox,
                 // Divider(
                 //   color: cWhiteColor.withOpacity(0.2),
@@ -147,7 +149,14 @@ class ProfileScreen extends StatelessWidget {
                                     width: 100.w,
                                     height: 100.h,
                                     fit: BoxFit.cover,
-                                    "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+                                    globalController.userImage.value,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(
+                                      Icons.person,
+                                      size: 80,
+                                      color: cPrimaryColor2,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -234,12 +243,12 @@ class ProfileScreen extends StatelessWidget {
                       ),
                 kH20sizedBox,
                 Text(
-                  "Angelica Mark",
+                  "${globalController.userFirstName.value} ${globalController.userLastName.value}",
                   style: medium18TextStyle(cWhiteColor),
                 ),
                 kH6sizedBox,
                 Text(
-                  "info@spagreen.net",
+                  globalController.userEmail.value,
                   style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),
                 ),
                 kH30sizedBox,
@@ -254,7 +263,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiLock,
                   title: ksChangePassword.tr,
-                  onPressed: (){
+                  onPressed: () {
                     Get.toNamed(krChangePasswordScreen);
                   },
                 ),
@@ -271,7 +280,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiNotification,
                   title: ksNotification.tr,
-                  onPressed: (){
+                  onPressed: () {
                     Get.toNamed(krNotificationScreen);
                   },
                 ),
@@ -280,7 +289,7 @@ class ProfileScreen extends StatelessWidget {
                   image: kiCrown,
                   title: ksSubscriptionPlan.tr,
                   selectedSubscription: "Free",
-                  onPressed: (){
+                  onPressed: () {
                     Get.toNamed(krSubscriptionPlanScreen);
                   },
                 ),
@@ -288,7 +297,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiMoney,
                   title: ksPaymentHistory.tr,
-                  onPressed: (){
+                  onPressed: () {
                     Get.toNamed(krPaymentHistoryScreen);
                   },
                 ),
@@ -296,7 +305,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiFavorite,
                   title: ksFavorite.tr,
-                  onPressed: (){
+                  onPressed: () {
                     Get.toNamed(krFavoriteScreen);
                   },
                 ),
@@ -304,7 +313,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiAdd,
                   title: ksPlaylist.tr,
-                  onPressed: (){
+                  onPressed: () {
                     Get.toNamed(krPlayListScreen);
                   },
                 ),
@@ -312,7 +321,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiDownload,
                   title: ksDownload.tr,
-                  onPressed: (){
+                  onPressed: () {
                     Get.toNamed(krDownloadListScreen);
                   },
                 ),
@@ -320,7 +329,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiInfo,
                   title: ksTermsAndConditions.tr,
-                  onPressed: (){
+                  onPressed: () {
                     profileController.openPrivacyPolicy();
                   },
                 ),
@@ -328,7 +337,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiPrivacyPolicy,
                   title: ksPrivacyPolicy.tr,
-                     onPressed: (){
+                  onPressed: () {
                     profileController.openPrivacyPolicy();
                   },
                 ),
@@ -336,7 +345,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiContactUs,
                   title: ksContactUs.tr,
-                     onPressed: (){
+                  onPressed: () {
                     Get.toNamed(krContactUsScreen);
                   },
                 ),
@@ -344,7 +353,7 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiFaq,
                   title: ksFaq.tr,
-                  onPressed: (){
+                  onPressed: () {
                     profileController.selectedFaqIndex.value = -1;
                     Get.toNamed(krFaqScereen);
                   },
@@ -367,7 +376,7 @@ class ProfileScreen extends StatelessWidget {
                   image: kiLogout,
                   title: ksLogout.tr,
                   containerColor: cPrimaryColor2,
-                  onPressed: (){
+                  onPressed: () {
                     showLogoutPopup(context);
                   },
                 ),
@@ -485,7 +494,8 @@ class CustomBackHeader extends StatelessWidget {
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(
-                horizontal: k12Padding, vertical: k2Padding,
+                horizontal: k12Padding,
+                vertical: k2Padding,
               ),
               child: Row(
                 children: [
@@ -523,8 +533,6 @@ class CustomBackHeader extends StatelessWidget {
   }
 }
 
-
-
 void showLogoutPopup(BuildContext context) {
   showDialog(
     context: context,
@@ -554,38 +562,64 @@ void showLogoutPopup(BuildContext context) {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(k10Padding),
-                      child: SvgPicture.asset(kiLogout,color: cWhiteColor,),
+                      child: SvgPicture.asset(
+                        kiLogout,
+                        color: cWhiteColor,
+                      ),
                     ),
                   ),
                   kW12sizedBox,
-                   Text(
-                ksLogout.tr,
-                style: semiBold18TextStyle(cWhiteColor),
-              ),
-              const Expanded(child: SizedBox()),
-               InkWell(
-                onTap: (){
-                  Get.back();
-                },
-                child: const Icon(Icons.close,size: kIconSize20,color: cWhiteColor,)),
+                  Text(
+                    ksLogout.tr,
+                    style: semiBold18TextStyle(cWhiteColor),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        size: kIconSize20,
+                        color: cWhiteColor,
+                      )),
                 ],
               ),
               kH8sizedBox,
               Divider(
-              thickness: 1,
-              color: cWhiteColor.withOpacity(0.1),
-            ),
-             kH8sizedBox,
-             Text(ksAreYouSureYouWantToLogoutNow.tr,style: regular16TextStyle(cWhiteColor),),
-             kH16sizedBox,
-             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-             CustomElevatedButton(label: ksCancel.tr, onPressed: (){Get.back();},buttonWidth: 72.w,buttonHeight: 36.h,buttonColor: cWhiteColor.withOpacity(0.2),),
-             kW12sizedBox,
-             CustomElevatedButton(label: ksLogout.tr, onPressed: (){Get.offAllNamed(krSignInScreen);},buttonWidth: 72.w,buttonHeight: 36.h,buttonColor: cPrimaryColor2,),
-              ],
-             ),
+                thickness: 1,
+                color: cWhiteColor.withOpacity(0.1),
+              ),
+              kH8sizedBox,
+              Text(
+                ksAreYouSureYouWantToLogoutNow.tr,
+                style: regular16TextStyle(cWhiteColor),
+              ),
+              kH16sizedBox,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomElevatedButton(
+                    label: ksCancel.tr,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    buttonWidth: 72.w,
+                    buttonHeight: 36.h,
+                    buttonColor: cWhiteColor.withOpacity(0.2),
+                  ),
+                  kW12sizedBox,
+                  CustomElevatedButton(
+                    label: ksLogout.tr,
+                    onPressed: () {
+                      Get.find<AuthController>().logout();
+                    },
+                    buttonWidth: 72.w,
+                    buttonHeight: 36.h,
+                    buttonColor: cPrimaryColor2,
+                  ),
+                ],
+              ),
             ],
           ),
         ),

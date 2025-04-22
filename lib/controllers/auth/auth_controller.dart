@@ -1,3 +1,5 @@
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/auth/interest_model.dart';
 import 'package:vidflix_flutter_app/models/auth/login_model.dart';
@@ -10,47 +12,58 @@ import 'package:vidflix_flutter_app/utils/constants/urls.dart';
 class AuthController extends GetxController {
   final SpController spController = SpController();
   final ApiServices apiServices = ApiServices();
+  final GlobalController globalController = Get.find<GlobalController>();
   //signin
-    final TextEditingController emailTextEditingController = TextEditingController();
-    final TextEditingController passwordTextEditingController = TextEditingController();
-    final TextEditingController forgotEmailTextEditingController = TextEditingController();
-    final TextEditingController phoneNumberTextEditingController = TextEditingController();
-    //*sign up
-    final TextEditingController firstNameTextEditingController = TextEditingController();
-    final TextEditingController lastNameTextEditingController = TextEditingController();
-    final TextEditingController userNameTextEditingController = TextEditingController();
-    final TextEditingController confirmPasswordTextEditingController = TextEditingController();
+  final TextEditingController emailTextEditingController =
+      TextEditingController();
+  final TextEditingController passwordTextEditingController =
+      TextEditingController();
+  final TextEditingController forgotEmailTextEditingController =
+      TextEditingController();
+  final TextEditingController phoneNumberTextEditingController =
+      TextEditingController();
+  //*sign up
+  final TextEditingController firstNameTextEditingController =
+      TextEditingController();
+  final TextEditingController lastNameTextEditingController =
+      TextEditingController();
+  final TextEditingController userNameTextEditingController =
+      TextEditingController();
+  final TextEditingController confirmPasswordTextEditingController =
+      TextEditingController();
 
-    //*otp
-      final TextEditingController otpTextEditingController = TextEditingController();
+  //*otp
+  final TextEditingController otpTextEditingController =
+      TextEditingController();
 
-   //* Create new password
-    final TextEditingController newPasswordTextEditingController = TextEditingController();
-    final TextEditingController confirmNewPasswordTextEditingController = TextEditingController();
+  //* Create new password
+  final TextEditingController newPasswordTextEditingController =
+      TextEditingController();
+  final TextEditingController confirmNewPasswordTextEditingController =
+      TextEditingController();
 
+  final RxBool isPasswordShow = RxBool(false);
+  final RxBool isConfirmPasswordShow = RxBool(false);
+  final RxBool isRememberMe = RxBool(false);
 
+  void resetAuth() {
+    emailTextEditingController.clear();
+    passwordTextEditingController.clear();
+    forgotEmailTextEditingController.clear();
+    phoneNumberTextEditingController.clear();
+    firstNameTextEditingController.clear();
+    lastNameTextEditingController.clear();
+    userNameTextEditingController.clear();
+    confirmPasswordTextEditingController.clear();
+    isPasswordShow.value = false;
+    isConfirmPasswordShow.value = false;
+    isRememberMe.value = false;
+    selectedInterestIdList.clear();
+    selectedInterestList.clear();
+  }
 
-    final RxBool isPasswordShow = RxBool(false);
-    final RxBool isConfirmPasswordShow = RxBool(false);
-    final RxBool isRememberMe = RxBool(false);
-
-    void resetAuth(){
-      emailTextEditingController.clear();
-      passwordTextEditingController.clear();
-      forgotEmailTextEditingController.clear();
-      phoneNumberTextEditingController.clear();
-      firstNameTextEditingController.clear();
-      lastNameTextEditingController.clear();
-      userNameTextEditingController.clear();
-      confirmPasswordTextEditingController.clear();
-      isPasswordShow.value = false;
-      isConfirmPasswordShow.value = false;
-      isRememberMe.value = false;
-      selectedInterestIdList.clear();
-      selectedInterestList.clear();
-    }
-    //sign in
-     Future<void> signIn() async {
+  //sign in
+  Future<void> signIn() async {
     try {
       Map<String, dynamic> body = {
         'email': emailTextEditingController.text.trim().toString(),
@@ -64,17 +77,27 @@ class AuthController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
-          SignInModel loginData = SignInModel.fromJson(response.data);
+        SignInModel loginData = SignInModel.fromJson(response.data);
         await spController.saveBearerToken(loginData.token);
-        await spController.saveRememberMe(isRememberMe);
+        await spController.saveRememberMe(isRememberMe.value);
         await spController.saveUserId(loginData.user!.id);
         await spController.saveUserImage(loginData.user!.image);
         await spController.saveUserEmail(loginData.user!.email);
         await spController.saveUserFirstName(loginData.user!.firstName);
-        await spController.saveUserLastName(loginData.user!.firstName);
-         Get.offAllNamed(krHomeScreen);
-      }
-      else {
+        await spController.saveUserLastName(loginData.user!.lastName);
+        Get.offAllNamed(krHomeScreen);
+        globalController.userFirstName.value =
+            await spController.getUserFirstName() ?? "";
+        globalController.userLastName.value =
+            await spController.getUserLastName() ?? "";
+        globalController.userEmail.value =
+            await spController.getUserEmail() ?? "";
+        globalController.userImage.value =
+            await spController.getUserImage() ?? "";
+        globalController.userId.value = await spController.getUserId() ?? -1;
+        globalController.userToken.value =
+            await spController.getBearerToken() ?? "";
+      } else {
         showSnackBar(
             title: ksError.tr, message: "signIn Error!", color: cPrimaryColor2);
       }
@@ -83,9 +106,8 @@ class AuthController extends GetxController {
     }
   }
 
-
 //sign up
- Future<void> signUp() async {
+  Future<void> signUp() async {
     try {
       Map<String, dynamic> body = {
         "first_name": firstNameTextEditingController.text.trim().toString(),
@@ -93,7 +115,8 @@ class AuthController extends GetxController {
         "username": userNameTextEditingController.text.trim().toString(),
         "email": emailTextEditingController.text.trim().toString(),
         "password": passwordTextEditingController.text.trim().toString(),
-        "confirm_password": confirmPasswordTextEditingController.text.trim().toString(),
+        "confirm_password":
+            confirmPasswordTextEditingController.text.trim().toString(),
         "user_type": "user",
       };
       ll("body : $body");
@@ -104,9 +127,8 @@ class AuthController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
-         Get.toNamed(krChooseInterestScreen);
-      }
-      else {
+        Get.toNamed(krChooseInterestScreen);
+      } else {
         showSnackBar(
             title: ksError.tr, message: "signUp Error!", color: cPrimaryColor2);
       }
@@ -115,17 +137,17 @@ class AuthController extends GetxController {
     }
   }
 
-          // LoginModel loginData = LoginModel.fromJson(response.data);
-        // await spController.saveBearerToken(loginData.token);
-        // await spController.saveRememberMe(isStayLoggedInChecked.value);
-        // await spController.saveUserName(loginData.name.toString());
-        // await spController.saveLocation(loginData.location.toString());
-        // await spController.saveUserImage(loginData.profileImage.toString());
-        // await spController.saveUserEmail(loginData.email.toString());
-        // await spController.saveUserPassword(passwordTextEditingController.text.toString());
-        // await spController.saveUserPhone(loginData.phone.toString());
-        // await spController.saveUserId(loginData.id);
-        // bool? isRememberMe = await spController.getRememberMe();
+  // LoginModel loginData = LoginModel.fromJson(response.data);
+  // await spController.saveBearerToken(loginData.token);
+  // await spController.saveRememberMe(isStayLoggedInChecked.value);
+  // await spController.saveUserName(loginData.name.toString());
+  // await spController.saveLocation(loginData.location.toString());
+  // await spController.saveUserImage(loginData.profileImage.toString());
+  // await spController.saveUserEmail(loginData.email.toString());
+  // await spController.saveUserPassword(passwordTextEditingController.text.toString());
+  // await spController.saveUserPhone(loginData.phone.toString());
+  // await spController.saveUserId(loginData.id);
+  // bool? isRememberMe = await spController.getRememberMe();
   // final RxBool isProfileLoading = RxBool(false);
   // Future<void> getProfile() async {
   //   try {
@@ -155,8 +177,8 @@ class AuthController extends GetxController {
   //     ll('profile error: $e');
   //   }
   // }
-    final RxBool isInterestLoading = RxBool(false);
-    final RxList interestList = RxList([]);
+  final RxBool isInterestLoading = RxBool(false);
+  final RxList interestList = RxList([]);
   Future<void> getInterestList() async {
     try {
       isInterestLoading.value = true;
@@ -170,7 +192,8 @@ class AuthController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
-                InterestListModel inetrestListModel = InterestListModel.fromJson(response.data);
+        InterestListModel inetrestListModel =
+            InterestListModel.fromJson(response.data);
         interestList.clear();
         interestList.addAll(inetrestListModel.interests!);
         isInterestLoading.value = false;
@@ -178,9 +201,15 @@ class AuthController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isInterestLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -190,11 +219,12 @@ class AuthController extends GetxController {
   }
 
   // selectedInterestIdList
-   Future<void> interestStore() async {
+  Future<void> interestStore() async {
     try {
       Map<String, dynamic> body = {
-        "email": "rokyh459@gmail.com",//!change it(its hard coded)
-        for(int i=0;i<selectedInterestIdList.length;i++) "interest_ids[$i]" : "${selectedInterestIdList[i]}"
+        "email": "rokyh459@gmail.com", //!change it(its hard coded)
+        for (int i = 0; i < selectedInterestIdList.length; i++)
+          "interest_ids[$i]": "${selectedInterestIdList[i]}"
       };
       ll("body : $body");
       var response = await apiServices.commonApiCall(
@@ -204,76 +234,41 @@ class AuthController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
-         Get.toNamed(krHomeScreen);
-      }
-      else {
+        Get.toNamed(krHomeScreen);
+      } else {
         showSnackBar(
-            title: ksError.tr, message: "interestStore Error!", color: cPrimaryColor2);
+            title: ksError.tr,
+            message: "interestStore Error!",
+            color: cPrimaryColor2);
       }
     } catch (e) {
       ll('interestStore error: $e');
     }
   }
 
-  // final RxList<Map<String,dynamic>> interestList = RxList([
-  //   {"name": "Horror","id":1},
-  //   {"name": "Horror","id":2},
-  //   {"name": "Horror","id":3},
-  //   {"name": "Drama","id":4},
-  //   {"name": "Drama","id":5},
-  //   {"name": "Drama","id":6},
-  //   {"name": "War","id":7},
-  //   {"name": "War","id":8},
-  //   {"name": "War","id":9},
-  //   {"name": "Western","id":10},
-  //   {"name": "Western","id":11},
-  //   {"name": "Western","id":12},
-  //   {"name": "Indian","id":13},
-  //   {"name": "Indian","id":14},
-  //   {"name": "Indian","id":15},
-  //   {"name": "Music","id":16},
-  //   {"name": "Music","id":17},
-  //   {"name": "Music","id":18},
-  //   {"name": "Thriller","id":19},
-  //   {"name": "Thriller","id":20},
-  //   {"name": "Thriller","id":21},
-  //   {"name": "Animation","id":22},
-  //   {"name": "Animation","id":23},
-  //   {"name": "Animation","id":24},
-  //   {"name": "Animation","id":25},
-  //   {"name": "Animation","id":26},
-  //   {"name": "Animation","id":27},
-  //   {"name": "Animation","id":28},
-  //   {"name": "Animation","id":29},
-  //   // "Horror",
-  //   // "Horror",
-  //   // "Drama",
-  //   // "Drama",
-  //   // "Drama",
-  //   // "War",
-  //   // "War",
-  //   // "War",
-  //   // "Western",
-  //   // "Western",
-  //   // "Western",
-  //   // "Indian",
-  //   // "Indian",
-  //   // "Indian",
-  //   // "Music",
-  //   // "Music",
-  //   // "Music",
-  //   // "Thriller",
-  //   // "Thriller",
-  //   // "Thriller",
-  //   // "Animation",
-  //   // "Animation",
-  //   // "Animation",
-  //   // "Animation",
-  //   // "Animation",
-  //   // "Animation",
-  //   // "Animation",
-  //   // "Animation",
-  // ]);
+    //! logout
+   void logout()async{
+          await SpController().onLogout();
+        // resetLoginScreen();
+        bool? isRememberMe = await spController.getRememberMe();
+        ll("The remember me value is $isRememberMe");
+        await spController.saveRememberMe(isRememberMe);
+        if(isRememberMe==null || isRememberMe==false){
+            emailTextEditingController.text = "";
+            passwordTextEditingController.text = "";
+            SharedPreferences preferences = await SharedPreferences.getInstance();
+            // canLogin.value = false;
+            // Get.find<AuthenticationController>().isStayLoggedInChecked.value = false;
+            await preferences.clear();
+          }
+          else{
+            emailTextEditingController.text = await spController.getUserEmail()??"";
+            // passwordTextEditingController.text = await spController.getUserPassword()??"";
+            // canLogin.value = true;
+            // isStayLoggedInChecked.value = true;
+          }
+        Get.offAllNamed(krSignInScreen);
+  }
   final RxList selectedInterestList = RxList([]);
   final RxList selectedInterestIdList = RxList([]);
 }
