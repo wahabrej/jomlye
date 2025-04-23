@@ -1,8 +1,6 @@
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class AllBlogsViewAllScreen extends StatelessWidget {
@@ -113,35 +111,36 @@ class AllBlogsViewAllScreen extends StatelessWidget {
                   color: cWhiteColor.withOpacity(0.2),
                 ),
                 kH16sizedBox,
-                GridView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 0.7,
-                  ),
-                  itemCount: homeController.latestBlogList.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: (){
-                        Get.toNamed(krBlogSingleScreen);
-                      },
-                      child: LatestBlogPostContent(
-                        contentHeight: 240.h,
-                        image: homeController.latestBlogList[index]["image"],
-                        title: homeController.latestBlogList[index]["title"],
-                        subTitle: homeController.latestBlogList[index]
-                            ["subtitle"],
-                        date: homeController.latestBlogList[index]["date"],
-                        reporter: homeController.latestBlogList[index]
-                            ["reporter"],
-                      ),
-                    );
-                  },
-                ),
+                //!needed
+                // GridView.builder(
+                //   shrinkWrap: true,
+                //   padding: EdgeInsets.zero,
+                //   physics: const NeverScrollableScrollPhysics(),
+                //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                //     crossAxisCount: 2,
+                //     crossAxisSpacing: 10,
+                //     mainAxisSpacing: 10,
+                //     childAspectRatio: 0.7,
+                //   ),
+                //   itemCount: homeController.latestBlogList.length,
+                //   itemBuilder: (context, index) {
+                //     return GestureDetector(
+                //       onTap: (){
+                //         Get.toNamed(krBlogSingleScreen);
+                //       },
+                //       child: LatestBlogPostContent(
+                //         contentHeight: 240.h,
+                //         image: homeController.latestBlogList[index]["image"],
+                //         title: homeController.latestBlogList[index]["title"],
+                //         subTitle: homeController.latestBlogList[index]
+                //             ["subtitle"],
+                //         date: homeController.latestBlogList[index]["date"],
+                //         reporter: homeController.latestBlogList[index]
+                //             ["reporter"],
+                //       ),
+                //     );
+                //   },
+                // ),
               ],
             ),
           ),

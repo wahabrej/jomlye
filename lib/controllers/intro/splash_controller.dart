@@ -16,6 +16,7 @@ class SplashScreenController extends GetxController {
   Future<void> onInit() async {
     await getRemember();
     startSplashScreen();
+    await Get.find<HomeController>().getHomePage();
     super.onInit();
   }
 

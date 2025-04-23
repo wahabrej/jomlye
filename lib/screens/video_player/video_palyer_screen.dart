@@ -2,7 +2,6 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/gestures.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -195,26 +194,26 @@ class VideoPlayerScreen extends StatelessWidget {
                   kH16sizedBox,
                   Row(
                     children: [
-                      CommonContainer(
+                     const CommonContainer(
                         image: kiCrown,
                       ),
                       kW10sizedBox,
-                      CommonContainer(
+                     const CommonContainer(
                         image: kiFavorite,
                       ),
                       kW10sizedBox,
-                      CommonContainer(
+                     const CommonContainer(
                         image: kiAdd,
                       ),
                       kW10sizedBox,
-                      CommonContainer(
+                     const CommonContainer(
                         image: kiDownload,
                       ),
                       kW10sizedBox,
                       CommonContainer(
                         image: kiShare,
                         onPressed: () {
-                          Share.share('Check out this awesome app! 🚀');
+                          Share.share('Share data from vidflix app! 🚀');
                         },
                       ),
                     ],
@@ -225,66 +224,73 @@ class VideoPlayerScreen extends StatelessWidget {
                     style: medium16TextStyle(cWhiteColor),
                   ),
                   kH16sizedBox,
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: width - 20,
-                        height: 150.h,
-                        child: ListView.separated(
-                          itemCount: homeController.tvSeriesList.length,
-                          separatorBuilder: (context, index) => kW10sizedBox,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return MovieContentContainer(
-                              movieImage: homeController.tvSeriesList[index]
-                                  ["movieImage"],
-                              seasonName: homeController.tvSeriesList[index]
-                                  ["season"],
-                              isPremium: homeController.tvSeriesList[index]
-                                  ["isPremium"],
-                              isSeason: homeController.tvSeriesList[index]
-                                  ["isSeason"],
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                  //!needed(remove it for temporary for these dummy list delete)
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: width - 20,
+                  //       height: 150.h,
+                  //       child: ListView.separated(
+                  //         itemCount: homeController.tvSeriesList.length,
+                  //         separatorBuilder: (context, index) => kW10sizedBox,
+                  //         shrinkWrap: true,
+                  //         physics: const AlwaysScrollableScrollPhysics(),
+                  //         scrollDirection: Axis.horizontal,
+                  //         itemBuilder: (context, index) {
+                  //           return MovieContentContainer(
+                  //             movieImage: homeController.tvSeriesList[index]
+                  //                 ["movieImage"],
+                  //             seasonName: homeController.tvSeriesList[index]
+                  //                 ["season"],
+                  //             isPremium: homeController.tvSeriesList[index]
+                  //                 ["isPremium"],
+                  //             isSeason: homeController.tvSeriesList[index]
+                  //                 ["isSeason"],
+                  //           );
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+                
+                
+                
                   kH16sizedBox,
                   Text(
                     ksRecommended.tr,
                     style: medium16TextStyle(cWhiteColor),
                   ),
                   kH16sizedBox,
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: width - 20,
-                        height: 150.h,
-                        child: ListView.separated(
-                          itemCount: homeController.tvSeriesList.length,
-                          separatorBuilder: (context, index) => kW10sizedBox,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return MovieContentContainer(
-                              movieImage: homeController.tvSeriesList[index]
-                                  ["movieImage"],
-                              seasonName: homeController.tvSeriesList[index]
-                                  ["season"],
-                              isPremium: homeController.tvSeriesList[index]
-                                  ["isPremium"],
-                              isSeason: homeController.tvSeriesList[index]
-                                  ["isSeason"],
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
+                      //!needed(remove it for temporary for these dummy list delete)
+                  // Row(
+                  //   children: [
+                  //     SizedBox(
+                  //       width: width - 20,
+                  //       height: 150.h,
+                  //       child: ListView.separated(
+                  //         itemCount: homeController.tvSeriesList.length,
+                  //         separatorBuilder: (context, index) => kW10sizedBox,
+                  //         shrinkWrap: true,
+                  //         physics: const AlwaysScrollableScrollPhysics(),
+                  //         scrollDirection: Axis.horizontal,
+                  //         itemBuilder: (context, index) {
+                  //           return MovieContentContainer(
+                  //             movieImage: homeController.tvSeriesList[index]
+                  //                 ["movieImage"],
+                  //             seasonName: homeController.tvSeriesList[index]
+                  //                 ["season"],
+                  //             isPremium: homeController.tvSeriesList[index]
+                  //                 ["isPremium"],
+                  //             isSeason: homeController.tvSeriesList[index]
+                  //                 ["isSeason"],
+                  //           );
+                  //         },
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
+              
+              
                 ],
               ),
             ),

@@ -2,7 +2,6 @@ import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class TvChannelsViewAllScreen extends StatelessWidget {
@@ -126,7 +125,7 @@ class TvChannelsViewAllScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return FeaturedTvChannelsContentContainer(
                       containerWidth: 94.w,
-                      image: homeController.featuredTvChannelsList[index],
+                      image: homeController.featuredTvChannelsList[index].thumbnail??"",
                     );
                   },
                 ),

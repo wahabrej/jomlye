@@ -1,5 +1,4 @@
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class CastDetailsScreen extends StatelessWidget {
@@ -193,31 +192,31 @@ class CastDetailsScreen extends StatelessWidget {
                 ),
                 kH16sizedBox,
                 if (homeController.selectedIndex.value == 0)
-                  GridView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 0.65,
-                    ),
-                    itemCount: homeController.recentMovieList.length,
-                    itemBuilder: (context, index) {
-                      return MovieContentContainer(
-                        movieImage: homeController.recentMovieList[index]
-                            ["movieImage"],
-                        seasonName: homeController.recentMovieList[index]
-                            ["season"],
-                        isPremium: homeController.recentMovieList[index]
-                            ["isPremium"],
-                        isSeason: homeController.recentMovieList[index]
-                            ["isSeason"],
-                      );
-                    },
-                  ),
+                  // GridView.builder(
+                  //   shrinkWrap: true,
+                  //   padding: EdgeInsets.zero,
+                  //   physics: const NeverScrollableScrollPhysics(),
+                  //   gridDelegate:
+                  //       const SliverGridDelegateWithFixedCrossAxisCount(
+                  //     crossAxisCount: 3,
+                  //     crossAxisSpacing: 10,
+                  //     mainAxisSpacing: 10,
+                  //     childAspectRatio: 0.65,
+                  //   ),
+                  //   itemCount: homeController.recentMovieList.length,
+                  //   itemBuilder: (context, index) {
+                  //     return MovieContentContainer(
+                  //       movieImage: homeController.recentMovieList[index]
+                  //           ["movieImage"],
+                  //       seasonName: homeController.recentMovieList[index]
+                  //           ["season"],
+                  //       isPremium: homeController.recentMovieList[index]
+                  //           ["isPremium"],
+                  //       isSeason: homeController.recentMovieList[index]
+                  //           ["isSeason"],
+                  //     );
+                  //   },
+                  // ),
                 if (homeController.selectedIndex.value == 1)
                   GridView.builder(
                     shrinkWrap: true,

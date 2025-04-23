@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
@@ -47,15 +48,17 @@ class HomeScreen extends StatelessWidget {
                             return Obx(() => GestureDetector(
                                   onTap: () {
                                     homeController.selectedGenre.value =
-                                        homeController.genreList[index];
+                                        homeController.genreList[index].name ??
+                                            "";
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: homeController
-                                                  .selectedGenre.value ==
-                                              homeController.genreList[index]
-                                          ? cPrimaryColor2
-                                          : cWhiteColor.withOpacity(0.1),
+                                      color:
+                                          homeController.selectedGenre.value ==
+                                                  homeController
+                                                      .genreList[index].name
+                                              ? cPrimaryColor2
+                                              : cWhiteColor.withOpacity(0.1),
                                       // border: Border.all(width: 0.5.w, color: cGreyBoxColor),
                                       borderRadius: BorderRadius.circular(6.r),
                                     ),
@@ -64,7 +67,9 @@ class HomeScreen extends StatelessWidget {
                                           horizontal: 16.w, vertical: 6.h),
                                       child: Center(
                                         child: Text(
-                                          homeController.genreList[index],
+                                          homeController
+                                                  .genreList[index].name ??
+                                              "",
                                           style:
                                               regular14TextStyle(cWhiteColor),
                                           textAlign: TextAlign.center,
@@ -98,7 +103,7 @@ class HomeScreen extends StatelessWidget {
                         width: width - 20,
                         height: 150.h,
                         child: ListView.separated(
-                          itemCount: homeController.recentMovieList.length,
+                          itemCount: homeController.newReleaseMoviesList.length,
                           separatorBuilder: (context, index) => kW8sizedBox,
                           shrinkWrap: true,
                           physics: const AlwaysScrollableScrollPhysics(),
@@ -107,7 +112,7 @@ class HomeScreen extends StatelessWidget {
                             return InkWell(
                               onTap: () {
                                 const String videoUrl =
-                                    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4";
+                                    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"; //!dummy video url
                                 Get.find<AllVideoPlayerController>()
                                     .flickManager = FlickManager(
                                   videoPlayerController:
@@ -117,13 +122,20 @@ class HomeScreen extends StatelessWidget {
                               },
                               child: MovieContentContainer(
                                 movieImage: homeController
-                                    .recentMovieList[index]["movieImage"],
-                                seasonName: homeController
-                                    .recentMovieList[index]["season"],
-                                isPremium: homeController.recentMovieList[index]
-                                    ["isPremium"],
-                                isSeason: homeController.recentMovieList[index]
-                                    ["isSeason"],
+                                    .newReleaseMoviesList[index].thumbnail,
+                                // seasonName: ,
+                                isPremium: homeController
+                                            .newReleaseMoviesList[index]
+                                            .isPaid ==
+                                        1
+                                    ? true
+                                    : false,
+                                isSeason: homeController
+                                            .newReleaseMoviesList[index]
+                                            .isTvseries ==
+                                        1
+                                    ? true
+                                    : false,
                               ),
                             );
                           },
@@ -156,15 +168,34 @@ class HomeScreen extends StatelessWidget {
                           physics: const AlwaysScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
-                            return MovieContentContainer(
-                              movieImage: homeController
-                                  .trendingMoviesList[index]["movieImage"],
-                              seasonName: homeController
-                                  .trendingMoviesList[index]["season"],
-                              isPremium: homeController
-                                  .trendingMoviesList[index]["isPremium"],
-                              isSeason: homeController.trendingMoviesList[index]
-                                  ["isSeason"],
+                            return InkWell(
+                              onTap: () {
+                                const String videoUrl =
+                                    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"; //!dummy video url
+                                Get.find<AllVideoPlayerController>()
+                                    .flickManager = FlickManager(
+                                  videoPlayerController:
+                                      VideoPlayerController.network(videoUrl),
+                                );
+                                Get.toNamed(krVideoPlayerScreen);
+                              },
+                              child: MovieContentContainer(
+                                movieImage: homeController
+                                    .newReleaseMoviesList[index].thumbnail,
+                                // seasonName: ,
+                                isPremium: homeController
+                                            .newReleaseMoviesList[index]
+                                            .isPaid ==
+                                        1
+                                    ? true
+                                    : false,
+                                isSeason: homeController
+                                            .newReleaseMoviesList[index]
+                                            .isTvseries ==
+                                        1
+                                    ? true
+                                    : false,
+                              ),
                             );
                           },
                         ),
@@ -190,21 +221,39 @@ class HomeScreen extends StatelessWidget {
                         width: width - 20,
                         height: 150.h,
                         child: ListView.separated(
-                          itemCount: homeController.trendingMoviesList.length,
+                          itemCount: homeController.popularTvShowsList.length,
                           separatorBuilder: (context, index) => kW8sizedBox,
                           shrinkWrap: true,
                           physics: const AlwaysScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
-                            return MovieContentContainer(
-                              movieImage: homeController
-                                  .trendingMoviesList[index]["movieImage"],
-                              seasonName: homeController
-                                  .trendingMoviesList[index]["season"],
-                              isPremium: homeController
-                                  .trendingMoviesList[index]["isPremium"],
-                              isSeason: homeController.trendingMoviesList[index]
-                                  ["isSeason"],
+                            return InkWell(
+                              onTap: () {
+                                const String videoUrl =
+                                    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"; //!dummy video url
+                                Get.find<AllVideoPlayerController>()
+                                    .flickManager = FlickManager(
+                                  videoPlayerController:
+                                      VideoPlayerController.network(videoUrl),
+                                );
+                                Get.toNamed(krVideoPlayerScreen);
+                              },
+                              child: MovieContentContainer(
+                                movieImage: homeController
+                                    .popularTvShowsList[index].thumbnail,
+                                // seasonName: ,
+                                isPremium: homeController
+                                            .popularTvShowsList[index].isPaid ==
+                                        1
+                                    ? true
+                                    : false,
+                                isSeason: homeController
+                                            .popularTvShowsList[index]
+                                            .isTvseries ==
+                                        1
+                                    ? true
+                                    : false,
+                              ),
                             );
                           },
                         ),
@@ -377,15 +426,18 @@ class HomeScreen extends StatelessWidget {
                         width: width - 20,
                         height: 120.h,
                         child: ListView.separated(
-                          itemCount: homeController.tvSeriesList.length,
+                          itemCount:
+                              homeController.featuredTvChannelsList.length,
                           separatorBuilder: (context, index) => kW8sizedBox,
                           shrinkWrap: true,
                           physics: const AlwaysScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return FeaturedTvChannelsContentContainer(
-                              image:
-                                  homeController.featuredTvChannelsList[index],
+                              image: homeController
+                                      .featuredTvChannelsList[index]
+                                      .thumbnail ??
+                                  "",
                             );
                           },
                         ),
@@ -407,21 +459,25 @@ class HomeScreen extends StatelessWidget {
                         width: width - 20,
                         height: 150.h,
                         child: ListView.separated(
-                          itemCount: homeController.tvSeriesList.length,
+                          itemCount: homeController.tvShowsList.length,
                           separatorBuilder: (context, index) => kW10sizedBox,
                           shrinkWrap: true,
                           physics: const AlwaysScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return MovieContentContainer(
-                              movieImage: homeController.tvSeriesList[index]
-                                  ["movieImage"],
-                              seasonName: homeController.tvSeriesList[index]
-                                  ["season"],
-                              isPremium: homeController.tvSeriesList[index]
-                                  ["isPremium"],
-                              isSeason: homeController.tvSeriesList[index]
-                                  ["isSeason"],
+                              movieImage:
+                                  homeController.tvShowsList[index].thumbnail,
+                              // seasonName: homeController.tvShowsList[index].,
+                              isPremium:
+                                  homeController.tvShowsList[index].isPaid == 1
+                                      ? true
+                                      : false,
+                              isSeason: homeController
+                                          .tvShowsList[index].isTvseries ==
+                                      1
+                                  ? true
+                                  : false,
                             );
                           },
                         ),
@@ -446,16 +502,19 @@ class HomeScreen extends StatelessWidget {
                         width: width - 20,
                         height: 88.h,
                         child: ListView.separated(
-                          itemCount: homeController.topArtistList.length,
+                          itemCount: homeController.topArtistsList.length,
                           separatorBuilder: (context, index) => kW10sizedBox,
                           shrinkWrap: true,
                           physics: const AlwaysScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return TopArtistContent(
-                              image: homeController.topArtistList[index]
-                                  ["image"],
-                              name: homeController.topArtistList[index]["name"],
+                              image: homeController
+                                      .topArtistsList[index].starImage ??
+                                  "",
+                              name: homeController
+                                      .topArtistsList[index].starName ??
+                                  "",
                             );
                           },
                         ),
@@ -480,7 +539,7 @@ class HomeScreen extends StatelessWidget {
                         width: width - 20,
                         height: 210.h,
                         child: ListView.separated(
-                          itemCount: homeController.latestBlogList.length,
+                          itemCount: homeController.latestBlogsList.length,
                           separatorBuilder: (context, index) => kW10sizedBox,
                           shrinkWrap: true,
                           physics: const AlwaysScrollableScrollPhysics(),
@@ -491,16 +550,25 @@ class HomeScreen extends StatelessWidget {
                                 Get.toNamed(krBlogSingleScreen);
                               },
                               child: LatestBlogPostContent(
-                                image: homeController.latestBlogList[index]
-                                    ["image"],
-                                title: homeController.latestBlogList[index]
-                                    ["title"],
-                                subTitle: homeController.latestBlogList[index]
-                                    ["subtitle"],
-                                date: homeController.latestBlogList[index]
-                                    ["date"],
-                                reporter: homeController.latestBlogList[index]
-                                    ["reporter"],
+                                image: homeController
+                                        .latestBlogsList[index].image ??
+                                    "",
+                                title: homeController
+                                        .latestBlogsList[index].title ??
+                                    "",
+                                subTitle: homeController
+                                        .latestBlogsList[index].seoTitle ??
+                                    "",
+                                date: DateFormat('d MMM, yyyy').format(
+                                    DateTime.parse(homeController
+                                        .latestBlogsList[index].createdAt
+                                        .toString())),
+                                reporter: homeController
+                                        .latestBlogsList[index].author ??
+                                    "",
+                                    tag: homeController
+                                        .latestBlogsList[index].tags ??
+                                    "",
                               ),
                             );
                           },
@@ -535,105 +603,116 @@ class LatestBlogPostContent extends StatelessWidget {
       required this.subTitle,
       required this.date,
       required this.reporter,
+      required this.tag,
       this.contentHeight});
-  final String image, title, subTitle, date, reporter;
+  final String image, title, subTitle, date, reporter, tag;
   final double? contentHeight;
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(k6BorderRadius),
-      child: Stack(
-        children: [
-          Image.network(
-            image,
-            height: contentHeight ?? 210.h,
-            width: (width - 30) / 2,
-            fit: BoxFit.cover,
-          ),
-          Positioned(
-            top: 10,
-            left: 14,
-            child: Container(
-              height: 14.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2.r),
-                color: cPrimaryColor2,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: k4Padding, vertical: k2Padding),
-                child: Text(
-                  "News",
-                  style: regular10TextStyle(cWhiteColor),
+    return SizedBox(//!extra added this sized nox. remove it
+      width: (width - 30) / 2,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(k6BorderRadius),
+        child: Stack(
+          children: [
+            Image.network(
+              image,
+              height: contentHeight ?? 210.h,
+              width: (width - 30) / 2,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => const Center(
+                child: Icon(
+                  Icons.error_outline_sharp,
+                  size: 40,
+                  color: cPrimaryColor2,
                 ),
               ),
             ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              width: 210.w,
-              height: 70.h,
-              decoration: BoxDecoration(
-                color: cBlackColor.withOpacity(0.8),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: k12Padding),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                        child: Text(
-                      title,
-                      style: semiBold10TextStyle(cWhiteColor),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )),
-                    kH4sizedBox,
-                    SizedBox(
-                        child: Text(
-                      subTitle,
-                      style: regular8TextStyle(cWhiteColor.withOpacity(0.5)),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    )),
-                    kH4sizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        const Icon(
-                          Icons.calendar_month_rounded,
-                          size: kIconSize16,
-                          color: cWhiteColor,
-                        ),
-                        kW4sizedBox,
-                        Text(
-                          date,
-                          style: regular8TextStyle(cWhiteColor),
-                        ),
-                        kW8sizedBox,
-                        const Icon(
-                          Icons.person_pin_rounded,
-                          size: kIconSize16,
-                          color: cWhiteColor,
-                        ),
-                        kW4sizedBox,
-                        Text(
-                          reporter,
-                          style: regular8TextStyle(cWhiteColor),
-                        ),
-                      ],
-                    ),
-                    kH16sizedBox,
-                  ],
+            Positioned(
+              top: 10,
+              left: 14,
+              child: Container(
+                height: 14.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(2.r),
+                  color: cPrimaryColor2,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: k4Padding, vertical: k2Padding),
+                  child: Text(
+                    tag,
+                    style: regular10TextStyle(cWhiteColor),
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                width: 210.w,
+                height: 70.h,
+                decoration: BoxDecoration(
+                  color: cBlackColor.withOpacity(0.8),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: k12Padding),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                          child: Text(
+                        title,
+                        style: semiBold10TextStyle(cWhiteColor),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                      kH4sizedBox,
+                      SizedBox(
+                          child: Text(
+                        subTitle,
+                        style: regular8TextStyle(cWhiteColor.withOpacity(0.5)),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )),
+                      kH4sizedBox,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.calendar_month_rounded,
+                            size: kIconSize16,
+                            color: cWhiteColor,
+                          ),
+                          kW4sizedBox,
+                          Text(
+                            date,
+                            style: regular8TextStyle(cWhiteColor),
+                          ),
+                          kW8sizedBox,
+                          const Icon(
+                            Icons.person_pin_rounded,
+                            size: kIconSize16,
+                            color: cWhiteColor,
+                          ),
+                          kW4sizedBox,
+                          Text(
+                            reporter,
+                            style: regular8TextStyle(cWhiteColor),
+                          ),
+                        ],
+                      ),
+                      kH16sizedBox,
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -773,6 +852,12 @@ class FeaturedTvChannelsContentContainer extends StatelessWidget {
         padding: const EdgeInsets.all(k20Padding),
         child: Image.network(
           image,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) => const Icon(
+            Icons.error_outline_sharp,
+            size: 40,
+            color: cPrimaryColor2,
+          ),
         ),
       ),
     );
@@ -842,6 +927,11 @@ class MovieContentContainer extends StatelessWidget {
               width: (width - 60) / 3,
               height: 150.h,
               fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => const Icon(
+                Icons.error_outline_sharp,
+                size: 40,
+                color: cPrimaryColor2,
+              ),
             ),
           ),
         ),
@@ -892,7 +982,7 @@ class MovieContentContainer extends StatelessWidget {
 
 class HomeSlider extends StatelessWidget {
   HomeSlider({super.key});
-  final HomeController controller = Get.find<HomeController>();
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -907,10 +997,10 @@ class HomeSlider extends StatelessWidget {
             // viewportFraction: 0.9,
             viewportFraction: 1,
             onPageChanged: (index, reason) {
-              controller.updateCurrentIndex(index);
+              homeController.updateCurrentIndex(index);
             },
           ),
-          items: controller.sliderImages.map((image) {
+          items: homeController.sliderList.map((slider) {
             return Stack(
               children: [
                 SizedBox(
@@ -918,7 +1008,7 @@ class HomeSlider extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(k8BorderRadius.r),
                     child: Image.network(
-                      image['url'],
+                      slider.thumbnail ?? "",
                       fit: BoxFit.cover,
                       width: width,
                       height: height * 0.5,
@@ -974,29 +1064,29 @@ class HomeSlider extends StatelessWidget {
                       Obx(() => Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: List.generate(
-                              controller.sliderImages.length,
+                              homeController.sliderList.length,
                               (index) => Container(
-                                width: controller.currentIndex.value == index
+                                width: homeController.currentIndex.value == index
                                     ? 24
                                     : 8,
-                                height: controller.currentIndex.value == index
+                                height: homeController.currentIndex.value == index
                                     ? 6
                                     : 8,
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 3),
-                                decoration: controller.currentIndex.value ==
+                                decoration: homeController.currentIndex.value ==
                                         index
                                     ? BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(100.r),
-                                        color: controller.currentIndex.value ==
+                                        color: homeController.currentIndex.value ==
                                                 index
                                             ? cPrimaryColor2
                                             : cLineColor,
                                       )
                                     : BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: controller.currentIndex.value ==
+                                        color: homeController.currentIndex.value ==
                                                 index
                                             ? cPrimaryColor2
                                             : cLineColor,
@@ -1008,37 +1098,37 @@ class HomeSlider extends StatelessWidget {
                     ],
                   ),
                 ),
-                Positioned(
-                  bottom: 75,
-                  left: width * 0.3,
-                  child: Row(
-                    children: image['tags'].map<Widget>((tag) {
-                      return Container(
-                        margin: const EdgeInsets.only(right: 5),
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 4),
-                        decoration: BoxDecoration(
-                          color: cWhiteColor.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(8.r),
-                          border: Border.all(
-                            width: 1.33,
-                            color: cPrimaryColor2.withOpacity(0.3),
-                          ),
-                        ),
-                        child: Text(
-                          tag,
-                          style: semiBold14TextStyle(cWhiteColor),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
+                // Positioned(
+                //   bottom: 75,
+                //   left: width * 0.3,
+                //   child: Row(
+                //     children: slider.tags.map<Widget>((tag) {
+                //       return Container(
+                //         margin: const EdgeInsets.only(right: 5),
+                //         padding: const EdgeInsets.symmetric(
+                //             horizontal: 8, vertical: 4),
+                //         decoration: BoxDecoration(
+                //           color: cWhiteColor.withOpacity(0.2),
+                //           borderRadius: BorderRadius.circular(8.r),
+                //           border: Border.all(
+                //             width: 1.33,
+                //             color: cPrimaryColor2.withOpacity(0.3),
+                //           ),
+                //         ),
+                //         child: Text(
+                //           tag,
+                //           style: semiBold14TextStyle(cWhiteColor),
+                //         ),
+                //       );
+                //     }).toList(),
+                //   ),
+                // ),
                 kH10sizedBox,
                 Positioned(
                   bottom: 45,
                   left: width * 0.35,
                   child: Text(
-                    image['title'],
+                    slider.title??"",
                     style: semiBold24TextStyle(cWhiteColor),
                   ),
                 ),

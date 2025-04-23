@@ -180,32 +180,33 @@ class BlogSingleScreen extends StatelessWidget {
                   style: regular14TextStyle(cWhiteColor.withOpacity(0.7)),
                 ),
                 kH20sizedBox,
-                GridView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 0.9,
-                  ),
-                  itemCount: homeController.latestBlogList.length,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                        width: width - 72,
-                        height: 120,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(k4BorderRadius),
-                          child: Image.network(
-                            homeController.latestBlogList[index]["image"],
-                            width: width - 72,
-                            height: 120,
-                            fit: BoxFit.cover,
-                          ),
-                        ));
-                  },
-                ),
+                //!needed
+                // GridView.builder(
+                //   shrinkWrap: true,
+                //   padding: EdgeInsets.zero,
+                //   physics: const NeverScrollableScrollPhysics(),
+                //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                //     crossAxisCount: 3,
+                //     crossAxisSpacing: 16,
+                //     mainAxisSpacing: 10,
+                //     childAspectRatio: 0.9,
+                //   ),
+                //   itemCount: homeController.latestBlogList.length,
+                //   itemBuilder: (context, index) {
+                //     return SizedBox(
+                //         width: width - 72,
+                //         height: 120,
+                //         child: ClipRRect(
+                //           borderRadius: BorderRadius.circular(k4BorderRadius),
+                //           child: Image.network(
+                //             homeController.latestBlogList[index]["image"],
+                //             width: width - 72,
+                //             height: 120,
+                //             fit: BoxFit.cover,
+                //           ),
+                //         ));
+                //   },
+                // ),
                 kH24sizedBox,
                 Text(
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. Vivamus tortor massa, rhoncus quis elementum sit amet, bibendum viverra libero.",
@@ -340,40 +341,40 @@ class BlogSingleScreen extends StatelessWidget {
                   },
                 ),
                 kH16sizedBox,
-                Row(
-                  children: [
-                    SizedBox(
-                      width: width - 40,
-                      height: 210.h,
-                      child: ListView.separated(
-                        itemCount: homeController.latestBlogList.length,
-                        separatorBuilder: (context, index) => kW10sizedBox,
-                        shrinkWrap: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Get.toNamed(krBlogSingleScreen);
-                            },
-                            child: LatestBlogPostContent(
-                              image: homeController.latestBlogList[index]
-                                  ["image"],
-                              title: homeController.latestBlogList[index]
-                                  ["title"],
-                              subTitle: homeController.latestBlogList[index]
-                                  ["subtitle"],
-                              date: homeController.latestBlogList[index]
-                                  ["date"],
-                              reporter: homeController.latestBlogList[index]
-                                  ["reporter"],
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                // Row(
+                //   children: [
+                //     SizedBox(
+                //       width: width - 40,
+                //       height: 210.h,
+                //       child: ListView.separated(
+                //         itemCount: homeController.latestBlogList.length,
+                //         separatorBuilder: (context, index) => kW10sizedBox,
+                //         shrinkWrap: true,
+                //         physics: const AlwaysScrollableScrollPhysics(),
+                //         scrollDirection: Axis.horizontal,
+                //         itemBuilder: (context, index) {
+                //           return GestureDetector(
+                //             onTap: () {
+                //               Get.toNamed(krBlogSingleScreen);
+                //             },
+                //             child: LatestBlogPostContent(
+                //               image: homeController.latestBlogList[index]
+                //                   ["image"],
+                //               title: homeController.latestBlogList[index]
+                //                   ["title"],
+                //               subTitle: homeController.latestBlogList[index]
+                //                   ["subtitle"],
+                //               date: homeController.latestBlogList[index]
+                //                   ["date"],
+                //               reporter: homeController.latestBlogList[index]
+                //                   ["reporter"],
+                //             ),
+                //           );
+                //         },
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 //!comment widget
                 kH20sizedBox,
                 Container(

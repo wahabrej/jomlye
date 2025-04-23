@@ -1,7 +1,6 @@
 import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
@@ -134,59 +133,29 @@ class ProfileScreen extends StatelessWidget {
                 // kH40sizedBox,
                 profileController.profileImageFile.value == null
                     ? Center(
-                        child: Stack(
-                          children: [
-                            Container(
-                              width: 100.w,
-                              height: 100.h,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              child: CircleAvatar(
-                                backgroundColor: cWhiteColor.withOpacity(0.2),
-                                child: ClipOval(
-                                  child: Image.network(
-                                    width: 100.w,
-                                    height: 100.h,
-                                    fit: BoxFit.cover,
-                                    globalController.userImage.value,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            const Icon(
-                                      Icons.person,
-                                      size: 80,
-                                      color: cPrimaryColor2,
-                                    ),
-                                  ),
+                        child: Container(
+                          width: 100.w,
+                          height: 100.h,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          child: CircleAvatar(
+                            backgroundColor: cWhiteColor.withOpacity(0.2),
+                            child: ClipOval(
+                              child: Image.network(
+                                width: 100.w,
+                                height: 100.h,
+                                fit: BoxFit.cover,
+                                globalController.userImage.value,
+                                errorBuilder: (context, error, stackTrace) =>
+                                 const Icon(
+                                  Icons.person,
+                                  size: 80,
+                                  color: cPrimaryColor2,
                                 ),
                               ),
                             ),
-                            Positioned(
-                              bottom: 2,
-                              right: 0,
-                              child: InkWell(
-                                onTap: () {
-                                  showImageSourcePopup(context);
-                                },
-                                child: Container(
-                                  width: 30.w,
-                                  height: 30.h,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: cWhiteColor,
-                                    border: Border.all(
-                                        width: 1, color: cPrimaryColor2),
-                                  ),
-                                  child: Center(
-                                      child: Image.asset(
-                                    kiEditProfile,
-                                    width: 14.w,
-                                    height: 14.w,
-                                  )),
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       )
                     : Stack(

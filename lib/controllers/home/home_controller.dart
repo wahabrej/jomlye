@@ -1,32 +1,40 @@
+import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
+import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
+import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
+import 'package:vidflix_flutter_app/models/home/home_data_model.dart';
+import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:vidflix_flutter_app/utils/constants/urls.dart';
 
 class HomeController extends GetxController {
+    final SpController spController = SpController();
+  final ApiServices apiServices = ApiServices();
   var currentIndex = 0.obs;
   final RxString selectedTitle = RxString(""); 
 
-  final List<Map<String, dynamic>> sliderImages = [
-    {
-      'url':
-          'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'title': 'The Dune Special',
-      'tags': ['Action', 'Trending', '2024'],
-    },
-    {
-      'url':
-          'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'title': 'Another Movie',
-      'tags': ['Adventure', 'New', '2025'],
-    },
-    {
-      'url':
-          'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      'title': 'Sci-Fi Saga',
-      'tags': ['Sci-Fi', 'Blockbuster', '2023'],
-    },
-  ];
+  // final List<Map<String, dynamic>> sliderImages = [
+  //   {
+  //     'url':
+  //         'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  //     'title': 'The Dune Special',
+  //     'tags': ['Action', 'Trending', '2024'],
+  //   },
+  //   {
+  //     'url':
+  //         'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  //     'title': 'Another Movie',
+  //     'tags': ['Adventure', 'New', '2025'],
+  //   },
+  //   {
+  //     'url':
+  //         'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  //     'title': 'Sci-Fi Saga',
+  //     'tags': ['Sci-Fi', 'Blockbuster', '2023'],
+  //   },
+  // ];
 
-  final RxList genreList =
-      RxList(["All", "Action", "War", "Hollywood", "Live", "Movie"]);
+  // final RxList genreList =
+  //     RxList(["All", "Action", "War", "Hollywood", "Live", "Movie"]);
       //* blog
   final RxString selectedGenre = RxString("");
   final RxList blogCategoriesList =
@@ -82,132 +90,6 @@ class HomeController extends GetxController {
     selectedArtistsSort.value = "";
   }
 
-  final RxList<Map<String, dynamic>> recentMovieList =
-      RxList<Map<String, dynamic>>([
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": true,
-      "season": "Season 1"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": false,
-      "season": "Season 2"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": false,
-      "season": "Season 3",
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": true,
-      "season": "Season 1",
-    },
-  ]);
-  final RxList<Map<String, dynamic>> trendingMoviesList =
-      RxList<Map<String, dynamic>>([
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": true,
-      "season": "Season 1"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": false,
-      "season": "Season 2"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": false,
-      "season": "Season 3",
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": true,
-      "season": "Season 1",
-    },
-  ]);
-
-  final RxList<Map<String, dynamic>> popularTvShowsList =
-      RxList<Map<String, dynamic>>([
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": true,
-      "season": "Season 1"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": true,
-      "season": "Season 2"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": false,
-      "season": "Season 3",
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": true,
-      "season": "Season 1",
-    },
-  ]);
-  final RxList<Map<String, dynamic>> tvSeriesList =
-      RxList<Map<String, dynamic>>([
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": true,
-      "season": "Season 1"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": true,
-      "season": "Season 2"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": false,
-      "season": "Season 3",
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": false,
-      "season": "Season 1",
-    },
-  ]);
-
   final RxList<Map<String, dynamic>> recentPlayedMovies =
       RxList<Map<String, dynamic>>([
     {
@@ -234,77 +116,6 @@ class HomeController extends GetxController {
       "title": "The Bad Boys",
       "duration": "2 hr 20 mins",
     },
-  ]);
-  final RxList<Map<String, dynamic>> topArtistList =
-      RxList<Map<String, dynamic>>([
-    {
-      "image":
-          "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "name": "Jhon Abrar",
-    },
-    {
-      "image":
-          "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-      "name": "Alen Mark",
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "name": "Jhon Abrar",
-    },
-    {
-      "image":
-          "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-      "name": "Alen Mark",
-    },
-  ]);
-
-  final RxList<Map<String, dynamic>> latestBlogList =
-      RxList<Map<String, dynamic>>([
-    {
-      "image":
-          "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "title":
-          "Top News For Defense Update and other info news dsmnr ghnd fgjd fkgn dkgn kdng",
-      "subtitle": "Latest Happenings | Pakistani showbiz latest news",
-      "date": "18 Aug, 2024",
-      "reporter": "Asif Khan"
-    },
-    {
-      "image":
-          "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-      "title":
-          "Top News For Defense Update and other info news dsmnr ghnd fgjd fkgn dkgn kdng",
-      "subtitle": "Latest Happenings | Pakistani showbiz latest news",
-      "date": "18 Aug, 2024",
-      "reporter": "Asif Khan"
-    },
-    {
-      "image":
-          "https://images.unsplash.com/photo-1633332755192-727a05c4013d?q=80&w=2080&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      "title":
-          "Top News For Defense Update and other info news dsmnr ghnd fgjd fkgn dkgn kdng",
-      "subtitle": "Latest Happenings | Pakistani showbiz latest news",
-      "date": "18 Aug, 2024",
-      "reporter": "Asif Khan"
-    },
-    {
-      "image":
-          "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-      "title":
-          "Top News For Defense Update and other info news dsmnr ghnd fgjd fkgn dkgn kdng",
-      "subtitle": "Latest Happenings | Pakistani showbiz latest news",
-      "date": "18 Aug, 2024",
-      "reporter": "Asif Khan"
-    },
-  ]);
-
-  final RxList featuredTvChannelsList = RxList([
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0tieg_XmSWY4Er34er592OFueSzMT0OzWQA&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSLPK5f26HCqYTxBDwVVj-6OttdrGCI2wuvQ&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLhtv6ztC-4z0LOeNh-bvvlqcAmHPQf_iP2enwcFqzX3P1oDBIp8e06M&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLhtv6ztC-4z0LOeNh-bvvlqcAmHPQf_iP2enwcFqzX3P1oDBIp8e06M&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLhtv6ztC-4z0LOeNh-bvvlqcAmHPQf_iP2enwcFqzX3P1oDBIp8e06M&s"
   ]);
 
     final RxList<Map<String, dynamic>> viewAllMovieList =
@@ -463,5 +274,71 @@ class HomeController extends GetxController {
   ]);
   final RxDouble lowerValue = RxDouble(0);
   final RxDouble upperValue = RxDouble(0);
+
+  //*Home page
+  final Rx<HomeDataModel?> homeDataModel = Rx<HomeDataModel?>(null);
+  final RxList<NewReleaseMovie> sliderList = RxList<NewReleaseMovie>([]);
+  final RxList<Genre> genreList = RxList<Genre>([]);
+  final RxList<NewReleaseMovie> newReleaseMoviesList = RxList<NewReleaseMovie>([]);
+  final RxList<NewReleaseMovie> trendingMoviesList = RxList<NewReleaseMovie>([]);
+  final RxList<NewReleaseMovie> popularTvShowsList = RxList<NewReleaseMovie>([]);
+  final RxList<FeaturedTvChannel> featuredTvChannelsList = RxList<FeaturedTvChannel>([]);
+  final RxList<NewReleaseMovie> tvShowsList = RxList<NewReleaseMovie>([]);
+  final RxList<TopArtist> topArtistsList = RxList<TopArtist>([]);
+  final RxList<LatestBlog> latestBlogsList = RxList<LatestBlog>([]);
+   final RxBool isHomePageLoading = RxBool(false);
+  Future<void> getHomePage() async {
+    try {
+      isHomePageLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuHome,
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        HomeDataModel homeDataModel = HomeDataModel.fromJson(response.data);
+        sliderList.clear();
+        genreList.clear();
+        newReleaseMoviesList.clear();
+        trendingMoviesList.clear();
+        popularTvShowsList.clear();
+        featuredTvChannelsList.clear();
+        tvShowsList.clear();
+        topArtistsList.clear();
+        latestBlogsList.clear();
+        sliderList.addAll(homeDataModel.slider!);
+        genreList.addAll(homeDataModel.genres!);
+        newReleaseMoviesList.addAll(homeDataModel.newReleaseMovies!);
+        trendingMoviesList.addAll(homeDataModel.trendingMovies!);
+        popularTvShowsList.addAll(homeDataModel.popularTvShows!);
+        featuredTvChannelsList.addAll(homeDataModel.featuredTvChannels!);
+        tvShowsList.addAll(homeDataModel.tvShows!);
+        topArtistsList.addAll(homeDataModel.topArtists!);
+        latestBlogsList.addAll(homeDataModel.latestBlogs!);
+        isHomePageLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isHomePageLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
+        } else {
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isHomePageLoading.value = false;
+      ll('getHomePage error: $e');
+    }
+  }
   
 }
