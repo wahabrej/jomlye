@@ -169,7 +169,7 @@ class ChangePasswordScreen extends StatelessWidget {
                 CustomElevatedButton(
                     label: ksGetStarted.tr,
                     onPressed: () {
-                      showSnackBar(title: "Success", message: "Password Changed Successfully", color: cGreenColor);
+                      profileController.changePassword();
                     },
                     buttonWidth: width - 40,
                     buttonColor: cPrimaryColor2),

@@ -269,6 +269,7 @@ class ProfileScreen extends StatelessWidget {
                   image: kiLock,
                   title: ksChangePassword.tr,
                   onPressed: () {
+                    profileController. resetPassword();
                     Get.toNamed(krChangePasswordScreen);
                   },
                 ),

@@ -4,7 +4,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
-import 'package:vidflix_flutter_app/models/common/common_user_model.dart';
 import 'package:vidflix_flutter_app/models/profile/update_profile_model.dart';
 import 'package:vidflix_flutter_app/screens/profile/common_webview_screen.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
@@ -380,5 +379,40 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ll('updateProfile error: $e');
     }
   }
+  
+//change Password
+  resetPassword(){
+      oldPasswordTextEditingController.clear();
+        newPasswordTextEditingController.clear();
+        confirmNewPasswordTextEditingController.clear();
+  }
+  Future<void> changePassword() async {
+    try {
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        "old_password": oldPasswordTextEditingController.text.trim().toString(),
+        "new_password": newPasswordTextEditingController.text.trim().toString(),
+        "confirm_password": confirmNewPasswordTextEditingController.text.trim().toString(),
 
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuChangePassword,
+        body: body,
+        token: token,
+        requestMethod: kPost,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        Get.back();
+       resetPassword();
+        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "signUp Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('changePassword error: $e');
+    }
+  }
 }
