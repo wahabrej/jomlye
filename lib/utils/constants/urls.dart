@@ -21,3 +21,4 @@ const String kuChangePassword = "change-password";
 const String kuHome = "home";
 //artist
 const String kuArtist = "artists";
+const String kuArtistDetails = "artist-details";

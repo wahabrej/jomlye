@@ -2,7 +2,8 @@ import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
 import 'package:vidflix_flutter_app/models/home/home_data_model.dart';
-import 'package:vidflix_flutter_app/models/home/view_all/artist_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_details_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/utils/constants/urls.dart';
@@ -255,24 +256,24 @@ class HomeController extends GetxController {
   final RxBool isSearchSuffixIconShow = RxBool(false);
   //! cast details screen
   final RxInt selectedIndex = RxInt(0); // Default selected index
-  final List<String> tabs = ["Movies", "Gallery", "Personal Information"];
+  final List<String> tabs = ["Movies", "Personal Information"];
 
   void changeTab(int index) {
     selectedIndex.value = index;
   }
-  final RxList castGalleryList = RxList([
-    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-    "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-  ]);
+  // final RxList castGalleryList = RxList([
+  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
+  // ]);
   final RxDouble lowerValue = RxDouble(0);
   final RxDouble upperValue = RxDouble(0);
 
@@ -342,6 +343,8 @@ class HomeController extends GetxController {
     }
   }
 
+ //!Artist
+ //Artist api implement
    final RxBool isArtistLoading = RxBool(false);
    final Rx<ArtistModel?> artistModel = Rx<ArtistModel?>(null);
   final RxList<ArtistData> artistList = RxList<ArtistData>([]);
@@ -366,20 +369,52 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isArtistLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(
-              title: ksError.tr,
-              message: response.message.toString(),
-              color: cPrimaryColor2);
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
         } else {
-          showSnackBar(
-              title: ksError.tr,
-              message: errorModel.errors[0].message,
-              color: cPrimaryColor2);
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
         }
       }
     } catch (e) {
       isArtistLoading.value = false;
       ll('getArtistList error: $e');
+    }
+  }
+
+   //Artist details api implement
+   final RxBool isArtistDetailsLoading = RxBool(false);
+   final Rx<ArtistDetailsModel?> artistDetailsModel = Rx<ArtistDetailsModel?>(null);
+  final Rx<Details?> artistDetailsData = Rx<Details?>(null);
+  final RxList<Movie> artistMovieList = RxList<Movie>([]);
+  Future<void> getArtistDetails([int? id]) async {
+    try {
+      isArtistDetailsLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuArtistDetails?id=${id.toString()}",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        ArtistDetailsModel artistDetailsModel = ArtistDetailsModel.fromJson(response.data);
+        artistMovieList.clear();
+        artistMovieList.addAll(artistDetailsModel.movies!);
+        artistDetailsData.value = artistDetailsModel.details;
+        isArtistDetailsLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isArtistDetailsLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isArtistDetailsLoading.value = false;
+      ll('getArtistDetails error: $e');
     }
   }
   

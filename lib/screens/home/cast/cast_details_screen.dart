@@ -1,4 +1,5 @@
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
+import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class CastDetailsScreen extends StatelessWidget {
@@ -88,8 +89,8 @@ class CastDetailsScreen extends StatelessWidget {
                       //  ),
                       child: Center(
                         child: Container(
-                          width: 96.w,
-                          height: 96.h,
+                          width: 98.w,
+                          height: 98.h,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
@@ -104,12 +105,12 @@ class CastDetailsScreen extends StatelessWidget {
                                 width: 100,
                                 height: 100,
                                 fit: BoxFit.cover,
-                                "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+                                homeController.artistDetailsData.value?.starImage??"",
                                 // loadingBuilder: imageLoadingBuilder,
                                 errorBuilder: (context, error, stackTrace) {
                                   return const Icon(
                                     Icons.person,
-                                    size: 100,
+                                    size: 80,
                                   );
                                 },
                               ),
@@ -127,12 +128,12 @@ class CastDetailsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Melica Anderson",
+                            homeController.artistDetailsData.value?.starName??"",
                             style: semiBold24TextStyle(cWhiteColor),
                           ),
                           // kH6sizedBox,
                           Text(
-                            "Actress / Hollywood",
+                            homeController.artistDetailsData.value?.starType??"",
                             style: regular16TextStyle(
                               cWhiteColor.withOpacity(0.7),
                             ),
@@ -192,32 +193,6 @@ class CastDetailsScreen extends StatelessWidget {
                 ),
                 kH16sizedBox,
                 if (homeController.selectedIndex.value == 0)
-                  // GridView.builder(
-                  //   shrinkWrap: true,
-                  //   padding: EdgeInsets.zero,
-                  //   physics: const NeverScrollableScrollPhysics(),
-                  //   gridDelegate:
-                  //       const SliverGridDelegateWithFixedCrossAxisCount(
-                  //     crossAxisCount: 3,
-                  //     crossAxisSpacing: 10,
-                  //     mainAxisSpacing: 10,
-                  //     childAspectRatio: 0.65,
-                  //   ),
-                  //   itemCount: homeController.recentMovieList.length,
-                  //   itemBuilder: (context, index) {
-                  //     return MovieContentContainer(
-                  //       movieImage: homeController.recentMovieList[index]
-                  //           ["movieImage"],
-                  //       seasonName: homeController.recentMovieList[index]
-                  //           ["season"],
-                  //       isPremium: homeController.recentMovieList[index]
-                  //           ["isPremium"],
-                  //       isSeason: homeController.recentMovieList[index]
-                  //           ["isSeason"],
-                  //     );
-                  //   },
-                  // ),
-                if (homeController.selectedIndex.value == 1)
                   GridView.builder(
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
@@ -229,14 +204,36 @@ class CastDetailsScreen extends StatelessWidget {
                       mainAxisSpacing: 10,
                       childAspectRatio: 0.65,
                     ),
-                    itemCount: homeController.castGalleryList.length,
+                    itemCount: homeController.artistMovieList.length,
                     itemBuilder: (context, index) {
-                      return CommonImageWidget(
-                        image: homeController.castGalleryList[index],
+                      return MovieContentContainer(
+                        movieImage: homeController.artistMovieList[index].thumbnail,
+                        // seasonName: homeController.artistMovieList[index].,
+                        isPremium: homeController.artistMovieList[index].isPaid==1 ? true : false,
+                        isSeason: homeController.artistMovieList[index].isTvseries==1 ? true : false,
                       );
                     },
                   ),
-                if (homeController.selectedIndex.value == 2)
+                // if (homeController.selectedIndex.value == 1)
+                //   GridView.builder(
+                //     shrinkWrap: true,
+                //     padding: EdgeInsets.zero,
+                //     physics: const NeverScrollableScrollPhysics(),
+                //     gridDelegate:
+                //         const SliverGridDelegateWithFixedCrossAxisCount(
+                //       crossAxisCount: 3,
+                //       crossAxisSpacing: 10,
+                //       mainAxisSpacing: 10,
+                //       childAspectRatio: 0.65,
+                //     ),
+                //     itemCount: homeController.castGalleryList.length,
+                //     itemBuilder: (context, index) {
+                //       return CommonImageWidget(
+                //         image: homeController.castGalleryList[index],
+                //       );
+                //     },
+                //   ),
+                if (homeController.selectedIndex.value == 1)
                   Container(
                     width: width - 40,
                     decoration: BoxDecoration(
@@ -255,7 +252,7 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                "Melica Anderson",
+                                homeController.artistDetailsData.value?.starName??"",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -269,7 +266,8 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                "United State",
+                                //  homeController.artistDetailsData.value?.??"",
+                                "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -283,7 +281,7 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                "Hollywood, Bollywood",
+                                 homeController.artistDetailsData.value?.starType??"",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -297,7 +295,8 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                "1996",
+                              //  homeController.artistDetailsData.value?.s??"",
+                              "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -311,7 +310,8 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                "120",
+                                // homeController.artistDetailsData.value?.starType??"",
+                                "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -325,7 +325,8 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                "Female",
+                                // homeController.artistDetailsData.value?.??"",
+                                "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -339,12 +340,14 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                "Top Actress",
+                                // homeController.artistDetailsData.value?.starType??"",
+                                "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
                           ),
-//                           FlutterSlider(
+                          //!Needed
+//   FlutterSlider(
 //   values: [0, 100],
 //   rangeSlider: true,
 //   max: 500,

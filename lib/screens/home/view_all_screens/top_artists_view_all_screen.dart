@@ -106,7 +106,8 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                       itemCount: homeController.artistList.length,
                       itemBuilder: (context, index) {
                               return GestureDetector(
-                                onTap: (){
+                                onTap: ()async{
+                                  await homeController.getArtistDetails(homeController.artistList[index].id);
                                   Get.toNamed(krCastDetailsScreen);
                                 },
                                 child: TopArtistContent(
