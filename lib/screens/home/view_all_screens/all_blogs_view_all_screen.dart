@@ -1,5 +1,6 @@
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
+import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
@@ -112,35 +113,35 @@ class AllBlogsViewAllScreen extends StatelessWidget {
                 ),
                 kH16sizedBox,
                 //!needed
-                // GridView.builder(
-                //   shrinkWrap: true,
-                //   padding: EdgeInsets.zero,
-                //   physics: const NeverScrollableScrollPhysics(),
-                //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                //     crossAxisCount: 2,
-                //     crossAxisSpacing: 10,
-                //     mainAxisSpacing: 10,
-                //     childAspectRatio: 0.7,
-                //   ),
-                //   itemCount: homeController.latestBlogList.length,
-                //   itemBuilder: (context, index) {
-                //     return GestureDetector(
-                //       onTap: (){
-                //         Get.toNamed(krBlogSingleScreen);
-                //       },
-                //       child: LatestBlogPostContent(
-                //         contentHeight: 240.h,
-                //         image: homeController.latestBlogList[index]["image"],
-                //         title: homeController.latestBlogList[index]["title"],
-                //         subTitle: homeController.latestBlogList[index]
-                //             ["subtitle"],
-                //         date: homeController.latestBlogList[index]["date"],
-                //         reporter: homeController.latestBlogList[index]
-                //             ["reporter"],
-                //       ),
-                //     );
-                //   },
-                // ),
+                GridView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.7,
+                  ),
+                  itemCount: homeController.blogList.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: (){
+                        Get.toNamed(krBlogSingleScreen);
+                      },
+                      child: LatestBlogPostContent(
+                        contentHeight: 240.h,
+                        image: homeController.blogList[index].image??"",
+                        title: homeController.blogList[index].title??"",
+                        subTitle: homeController.blogList[index].seoTitle??"",
+                        // date: homeController.blogList[index].date,
+                        date: "",
+                        reporter: homeController.blogList[index].author??"",
+                        tag: homeController.blogList[index].description??"",
+                      ),
+                    );
+                  },
+                ),
               ],
             ),
           ),
@@ -242,7 +243,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                     return Obx(() => GestureDetector(
                           onTap: () {
                             homeController.selectedYear.value =
-                                homeController.yearList[index];
+                                homeController.yearList[index].toString();
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -257,7 +258,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.yearList[index],
+                                  homeController.yearList[index].toString(),
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.clip,

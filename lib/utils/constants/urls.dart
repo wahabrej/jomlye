@@ -22,3 +22,6 @@ const String kuHome = "home";
 //artist
 const String kuArtist = "artists";
 const String kuArtistDetails = "artist-details";
+//blog
+const String kuBlogs = "blogs";
+

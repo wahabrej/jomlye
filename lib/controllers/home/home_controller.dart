@@ -4,6 +4,7 @@ import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
 import 'package:vidflix_flutter_app/models/home/home_data_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/utils/constants/urls.dart';
@@ -42,8 +43,6 @@ class HomeController extends GetxController {
   final RxList blogCategoriesList =
       RxList(["News", "Entertainment", "Sport", "Cartoon", "Movie", "Tennis", "Archary"]);
   final RxString selectedBlogCategories = RxString("");
-  final RxList yearList =
-      RxList(["2025", "2024", "2023", "2022", "2021", "2020", "2019","2018","2017","2016","2015"]);
   final RxString selectedYear = RxString("");
   final RxList languageList =
       RxList(["Bangla", "Hindi", "English", "Urdu", "Korean", "Tamil", "Arabic"]);
@@ -261,19 +260,6 @@ class HomeController extends GetxController {
   void changeTab(int index) {
     selectedIndex.value = index;
   }
-  // final RxList castGalleryList = RxList([
-  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-  //   "https://sund-images.sunnxt.com/82850/1920x1080_96_82850_1207e426-1e03-4e5c-8640-892bf795f1bd.jpg",
-  // ]);
   final RxDouble lowerValue = RxDouble(0);
   final RxDouble upperValue = RxDouble(0);
 
@@ -415,6 +401,49 @@ class HomeController extends GetxController {
     } catch (e) {
       isArtistDetailsLoading.value = false;
       ll('getArtistDetails error: $e');
+    }
+  }
+
+   //!Blogs
+ //Artist api implement
+   final RxBool isBlogLoading = RxBool(false);
+   final Rx<BlogModel?> blogModel = Rx<BlogModel?>(null);
+  final RxList<Blog> blogList = RxList<Blog>([]);
+  final RxList<Categories> categoryList = RxList<Categories>([]);
+  final RxList<int> yearList = RxList<int>([]);
+  Future<void> getBlogList() async {
+    try {
+      isArtistLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuBlogs,
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        BlogModel blogModel = BlogModel.fromJson(response.data);
+        blogList.clear();
+        categoryList.clear();
+        yearList.clear();
+        blogList.addAll(blogModel.blogs!);
+        categoryList.addAll(blogModel.categories!);
+        yearList.addAll(blogModel.year!);
+        isArtistLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isArtistLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isArtistLoading.value = false;
+      ll('getArtistList error: $e');
     }
   }
   

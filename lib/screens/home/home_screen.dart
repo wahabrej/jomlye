@@ -527,7 +527,8 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksLatestBlog.tr,
                   subtitleText: ksViewAll,
-                  onPressed: () {
+                  onPressed: ()async {
+                    await homeController.getBlogList();
                     Get.toNamed(krAllBlogsViewAllScreen);
                   },
                 ),
