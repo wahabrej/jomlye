@@ -489,7 +489,8 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksTopArtists.tr,
                   subtitleText: ksViewAll,
-                  onPressed: () {
+                  onPressed: () async{
+                    await homeController.getArtistList();
                     Get.toNamed(krTopArtistsViewAllScreen);
                   },
                 ),

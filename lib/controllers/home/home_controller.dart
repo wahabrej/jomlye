@@ -2,6 +2,7 @@ import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
 import 'package:vidflix_flutter_app/models/home/home_data_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/artist_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/utils/constants/urls.dart';
@@ -338,6 +339,47 @@ class HomeController extends GetxController {
     } catch (e) {
       isHomePageLoading.value = false;
       ll('getHomePage error: $e');
+    }
+  }
+
+   final RxBool isArtistLoading = RxBool(false);
+   final Rx<ArtistModel?> artistModel = Rx<ArtistModel?>(null);
+  final RxList<ArtistData> artistList = RxList<ArtistData>([]);
+  Future<void> getArtistList() async {
+    try {
+      isArtistLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuArtist,
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        ArtistModel artistModel = ArtistModel.fromJson(response.data);
+        artistList.clear();
+        artistList.addAll(artistModel.data!);
+        isArtistLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isArtistLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
+        } else {
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isArtistLoading.value = false;
+      ll('getArtistList error: $e');
     }
   }
   

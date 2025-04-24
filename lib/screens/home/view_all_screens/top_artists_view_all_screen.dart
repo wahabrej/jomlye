@@ -1,5 +1,6 @@
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
+import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
@@ -92,31 +93,31 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                       color: cWhiteColor.withOpacity(0.2),
                     ),
                     kH16sizedBox,
-                    //  GridView.builder(
-                    //   shrinkWrap: true,
-                    //   padding: EdgeInsets.zero,
-                    //   physics: const NeverScrollableScrollPhysics(),
-                    //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    //     crossAxisCount: 3,
-                    //     crossAxisSpacing: 10,
-                    //     mainAxisSpacing: 10,
-                    //     childAspectRatio: 1,
-                    //   ),
-                    //   itemCount: homeController.topArtistList.length,
-                    //   itemBuilder: (context, index) {
-                    //           return GestureDetector(
-                    //             onTap: (){
-                    //               Get.toNamed(krCastDetailsScreen);
-                    //             },
-                    //             child: TopArtistContent(
-                    //                                     image: homeController.topArtistList[index]["image"],
-                    //                                     name: homeController.topArtistList[index]["name"],
-                    //                                     contentWidth: (width-60)/3,
-                    //                                     contentHeight: 120.h,
-                    //                                     ),
-                    //           );
-                    //   },
-                    // ),
+                     GridView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 1,
+                      ),
+                      itemCount: homeController.artistList.length,
+                      itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: (){
+                                  Get.toNamed(krCastDetailsScreen);
+                                },
+                                child: TopArtistContent(
+                                                        image: homeController.artistList[index].starImage??"",
+                                                        name: homeController.artistList[index].starName??"",
+                                                        contentWidth: (width-60)/3,
+                                                        contentHeight: 120.h,
+                                                        ),
+                              );
+                      },
+                    ),
               ],
             ),
           ),
