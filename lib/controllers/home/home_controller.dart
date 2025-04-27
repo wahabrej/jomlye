@@ -5,6 +5,7 @@ import 'package:vidflix_flutter_app/models/home/home_data_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_details_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_filter_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -41,9 +42,10 @@ class HomeController extends GetxController {
   //     RxList(["All", "Action", "War", "Hollywood", "Live", "Movie"]);
       //* blog
   final RxString selectedGenre = RxString("");
-  final RxList blogCategoriesList =
-      RxList(["News", "Entertainment", "Sport", "Cartoon", "Movie", "Tennis", "Archary"]);
+  // final RxList blogCategoriesList =
+  //     RxList(["News", "Entertainment", "Sport", "Cartoon", "Movie", "Tennis", "Archary"]);
   final RxString selectedBlogCategories = RxString("");
+  final RxString selectedBlogCategoryId = RxString("");
   final RxString selectedYear = RxString("");
   final RxList languageList =
       RxList(["Bangla", "Hindi", "English", "Urdu", "Korean", "Tamil", "Arabic"]);
@@ -410,11 +412,11 @@ class HomeController extends GetxController {
    final RxBool isBlogLoading = RxBool(false);
    final Rx<BlogModel?> blogModel = Rx<BlogModel?>(null);
   final RxList<Blog> blogList = RxList<Blog>([]);
-  final RxList<Categories> categoryList = RxList<Categories>([]);
-  final RxList<int> yearList = RxList<int>([]);
+  final RxList<Categories> blogcategoryList = RxList<Categories>([]);
+  final RxList<int> blogYearList = RxList<int>([]);
   Future<void> getBlogList() async {
     try {
-      isArtistLoading.value = true;
+      isBlogLoading.value = true;
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {};
       var response = await apiServices.commonApiCall(
@@ -427,15 +429,15 @@ class HomeController extends GetxController {
       if (response.code == 200) {
         BlogModel blogModel = BlogModel.fromJson(response.data);
         blogList.clear();
-        categoryList.clear();
-        yearList.clear();
+        blogcategoryList.clear();
+        blogYearList.clear();
         blogList.addAll(blogModel.blogs!);
-        categoryList.addAll(blogModel.categories!);
-        yearList.addAll(blogModel.year!);
-        isArtistLoading.value = false;
+        blogcategoryList.addAll(blogModel.categories!);
+        blogYearList.addAll(blogModel.year!);
+        isBlogLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        isArtistLoading.value = false;
+        isBlogLoading.value = false;
         if (errorModel.errors.isEmpty) {
           showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
         } else {
@@ -443,8 +445,46 @@ class HomeController extends GetxController {
         }
       }
     } catch (e) {
-      isArtistLoading.value = false;
-      ll('getArtistList error: $e');
+      isBlogLoading.value = false;
+      ll('getBlogList error: $e');
+    }
+  }
+
+
+   //blog api implement
+  final RxBool isBlogFilterLoading = RxBool(false);
+  final Rx<FilterBlogModel?> filterBlogModel = Rx<FilterBlogModel?>(null);
+  // final RxList<FilteredBlogDetail> filteredBlogList = RxList<FilteredBlogDetail>([]);
+  Future<void> getBlogFilterList() async {
+    try {
+      isBlogFilterLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuBlogFilter?string=&category_id=${selectedBlogCategoryId.value.toString()}&year=${selectedYear.value.toString()}",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        FilterBlogModel filterBlogModel = FilterBlogModel.fromJson(response.data);
+        blogList.clear();
+        blogList.addAll(filterBlogModel.details!);
+        isBlogFilterLoading.value = false;
+        Get.back();
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isBlogFilterLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isBlogFilterLoading.value = false;
+      ll('getBlogFilterList error: $e');
     }
   }
 

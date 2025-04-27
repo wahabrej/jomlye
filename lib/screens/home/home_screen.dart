@@ -534,6 +534,9 @@ class HomeScreen extends StatelessWidget {
                   subtitleText: ksViewAll,
                   onPressed: ()async {
                     await homeController.getBlogList();
+                    homeController.selectedBlogCategories.value = ""; 
+                    homeController.selectedBlogCategoryId.value = ""; 
+                    homeController.selectedYear.value = ""; 
                     Get.toNamed(krAllBlogsViewAllScreen);
                   },
                 ),

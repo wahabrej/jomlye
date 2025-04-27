@@ -18,29 +18,29 @@ class AllBlogsViewAllScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-            child: Column(
-              children: [
-                kH40sizedBox,
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Container(
-                        height: h32,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100.r),
-                          color: cWhiteColor.withOpacity(0.2),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: k12Padding, vertical: k2Padding),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.arrow_back_ios,
-                                size: kIconSize12,
+            child: Obx(() => Column(
+                          children: [
+                            kH40sizedBox,
+                            Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.back();
+                                  },
+                                  child: Container(
+                                    height: h32,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(100.r),
+                                      color: cWhiteColor.withOpacity(0.2),
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: k12Padding, vertical: k2Padding),
+                                      child: Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.arrow_back_ios,
+                                            size: kIconSize12,
                                 color: cWhiteColor,
                               ),
                               kW4sizedBox,
@@ -148,6 +148,7 @@ class AllBlogsViewAllScreen extends StatelessWidget {
           ),
         ),
       ),
+      ),
     );
   }
 }
@@ -178,7 +179,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                 width: width - 20.w,
                 height: 34.h,
                 child: ListView.separated(
-                  itemCount: homeController.blogCategoriesList.length,
+                  itemCount: homeController.blogcategoryList.length,
                   separatorBuilder: (context, index) => kW8sizedBox,
                   shrinkWrap: true,
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -187,13 +188,15 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                     return Obx(() => GestureDetector(
                           onTap: () {
                             homeController.selectedBlogCategories.value =
-                                homeController.blogCategoriesList[index];
+                                homeController.blogcategoryList[index].videoType??"";
+                            homeController.selectedBlogCategoryId.value =
+                                homeController.blogcategoryList[index].id.toString();
                           },
                           child: Container(
                             decoration: BoxDecoration(
                                 color: cWhiteColor.withOpacity(0.04),
                               border: homeController.selectedBlogCategories.value ==
-                                      homeController.blogCategoriesList[index] ? Border.all(width: 1, color: 
+                                      homeController.blogcategoryList[index].videoType ? Border.all(width: 1, color: 
                                    cPrimaryColor2):Border.all(width: 0),
                               borderRadius: BorderRadius.circular(6.r),
                             ),
@@ -202,7 +205,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.blogCategoriesList[index],
+                                  homeController.blogcategoryList[index].videoType??"",
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.clip,
@@ -235,7 +238,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                 width: width - 20.w,
                 height: 34.h,
                 child: ListView.separated(
-                  itemCount: homeController.yearList.length,
+                  itemCount: homeController.blogYearList.length,
                   separatorBuilder: (context, index) => kW8sizedBox,
                   shrinkWrap: true,
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -244,13 +247,13 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                     return Obx(() => GestureDetector(
                           onTap: () {
                             homeController.selectedYear.value =
-                                homeController.yearList[index].toString();
+                                homeController.blogYearList[index].toString();
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
                               border: homeController.selectedYear.value ==
-                                      homeController.yearList[index] ? Border.all(width: 1, color: 
+                                      homeController.blogYearList[index].toString() ? Border.all(width: 1, color: 
                                    cPrimaryColor2):Border.all(width: 0),
                               borderRadius: BorderRadius.circular(6.r),
                             ),
@@ -259,7 +262,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.yearList[index].toString(),
+                                  homeController.blogYearList[index].toString(),
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.clip,
@@ -274,118 +277,118 @@ class AllBlogBottomSheetContent extends StatelessWidget {
             ],
           ),
         ),
-          kH16sizedBox,
-       Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-          child: Text(
-            ksLanguage.tr,
-            style: medium16TextStyle(cWhiteColor),
-          ),
-        ),
-        kH16sizedBox,
-        Padding(
-          padding: const EdgeInsets.only(left: k20Padding),
-          child: Row(
-            children: [
-              SizedBox(
-                width: width - 20.w,
-                height: 34.h,
-                child: ListView.separated(
-                  itemCount: homeController.languageList.length,
-                  separatorBuilder: (context, index) => kW8sizedBox,
-                  shrinkWrap: true,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Obx(() => GestureDetector(
-                          onTap: () {
-                            homeController.selectedLanguage.value =
-                                homeController.languageList[index];
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedLanguage.value ==
-                                      homeController.languageList[index] ? Border.all(width: 1, color: 
-                                   cPrimaryColor2):Border.all(width: 0),
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16.w, vertical: 6.h),
-                              child: Center(
-                                child: Text(
-                                  homeController.languageList[index],
-                                  style: regular14TextStyle(cWhiteColor),
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.clip,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ));
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-          kH16sizedBox,
-       Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-          child: Text(
-            ksSort.tr,
-            style: medium16TextStyle(cWhiteColor),
-          ),
-        ),
-        kH16sizedBox,
-        Padding(
-          padding: const EdgeInsets.only(left: k20Padding),
-          child: Row(
-            children: [
-              SizedBox(
-                width: width - 20.w,
-                height: 34.h,
-                child: ListView.separated(
-                  itemCount: homeController.sortList.length,
-                  separatorBuilder: (context, index) => kW8sizedBox,
-                  shrinkWrap: true,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Obx(() => GestureDetector(
-                          onTap: () {
-                            homeController.selectedSort.value =
-                                homeController.sortList[index];
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedSort.value ==
-                                      homeController.sortList[index] ? Border.all(width: 1, color: 
-                                   cPrimaryColor2):Border.all(width: 0),
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 16.w, vertical: 6.h),
-                              child: Center(
-                                child: Text(
-                                  homeController.sortList[index],
-                                  style: regular14TextStyle(cWhiteColor),
-                                  textAlign: TextAlign.center,
-                                  overflow: TextOverflow.clip,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ));
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
+      //     kH16sizedBox,
+      //  Padding(
+      //     padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+      //     child: Text(
+      //       ksLanguage.tr,
+      //       style: medium16TextStyle(cWhiteColor),
+      //     ),
+      //   ),
+      //   kH16sizedBox,
+      //   Padding(
+      //     padding: const EdgeInsets.only(left: k20Padding),
+      //     child: Row(
+      //       children: [
+      //         SizedBox(
+      //           width: width - 20.w,
+      //           height: 34.h,
+      //           child: ListView.separated(
+      //             itemCount: homeController.languageList.length,
+      //             separatorBuilder: (context, index) => kW8sizedBox,
+      //             shrinkWrap: true,
+      //             physics: const AlwaysScrollableScrollPhysics(),
+      //             scrollDirection: Axis.horizontal,
+      //             itemBuilder: (context, index) {
+      //               return Obx(() => GestureDetector(
+      //                     onTap: () {
+      //                       homeController.selectedLanguage.value =
+      //                           homeController.languageList[index];
+      //                     },
+      //                     child: Container(
+      //                       decoration: BoxDecoration(
+      //                         color: cWhiteColor.withOpacity(0.04),
+      //                         border: homeController.selectedLanguage.value ==
+      //                                 homeController.languageList[index] ? Border.all(width: 1, color: 
+      //                              cPrimaryColor2):Border.all(width: 0),
+      //                         borderRadius: BorderRadius.circular(6.r),
+      //                       ),
+      //                       child: Padding(
+      //                         padding: EdgeInsets.symmetric(
+      //                             horizontal: 16.w, vertical: 6.h),
+      //                         child: Center(
+      //                           child: Text(
+      //                             homeController.languageList[index],
+      //                             style: regular14TextStyle(cWhiteColor),
+      //                             textAlign: TextAlign.center,
+      //                             overflow: TextOverflow.clip,
+      //                           ),
+      //                         ),
+      //                       ),
+      //                     ),
+      //                   ));
+      //             },
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      //     kH16sizedBox,
+      //  Padding(
+      //     padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+      //     child: Text(
+      //       ksSort.tr,
+      //       style: medium16TextStyle(cWhiteColor),
+      //     ),
+      //   ),
+      //   kH16sizedBox,
+      //   Padding(
+      //     padding: const EdgeInsets.only(left: k20Padding),
+      //     child: Row(
+      //       children: [
+      //         SizedBox(
+      //           width: width - 20.w,
+      //           height: 34.h,
+      //           child: ListView.separated(
+      //             itemCount: homeController.sortList.length,
+      //             separatorBuilder: (context, index) => kW8sizedBox,
+      //             shrinkWrap: true,
+      //             physics: const AlwaysScrollableScrollPhysics(),
+      //             scrollDirection: Axis.horizontal,
+      //             itemBuilder: (context, index) {
+      //               return Obx(() => GestureDetector(
+      //                     onTap: () {
+      //                       homeController.selectedSort.value =
+      //                           homeController.sortList[index];
+      //                     },
+      //                     child: Container(
+      //                       decoration: BoxDecoration(
+      //                         color: cWhiteColor.withOpacity(0.04),
+      //                         border: homeController.selectedSort.value ==
+      //                                 homeController.sortList[index] ? Border.all(width: 1, color: 
+      //                              cPrimaryColor2):Border.all(width: 0),
+      //                         borderRadius: BorderRadius.circular(6.r),
+      //                       ),
+      //                       child: Padding(
+      //                         padding: EdgeInsets.symmetric(
+      //                             horizontal: 16.w, vertical: 6.h),
+      //                         child: Center(
+      //                           child: Text(
+      //                             homeController.sortList[index],
+      //                             style: regular14TextStyle(cWhiteColor),
+      //                             textAlign: TextAlign.center,
+      //                             overflow: TextOverflow.clip,
+      //                           ),
+      //                         ),
+      //                       ),
+      //                     ),
+      //                   ));
+      //             },
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
         kH8sizedBox,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
@@ -403,7 +406,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                 homeController.blogFilterValueReset();
               },buttonColor: cWhiteColor.withOpacity(0.2),textStyle: regular16TextStyle(cWhiteColor),buttonWidth: (width-56)/2,),
               kW16sizedBox,
-              CustomElevatedButton(label: ksApply.tr, onPressed: (){Get.back();},buttonColor: cPrimaryColor2,textStyle: regular16TextStyle(cWhiteColor),buttonWidth: (width-56)/2,),
+              CustomElevatedButton(label: ksApply.tr, onPressed: ()async{homeController.getBlogFilterList();},buttonColor: cPrimaryColor2,textStyle: regular16TextStyle(cWhiteColor),buttonWidth: (width-56)/2,),
             ],
           ),
         ),

@@ -25,4 +25,5 @@ const String kuArtistDetails = "artist-details";
 //blog
 const String kuBlogs = "blogs";
 const String kuBlogDetails = "blog-details";
+const String kuBlogFilter = "blog-filter";
 
