@@ -516,6 +516,11 @@ class HomeScreen extends StatelessWidget {
                               name: homeController
                                       .topArtistsList[index].starName ??
                                   "",
+                                  onPressed: ()async{
+                                    await homeController.getArtistDetails(homeController
+                                      .topArtistsList[index].id);
+                                      Get.toNamed(krCastDetailsScreen);
+                                  },
                             );
                           },
                         ),
@@ -548,7 +553,8 @@ class HomeScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return GestureDetector(
-                              onTap: () {
+                              onTap: () async{
+                                await homeController.getBlogDetails(homeController.latestBlogsList[index].id);
                                 Get.toNamed(krBlogSingleScreen);
                               },
                               child: LatestBlogPostContent(
@@ -793,41 +799,45 @@ class TopArtistContent extends StatelessWidget {
       required this.image,
       required this.name,
       this.contentWidth,
-      this.contentHeight});
+      this.contentHeight, this.onPressed});
   final String image, name;
   final double? contentWidth, contentHeight;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ClipRRect(
-            borderRadius: BorderRadius.circular(k4BorderRadius),
-            child: Image.network(
-              image,
-              width: contentWidth ?? 88.w,
-              height: contentHeight ?? 88.h,
-              fit: BoxFit.cover,
-            )),
-        Positioned(
-          bottom: 4,
-          left: 4,
-          right: 4,
-          child: Container(
-            width: 80.w,
-            height: 20.h,
-            decoration: BoxDecoration(
+    return InkWell(
+      onTap: onPressed,
+      child: Stack(
+        children: [
+          ClipRRect(
               borderRadius: BorderRadius.circular(k4BorderRadius),
-              color: cBlackColor.withOpacity(0.6),
+              child: Image.network(
+                image,
+                width: contentWidth ?? 88.w,
+                height: contentHeight ?? 88.h,
+                fit: BoxFit.cover,
+              )),
+          Positioned(
+            bottom: 4,
+            left: 4,
+            right: 4,
+            child: Container(
+              width: 80.w,
+              height: 20.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(k4BorderRadius),
+                color: cBlackColor.withOpacity(0.6),
+              ),
+              child: Center(
+                  child: Text(
+                name,
+                style: semiBold10TextStyle(cWhiteColor),
+              )),
             ),
-            child: Center(
-                child: Text(
-              name,
-              style: semiBold10TextStyle(cWhiteColor),
-            )),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

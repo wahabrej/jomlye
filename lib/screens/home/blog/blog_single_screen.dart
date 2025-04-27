@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
@@ -63,7 +64,7 @@ class BlogSingleScreen extends StatelessWidget {
                 ),
                 kH16sizedBox,
                 Text(
-                  "The US government is sending its first high level delegation to China since",
+                  homeController.blogDetails.value?.title??"",
                   style: medium18TextStyle(cWhiteColor),
                 ),
                 kH16sizedBox,
@@ -76,7 +77,7 @@ class BlogSingleScreen extends StatelessWidget {
                     ),
                     kW10sizedBox,
                     Text(
-                      "06 Jan 2025",
+                      DateFormat('d MMM, yyyy').format(DateTime.parse(homeController.blogDetails.value?.createdAt?.toString()??"")),
                       style: regular14TextStyle(cWhiteColor.withOpacity(0.7)),
                     ),
                     kW10sizedBox,
@@ -117,7 +118,7 @@ class BlogSingleScreen extends StatelessWidget {
                     kW10sizedBox,
                     Expanded(
                       child: Text(
-                        "By Esther Howard",
+                        "By ${homeController.blogDetails.value?.author??""}",
                         style: regular14TextStyle(cWhiteColor.withOpacity(0.7)),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -181,32 +182,38 @@ class BlogSingleScreen extends StatelessWidget {
                 ),
                 kH20sizedBox,
                 //!needed
-                // GridView.builder(
-                //   shrinkWrap: true,
-                //   padding: EdgeInsets.zero,
-                //   physics: const NeverScrollableScrollPhysics(),
-                //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                //     crossAxisCount: 3,
-                //     crossAxisSpacing: 16,
-                //     mainAxisSpacing: 10,
-                //     childAspectRatio: 0.9,
-                //   ),
-                //   itemCount: homeController.latestBlogList.length,
-                //   itemBuilder: (context, index) {
-                //     return SizedBox(
-                //         width: width - 72,
-                //         height: 120,
-                //         child: ClipRRect(
-                //           borderRadius: BorderRadius.circular(k4BorderRadius),
-                //           child: Image.network(
-                //             homeController.latestBlogList[index]["image"],
-                //             width: width - 72,
-                //             height: 120,
-                //             fit: BoxFit.cover,
-                //           ),
-                //         ));
-                //   },
-                // ),
+                GridView.builder(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.9,
+                  ),
+                  itemCount: homeController.latestBlogList.length,
+                  itemBuilder: (context, index) {
+                    return SizedBox(
+                        width: width - 72,
+                        height: 120,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(k4BorderRadius),
+                          child: Image.network(
+                            // homeController.blogDetails.value?.image??"",
+                            homeController.blogDetails.value?.image??"",
+                            width: width - 72,
+                            height: 120,
+                            fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) => const Icon(
+                Icons.error_outline_sharp,
+                size: 40,
+                color: cPrimaryColor2,
+              ),
+                          ),
+                        ));
+                  },
+                ),
                 kH24sizedBox,
                 Text(
                   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. Vivamus tortor massa, rhoncus quis elementum sit amet, bibendum viverra libero.",

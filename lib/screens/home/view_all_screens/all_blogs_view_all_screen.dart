@@ -126,7 +126,8 @@ class AllBlogsViewAllScreen extends StatelessWidget {
                   itemCount: homeController.blogList.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      onTap: (){
+                      onTap: ()async{
+                        await homeController.getBlogDetails(homeController.blogList[index].id);
                         Get.toNamed(krBlogSingleScreen);
                       },
                       child: LatestBlogPostContent(

@@ -4,6 +4,7 @@ import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
 import 'package:vidflix_flutter_app/models/home/home_data_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -405,7 +406,7 @@ class HomeController extends GetxController {
   }
 
    //!Blogs
- //Artist api implement
+ //blog api implement
    final RxBool isBlogLoading = RxBool(false);
    final Rx<BlogModel?> blogModel = Rx<BlogModel?>(null);
   final RxList<Blog> blogList = RxList<Blog>([]);
@@ -443,6 +444,47 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       isArtistLoading.value = false;
+      ll('getArtistList error: $e');
+    }
+  }
+
+  //blog details api implement
+   final RxBool isBlogDetailsLoading = RxBool(false);
+   final Rx<BlogDetailsModel?> blogDetailsModel = Rx<BlogDetailsModel?>(null);
+  final Rx<Detailes?> blogDetails = Rx<Detailes?>(null);
+  final Rx<Categories?> blogCategories = Rx<Categories?>(null);
+  // final RxList<Categories> categoryList = RxList<Categories>([]);
+  final RxList<Detailes> latestBlogList = RxList<Detailes>([]);
+  Future<void> getBlogDetails([int? id]) async {
+    try {
+      isBlogDetailsLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuBlogDetails?id=${id.toString()}",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        latestBlogList.clear();
+        BlogDetailsModel blogDetailsModel = BlogDetailsModel.fromJson(response.data);
+        blogDetails.value = blogDetailsModel.details;
+        blogCategories.value = blogDetailsModel.category;
+        latestBlogList.addAll(blogDetailsModel.latestBlogs!);
+        isBlogDetailsLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isBlogDetailsLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isBlogDetailsLoading.value = false;
       ll('getArtistList error: $e');
     }
   }
