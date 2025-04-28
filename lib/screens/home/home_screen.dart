@@ -632,11 +632,10 @@ class LatestBlogPostContent extends StatelessWidget {
               height: contentHeight ?? 210.h,
               width: (width - 30) / 2,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => const Center(
-                child: Icon(
-                  Icons.error_outline_sharp,
-                  size: 40,
-                  color: cPrimaryColor2,
+              errorBuilder: (context, error, stackTrace) =>  Center(
+                child: SvgPicture.asset(
+                  kiDummyMovie,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -868,11 +867,12 @@ class FeaturedTvChannelsContentContainer extends StatelessWidget {
         child: Image.network(
           image,
           fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => const Icon(
-            Icons.error_outline_sharp,
-            size: 40,
-            color: cPrimaryColor2,
-          ),
+            errorBuilder: (context, error, stackTrace) =>  Center(
+                child: SvgPicture.asset(
+                  kiDummyMovie,
+                  fit: BoxFit.cover,
+                ),
+              ),
         ),
       ),
     );
@@ -942,10 +942,11 @@ class MovieContentContainer extends StatelessWidget {
               width: (width - 60) / 3,
               height: 150.h,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => const Icon(
-                Icons.error_outline_sharp,
-                size: 40,
-                color: cPrimaryColor2,
+                    errorBuilder: (context, error, stackTrace) =>  Center(
+                child: SvgPicture.asset(
+                  kiDummyMovie,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

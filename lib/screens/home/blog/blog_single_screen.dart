@@ -205,10 +205,11 @@ class BlogSingleScreen extends StatelessWidget {
                             width: width - 72,
                             height: 120,
                             fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) => const Icon(
-                Icons.error_outline_sharp,
-                size: 40,
-                color: cPrimaryColor2,
+                                    errorBuilder: (context, error, stackTrace) =>  Center(
+                child: SvgPicture.asset(
+                  kiDummyMovie,
+                  fit: BoxFit.cover,
+                ),
               ),
                           ),
                         ));

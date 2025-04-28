@@ -105,14 +105,16 @@ class CastDetailsScreen extends StatelessWidget {
                                 width: 100,
                                 height: 100,
                                 fit: BoxFit.cover,
-                                homeController.artistDetailsData.value?.starImage??"",
+                                homeController
+                                        .artistDetailsData.value?.starImage ??
+                                    "",
                                 // loadingBuilder: imageLoadingBuilder,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Icon(
-                                    Icons.person,
-                                    size: 80,
-                                  );
-                                },
+                                errorBuilder: (context, error, stackTrace) =>
+                                    Center(
+                                  child: SvgPicture.asset(
+                                    kiDummyMovie,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
@@ -128,12 +130,14 @@ class CastDetailsScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            homeController.artistDetailsData.value?.starName??"",
+                            homeController.artistDetailsData.value?.starName ??
+                                "",
                             style: semiBold24TextStyle(cWhiteColor),
                           ),
                           // kH6sizedBox,
                           Text(
-                            homeController.artistDetailsData.value?.starType??"",
+                            homeController.artistDetailsData.value?.starType ??
+                                "",
                             style: regular16TextStyle(
                               cWhiteColor.withOpacity(0.7),
                             ),
@@ -207,10 +211,18 @@ class CastDetailsScreen extends StatelessWidget {
                     itemCount: homeController.artistMovieList.length,
                     itemBuilder: (context, index) {
                       return MovieContentContainer(
-                        movieImage: homeController.artistMovieList[index].thumbnail,
+                        movieImage:
+                            homeController.artistMovieList[index].thumbnail,
                         // seasonName: homeController.artistMovieList[index].,
-                        isPremium: homeController.artistMovieList[index].isPaid==1 ? true : false,
-                        isSeason: homeController.artistMovieList[index].isTvseries==1 ? true : false,
+                        isPremium:
+                            homeController.artistMovieList[index].isPaid == 1
+                                ? true
+                                : false,
+                        isSeason:
+                            homeController.artistMovieList[index].isTvseries ==
+                                    1
+                                ? true
+                                : false,
                       );
                     },
                   ),
@@ -252,7 +264,9 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                homeController.artistDetailsData.value?.starName??"",
+                                homeController
+                                        .artistDetailsData.value?.starName ??
+                                    "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -281,7 +295,9 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                 homeController.artistDetailsData.value?.starType??"",
+                                homeController
+                                        .artistDetailsData.value?.starType ??
+                                    "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -295,8 +311,8 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                              //  homeController.artistDetailsData.value?.s??"",
-                              "",
+                                //  homeController.artistDetailsData.value?.s??"",
+                                "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
