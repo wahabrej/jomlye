@@ -7,6 +7,7 @@ import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_model.dar
 import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_filter_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/utils/constants/urls.dart';
@@ -525,8 +526,62 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       isBlogDetailsLoading.value = false;
-      ll('getArtistList error: $e');
+      ll('getBlogDetails error: $e');
     }
   }
-  
+
+  //!Tv Shows
+    //tv shows api implement
+  final RxBool isTvShowLoading = RxBool(false);
+  final Rx<TvShowsModel?> tvShowsModel = Rx<TvShowsModel?>(null);
+  final RxList<Show?> tvShowList = RxList<Show?>([]);
+  final RxList<Categories?> tvShowsCategoryList = RxList<Categories?>([]);
+  final RxList<TvShowCountry?> tvShowCountryList = RxList<TvShowCountry?>([]);
+  final RxList<TvShowCountry?> tvShowLanguageList = RxList<TvShowCountry?>([]);
+  final RxList<TvShowCountry?> tvShowGenreList = RxList<TvShowCountry?>([]);
+  final RxList<int> tvShowYearList = RxList<int>([]);
+  final RxMap<String, String> tvShowSort = RxMap<String, String>();
+  Future<void> getTvShows() async {
+    try {
+      isTvShowLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuTvShows,
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        tvShowList.clear();
+        tvShowsCategoryList.clear();
+        tvShowCountryList.clear();
+        tvShowLanguageList.clear();
+        tvShowGenreList.clear();
+        tvShowYearList.clear();
+        TvShowsModel tvShowsModel = TvShowsModel.fromJson(response.data);
+        // blogDetails.value = blogDetailsModel.details;
+        // blogCategories.value = blogDetailsModel.category;
+        tvShowList.addAll(tvShowsModel.shows!);
+        tvShowsCategoryList.addAll(tvShowsModel.categories!);
+        tvShowCountryList.addAll(tvShowsModel.country!);
+        tvShowLanguageList.addAll(tvShowsModel.languages!);
+        tvShowGenreList.addAll(tvShowsModel.genre!);
+        tvShowYearList.addAll(tvShowsModel.year!);
+        isTvShowLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isTvShowLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isTvShowLoading.value = false;
+      ll('getBlogDetails error: $e');
+    }
+  }
 }

@@ -27,3 +27,6 @@ const String kuBlogs = "blogs";
 const String kuBlogDetails = "blog-details";
 const String kuBlogFilter = "blog-filter";
 
+//Tv Shows
+const String kuTvShows = "tv-shows";
+

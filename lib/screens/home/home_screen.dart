@@ -449,6 +449,10 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksTvSeries.tr,
                   subtitleText: ksViewAll,
+                  onPressed: ()async{
+                    await homeController.getTvShows();
+                    Get.toNamed(krMovieViewAllScreen);
+                  },
                 ),
                 kH16sizedBox,
                 Padding(
@@ -478,6 +482,7 @@ class HomeScreen extends StatelessWidget {
                                       1
                                   ? true
                                   : false,
+                                  
                             );
                           },
                         ),
