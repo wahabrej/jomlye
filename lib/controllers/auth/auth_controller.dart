@@ -249,29 +249,60 @@ class AuthController extends GetxController {
     }
   }
 
-    //! signOut
-   void signOut()async{
-          await SpController().onLogout();
-        // resetLoginScreen();
-        bool? isRememberMe = await spController.getRememberMe();
-        ll("The remember me value is $isRememberMe");
-        await spController.saveRememberMe(isRememberMe);
-        if(isRememberMe==null || isRememberMe==false){
-            emailTextEditingController.text = "";
-            passwordTextEditingController.text = "";
-            SharedPreferences preferences = await SharedPreferences.getInstance();
-            // canLogin.value = false;
-            // Get.find<AuthenticationController>().isStayLoggedInChecked.value = false;
-            await preferences.clear();
-          }
-          else{
-            emailTextEditingController.text = await spController.getUserEmail()??"";
-            passwordTextEditingController.text = await spController.getUserPassword()??"";
-            // canLogin.value = true;
-            // isStayLoggedInChecked.value = true;
-          }
-        Get.offAllNamed(krSignInScreen);
+  //forget password
+  final RxBool isForgotPasswordLoading = RxBool(false);
+  Future<void> forgotPassword() async {
+    try {
+      isForgotPasswordLoading.value = true;
+      Map<String, dynamic> body = {
+        'email': forgotEmailTextEditingController.text.trim().toString(),
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuForgotPassword,
+        body: body,
+        requestMethod: kPost,
+      ) as CommonDM;
+      if (response.code == 200) {
+        resetAuth();
+        Get.offAllNamed(krOTPScreen);
+        isForgotPasswordLoading.value = false;
+      } else {
+        showSnackBar(
+            title: ksError.tr,
+            message: "forgetPassword Error!",
+            color: cPrimaryColor2);
+        isForgotPasswordLoading.value = false;
+      }
+    } catch (e) {
+      ll('forgotPassword error: $e');
+    }
   }
+
+  //! signOut
+  void signOut() async {
+    await SpController().onLogout();
+    // resetLoginScreen();
+    bool? isRememberMe = await spController.getRememberMe();
+    ll("The remember me value is $isRememberMe");
+    await spController.saveRememberMe(isRememberMe);
+    if (isRememberMe == null || isRememberMe == false) {
+      emailTextEditingController.text = "";
+      passwordTextEditingController.text = "";
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      // canLogin.value = false;
+      // Get.find<AuthenticationController>().isStayLoggedInChecked.value = false;
+      await preferences.clear();
+    } else {
+      emailTextEditingController.text = await spController.getUserEmail() ?? "";
+      passwordTextEditingController.text =
+          await spController.getUserPassword() ?? "";
+      // canLogin.value = true;
+      // isStayLoggedInChecked.value = true;
+    }
+    Get.offAllNamed(krSignInScreen);
+  }
+
   final RxList selectedInterestList = RxList([]);
   final RxList selectedInterestIdList = RxList([]);
 }
