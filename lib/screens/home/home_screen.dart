@@ -60,7 +60,6 @@ class HomeScreen extends StatelessWidget {
                                                       .genreList[index].name
                                               ? cPrimaryColor2
                                               : cWhiteColor.withOpacity(0.1),
-                                      // border: Border.all(width: 0.5.w, color: cGreyBoxColor),
                                       borderRadius: BorderRadius.circular(6.r),
                                     ),
                                     child: Padding(
@@ -450,10 +449,12 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksTvSeries.tr,
                   subtitleText: ksViewAll,
-                  onPressed: ()async{
+                  onPressed: () async {
                     homeController.selectedTitle.value = ksTvSeries.tr;
                     await homeController.getTvShows();
-                    Get.to(CommonViewAllScreen(commonList: homeController.tvShowList,));
+                    Get.to(CommonViewAllScreen(
+                      commonList: homeController.tvShowList,
+                    ));
                   },
                 ),
                 kH16sizedBox,
@@ -484,7 +485,6 @@ class HomeScreen extends StatelessWidget {
                                       1
                                   ? true
                                   : false,
-                                  
                             );
                           },
                         ),
@@ -496,7 +496,7 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksTopArtists.tr,
                   subtitleText: ksViewAll,
-                  onPressed: () async{
+                  onPressed: () async {
                     await homeController.getArtistList();
                     Get.toNamed(krTopArtistsViewAllScreen);
                   },
@@ -523,11 +523,11 @@ class HomeScreen extends StatelessWidget {
                               name: homeController
                                       .topArtistsList[index].starName ??
                                   "",
-                                  onPressed: ()async{
-                                    await homeController.getArtistDetails(homeController
-                                      .topArtistsList[index].id);
-                                      Get.toNamed(krCastDetailsScreen);
-                                  },
+                              onPressed: () async {
+                                await homeController.getArtistDetails(
+                                    homeController.topArtistsList[index].id);
+                                Get.toNamed(krCastDetailsScreen);
+                              },
                             );
                           },
                         ),
@@ -539,11 +539,11 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksLatestBlog.tr,
                   subtitleText: ksViewAll,
-                  onPressed: ()async {
+                  onPressed: () async {
                     await homeController.getBlogList();
-                    homeController.selectedBlogCategories.value = ""; 
-                    homeController.selectedBlogCategoryId.value = ""; 
-                    homeController.selectedYear.value = ""; 
+                    homeController.selectedBlogCategories.value = "";
+                    homeController.selectedBlogCategoryId.value = "";
+                    homeController.selectedYear.value = "";
                     Get.toNamed(krAllBlogsViewAllScreen);
                   },
                 ),
@@ -563,8 +563,9 @@ class HomeScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return GestureDetector(
-                              onTap: () async{
-                                await homeController.getBlogDetails(homeController.latestBlogsList[index].id);
+                              onTap: () async {
+                                await homeController.getBlogDetails(
+                                    homeController.latestBlogsList[index].id);
                                 Get.toNamed(krBlogSingleScreen);
                               },
                               child: LatestBlogPostContent(
@@ -584,7 +585,7 @@ class HomeScreen extends StatelessWidget {
                                 reporter: homeController
                                         .latestBlogsList[index].author ??
                                     "",
-                                    tag: homeController
+                                tag: homeController
                                         .latestBlogsList[index].tags ??
                                     "",
                               ),
@@ -628,7 +629,8 @@ class LatestBlogPostContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(//!extra added this sized nox. remove it
+    return SizedBox(
+      //!extra added this sized nox. remove it
       width: (width - 30) / 2,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -639,12 +641,12 @@ class LatestBlogPostContent extends StatelessWidget {
               height: contentHeight ?? 210.h,
               width: (width - 30) / 1.8,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) =>  Center(
+              errorBuilder: (context, error, stackTrace) => Center(
                 child: SvgPicture.asset(
                   kiDummyMovie,
-              height: contentHeight ?? 210.h,
-              width: (width - 30) / 2,
-                  fit: BoxFit.cover,
+                  height: contentHeight ?? 210.h,
+                  width: (width - 30),
+                  fit: BoxFit.fill,
                 ),
               ),
             ),
@@ -810,7 +812,8 @@ class TopArtistContent extends StatelessWidget {
       required this.image,
       required this.name,
       this.contentWidth,
-      this.contentHeight, this.onPressed});
+      this.contentHeight,
+      this.onPressed});
   final String image, name;
   final double? contentWidth, contentHeight;
   final VoidCallback? onPressed;
@@ -876,12 +879,12 @@ class FeaturedTvChannelsContentContainer extends StatelessWidget {
         child: Image.network(
           image,
           fit: BoxFit.cover,
-            errorBuilder: (context, error, stackTrace) =>  Center(
-                child: SvgPicture.asset(
-                  kiDummyMovie,
-                  fit: BoxFit.cover,
-                ),
-              ),
+          errorBuilder: (context, error, stackTrace) => Center(
+            child: SvgPicture.asset(
+              kiDummyMovie,
+              fit: BoxFit.cover,
+            ),
+          ),
         ),
       ),
     );
@@ -951,7 +954,7 @@ class MovieContentContainer extends StatelessWidget {
               width: (width - 60) / 3,
               height: 150.h,
               fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) =>  Center(
+              errorBuilder: (context, error, stackTrace) => Center(
                 child: SvgPicture.asset(
                   kiDummyMovie,
                   fit: BoxFit.cover,
@@ -1016,7 +1019,7 @@ class HomeSlider extends StatelessWidget {
       children: [
         CarouselSlider(
           options: CarouselOptions(
-            height: height * 0.5,
+            height: height * 0.45,
             autoPlay: true,
             enlargeCenterPage: true,
             // viewportFraction: 0.9,
@@ -1036,7 +1039,15 @@ class HomeSlider extends StatelessWidget {
                       slider.thumbnail ?? "",
                       fit: BoxFit.cover,
                       width: width,
-                      height: height * 0.5,
+                      height: height * 0.45,
+                      errorBuilder: (context, error, stackTrace) => Center(
+                        child: SvgPicture.asset(
+                          kiDummyMovie,
+                          width: width,
+                          height: height * 0.45,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -1091,12 +1102,14 @@ class HomeSlider extends StatelessWidget {
                             children: List.generate(
                               homeController.sliderList.length,
                               (index) => Container(
-                                width: homeController.currentIndex.value == index
-                                    ? 24
-                                    : 8,
-                                height: homeController.currentIndex.value == index
-                                    ? 6
-                                    : 8,
+                                width:
+                                    homeController.currentIndex.value == index
+                                        ? 24
+                                        : 8,
+                                height:
+                                    homeController.currentIndex.value == index
+                                        ? 6
+                                        : 8,
                                 margin:
                                     const EdgeInsets.symmetric(horizontal: 3),
                                 decoration: homeController.currentIndex.value ==
@@ -1104,17 +1117,19 @@ class HomeSlider extends StatelessWidget {
                                     ? BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(100.r),
-                                        color: homeController.currentIndex.value ==
-                                                index
-                                            ? cPrimaryColor2
-                                            : cLineColor,
+                                        color:
+                                            homeController.currentIndex.value ==
+                                                    index
+                                                ? cPrimaryColor2
+                                                : cLineColor,
                                       )
                                     : BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: homeController.currentIndex.value ==
-                                                index
-                                            ? cPrimaryColor2
-                                            : cLineColor,
+                                        color:
+                                            homeController.currentIndex.value ==
+                                                    index
+                                                ? cPrimaryColor2
+                                                : cLineColor,
                                       ),
                               ),
                             ),
@@ -1150,16 +1165,16 @@ class HomeSlider extends StatelessWidget {
                 // ),
                 kH10sizedBox,
                 Positioned(
-                  bottom: 45,
-                  left: width * 0.35,
+                  bottom: 60,
+                  left: width * 0.4,
                   child: Text(
-                    slider.title??"",
+                    slider.title ?? "",
                     style: semiBold24TextStyle(cWhiteColor),
                   ),
                 ),
                 Positioned(
-                  bottom: 2,
-                  left: width * 0.5,
+                  bottom: 6,
+                  left: width * 0.55,
                   child: Container(
                     width: 40.w,
                     height: 40.h,
