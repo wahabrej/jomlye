@@ -93,6 +93,7 @@ const String ksSort = "Sort";
 const String ksReset = "Reset";
 const String ksApply = "Apply";
 const String ksFilterArtists = "Filter Artists";
+const String ksFilter = "Filter";
 const String ksCountry = "Country";
 const String ksFilterTvChannel = "Filter TV Channel";
 const String ksBlogSinglePage = "Blog Single Page";

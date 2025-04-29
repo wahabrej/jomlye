@@ -1,0 +1,125 @@
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
+import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
+import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
+import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+
+class CommonViewAllScreen extends StatelessWidget {
+ CommonViewAllScreen({super.key, this.commonList});
+ final List? commonList;
+ final HomeController homeController = Get.find<HomeController>();
+ final GlobalController globalController = Get.find<GlobalController>();
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      top: false,
+      child: Scaffold(
+        backgroundColor: cBlackColor,
+        //* info:: appBar
+        appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kAppBarSize.h),
+        child: CustomAppBar(
+          hasBackButton: false,
+          title: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Container(
+              height: h32,  
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100.r),
+                color: cWhiteColor.withOpacity(0.2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: k12Padding, vertical: k2Padding),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.arrow_back_ios,
+                      size: kIconSize12,
+                      color: cWhiteColor,
+                    ),
+                    kW4sizedBox,
+                    Center(
+                        child: Text(
+                      homeController.selectedTitle.value,
+                      style: regular16TextStyle(cWhiteColor),
+                    )),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          actions: [
+                      Container(
+                      width: 36.w,
+                      height: 36.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: cWhiteColor.withOpacity(0.2),
+                      ),
+                      child: const Icon(Icons.search,color: cWhiteColor,size: kIconSize24,),
+                    ),
+                    kW6sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.only(right: k8Padding),
+                      child: InkWell(
+                        onTap: (){
+                          globalController.commonBottomSheet(bottomSheetColor: cBlackColor2,bottomSheetHeight: height*0.5,context: context, content: Container(), onPressCloseButton: (){Get.back();}, onPressRightButton: (){}, rightText: "", rightTextStyle: semiBold16TextStyle(cWhiteColor), title: "${ksFilter.tr} ${homeController.selectedTitle.value}", isRightButtonShow: false);
+                        },
+                        child: Container(
+                           width: 40.w,
+                          height: 40.h,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: cPrimaryColor2,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(k12Padding),
+                            child: SvgPicture.asset(kiFilter,color: cWhiteColor,),
+                          ),
+                        ),
+                      ),
+                    ),
+          ],
+        ),
+      ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+            child: Column(
+              children: [
+                kH8sizedBox,
+                 Divider(
+                  thickness: 1,
+                  color: cWhiteColor.withOpacity(0.2),
+                ),
+                kH16sizedBox,
+                  GridView.builder(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 0.6,
+                    ),
+                    itemCount: commonList!.length,
+                    itemBuilder: (context, index) {
+                           return MovieContentContainer(
+                            movieImage: commonList?[index].thumbnail,
+                            // seasonName: commonList![index].isSeason,
+                            isPremium: commonList?[index].isPaid==1 ? true : false,
+                            isSeason: commonList?[index].isTvseries==1? true:false,
+                          );
+                    },
+                  ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
