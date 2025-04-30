@@ -140,9 +140,8 @@ class ResetPasswordScreen extends StatelessWidget {
                 kH16sizedBox,
                 CustomElevatedButton(
                     label: ksGetStarted.tr,
-                    onPressed: () {
-                       authController.resetAuth();
-                      showSnackBar(title: "Success", message: "Password Changed Successfully", color: cGreenColor);
+                    onPressed: () async {
+                      await authController.resetPassword();
                     },
                     buttonWidth: width - 40,
                     buttonColor: cPrimaryColor2),

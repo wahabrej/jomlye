@@ -308,6 +308,36 @@ class AuthController extends GetxController {
     }
   }
 
+    //otp verify
+  final RxBool isResetPasswordLoading = RxBool(false);
+  Future<void> resetPassword() async {
+    try {
+      isResetPasswordLoading.value = true;
+      Map<String, dynamic> body = {
+        'email': forgotEmailTextEditingController.text.trim().toString(),
+        'password': passwordTextEditingController.text.trim().toString(),
+        'confirm_password': confirmPasswordTextEditingController.text.trim().toString(),
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuUpdatePassword,
+        body: body,
+        requestMethod: kPost,
+      ) as CommonDM;
+      if (response.code == 200) {
+        Get.toNamed(krSignInScreen);
+        isResetPasswordLoading.value = false;
+      } else { 
+        showSnackBar(
+            title: ksError.tr,
+            message: "resetPassword Error!",
+            color: cPrimaryColor2);
+        isResetPasswordLoading.value = false;
+      }
+    } catch (e) {
+      ll('resetPassword error: $e');
+    }
+  }
 
   //! signOut
   void signOut() async {

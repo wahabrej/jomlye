@@ -7,7 +7,7 @@ const String kuSignIn = "login";
 const String kuSignUp = "signup";
 const String kuForgotPassword = "forgot-password";
 const String kuOtpVerify = "otp-verify";
-const String kuResestPassword = "reset-password";
+const String kuUpdatePassword = "update-password";
 const String kuLogout = "logout";
 //interest
 const String kuInterest = "interest";
