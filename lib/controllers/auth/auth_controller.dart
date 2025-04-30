@@ -264,8 +264,7 @@ class AuthController extends GetxController {
         requestMethod: kPost,
       ) as CommonDM;
       if (response.code == 200) {
-        resetAuth();
-        Get.offAllNamed(krOTPScreen);
+        Get.toNamed(krOTPScreen);
         isForgotPasswordLoading.value = false;
       } else {
         showSnackBar(
@@ -278,6 +277,37 @@ class AuthController extends GetxController {
       ll('forgotPassword error: $e');
     }
   }
+
+  //otp verify
+  final RxBool isVerifyOtpLoading = RxBool(false);
+  Future<void> otpVerification() async {
+    try {
+      isVerifyOtpLoading.value = true;
+      Map<String, dynamic> body = {
+        'email': forgotEmailTextEditingController.text.trim().toString(),
+        'otp': otpTextEditingController.text.trim().toString(),
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuOtpVerify,
+        body: body,
+        requestMethod: kPost,
+      ) as CommonDM;
+      if (response.code == 200) {
+        Get.toNamed(krResetPasswordScreen);
+        isVerifyOtpLoading.value = false;
+      } else { 
+        showSnackBar(
+            title: ksError.tr,
+            message: "otpVerification Error!",
+            color: cPrimaryColor2);
+        isVerifyOtpLoading.value = false;
+      }
+    } catch (e) {
+      ll('otpVerification error: $e');
+    }
+  }
+
 
   //! signOut
   void signOut() async {

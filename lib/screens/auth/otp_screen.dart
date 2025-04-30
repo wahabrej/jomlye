@@ -20,7 +20,7 @@ class OTPScreen extends StatelessWidget {
           hasBackButton: false,
           title: GestureDetector(
             onTap: () {
-              // Get.back();
+              Get.back();
             },
             child: Container(
               width: 80.w,
@@ -104,9 +104,7 @@ class OTPScreen extends StatelessWidget {
                             onSubmit: (v){
                               if(authController
                                 .otpTextEditingController.text.length==6){
-                                   authController.resetAuth();
-                                  Get.toNamed(krResetPasswordScreen);
-                                  showSnackBar(title: "Success", message: "Successfully verified!", color: cGreenColor);
+                                   authController.otpVerification();
                                 }
                             },
                           ),

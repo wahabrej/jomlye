@@ -6,7 +6,7 @@ const kDelete = "DELETE";
 const String kuSignIn = "login";
 const String kuSignUp = "signup";
 const String kuForgotPassword = "forgot-password";
-const String kuVerifyOtp = "verify-otp";
+const String kuOtpVerify = "otp-verify";
 const String kuResestPassword = "reset-password";
 const String kuLogout = "logout";
 //interest
