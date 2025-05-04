@@ -68,7 +68,7 @@ class AllBlogsViewAllScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(right: k8Padding),
                       child: InkWell(
                         onTap: (){
-                          globalController.commonBottomSheet(bottomSheetColor: cBlackColor2,bottomSheetHeight: height*0.5,context: context, content: Container(), onPressCloseButton: (){Get.back();}, onPressRightButton: (){}, rightText: "", rightTextStyle: semiBold16TextStyle(cWhiteColor), title: "${ksFilter.tr} ${homeController.selectedTitle.value}", isRightButtonShow: false);
+                          globalController.commonBottomSheet(bottomSheetColor: cBlackColor2,bottomSheetHeight: height*0.5,context: context, content: AllBlogBottomSheetContent(), onPressCloseButton: (){Get.back();}, onPressRightButton: (){}, rightText: "", rightTextStyle: semiBold16TextStyle(cWhiteColor), title: "${ksFilter.tr} ${homeController.selectedTitle.value}", isRightButtonShow: false);
                         },
                         child: Container(
                            width: 40.w,
@@ -124,8 +124,8 @@ class AllBlogsViewAllScreen extends StatelessWidget {
                           title: homeController.blogList[index].title ?? "",
                           subTitle:
                               homeController.blogList[index].seoTitle ?? "",
-                          // date: homeController.blogList[index].date,
-                          date: DateFormat('d MMM, yyyy').format(DateTime.parse(homeController.blogDetails.value?.createdAt?.toString()??"")),
+                          // date: homeController.blogDetails.value?.createdAt?.toString()??"",
+                          date: homeController.blogDetails.value?.createdAt != null ? DateFormat('d MMM, yyyy').format(DateTime.parse(homeController.blogDetails.value?.createdAt?.toString()??"")):"",
                           reporter: homeController.blogList[index].author ?? "",
                           isTop: homeController.blogList[index].isTop,
                         ),
@@ -168,7 +168,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                 width: width - 20.w,
                 height: 34.h,
                 child: ListView.separated(
-                  itemCount: homeController.blogcategoryList.length,
+                  itemCount: homeController.blogCategoryList.length,
                   separatorBuilder: (context, index) => kW8sizedBox,
                   shrinkWrap: true,
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -178,10 +178,10 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                           onTap: () {
                             homeController.selectedBlogCategories.value =
                                 homeController
-                                        .blogcategoryList[index].videoType ??
+                                        .blogCategoryList[index].videoType ??
                                     "";
                             homeController.selectedBlogCategoryId.value =
-                                homeController.blogcategoryList[index].id
+                                homeController.blogCategoryList[index].id
                                     .toString();
                           },
                           child: Container(
@@ -190,7 +190,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                               border: homeController
                                           .selectedBlogCategories.value ==
                                       homeController
-                                          .blogcategoryList[index].videoType
+                                          .blogCategoryList[index].videoType
                                   ? Border.all(width: 1, color: cPrimaryColor2)
                                   : Border.all(width: 0),
                               borderRadius: BorderRadius.circular(6.r),
@@ -201,7 +201,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                               child: Center(
                                 child: Text(
                                   homeController
-                                          .blogcategoryList[index].videoType ??
+                                          .blogCategoryList[index].videoType ??
                                       "",
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
@@ -276,118 +276,6 @@ class AllBlogBottomSheetContent extends StatelessWidget {
             ],
           ),
         ),
-        //     kH16sizedBox,
-        //  Padding(
-        //     padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-        //     child: Text(
-        //       ksLanguage.tr,
-        //       style: medium16TextStyle(cWhiteColor),
-        //     ),
-        //   ),
-        //   kH16sizedBox,
-        //   Padding(
-        //     padding: const EdgeInsets.only(left: k20Padding),
-        //     child: Row(
-        //       children: [
-        //         SizedBox(
-        //           width: width - 20.w,
-        //           height: 34.h,
-        //           child: ListView.separated(
-        //             itemCount: homeController.languageList.length,
-        //             separatorBuilder: (context, index) => kW8sizedBox,
-        //             shrinkWrap: true,
-        //             physics: const AlwaysScrollableScrollPhysics(),
-        //             scrollDirection: Axis.horizontal,
-        //             itemBuilder: (context, index) {
-        //               return Obx(() => GestureDetector(
-        //                     onTap: () {
-        //                       homeController.selectedLanguage.value =
-        //                           homeController.languageList[index];
-        //                     },
-        //                     child: Container(
-        //                       decoration: BoxDecoration(
-        //                         color: cWhiteColor.withOpacity(0.04),
-        //                         border: homeController.selectedLanguage.value ==
-        //                                 homeController.languageList[index] ? Border.all(width: 1, color:
-        //                              cPrimaryColor2):Border.all(width: 0),
-        //                         borderRadius: BorderRadius.circular(6.r),
-        //                       ),
-        //                       child: Padding(
-        //                         padding: EdgeInsets.symmetric(
-        //                             horizontal: 16.w, vertical: 6.h),
-        //                         child: Center(
-        //                           child: Text(
-        //                             homeController.languageList[index],
-        //                             style: regular14TextStyle(cWhiteColor),
-        //                             textAlign: TextAlign.center,
-        //                             overflow: TextOverflow.clip,
-        //                           ),
-        //                         ),
-        //                       ),
-        //                     ),
-        //                   ));
-        //             },
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        //     kH16sizedBox,
-        //  Padding(
-        //     padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-        //     child: Text(
-        //       ksSort.tr,
-        //       style: medium16TextStyle(cWhiteColor),
-        //     ),
-        //   ),
-        //   kH16sizedBox,
-        //   Padding(
-        //     padding: const EdgeInsets.only(left: k20Padding),
-        //     child: Row(
-        //       children: [
-        //         SizedBox(
-        //           width: width - 20.w,
-        //           height: 34.h,
-        //           child: ListView.separated(
-        //             itemCount: homeController.sortList.length,
-        //             separatorBuilder: (context, index) => kW8sizedBox,
-        //             shrinkWrap: true,
-        //             physics: const AlwaysScrollableScrollPhysics(),
-        //             scrollDirection: Axis.horizontal,
-        //             itemBuilder: (context, index) {
-        //               return Obx(() => GestureDetector(
-        //                     onTap: () {
-        //                       homeController.selectedSort.value =
-        //                           homeController.sortList[index];
-        //                     },
-        //                     child: Container(
-        //                       decoration: BoxDecoration(
-        //                         color: cWhiteColor.withOpacity(0.04),
-        //                         border: homeController.selectedSort.value ==
-        //                                 homeController.sortList[index] ? Border.all(width: 1, color:
-        //                              cPrimaryColor2):Border.all(width: 0),
-        //                         borderRadius: BorderRadius.circular(6.r),
-        //                       ),
-        //                       child: Padding(
-        //                         padding: EdgeInsets.symmetric(
-        //                             horizontal: 16.w, vertical: 6.h),
-        //                         child: Center(
-        //                           child: Text(
-        //                             homeController.sortList[index],
-        //                             style: regular14TextStyle(cWhiteColor),
-        //                             textAlign: TextAlign.center,
-        //                             overflow: TextOverflow.clip,
-        //                           ),
-        //                         ),
-        //                       ),
-        //                     ),
-        //                   ));
-        //             },
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
         kH8sizedBox,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
@@ -414,7 +302,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
               CustomElevatedButton(
                 label: ksApply.tr,
                 onPressed: () async {
-                  //await homeController.getBlogFilterList();
+                  await homeController.getBlogFilterList();
                 },
                 buttonColor: cPrimaryColor2,
                 textStyle: regular16TextStyle(cWhiteColor),

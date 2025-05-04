@@ -1,7 +1,6 @@
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:intl/intl.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -26,7 +25,7 @@ class BlogSingleScreen extends StatelessWidget {
               Get.back();
             },
             child: Container(
-              width: 100.w,
+              width: 150.w,
               height: h32,  
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100.r),
@@ -45,7 +44,7 @@ class BlogSingleScreen extends StatelessWidget {
                     kW4sizedBox,
                     Center(
                         child: Text(
-                      ksAllBlogs.tr,
+                      ksBlogSinglePage.tr,
                       style: regular16TextStyle(cWhiteColor),
                     )),
                   ],
@@ -113,7 +112,7 @@ class BlogSingleScreen extends StatelessWidget {
                     ),
                     kW10sizedBox,
                     Text(
-                      DateFormat('d MMM, yyyy').format(DateTime.parse(homeController.blogDetails.value?.createdAt?.toString()??"")),
+                   homeController.blogDetails.value?.createdAt!=null ?  DateFormat('d MMM, yyyy').format(DateTime.parse(homeController.blogDetails.value?.createdAt?.toString()??"")):"",
                       style: regular14TextStyle(cWhiteColor.withOpacity(0.7)),
                     ),
                     kW10sizedBox,
@@ -193,6 +192,7 @@ class BlogSingleScreen extends StatelessWidget {
               //     return null;
               //   },
               // ),
+              if(homeController.blogDetails.value?.description!=null)
                 HtmlWidget(homeController.blogDetails.value?.description),
               //   kH20sizedBox,
               //   ClipRRect(
