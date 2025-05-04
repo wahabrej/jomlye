@@ -412,8 +412,9 @@ class HomeController extends GetxController {
  //blog api implement
    final RxBool isBlogLoading = RxBool(false);
    final Rx<BlogModel?> blogModel = Rx<BlogModel?>(null);
-  final RxList<Blog> blogList = RxList<Blog>([]);
+  final Rx<Blogs?> blogs = Rx<Blogs?>(null);
   final RxList<Categories> blogcategoryList = RxList<Categories>([]);
+  final RxList<BlogData> blogList = RxList<BlogData>([]);
   final RxList<int> blogYearList = RxList<int>([]);
   Future<void> getBlogList() async {
     try {
@@ -429,12 +430,13 @@ class HomeController extends GetxController {
 
       if (response.code == 200) {
         BlogModel blogModel = BlogModel.fromJson(response.data);
-        blogList.clear();
         blogcategoryList.clear();
         blogYearList.clear();
-        blogList.addAll(blogModel.blogs!);
-        blogcategoryList.addAll(blogModel.categories!);
-        blogYearList.addAll(blogModel.year!);
+        blogList.clear();
+        blogs.value = blogModel.blogs;
+        blogList.addAll(blogModel.blogs!.data!);
+        blogcategoryList.addAll(blogModel.filter!.categories!);
+        blogYearList.addAll(blogModel.filter!.year!);
         isBlogLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -452,42 +454,42 @@ class HomeController extends GetxController {
   }
 
 
-   //blog api implement
-  final RxBool isBlogFilterLoading = RxBool(false);
-  final Rx<FilterBlogModel?> filterBlogModel = Rx<FilterBlogModel?>(null);
-  // final RxList<FilteredBlogDetail> filteredBlogList = RxList<FilteredBlogDetail>([]);
-  Future<void> getBlogFilterList() async {
-    try {
-      isBlogFilterLoading.value = true;
-      String? token = await spController.getBearerToken();
-      Map<String, dynamic> body = {};
-      var response = await apiServices.commonApiCall(
-        requestMethod: kGet,
-        token: token,
-        url: "$kuBlogFilter?string=&category_id=${selectedBlogCategoryId.value.toString()}&year=${selectedYear.value.toString()}",
-        body: body,
-      ) as CommonDM;
+  //  //blog api implement
+  // final RxBool isBlogFilterLoading = RxBool(false);
+  // final Rx<FilterBlogModel?> filterBlogModel = Rx<FilterBlogModel?>(null);
+  // // final RxList<FilteredBlogDetail> filteredBlogList = RxList<FilteredBlogDetail>([]);
+  // Future<void> getBlogFilterList() async {
+  //   try {
+  //     isBlogFilterLoading.value = true;
+  //     String? token = await spController.getBearerToken();
+  //     Map<String, dynamic> body = {};
+  //     var response = await apiServices.commonApiCall(
+  //       requestMethod: kGet,
+  //       token: token,
+  //       url: "$kuBlogFilter?string=&category_id=${selectedBlogCategoryId.value.toString()}&year=${selectedYear.value.toString()}",
+  //       body: body,
+  //     ) as CommonDM;
 
-      if (response.code == 200) {
-        FilterBlogModel filterBlogModel = FilterBlogModel.fromJson(response.data);
-        blogList.clear();
-        blogList.addAll(filterBlogModel.details!);
-        isBlogFilterLoading.value = false;
-        Get.back();
-      } else {
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        isBlogFilterLoading.value = false;
-        if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
-        } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
-        }
-      }
-    } catch (e) {
-      isBlogFilterLoading.value = false;
-      ll('getBlogFilterList error: $e');
-    }
-  }
+  //     if (response.code == 200) {
+  //       FilterBlogModel filterBlogModel = FilterBlogModel.fromJson(response.data);
+  //       // blogList.clear();
+  //       // blogList.addAll(filterBlogModel.details!);
+  //       isBlogFilterLoading.value = false;
+  //       Get.back();
+  //     } else {
+  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
+  //       isBlogFilterLoading.value = false;
+  //       if (errorModel.errors.isEmpty) {
+  //         showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+  //       } else {
+  //         showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     isBlogFilterLoading.value = false;
+  //     ll('getBlogFilterList error: $e');
+  //   }
+  // }
 
   //blog details api implement
    final RxBool isBlogDetailsLoading = RxBool(false);

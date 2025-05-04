@@ -1,22 +1,68 @@
 class BlogModel {
-    final List<Blog>? blogs;
-    final List<Categories>? categories;
-    final List<int>? year;
+    final Blogs? blogs;
+    final Filter? filter;
 
     BlogModel({
         this.blogs,
-        this.categories,
-        this.year,
+        this.filter,
     });
 
     factory BlogModel.fromJson(Map<String, dynamic> json) => BlogModel(
-        blogs: json["blogs"] == null ? [] : List<Blog>.from(json["blogs"]!.map((x) => Blog.fromJson(x))),
-        categories: json["categories"] == null ? [] : List<Categories>.from(json["categories"]!.map((x) => Categories.fromJson(x))),
-        year: json["year"] == null ? [] : List<int>.from(json["year"]!.map((x) => x)),
+        blogs: json["blogs"] == null ? null : Blogs.fromJson(json["blogs"]),
+        filter: json["filter"] == null ? null : Filter.fromJson(json["filter"]),
+    );
+
+}
+
+class Blogs {
+    final int? currentPage;
+    final List<BlogData>? data;
+    final String? firstPageUrl;
+    final int? from;
+    final int? lastPage;
+    final String? lastPageUrl;
+    final List<Link>? links;
+    final dynamic nextPageUrl;
+    final String? path;
+    final int? perPage;
+    final dynamic prevPageUrl;
+    final int? to;
+    final int? total;
+
+    Blogs({
+        this.currentPage,
+        this.data,
+        this.firstPageUrl,
+        this.from,
+        this.lastPage,
+        this.lastPageUrl,
+        this.links,
+        this.nextPageUrl,
+        this.path,
+        this.perPage,
+        this.prevPageUrl,
+        this.to,
+        this.total,
+    });
+
+    factory Blogs.fromJson(Map<String, dynamic> json) => Blogs(
+        currentPage: json["current_page"],
+        data: json["data"] == null ? [] : List<BlogData>.from(json["data"]!.map((x) => BlogData.fromJson(x))),
+        firstPageUrl: json["first_page_url"],
+        from: json["from"],
+        lastPage: json["last_page"],
+        lastPageUrl: json["last_page_url"],
+        links: json["links"] == null ? [] : List<Link>.from(json["links"]!.map((x) => Link.fromJson(x))),
+        nextPageUrl: json["next_page_url"],
+        path: json["path"],
+        perPage: json["per_page"],
+        prevPageUrl: json["prev_page_url"],
+        to: json["to"],
+        total: json["total"],
     );
 }
 
-class Blog {
+class BlogData {
     final int? id;
     final String? title;
     final String? slug;
@@ -33,7 +79,7 @@ class Blog {
     final DateTime? updatedAt;
     final String? author;
 
-    Blog({
+    BlogData({
         this.id,
         this.title,
         this.slug,
@@ -51,7 +97,7 @@ class Blog {
         this.author,
     });
 
-    factory Blog.fromJson(Map<String, dynamic> json) => Blog(
+    factory BlogData.fromJson(Map<String, dynamic> json) => BlogData(
         id: json["id"],
         title: json["title"],
         slug: json["slug"],
@@ -67,6 +113,39 @@ class Blog {
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         author: json["author"],
+    );
+}
+
+class Link {
+    final String? url;
+    final String? label;
+    final bool? active;
+
+    Link({
+        this.url,
+        this.label,
+        this.active,
+    });
+
+    factory Link.fromJson(Map<String, dynamic> json) => Link(
+        url: json["url"],
+        label: json["label"],
+        active: json["active"],
+    );
+}
+
+class Filter {
+    final List<Categories>? categories;
+    final List<int>? year;
+
+    Filter({
+        this.categories,
+        this.year,
+    });
+
+    factory Filter.fromJson(Map<String, dynamic> json) => Filter(
+        categories: json["categories"] == null ? [] : List<Categories>.from(json["categories"]!.map((x) => Categories.fromJson(x))),
+        year: json["year"] == null ? [] : List<int>.from(json["year"]!.map((x) => x)),
     );
 }
 

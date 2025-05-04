@@ -159,6 +159,11 @@
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name="io.flutter.plugins.urllauncher.WebViewActivity"
+            android:exported="false"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.example.vidflix_flutter_app.androidx-startup"

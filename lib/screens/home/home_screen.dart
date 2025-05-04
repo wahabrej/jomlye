@@ -585,9 +585,8 @@ class HomeScreen extends StatelessWidget {
                                 reporter: homeController
                                         .latestBlogsList[index].author ??
                                     "",
-                                tag: homeController
-                                        .latestBlogsList[index].tags ??
-                                    "",
+                                isTop: homeController
+                                        .latestBlogsList[index].isTop,
                               ),
                             );
                           },
@@ -622,10 +621,11 @@ class LatestBlogPostContent extends StatelessWidget {
       required this.subTitle,
       required this.date,
       required this.reporter,
-      required this.tag,
+      required this.isTop,
       this.contentHeight});
-  final String image, title, subTitle, date, reporter, tag;
+  final String image, title, subTitle, date, reporter;
   final double? contentHeight;
+  final int? isTop;
 
   @override
   Widget build(BuildContext context) {
@@ -650,6 +650,7 @@ class LatestBlogPostContent extends StatelessWidget {
                 ),
               ),
             ),
+            if(isTop==1)
             Positioned(
               top: 10,
               left: 14,
@@ -663,7 +664,7 @@ class LatestBlogPostContent extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                       horizontal: k4Padding, vertical: k2Padding),
                   child: Text(
-                    tag,
+                    ksTopNews.tr,
                     style: regular10TextStyle(cWhiteColor),
                   ),
                 ),

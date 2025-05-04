@@ -1,3 +1,4 @@
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:intl/intl.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
@@ -15,48 +16,83 @@ class BlogSingleScreen extends StatelessWidget {
       top: false,
       child: Scaffold(
         backgroundColor: cBlackColor,
+        //* info:: appBar
+        appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kAppBarSize.h),
+        child: CustomAppBar(
+          hasBackButton: false,
+          title: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Container(
+              width: 100.w,
+              height: h32,  
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100.r),
+                color: cWhiteColor.withOpacity(0.2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: k12Padding, vertical: k2Padding),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.arrow_back_ios,
+                      size: kIconSize12,
+                      color: cWhiteColor,
+                    ),
+                    kW4sizedBox,
+                    Center(
+                        child: Text(
+                      ksAllBlogs.tr,
+                      style: regular16TextStyle(cWhiteColor),
+                    )),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          actions: [
+                      Container(
+                      width: 36.w,
+                      height: 36.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: cWhiteColor.withOpacity(0.2),
+                      ),
+                      child: const Icon(Icons.search,color: cWhiteColor,size: kIconSize24,),
+                    ),
+                    kW6sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.only(right: k8Padding),
+                      child: InkWell(
+                        onTap: (){
+                          // globalController.commonBottomSheet(bottomSheetColor: cBlackColor2,bottomSheetHeight: height*0.5,context: context, content: Container(), onPressCloseButton: (){Get.back();}, onPressRightButton: (){}, rightText: "", rightTextStyle: semiBold16TextStyle(cWhiteColor), title: "${ksFilter.tr} ${homeController.selectedTitle.value}", isRightButtonShow: false);
+                        },
+                        child: Container(
+                           width: 40.w,
+                          height: 40.h,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: cPrimaryColor2,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(k12Padding),
+                            child: SvgPicture.asset(kiFilter,color: cWhiteColor,),
+                          ),
+                        ),
+                      ),
+                    ),
+          ],
+        ),
+      ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                kH40sizedBox,
-                Row(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Get.back();
-                      },
-                      child: Container(
-                        height: h32,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(100.r),
-                          color: cWhiteColor.withOpacity(0.2),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: k12Padding, vertical: k2Padding),
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.arrow_back_ios,
-                                size: kIconSize12,
-                                color: cWhiteColor,
-                              ),
-                              kW4sizedBox,
-                              Center(
-                                  child: Text(
-                                ksBlogSinglePage.tr,
-                                style: regular16TextStyle(cWhiteColor),
-                              )),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
                 kH8sizedBox,
                 Divider(
                   thickness: 1,
@@ -126,229 +162,262 @@ class BlogSingleScreen extends StatelessWidget {
                   ],
                 ),
                 kH20sizedBox,
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(k4BorderRadius),
-                    child: Image.network(
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa54OMxsrzyzRkNgqGlTT6iKs79aImGXmJGAU7HrKeqAS0gZKSXMJOxkk&s",
-                      width: width - 40,
-                      height: 240.h,
-                      fit: BoxFit.cover,
-                    )),
-                kH20sizedBox,
-                Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. Vivamus tortor massa, rhoncus quis elementum sit amet, bibendum viverra libero.",
-                  style: regular14TextStyle(
-                    cWhiteColor.withOpacity(0.7),
-                  ),
-                ),
-                kH20sizedBox,
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(k4BorderRadius),
-                    child: Image.network(
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa54OMxsrzyzRkNgqGlTT6iKs79aImGXmJGAU7HrKeqAS0gZKSXMJOxkk&s",
-                      width: width - 40,
-                      height: 240.h,
-                      fit: BoxFit.cover,
-                    )),
-                kH20sizedBox,
-                Text("What is shoes trend in 2022 ?",
-                    style: medium16TextStyle(cWhiteColor)),
-                kH20sizedBox,
-                Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. Vivamus tortor massa, rhoncus quis elementum sit amet, bibendum viverra libero.",
-                  style: regular14TextStyle(
-                    cWhiteColor.withOpacity(0.7),
-                  ),
-                ),
-                kH20sizedBox,
-                Container(
-                  decoration: BoxDecoration(
-                    color: cWhiteColor.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(k6BorderRadius),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: k20Padding, vertical: k30Padding),
-                    child: Text(
-                      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. ",
-                      style: regular16TextStyle(cWhiteColor),
-                    ),
-                  ),
-                ),
-                kH20sizedBox,
-                Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. Vivamus tortor massa, rhoncus quis elementum sit amet, bibendum viverra libero. Nam eget pulvinar ante. Suspendisse ante arcu, venenatis at purus eget, porta ultrices nulla. Nam eget pulvinar ante. Suspendisse ante arcu, venenatis at purus eget, porta ultrices nulla.",
-                  style: regular14TextStyle(cWhiteColor.withOpacity(0.7)),
-                ),
-                kH20sizedBox,
-                //!needed
-                GridView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 0.9,
-                  ),
-                  itemCount: homeController.latestBlogList.length,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                        width: width - 72,
-                        height: 120,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(k4BorderRadius),
-                          child: Image.network(
-                            // homeController.blogDetails.value?.image??"",
-                            homeController.blogDetails.value?.image??"",
-                            width: width - 72,
-                            height: 120,
-                            fit: BoxFit.cover,
-                                    errorBuilder: (context, error, stackTrace) =>  Center(
-                child: SvgPicture.asset(
-                  kiDummyMovie,
-                  fit: BoxFit.cover,
-                ),
-              ),
-                          ),
-                        ));
-                  },
-                ),
-                kH24sizedBox,
-                Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. Vivamus tortor massa, rhoncus quis elementum sit amet, bibendum viverra libero.",
-                  style: regular14TextStyle(cWhiteColor.withOpacity(0.7)),
-                ),
-                kH20sizedBox,
-                Text(
-                  "What is shoes trend in 2022 ?",
-                  style: medium16TextStyle(cWhiteColor),
-                ),
-                kH20sizedBox,
-                for (int i = 0;
-                    i < homeController.blogBulletPointList.length;
-                    i++)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: k8Padding),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: k8Padding),
-                          child: Container(
-                            width: 4,
-                            height: 4,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: cWhiteColor.withOpacity(0.7),
-                            ),
-                          ),
-                        ),
-                        kW8sizedBox,
-                        Expanded(
-                            child: Text(homeController.blogBulletPointList[i],
-                                style: regular14TextStyle(
-                                    cWhiteColor.withOpacity(0.7)),
-                                overflow: TextOverflow.clip)),
-                      ],
-                    ),
-                  ),
-                kH20sizedBox,
-                Row(
-                  children: [
-                    Container(
-                      width: 80.w,
-                      height: 80.h,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                      child: CircleAvatar(
-                        backgroundColor: cWhiteColor.withOpacity(0.2),
-                        child: ClipOval(
-                          child: Image.network(
-                            width: 80.w,
-                            height: 80.h,
-                            fit: BoxFit.cover,
-                            "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-                          ),
-                        ),
-                      ),
-                    ),
-                    kW16sizedBox,
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Esther Howard",
-                          style: semiBold18TextStyle(cWhiteColor),
-                        ),
-                        kH8sizedBox,
-                        Text(
-                          "Author",
-                          style:
-                              regular16TextStyle(cWhiteColor.withOpacity(0.5)),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                kH20sizedBox,
-                Text(
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. Vivamus tortor massa, rhoncus quis elementum sit amet, bibendum viverra libero.",
-                  style: regular14TextStyle(cWhiteColor.withOpacity(0.7)),
-                ),
-                kH35sizedBox,
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      kiShare,
-                      width: 16.w,
-                      height: 16.w,
-                      color: cWhiteColor,
-                    ),
-                    kW12sizedBox,
-                    Text(
-                      ksShareWith.tr,
-                      style: medium16TextStyle(cWhiteColor),
-                    ),
-                  ],
-                ),
-                kH16sizedBox,
-                Divider(
-                  thickness: 1,
-                  color: cWhiteColor.withOpacity(0.2),
-                ),
-                kH20sizedBox,
-                const Row(
-                  children: [
-                    ShareCommonContainer(
-                      image: kiFacebook2,
-                    ),
-                    kW10sizedBox,
-                    ShareCommonContainer(
-                      image: kiTwitter,
-                    ),
-                    kW10sizedBox,
-                    ShareCommonContainer(
-                      image: kiPinterest,
-                    ),
-                    kW10sizedBox,
-                    ShareCommonContainer(
-                      image: kiInstagram,
-                    ),
-                  ],
-                ),
-                kH30sizedBox,
-                HomeTitleContent(
-                  title: ksLatestBlog.tr,
-                  subtitleText: ksViewAll,
-                  isHorizontalPadding: false,
-                  onPressed: () {
-                    Get.toNamed(krAllBlogsViewAllScreen);
-                  },
-                ),
-                kH16sizedBox,
+              //                HtmlWidget(
+              //   homeController.blogDetails.value?.description ?? '',
+              //   customStylesBuilder: (element) {
+              //     if (element.localName == 'p') {
+              //       return {
+              //         'margin-bottom': '16px',
+              //         'font-family': 'Roboto',
+              //         'font-size': '16px',
+              //       };
+              //     }
+              //     return null;
+              //   },
+              //   customWidgetBuilder: (element) {
+              //     if (element.localName == 'img') {
+              //       return Image.network(
+              //         element.attributes['src'] ?? '',
+              //         fit: BoxFit.cover,
+              //       );
+              //     } 
+              //     // else if (element.localName == 'video') {
+              //     //   final sourceUrl = element.children.first.attributes['src'];
+              //     //   return ChewieController(
+              //     //     videoPlayerController: VideoPlayerController.network(sourceUrl),
+              //     //     fullScreenByDefault: false,
+              //     //     aspectRatio: 16/9,
+              //     //     placeholder: Center(child: CircularProgressIndicator()),
+              //     //   ).build(context);
+              //     // }
+              //     return null;
+              //   },
+              // ),
+                HtmlWidget(homeController.blogDetails.value?.description),
+              //   kH20sizedBox,
+              //   ClipRRect(
+              //       borderRadius: BorderRadius.circular(k4BorderRadius),
+              //       child: Image.network(
+              //         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa54OMxsrzyzRkNgqGlTT6iKs79aImGXmJGAU7HrKeqAS0gZKSXMJOxkk&s",
+              //         width: width - 40,
+              //         height: 240.h,
+              //         fit: BoxFit.cover,
+              //       )),
+              //   kH20sizedBox,
+              //   Text(
+              //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. Vivamus tortor massa, rhoncus quis elementum sit amet, bibendum viverra libero.",
+              //     style: regular14TextStyle(
+              //       cWhiteColor.withOpacity(0.7),
+              //     ),
+              //   ),
+              //   kH20sizedBox,
+              //   ClipRRect(
+              //       borderRadius: BorderRadius.circular(k4BorderRadius),
+              //       child: Image.network(
+              //         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa54OMxsrzyzRkNgqGlTT6iKs79aImGXmJGAU7HrKeqAS0gZKSXMJOxkk&s",
+              //         width: width - 40,
+              //         height: 240.h,
+              //         fit: BoxFit.cover,
+              //       )),
+              //   kH20sizedBox,
+              //   Text("What is shoes trend in 2022 ?",
+              //       style: medium16TextStyle(cWhiteColor)),
+              //   kH20sizedBox,
+              //   Text(
+              //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. Vivamus tortor massa, rhoncus quis elementum sit amet, bibendum viverra libero.",
+              //     style: regular14TextStyle(
+              //       cWhiteColor.withOpacity(0.7),
+              //     ),
+              //   ),
+              //   kH20sizedBox,
+              //   Container(
+              //     decoration: BoxDecoration(
+              //       color: cWhiteColor.withOpacity(0.2),
+              //       borderRadius: BorderRadius.circular(k6BorderRadius),
+              //     ),
+              //     child: Padding(
+              //       padding: const EdgeInsets.symmetric(
+              //           horizontal: k20Padding, vertical: k30Padding),
+              //       child: Text(
+              //         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. ",
+              //         style: regular16TextStyle(cWhiteColor),
+              //       ),
+              //     ),
+              //   ),
+              //   kH20sizedBox,
+              //   Text(
+              //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. Vivamus tortor massa, rhoncus quis elementum sit amet, bibendum viverra libero. Nam eget pulvinar ante. Suspendisse ante arcu, venenatis at purus eget, porta ultrices nulla. Nam eget pulvinar ante. Suspendisse ante arcu, venenatis at purus eget, porta ultrices nulla.",
+              //     style: regular14TextStyle(cWhiteColor.withOpacity(0.7)),
+              //   ),
+              //   kH20sizedBox,
+              //   //!needed
+              //   GridView.builder(
+              //     shrinkWrap: true,
+              //     padding: EdgeInsets.zero,
+              //     physics: const NeverScrollableScrollPhysics(),
+              //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 3,
+              //       crossAxisSpacing: 16,
+              //       mainAxisSpacing: 10,
+              //       childAspectRatio: 0.9,
+              //     ),
+              //     itemCount: homeController.latestBlogList.length,
+              //     itemBuilder: (context, index) {
+              //       return SizedBox(
+              //           width: width - 72,
+              //           height: 120,
+              //           child: ClipRRect(
+              //             borderRadius: BorderRadius.circular(k4BorderRadius),
+              //             child: Image.network(
+              //               // homeController.blogDetails.value?.image??"",
+              //               homeController.blogDetails.value?.image??"",
+              //               width: width - 72,
+              //               height: 120,
+              //               fit: BoxFit.cover,
+              //                       errorBuilder: (context, error, stackTrace) =>  Center(
+              //   child: SvgPicture.asset(
+              //     kiDummyMovie,
+              //     fit: BoxFit.cover,
+              //   ),
+              // ),
+              //             ),
+              //           ));
+              //     },
+              //   ),
+              //   kH24sizedBox,
+              //   Text(
+              //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. Vivamus tortor massa, rhoncus quis elementum sit amet, bibendum viverra libero.",
+              //     style: regular14TextStyle(cWhiteColor.withOpacity(0.7)),
+              //   ),
+              //   kH20sizedBox,
+              //   Text(
+              //     "What is shoes trend in 2022 ?",
+              //     style: medium16TextStyle(cWhiteColor),
+              //   ),
+              //   kH20sizedBox,
+              //   for (int i = 0;
+              //       i < homeController.blogBulletPointList.length;
+              //       i++)
+              //     Padding(
+              //       padding: const EdgeInsets.only(bottom: k8Padding),
+              //       child: Row(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           Padding(
+              //             padding: const EdgeInsets.only(top: k8Padding),
+              //             child: Container(
+              //               width: 4,
+              //               height: 4,
+              //               decoration: BoxDecoration(
+              //                 shape: BoxShape.circle,
+              //                 color: cWhiteColor.withOpacity(0.7),
+              //               ),
+              //             ),
+              //           ),
+              //           kW8sizedBox,
+              //           Expanded(
+              //               child: Text(homeController.blogBulletPointList[i],
+              //                   style: regular14TextStyle(
+              //                       cWhiteColor.withOpacity(0.7)),
+              //                   overflow: TextOverflow.clip)),
+              //         ],
+              //       ),
+              //     ),
+              //   kH20sizedBox,
+              //   Row(
+              //     children: [
+              //       Container(
+              //         width: 80.w,
+              //         height: 80.h,
+              //         decoration: const BoxDecoration(
+              //           shape: BoxShape.circle,
+              //         ),
+              //         child: CircleAvatar(
+              //           backgroundColor: cWhiteColor.withOpacity(0.2),
+              //           child: ClipOval(
+              //             child: Image.network(
+              //               width: 80.w,
+              //               height: 80.h,
+              //               fit: BoxFit.cover,
+              //               "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+              //             ),
+              //           ),
+              //         ),
+              //       ),
+              //       kW16sizedBox,
+              //       Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           Text(
+              //             "Esther Howard",
+              //             style: semiBold18TextStyle(cWhiteColor),
+              //           ),
+              //           kH8sizedBox,
+              //           Text(
+              //             "Author",
+              //             style:
+              //                 regular16TextStyle(cWhiteColor.withOpacity(0.5)),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              //   kH20sizedBox,
+              //   Text(
+              //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tempus, lectus a gravida aliquam, eros lacus laoreet sem, vel consequat eros augue sit amet nunc. Vivamus tortor massa, rhoncus quis elementum sit amet, bibendum viverra libero.",
+              //     style: regular14TextStyle(cWhiteColor.withOpacity(0.7)),
+              //   ),
+              //   kH35sizedBox,
+              //   Row(
+              //     children: [
+              //       SvgPicture.asset(
+              //         kiShare,
+              //         width: 16.w,
+              //         height: 16.w,
+              //         color: cWhiteColor,
+              //       ),
+              //       kW12sizedBox,
+              //       Text(
+              //         ksShareWith.tr,
+              //         style: medium16TextStyle(cWhiteColor),
+              //       ),
+              //     ],
+              //   ),
+              //   kH16sizedBox,
+              //   Divider(
+              //     thickness: 1,
+              //     color: cWhiteColor.withOpacity(0.2),
+              //   ),
+              //   kH20sizedBox,
+              //   const Row(
+              //     children: [
+              //       ShareCommonContainer(
+              //         image: kiFacebook2,
+              //       ),
+              //       kW10sizedBox,
+              //       ShareCommonContainer(
+              //         image: kiTwitter,
+              //       ),
+              //       kW10sizedBox,
+              //       ShareCommonContainer(
+              //         image: kiPinterest,
+              //       ),
+              //       kW10sizedBox,
+              //       ShareCommonContainer(
+              //         image: kiInstagram,
+              //       ),
+              //     ],
+              //   ),
+              //   kH30sizedBox,
+              //   HomeTitleContent(
+              //     title: ksLatestBlog.tr,
+              //     subtitleText: ksViewAll,
+              //     isHorizontalPadding: false,
+              //     onPressed: () {
+              //       Get.toNamed(krAllBlogsViewAllScreen);
+              //     },
+              //   ),
+                // kH16sizedBox,
                 // Row(
                 //   children: [
                 //     SizedBox(

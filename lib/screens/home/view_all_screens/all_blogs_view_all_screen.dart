@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
@@ -15,139 +16,127 @@ class AllBlogsViewAllScreen extends StatelessWidget {
       top: false,
       child: Scaffold(
         backgroundColor: cBlackColor,
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-            child: Obx(() => Column(
-                          children: [
-                            kH40sizedBox,
-                            Row(
-                              children: [
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.back();
-                                  },
-                                  child: Container(
-                                    height: h32,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(100.r),
-                                      color: cWhiteColor.withOpacity(0.2),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: k12Padding, vertical: k2Padding),
-                                      child: Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.arrow_back_ios,
-                                            size: kIconSize12,
-                                color: cWhiteColor,
-                              ),
-                              kW4sizedBox,
-                              Center(
-                                  child: Text(
-                                ksAllBlogs.tr,
-                                style: regular16TextStyle(cWhiteColor),
-                              )),
-                            ],
-                          ),
-                        ),
-                      ),
+          //* info:: appBar
+        appBar: PreferredSize(
+        preferredSize: Size.fromHeight(kAppBarSize.h),
+        child: CustomAppBar(
+          hasBackButton: false,
+          title: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Container(
+              width: 100.w,
+              height: h32,  
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100.r),
+                color: cWhiteColor.withOpacity(0.2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: k12Padding, vertical: k2Padding),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.arrow_back_ios,
+                      size: kIconSize12,
+                      color: cWhiteColor,
                     ),
-                    const Expanded(
-                      child: SizedBox(),
-                    ),
-                    Container(
-                      width: 40.w,
-                      height: 40.h,
+                    kW4sizedBox,
+                    Center(
+                        child: Text(
+                      ksAllBlogs.tr,
+                      style: regular16TextStyle(cWhiteColor),
+                    )),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          actions: [
+                      Container(
+                      width: 36.w,
+                      height: 36.h,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: cWhiteColor.withOpacity(0.2),
                       ),
-                      child: const Icon(
-                        Icons.search,
-                        color: cWhiteColor,
-                        size: kIconSize24,
-                      ),
+                      child: const Icon(Icons.search,color: cWhiteColor,size: kIconSize24,),
                     ),
                     kW6sizedBox,
-                    GestureDetector(
-                      onTap: () {
-                        globalController.commonBottomSheet(
-                            context: context,
-                            bottomSheetHeight: height*0.65,
-                            isScrollControlled: true,
-                            content: AllBlogBottomSheetContent(),
-                            onPressCloseButton: () {
-                              Get.back();
-                            },
-                            onPressRightButton: () {},
-                            rightText: "",
-                            rightTextStyle: semiBold14TextStyle(cWhiteColor),
-                            title: ksFilterBlogs.tr,
-                            isRightButtonShow: false,
-                            bottomSheetColor: cBlackColor);
-                      },
-                      child: Container(
-                        width: 40.w,
-                        height: 40.h,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: cPrimaryColor2,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(k12Padding),
-                          child: SvgPicture.asset(
-                            kiFilter,
-                            color: cWhiteColor,
+                    Padding(
+                      padding: const EdgeInsets.only(right: k8Padding),
+                      child: InkWell(
+                        onTap: (){
+                          globalController.commonBottomSheet(bottomSheetColor: cBlackColor2,bottomSheetHeight: height*0.5,context: context, content: Container(), onPressCloseButton: (){Get.back();}, onPressRightButton: (){}, rightText: "", rightTextStyle: semiBold16TextStyle(cWhiteColor), title: "${ksFilter.tr} ${homeController.selectedTitle.value}", isRightButtonShow: false);
+                        },
+                        child: Container(
+                           width: 40.w,
+                          height: 40.h,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: cPrimaryColor2,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(k12Padding),
+                            child: SvgPicture.asset(kiFilter,color: cWhiteColor,),
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
-                kH8sizedBox,
-                Divider(
-                  thickness: 1,
-                  color: cWhiteColor.withOpacity(0.2),
-                ),
-                kH16sizedBox,
-                //!needed
-                GridView.builder(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 0.7,
+          ],
+        ),
+      ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+            child: Obx(
+              () => Column(
+                children: [
+                  Divider(
+                    thickness: 1,
+                    color: cWhiteColor.withOpacity(0.2),
                   ),
-                  itemCount: homeController.blogList.length,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: ()async{
-                        await homeController.getBlogDetails(homeController.blogList[index].id);
-                        Get.toNamed(krBlogSingleScreen);
-                      },
-                      child: LatestBlogPostContent(
-                        contentHeight: 240.h,
-                        image: homeController.blogList[index].image??"",
-                        title: homeController.blogList[index].title??"",
-                        subTitle: homeController.blogList[index].seoTitle??"",
-                        // date: homeController.blogList[index].date,
-                        date: "",
-                        reporter: homeController.blogList[index].author??"",
-                        tag: homeController.blogList[index].description??"",
-                      ),
-                    );
-                  },
-                ),
-              ],
+                  kH16sizedBox,
+                  //!needed
+                  GridView.builder(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    physics: const NeverScrollableScrollPhysics(),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 0.7,
+                    ),
+                    itemCount: homeController.blogList.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () async {
+                          await homeController.getBlogDetails(
+                              homeController.blogList[index].id);
+                          Get.toNamed(krBlogSingleScreen);
+                        },
+                        child: LatestBlogPostContent(
+                          contentHeight: 240.h,
+                          image: homeController.blogList[index].image ?? "",
+                          title: homeController.blogList[index].title ?? "",
+                          subTitle:
+                              homeController.blogList[index].seoTitle ?? "",
+                          // date: homeController.blogList[index].date,
+                          date: DateFormat('d MMM, yyyy').format(DateTime.parse(homeController.blogDetails.value?.createdAt?.toString()??"")),
+                          reporter: homeController.blogList[index].author ?? "",
+                          isTop: homeController.blogList[index].isTop,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
       ),
     );
   }
@@ -188,16 +177,22 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                     return Obx(() => GestureDetector(
                           onTap: () {
                             homeController.selectedBlogCategories.value =
-                                homeController.blogcategoryList[index].videoType??"";
+                                homeController
+                                        .blogcategoryList[index].videoType ??
+                                    "";
                             homeController.selectedBlogCategoryId.value =
-                                homeController.blogcategoryList[index].id.toString();
+                                homeController.blogcategoryList[index].id
+                                    .toString();
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                                color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedBlogCategories.value ==
-                                      homeController.blogcategoryList[index].videoType ? Border.all(width: 1, color: 
-                                   cPrimaryColor2):Border.all(width: 0),
+                              color: cWhiteColor.withOpacity(0.04),
+                              border: homeController
+                                          .selectedBlogCategories.value ==
+                                      homeController
+                                          .blogcategoryList[index].videoType
+                                  ? Border.all(width: 1, color: cPrimaryColor2)
+                                  : Border.all(width: 0),
                               borderRadius: BorderRadius.circular(6.r),
                             ),
                             child: Padding(
@@ -205,7 +200,9 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.blogcategoryList[index].videoType??"",
+                                  homeController
+                                          .blogcategoryList[index].videoType ??
+                                      "",
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.clip,
@@ -220,9 +217,9 @@ class AllBlogBottomSheetContent extends StatelessWidget {
             ],
           ),
         ),
-     
-     kH16sizedBox,
-       Padding(
+
+        kH16sizedBox,
+        Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
           child: Text(
             ksYear.tr,
@@ -253,8 +250,10 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
                               border: homeController.selectedYear.value ==
-                                      homeController.blogYearList[index].toString() ? Border.all(width: 1, color: 
-                                   cPrimaryColor2):Border.all(width: 0),
+                                      homeController.blogYearList[index]
+                                          .toString()
+                                  ? Border.all(width: 1, color: cPrimaryColor2)
+                                  : Border.all(width: 0),
                               borderRadius: BorderRadius.circular(6.r),
                             ),
                             child: Padding(
@@ -277,118 +276,118 @@ class AllBlogBottomSheetContent extends StatelessWidget {
             ],
           ),
         ),
-      //     kH16sizedBox,
-      //  Padding(
-      //     padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-      //     child: Text(
-      //       ksLanguage.tr,
-      //       style: medium16TextStyle(cWhiteColor),
-      //     ),
-      //   ),
-      //   kH16sizedBox,
-      //   Padding(
-      //     padding: const EdgeInsets.only(left: k20Padding),
-      //     child: Row(
-      //       children: [
-      //         SizedBox(
-      //           width: width - 20.w,
-      //           height: 34.h,
-      //           child: ListView.separated(
-      //             itemCount: homeController.languageList.length,
-      //             separatorBuilder: (context, index) => kW8sizedBox,
-      //             shrinkWrap: true,
-      //             physics: const AlwaysScrollableScrollPhysics(),
-      //             scrollDirection: Axis.horizontal,
-      //             itemBuilder: (context, index) {
-      //               return Obx(() => GestureDetector(
-      //                     onTap: () {
-      //                       homeController.selectedLanguage.value =
-      //                           homeController.languageList[index];
-      //                     },
-      //                     child: Container(
-      //                       decoration: BoxDecoration(
-      //                         color: cWhiteColor.withOpacity(0.04),
-      //                         border: homeController.selectedLanguage.value ==
-      //                                 homeController.languageList[index] ? Border.all(width: 1, color: 
-      //                              cPrimaryColor2):Border.all(width: 0),
-      //                         borderRadius: BorderRadius.circular(6.r),
-      //                       ),
-      //                       child: Padding(
-      //                         padding: EdgeInsets.symmetric(
-      //                             horizontal: 16.w, vertical: 6.h),
-      //                         child: Center(
-      //                           child: Text(
-      //                             homeController.languageList[index],
-      //                             style: regular14TextStyle(cWhiteColor),
-      //                             textAlign: TextAlign.center,
-      //                             overflow: TextOverflow.clip,
-      //                           ),
-      //                         ),
-      //                       ),
-      //                     ),
-      //                   ));
-      //             },
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      //     kH16sizedBox,
-      //  Padding(
-      //     padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-      //     child: Text(
-      //       ksSort.tr,
-      //       style: medium16TextStyle(cWhiteColor),
-      //     ),
-      //   ),
-      //   kH16sizedBox,
-      //   Padding(
-      //     padding: const EdgeInsets.only(left: k20Padding),
-      //     child: Row(
-      //       children: [
-      //         SizedBox(
-      //           width: width - 20.w,
-      //           height: 34.h,
-      //           child: ListView.separated(
-      //             itemCount: homeController.sortList.length,
-      //             separatorBuilder: (context, index) => kW8sizedBox,
-      //             shrinkWrap: true,
-      //             physics: const AlwaysScrollableScrollPhysics(),
-      //             scrollDirection: Axis.horizontal,
-      //             itemBuilder: (context, index) {
-      //               return Obx(() => GestureDetector(
-      //                     onTap: () {
-      //                       homeController.selectedSort.value =
-      //                           homeController.sortList[index];
-      //                     },
-      //                     child: Container(
-      //                       decoration: BoxDecoration(
-      //                         color: cWhiteColor.withOpacity(0.04),
-      //                         border: homeController.selectedSort.value ==
-      //                                 homeController.sortList[index] ? Border.all(width: 1, color: 
-      //                              cPrimaryColor2):Border.all(width: 0),
-      //                         borderRadius: BorderRadius.circular(6.r),
-      //                       ),
-      //                       child: Padding(
-      //                         padding: EdgeInsets.symmetric(
-      //                             horizontal: 16.w, vertical: 6.h),
-      //                         child: Center(
-      //                           child: Text(
-      //                             homeController.sortList[index],
-      //                             style: regular14TextStyle(cWhiteColor),
-      //                             textAlign: TextAlign.center,
-      //                             overflow: TextOverflow.clip,
-      //                           ),
-      //                         ),
-      //                       ),
-      //                     ),
-      //                   ));
-      //             },
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
+        //     kH16sizedBox,
+        //  Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+        //     child: Text(
+        //       ksLanguage.tr,
+        //       style: medium16TextStyle(cWhiteColor),
+        //     ),
+        //   ),
+        //   kH16sizedBox,
+        //   Padding(
+        //     padding: const EdgeInsets.only(left: k20Padding),
+        //     child: Row(
+        //       children: [
+        //         SizedBox(
+        //           width: width - 20.w,
+        //           height: 34.h,
+        //           child: ListView.separated(
+        //             itemCount: homeController.languageList.length,
+        //             separatorBuilder: (context, index) => kW8sizedBox,
+        //             shrinkWrap: true,
+        //             physics: const AlwaysScrollableScrollPhysics(),
+        //             scrollDirection: Axis.horizontal,
+        //             itemBuilder: (context, index) {
+        //               return Obx(() => GestureDetector(
+        //                     onTap: () {
+        //                       homeController.selectedLanguage.value =
+        //                           homeController.languageList[index];
+        //                     },
+        //                     child: Container(
+        //                       decoration: BoxDecoration(
+        //                         color: cWhiteColor.withOpacity(0.04),
+        //                         border: homeController.selectedLanguage.value ==
+        //                                 homeController.languageList[index] ? Border.all(width: 1, color:
+        //                              cPrimaryColor2):Border.all(width: 0),
+        //                         borderRadius: BorderRadius.circular(6.r),
+        //                       ),
+        //                       child: Padding(
+        //                         padding: EdgeInsets.symmetric(
+        //                             horizontal: 16.w, vertical: 6.h),
+        //                         child: Center(
+        //                           child: Text(
+        //                             homeController.languageList[index],
+        //                             style: regular14TextStyle(cWhiteColor),
+        //                             textAlign: TextAlign.center,
+        //                             overflow: TextOverflow.clip,
+        //                           ),
+        //                         ),
+        //                       ),
+        //                     ),
+        //                   ));
+        //             },
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        //     kH16sizedBox,
+        //  Padding(
+        //     padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+        //     child: Text(
+        //       ksSort.tr,
+        //       style: medium16TextStyle(cWhiteColor),
+        //     ),
+        //   ),
+        //   kH16sizedBox,
+        //   Padding(
+        //     padding: const EdgeInsets.only(left: k20Padding),
+        //     child: Row(
+        //       children: [
+        //         SizedBox(
+        //           width: width - 20.w,
+        //           height: 34.h,
+        //           child: ListView.separated(
+        //             itemCount: homeController.sortList.length,
+        //             separatorBuilder: (context, index) => kW8sizedBox,
+        //             shrinkWrap: true,
+        //             physics: const AlwaysScrollableScrollPhysics(),
+        //             scrollDirection: Axis.horizontal,
+        //             itemBuilder: (context, index) {
+        //               return Obx(() => GestureDetector(
+        //                     onTap: () {
+        //                       homeController.selectedSort.value =
+        //                           homeController.sortList[index];
+        //                     },
+        //                     child: Container(
+        //                       decoration: BoxDecoration(
+        //                         color: cWhiteColor.withOpacity(0.04),
+        //                         border: homeController.selectedSort.value ==
+        //                                 homeController.sortList[index] ? Border.all(width: 1, color:
+        //                              cPrimaryColor2):Border.all(width: 0),
+        //                         borderRadius: BorderRadius.circular(6.r),
+        //                       ),
+        //                       child: Padding(
+        //                         padding: EdgeInsets.symmetric(
+        //                             horizontal: 16.w, vertical: 6.h),
+        //                         child: Center(
+        //                           child: Text(
+        //                             homeController.sortList[index],
+        //                             style: regular14TextStyle(cWhiteColor),
+        //                             textAlign: TextAlign.center,
+        //                             overflow: TextOverflow.clip,
+        //                           ),
+        //                         ),
+        //                       ),
+        //                     ),
+        //                   ));
+        //             },
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
         kH8sizedBox,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
@@ -402,11 +401,25 @@ class AllBlogBottomSheetContent extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
           child: Row(
             children: [
-              CustomElevatedButton(label: ksReset.tr, onPressed: (){
-                homeController.blogFilterValueReset();
-              },buttonColor: cWhiteColor.withOpacity(0.2),textStyle: regular16TextStyle(cWhiteColor),buttonWidth: (width-56)/2,),
+              CustomElevatedButton(
+                label: ksReset.tr,
+                onPressed: () {
+                  homeController.blogFilterValueReset();
+                },
+                buttonColor: cWhiteColor.withOpacity(0.2),
+                textStyle: regular16TextStyle(cWhiteColor),
+                buttonWidth: (width - 56) / 2,
+              ),
               kW16sizedBox,
-              CustomElevatedButton(label: ksApply.tr, onPressed: ()async{homeController.getBlogFilterList();},buttonColor: cPrimaryColor2,textStyle: regular16TextStyle(cWhiteColor),buttonWidth: (width-56)/2,),
+              CustomElevatedButton(
+                label: ksApply.tr,
+                onPressed: () async {
+                  //await homeController.getBlogFilterList();
+                },
+                buttonColor: cPrimaryColor2,
+                textStyle: regular16TextStyle(cWhiteColor),
+                buttonWidth: (width - 56) / 2,
+              ),
             ],
           ),
         ),
