@@ -18,29 +18,10 @@ class HomeController extends GetxController {
   var currentIndex = 0.obs;
   final RxString selectedTitle = RxString(""); 
 
-  // final List<Map<String, dynamic>> sliderImages = [
-  //   {
-  //     'url':
-  //         'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     'title': 'The Dune Special',
-  //     'tags': ['Action', 'Trending', '2024'],
-  //   },
-  //   {
-  //     'url':
-  //         'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     'title': 'Another Movie',
-  //     'tags': ['Adventure', 'New', '2025'],
-  //   },
-  //   {
-  //     'url':
-  //         'https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=2059&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  //     'title': 'Sci-Fi Saga',
-  //     'tags': ['Sci-Fi', 'Blockbuster', '2023'],
-  //   },
-  // ];
-
-  // final RxList genreList =
-  //     RxList(["All", "Action", "War", "Hollywood", "Live", "Movie"]);
+  //* Top Artist
+  final RxBool isTopArtistSearchEnable = RxBool(false);
+  final TextEditingController topArtistTextEditingController = TextEditingController();
+  final RxBool isTopArtistSearchSuffixShow = RxBool(false);
       //* blog
   final RxString selectedGenre = RxString("");
   // final RxList blogCategoriesList =
@@ -333,7 +314,7 @@ class HomeController extends GetxController {
     }
   }
 
- //!Artist
+ //!Top Artist
  //Artist api implement
    final RxBool isArtistLoading = RxBool(false);
    final Rx<ArtistModel?> artistModel = Rx<ArtistModel?>(null);
@@ -346,7 +327,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuArtist,
+        url: "$kuArtist?name=${topArtistTextEditingController.text}",
         body: body,
       ) as CommonDM;
 
