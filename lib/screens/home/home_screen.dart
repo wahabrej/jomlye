@@ -88,8 +88,9 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksNewRelease.tr,
                   subtitleText: ksViewAll,
-                  onPressed: () {
+                  onPressed: () async{
                     homeController.selectedTitle.value = ksNewRelease;
+                    await homeController.getMovieList(movieType: "newRelease");
                     Get.toNamed(krMovieViewAllScreen);
                   },
                 ),
@@ -122,16 +123,9 @@ class HomeScreen extends StatelessWidget {
                               child: MovieContentContainer(
                                 movieImage: homeController
                                     .newReleaseMoviesList[index].thumbnail,
-                                // seasonName: ,
                                 isPremium: homeController
                                             .newReleaseMoviesList[index]
                                             .isPaid ==
-                                        1
-                                    ? true
-                                    : false,
-                                isSeason: homeController
-                                            .newReleaseMoviesList[index]
-                                            .isTvseries ==
                                         1
                                     ? true
                                     : false,
@@ -147,8 +141,9 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksTrendingMovies.tr,
                   subtitleText: ksViewAll,
-                  onPressed: () {
+                  onPressed: () async{
                     homeController.selectedTitle.value = ksTrendingMovies;
+                    await homeController.getMovieList(movieType: "trending");
                     Get.toNamed(krMovieViewAllScreen);
                   },
                 ),
@@ -180,17 +175,65 @@ class HomeScreen extends StatelessWidget {
                               },
                               child: MovieContentContainer(
                                 movieImage: homeController
-                                    .newReleaseMoviesList[index].thumbnail,
+                                    .trendingMoviesList[index].thumbnail,
                                 // seasonName: ,
                                 isPremium: homeController
-                                            .newReleaseMoviesList[index]
+                                            .trendingMoviesList[index]
                                             .isPaid ==
                                         1
                                     ? true
                                     : false,
-                                isSeason: homeController
-                                            .newReleaseMoviesList[index]
-                                            .isTvseries ==
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                  kH16sizedBox,
+                HomeTitleContent(
+                  title: ksRecommendedMovies.tr,
+                  subtitleText: ksViewAll,
+                  onPressed: () async{
+                    homeController.selectedTitle.value = ksRecommendedMovies;
+                    await homeController.getMovieList(movieType: "recommended");
+                    Get.toNamed(krMovieViewAllScreen);
+                  },
+                ),
+                kH16sizedBox,
+                Padding(
+                  padding: const EdgeInsets.only(left: k20Padding),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: width - 20,
+                        height: 150.h,
+                        child: ListView.separated(
+                          itemCount: homeController.recommendedMoviesList.length,
+                          separatorBuilder: (context, index) => kW8sizedBox,
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return InkWell(
+                              onTap: () {
+                                const String videoUrl =
+                                    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"; //!dummy video url
+                                Get.find<AllVideoPlayerController>()
+                                    .flickManager = FlickManager(
+                                  videoPlayerController:
+                                      VideoPlayerController.network(videoUrl),
+                                );
+                                Get.toNamed(krVideoPlayerScreen);
+                              },
+                              child: MovieContentContainer(
+                                movieImage: homeController
+                                    .recommendedMoviesList[index].thumbnail,
+                                // seasonName: ,
+                                isPremium: homeController
+                                            .recommendedMoviesList[index]
+                                            .isPaid ==
                                         1
                                     ? true
                                     : false,
@@ -206,8 +249,9 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksPopularTvShows.tr,
                   subtitleText: ksViewAll,
-                  onPressed: () {
+                  onPressed: () async{
                     homeController.selectedTitle.value = ksPopularTvShows;
+                    await homeController.getMovieList(movieType: "trending");
                     Get.toNamed(krMovieViewAllScreen);
                   },
                 ),
@@ -243,12 +287,6 @@ class HomeScreen extends StatelessWidget {
                                 // seasonName: ,
                                 isPremium: homeController
                                             .popularTvShowsList[index].isPaid ==
-                                        1
-                                    ? true
-                                    : false,
-                                isSeason: homeController
-                                            .popularTvShowsList[index]
-                                            .isTvseries ==
                                         1
                                     ? true
                                     : false,
@@ -476,11 +514,6 @@ class HomeScreen extends StatelessWidget {
                                   homeController.tvShowsList[index].isPaid == 1
                                       ? true
                                       : false,
-                              isSeason: homeController
-                                          .tvShowsList[index].isTvseries ==
-                                      1
-                                  ? true
-                                  : false,
                             );
                           },
                         ),
@@ -928,11 +961,9 @@ class MovieContentContainer extends StatelessWidget {
   const MovieContentContainer(
       {super.key,
       this.movieImage,
-      this.seasonName,
-      this.isPremium,
-      this.isSeason});
-  final String? movieImage, seasonName;
-  final bool? isPremium, isSeason;
+      this.isPremium});
+  final String? movieImage;
+  final bool? isPremium;
 
   @override
   Widget build(BuildContext context) {
@@ -976,26 +1007,6 @@ class MovieContentContainer extends StatelessWidget {
                   child: Center(
                       child: Text(
                     isPremium! ? "Premium" : "",
-                    style: regular10TextStyle(cWhiteColor),
-                  )),
-                ),
-              )),
-        if (isSeason == true)
-          Positioned(
-              top: 4,
-              left: 4,
-              child: Container(
-                height: 16.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(k6BorderRadius),
-                  color: cBlackColor.withOpacity(0.4),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: k4Padding, vertical: 1),
-                  child: Center(
-                      child: Text(
-                    seasonName ?? "",
                     style: regular10TextStyle(cWhiteColor),
                   )),
                 ),

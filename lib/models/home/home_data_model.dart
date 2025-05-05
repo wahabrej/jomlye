@@ -4,6 +4,7 @@ class HomeDataModel {
     final List<Genre>? genres;
     final List<NewReleaseMovie>? newReleaseMovies;
     final List<NewReleaseMovie>? trendingMovies;
+    final List<NewReleaseMovie>? recommendedMovies;
     final List<NewReleaseMovie>? popularTvShows;
     final String? promoVideo;
     final String? historySlider;
@@ -17,6 +18,7 @@ class HomeDataModel {
         this.genres,
         this.newReleaseMovies,
         this.trendingMovies,
+        this.recommendedMovies,
         this.popularTvShows,
         this.promoVideo,
         this.historySlider,
@@ -31,6 +33,7 @@ class HomeDataModel {
         genres: json["genres"] == null ? [] : List<Genre>.from(json["genres"]!.map((x) => Genre.fromJson(x))),
         newReleaseMovies: json["new_release_movies"] == null ? [] : List<NewReleaseMovie>.from(json["new_release_movies"]!.map((x) => NewReleaseMovie.fromJson(x))),
         trendingMovies: json["trending_movies"] == null ? [] : List<NewReleaseMovie>.from(json["trending_movies"]!.map((x) => NewReleaseMovie.fromJson(x))),
+        recommendedMovies: json["recommended_movies"] == null ? [] : List<NewReleaseMovie>.from(json["recommended_movies"]!.map((x) => NewReleaseMovie.fromJson(x))),
         popularTvShows: json["popular_tv_shows"] == null ? [] : List<NewReleaseMovie>.from(json["popular_tv_shows"]!.map((x) => NewReleaseMovie.fromJson(x))),
         promoVideo: json["promo_video"],
         historySlider: json["history_slider"],

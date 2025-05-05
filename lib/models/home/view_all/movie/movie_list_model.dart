@@ -1,31 +1,33 @@
 import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
-class TvShowsModel {
-    final Shows? shows;
+import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
+
+class MovieListModel {
+    final Movies? movies;
     final Filter? filter;
 
-    TvShowsModel({
-        this.shows,
+    MovieListModel({
+        this.movies,
         this.filter,
     });
 
-    factory TvShowsModel.fromJson(Map<String, dynamic> json) => TvShowsModel(
-        shows: json["shows"] == null ? null : Shows.fromJson(json["shows"]),
+    factory MovieListModel.fromJson(Map<String, dynamic> json) => MovieListModel(
+        movies: json["movies"] == null ? null : Movies.fromJson(json["movies"]),
         filter: json["filter"] == null ? null : Filter.fromJson(json["filter"]),
     );
 }
 
 class Filter {
     final List<Categories>? categories;
-    final List<Countries>? country;
     final List<Countries>? languages;
+    final List<Countries>? country;
     final List<Countries>? genre;
     final List<int>? year;
     final Map<String, String>? sort;
 
     Filter({
         this.categories,
-        this.country,
         this.languages,
+        this.country,
         this.genre,
         this.year,
         this.sort,
@@ -33,56 +35,18 @@ class Filter {
 
     factory Filter.fromJson(Map<String, dynamic> json) => Filter(
         categories: json["categories"] == null ? [] : List<Categories>.from(json["categories"]!.map((x) => Categories.fromJson(x))),
-        country: json["country"] == null ? [] : List<Countries>.from(json["country"]!.map((x) => Countries.fromJson(x))),
         languages: json["languages"] == null ? [] : List<Countries>.from(json["languages"]!.map((x) => Countries.fromJson(x))),
+        country: json["country"] == null ? [] : List<Countries>.from(json["country"]!.map((x) => Countries.fromJson(x))),
         genre: json["genre"] == null ? [] : List<Countries>.from(json["genre"]!.map((x) => Countries.fromJson(x))),
         year: json["year"] == null ? [] : List<int>.from(json["year"]!.map((x) => x)),
         sort: Map.from(json["sort"]!).map((k, v) => MapEntry<String, String>(k, v)),
     );
 }
 
-class Countries {
-    final int? id;
-    final String? name;
-    final String? slug;
-    final dynamic description;
-    final dynamic flag;
-    final int? status;
-    final DateTime? createdAt;
-    final DateTime? updatedAt;
-    final dynamic icon;
-    final int? featured;
 
-    Countries({
-        this.id,
-        this.name,
-        this.slug,
-        this.description,
-        this.flag,
-        this.status,
-        this.createdAt,
-        this.updatedAt,
-        this.icon,
-        this.featured,
-    });
-
-    factory Countries.fromJson(Map<String, dynamic> json) => Countries(
-        id: json["id"],
-        name: json["name"],
-        slug: json["slug"],
-        description: json["description"],
-        flag: json["flag"],
-        status: json["status"],
-        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
-        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-        icon: json["icon"],
-        featured: json["featured"],
-    );
-}
-
-class Shows {
+class Movies {
     final int? currentPage;
-    final List<TvShowData>? data;
+    final List<MovieData>? data;
     final String? firstPageUrl;
     final int? from;
     final int? lastPage;
@@ -95,7 +59,7 @@ class Shows {
     final int? to;
     final int? total;
 
-    Shows({
+    Movies({
         this.currentPage,
         this.data,
         this.firstPageUrl,
@@ -111,9 +75,9 @@ class Shows {
         this.total,
     });
 
-    factory Shows.fromJson(Map<String, dynamic> json) => Shows(
+    factory Movies.fromJson(Map<String, dynamic> json) => Movies(
         currentPage: json["current_page"],
-        data: json["data"] == null ? [] : List<TvShowData>.from(json["data"]!.map((x) => TvShowData.fromJson(x))),
+        data: json["data"] == null ? [] : List<MovieData>.from(json["data"]!.map((x) => MovieData.fromJson(x))),
         firstPageUrl: json["first_page_url"],
         from: json["from"],
         lastPage: json["last_page"],
@@ -128,7 +92,7 @@ class Shows {
     );
 }
 
-class TvShowData {
+class MovieData {
     final int? id;
     final String? title;
     final String? thumbnail;
@@ -145,10 +109,13 @@ class TvShowData {
     final String? genre;
     final String? language;
     final String? videoType;
-    final dynamic runtime;
+    final String? runtime;
     final String? videoQuality;
     final int? isPaid;
     final int? isOriginal;
+    final int? isTrending;
+    final int? isFeatured;
+    final int? isRecommended;
     final int? isBlockbuster;
     final int? isRealLifeStory;
     final int? status;
@@ -171,7 +138,7 @@ class TvShowData {
     final DateTime? createdAt;
     final DateTime? updatedAt;
 
-    TvShowData({
+    MovieData({
         this.id,
         this.title,
         this.thumbnail,
@@ -192,6 +159,9 @@ class TvShowData {
         this.videoQuality,
         this.isPaid,
         this.isOriginal,
+        this.isTrending,
+        this.isFeatured,
+        this.isRecommended,
         this.isBlockbuster,
         this.isRealLifeStory,
         this.status,
@@ -215,7 +185,7 @@ class TvShowData {
         this.updatedAt,
     });
 
-    factory TvShowData.fromJson(Map<String, dynamic> json) => TvShowData(
+    factory MovieData.fromJson(Map<String, dynamic> json) => MovieData(
         id: json["id"],
         title: json["title"],
         thumbnail: json["thumbnail"],
@@ -236,6 +206,9 @@ class TvShowData {
         videoQuality: json["video_quality"],
         isPaid: json["is_paid"],
         isOriginal: json["is_original"],
+        isTrending: json["is_trending"],
+        isFeatured: json["is_featured"],
+        isRecommended: json["is_recommended"],
         isBlockbuster: json["is_blockbuster"],
         isRealLifeStory: json["is_real_life_story"],
         status: json["status"],
@@ -259,7 +232,6 @@ class TvShowData {
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     );
 }
-
 
 class Link {
     final String? url;

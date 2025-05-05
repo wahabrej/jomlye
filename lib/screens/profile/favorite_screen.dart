@@ -111,9 +111,9 @@ class FavoriteScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return MovieContentContainer(
                           movieImage: profileController.moviesList[index]["movieImage"],
-                          seasonName: profileController.moviesList[index]["season"],
+                          // seasonName: profileController.moviesList[index]["season"],
                           isPremium: profileController.moviesList[index]["isPremium"],
-                          isSeason: profileController.moviesList[index]["isSeason"],
+                          // isSeason: profileController.moviesList[index]["isSeason"],
                         );
                       },
                     ),
@@ -134,9 +134,9 @@ class FavoriteScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return MovieContentContainer(
                           movieImage: profileController.tvSeriesList[index]["movieImage"],
-                          seasonName: profileController.tvSeriesList[index]["season"],
+                          // seasonName: profileController.tvSeriesList[index]["season"],
                           isPremium: profileController.tvSeriesList[index]["isPremium"],
-                          isSeason: profileController.tvSeriesList[index]["isSeason"],
+                          // isSeason: profileController.tvSeriesList[index]["isSeason"],
                         );
                       },
                     ),

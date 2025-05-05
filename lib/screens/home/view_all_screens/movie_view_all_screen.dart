@@ -35,7 +35,7 @@ class MovieViewAllScreen extends StatelessWidget {
                             children: [
                               const Icon(Icons.arrow_back_ios,size: kIconSize12,color: cWhiteColor,),
                               kW4sizedBox,
-                              Center(child: Text("${homeController.selectedTitle.value}".tr,style: regular16TextStyle(cWhiteColor),)),
+                              Center(child: Text(homeController.selectedTitle.value.tr,style: regular16TextStyle(cWhiteColor),)),
                             ],
                           ),
                         ),
@@ -82,13 +82,11 @@ class MovieViewAllScreen extends StatelessWidget {
                       mainAxisSpacing: 10,
                       childAspectRatio: 0.6,
                     ),
-                    itemCount: homeController.viewAllMovieList.length,
+                    itemCount: homeController.movieList.length,
                     itemBuilder: (context, index) {
                            return MovieContentContainer(
-                            movieImage: homeController.viewAllMovieList[index]["movieImage"],
-                            seasonName: homeController.viewAllMovieList[index]["season"],
-                            isPremium: homeController.viewAllMovieList[index]["isPremium"],
-                            isSeason: homeController.viewAllMovieList[index]["isSeason"],
+                            movieImage: homeController.movieList[index]?.thumbnail??"",
+                            isPremium: homeController.movieList[index]?.isPaid == 1 ? true : false,
                           );
                     },
                   ),

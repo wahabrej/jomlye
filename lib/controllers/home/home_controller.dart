@@ -7,6 +7,7 @@ import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_model.dar
 import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/blog/filter_blog_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_list_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -54,7 +55,7 @@ class HomeController extends GetxController {
       RxList(["Most Popular", "Top Demanded", "Best Actor", "Top Rated", "Top Viewed"]);
   final RxString selectedArtistsSort = RxString("");
 
-      void artistsFilterValueReset(){
+   void artistsFilterValueReset(){
     selectedArtistsCategories.value ="";
     selectedArtistsCountry.value = "";
     selectedLanguage.value = "";
@@ -103,123 +104,7 @@ class HomeController extends GetxController {
       "duration": "2 hr 20 mins",
     },
   ]);
-
-    final RxList<Map<String, dynamic>> viewAllMovieList =
-      RxList<Map<String, dynamic>>([
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": true,
-      "season": "Season 1"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": true,
-      "season": "Season 2"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": false,
-      "season": "Season 3",
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": false,
-      "season": "Season 1",
-    },
-        {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": true,
-      "season": "Season 1"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": true,
-      "season": "Season 2"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": false,
-      "season": "Season 3",
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": false,
-      "season": "Season 1",
-    },
-        {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": true,
-      "season": "Season 1"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": true,
-      "season": "Season 2"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": false,
-      "season": "Season 3",
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": false,
-      "season": "Season 1",
-    },
-        {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": true,
-      "season": "Season 1"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": true,
-      "season": "Season 2"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": false,
-      "season": "Season 3",
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": false,
-      "season": "Season 1",
-    },
-  ]);
-
+  
   final RxList blogBulletPointList = RxList([
     "Sed mattis risus vel lectus faucibus, lobortis tristique dolor consequat.",
     "Praesent interdum mauris sit amet sapien rutrum, non pellentesque urna fermentum.",
@@ -254,6 +139,7 @@ class HomeController extends GetxController {
   final RxList<Genre> genreList = RxList<Genre>([]);
   final RxList<NewReleaseMovie> newReleaseMoviesList = RxList<NewReleaseMovie>([]);
   final RxList<NewReleaseMovie> trendingMoviesList = RxList<NewReleaseMovie>([]);
+  final RxList<NewReleaseMovie> recommendedMoviesList = RxList<NewReleaseMovie>([]);
   final RxList<NewReleaseMovie> popularTvShowsList = RxList<NewReleaseMovie>([]);
   final RxList<FeaturedTvChannel> featuredTvChannelsList = RxList<FeaturedTvChannel>([]);
   final RxList<NewReleaseMovie> tvShowsList = RxList<NewReleaseMovie>([]);
@@ -278,6 +164,7 @@ class HomeController extends GetxController {
         genreList.clear();
         newReleaseMoviesList.clear();
         trendingMoviesList.clear();
+        recommendedMoviesList.clear();
         popularTvShowsList.clear();
         featuredTvChannelsList.clear();
         tvShowsList.clear();
@@ -287,6 +174,7 @@ class HomeController extends GetxController {
         genreList.addAll(homeDataModel.genres!);
         newReleaseMoviesList.addAll(homeDataModel.newReleaseMovies!);
         trendingMoviesList.addAll(homeDataModel.trendingMovies!);
+        recommendedMoviesList.addAll(homeDataModel.recommendedMovies!);
         popularTvShowsList.addAll(homeDataModel.popularTvShows!);
         featuredTvChannelsList.addAll(homeDataModel.featuredTvChannels!);
         tvShowsList.addAll(homeDataModel.tvShows!);
@@ -521,9 +409,9 @@ class HomeController extends GetxController {
   final Rx<TvShowsModel?> tvShowsModel = Rx<TvShowsModel?>(null);
   final RxList<TvShowData?> tvShowList = RxList<TvShowData?>([]);
   final RxList<Categories?> tvShowsCategoryList = RxList<Categories?>([]);
-  final RxList<TvShowCountry?> tvShowCountryList = RxList<TvShowCountry?>([]);
-  final RxList<TvShowCountry?> tvShowLanguageList = RxList<TvShowCountry?>([]);
-  final RxList<TvShowCountry?> tvShowGenreList = RxList<TvShowCountry?>([]);
+  final RxList<Countries?> tvShowCountryList = RxList<Countries?>([]);
+  final RxList<Countries?> tvShowLanguageList = RxList<Countries?>([]);
+  final RxList<Countries?> tvShowGenreList = RxList<Countries?>([]);
   final RxList<int> tvShowYearList = RxList<int>([]);
   final RxMap<String, String> tvShowSort = RxMap<String, String>();
   Future<void> getTvShows() async {
@@ -567,6 +455,60 @@ class HomeController extends GetxController {
     } catch (e) {
       isTvShowLoading.value = false;
       ll('getBlogDetails error: $e');
+    }
+  }
+  //!Movie
+  // all movie api implement
+  final RxBool isMovieListLoading = RxBool(false);
+  final Rx<MovieListModel?> movieListModel = Rx<MovieListModel?>(null);
+  final RxList<MovieData?> movieList = RxList<MovieData?>([]);
+  final RxList<Categories?> movieCategoryList = RxList<Categories?>([]);
+  final RxList<Countries?> movieCountryList = RxList<Countries?>([]);
+  final RxList<Countries?> movieLanguageList = RxList<Countries?>([]);
+  final RxList<Countries?> movieGenreList = RxList<Countries?>([]);
+  final RxList<int> movieYearList = RxList<int>([]);
+  final RxMap<String, String> movieSort = RxMap<String, String>();
+  Future<void> getMovieList({required String movieType}) async {
+    try {
+      isMovieListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuMovies?type=$movieType",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        movieList.clear();
+        movieCategoryList.clear();
+        movieCountryList.clear();
+        movieLanguageList.clear();
+        movieGenreList.clear();
+        movieYearList.clear();
+        MovieListModel movieListModel = MovieListModel.fromJson(response.data);
+        // blogDetails.value = blogDetailsModel.details;
+        // blogCategories.value = blogDetailsModel.category;
+        movieList.addAll(movieListModel.movies!.data!);
+        movieCategoryList.addAll(movieListModel.filter!.categories!);
+        movieCountryList.addAll(movieListModel.filter!.country!);
+        movieLanguageList.addAll(movieListModel.filter!.languages!);
+        movieGenreList.addAll(movieListModel.filter!.genre!);
+        movieYearList.addAll(movieListModel.filter!.year!);
+        isMovieListLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isMovieListLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isMovieListLoading.value = false;
+      ll('getMovieList error: $e');
     }
   }
 }

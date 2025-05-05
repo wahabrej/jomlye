@@ -77,6 +77,7 @@ const String ksExploreByGenre = "Explore by Genre";
 const String ksNewRelease = "New Release";
 const String ksViewAll = "View All";
 const String ksTrendingMovies = "Trending Movies";
+const String ksRecommendedMovies = "Recommended Movies";
 const String ksPopularTvShows = "Popular TV Shows";
 const String ksTvSeries = "TV Series";
 const String ksFeaturedTvChannels = "Featured TV Channels";

@@ -110,7 +110,7 @@ class TvShowsViewAllScreen extends StatelessWidget {
                             movieImage: homeController.tvShowList[index]?.thumbnail??"",
                             // seasonName: commonList![index].isSeason,
                             isPremium: homeController.tvShowList[index]?.isPaid==1 ? true : false,
-                            isSeason: homeController.tvShowList[index]?.isTvseries==1? true:false,
+                            // isSeason: homeController.tvShowList[index]?.isTvseries==1? true:false,
                           );
                     },
                   ),

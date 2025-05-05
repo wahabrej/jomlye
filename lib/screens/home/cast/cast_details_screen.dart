@@ -213,38 +213,13 @@ class CastDetailsScreen extends StatelessWidget {
                       return MovieContentContainer(
                         movieImage:
                             homeController.artistMovieList[index].thumbnail,
-                        // seasonName: homeController.artistMovieList[index].,
                         isPremium:
                             homeController.artistMovieList[index].isPaid == 1
-                                ? true
-                                : false,
-                        isSeason:
-                            homeController.artistMovieList[index].isTvseries ==
-                                    1
                                 ? true
                                 : false,
                       );
                     },
                   ),
-                // if (homeController.selectedIndex.value == 1)
-                //   GridView.builder(
-                //     shrinkWrap: true,
-                //     padding: EdgeInsets.zero,
-                //     physics: const NeverScrollableScrollPhysics(),
-                //     gridDelegate:
-                //         const SliverGridDelegateWithFixedCrossAxisCount(
-                //       crossAxisCount: 3,
-                //       crossAxisSpacing: 10,
-                //       mainAxisSpacing: 10,
-                //       childAspectRatio: 0.65,
-                //     ),
-                //     itemCount: homeController.castGalleryList.length,
-                //     itemBuilder: (context, index) {
-                //       return CommonImageWidget(
-                //         image: homeController.castGalleryList[index],
-                //       );
-                //     },
-                //   ),
                 if (homeController.selectedIndex.value == 1)
                   Container(
                     width: width - 40,
