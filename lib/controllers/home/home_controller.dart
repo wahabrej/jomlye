@@ -7,6 +7,7 @@ import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_model.dar
 import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/blog/filter_blog_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/movie/filter_movie_list_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_list_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
@@ -23,10 +24,8 @@ class HomeController extends GetxController {
   final RxBool isTopArtistSearchEnable = RxBool(false);
   final TextEditingController topArtistTextEditingController = TextEditingController();
   final RxBool isTopArtistSearchSuffixShow = RxBool(false);
-      //* blog
+  //* blog
   final RxString selectedGenre = RxString("");
-  // final RxList blogCategoriesList =
-  //     RxList(["News", "Entertainment", "Sport", "Cartoon", "Movie", "Tennis", "Archary"]);
   final RxString selectedBlogCategories = RxString("");
   final RxString selectedBlogCategoryId = RxString("");
   final RxString selectedYear = RxString("");
@@ -120,10 +119,10 @@ class HomeController extends GetxController {
   final TextEditingController addCommentTextEditingController = TextEditingController();
 
 
-  //!Search
+  //!Common Search
   final TextEditingController searchTextEditingController = TextEditingController();
   final RxBool isSearchSuffixIconShow = RxBool(false);
-  //! cast details screen
+  //! Cast details screen
   final RxInt selectedIndex = RxInt(0); // Default selected index
   final List<String> tabs = ["Movies", "Personal Information"];
 
@@ -133,7 +132,8 @@ class HomeController extends GetxController {
   final RxDouble lowerValue = RxDouble(0);
   final RxDouble upperValue = RxDouble(0);
 
-  //*Home page
+  //!Home Api implement
+  //*Home
   final Rx<HomeDataModel?> homeDataModel = Rx<HomeDataModel?>(null);
   final RxList<NewReleaseMovie> sliderList = RxList<NewReleaseMovie>([]);
   final RxList<Genre> genreList = RxList<Genre>([]);
@@ -202,7 +202,154 @@ class HomeController extends GetxController {
     }
   }
 
- //!Top Artist
+
+  //!Movie
+  final RxInt selectedMovieCategoryId = RxInt(-1);
+  final RxInt selectedMovieCountryId = RxInt(-1);
+  final RxInt selectedMovieGenreId = RxInt(-1);
+  final RxInt selectedMovieLanguageId = RxInt(-1);
+  final RxString selectedMovieYear = RxString("");
+  // all movie api implement
+  final RxBool isMovieListLoading = RxBool(false);
+  final Rx<MovieListModel?> movieListModel = Rx<MovieListModel?>(null);
+  final RxList<MovieData?> movieList = RxList<MovieData?>([]);
+  final RxList<Categories?> movieCategoryList = RxList<Categories?>([]);
+  final RxList<Countries?> movieCountryList = RxList<Countries?>([]);
+  final RxList<Countries?> movieLanguageList = RxList<Countries?>([]);
+  final RxList<Countries?> movieGenreList = RxList<Countries?>([]);
+  final RxList<int> movieYearList = RxList<int>([]);
+  final RxMap<String, String> movieSort = RxMap<String, String>();
+  Future<void> getMovieList({required String movieType}) async {
+    try {
+      isMovieListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuMovies?type=$movieType",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        movieList.clear();
+        movieCategoryList.clear();
+        movieCountryList.clear();
+        movieLanguageList.clear();
+        movieGenreList.clear();
+        movieYearList.clear();
+        MovieListModel movieListModel = MovieListModel.fromJson(response.data);
+        movieList.addAll(movieListModel.movies!.data!);
+        movieCategoryList.addAll(movieListModel.filter!.categories!);
+        movieCountryList.addAll(movieListModel.filter!.country!);
+        movieLanguageList.addAll(movieListModel.filter!.languages!);
+        movieGenreList.addAll(movieListModel.filter!.genre!);
+        movieYearList.addAll(movieListModel.filter!.year!);
+        isMovieListLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isMovieListLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isMovieListLoading.value = false;
+      ll('getMovieList error: $e');
+    }
+  }
+  final Rx<FilterMovieListModel?> filterMovieListModel = Rx<FilterMovieListModel?>(null);
+  Future<void> getFilterMovieList() async {
+    try {
+      isMovieListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuMovieFilter?string=&category_id=${selectedMovieCategoryId.value!=-1 ? selectedMovieCategoryId.value.toString():""}&genre=${selectedMovieGenreId.value!=-1 ? selectedMovieGenreId.value.toString():""}&country_id=${selectedMovieCountryId.value!=-1 ? selectedMovieCountryId.value.toString():""}&year=${selectedMovieYear.value.toString()}&language_id=${selectedMovieLanguageId.value!=-1 ? selectedMovieLanguageId.value.toString():""}",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        movieList.clear();
+        FilterMovieListModel filterMovieListModel = FilterMovieListModel.fromJson(response.data);
+        movieList.addAll(filterMovieListModel.movies!.data!);
+        Get.back();
+        isMovieListLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isMovieListLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isMovieListLoading.value = false;
+      ll('getMovieList error: $e');
+    }
+  }
+
+    //!Tv Shows
+    //tv shows api implement
+  final RxBool isTvShowLoading = RxBool(false);
+  final Rx<TvShowsModel?> tvShowsModel = Rx<TvShowsModel?>(null);
+  final RxList<TvShowData?> tvShowList = RxList<TvShowData?>([]);
+  final RxList<Categories?> tvShowsCategoryList = RxList<Categories?>([]);
+  final RxList<Countries?> tvShowCountryList = RxList<Countries?>([]);
+  final RxList<Countries?> tvShowLanguageList = RxList<Countries?>([]);
+  final RxList<Countries?> tvShowGenreList = RxList<Countries?>([]);
+  final RxList<int> tvShowYearList = RxList<int>([]);
+  final RxMap<String, String> tvShowSort = RxMap<String, String>();
+  Future<void> getTvShows() async {
+    try {
+      isTvShowLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuTvShows,
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        tvShowList.clear();
+        tvShowsCategoryList.clear();
+        tvShowCountryList.clear();
+        tvShowLanguageList.clear();
+        tvShowGenreList.clear();
+        tvShowYearList.clear();
+        TvShowsModel tvShowsModel = TvShowsModel.fromJson(response.data);
+        // blogDetails.value = blogDetailsModel.details;
+        // blogCategories.value = blogDetailsModel.category;
+        tvShowList.addAll(tvShowsModel.shows!.data!);
+        tvShowsCategoryList.addAll(tvShowsModel.filter!.categories!);
+        tvShowCountryList.addAll(tvShowsModel.filter!.country!);
+        tvShowLanguageList.addAll(tvShowsModel.filter!.languages!);
+        tvShowGenreList.addAll(tvShowsModel.filter!.genre!);
+        tvShowYearList.addAll(tvShowsModel.filter!.year!);
+        isTvShowLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isTvShowLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isTvShowLoading.value = false;
+      ll('getTvShows error: $e');
+    }
+  }
+
+   //!Top Artist
  //Artist api implement
    final RxBool isArtistLoading = RxBool(false);
    final Rx<ArtistModel?> artistModel = Rx<ArtistModel?>(null);
@@ -325,10 +472,9 @@ class HomeController extends GetxController {
   }
 
 
-  //  //blog api implement
+  //blog api implement
   final RxBool isBlogFilterLoading = RxBool(false);
   final Rx<FilterBlogModel?> filterBlogModel = Rx<FilterBlogModel?>(null);
-  // final RxList<FilteredBlogDetail> filteredBlogList = RxList<FilteredBlogDetail>([]);
   Future<void> getBlogFilterList() async {
     try {
       isBlogFilterLoading.value = true;
@@ -367,7 +513,6 @@ class HomeController extends GetxController {
    final Rx<BlogDetailsModel?> blogDetailsModel = Rx<BlogDetailsModel?>(null);
   final Rx<Detailes?> blogDetails = Rx<Detailes?>(null);
   final Rx<Categories?> blogCategories = Rx<Categories?>(null);
-  // final RxList<Categories> categoryList = RxList<Categories>([]);
   final RxList<Detailes> latestBlogList = RxList<Detailes>([]);
   Future<void> getBlogDetails([int? id]) async {
     try {
@@ -403,112 +548,4 @@ class HomeController extends GetxController {
     }
   }
 
-  //!Tv Shows
-    //tv shows api implement
-  final RxBool isTvShowLoading = RxBool(false);
-  final Rx<TvShowsModel?> tvShowsModel = Rx<TvShowsModel?>(null);
-  final RxList<TvShowData?> tvShowList = RxList<TvShowData?>([]);
-  final RxList<Categories?> tvShowsCategoryList = RxList<Categories?>([]);
-  final RxList<Countries?> tvShowCountryList = RxList<Countries?>([]);
-  final RxList<Countries?> tvShowLanguageList = RxList<Countries?>([]);
-  final RxList<Countries?> tvShowGenreList = RxList<Countries?>([]);
-  final RxList<int> tvShowYearList = RxList<int>([]);
-  final RxMap<String, String> tvShowSort = RxMap<String, String>();
-  Future<void> getTvShows() async {
-    try {
-      isTvShowLoading.value = true;
-      String? token = await spController.getBearerToken();
-      Map<String, dynamic> body = {};
-      var response = await apiServices.commonApiCall(
-        requestMethod: kGet,
-        token: token,
-        url: kuTvShows,
-        body: body,
-      ) as CommonDM;
-
-      if (response.code == 200) {
-        tvShowList.clear();
-        tvShowsCategoryList.clear();
-        tvShowCountryList.clear();
-        tvShowLanguageList.clear();
-        tvShowGenreList.clear();
-        tvShowYearList.clear();
-        TvShowsModel tvShowsModel = TvShowsModel.fromJson(response.data);
-        // blogDetails.value = blogDetailsModel.details;
-        // blogCategories.value = blogDetailsModel.category;
-        tvShowList.addAll(tvShowsModel.shows!.data!);
-        tvShowsCategoryList.addAll(tvShowsModel.filter!.categories!);
-        tvShowCountryList.addAll(tvShowsModel.filter!.country!);
-        tvShowLanguageList.addAll(tvShowsModel.filter!.languages!);
-        tvShowGenreList.addAll(tvShowsModel.filter!.genre!);
-        tvShowYearList.addAll(tvShowsModel.filter!.year!);
-        isTvShowLoading.value = false;
-      } else {
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        isTvShowLoading.value = false;
-        if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
-        } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
-        }
-      }
-    } catch (e) {
-      isTvShowLoading.value = false;
-      ll('getBlogDetails error: $e');
-    }
-  }
-  //!Movie
-  // all movie api implement
-  final RxBool isMovieListLoading = RxBool(false);
-  final Rx<MovieListModel?> movieListModel = Rx<MovieListModel?>(null);
-  final RxList<MovieData?> movieList = RxList<MovieData?>([]);
-  final RxList<Categories?> movieCategoryList = RxList<Categories?>([]);
-  final RxList<Countries?> movieCountryList = RxList<Countries?>([]);
-  final RxList<Countries?> movieLanguageList = RxList<Countries?>([]);
-  final RxList<Countries?> movieGenreList = RxList<Countries?>([]);
-  final RxList<int> movieYearList = RxList<int>([]);
-  final RxMap<String, String> movieSort = RxMap<String, String>();
-  Future<void> getMovieList({required String movieType}) async {
-    try {
-      isMovieListLoading.value = true;
-      String? token = await spController.getBearerToken();
-      Map<String, dynamic> body = {};
-      var response = await apiServices.commonApiCall(
-        requestMethod: kGet,
-        token: token,
-        url: "$kuMovies?type=$movieType",
-        body: body,
-      ) as CommonDM;
-
-      if (response.code == 200) {
-        movieList.clear();
-        movieCategoryList.clear();
-        movieCountryList.clear();
-        movieLanguageList.clear();
-        movieGenreList.clear();
-        movieYearList.clear();
-        MovieListModel movieListModel = MovieListModel.fromJson(response.data);
-        // blogDetails.value = blogDetailsModel.details;
-        // blogCategories.value = blogDetailsModel.category;
-        movieList.addAll(movieListModel.movies!.data!);
-        movieCategoryList.addAll(movieListModel.filter!.categories!);
-        movieCountryList.addAll(movieListModel.filter!.country!);
-        movieLanguageList.addAll(movieListModel.filter!.languages!);
-        movieGenreList.addAll(movieListModel.filter!.genre!);
-        movieYearList.addAll(movieListModel.filter!.year!);
-        isMovieListLoading.value = false;
-      } else {
-        ErrorModel errorModel = ErrorModel.fromJson(response.data);
-        isMovieListLoading.value = false;
-        if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
-        } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
-        }
-      }
-    } catch (e) {
-      isMovieListLoading.value = false;
-      ll('getMovieList error: $e');
-    }
-  }
 }

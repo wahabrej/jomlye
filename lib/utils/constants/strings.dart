@@ -83,6 +83,7 @@ const String ksTvSeries = "TV Series";
 const String ksFeaturedTvChannels = "Featured TV Channels";
 const String ksTopArtists = "Top Artists";
 const String ksLatestBlog = "Latest Blog";
+const String ksGenre = "Genre";
 //view all
 const String ksAllTVChannel = "All TV Channel";
 const String ksAllBlogs = "All Blogs";

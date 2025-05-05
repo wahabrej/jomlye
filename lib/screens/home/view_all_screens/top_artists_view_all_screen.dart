@@ -177,79 +177,37 @@ class TopArtistsViewAllScreen extends StatelessWidget {
             child: Obx(
               () => Column(
                 children: [
-                  //                         kH40sizedBox,
-                  //             Row(
-                  //               children: [
-                  //                 GestureDetector(
-                  //                   onTap: (){
-                  //                     Get.back();
-                  //                   },
-                  //                   child: Container(
-                  //                     height: h32,
-                  //                     decoration: BoxDecoration(
-                  //                       borderRadius: BorderRadius.circular(100.r),
-                  //                       color: cWhiteColor.withOpacity(0.2),
-                  //                     ),
-                  //                     child: Padding(
-                  //                       padding: const EdgeInsets.symmetric(horizontal: k12Padding,vertical: k2Padding),
-                  //                       child: Row(
-                  //             children: [
-                  //               const Icon(Icons.arrow_back_ios,size: kIconSize12,color: cWhiteColor,),
-                  //               kW4sizedBox,
-                  //               Center(child: Text(ksTopArtists.tr,style: regular16TextStyle(cWhiteColor),)),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //      const Expanded(child: SizedBox(),),
-                  //      if(homeController.isTopArtistSearchEnable.value==false)
-                  //             InkWell(
-                  //               onTap: (){
-                  //                 homeController.isTopArtistSearchEnable.value = !homeController.isTopArtistSearchEnable.value;
-                  //               },
-                  //               child: Container(
-                  //                                         width: 40.w,
-                  //                                         height: 40.h,
-                  //                                         decoration: BoxDecoration(
-                  //                                           shape: BoxShape.circle,
-                  //                                           color: cWhiteColor.withOpacity(0.2),
-                  //                                         ),
-                  //                                         child: const Icon(Icons.search,color: cWhiteColor,size: kIconSize24,),
-                  //                                       ),
-                  //             ),
-                  //     kW6sizedBox,
-                  //     //!Maybe not needed this filter icon
-                  //   //   GestureDetector(
-                  //   //                    onTap: () {
-                  //   //   Get.find<GlobalController>().commonBottomSheet(
-                  //   //       context: context,
-                  //   //       bottomSheetHeight: height*0.65,
-                  //   //       isScrollControlled: true,
-                  //   //       content: TopArtistBottomSheetContent(),
-                  //   //       onPressCloseButton: () {
-                  //   //         Get.back();
-                  //   //       },
-                  //   //       onPressRightButton: () {},
-                  //   //       rightText: "",
-                  //   //       rightTextStyle: semiBold14TextStyle(cWhiteColor),
-                  //   //       title: ksFilterArtists.tr,
-                  //   //       isRightButtonShow: false,
-                  //   //       bottomSheetColor: cBlackColor);
-                  //   // },
-                  //   //     child: Container(
-                  //   //        width: 40.w,
-                  //   //       height: 40.h,
-                  //   //       decoration: const BoxDecoration(
-                  //   //         shape: BoxShape.circle,
-                  //   //         color: cPrimaryColor2,
-                  //   //       ),
-                  //   //       child: Padding(
-                  //   //         padding: const EdgeInsets.all(k12Padding),
-                  //   //         child: SvgPicture.asset(kiFilter,color: cWhiteColor,),
-                  //   //       ),
-                  //   //     ),
-                  //   //   ),
+                      //!Maybe not needed this filter icon
+                    //   GestureDetector(
+                    //                    onTap: () {
+                    //   Get.find<GlobalController>().commonBottomSheet(
+                    //       context: context,
+                    //       bottomSheetHeight: height*0.65,
+                    //       isScrollControlled: true,
+                    //       content: TopArtistBottomSheetContent(),
+                    //       onPressCloseButton: () {
+                    //         Get.back();
+                    //       },
+                    //       onPressRightButton: () {},
+                    //       rightText: "",
+                    //       rightTextStyle: semiBold14TextStyle(cWhiteColor),
+                    //       title: ksFilterArtists.tr,
+                    //       isRightButtonShow: false,
+                    //       bottomSheetColor: cBlackColor);
+                    // },
+                    //     child: Container(
+                    //        width: 40.w,
+                    //       height: 40.h,
+                    //       decoration: const BoxDecoration(
+                    //         shape: BoxShape.circle,
+                    //         color: cPrimaryColor2,
+                    //       ),
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.all(k12Padding),
+                    //         child: SvgPicture.asset(kiFilter,color: cWhiteColor,),
+                    //       ),
+                    //     ),
+                    //   ),
                   //   ],
                   // ),
 
