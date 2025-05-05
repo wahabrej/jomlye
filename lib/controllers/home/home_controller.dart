@@ -519,7 +519,7 @@ class HomeController extends GetxController {
     //tv shows api implement
   final RxBool isTvShowLoading = RxBool(false);
   final Rx<TvShowsModel?> tvShowsModel = Rx<TvShowsModel?>(null);
-  final RxList<Show?> tvShowList = RxList<Show?>([]);
+  final RxList<TvShowData?> tvShowList = RxList<TvShowData?>([]);
   final RxList<Categories?> tvShowsCategoryList = RxList<Categories?>([]);
   final RxList<TvShowCountry?> tvShowCountryList = RxList<TvShowCountry?>([]);
   final RxList<TvShowCountry?> tvShowLanguageList = RxList<TvShowCountry?>([]);
@@ -548,12 +548,12 @@ class HomeController extends GetxController {
         TvShowsModel tvShowsModel = TvShowsModel.fromJson(response.data);
         // blogDetails.value = blogDetailsModel.details;
         // blogCategories.value = blogDetailsModel.category;
-        tvShowList.addAll(tvShowsModel.shows!);
-        tvShowsCategoryList.addAll(tvShowsModel.categories!);
-        tvShowCountryList.addAll(tvShowsModel.country!);
-        tvShowLanguageList.addAll(tvShowsModel.languages!);
-        tvShowGenreList.addAll(tvShowsModel.genre!);
-        tvShowYearList.addAll(tvShowsModel.year!);
+        tvShowList.addAll(tvShowsModel.shows!.data!);
+        tvShowsCategoryList.addAll(tvShowsModel.filter!.categories!);
+        tvShowCountryList.addAll(tvShowsModel.filter!.country!);
+        tvShowLanguageList.addAll(tvShowsModel.filter!.languages!);
+        tvShowGenreList.addAll(tvShowsModel.filter!.genre!);
+        tvShowYearList.addAll(tvShowsModel.filter!.year!);
         isTvShowLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);

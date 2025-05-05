@@ -3,9 +3,8 @@ import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
-class CommonViewAllScreen extends StatelessWidget {
- CommonViewAllScreen({super.key, this.commonList});
- final List? commonList;
+class TvShowsViewAllScreen extends StatelessWidget {
+ TvShowsViewAllScreen({super.key});
  final HomeController homeController = Get.find<HomeController>();
  final GlobalController globalController = Get.find<GlobalController>();
   @override
@@ -42,7 +41,7 @@ class CommonViewAllScreen extends StatelessWidget {
                     kW4sizedBox,
                     Center(
                         child: Text(
-                      homeController.selectedTitle.value,
+                      ksTvShows.tr,
                       style: regular16TextStyle(cWhiteColor),
                     )),
                   ],
@@ -105,13 +104,13 @@ class CommonViewAllScreen extends StatelessWidget {
                       mainAxisSpacing: 10,
                       childAspectRatio: 0.6,
                     ),
-                    itemCount: commonList!.length,
+                    itemCount: homeController.tvShowList.length,
                     itemBuilder: (context, index) {
                            return MovieContentContainer(
-                            movieImage: commonList?[index].thumbnail,
+                            movieImage: homeController.tvShowList[index]?.thumbnail??"",
                             // seasonName: commonList![index].isSeason,
-                            isPremium: commonList?[index].isPaid==1 ? true : false,
-                            isSeason: commonList?[index].isTvseries==1? true:false,
+                            isPremium: homeController.tvShowList[index]?.isPaid==1 ? true : false,
+                            isSeason: homeController.tvShowList[index]?.isTvseries==1? true:false,
                           );
                     },
                   ),

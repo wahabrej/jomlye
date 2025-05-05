@@ -13,6 +13,7 @@ import 'package:vidflix_flutter_app/screens/home/view_all_screens/all_blogs_view
 import 'package:vidflix_flutter_app/screens/home/view_all_screens/top_artists_view_all_screen.dart';
 import 'package:vidflix_flutter_app/screens/home/view_all_screens/tv_channels_view_all_screen.dart';
 import 'package:vidflix_flutter_app/screens/home/view_all_screens/movie_view_all_screen.dart';
+import 'package:vidflix_flutter_app/screens/home/view_all_screens/tv_shows_view_all_screen.dart';
 import 'package:vidflix_flutter_app/screens/intro/landing_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/change_password_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/contact_us_screen.dart';
@@ -72,6 +73,7 @@ const String krMovieViewAllScreen = '/movie-viewall-screen';
 const String krTvChannelsViewAllScreen = '/tvchannels-viewall-screen';
 const String krTopArtistsViewAllScreen = '/topartists-viewall-screen';
 const String krAllBlogsViewAllScreen = '/allblogs-viewall-screen';
+const String krTvShowsViewAllScreen = '/tv-shows-viewall-screen';
 const String krBlogSingleScreen = '/blog-single-screen';
 const String krSearchScreen = '/search-screen';
 const String krCastDetailsScreen = '/cast-details-screen';
@@ -117,6 +119,7 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krTvChannelsViewAllScreen, page: () => TvChannelsViewAllScreen(), transition: Transition.noTransition),
    GetPage(name: krTopArtistsViewAllScreen, page: () => TopArtistsViewAllScreen(), transition: Transition.noTransition),
    GetPage(name: krAllBlogsViewAllScreen, page: () => AllBlogsViewAllScreen(), transition: Transition.noTransition),
+   GetPage(name: krTvShowsViewAllScreen, page: () => TvShowsViewAllScreen(), transition: Transition.noTransition),
    GetPage(name: krBlogSingleScreen, page: () => BlogSingleScreen(), transition: Transition.noTransition),
    GetPage(name: krSearchScreen, page: () => SearchScreen(), transition: Transition.noTransition),
    GetPage(name: krCastDetailsScreen, page: () => CastDetailsScreen(), transition: Transition.noTransition),

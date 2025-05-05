@@ -115,6 +115,7 @@ const String ksTotalMovies = "Total Movies";
 const String ksRanking = "Ranking";
 const String ksHome = "Home";
 const String ksTopNews = "Top News";
+const String ksTvShows = "Tv Shows";
 const String ksSearchHere = "Search here";
 //*Profile
 const String ksProfile = "Profile";

@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
-import 'package:vidflix_flutter_app/screens/home/view_all_screens/common_view_all_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
@@ -450,11 +449,8 @@ class HomeScreen extends StatelessWidget {
                   title: ksTvSeries.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
-                    homeController.selectedTitle.value = ksTvSeries.tr;
                     await homeController.getTvShows();
-                    Get.to(CommonViewAllScreen(
-                      commonList: homeController.tvShowList,
-                    ));
+                    Get.toNamed(krTvShowsViewAllScreen);
                   },
                 ),
                 kH16sizedBox,
