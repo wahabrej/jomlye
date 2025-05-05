@@ -96,7 +96,7 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                   Get.back();
                 },
                 child: Container(
-                    width: 100.w,
+                    width: 120.w,
                     height: h32,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100.r),
@@ -115,7 +115,7 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                       kW4sizedBox,
                       Center(
                           child: Text(
-                        ksAllBlogs.tr,
+                        ksTopArtists.tr,
                         style: regular16TextStyle(cWhiteColor),
                       )),
                     ],

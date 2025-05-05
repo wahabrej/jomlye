@@ -332,9 +332,9 @@ class HomeController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
-        ArtistModel artistModel = ArtistModel.fromJson(response.data);
         artistList.clear();
-        artistList.addAll(artistModel.data!);
+        ArtistModel artistModel = ArtistModel.fromJson(response.data);
+        artistList.addAll(artistModel.artists!.data!);
         isArtistLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);

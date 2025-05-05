@@ -1,5 +1,19 @@
-
 class ArtistModel {
+    final Artists? artists;
+    final List<dynamic>? filter;
+
+    ArtistModel({
+        this.artists,
+        this.filter,
+    });
+
+    factory ArtistModel.fromJson(Map<String, dynamic> json) => ArtistModel(
+        artists: json["artists"] == null ? null : Artists.fromJson(json["artists"]),
+        filter: json["filter"] == null ? [] : List<dynamic>.from(json["filter"]!.map((x) => x)),
+    );
+}
+
+class Artists {
     final int? currentPage;
     final List<ArtistData>? data;
     final String? firstPageUrl;
@@ -14,7 +28,7 @@ class ArtistModel {
     final int? to;
     final int? total;
 
-    ArtistModel({
+    Artists({
         this.currentPage,
         this.data,
         this.firstPageUrl,
@@ -30,7 +44,7 @@ class ArtistModel {
         this.total,
     });
 
-    factory ArtistModel.fromJson(Map<String, dynamic> json) => ArtistModel(
+    factory Artists.fromJson(Map<String, dynamic> json) => Artists(
         currentPage: json["current_page"],
         data: json["data"] == null ? [] : List<ArtistData>.from(json["data"]!.map((x) => ArtistData.fromJson(x))),
         firstPageUrl: json["first_page_url"],
@@ -87,6 +101,7 @@ class ArtistData {
 }
 
 
+
 class Link {
     final String? url;
     final String? label;
@@ -104,3 +119,4 @@ class Link {
         active: json["active"],
     );
 }
+
