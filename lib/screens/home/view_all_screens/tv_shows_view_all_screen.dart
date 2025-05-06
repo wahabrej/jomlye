@@ -23,6 +23,7 @@ class TvShowsViewAllScreen extends StatelessWidget {
               Get.back();
             },
             child: Container(
+              width: 110.w,
               height: h32,  
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100.r),
