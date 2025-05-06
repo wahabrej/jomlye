@@ -20,13 +20,13 @@ class TopArtistsViewAllScreen extends StatelessWidget {
             preferredSize: Size.fromHeight(kAppBarSize.h),
             child: CustomAppBar(
               hasBackButton: false,
-              title: homeController.isTopArtistSearchEnable.value ? 
+              title: homeController.isViewAllSearchEnable.value ? 
                   Row(
                     children: [
                         InkWell(
                     onTap: (){
-                           homeController.isTopArtistSearchEnable.value =
-                                    !homeController.isTopArtistSearchEnable.value;
+                           homeController.isViewAllSearchEnable.value =
+                                    !homeController.isViewAllSearchEnable.value;
                     },
                     child: const Icon(
                               Icons.arrow_back_ios,
@@ -41,7 +41,7 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                         child: CustomModifiedTextField(
                                       hint: ksSearchHere.tr,
                                       controller: homeController
-                                          .topArtistTextEditingController,
+                                          .viewAllTextEditingController,
                                       fillColor: cBlackColor,
                                       onChanged: (v){
                                         if(v==""){
@@ -82,7 +82,7 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                                       onSuffixPress: (){
                                         homeController.isTopArtistSearchSuffixShow.value=false;
                                         homeController
-                                          .topArtistTextEditingController.clear();
+                                          .viewAllTextEditingController.clear();
                                           unFocus(context);
                                       },
                                     ),
@@ -124,7 +124,7 @@ class TopArtistsViewAllScreen extends StatelessWidget {
               ),
             ),
             actions: [
-              if(homeController.isTopArtistSearchEnable.value == false)
+              if(homeController.isViewAllSearchEnable.value == false)
                    Padding(
                      padding: const EdgeInsets.only(right: 20),
                      child: Container(
@@ -136,8 +136,8 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                         ),
                         child: InkWell(
                             onTap: () {
-                              homeController.isTopArtistSearchEnable.value =
-                                  !homeController.isTopArtistSearchEnable.value;
+                              homeController.isViewAllSearchEnable.value =
+                                  !homeController.isViewAllSearchEnable.value;
                             },
                             child: const Icon(
                               Icons.search,

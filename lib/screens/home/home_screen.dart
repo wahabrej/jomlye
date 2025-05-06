@@ -89,6 +89,8 @@ class HomeScreen extends StatelessWidget {
                   title: ksNewRelease.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async{
+                    homeController.isViewAllSearchEnable.value=false;
+                    homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksNewRelease;
                     await homeController.getMovieList(movieType: "newRelease");
                     Get.toNamed(krMovieViewAllScreen);
@@ -142,6 +144,8 @@ class HomeScreen extends StatelessWidget {
                   title: ksTrendingMovies.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async{
+                    homeController.isViewAllSearchEnable.value=false;
+                    homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksTrendingMovies;
                     await homeController.getMovieList(movieType: "trending");
                     Get.toNamed(krMovieViewAllScreen);
@@ -196,6 +200,8 @@ class HomeScreen extends StatelessWidget {
                   title: ksRecommendedMovies.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async{
+                    homeController.isViewAllSearchEnable.value=false;
+                    homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksRecommendedMovies;
                     await homeController.getMovieList(movieType: "recommended");
                     Get.toNamed(krMovieViewAllScreen);
@@ -250,9 +256,12 @@ class HomeScreen extends StatelessWidget {
                   title: ksPopularTvShows.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async{
+                    homeController.isViewAllSearchEnable.value=false;
+                    homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksPopularTvShows;
-                    await homeController.getMovieList(movieType: "trending");
-                    Get.toNamed(krMovieViewAllScreen);
+                   await homeController.getTvShows();
+                    Get.toNamed(krTvShowsViewAllScreen);
+                    // Get.toNamed(krMovieViewAllScreen);
                   },
                 ),
                 kH16sizedBox,
@@ -451,6 +460,8 @@ class HomeScreen extends StatelessWidget {
                   title: ksFeaturedTvChannels.tr,
                   subtitleText: ksViewAll,
                   onPressed: () {
+                    homeController.isViewAllSearchEnable.value=false;
+                    homeController.viewAllTextEditingController.clear();
                     Get.toNamed(krTvChannelsViewAllScreen);
                   },
                 ),
@@ -487,8 +498,8 @@ class HomeScreen extends StatelessWidget {
                   title: ksTvSeries.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
-                    await homeController.getTvShows();
-                    Get.toNamed(krTvShowsViewAllScreen);
+                    homeController.isViewAllSearchEnable.value=false;
+                    homeController.viewAllTextEditingController.clear();
                   },
                 ),
                 kH16sizedBox,
@@ -526,6 +537,8 @@ class HomeScreen extends StatelessWidget {
                   title: ksTopArtists.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
+                    homeController.isViewAllSearchEnable.value=false;
+                    homeController.viewAllTextEditingController.clear();
                     await homeController.getArtistList();
                     Get.toNamed(krTopArtistsViewAllScreen);
                   },
@@ -569,6 +582,8 @@ class HomeScreen extends StatelessWidget {
                   title: ksLatestBlog.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
+                    homeController.isViewAllSearchEnable.value=false;
+                    homeController.viewAllTextEditingController.clear();
                     await homeController.getBlogList();
                     homeController.selectedBlogCategories.value = "";
                     homeController.selectedBlogCategoryId.value = "";

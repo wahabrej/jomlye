@@ -21,8 +21,8 @@ class HomeController extends GetxController {
   final RxString selectedTitle = RxString(""); 
 
   //* Top Artist
-  final RxBool isTopArtistSearchEnable = RxBool(false);
-  final TextEditingController topArtistTextEditingController = TextEditingController();
+  final RxBool isViewAllSearchEnable = RxBool(false);
+  final TextEditingController viewAllTextEditingController = TextEditingController();
   final RxBool isTopArtistSearchSuffixShow = RxBool(false);
   //* blog
   final RxString selectedGenre = RxString("");
@@ -208,6 +208,7 @@ class HomeController extends GetxController {
   final RxInt selectedMovieCountryId = RxInt(-1);
   final RxInt selectedMovieGenreId = RxInt(-1);
   final RxInt selectedMovieLanguageId = RxInt(-1);
+  final RxInt selectedMovieSortId = RxInt(-1);
   final RxString selectedMovieYear = RxString("");
   // all movie api implement
   final RxBool isMovieListLoading = RxBool(false);
@@ -245,6 +246,7 @@ class HomeController extends GetxController {
         movieLanguageList.addAll(movieListModel.filter!.languages!);
         movieGenreList.addAll(movieListModel.filter!.genre!);
         movieYearList.addAll(movieListModel.filter!.year!);
+        movieSort.value = movieListModel.filter!.sort!;
         isMovieListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -362,7 +364,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuArtist?name=${topArtistTextEditingController.text}",
+        url: "$kuArtist?name=${viewAllTextEditingController.text}",
         body: body,
       ) as CommonDM;
 

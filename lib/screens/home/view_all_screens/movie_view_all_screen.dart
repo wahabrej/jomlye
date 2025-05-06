@@ -411,6 +411,64 @@ class AllMovieBottomSheetContent extends StatelessWidget {
             ],
           ),
         ),
+         kH16sizedBox,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+          child: Text(
+            ksSort.tr,
+            style: medium16TextStyle(cWhiteColor),
+          ),
+        ),
+        kH16sizedBox,
+        Padding(
+          padding: const EdgeInsets.only(left: k20Padding),
+          child: Row(
+            children: [
+              SizedBox(
+                width: width - 20.w,
+                height: 34.h,
+                child: ListView.separated(
+                  itemCount: homeController.movieSort.length,
+                  separatorBuilder: (context, index) => kW8sizedBox,
+                  shrinkWrap: true,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Obx(() => GestureDetector(
+                          onTap: () {
+                            // homeController.selectedMovieSortId.value =
+                            //     homeController.movieSort[index];
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: cWhiteColor.withOpacity(0.04),
+                              border: homeController.selectedMovieYear.value ==
+                                      homeController.movieYearList[index]
+                                          .toString()
+                                  ? Border.all(width: 1, color: cPrimaryColor2)
+                                  : Border.all(width: 0),
+                              borderRadius: BorderRadius.circular(6.r),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 16.w, vertical: 6.h),
+                              child: Center(
+                                child: Text(
+                                  homeController.movieYearList[index].toString(),
+                                  style: regular14TextStyle(cWhiteColor),
+                                  textAlign: TextAlign.center,
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ));
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
         kH8sizedBox,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
