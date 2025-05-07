@@ -10,6 +10,7 @@ import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/filter_movie_list_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_list_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -382,14 +383,59 @@ class HomeController extends GetxController {
         tvShowGenreList.clear();
         tvShowYearList.clear();
         TvShowsModel tvShowsModel = TvShowsModel.fromJson(response.data);
-        // blogDetails.value = blogDetailsModel.details;
-        // blogCategories.value = blogDetailsModel.category;
         tvShowList.addAll(tvShowsModel.shows!.data!);
         tvShowsCategoryList.addAll(tvShowsModel.filter!.categories!);
         tvShowCountryList.addAll(tvShowsModel.filter!.country!);
         tvShowLanguageList.addAll(tvShowsModel.filter!.languages!);
         tvShowGenreList.addAll(tvShowsModel.filter!.genre!);
         tvShowYearList.addAll(tvShowsModel.filter!.year!);
+        isTvShowLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isTvShowLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isTvShowLoading.value = false;
+      ll('getTvShows error: $e');
+    }
+  }
+
+  final RxBool isTvShowDetailsLoading = RxBool(false);
+  final Rx<TvShowDetailsModel?> tvShowDetailsModel = Rx<TvShowDetailsModel?>(null);
+  final Rx<TvShows?> tvShowDetailsData = Rx<TvShows?>(null);
+  final RxList<Season?> tvShowsSeasonList = RxList<Season?>([]);
+  final RxList<Episode?> tvShowEpisodeList = RxList<Episode?>([]);
+  Future<void> getTvShowDetails({required int showId}) async {
+    try {
+      isTvShowLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuTvShowDetails?id=$showId",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        tvShowsSeasonList.clear();
+        tvShowEpisodeList.clear();
+        TvShowDetailsModel tvShowDetailsModel = TvShowDetailsModel.fromJson(response.data);
+        tvShowDetailsData.value =  tvShowDetailsModel.shows;
+        tvShowsSeasonList.addAll(tvShowDetailsModel.shows!.seasons!);
+        if(tvShowsSeasonList.isNotEmpty){
+        tvShowEpisodeList.addAll(tvShowDetailsModel.shows!.seasons![0].episodes!);
+        }
+        // tvShowDetailsList.addAll(tvShowDetailsModel.shows!.);
+        // tvShowCountryList.addAll(tvShowsModel.filter!.country!);
+        // tvShowLanguageList.addAll(tvShowsModel.filter!.languages!);
+        // tvShowGenreList.addAll(tvShowsModel.filter!.genre!);
+        // tvShowYearList.addAll(tvShowsModel.filter!.year!);
         isTvShowLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);

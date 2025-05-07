@@ -29,6 +29,7 @@ const String kuBlogFilter = "blog-filter";
 
 //Tv Shows
 const String kuTvShows = "tv-shows";
+const String kuTvShowDetails = "tv-show-details";
 
 //movie
 const String kuMovies = "movies";
