@@ -33,3 +33,4 @@ const String kuTvShows = "tv-shows";
 //movie
 const String kuMovies = "movies";
 const String kuMovieFilter = "movie-filter";
+const String kuMovieDetails = "movie-details";

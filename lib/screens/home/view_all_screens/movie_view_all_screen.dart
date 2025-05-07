@@ -1,5 +1,8 @@
+import 'package:flick_video_player/flick_video_player.dart';
+import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
+import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -94,10 +97,22 @@ class MovieViewAllScreen extends StatelessWidget {
                     ),
                     itemCount: homeController.movieList.length,
                     itemBuilder: (context, index) {
-                           return MovieContentContainer(
-                            movieImage: homeController.movieList[index]?.thumbnail??"",
-                            isPremium: homeController.movieList[index]?.isPaid == 1 ? true : false,
-                          );
+                           return InkWell(
+                            onTap: ()async{
+                              await homeController.getMovieDetails(movieId: homeController.movieList[index]!.id!.toString());
+                                 String videoUrl = homeController.movieServerList[0]?.fileUrl??""; 
+                                Get.find<AllVideoPlayerController>()
+                                    .flickManager = FlickManager(
+                                  videoPlayerController:
+                                      VideoPlayerController.network(videoUrl),
+                                );
+                                Get.toNamed(krVideoPlayerScreen);
+                            },
+                             child: MovieContentContainer(
+                              movieImage: homeController.movieList[index]?.thumbnail??"",
+                              isPremium: homeController.movieList[index]?.isPaid == 1 ? true : false,
+                                                       ),
+                           );
                     },
                   ),
               ],

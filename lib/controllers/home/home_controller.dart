@@ -8,6 +8,7 @@ import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_details_model
 import 'package:vidflix_flutter_app/models/home/view_all/blog/filter_blog_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/filter_movie_list_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_list_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
@@ -262,6 +263,7 @@ class HomeController extends GetxController {
       ll('getMovieList error: $e');
     }
   }
+
   final Rx<FilterMovieListModel?> filterMovieListModel = Rx<FilterMovieListModel?>(null);
   Future<void> getFilterMovieList() async {
     try {
@@ -280,6 +282,59 @@ class HomeController extends GetxController {
         FilterMovieListModel filterMovieListModel = FilterMovieListModel.fromJson(response.data);
         movieList.addAll(filterMovieListModel.movies!.data!);
         Get.back();
+        isMovieListLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isMovieListLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isMovieListLoading.value = false;
+      ll('getMovieList error: $e');
+    }
+  }
+
+    // movie details api implement
+  final RxBool isMovieDetailsLoading = RxBool(false);
+  final Rx<MovieDetailsModel?> movieDetailsModel = Rx<MovieDetailsModel?>(null);
+  final Rx<MovieDetails?> movieDetailsData = Rx<MovieDetails?>(null);
+  final RxList<Server?> movieServerList = RxList<Server?>([]);
+  final RxList<Cast?> movieCastList = RxList<Cast?>([]);
+  final RxList<Cast?> movieDirectorList = RxList<Cast?>([]);
+  final RxList<Cast?> movieWriterList = RxList<Cast?>([]);
+  final RxList<MovieDetails> relatedMovieList = RxList<MovieDetails>([]);
+  final RxList<MovieDetails> recommendedMovieList = RxList<MovieDetails>([]);
+  Future<void> getMovieDetails({required String movieId}) async {
+    try {
+      isMovieListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuMovieDetails?id=$movieId",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        movieServerList.clear();
+        movieCastList.clear();
+        movieDirectorList.clear();
+        movieWriterList.clear();
+        relatedMovieList.clear();
+        recommendedMovieList.clear();
+        MovieDetailsModel movieDetailsModel = MovieDetailsModel.fromJson(response.data);
+        movieDetailsData.value = movieDetailsModel.details;
+        movieServerList.addAll(movieDetailsModel.server!);
+        movieCastList.addAll(movieDetailsModel.cast!);
+        movieDirectorList.addAll(movieDetailsModel.cast!);
+        movieWriterList.addAll(movieDetailsModel.writer!);
+        relatedMovieList.addAll(movieDetailsModel.relatedMovie!);
+        recommendedMovieList.addAll(movieDetailsModel.recommendedMovie!);
         isMovieListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);

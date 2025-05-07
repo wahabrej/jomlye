@@ -88,8 +88,8 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksNewRelease.tr,
                   subtitleText: ksViewAll,
-                  onPressed: () async{
-                    homeController.isViewAllSearchEnable.value=false;
+                  onPressed: () async {
+                    homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksNewRelease;
                     await homeController.getMovieList(movieType: "newRelease");
@@ -112,14 +112,31 @@ class HomeScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return InkWell(
-                              onTap: () {
-                                const String videoUrl =
-                                    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"; //!dummy video url
+                              onTap: () async {
+                                await homeController.getMovieDetails(
+                                    movieId: homeController
+                                        .newReleaseMoviesList[index].id!
+                                        .toString());
+                                        if(homeController
+                                        .movieServerList.isNotEmpty){
+                                        String videoUrl = homeController
+                                        .movieServerList[0]?.fileUrl ??
+                                    "";
                                 Get.find<AllVideoPlayerController>()
                                     .flickManager = FlickManager(
                                   videoPlayerController:
                                       VideoPlayerController.network(videoUrl),
                                 );
+                                        }
+                                        else{
+                                          String videoUrl = "";
+                                Get.find<AllVideoPlayerController>()
+                                    .flickManager = FlickManager(
+                                  videoPlayerController:
+                                      VideoPlayerController.network(videoUrl),
+                                ); 
+                                        }
+                   
                                 Get.toNamed(krVideoPlayerScreen);
                               },
                               child: MovieContentContainer(
@@ -143,8 +160,8 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksTrendingMovies.tr,
                   subtitleText: ksViewAll,
-                  onPressed: () async{
-                    homeController.isViewAllSearchEnable.value=false;
+                  onPressed: () async {
+                    homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksTrendingMovies;
                     await homeController.getMovieList(movieType: "trending");
@@ -167,14 +184,31 @@ class HomeScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return InkWell(
-                              onTap: () {
-                                const String videoUrl =
-                                    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"; //!dummy video url
+                              onTap: () async {
+                                await homeController.getMovieDetails(
+                                    movieId: homeController
+                                        .trendingMoviesList[index].id!
+                                        .toString());
+                                        if(homeController
+                                        .movieServerList.isNotEmpty){
+                                        String videoUrl = homeController
+                                        .movieServerList[0]?.fileUrl ??
+                                    "";
                                 Get.find<AllVideoPlayerController>()
                                     .flickManager = FlickManager(
                                   videoPlayerController:
                                       VideoPlayerController.network(videoUrl),
                                 );
+                                        }
+                                        else{
+                                          String videoUrl = "";
+                                Get.find<AllVideoPlayerController>()
+                                    .flickManager = FlickManager(
+                                  videoPlayerController:
+                                      VideoPlayerController.network(videoUrl),
+                                ); 
+                                        }
+                   
                                 Get.toNamed(krVideoPlayerScreen);
                               },
                               child: MovieContentContainer(
@@ -182,8 +216,7 @@ class HomeScreen extends StatelessWidget {
                                     .trendingMoviesList[index].thumbnail,
                                 // seasonName: ,
                                 isPremium: homeController
-                                            .trendingMoviesList[index]
-                                            .isPaid ==
+                                            .trendingMoviesList[index].isPaid ==
                                         1
                                     ? true
                                     : false,
@@ -195,12 +228,12 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                  kH16sizedBox,
+                kH16sizedBox,
                 HomeTitleContent(
                   title: ksRecommendedMovies.tr,
                   subtitleText: ksViewAll,
-                  onPressed: () async{
-                    homeController.isViewAllSearchEnable.value=false;
+                  onPressed: () async {
+                    homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksRecommendedMovies;
                     await homeController.getMovieList(movieType: "recommended");
@@ -216,21 +249,39 @@ class HomeScreen extends StatelessWidget {
                         width: width - 20,
                         height: 150.h,
                         child: ListView.separated(
-                          itemCount: homeController.recommendedMoviesList.length,
+                          itemCount:
+                              homeController.recommendedMoviesList.length,
                           separatorBuilder: (context, index) => kW8sizedBox,
                           shrinkWrap: true,
                           physics: const AlwaysScrollableScrollPhysics(),
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return InkWell(
-                              onTap: () {
-                                const String videoUrl =
-                                    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"; //!dummy video url
+                             onTap: () async {
+                                await homeController.getMovieDetails(
+                                    movieId: homeController
+                                        .recommendedMoviesList[index].id!
+                                        .toString());
+                                        if(homeController
+                                        .movieServerList.isNotEmpty){
+                                        String videoUrl = homeController
+                                        .movieServerList[0]?.fileUrl ??
+                                    "";
                                 Get.find<AllVideoPlayerController>()
                                     .flickManager = FlickManager(
                                   videoPlayerController:
                                       VideoPlayerController.network(videoUrl),
                                 );
+                                        }
+                                        else{
+                                          String videoUrl = "";
+                                Get.find<AllVideoPlayerController>()
+                                    .flickManager = FlickManager(
+                                  videoPlayerController:
+                                      VideoPlayerController.network(videoUrl),
+                                ); 
+                                        }
+                   
                                 Get.toNamed(krVideoPlayerScreen);
                               },
                               child: MovieContentContainer(
@@ -255,11 +306,11 @@ class HomeScreen extends StatelessWidget {
                 HomeTitleContent(
                   title: ksPopularTvShows.tr,
                   subtitleText: ksViewAll,
-                  onPressed: () async{
-                    homeController.isViewAllSearchEnable.value=false;
+                  onPressed: () async {
+                    homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksPopularTvShows;
-                   await homeController.getTvShows();
+                    await homeController.getTvShows();
                     Get.toNamed(krTvShowsViewAllScreen);
                     // Get.toNamed(krMovieViewAllScreen);
                   },
@@ -460,7 +511,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksFeaturedTvChannels.tr,
                   subtitleText: ksViewAll,
                   onPressed: () {
-                    homeController.isViewAllSearchEnable.value=false;
+                    homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     Get.toNamed(krTvChannelsViewAllScreen);
                   },
@@ -498,7 +549,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksTvSeries.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
-                    homeController.isViewAllSearchEnable.value=false;
+                    homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                   },
                 ),
@@ -537,7 +588,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksTopArtists.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
-                    homeController.isViewAllSearchEnable.value=false;
+                    homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     await homeController.getArtistList();
                     Get.toNamed(krTopArtistsViewAllScreen);
@@ -582,7 +633,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksLatestBlog.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
-                    homeController.isViewAllSearchEnable.value=false;
+                    homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     await homeController.getBlogList();
                     homeController.selectedBlogCategories.value = "";
@@ -629,8 +680,8 @@ class HomeScreen extends StatelessWidget {
                                 reporter: homeController
                                         .latestBlogsList[index].author ??
                                     "",
-                                isTop: homeController
-                                        .latestBlogsList[index].isTop,
+                                isTop:
+                                    homeController.latestBlogsList[index].isTop,
                               ),
                             );
                           },
@@ -694,26 +745,26 @@ class LatestBlogPostContent extends StatelessWidget {
                 ),
               ),
             ),
-            if(isTop==1)
-            Positioned(
-              top: 10,
-              left: 14,
-              child: Container(
-                height: 14.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(2.r),
-                  color: cPrimaryColor2,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: k4Padding, vertical: k2Padding),
-                  child: Text(
-                    ksTopNews.tr,
-                    style: regular10TextStyle(cWhiteColor),
+            if (isTop == 1)
+              Positioned(
+                top: 10,
+                left: 14,
+                child: Container(
+                  height: 14.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2.r),
+                    color: cPrimaryColor2,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: k4Padding, vertical: k2Padding),
+                    child: Text(
+                      ksTopNews.tr,
+                      style: regular10TextStyle(cWhiteColor),
+                    ),
                   ),
                 ),
               ),
-            ),
             Positioned(
               bottom: 0,
               left: 0,
@@ -973,10 +1024,7 @@ class HomeTitleContent extends StatelessWidget {
 }
 
 class MovieContentContainer extends StatelessWidget {
-  const MovieContentContainer(
-      {super.key,
-      this.movieImage,
-      this.isPremium});
+  const MovieContentContainer({super.key, this.movieImage, this.isPremium});
   final String? movieImage;
   final bool? isPremium;
 
