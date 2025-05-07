@@ -89,6 +89,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksNewRelease.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
+                    homeController.resetBottomNavBarData();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksNewRelease;
@@ -161,6 +162,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksTrendingMovies.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
+                    homeController.resetBottomNavBarData();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksTrendingMovies;
@@ -233,6 +235,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksRecommendedMovies.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
+                    homeController.resetBottomNavBarData();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksRecommendedMovies;
@@ -307,6 +310,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksPopularTvShows.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
+                    homeController.resetBottomNavBarData();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksPopularTvShows;
@@ -511,6 +515,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksFeaturedTvChannels.tr,
                   subtitleText: ksViewAll,
                   onPressed: () {
+                    homeController.resetBottomNavBarData();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     Get.toNamed(krTvChannelsViewAllScreen);
@@ -549,6 +554,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksTvSeries.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
+                    homeController.resetBottomNavBarData();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                   },
@@ -588,6 +594,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksTopArtists.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
+                    homeController.resetBottomNavBarData();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     await homeController.getArtistList();
@@ -633,6 +640,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksLatestBlog.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
+                    homeController.resetBottomNavBarData();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     await homeController.getBlogList();

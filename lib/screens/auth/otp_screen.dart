@@ -1,5 +1,4 @@
 import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/common_otp_field.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 

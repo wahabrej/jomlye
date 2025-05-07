@@ -3,7 +3,6 @@ import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/view_all_screens/all_blogs_view_all_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class SearchScreen extends StatelessWidget {
@@ -112,8 +111,8 @@ class SearchScreen extends StatelessWidget {
             //     ),
             //   ],
             // ),
-            // // Container(
-            // //   child: SvgPicture.asset(kiSearchResult,width: 200.w,height: 200.h,color: cWhiteColor,)),
+             // Container(
+             //   child: SvgPicture.asset(kiSearchResult,width: 200.w,height: 200.h,color: cWhiteColor,)),
             // SizedBox(
             //   height: (height*0.75),
             //   child: Column(

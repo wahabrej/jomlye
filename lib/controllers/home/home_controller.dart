@@ -10,6 +10,7 @@ import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/filter_movie_list_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_list_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_show_filter_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
@@ -206,11 +207,11 @@ class HomeController extends GetxController {
 
 
   //!Movie
-  final RxInt selectedMovieCategoryId = RxInt(-1);
-  final RxInt selectedMovieCountryId = RxInt(-1);
-  final RxInt selectedMovieGenreId = RxInt(-1);
-  final RxInt selectedMovieLanguageId = RxInt(-1);
-  final RxInt selectedMovieSortId = RxInt(-1);
+  final RxInt selectedCategoryId = RxInt(-1);
+  final RxInt selectedCountryId = RxInt(-1);
+  final RxInt selectedGenreId = RxInt(-1);
+  final RxInt selectedLanguageId = RxInt(-1);
+  final RxInt selectedSortId = RxInt(-1);
   final RxString selectedMovieYear = RxString("");
   // all movie api implement
   final RxBool isMovieListLoading = RxBool(false);
@@ -274,7 +275,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuMovieFilter?string=&category_id=${selectedMovieCategoryId.value!=-1 ? selectedMovieCategoryId.value.toString():""}&genre=${selectedMovieGenreId.value!=-1 ? selectedMovieGenreId.value.toString():""}&country_id=${selectedMovieCountryId.value!=-1 ? selectedMovieCountryId.value.toString():""}&year=${selectedMovieYear.value.toString()}&language_id=${selectedMovieLanguageId.value!=-1 ? selectedMovieLanguageId.value.toString():""}",
+        url: "$kuMovieFilter?string=&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country_id=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedMovieYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}",
         body: body,
       ) as CommonDM;
 
@@ -295,7 +296,7 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       isMovieListLoading.value = false;
-      ll('getMovieList error: $e');
+      ll('getFilterMovieList error: $e');
     }
   }
 
@@ -348,7 +349,7 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       isMovieListLoading.value = false;
-      ll('getMovieList error: $e');
+      ll('getMovieDetails error: $e');
     }
   }
 
@@ -431,11 +432,6 @@ class HomeController extends GetxController {
         if(tvShowsSeasonList.isNotEmpty){
         tvShowEpisodeList.addAll(tvShowDetailsModel.shows!.seasons![0].episodes!);
         }
-        // tvShowDetailsList.addAll(tvShowDetailsModel.shows!.);
-        // tvShowCountryList.addAll(tvShowsModel.filter!.country!);
-        // tvShowLanguageList.addAll(tvShowsModel.filter!.languages!);
-        // tvShowGenreList.addAll(tvShowsModel.filter!.genre!);
-        // tvShowYearList.addAll(tvShowsModel.filter!.year!);
         isTvShowLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -449,6 +445,41 @@ class HomeController extends GetxController {
     } catch (e) {
       isTvShowLoading.value = false;
       ll('getTvShows error: $e');
+    }
+  }
+
+
+  final Rx<TvShowFilterModel?> tvShowFilterModel = Rx<TvShowFilterModel?>(null);
+  Future<void> getTvShowFilter() async {
+    try {
+      isTvShowLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuTvShowFilter?string=&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country_id=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedMovieYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        tvShowList.clear();
+        TvShowFilterModel tvShowFilterModel = TvShowFilterModel.fromJson(response.data);
+        tvShowList.addAll(tvShowFilterModel.details!.data!);
+        Get.back();
+        isTvShowLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isTvShowLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isTvShowLoading.value = false;
+      ll('getTvShowFilter error: $e');
     }
   }
 
@@ -649,6 +680,16 @@ class HomeController extends GetxController {
       isBlogDetailsLoading.value = false;
       ll('getBlogDetails error: $e');
     }
+  }
+
+  //!reset bottom nav bar data
+  void resetBottomNavBarData(){
+  selectedCategoryId.value = -1;
+  selectedCountryId.value = -1;
+  selectedGenreId.value = -1;
+  selectedLanguageId.value = -1;
+  selectedSortId.value = -1;
+  selectedMovieYear.value = "";
   }
 
 }

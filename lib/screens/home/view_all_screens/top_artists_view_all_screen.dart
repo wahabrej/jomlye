@@ -147,7 +147,7 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                       ),
                    )
               // kW6sizedBox,
-              //!maybe not needed
+              //!needed after api modification
               // Padding(
               //   padding: const EdgeInsets.only(right: k8Padding),
               //   child: InkWell(
@@ -514,6 +514,7 @@ class TopArtistBottomSheetContent extends StatelessWidget {
               CustomElevatedButton(
                 label: ksReset.tr,
                 onPressed: () {
+                  homeController.resetBottomNavBarData();
                   homeController.artistsFilterValueReset();
                 },
                 buttonColor: cWhiteColor.withOpacity(0.2),

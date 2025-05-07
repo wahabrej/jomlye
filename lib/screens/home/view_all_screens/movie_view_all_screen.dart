@@ -61,7 +61,7 @@ class MovieViewAllScreen extends StatelessWidget {
                       padding: const EdgeInsets.only(right: k8Padding),
                       child: InkWell(
                         onTap: (){
-                          Get.find<GlobalController>().commonBottomSheet(bottomSheetColor: cBlackColor2,bottomSheetHeight: height*0.78,isScrollControlled: true,context: context, content: AllMovieBottomSheetContent(), onPressCloseButton: (){Get.back();}, onPressRightButton: (){}, rightText: "", rightTextStyle: semiBold16TextStyle(cWhiteColor), title: "${ksFilter.tr} ${homeController.selectedTitle.value}", isRightButtonShow: false);
+                          Get.find<GlobalController>().commonBottomSheet(bottomSheetColor: cBlackColor2,bottomSheetHeight: height*0.8,isScrollControlled: true,context: context, content: AllMovieBottomSheetContent(), onPressCloseButton: (){Get.back();}, onPressRightButton: (){}, rightText: "", rightTextStyle: semiBold16TextStyle(cWhiteColor), title: "${ksFilter.tr} ${homeController.selectedTitle.value}", isRightButtonShow: false);
                         },
                         child: Container(
                            width: 40.w,
@@ -85,7 +85,19 @@ class MovieViewAllScreen extends StatelessWidget {
                   color: cWhiteColor.withOpacity(0.2),
                 ),
                 kH16sizedBox,
-                  GridView.builder(
+                 homeController.movieList.isEmpty ?  SizedBox(
+                    height: (height*0.7),
+                     child: Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         Image.asset(kiSearchResultPng,width: 200.w,height: 200.h,),
+                         Text(ksNoVideoFound.tr,style: medium16TextStyle(cPrimaryColor2),),
+                         kH16sizedBox,
+                         Text(ksNoVideosFoundPleaseCheckFilter.tr,style: regular14TextStyle(cWhiteColor.withOpacity(0.5,)),textAlign: TextAlign.center,),
+                       ],
+                     ),
+                   )
+           :  GridView.builder(
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
                     physics: const NeverScrollableScrollPhysics(),
@@ -160,14 +172,14 @@ class AllMovieBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedMovieCategoryId.value =
+                            homeController.selectedCategoryId.value =
                                 homeController.movieCategoryList[index]?.id??-1;
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
                               border: homeController
-                                          .selectedMovieCategoryId.value ==
+                                          .selectedCategoryId.value ==
                                       homeController
                                           .movieCategoryList[index]!.id
                                   ? Border.all(width: 1, color: cPrimaryColor2)
@@ -221,13 +233,13 @@ class AllMovieBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedMovieCountryId.value =
+                            homeController.selectedCountryId.value =
                                 homeController.movieCountryList[index]?.id??-1;
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedMovieCountryId.value ==
+                              border: homeController.selectedCountryId.value ==
                                       homeController.movieCountryList[index]!.id
                                   ? Border.all(width: 1, color: cPrimaryColor2)
                                   : Border.all(width: 0),
@@ -278,13 +290,13 @@ class AllMovieBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedMovieGenreId.value =
+                            homeController.selectedGenreId.value =
                                 homeController.movieGenreList[index]?.id??-1;
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedMovieGenreId.value ==
+                              border: homeController.selectedGenreId.value ==
                                       homeController.movieGenreList[index]!.id
                                   ? Border.all(width: 1, color: cPrimaryColor2)
                                   : Border.all(width: 0),
@@ -336,13 +348,13 @@ class AllMovieBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedMovieLanguageId.value =
+                            homeController.selectedLanguageId.value =
                                 homeController.movieLanguageList[index]?.id??-1;
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedMovieLanguageId.value ==
+                              border: homeController.selectedLanguageId.value ==
                                       homeController.movieLanguageList[index]!.id
                                   ? Border.all(width: 1, color: cPrimaryColor2)
                                   : Border.all(width: 0),
@@ -500,6 +512,7 @@ class AllMovieBottomSheetContent extends StatelessWidget {
               CustomElevatedButton(
                 label: ksReset.tr,
                 onPressed: () {
+                  homeController.resetBottomNavBarData();
                   homeController.blogFilterValueReset();
                 },
                 buttonColor: cWhiteColor.withOpacity(0.2),

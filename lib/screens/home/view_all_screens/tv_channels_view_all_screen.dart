@@ -337,6 +337,7 @@ class TvChannelsBottomSheetContent extends StatelessWidget {
               CustomElevatedButton(
                 label: ksReset.tr,
                 onPressed: () {
+                  homeController.resetBottomNavBarData();
                   homeController.tvChannelsFilterValueReset();
                 },
                 buttonColor: cWhiteColor.withOpacity(0.2),

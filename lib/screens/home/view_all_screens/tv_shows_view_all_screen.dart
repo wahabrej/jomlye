@@ -5,9 +5,9 @@ import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class TvShowsViewAllScreen extends StatelessWidget {
- TvShowsViewAllScreen({super.key});
- final HomeController homeController = Get.find<HomeController>();
- final GlobalController globalController = Get.find<GlobalController>();
+  TvShowsViewAllScreen({super.key});
+  final HomeController homeController = Get.find<HomeController>();
+  final GlobalController globalController = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -16,120 +16,159 @@ class TvShowsViewAllScreen extends StatelessWidget {
         backgroundColor: cBlackColor,
         //* info:: appBar
         appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kAppBarSize.h),
-        child: CustomAppBar(
-          hasBackButton: false,
-          title: GestureDetector(
-            onTap: () {
-              Get.back();
-            },
-            child: Container(
-              width: 110.w,
-              height: h32,  
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100.r),
-                color: cWhiteColor.withOpacity(0.2),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: k12Padding, vertical: k2Padding),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.arrow_back_ios,
-                      size: kIconSize12,
-                      color: cWhiteColor,
-                    ),
-                    kW4sizedBox,
-                    Center(
-                        child: Text(
-                      ksTvShows.tr,
-                      style: regular16TextStyle(cWhiteColor),
-                    )),
-                  ],
+          preferredSize: Size.fromHeight(kAppBarSize.h),
+          child: CustomAppBar(
+            hasBackButton: false,
+            title: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                width: 110.w,
+                height: h32,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100.r),
+                  color: cWhiteColor.withOpacity(0.2),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: k12Padding, vertical: k2Padding),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.arrow_back_ios,
+                        size: kIconSize12,
+                        color: cWhiteColor,
+                      ),
+                      kW4sizedBox,
+                      Center(
+                          child: Text(
+                        ksTvShows.tr,
+                        style: regular16TextStyle(cWhiteColor),
+                      )),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          actions: [
-                      Container(
-                      width: 36.w,
-                      height: 36.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: cWhiteColor.withOpacity(0.2),
-                      ),
-                      child: const Icon(Icons.search,color: cWhiteColor,size: kIconSize24,),
-                    ),
-                    kW6sizedBox,
-                    Padding(
-                      padding: const EdgeInsets.only(right: k8Padding),
-                      child: InkWell(
-                        onTap: (){
-                          globalController.commonBottomSheet(bottomSheetColor: cBlackColor2,bottomSheetHeight: height*0.8,isScrollControlled: true,context: context, content: AllTvShowsBottomSheetContent(), onPressCloseButton: (){Get.back();}, onPressRightButton: (){}, rightText: "", rightTextStyle: semiBold16TextStyle(cWhiteColor), title: "${ksFilter.tr} ${homeController.selectedTitle.value}", isRightButtonShow: false);
+            actions: [
+              Container(
+                width: 36.w,
+                height: 36.h,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: cWhiteColor.withOpacity(0.2),
+                ),
+                child: const Icon(
+                  Icons.search,
+                  color: cWhiteColor,
+                  size: kIconSize24,
+                ),
+              ),
+              kW6sizedBox,
+              Padding(
+                padding: const EdgeInsets.only(right: k8Padding),
+                child: InkWell(
+                  onTap: () {
+                    globalController.commonBottomSheet(
+                        bottomSheetColor: cBlackColor2,
+                        bottomSheetHeight: height * 0.8,
+                        isScrollControlled: true,
+                        context: context,
+                        content: AllTvShowsBottomSheetContent(),
+                        onPressCloseButton: () {
+                          Get.back();
                         },
-                        child: Container(
-                           width: 40.w,
-                          height: 40.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: cPrimaryColor2,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(k12Padding),
-                            child: SvgPicture.asset(kiFilter,color: cWhiteColor,),
-                          ),
-                        ),
+                        onPressRightButton: () {},
+                        rightText: "",
+                        rightTextStyle: semiBold16TextStyle(cWhiteColor),
+                        title:
+                            "${ksFilter.tr} ${homeController.selectedTitle.value}",
+                        isRightButtonShow: false);
+                  },
+                  child: Container(
+                    width: 40.w,
+                    height: 40.h,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: cPrimaryColor2,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(k12Padding),
+                      child: SvgPicture.asset(
+                        kiFilter,
+                        color: cWhiteColor,
                       ),
                     ),
-          ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
-      ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-            child: Column(
-              children: [
-                kH8sizedBox,
-                 Divider(
-                  thickness: 1,
-                  color: cWhiteColor.withOpacity(0.2),
-                ),
-                kH16sizedBox,
-                  GridView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 0.6,
+            child: Obx(() => Column(
+                  children: [
+                    kH8sizedBox,
+                    Divider(
+                      thickness: 1,
+                      color: cWhiteColor.withOpacity(0.2),
                     ),
-                    itemCount: homeController.tvShowList.length,
-                    itemBuilder: (context, index) {
-                           return InkWell(
-                            onTap: ()async{
-                              await homeController.getTvShowDetails(showId: homeController.tvShowList[index]!.id!);
-                              Get.toNamed(krTvShowPlayerScreen);
-                            },
-                             child: MovieContentContainer(
-                              movieImage: homeController.tvShowList[index]?.thumbnail??"",
-                              isPremium: homeController.tvShowList[index]?.isPaid==1 ? true : false,
-                             ),
-                           );
-                    },
-                  ),
-              ],
-            ),
+                    kH16sizedBox,
+                   homeController.tvShowList.isEmpty ?  SizedBox(
+                    height: (height*0.7),
+                     child: Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         Image.asset(kiSearchResultPng,width: 200.w,height: 200.h,),
+                         Text(ksNoVideoFound.tr,style: medium16TextStyle(cPrimaryColor2),),
+                         kH16sizedBox,
+                         Text(ksNoVideosFoundPleaseCheckFilter.tr,style: regular14TextStyle(cWhiteColor.withOpacity(0.5,)),textAlign: TextAlign.center,),
+                       ],
+                     ),
+                   )
+           :
+             GridView.builder(
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      physics: const NeverScrollableScrollPhysics(),
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 0.6,
+                      ),
+                      itemCount: homeController.tvShowList.length,
+                      itemBuilder: (context, index) {
+                        return Obx(() => InkWell(
+                                                  onTap: () async {
+                                                    await homeController.getTvShowDetails(
+                                                        showId: homeController.tvShowList[index]!.id!);
+                                                    Get.toNamed(krTvShowPlayerScreen);
+                                                  },
+                                                  child: MovieContentContainer(
+                                                    movieImage:
+                                                        homeController.tvShowList[index]?.thumbnail ??
+                                                            "",
+                                                    isPremium:
+                                                        homeController.tvShowList[index]?.isPaid == 1
+                                                            ? true
+                                                            : false,
+                                                  ),
+                                                ));
+                      },
+                    ),
+                  ],
+                )),
           ),
         ),
       ),
     );
   }
 }
-
-
 
 class AllTvShowsBottomSheetContent extends StatelessWidget {
   AllTvShowsBottomSheetContent({super.key});
@@ -165,14 +204,15 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedMovieCategoryId.value =
-                                homeController.tvShowsCategoryList[index]?.id??-1;
+                            homeController.selectedCategoryId.value =
+                                homeController.tvShowsCategoryList[index]?.id ??
+                                    -1;
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
                               border: homeController
-                                          .selectedMovieCategoryId.value ==
+                                          .selectedCategoryId.value ==
                                       homeController
                                           .tvShowsCategoryList[index]!.id
                                   ? Border.all(width: 1, color: cPrimaryColor2)
@@ -184,8 +224,8 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController
-                                          .tvShowsCategoryList[index]?.videoType ??
+                                  homeController.tvShowsCategoryList[index]
+                                          ?.videoType ??
                                       "",
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
@@ -201,7 +241,7 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
             ],
           ),
         ),
-          kH16sizedBox,
+        kH16sizedBox,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
           child: Text(
@@ -226,14 +266,17 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedMovieCountryId.value =
-                                homeController.tvShowCountryList[index]?.id??-1;
+                            homeController.selectedCountryId.value =
+                                homeController.tvShowCountryList[index]?.id ??
+                                    -1;
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedMovieCountryId.value ==
-                                      homeController.tvShowCountryList[index]!.id
+                              border: homeController
+                                          .selectedCountryId.value ==
+                                      homeController
+                                          .tvShowCountryList[index]!.id
                                   ? Border.all(width: 1, color: cPrimaryColor2)
                                   : Border.all(width: 0),
                               borderRadius: BorderRadius.circular(6.r),
@@ -243,7 +286,9 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.tvShowCountryList[index]?.name??"",
+                                  homeController
+                                          .tvShowCountryList[index]?.name ??
+                                      "",
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.clip,
@@ -258,7 +303,7 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
             ],
           ),
         ),
-         kH16sizedBox,
+        kH16sizedBox,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
           child: Text(
@@ -283,13 +328,14 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedMovieGenreId.value =
-                                homeController.tvShowGenreList[index]?.id??-1;
+                            homeController.selectedGenreId.value =
+                                homeController.tvShowGenreList[index]?.id ?? -1;
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedMovieGenreId.value ==
+                              border: homeController
+                                          .selectedGenreId.value ==
                                       homeController.tvShowGenreList[index]!.id
                                   ? Border.all(width: 1, color: cPrimaryColor2)
                                   : Border.all(width: 0),
@@ -300,7 +346,8 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.tvShowGenreList[index]?.name??"",
+                                  homeController.tvShowGenreList[index]?.name ??
+                                      "",
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.clip,
@@ -315,8 +362,7 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
             ],
           ),
         ),
-
-                 kH16sizedBox,
+        kH16sizedBox,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
           child: Text(
@@ -341,14 +387,17 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedMovieLanguageId.value =
-                                homeController.tvShowLanguageList[index]?.id??-1;
+                            homeController.selectedLanguageId.value =
+                                homeController.tvShowLanguageList[index]?.id ??
+                                    -1;
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedMovieLanguageId.value ==
-                                      homeController.tvShowLanguageList[index]!.id
+                              border: homeController
+                                          .selectedLanguageId.value ==
+                                      homeController
+                                          .tvShowLanguageList[index]!.id
                                   ? Border.all(width: 1, color: cPrimaryColor2)
                                   : Border.all(width: 0),
                               borderRadius: BorderRadius.circular(6.r),
@@ -358,7 +407,9 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.tvShowLanguageList[index]?.name??"",
+                                  homeController
+                                          .tvShowLanguageList[index]?.name ??
+                                      "",
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.clip,
@@ -416,7 +467,8 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.tvShowYearList[index].toString(),
+                                  homeController.tvShowYearList[index]
+                                      .toString(),
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.clip,
@@ -431,7 +483,7 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
             ],
           ),
         ),
-         kH16sizedBox,
+        kH16sizedBox,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
           child: Text(
@@ -474,7 +526,8 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.movieYearList[index].toString(),
+                                  homeController.movieYearList[index]
+                                      .toString(),
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.clip,
@@ -505,6 +558,7 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
               CustomElevatedButton(
                 label: ksReset.tr,
                 onPressed: () {
+                  homeController.resetBottomNavBarData();
                   homeController.blogFilterValueReset();
                 },
                 buttonColor: cWhiteColor.withOpacity(0.2),
@@ -515,7 +569,7 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
               CustomElevatedButton(
                 label: ksApply.tr,
                 onPressed: () async {
-                  await homeController.getFilterMovieList();
+                  await homeController.getTvShowFilter();
                 },
                 buttonColor: cPrimaryColor2,
                 textStyle: regular16TextStyle(cWhiteColor),
