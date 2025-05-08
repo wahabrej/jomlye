@@ -178,3 +178,4 @@ const String ksTitle = "Title";
 const String ksReadMore = "Read More";
 const String ksRelatedVideos = "Related Videos";
 const String ksRecommended = "Recommended";
+const String ksEdit= "Edit";

@@ -35,3 +35,7 @@ const String kuTvShowFilter = "tv-show-filter";
 const String kuMovies = "movies";
 const String kuMovieFilter = "movie-filter";
 const String kuMovieDetails = "movie-details";
+
+//! Profile
+//playlist
+const String kuPlayList = "playlists";

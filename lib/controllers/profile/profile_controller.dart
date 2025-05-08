@@ -4,6 +4,8 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
+import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
+import 'package:vidflix_flutter_app/models/profile/playlist/playlist_model.dart';
 import 'package:vidflix_flutter_app/models/profile/update_profile_model.dart';
 import 'package:vidflix_flutter_app/screens/profile/common_webview_screen.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
@@ -246,7 +248,7 @@ class ProfileController extends GetxController {
 
   void openPrivacyPolicy() {
     Get.to(() =>
-        CommonWebViewScreen()); //titleText: ksPrivacyPolicy.tr,urlLink: privacyPolicyUrl,isLoading: privacyIsLoading.value,webViewController: privacyWebViewController,
+        CommonWebViewScreen());
   }
 
   final RxBool generalNotificationState = RxBool(false);
@@ -335,12 +337,6 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
         "phone": phoneTextEditingController.text.trim().toString(),
         "email": emailTextEditingController.text.trim().toString(),
         "gender": "1",
-        // "username": userNameTextEditingController.text.trim().toString(),
-        // "email": emailTextEditingController.text.trim().toString(),
-        // "password": passwordTextEditingController.text.trim().toString(),
-        // "confirm_password":
-        //     confirmPasswordTextEditingController.text.trim().toString(),
-        // "user_type": "user",
       };
       ll("body : $body");
       var response = await apiServices.commonApiCall(
@@ -351,9 +347,6 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ) as CommonDM;
 
       if (response.code == 200) {
-        // ll("user email is ${userData.value?.email}");
-        // ll("user phone is ${userData.value?.phone}");
-        // ll("user data is ${userData.value}");
         updateProfileModel.value = UpdateProfileModel.fromJson(response.data);
         await spController.saveUserImage(updateProfileModel.value?.details?.image);
         await spController.saveUserEmail(updateProfileModel.value?.details?.email);
@@ -415,4 +408,52 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ll('changePassword error: $e');
     }
   }
+  //!Playlist
+  final RxString selectedPlayListValue = RxString("");
+  final RxList<Map<String,dynamic>> playListValueList = RxList([
+    {
+    "icon": Icons.edit,
+    "title": ksEdit.tr,
+  },
+    {
+    "icon": Icons.delete,
+    "title": ksDelete.tr,
+  }
+  ]);
+
+   final RxBool isPlayListLoading = RxBool(false);
+   final Rx<PlayListModel?> playListModel = Rx<PlayListModel?>(null);
+  final RxList<PlayList> playlistList = RxList<PlayList>([]);
+  Future<void> getPlaylistList() async {
+    try {
+      isPlayListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuPlayList,
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        playlistList.clear();
+        PlayListModel playListModel = PlayListModel.fromJson(response.data);
+        playlistList.addAll(playListModel.playLists!);
+        isPlayListLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isPlayListLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isPlayListLoading.value = false;
+      ll('getPlaylistList error: $e');
+    }
+  }
+ 
 }

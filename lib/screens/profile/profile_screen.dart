@@ -288,7 +288,8 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiAdd,
                   title: ksPlaylist.tr,
-                  onPressed: () {
+                  onPressed: () async{
+                    await profileController.getPlaylistList();
                     Get.toNamed(krPlayListScreen);
                   },
                 ),

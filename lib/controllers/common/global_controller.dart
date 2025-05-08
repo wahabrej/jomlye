@@ -34,12 +34,13 @@ class GlobalController extends GetxController {
       required String rightText,
       required TextStyle rightTextStyle,
       required String title,
-      required bool isRightButtonShow,
+      required bool isRightButtonShow, 
       double? bottomSheetHeight,
       bool? isScrollControlled,
       Color? bottomSheetColor,
       isSearchShow,
       RxBool? isBottomSheetRightButtonActive,
+      bool? isTitleShow=true,
       bool? isDismissible}) {
     showModalBottomSheet<void>(
       isDismissible: isDismissible ?? true,
@@ -69,7 +70,9 @@ class GlobalController extends GetxController {
                     height: 2,
                     width: width * .1,
                   ),
+                  if(isTitleShow==true)
                   kH40sizedBox,
+                  if(isTitleShow==true)
                    Padding(
                      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                      child: Divider(
@@ -109,6 +112,7 @@ class GlobalController extends GetxController {
             //     size: screenWiseSize(kIconSize24, 4),
             //   ),
             // ),
+            if(isTitleShow==true)
             Positioned(
               top: h32,
               child: Text(

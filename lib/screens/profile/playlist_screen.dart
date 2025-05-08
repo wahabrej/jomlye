@@ -1,7 +1,10 @@
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
+import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class PlayListScreen extends StatelessWidget {
-  const PlayListScreen({super.key});
+   PlayListScreen({super.key});
+   final ProfileController profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -76,8 +79,10 @@ class PlayListScreen extends StatelessWidget {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context,index){
-                       return PlayListWidget(image: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?q=80&w=1925&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",name: "War Movies",videoCount: "20",);
-                      }, separatorBuilder: (context,index)=> kH16sizedBox, itemCount: 5)
+                       return PlayListWidget(image: profileController.playlistList[index].thumbnail??"",name: profileController.playlistList[index].name??"",videoCount: profileController.playlistList[index].totalVideo??0,onPressed: (){
+                        Get.find<GlobalController>().commonBottomSheet(context: context, content: PlayListBottomSheetContent(), onPressCloseButton: (){Get.back();}, onPressRightButton: (){}, rightText: "", rightTextStyle: medium14TextStyle(cWhiteColor), title: ksPlaylist.tr, isRightButtonShow: false,bottomSheetColor: cBlackColor2,bottomSheetHeight: height*0.12.h,isTitleShow: false,);
+                       },);
+                      }, separatorBuilder: (context,index)=> kH16sizedBox, itemCount: profileController.playlistList.length)
                 ],
               ),
             ),
@@ -88,7 +93,8 @@ class PlayListScreen extends StatelessWidget {
 
 class PlayListWidget extends StatelessWidget {
   const PlayListWidget({super.key, required this.image, required this.name, required this.videoCount, this.onPressed});
-  final String image,name,videoCount;
+  final String image,name;
+  final int? videoCount;
   final VoidCallback? onPressed;
 
   @override
@@ -98,7 +104,15 @@ class PlayListWidget extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(k8BorderRadius),
-          child: Image.network(image,width: width-40,height: 225.h,fit: BoxFit.cover,)),
+          child: Image.network(image,width: width-40,height: 225.h,fit: BoxFit.cover,errorBuilder: (context, error, stackTrace) => SizedBox(
+            width: width,
+            child: SvgPicture.asset(
+              kiDummyMovie,
+              height:  225.h,
+              width: width,
+              fit: BoxFit.cover,
+            ),
+          ),)),
       kH16sizedBox,
       Text(name,style: medium16TextStyle(cWhiteColor),),
       kH10sizedBox,
@@ -106,9 +120,9 @@ class PlayListWidget extends StatelessWidget {
         children: [
         SvgPicture.asset(kiPlay,color: cGreyColor,),
         kW8sizedBox,
+        if(videoCount!=null)
         Text("$videoCount Videos",style: regular14TextStyle(cGreyColor.withOpacity(0.8)),),
         const Expanded(child: SizedBox()),
-        // CustomIconButton(onPress: (){}, icon: Icons.more_vert),
         InkWell(
           splashColor: cTransparentColor,
           highlightColor: cTransparentColor,
@@ -118,5 +132,51 @@ class PlayListWidget extends StatelessWidget {
       ),
       ],
     );
+  }
+}
+
+
+
+class PlayListBottomSheetContent extends StatelessWidget {
+  PlayListBottomSheetContent({super.key});
+  final ProfileController profileController = Get.find<ProfileController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Column(
+          children: [
+            kH8sizedBox,
+            ListView.separated(
+                separatorBuilder: (context, index) => kH8sizedBox,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: profileController.playListValueList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                    child: Row(
+                      children: [
+                        Icon(profileController.playListValueList[index]["icon"],size: kIconSize16,color: cWhiteColor,),
+                        kW8sizedBox,
+                        InkWell(
+                          onTap: () {
+                            // profileController.selectedPlayListValue.value =
+                            //     profileController.playListValueList[index]["title"];
+                                Get.back();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(k8Padding),
+                            child: Text(
+                              profileController.playListValueList[index]["title"],
+                              style: medium14TextStyle(cWhiteColor),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                })
+          ],
+        ));
   }
 }
