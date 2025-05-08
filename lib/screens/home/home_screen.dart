@@ -935,6 +935,14 @@ class TopArtistContent extends StatelessWidget {
                 width: contentWidth ?? 88.w,
                 height: contentHeight ?? 88.h,
                 fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Center(
+                child: SvgPicture.asset(
+                  kiDummyMovie,
+                  height: contentHeight ?? 210.h,
+                  width: (width - 30),
+                  fit: BoxFit.fill,
+                ),
+              ),
               )),
           Positioned(
             bottom: 4,

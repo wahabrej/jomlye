@@ -46,32 +46,15 @@ class HomeController extends GetxController {
     selectedSort.value = "";
   }
 
- //* top  artists
-    final RxList artistsCountryList =
-      RxList(["USA", "Canada", "Turkey", "Pakistan", "Korean","Indian","Bangladeshi"]);
-  final RxString selectedArtistsCountry = RxString("");
-    final RxList artistsSortList =
-      RxList(["Most Popular", "Top Demanded", "Best Actor", "Top Rated", "Top Viewed"]);
-  final RxString selectedArtistsSort = RxString("");
-
-   void artistsFilterValueReset(){
-    selectedArtistsCountry.value = "";
-    selectedLanguage.value = "";
-    selectedArtistsSort.value = "";
-  }
-
   //* Tv Channel
       final RxList tvChannelCategoriesList =
       RxList(["News", "Drama", "Songs", "Game", "Movies","Sports", "Cricket", "Football"]);
   final RxString selectedTvChannelCategories = RxString("");
-    final RxList tvChannelsSortList =
-      RxList(["Most Popular", "Top View", "New Add", "Top View", "Top Viewed"]);
   final RxString selectedTvChannelsSort = RxString("");
 
       void tvChannelsFilterValueReset(){
-    selectedArtistsCountry.value = "";
     selectedLanguage.value = "";
-    selectedArtistsSort.value = "";
+    // selectedArtistsSort.value = "";
   }
 
   final RxList<Map<String, dynamic>> recentPlayedMovies =
@@ -480,6 +463,7 @@ class HomeController extends GetxController {
 
    //!Top Artist
  //Artist api implement
+ final RxInt selectedMovieIndustryId = RxInt(-1);
    final RxBool isArtistLoading = RxBool(false);
    final Rx<ArtistModel?> artistModel = Rx<ArtistModel?>(null);
   final RxList<ArtistData> artistList = RxList<ArtistData>([]);
@@ -493,7 +477,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuArtist?name=${viewAllTextEditingController.text}",
+        url: "$kuArtist?name=${viewAllTextEditingController.text}&country=${selectedCountryId.value==-1 ? "" : selectedCountryId.value.toString()}&movie_industry=${selectedMovieIndustryId.value==-1 ? "" : selectedMovieIndustryId.value.toString()}",
         body: body,
       ) as CommonDM;
 
@@ -690,6 +674,7 @@ class HomeController extends GetxController {
   selectedGenreId.value = -1;
   selectedLanguageId.value = -1;
   selectedSortId.value = -1;
+  selectedMovieIndustryId.value = -1;
   selectedMovieYear.value = "";
   }
 
