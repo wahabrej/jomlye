@@ -11,6 +11,7 @@ class ArtistDetailsModel {
         details: json["details"] == null ? null : Details.fromJson(json["details"]),
         movies: json["movies"] == null ? [] : List<Movie>.from(json["movies"]!.map((x) => Movie.fromJson(x))),
     );
+
 }
 
 class Details {
@@ -18,24 +19,40 @@ class Details {
     final String? starName;
     final String? slug;
     final String? starType;
+    final dynamic countryId;
+    final dynamic starDob;
+    final dynamic ranking;
+    final dynamic gender;
+    final String? background;
+    final dynamic totalMovies;
     final String? starImage;
     final dynamic starDesc;
     final int? view;
     final int? status;
     final DateTime? createdAt;
     final DateTime? updatedAt;
+    final dynamic countryName;
+    final dynamic country;
 
     Details({
         this.id,
         this.starName,
         this.slug,
         this.starType,
+        this.countryId,
+        this.starDob,
+        this.ranking,
+        this.gender,
+        this.background,
+        this.totalMovies,
         this.starImage,
         this.starDesc,
         this.view,
         this.status,
         this.createdAt,
         this.updatedAt,
+        this.countryName,
+        this.country,
     });
 
     factory Details.fromJson(Map<String, dynamic> json) => Details(
@@ -43,12 +60,20 @@ class Details {
         starName: json["star_name"],
         slug: json["slug"],
         starType: json["star_type"],
+        countryId: json["country_id"],
+        starDob: json["star_dob"],
+        ranking: json["ranking"],
+        gender: json["gender"],
+        background: json["background"],
+        totalMovies: json["total_movies"],
         starImage: json["star_image"],
         starDesc: json["star_desc"],
         view: json["view"],
         status: json["status"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        countryName: json["country_name"],
+        country: json["country"],
     );
 }
 
@@ -63,12 +88,12 @@ class Movie {
     final String? stars;
     final String? director;
     final String? writer;
-    final String? rating;
+    final dynamic rating;
     final DateTime? release;
     final String? country;
     final String? genre;
     final String? language;
-    final String? videoType;
+    final dynamic videoType;
     final String? runtime;
     final String? videoQuality;
     final int? isPaid;

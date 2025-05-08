@@ -47,9 +47,6 @@ class HomeController extends GetxController {
   }
 
  //* top  artists
-    final RxList artistsCategoriesList =
-      RxList(["Hollywood", "Bollywood", "Dhaliwood", "Taliwood", "Hindi"]);
-  final RxString selectedArtistsCategories = RxString("");
     final RxList artistsCountryList =
       RxList(["USA", "Canada", "Turkey", "Pakistan", "Korean","Indian","Bangladeshi"]);
   final RxString selectedArtistsCountry = RxString("");
@@ -58,7 +55,6 @@ class HomeController extends GetxController {
   final RxString selectedArtistsSort = RxString("");
 
    void artistsFilterValueReset(){
-    selectedArtistsCategories.value ="";
     selectedArtistsCountry.value = "";
     selectedLanguage.value = "";
     selectedArtistsSort.value = "";
@@ -73,7 +69,6 @@ class HomeController extends GetxController {
   final RxString selectedTvChannelsSort = RxString("");
 
       void tvChannelsFilterValueReset(){
-    selectedArtistsCategories.value ="";
     selectedArtistsCountry.value = "";
     selectedLanguage.value = "";
     selectedArtistsSort.value = "";
@@ -488,6 +483,8 @@ class HomeController extends GetxController {
    final RxBool isArtistLoading = RxBool(false);
    final Rx<ArtistModel?> artistModel = Rx<ArtistModel?>(null);
   final RxList<ArtistData> artistList = RxList<ArtistData>([]);
+  final RxList<ArtistCountry> artistCountryList = RxList<ArtistCountry>([]);
+  final RxList<MovieIndustry> artistMovieIndustryList = RxList<MovieIndustry>([]);
   Future<void> getArtistList() async {
     try {
       isArtistLoading.value = true;
@@ -502,8 +499,12 @@ class HomeController extends GetxController {
 
       if (response.code == 200) {
         artistList.clear();
+        artistCountryList.clear();
+        artistMovieIndustryList.clear();
         ArtistModel artistModel = ArtistModel.fromJson(response.data);
         artistList.addAll(artistModel.artists!.data!);
+        artistCountryList.addAll(artistModel.filter!.countries!);
+        artistMovieIndustryList.addAll(artistModel.filter!.movieIndustries!);
         isArtistLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);

@@ -255,8 +255,9 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                //  homeController.artistDetailsData.value?.??"",
-                                "",
+                                homeController
+                                        .artistDetailsData.value?.country ??
+                                    "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -271,7 +272,7 @@ class CastDetailsScreen extends StatelessWidget {
                               ),
                               Text(
                                 homeController
-                                        .artistDetailsData.value?.starType ??
+                                        .artistDetailsData.value?.background ??
                                     "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
@@ -286,8 +287,9 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                //  homeController.artistDetailsData.value?.s??"",
-                                "",
+                                homeController
+                                        .artistDetailsData.value?.starDob ??
+                                    "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -301,8 +303,9 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                // homeController.artistDetailsData.value?.starType??"",
-                                "",
+                                homeController
+                                        .artistDetailsData.value?.totalMovies ??
+                                    "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -316,8 +319,9 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                // homeController.artistDetailsData.value?.??"",
-                                "",
+                                homeController
+                                        .artistDetailsData.value?.gender ??
+                                    "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -331,8 +335,9 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                // homeController.artistDetailsData.value?.starType??"",
-                                "",
+                                homeController
+                                        .artistDetailsData.value?.ranking ??
+                                    "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],

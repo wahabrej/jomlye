@@ -6,7 +6,7 @@ import 'package:vidflix_flutter_app/screens/auth/reset_password_screen.dart';
 import 'package:vidflix_flutter_app/screens/auth/sign_in_screen.dart';
 import 'package:vidflix_flutter_app/screens/auth/sign_up_screen.dart';
 import 'package:vidflix_flutter_app/screens/home/blog/blog_single_screen.dart';
-import 'package:vidflix_flutter_app/screens/home/cast/cast_details_screen.dart';
+import 'package:vidflix_flutter_app/screens/home/artist/artist_details_screen.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/home/search_screen.dart';
 import 'package:vidflix_flutter_app/screens/home/view_all_screens/all_blogs_view_all_screen.dart';

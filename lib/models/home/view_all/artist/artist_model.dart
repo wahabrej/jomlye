@@ -1,6 +1,6 @@
 class ArtistModel {
     final Artists? artists;
-    final List<dynamic>? filter;
+    final Filter? filter;
 
     ArtistModel({
         this.artists,
@@ -9,7 +9,7 @@ class ArtistModel {
 
     factory ArtistModel.fromJson(Map<String, dynamic> json) => ArtistModel(
         artists: json["artists"] == null ? null : Artists.fromJson(json["artists"]),
-        filter: json["filter"] == null ? [] : List<dynamic>.from(json["filter"]!.map((x) => x)),
+        filter: json["filter"] == null ? null : Filter.fromJson(json["filter"]),
     );
 }
 
@@ -66,24 +66,40 @@ class ArtistData {
     final String? starName;
     final String? slug;
     final String? starType;
+    final int? countryId;
+    final DateTime? starDob;
+    final String? ranking;
+    final String? gender;
+    final String? background;
+    final int? totalMovies;
     final String? starImage;
-    final dynamic starDesc;
+    final String? starDesc;
     final int? view;
     final int? status;
     final DateTime? createdAt;
     final DateTime? updatedAt;
+    final String? countryName;
+    final String? country;
 
     ArtistData({
         this.id,
         this.starName,
         this.slug,
         this.starType,
+        this.countryId,
+        this.starDob,
+        this.ranking,
+        this.gender,
+        this.background,
+        this.totalMovies,
         this.starImage,
         this.starDesc,
         this.view,
         this.status,
         this.createdAt,
         this.updatedAt,
+        this.countryName,
+        this.country,
     });
 
     factory ArtistData.fromJson(Map<String, dynamic> json) => ArtistData(
@@ -91,16 +107,22 @@ class ArtistData {
         starName: json["star_name"],
         slug: json["slug"],
         starType: json["star_type"],
+        countryId: json["country_id"],
+        starDob: json["star_dob"],
+        ranking: json["ranking"],
+        gender: json["gender"],
+        background: json["background"],
+        totalMovies: json["total_movies"],
         starImage: json["star_image"],
         starDesc: json["star_desc"],
         view: json["view"],
         status: json["status"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        countryName: json["country_name"],
+        country: json["country"],
     );
 }
-
-
 
 class Link {
     final String? url;
@@ -120,3 +142,68 @@ class Link {
     );
 }
 
+class Filter {
+    final List<ArtistCountry>? countries;
+    final List<MovieIndustry>? movieIndustries;
+
+    Filter({
+        this.countries,
+        this.movieIndustries,
+    });
+
+    factory Filter.fromJson(Map<String, dynamic> json) => Filter(
+        countries: json["countries"] == null ? [] : List<ArtistCountry>.from(json["countries"]!.map((x) => ArtistCountry.fromJson(x))),
+        movieIndustries: json["movie_industries"] == null ? [] : List<MovieIndustry>.from(json["movie_industries"]!.map((x) => MovieIndustry.fromJson(x))),
+    );
+}
+
+class ArtistCountry {
+    final int? id;
+    final String? name;
+    final String? slug;
+    final dynamic description;
+    final dynamic flag;
+    final int? status;
+    final DateTime? createdAt;
+    final DateTime? updatedAt;
+
+    ArtistCountry({
+        this.id,
+        this.name,
+        this.slug,
+        this.description,
+        this.flag,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+    });
+
+    factory ArtistCountry.fromJson(Map<String, dynamic> json) => ArtistCountry(
+        id: json["id"],
+        name: json["name"],
+        slug: json["slug"],
+        description: json["description"],
+        flag: json["flag"],
+        status: json["status"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    );
+}
+
+class MovieIndustry {
+    final int? id;
+    final String? name;
+    final int? status;
+
+    MovieIndustry({
+        this.id,
+        this.name,
+        this.status,
+    });
+
+    factory MovieIndustry.fromJson(Map<String, dynamic> json) => MovieIndustry(
+        id: json["id"],
+        name: json["name"],
+        status: json["status"],
+    );
+}

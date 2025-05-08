@@ -283,7 +283,7 @@ class TopArtistBottomSheetContent extends StatelessWidget {
                 width: width - 20.w,
                 height: 34.h,
                 child: ListView.separated(
-                  itemCount: homeController.artistsCategoriesList.length,
+                  itemCount: homeController.artistCountryList.length,
                   separatorBuilder: (context, index) => kW8sizedBox,
                   shrinkWrap: true,
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -291,16 +291,14 @@ class TopArtistBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedArtistsCategories.value =
-                                homeController.artistsCategoriesList[index];
+                            homeController.selectedCountryId.value =
+                                homeController.artistCountryList[index].id!;
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController
-                                          .selectedArtistsCategories.value ==
-                                      homeController
-                                          .artistsCategoriesList[index]
+                              border:  homeController.selectedCountryId.value ==
+                                homeController.artistCountryList[index].id!
                                   ? Border.all(width: 1, color: cPrimaryColor2)
                                   : Border.all(width: 0),
                               borderRadius: BorderRadius.circular(6.r),
@@ -310,7 +308,7 @@ class TopArtistBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.artistsCategoriesList[index],
+                                  homeController.artistCountryList[index].name??'',
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.clip,
