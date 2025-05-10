@@ -33,6 +33,7 @@ import 'package:vidflix_flutter_app/screens/profile/settings/manage_notification
 import 'package:vidflix_flutter_app/screens/profile/settings/settings_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/settings/video_quality_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/subscription_plan_screen.dart';
+import 'package:vidflix_flutter_app/screens/video_player/playlist_player_screen.dart';
 import 'package:vidflix_flutter_app/screens/video_player/tv_show_player_screen.dart';
 import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -82,6 +83,7 @@ const String krCastDetailsScreen = '/cast-details-screen';
 //*Video Player Screen
 const String krVideoPlayerScreen = '/video-player-screen';
 const String krTvShowPlayerScreen = '/tvshow-player-screen';
+const String krPlaylistPlayerScreen = '/playlist-player-screen';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -129,5 +131,5 @@ List<GetPage<dynamic>>? routes = [
    //* video player
    GetPage(name: krVideoPlayerScreen, page: () => VideoPlayerScreen(), transition: Transition.noTransition),
    GetPage(name: krTvShowPlayerScreen, page: () => TvShowPlayerScreen(), transition: Transition.noTransition),
-
+   GetPage(name: krPlaylistPlayerScreen, page: () => PlaylistVideoPlayerScreen(), transition: Transition.noTransition),
 ];

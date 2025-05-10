@@ -6,6 +6,7 @@ import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
 import 'package:vidflix_flutter_app/models/profile/playlist/playlist_model.dart';
+import 'package:vidflix_flutter_app/models/profile/playlist/playlist_movie_list_model.dart';
 import 'package:vidflix_flutter_app/models/profile/update_profile_model.dart';
 import 'package:vidflix_flutter_app/screens/profile/common_webview_screen.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
@@ -506,11 +507,45 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
         showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
       } else {
         showSnackBar(
-            title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);
+            title: ksError.tr, message: "deletePlaylist Error!", color: cPrimaryColor2);
       }
     } catch (e) {
-      ll('editPlayList error: $e');
+      ll('deletePlaylist error: $e');
     }
   }
- 
+     final RxBool isPlaylistMovieListLoading = RxBool(false);
+   final Rx<PlaylistMovieListModel?> playlistMovieListModel = Rx<PlaylistMovieListModel?>(null);
+  final RxList<PlayListMovie> playlistMovieList = RxList<PlayListMovie>([]);
+  Future<void> getPlaylisMovieList({required int playListId}) async {
+    try {
+      isPlaylistMovieListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuPlaylistMovies/${playListId.toString()}",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        playlistMovieList.clear();
+        PlaylistMovieListModel playlistMovieListModel = PlaylistMovieListModel.fromJson(response.data);
+        playlistMovieList.addAll(playlistMovieListModel.playListMovies!);
+        isPlaylistMovieListLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isPlaylistMovieListLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isPlaylistMovieListLoading.value = false;
+      ll('getPlaylistList error: $e');
+    }
+  }
+  final TextEditingController addCommentTextEditingController = TextEditingController();
 }

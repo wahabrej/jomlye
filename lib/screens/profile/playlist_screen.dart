@@ -81,39 +81,45 @@ class PlayListScreen extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    return Obx(() => PlayListWidget(
-                          image:
-                              profileController.playlistList[index].thumbnail ??
-                                  "",
-                          name:
-                              profileController.playlistList[index].name ?? "",
-                          videoCount: profileController
-                                  .playlistList[index].totalVideo ??
-                              0,
-                          onPressed: () {
-                            profileController
-                                    .editPlayListTextEditingController.text =
-                                profileController.playlistList[index].name ??
-                                    "";
-                            profileController.selectedPlayListId.value =
-                                profileController.playlistList[index].id ?? -1;
-                            Get.find<GlobalController>().commonBottomSheet(
-                              context: context,
-                              content: PlayListBottomSheetContent(),
-                              onPressCloseButton: () {
-                                Get.back();
-                              },
-                              onPressRightButton: () {},
-                              rightText: "",
-                              rightTextStyle: medium14TextStyle(cWhiteColor),
-                              title: ksPlaylist.tr,
-                              isRightButtonShow: false,
-                              bottomSheetColor: cBlackColor2,
-                              bottomSheetHeight: height * 0.12.h,
-                              isTitleShow: false,
-                            );
-                          },
-                        ));
+                    return Obx(() => InkWell(
+                      onTap: ()async{
+                        await profileController.getPlaylisMovieList(playListId: profileController.playlistList[index].id??-1);
+                        Get.toNamed(krPlaylistPlayerScreen);
+                      },
+                      child: PlayListWidget(
+                            image:
+                                profileController.playlistList[index].thumbnail ??
+                                    "",
+                            name:
+                                profileController.playlistList[index].name ?? "",
+                            videoCount: profileController
+                                    .playlistList[index].totalVideo ??
+                                0,
+                            onPressed: () {
+                              profileController
+                                      .editPlayListTextEditingController.text =
+                                  profileController.playlistList[index].name ??
+                                      "";
+                              profileController.selectedPlayListId.value =
+                                  profileController.playlistList[index].id ?? -1;
+                              Get.find<GlobalController>().commonBottomSheet(
+                                context: context,
+                                content: PlayListBottomSheetContent(),
+                                onPressCloseButton: () {
+                                  Get.back();
+                                },
+                                onPressRightButton: () {},
+                                rightText: "",
+                                rightTextStyle: medium14TextStyle(cWhiteColor),
+                                title: ksPlaylist.tr,
+                                isRightButtonShow: false,
+                                bottomSheetColor: cBlackColor2,
+                                bottomSheetHeight: height * 0.12.h,
+                                isTitleShow: false,
+                              );
+                            },
+                          ),
+                    ));
                   },
                   separatorBuilder: (context, index) => kH16sizedBox,
                   itemCount: profileController.playlistList.length)
