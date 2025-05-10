@@ -39,3 +39,5 @@ const String kuMovieDetails = "movie-details";
 //! Profile
 //playlist
 const String kuPlayList = "playlists";
+const String kuUpdatePlaylist = "update-playlist";
+const String kuDeletePlaylist = "delete-playlist";

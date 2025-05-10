@@ -455,7 +455,62 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ll('getPlaylistList error: $e');
     }
   }
+  final RxInt selectedPlayListId = RxInt(-1);
  final TextEditingController editPlayListTextEditingController = TextEditingController();
+  Future<void> editPlaylist() async {
+    final int userId = await spController.getUserId()??-1;
+    try {
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        "name": editPlayListTextEditingController.text.trim().toString(),
+        "user_id": userId.toString(),
 
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: "$kuUpdatePlaylist/${selectedPlayListId.value.toString()}",
+        body: body,
+        token: token,
+        requestMethod: kPost,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('editPlayList error: $e');
+    }
+  }
+
+    Future<void> deletePlaylist() async {
+    try {
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: "$kuDeletePlaylist/${selectedPlayListId.value.toString()}",
+        body: body,
+        token: token,
+        requestMethod: kDelete,
+      ) as CommonDM;
+      if (response.code == 200) {
+        for(int i=0;i<playlistList.length;i++){
+          if(selectedPlayListId.value == playlistList[i].id){
+            playlistList.remove(playlistList[i]);
+          }
+        }
+        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('editPlayList error: $e');
+    }
+  }
  
 }
