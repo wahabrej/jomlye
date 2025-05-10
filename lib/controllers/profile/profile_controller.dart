@@ -456,7 +456,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ll('getPlaylistList error: $e');
     }
   }
-  final RxInt selectedPlayListId = RxInt(-1);
+ final RxInt selectedPlayListId = RxInt(-1);
  final TextEditingController editPlayListTextEditingController = TextEditingController();
   Future<void> editPlaylist() async {
     final int userId = await spController.getUserId()??-1;
@@ -465,7 +465,6 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       Map<String, dynamic> body = {
         "name": editPlayListTextEditingController.text.trim().toString(),
         "user_id": userId.toString(),
-
       };
       ll("body : $body");
       var response = await apiServices.commonApiCall(
@@ -547,5 +546,31 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ll('getPlaylistList error: $e');
     }
   }
+
+   Future<void> deletePlaylistMovie({required int movieId}) async {
+    try {
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        "playlist_id": selectedPlayListId.value.toString(),
+        "movie_id": movieId.toString(),
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuDeletePlaylistMovie,
+        body: body,
+        token: token,
+        requestMethod: kPost,
+      ) as CommonDM;
+      if (response.code == 200) {
+        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "deletePlaylistMovie Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('deletePlaylistMovie error: $e');
+    }
+  }
+
   final TextEditingController addCommentTextEditingController = TextEditingController();
 }

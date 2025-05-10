@@ -42,3 +42,4 @@ const String kuPlayList = "playlists";
 const String kuUpdatePlaylist = "update-playlist";
 const String kuDeletePlaylist = "delete-playlist";
 const String kuPlaylistMovies = "get-play-list-movies";
+const String kuDeletePlaylistMovie = "playlists/remove-movie";

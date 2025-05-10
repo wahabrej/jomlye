@@ -83,6 +83,7 @@ class PlayListScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => InkWell(
                       onTap: ()async{
+                        profileController.selectedPlayListId.value = profileController.playlistList[index].id??-1;
                         await profileController.getPlaylisMovieList(playListId: profileController.playlistList[index].id??-1);
                         Get.toNamed(krPlaylistPlayerScreen);
                       },
