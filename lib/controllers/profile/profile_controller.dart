@@ -455,5 +455,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ll('getPlaylistList error: $e');
     }
   }
+ final TextEditingController editPlayListTextEditingController = TextEditingController();
+
  
 }

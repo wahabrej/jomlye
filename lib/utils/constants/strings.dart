@@ -150,6 +150,7 @@ const String ksBackToHome = "Back To Home";
 const String ksDownloadList = "Download List";
 const String ksDeleteVideo = "Delete Video";
 const String ksAreYouSureYouDeleteThisVideo = "Are you sure you want to delete this video from list?";
+const String ksAreYouSureYouDeleteThisPlaylist = "Are you sure you want to delete this playlist?";
 const String ksAreYouSureYouDeleteAllVideo = "Are you sure you want to delete all video from list?";
 const String ksDeleteNotification = "Delete Notification";
 const String ksAreYouSureYouDeleteThisNotification = "Are you sure you want to delete this notification from list?";
@@ -173,6 +174,9 @@ const String ksMessage = "Message";
 const String ksWriteYourMessage = "Write your message";
 const String ksEnterSubject = "Enter subject";
 const String ksSend = "Send";
+const String ksDeletePlaylist = "Delete Playlist";
+const String ksEditPlaylist = "Edit Playlist";
+const String ksSave = "Save";
 //* player screen
 const String ksTitle = "Title";
 const String ksReadMore = "Read More";

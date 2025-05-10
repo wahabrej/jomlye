@@ -1,5 +1,7 @@
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class PlayListScreen extends StatelessWidget {
@@ -80,6 +82,7 @@ class PlayListScreen extends StatelessWidget {
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context,index){
                        return PlayListWidget(image: profileController.playlistList[index].thumbnail??"",name: profileController.playlistList[index].name??"",videoCount: profileController.playlistList[index].totalVideo??0,onPressed: (){
+                         profileController.editPlayListTextEditingController.text = profileController.playlistList[index].name??"";
                         Get.find<GlobalController>().commonBottomSheet(context: context, content: PlayListBottomSheetContent(), onPressCloseButton: (){Get.back();}, onPressRightButton: (){}, rightText: "", rightTextStyle: medium14TextStyle(cWhiteColor), title: ksPlaylist.tr, isRightButtonShow: false,bottomSheetColor: cBlackColor2,bottomSheetHeight: height*0.12.h,isTitleShow: false,);
                        },);
                       }, separatorBuilder: (context,index)=> kH16sizedBox, itemCount: profileController.playlistList.length)
@@ -152,31 +155,203 @@ class PlayListBottomSheetContent extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: profileController.playListValueList.length,
                 itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                    child: Row(
-                      children: [
-                        Icon(profileController.playListValueList[index]["icon"],size: kIconSize16,color: cWhiteColor,),
-                        kW8sizedBox,
-                        InkWell(
-                          onTap: () {
-                            // profileController.selectedPlayListValue.value =
-                            //     profileController.playListValueList[index]["title"];
+                  return InkWell(
+                    onTap: (){
+                            profileController.selectedPlayListValue.value =
+                                profileController.playListValueList[index]["title"];
                                 Get.back();
-                          },
-                          child: Padding(
+                                if(profileController.selectedPlayListValue.value==ksEdit.tr){
+                                  showEditPlayListPopup(context);
+                                }
+                                if(profileController.selectedPlayListValue.value==ksDelete.tr){
+                                  showDeletePlayListPopup(context);
+                                }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                      child: Row(
+                        children: [
+                          Icon(profileController.playListValueList[index]["icon"],size: kIconSize16,color: cWhiteColor,),
+                          kW8sizedBox,
+                          Padding(
                             padding: const EdgeInsets.all(k8Padding),
                             child: Text(
                               profileController.playListValueList[index]["title"],
                               style: medium14TextStyle(cWhiteColor),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 })
           ],
         ));
   }
+}
+
+
+
+void showEditPlayListPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        insetPadding: const EdgeInsets.symmetric(horizontal: k20Padding),
+        backgroundColor: cBlackColor2,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: k20Padding, vertical: k25Padding),
+          width: width.w,
+          decoration: BoxDecoration(
+            color: cBlackColor2,
+            borderRadius: BorderRadius.circular(k16BorderRadius.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: h36.w,
+                    height: h36.h,
+                    decoration: BoxDecoration(
+                      color: cWhiteColor.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(k10Padding),
+                      child: SvgPicture.asset(kiEdit,color: cWhiteColor,),
+                    ),
+                  ),
+                  kW12sizedBox,
+                   Text(
+                ksEditPlaylist.tr,
+                style: semiBold18TextStyle(cWhiteColor),
+              ),
+              const Expanded(child: SizedBox()),
+               InkWell(
+                onTap: (){
+                  Get.back();
+                },
+                child: const Icon(Icons.close,size: kIconSize20,color: cWhiteColor,)),
+                ],
+              ),
+              kH8sizedBox,
+              Divider(
+              thickness: 1,
+              color: cWhiteColor.withOpacity(0.1),
+             ),
+             kH8sizedBox,
+            SizedBox(
+              height: 40.h,
+              child: CustomModifiedTextField(
+                controller: Get.find<ProfileController>().editPlayListTextEditingController,
+                hint: ksEditPlaylist.tr,
+                contentPadding: const EdgeInsets.all(8),
+                  fillColor: cBlackColor,
+                    textInputStyle: regular14TextStyle(cWhiteColor),
+                    focusBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: const BorderSide(
+                        width: 1,
+                        color: cPrimaryColor2,
+                      ),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(k6BorderRadius),
+                      borderSide: BorderSide(
+                        width: 1,
+                        color: cWhiteColor.withOpacity(0.3),
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+              ),
+            ),
+             kH16sizedBox,
+             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+             CustomElevatedButton(label: ksCancel.tr, onPressed: (){Get.back();},buttonWidth: 80.w,buttonHeight: 30.h,buttonColor: cWhiteColor.withOpacity(0.2),),
+             kW12sizedBox,
+             CustomElevatedButton(label: ksSave.tr, onPressed: (){Get.back();},buttonWidth: 110.w,buttonHeight: 30.h,buttonColor: cPrimaryColor2,),
+              ],
+             ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+
+
+void showDeletePlayListPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        insetPadding: const EdgeInsets.symmetric(horizontal: k20Padding),
+        backgroundColor: cBlackColor2,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: k20Padding, vertical: k25Padding),
+          width: width.w,
+          decoration: BoxDecoration(
+            color: cBlackColor2,
+            borderRadius: BorderRadius.circular(k16BorderRadius.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: h36.w,
+                    height: h36.h,
+                    decoration: BoxDecoration(
+                      color: cWhiteColor.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(k10Padding),
+                      child: SvgPicture.asset(kiDelete,color: cWhiteColor,),
+                    ),
+                  ),
+                  kW12sizedBox,
+                   Text(
+                ksDeletePlaylist.tr,
+                style: semiBold18TextStyle(cWhiteColor),
+              ),
+              const Expanded(child: SizedBox()),
+               InkWell(
+                onTap: (){
+                  Get.back();
+                },
+                child: const Icon(Icons.close,size: kIconSize20,color: cWhiteColor,)),
+                ],
+              ),
+              kH8sizedBox,
+              Divider(
+              thickness: 1,
+              color: cWhiteColor.withOpacity(0.1),
+             ),
+             kH8sizedBox,
+             Text(ksAreYouSureYouDeleteThisPlaylist.tr,style: regular16TextStyle(cWhiteColor),),
+             kH16sizedBox,
+             Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+             CustomElevatedButton(label: ksCancel.tr, onPressed: (){Get.back();},buttonWidth: 80.w,buttonHeight: 30.h,buttonColor: cWhiteColor.withOpacity(0.2),),
+             kW12sizedBox,
+             CustomElevatedButton(label: ksDeletePlaylist.tr, onPressed: (){Get.back();},buttonWidth: 110.w,buttonHeight: 30.h,buttonColor: cPrimaryColor2,),
+              ],
+             ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
