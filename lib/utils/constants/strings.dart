@@ -177,6 +177,10 @@ const String ksSend = "Send";
 const String ksDeletePlaylist = "Delete Playlist";
 const String ksEditPlaylist = "Edit Playlist";
 const String ksSave = "Save";
+const String ksSaveVideoToPlaylist = "Save video to playlist";
+const String ksCreateNewPlaylist = "Create New Playlist";
+const String ksSaveNow = "Save Now";
+const String ksCreateNew = "Create New";
 //* player screen
 const String ksTitle = "Title";
 const String ksReadMore = "Read More";

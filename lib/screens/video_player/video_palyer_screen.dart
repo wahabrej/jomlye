@@ -3,9 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
+import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
+import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_checkbox.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -211,8 +213,35 @@ class VideoPlayerScreen extends StatelessWidget {
                           image: kiFavorite,
                         ),
                         kW10sizedBox,
-                        const CommonContainer(
+                        CommonContainer(
                           image: kiAdd,
+                          onPressed: () async {
+                            Get.find<ProfileController>()
+                                .temporaryPlayListList
+                                .clear();
+                            Get.find<ProfileController>()
+                                .temporaryPlayListCheckBoxStateList
+                                .clear();
+                            await Get.find<ProfileController>()
+                                .getPlaylistList();
+                            for (int i = 0;
+                                i <
+                                    Get.find<ProfileController>()
+                                        .playlistList
+                                        .length;
+                                i++) {
+                              Get.find<ProfileController>()
+                                  .temporaryPlayListList
+                                  .add(Get.find<ProfileController>()
+                                          .playlistList[i]
+                                          .name ??
+                                      "");
+                              Get.find<ProfileController>()
+                                  .temporaryPlayListCheckBoxStateList
+                                  .add(false);
+                            }
+                            showSaveVideoToPlayListPopup(context);
+                          },
                         ),
                         kW10sizedBox,
                         const CommonContainer(
@@ -515,7 +544,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                     size: kIconSize20,
                                   ),
                                   //  Spacer(),
-                                  Expanded(child: SizedBox()),
+                                  const Expanded(child: SizedBox()),
                                   Row(
                                     children: [
                                       SvgPicture.asset(
@@ -815,4 +844,246 @@ class CommonContainer extends StatelessWidget {
       ),
     );
   }
+}
+
+void showSaveVideoToPlayListPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        insetPadding: const EdgeInsets.symmetric(horizontal: k20Padding),
+        backgroundColor: cBlackColor2,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: k20Padding, vertical: k25Padding),
+          width: width.w,
+          decoration: BoxDecoration(
+            color: cBlackColor2,
+            borderRadius: BorderRadius.circular(k16BorderRadius.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: h36.w,
+                    height: h36.h,
+                    decoration: BoxDecoration(
+                      color: cWhiteColor.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(k10Padding),
+                      child: SvgPicture.asset(
+                        kiAdd,
+                        color: cWhiteColor,
+                      ),
+                    ),
+                  ),
+                  kW12sizedBox,
+                  Text(
+                    ksSaveVideoToPlaylist.tr,
+                    style: semiBold18TextStyle(cWhiteColor),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        size: kIconSize20,
+                        color: cWhiteColor,
+                      )),
+                ],
+              ),
+              kH8sizedBox,
+              Divider(
+                thickness: 1,
+                color: cWhiteColor.withOpacity(0.1),
+              ),
+              kH8sizedBox,
+              // Text(
+              //   ksAreYouSureYouDeleteThisPlaylist.tr,
+              //   style: regular16TextStyle(cWhiteColor),
+              // ),
+              ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    // return Text(Get.find<ProfileController>().temporaryPlayListList[index],style: regular16TextStyle(cWhiteColor),);
+                    return Obx(() => CustomCheckBox(
+                        value: Get.find<ProfileController>()
+                            .temporaryPlayListCheckBoxStateList[index],
+                        label: Get.find<ProfileController>()
+                            .temporaryPlayListList[index],
+                        onChanged: (v) {
+                          Get.find<ProfileController>()
+                                  .temporaryPlayListCheckBoxStateList[index] =
+                              !Get.find<ProfileController>()
+                                  .temporaryPlayListCheckBoxStateList[index];
+                        },
+                        textStyle: medium16TextStyle(cWhiteColor)));
+                  },
+                  separatorBuilder: (context, index) => kH8sizedBox,
+                  itemCount: Get.find<ProfileController>()
+                      .temporaryPlayListList
+                      .length),
+              kH16sizedBox,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomElevatedButton(
+                    label: ksCreateNewPlaylist.tr,
+                    onPressed: () {
+                      Get.back();
+                      showCreateNewPlayListPopup(context);
+                    },
+                    buttonWidth: 120.w,
+                    buttonHeight: 30.h,
+                    buttonColor: cWhiteColor.withOpacity(0.2),
+                  ),
+                  kW12sizedBox,
+                  CustomElevatedButton(
+                    label: ksSaveNow.tr,
+                    onPressed: () async {
+                      Get.back();
+                    },
+                    buttonWidth: 110.w,
+                    buttonHeight: 30.h,
+                    buttonColor: cPrimaryColor2,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+
+void showCreateNewPlayListPopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        insetPadding: const EdgeInsets.symmetric(horizontal: k20Padding),
+        backgroundColor: cBlackColor2,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: k20Padding, vertical: k25Padding),
+          width: width.w,
+          decoration: BoxDecoration(
+            color: cBlackColor2,
+            borderRadius: BorderRadius.circular(k16BorderRadius.r),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: h36.w,
+                    height: h36.h,
+                    decoration: BoxDecoration(
+                      color: cWhiteColor.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(k10Padding),
+                      child: SvgPicture.asset(
+                        kiAdd,
+                        color: cWhiteColor,
+                      ),
+                    ),
+                  ),
+                  kW12sizedBox,
+                  Text(
+                    ksCreateNewPlaylist.tr,
+                    style: semiBold18TextStyle(cWhiteColor),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        size: kIconSize20,
+                        color: cWhiteColor,
+                      )),
+                ],
+              ),
+              kH8sizedBox,
+              Divider(
+                thickness: 1,
+                color: cWhiteColor.withOpacity(0.1),
+              ),
+              kH8sizedBox,
+                   Text(
+                    ksTitle.tr,
+                    style: medium16TextStyle(cWhiteColor),
+                  ),
+              kH8sizedBox,
+                            SizedBox(
+                height: 40.h,
+                child: CustomModifiedTextField(
+                  controller: Get.find<ProfileController>()
+                      .createPlaylistTextEditingController,
+                  hint: ksTitle.tr,
+                  contentPadding: const EdgeInsets.all(8),
+                  fillColor: cBlackColor,
+                  textInputStyle: regular14TextStyle(cWhiteColor),
+                  focusBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(k6BorderRadius),
+                    borderSide: const BorderSide(
+                      width: 1,
+                      color: cPrimaryColor2,
+                    ),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(k6BorderRadius),
+                    borderSide: BorderSide(
+                      width: 1,
+                      color: cWhiteColor.withOpacity(0.3),
+                      style: BorderStyle.solid,
+                    ),
+                  ),
+                ),
+              ),
+              kH16sizedBox,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomElevatedButton(
+                    label: ksCancel.tr,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    buttonWidth: 80.w,
+                    buttonHeight: 30.h,
+                    buttonColor: cWhiteColor.withOpacity(0.2),
+                  ),
+                  kW12sizedBox,
+                  CustomElevatedButton(
+                    label: ksCreateNew.tr,
+                    onPressed: () async {
+                      Get.back();
+                    },
+                    buttonWidth: 110.w,
+                    buttonHeight: 30.h,
+                    buttonColor: cPrimaryColor2,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }

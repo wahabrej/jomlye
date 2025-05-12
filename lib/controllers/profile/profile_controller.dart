@@ -572,5 +572,32 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
     }
   }
 
+     Future<void> createPlayList({required int movieId}) async {
+    try {
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+        "name": selectedPlayListId.value.toString(),
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuCreatePlaylist,
+        body: body,
+        token: token,
+        requestMethod: kPost,
+      ) as CommonDM;
+      if (response.code == 200) {
+        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "createPlayList Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('createPlayList error: $e');
+    }
+  }
+
   final TextEditingController addCommentTextEditingController = TextEditingController();
+  final TextEditingController createPlaylistTextEditingController = TextEditingController();
+  final RxList<String> temporaryPlayListList = RxList<String>([]);  
+  final RxList<bool> temporaryPlayListCheckBoxStateList = RxList<bool>([]);  
 }
