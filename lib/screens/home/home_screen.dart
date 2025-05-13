@@ -3,7 +3,6 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
@@ -119,17 +118,6 @@ class HomeScreen extends StatelessWidget {
                                     movieId: homeController
                                         .newReleaseMoviesList[index].id!
                                         .toString());
-                                //  for(int i=0;i<Get.find<ProfileController>().playlistList.length;i++){
-                                // if(Get.find<ProfileController>().playlistList[i].id.toString().contains(homeController.playlistIdsList[i].toString())){
-                                //   Get.find<ProfileController>().temporaryPlayListCheckBoxStateList.add(true);
-                                // }
-                                // else{
-                                //   Get.find<ProfileController>().temporaryPlayListCheckBoxStateList.add(false);
-                                // }
-                                //             }
-                                // Get.find<ProfileController>()
-                                //     .temporaryPlayListCheckBoxStateList
-                                //     .clear();
                                 if (homeController.movieServerList.isNotEmpty) {
                                   String videoUrl = homeController
                                           .movieServerList[0]?.fileUrl ??

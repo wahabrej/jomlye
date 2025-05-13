@@ -512,8 +512,8 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ll('deletePlaylist error: $e');
     }
   }
-     final RxBool isPlaylistMovieListLoading = RxBool(false);
-   final Rx<PlaylistMovieListModel?> playlistMovieListModel = Rx<PlaylistMovieListModel?>(null);
+  final RxBool isPlaylistMovieListLoading = RxBool(false);
+  final Rx<PlaylistMovieListModel?> playlistMovieListModel = Rx<PlaylistMovieListModel?>(null);
   final RxList<PlayListMovie> playlistMovieList = RxList<PlayListMovie>([]);
   Future<void> getPlaylisMovieList({required int playListId}) async {
     try {
@@ -562,6 +562,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
         requestMethod: kPost,
       ) as CommonDM;
       if (response.code == 200) {
+        await getPlaylisMovieList(playListId: selectedPlayListId.value);
         showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
       } else {
         showSnackBar(
@@ -605,6 +606,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       // int? userId = await spController.getUserId();
       Map<String, dynamic> body = {
         "movie_id": movieId.toString(),
+        for(int i=0;i<moviePlayListIds.length;i++) "playlist_ids[$i]": moviePlayListIds[i].toString(), 
       };
       ll("body : $body");
       var response = await apiServices.commonApiCall(
@@ -661,7 +663,4 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ll('contactUs error: $e');
     }
   }
-
- 
-
 }

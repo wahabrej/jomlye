@@ -20,7 +20,18 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
       backgroundColor: cBlackColor,
       body: SingleChildScrollView(
         child: Obx(
-          () => Column(
+          () => profileController.playlistMovieList.isEmpty ? SizedBox(
+                    height: (height),
+                     child: Column(
+                       mainAxisAlignment: MainAxisAlignment.center,
+                       children: [
+                         Image.asset(kiSearchResultPng,width: 200.w,height: 200.h,),
+                         Text(ksNoVideoFound.tr,style: medium16TextStyle(cPrimaryColor2),),
+                         kH16sizedBox,
+                         Text(ksNoVideosFoundPleaseCheckFilter.tr,style: regular14TextStyle(cWhiteColor.withOpacity(0.5,)),textAlign: TextAlign.center,),
+                       ],
+                     ),
+                   ) : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //!youtube player
@@ -93,7 +104,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                               ),
                               kW6sizedBox,
                               Text(
-                                 profileController
+                                profileController
                                         .playlistMovieList[0].runtime ??
                                     "",
                                 style: regular12TextStyle(cWhiteColor),
@@ -120,7 +131,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                               kW6sizedBox,
                               Text(
                                 DateFormat('d MMM, yyyy').format(DateTime.parse(
-                                     profileController
+                                    profileController
                                         .playlistMovieList[0].release
                                         .toString())),
                                 style: regular12TextStyle(cWhiteColor),
@@ -173,8 +184,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                     ),
                     kH12sizedBox,
                     Text(
-                       profileController
-                                        .playlistMovieList[0].title ?? "",
+                      profileController.playlistMovieList[0].title ?? "",
                       style: medium20TextStyle(cWhiteColor),
                     ),
                     kH12sizedBox,
@@ -182,8 +192,8 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text:  profileController
-                                        .playlistMovieList[0].description ??
+                            text: profileController
+                                    .playlistMovieList[0].description ??
                                 "",
                             style: regular14TextStyle(
                                 cWhiteColor.withOpacity(0.5)),
@@ -212,11 +222,13 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                           image: kiFavorite,
                         ),
                         kW10sizedBox,
-                         CommonContainer(
+                        CommonContainer(
                           image: kiMinus,
-                          onPressed: (){
-                            showDeletePlayListMoviePopup(context: context,movieId:  profileController
-                                        .playlistMovieList[0].id!);
+                          onPressed: () {
+                            showDeletePlayListMoviePopup(
+                                context: context,
+                                movieId:
+                                    profileController.playlistMovieList[0].id!);
                           },
                         ),
                         kW10sizedBox,
@@ -235,6 +247,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                   ],
                 ),
               ),
+
               //!Comment Widget
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: k20Padding),
@@ -672,8 +685,8 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
   }
 }
 
-
-void showDeletePlayListMoviePopup({required BuildContext context,required int movieId}) {
+void showDeletePlayListMoviePopup(
+    {required BuildContext context, required int movieId}) {
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -751,9 +764,10 @@ void showDeletePlayListMoviePopup({required BuildContext context,required int mo
                   kW12sizedBox,
                   CustomElevatedButton(
                     label: ksDeleteVideo.tr,
-                    onPressed: () async{
+                    onPressed: () async {
                       Get.back();
-                      await Get.find<ProfileController>().deletePlaylistMovie(movieId: movieId);
+                      await Get.find<ProfileController>()
+                          .deletePlaylistMovie(movieId: movieId);
                     },
                     buttonWidth: 110.w,
                     buttonHeight: 30.h,

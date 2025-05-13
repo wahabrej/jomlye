@@ -17,6 +17,7 @@ class VideoPlayerScreen extends StatelessWidget {
   final AllVideoPlayerController allVideoPlayerController =
       Get.find<AllVideoPlayerController>();
   final HomeController homeController = Get.find<HomeController>();
+  final ProfileController profileController = Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -216,30 +217,7 @@ class VideoPlayerScreen extends StatelessWidget {
                         CommonContainer(
                           image: kiAdd,
                           onPressed: () async {
-                            // Get.find<ProfileController>()
-                            //     .temporaryPlayListList
-                            //     .clear();
-                            // Get.find<ProfileController>()
-                            //     .temporaryPlayListCheckBoxStateList
-                            //     .clear();
-                            // await Get.find<ProfileController>()
-                            //     .getPlaylistList();
-                            // for (int i = 0;
-                            //     i <
-                            //         Get.find<ProfileController>()
-                            //             .playlistList
-                            //             .length;
-                            //     i++) {
-                            //   Get.find<ProfileController>()
-                            //       .temporaryPlayListList
-                            //       .add(Get.find<ProfileController>()
-                            //               .playlistList[i]
-                            //               .name ??
-                            //           "");
-                            //   Get.find<ProfileController>()
-                            //       .temporaryPlayListCheckBoxStateList
-                            //       .add(false);
-                            // }
+                              profileController.moviePlayListIds.addAll(homeController.movieDetailsModel.value?.playlistIds??[]);
                                                             for (int i = 0;
                                     i <
                                         Get.find<ProfileController>()
@@ -260,7 +238,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                       .temporaryPlayListCheckBoxStateList
                                       .add(exists);
                                 }
-                            showSaveVideoToPlayListPopup(context);
+                            showSaveVideoToPlayListPopup(context,homeController.movieDetailsData.value?.id??-1);
                           },
                         ),
                         kW10sizedBox,
@@ -866,7 +844,8 @@ class CommonContainer extends StatelessWidget {
   }
 }
 
-void showSaveVideoToPlayListPopup(BuildContext context) {
+void showSaveVideoToPlayListPopup(BuildContext context,int movieId) {
+  final ProfileController profileController = Get.find<ProfileController>();
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -924,33 +903,42 @@ void showSaveVideoToPlayListPopup(BuildContext context) {
                 color: cWhiteColor.withOpacity(0.1),
               ),
               kH8sizedBox,
-              // Text(
-              //   ksAreYouSureYouDeleteThisPlaylist.tr,
-              //   style: regular16TextStyle(cWhiteColor),
-              // ),
               ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    // return Text(Get.find<ProfileController>().temporaryPlayListList[index],style: regular16TextStyle(cWhiteColor),);
                     return Obx(() => CustomCheckBox(
                       fillColorl: cBlackColor2,
                       borderColor: cTextColor2,
-                        value: Get.find<ProfileController>()
+                        value: profileController
                             .temporaryPlayListCheckBoxStateList[index],
-                        label: Get.find<ProfileController>()
+                        label: profileController
                             .playlistList[index].name??"",
                         onChanged: (v) {
-                          // Get.find<ProfileController>().moviePlayListIds.add();
-                          Get.find<ProfileController>()
+                          profileController
                                   .temporaryPlayListCheckBoxStateList[index] =
-                              !Get.find<ProfileController>()
+                              !profileController
                                   .temporaryPlayListCheckBoxStateList[index];
+                                    if (profileController.moviePlayListIds.contains(
+                                profileController
+                            .playlistList[index].id)) {
+                              profileController.moviePlayListIds.remove(
+                                  profileController
+                            .playlistList[index].id);
+                              // authController.selectedInterestList.remove(
+                              //     authController.interestList[index].title);
+                            } else {
+                              profileController.moviePlayListIds.add(
+                                  profileController
+                            .playlistList[index].id);
+                              // authController.selectedInterestList.add(
+                              //     authController.interestList[index].title);
+                            }
                         },
                         textStyle: medium16TextStyle(cWhiteColor)));
                   },
                   separatorBuilder: (context, index) => kH8sizedBox,
-                  itemCount: Get.find<ProfileController>()
+                  itemCount: profileController
                       .playlistList
                       .length),
               kH16sizedBox,
@@ -972,6 +960,7 @@ void showSaveVideoToPlayListPopup(BuildContext context) {
                     label: ksSaveNow.tr,
                     onPressed: () async {
                       Get.back();
+                      await profileController.playlistAddMovie(movieId: movieId);
                     },
                     buttonWidth: 110.w,
                     buttonHeight: 30.h,
