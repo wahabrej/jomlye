@@ -963,7 +963,7 @@ void showSaveVideoToPlayListPopup(BuildContext context) {
                       Get.back();
                       showCreateNewPlayListPopup(context);
                     },
-                    buttonWidth: 120.w,
+                    buttonWidth: 140.w,
                     buttonHeight: 30.h,
                     buttonColor: cWhiteColor.withOpacity(0.2),
                   ),
