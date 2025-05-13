@@ -934,6 +934,8 @@ void showSaveVideoToPlayListPopup(BuildContext context) {
                   itemBuilder: (context, index) {
                     // return Text(Get.find<ProfileController>().temporaryPlayListList[index],style: regular16TextStyle(cWhiteColor),);
                     return Obx(() => CustomCheckBox(
+                      fillColorl: cBlackColor2,
+                      borderColor: cTextColor2,
                         value: Get.find<ProfileController>()
                             .temporaryPlayListCheckBoxStateList[index],
                         label: Get.find<ProfileController>()

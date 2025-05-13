@@ -7,6 +7,7 @@ class CustomCheckBox extends StatelessWidget {
   final ValueChanged<bool?> onChanged;
   final TextStyle textStyle;
   final double? width, height;
+  final Color? fillColorl,borderColor;
 
   const CustomCheckBox({
     required this.value,
@@ -16,6 +17,8 @@ class CustomCheckBox extends StatelessWidget {
     super.key,
     this.width,
     this.height,
+    this.fillColorl,
+    this.borderColor,
   });
 
   Widget buildCheckBox() {
@@ -23,9 +26,9 @@ class CustomCheckBox extends StatelessWidget {
       width: width ?? (isDeviceScreenLarge() ? h18 : h16),
       height: height ?? (isDeviceScreenLarge() ? h18 : h16),
       decoration: BoxDecoration(
-        border: Border.all(color: value ? cWhiteColor : cWhiteColor, width: 1),
+        border: Border.all(color: value ? cWhiteColor : borderColor ?? cWhiteColor, width: 1),
         borderRadius: BorderRadius.circular(k4BorderRadius.r),
-        color: value ? cPrimaryColor2 : cBlackColor,
+        color: value ? cPrimaryColor2 : fillColorl ?? cBlackColor,
       ),
 
       child: value
