@@ -149,7 +149,7 @@ class ContactUsScreen extends StatelessWidget {
                   contentPadding: const EdgeInsets.all(12),
                 ),
               ),
-               kH16sizedBox,
+              kH16sizedBox,
               Text(
                 ksSubject.tr,
                 style: semiBold16TextStyle(cWhiteColor),
@@ -180,7 +180,7 @@ class ContactUsScreen extends StatelessWidget {
                   contentPadding: const EdgeInsets.all(12),
                 ),
               ),
-               kH16sizedBox,
+              kH16sizedBox,
               Text(
                 ksMessage.tr,
                 style: semiBold16TextStyle(cWhiteColor),
@@ -217,7 +217,14 @@ class ContactUsScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  CustomElevatedButton(label: ksSend.tr, onPressed: (){},buttonColor: cPrimaryColor2,buttonWidth: 120.w,),
+                  CustomElevatedButton(
+                    label: ksSend.tr,
+                    onPressed: () async {
+                      await profileController.contactUs();
+                    },
+                    buttonColor: cPrimaryColor2,
+                    buttonWidth: 120.w,
+                  ),
                 ],
               ),
             ],

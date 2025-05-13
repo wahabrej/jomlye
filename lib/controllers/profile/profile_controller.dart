@@ -629,4 +629,39 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
   // final RxList<Map<String,dynamic>> temporaryPlayListList = RxList<Map<String,dynamic>>([]);  
   final RxList<bool> temporaryPlayListCheckBoxStateList = RxList<bool>([]);  
   final RxList<int> temporaryPlaylistIdList = RxList<int>([]);  
+
+ //! Contact Us
+     Future<void> contactUs() async {
+    try {
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+       "name": fullNameTextEditingController.text.trim().toString(),
+       "email": emailTextEditingController.text.trim().toString(),
+       "subject": subjectTextEditingController.text.trim().toString(),
+       "message": messageTextEditingController.text.trim().toString(),
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuContactUs,
+        body: body,
+        token: token,
+        requestMethod: kPost,
+      ) as CommonDM;
+      if (response.code == 200) {
+        fullNameTextEditingController.clear();
+        emailTextEditingController.clear();
+        subjectTextEditingController.clear();
+        messageTextEditingController.clear();
+        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "contactUs Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('contactUs error: $e');
+    }
+  }
+
+ 
+
 }
