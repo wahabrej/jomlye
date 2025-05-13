@@ -288,6 +288,7 @@ class HomeController extends GetxController {
   final RxList<Cast?> movieWriterList = RxList<Cast?>([]);
   final RxList<MovieDetails> relatedMovieList = RxList<MovieDetails>([]);
   final RxList<MovieDetails> recommendedMovieList = RxList<MovieDetails>([]);
+  final RxList<int> playlistIdsList = RxList<int>([]);
   Future<void> getMovieDetails({required String movieId}) async {
     try {
       isMovieListLoading.value = true;
@@ -307,6 +308,7 @@ class HomeController extends GetxController {
         movieWriterList.clear();
         relatedMovieList.clear();
         recommendedMovieList.clear();
+        playlistIdsList.clear();
         MovieDetailsModel movieDetailsModel = MovieDetailsModel.fromJson(response.data);
         movieDetailsData.value = movieDetailsModel.details;
         movieServerList.addAll(movieDetailsModel.server!);
@@ -315,6 +317,7 @@ class HomeController extends GetxController {
         movieWriterList.addAll(movieDetailsModel.writer!);
         relatedMovieList.addAll(movieDetailsModel.relatedMovie!);
         recommendedMovieList.addAll(movieDetailsModel.recommendedMovie!);
+        playlistIdsList.addAll(movieDetailsModel.playlistIds!);
         isMovieListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);

@@ -3,6 +3,7 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
+import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
@@ -118,26 +119,35 @@ class HomeScreen extends StatelessWidget {
                                     movieId: homeController
                                         .newReleaseMoviesList[index].id!
                                         .toString());
-                                        if(homeController
-                                        .movieServerList.isNotEmpty){
-                                        String videoUrl = homeController
-                                        .movieServerList[0]?.fileUrl ??
-                                    "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                );
-                                        }
-                                        else{
-                                          String videoUrl = "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                ); 
-                                        }
-                   
+                                //  for(int i=0;i<Get.find<ProfileController>().playlistList.length;i++){
+                                // if(Get.find<ProfileController>().playlistList[i].id.toString().contains(homeController.playlistIdsList[i].toString())){
+                                //   Get.find<ProfileController>().temporaryPlayListCheckBoxStateList.add(true);
+                                // }
+                                // else{
+                                //   Get.find<ProfileController>().temporaryPlayListCheckBoxStateList.add(false);
+                                // }
+                                //             }
+                                // Get.find<ProfileController>()
+                                //     .temporaryPlayListCheckBoxStateList
+                                //     .clear();
+                                if (homeController.movieServerList.isNotEmpty) {
+                                  String videoUrl = homeController
+                                          .movieServerList[0]?.fileUrl ??
+                                      "";
+                                  Get.find<AllVideoPlayerController>()
+                                      .flickManager = FlickManager(
+                                    videoPlayerController:
+                                        VideoPlayerController.network(videoUrl),
+                                  );
+                                } else {
+                                  String videoUrl = "";
+                                  Get.find<AllVideoPlayerController>()
+                                      .flickManager = FlickManager(
+                                    videoPlayerController:
+                                        VideoPlayerController.network(videoUrl),
+                                  );
+                                }
+
                                 Get.toNamed(krVideoPlayerScreen);
                               },
                               child: MovieContentContainer(
@@ -191,26 +201,24 @@ class HomeScreen extends StatelessWidget {
                                     movieId: homeController
                                         .trendingMoviesList[index].id!
                                         .toString());
-                                        if(homeController
-                                        .movieServerList.isNotEmpty){
-                                        String videoUrl = homeController
-                                        .movieServerList[0]?.fileUrl ??
-                                    "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                );
-                                        }
-                                        else{
-                                          String videoUrl = "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                ); 
-                                        }
-                   
+                                if (homeController.movieServerList.isNotEmpty) {
+                                  String videoUrl = homeController
+                                          .movieServerList[0]?.fileUrl ??
+                                      "";
+                                  Get.find<AllVideoPlayerController>()
+                                      .flickManager = FlickManager(
+                                    videoPlayerController:
+                                        VideoPlayerController.network(videoUrl),
+                                  );
+                                } else {
+                                  String videoUrl = "";
+                                  Get.find<AllVideoPlayerController>()
+                                      .flickManager = FlickManager(
+                                    videoPlayerController:
+                                        VideoPlayerController.network(videoUrl),
+                                  );
+                                }
+
                                 Get.toNamed(krVideoPlayerScreen);
                               },
                               child: MovieContentContainer(
@@ -260,31 +268,29 @@ class HomeScreen extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
                             return InkWell(
-                             onTap: () async {
+                              onTap: () async {
                                 await homeController.getMovieDetails(
                                     movieId: homeController
                                         .recommendedMoviesList[index].id!
                                         .toString());
-                                        if(homeController
-                                        .movieServerList.isNotEmpty){
-                                        String videoUrl = homeController
-                                        .movieServerList[0]?.fileUrl ??
-                                    "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                );
-                                        }
-                                        else{
-                                          String videoUrl = "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                ); 
-                                        }
-                   
+                                if (homeController.movieServerList.isNotEmpty) {
+                                  String videoUrl = homeController
+                                          .movieServerList[0]?.fileUrl ??
+                                      "";
+                                  Get.find<AllVideoPlayerController>()
+                                      .flickManager = FlickManager(
+                                    videoPlayerController:
+                                        VideoPlayerController.network(videoUrl),
+                                  );
+                                } else {
+                                  String videoUrl = "";
+                                  Get.find<AllVideoPlayerController>()
+                                      .flickManager = FlickManager(
+                                    videoPlayerController:
+                                        VideoPlayerController.network(videoUrl),
+                                  );
+                                }
+
                                 Get.toNamed(krVideoPlayerScreen);
                               },
                               child: MovieContentContainer(
@@ -935,14 +941,14 @@ class TopArtistContent extends StatelessWidget {
                 width: contentWidth ?? 88.w,
                 height: contentHeight ?? 88.h,
                 fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Center(
-                child: SvgPicture.asset(
-                  kiDummyMovie,
-                  height: contentHeight ?? 210.h,
-                  width: (width - 30),
-                  fit: BoxFit.fill,
+                errorBuilder: (context, error, stackTrace) => Center(
+                  child: SvgPicture.asset(
+                    kiDummyMovie,
+                    height: contentHeight ?? 210.h,
+                    width: (width - 30),
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
               )),
           Positioned(
             bottom: 4,

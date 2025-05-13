@@ -753,7 +753,7 @@ void showDeletePlayListMoviePopup({required BuildContext context,required int mo
                     label: ksDeleteVideo.tr,
                     onPressed: () async{
                       Get.back();
-                      await Get.find<ProfileController>().deletePlaylistMovie(movieId: 1);
+                      await Get.find<ProfileController>().deletePlaylistMovie(movieId: movieId);
                     },
                     buttonWidth: 110.w,
                     buttonHeight: 30.h,

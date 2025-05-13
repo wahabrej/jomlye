@@ -459,12 +459,12 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
  final RxInt selectedPlayListId = RxInt(-1);
  final TextEditingController editPlayListTextEditingController = TextEditingController();
   Future<void> editPlaylist() async {
-    final int userId = await spController.getUserId()??-1;
+    // final int userId = await spController.getUserId()??-1;
     try {
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
         "name": editPlayListTextEditingController.text.trim().toString(),
-        "user_id": userId.toString(),
+        // "user_id": userId.toString(),
       };
       ll("body : $body");
       var response = await apiServices.commonApiCall(
@@ -572,11 +572,13 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
     }
   }
 
-     Future<void> createPlayList({required int movieId}) async {
+     Future<void> createPlayList() async {
     try {
       String? token = await spController.getBearerToken();
+      // int? userId = await spController.getUserId();
       Map<String, dynamic> body = {
-        "name": selectedPlayListId.value.toString(),
+        "name": createPlaylistTextEditingController.text.trim().toString(),
+        // "user_id": userId.toString(),
       };
       ll("body : $body");
       var response = await apiServices.commonApiCall(
@@ -596,8 +598,35 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
     }
   }
 
+  final RxList moviePlayListIds = RxList([]); 
+     Future<void> playlistAddMovie({required int movieId,}) async {
+    try {
+      String? token = await spController.getBearerToken();
+      // int? userId = await spController.getUserId();
+      Map<String, dynamic> body = {
+        "movie_id": movieId.toString(),
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuPlaylistAddMovie,
+        body: body,
+        token: token,
+        requestMethod: kPost,
+      ) as CommonDM;
+      if (response.code == 200) {
+        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "createPlayList Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('createPlayList error: $e');
+    }
+  }
+
   final TextEditingController addCommentTextEditingController = TextEditingController();
   final TextEditingController createPlaylistTextEditingController = TextEditingController();
-  final RxList<String> temporaryPlayListList = RxList<String>([]);  
+  // final RxList<Map<String,dynamic>> temporaryPlayListList = RxList<Map<String,dynamic>>([]);  
   final RxList<bool> temporaryPlayListCheckBoxStateList = RxList<bool>([]);  
+  final RxList<int> temporaryPlaylistIdList = RxList<int>([]);  
 }

@@ -216,30 +216,50 @@ class VideoPlayerScreen extends StatelessWidget {
                         CommonContainer(
                           image: kiAdd,
                           onPressed: () async {
-                            Get.find<ProfileController>()
-                                .temporaryPlayListList
-                                .clear();
-                            Get.find<ProfileController>()
-                                .temporaryPlayListCheckBoxStateList
-                                .clear();
-                            await Get.find<ProfileController>()
-                                .getPlaylistList();
-                            for (int i = 0;
-                                i <
-                                    Get.find<ProfileController>()
-                                        .playlistList
-                                        .length;
-                                i++) {
-                              Get.find<ProfileController>()
-                                  .temporaryPlayListList
-                                  .add(Get.find<ProfileController>()
+                            // Get.find<ProfileController>()
+                            //     .temporaryPlayListList
+                            //     .clear();
+                            // Get.find<ProfileController>()
+                            //     .temporaryPlayListCheckBoxStateList
+                            //     .clear();
+                            // await Get.find<ProfileController>()
+                            //     .getPlaylistList();
+                            // for (int i = 0;
+                            //     i <
+                            //         Get.find<ProfileController>()
+                            //             .playlistList
+                            //             .length;
+                            //     i++) {
+                            //   Get.find<ProfileController>()
+                            //       .temporaryPlayListList
+                            //       .add(Get.find<ProfileController>()
+                            //               .playlistList[i]
+                            //               .name ??
+                            //           "");
+                            //   Get.find<ProfileController>()
+                            //       .temporaryPlayListCheckBoxStateList
+                            //       .add(false);
+                            // }
+                                                            for (int i = 0;
+                                    i <
+                                        Get.find<ProfileController>()
+                                            .playlistList
+                                            .length;
+                                    i++) {
+                                  final currentId =
+                                      Get.find<ProfileController>()
                                           .playlistList[i]
-                                          .name ??
-                                      "");
-                              Get.find<ProfileController>()
-                                  .temporaryPlayListCheckBoxStateList
-                                  .add(false);
-                            }
+                                          .id
+                                          .toString();
+                                  final bool exists =
+                                      Get.find<HomeController>()
+                                          .playlistIdsList
+                                          .any((element) => currentId
+                                              .contains(element.toString()));
+                                  Get.find<ProfileController>()
+                                      .temporaryPlayListCheckBoxStateList
+                                      .add(exists);
+                                }
                             showSaveVideoToPlayListPopup(context);
                           },
                         ),
@@ -917,8 +937,9 @@ void showSaveVideoToPlayListPopup(BuildContext context) {
                         value: Get.find<ProfileController>()
                             .temporaryPlayListCheckBoxStateList[index],
                         label: Get.find<ProfileController>()
-                            .temporaryPlayListList[index],
+                            .playlistList[index].name??"",
                         onChanged: (v) {
+                          // Get.find<ProfileController>().moviePlayListIds.add();
                           Get.find<ProfileController>()
                                   .temporaryPlayListCheckBoxStateList[index] =
                               !Get.find<ProfileController>()
@@ -928,7 +949,7 @@ void showSaveVideoToPlayListPopup(BuildContext context) {
                   },
                   separatorBuilder: (context, index) => kH8sizedBox,
                   itemCount: Get.find<ProfileController>()
-                      .temporaryPlayListList
+                      .playlistList
                       .length),
               kH16sizedBox,
               Row(
@@ -1073,6 +1094,7 @@ void showCreateNewPlayListPopup(BuildContext context) {
                     label: ksCreateNew.tr,
                     onPressed: () async {
                       Get.back();
+                      await Get.find<ProfileController>().createPlayList();
                     },
                     buttonWidth: 110.w,
                     buttonHeight: 30.h,

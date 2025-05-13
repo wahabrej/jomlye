@@ -6,6 +6,7 @@ class MovieDetailsModel {
     final List<Cast>? writer;
     final List<MovieDetails>? relatedMovie;
     final List<MovieDetails>? recommendedMovie;
+    final List<int>? playlistIds;
 
     MovieDetailsModel({
         this.details,
@@ -15,6 +16,7 @@ class MovieDetailsModel {
         this.writer,
         this.relatedMovie,
         this.recommendedMovie,
+        this.playlistIds,
     });
 
     factory MovieDetailsModel.fromJson(Map<String, dynamic> json) => MovieDetailsModel(
@@ -25,6 +27,7 @@ class MovieDetailsModel {
         writer: json["writer"] == null ? [] : List<Cast>.from(json["writer"]!.map((x) => Cast.fromJson(x))),
         relatedMovie: json["related_movie"] == null ? [] : List<MovieDetails>.from(json["related_movie"]!.map((x) => MovieDetails.fromJson(x))),
         recommendedMovie: json["recommended_movie"] == null ? [] : List<MovieDetails>.from(json["recommended_movie"]!.map((x) => MovieDetails.fromJson(x))),
+        playlistIds: json["playlist_ids"] == null ? [] : List<int>.from(json["playlist_ids"]!.map((x) => x)),
     );
 }
 
