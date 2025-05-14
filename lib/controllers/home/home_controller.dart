@@ -28,22 +28,16 @@ class HomeController extends GetxController {
   final TextEditingController viewAllTextEditingController = TextEditingController();
   final RxBool isTopArtistSearchSuffixShow = RxBool(false);
   //* blog
-  final RxString selectedGenre = RxString("");
+  final RxString selectedBlogGenre = RxString("");
   final RxString selectedBlogCategories = RxString("");
   final RxString selectedBlogCategoryId = RxString("");
-  final RxString selectedYear = RxString("");
-  final RxList languageList =
-      RxList(["Bangla", "Hindi", "English", "Urdu", "Korean", "Tamil", "Arabic"]);
-  final RxString selectedLanguage = RxString("");
-  final RxList sortList =
-      RxList(["Most Popular", "Top Blogs", "Most Read", "Top View", "Top Rated"]);
-  final RxString selectedSort = RxString("");
+  final RxString selectedBlogYear = RxString("");
+  final RxString selectedBlogLanguage = RxString("");
 
     void blogFilterValueReset(){
     selectedBlogCategories.value ="";
-    selectedYear.value = "";
-    selectedLanguage.value = "";
-    selectedSort.value = "";
+    selectedBlogYear.value = "";
+    selectedBlogLanguage.value = "";
   }
 
   //* Tv Channel
@@ -53,7 +47,7 @@ class HomeController extends GetxController {
   final RxString selectedTvChannelsSort = RxString("");
 
       void tvChannelsFilterValueReset(){
-    selectedLanguage.value = "";
+    selectedBlogLanguage.value = "";
     // selectedArtistsSort.value = "";
   }
 
@@ -183,18 +177,25 @@ class HomeController extends GetxController {
     }
   }
 
-
+  final RxInt selectedMovieServer = RxInt(0);
   //!Movie
   final RxInt selectedCategoryId = RxInt(-1);
+  final RxString selectedCategory = RxString("");
   final RxInt selectedCountryId = RxInt(-1);
+  final RxString selectedCountry = RxString("");
   final RxInt selectedGenreId = RxInt(-1);
+  final RxString selectedGenre = RxString("");
   final RxInt selectedLanguageId = RxInt(-1);
+  final RxString selectedLanguage = RxString("");
   final RxInt selectedSortId = RxInt(-1);
-  final RxString selectedMovieYear = RxString("");
+  final RxString selectedSort = RxString("");
+  final RxString selectedYear = RxString("");
+  final RxBool isApplyClicked = RxBool(false);
   // all movie api implement
   final RxBool isMovieListLoading = RxBool(false);
   final Rx<MovieListModel?> movieListModel = Rx<MovieListModel?>(null);
   final RxList<MovieData?> movieList = RxList<MovieData?>([]);
+  final RxList<MovieData?> temporaryMovieList = RxList<MovieData?>([]);
   final RxList<Categories?> movieCategoryList = RxList<Categories?>([]);
   final RxList<Countries?> movieCountryList = RxList<Countries?>([]);
   final RxList<Countries?> movieLanguageList = RxList<Countries?>([]);
@@ -215,6 +216,7 @@ class HomeController extends GetxController {
 
       if (response.code == 200) {
         movieList.clear();
+        temporaryMovieList.clear();
         movieCategoryList.clear();
         movieCountryList.clear();
         movieLanguageList.clear();
@@ -222,6 +224,7 @@ class HomeController extends GetxController {
         movieYearList.clear();
         MovieListModel movieListModel = MovieListModel.fromJson(response.data);
         movieList.addAll(movieListModel.movies!.data!);
+        temporaryMovieList.addAll(movieListModel.movies!.data!);
         movieCategoryList.addAll(movieListModel.filter!.categories!);
         movieCountryList.addAll(movieListModel.filter!.country!);
         movieLanguageList.addAll(movieListModel.filter!.languages!);
@@ -253,7 +256,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuMovieFilter?string=&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country_id=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedMovieYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}",
+        url: "$kuMovieFilter?string=&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country_id=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}",
         body: body,
       ) as CommonDM;
 
@@ -440,7 +443,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuTvShowFilter?string=&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country_id=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedMovieYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}",
+        url: "$kuTvShowFilter?string=&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country_id=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}",
         body: body,
       ) as CommonDM;
 
@@ -606,7 +609,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuBlogFilter?string=&category_id=${selectedBlogCategoryId.value.toString()}&year=${selectedYear.value.toString()}",
+        url: "$kuBlogFilter?string=&category_id=${selectedBlogCategoryId.value.toString()}&year=${selectedBlogYear.value.toString()}",
         body: body,
       ) as CommonDM;
 
@@ -672,14 +675,19 @@ class HomeController extends GetxController {
   }
 
   //!reset bottom nav bar data
-  void resetBottomNavBarData(){
+  void resetBottomSheetData(){
   selectedCategoryId.value = -1;
   selectedCountryId.value = -1;
   selectedGenreId.value = -1;
   selectedLanguageId.value = -1;
   selectedSortId.value = -1;
+  selectedYear.value = "";
   selectedMovieIndustryId.value = -1;
-  selectedMovieYear.value = "";
+  selectedCategory.value = "";
+  selectedGenre.value = "";
+  selectedCountry.value = "";
+  selectedLanguage.value = "";
+  isApplyClicked.value = false;
   }
 
 }

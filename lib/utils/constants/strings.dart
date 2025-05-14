@@ -181,6 +181,8 @@ const String ksSaveVideoToPlaylist = "Save video to playlist";
 const String ksCreateNewPlaylist = "Create New Playlist";
 const String ksSaveNow = "Save Now";
 const String ksCreateNew = "Create New";
+const String ksFiltered = "Filtered";
+const String ksClearAll = "Clear all";
 //* player screen
 const String ksTitle = "Title";
 const String ksReadMore = "Read More";

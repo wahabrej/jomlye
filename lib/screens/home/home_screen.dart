@@ -49,14 +49,14 @@ class HomeScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return Obx(() => GestureDetector(
                                   onTap: () {
-                                    homeController.selectedGenre.value =
+                                    homeController.selectedBlogGenre.value =
                                         homeController.genreList[index].name ??
                                             "";
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
                                       color:
-                                          homeController.selectedGenre.value ==
+                                          homeController.selectedBlogGenre.value ==
                                                   homeController
                                                       .genreList[index].name
                                               ? cPrimaryColor2
@@ -91,7 +91,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksNewRelease.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
-                    homeController.resetBottomNavBarData();
+                    homeController.resetBottomSheetData();
                     profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
@@ -164,7 +164,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksTrendingMovies.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
-                    homeController.resetBottomNavBarData();
+                    homeController.resetBottomSheetData();
                     profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
@@ -236,7 +236,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksRecommendedMovies.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
-                    homeController.resetBottomNavBarData();
+                    homeController.resetBottomSheetData();
                     profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
@@ -311,7 +311,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksPopularTvShows.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
-                    homeController.resetBottomNavBarData();
+                    homeController.resetBottomSheetData();
                     profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
@@ -517,7 +517,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksFeaturedTvChannels.tr,
                   subtitleText: ksViewAll,
                   onPressed: () {
-                    homeController.resetBottomNavBarData();
+                    homeController.resetBottomSheetData();
                     profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
@@ -557,7 +557,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksTvSeries.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
-                    homeController.resetBottomNavBarData();
+                    homeController.resetBottomSheetData();
                     profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
@@ -598,7 +598,7 @@ class HomeScreen extends StatelessWidget {
                   title: ksTopArtists.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
-                    homeController.resetBottomNavBarData();
+                    homeController.resetBottomSheetData();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     await homeController.getArtistList();
@@ -644,13 +644,13 @@ class HomeScreen extends StatelessWidget {
                   title: ksLatestBlog.tr,
                   subtitleText: ksViewAll,
                   onPressed: () async {
-                    homeController.resetBottomNavBarData();
+                    homeController.resetBottomSheetData();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     await homeController.getBlogList();
                     homeController.selectedBlogCategories.value = "";
                     homeController.selectedBlogCategoryId.value = "";
-                    homeController.selectedYear.value = "";
+                    homeController.selectedBlogYear.value = "";
                     Get.toNamed(krAllBlogsViewAllScreen);
                   },
                 ),

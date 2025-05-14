@@ -372,7 +372,7 @@ class TopArtistBottomSheetContent extends StatelessWidget {
               CustomElevatedButton(
                 label: ksReset.tr,
                 onPressed: () {
-                  homeController.resetBottomNavBarData();
+                  homeController.resetBottomSheetData();
                 },
                 buttonColor: cWhiteColor.withOpacity(0.2),
                 textStyle: regular16TextStyle(cWhiteColor),

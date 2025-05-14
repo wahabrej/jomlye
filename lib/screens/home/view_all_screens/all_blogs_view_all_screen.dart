@@ -243,13 +243,13 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedYear.value =
+                            homeController.selectedBlogYear.value =
                                 homeController.blogYearList[index].toString();
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedYear.value ==
+                              border: homeController.selectedBlogYear.value ==
                                       homeController.blogYearList[index]
                                           .toString()
                                   ? Border.all(width: 1, color: cPrimaryColor2)

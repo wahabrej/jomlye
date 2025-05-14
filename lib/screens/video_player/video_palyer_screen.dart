@@ -28,6 +28,7 @@ class VideoPlayerScreen extends StatelessWidget {
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // if(homeController.movieDetailsData.value.fileSource=="youtube")
               YoutubePlayerBuilder(
                 player: YoutubePlayer(
                   controller: allVideoPlayerController.youtubeController,
@@ -313,6 +314,62 @@ class VideoPlayerScreen extends StatelessWidget {
                                               1
                                           ? true
                                           : false,
+                                    ),
+                                  ));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    kH16sizedBox,
+                        Row(
+                      children: [
+                        SizedBox(
+                          width: width - 20,
+                          height: 40.h,
+                          child: ListView.separated(
+                            itemCount:
+                                homeController.movieServerList.length,
+                            separatorBuilder: (context, index) => kW10sizedBox,
+                            shrinkWrap: true,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              return Obx(() => InkWell(
+                                    onTap: () async {
+                                      // await homeController.getMovieDetails(
+                                      //     movieId: homeController
+                                      //         .recommendedMovieList[index].id!
+                                      //         .toString());
+                                      // if (homeController
+                                      //     .movieServerList.isNotEmpty) {
+                                      //   String videoUrl = homeController
+                                      //           .movieServerList[0]?.fileUrl ??
+                                      //       "";
+                                      //   Get.find<AllVideoPlayerController>()
+                                      //       .flickManager = FlickManager(
+                                      //     videoPlayerController:
+                                      //         VideoPlayerController.network(
+                                      //             videoUrl),
+                                      //   );
+                                      // } else {
+                                      //   String videoUrl = "";
+                                      //   Get.find<AllVideoPlayerController>()
+                                      //       .flickManager = FlickManager(
+                                      //     videoPlayerController:
+                                      //         VideoPlayerController.network(
+                                      //             videoUrl),
+                                      //   );
+                                      // }
+                                      homeController.selectedMovieServer.value = index;
+                                    },
+                                    child: Container(
+                                      width: (width-60)/3,
+                                      height: 40.h,
+                                      decoration: BoxDecoration(
+                                        color: homeController.selectedMovieServer.value == index ? cPrimaryColor2 : cWhiteColor.withOpacity(0.2),
+                                      ),
+                                      child: Text(homeController.movieServerList[index]?.label??""),
                                     ),
                                   ));
                             },

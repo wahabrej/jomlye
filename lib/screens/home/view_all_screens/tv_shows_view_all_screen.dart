@@ -449,13 +449,13 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedMovieYear.value =
+                            homeController.selectedYear.value =
                                 homeController.tvShowYearList[index].toString();
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedMovieYear.value ==
+                              border: homeController.selectedYear.value ==
                                       homeController.tvShowYearList[index]
                                           .toString()
                                   ? Border.all(width: 1, color: cPrimaryColor2)
@@ -514,7 +514,7 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedMovieYear.value ==
+                              border: homeController.selectedYear.value ==
                                       homeController.movieYearList[index]
                                           .toString()
                                   ? Border.all(width: 1, color: cPrimaryColor2)
@@ -558,7 +558,7 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
               CustomElevatedButton(
                 label: ksReset.tr,
                 onPressed: () {
-                  homeController.resetBottomNavBarData();
+                  homeController.resetBottomSheetData();
                   homeController.blogFilterValueReset();
                 },
                 buttonColor: cWhiteColor.withOpacity(0.2),
