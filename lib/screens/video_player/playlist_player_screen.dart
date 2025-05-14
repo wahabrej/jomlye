@@ -271,18 +271,18 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                    SvgPicture.asset(kiPlay,color: cWhiteColor.withOpacity(0.8),width: 10.w,height: 10.h,),
                                    kW4sizedBox,
                                    Text("${profileController.playlistDetailsData.value?.totalVideo??''} videos",style: regular10TextStyle(cWhiteColor),),
-                                   ListView.separated(
-                                    shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
-                                    separatorBuilder: (context,index)=> kH16sizedBox,
-                                    itemCount: profileController.playlistMovieList.length,
-                                    itemBuilder: (context,index){
-                                    return Row(
-                                      children: [
-                                        Image.network(profileController.playlistMovieList[index].thumbnail??"",width: width*0.3,height: 20,),
-                                      ],
-                                    );
-                                   },),
+                                  //  ListView.separated(
+                                  //   shrinkWrap: true,
+                                  //   physics: const NeverScrollableScrollPhysics(),
+                                  //   separatorBuilder: (context,index)=> kH16sizedBox,
+                                  //   itemCount: profileController.playlistMovieList.length,
+                                  //   itemBuilder: (context,index){
+                                  //   return Row(
+                                  //     children: [
+                                  //       Image.network(profileController.playlistMovieList[index].thumbnail??"",width: width*0.3,height: 50,),
+                                  //     ],
+                                  //   );
+                                  //  },),
                                  ],
                                ),
                           ],
