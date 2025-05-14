@@ -3,6 +3,7 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
+import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
@@ -10,6 +11,7 @@ import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final HomeController homeController = Get.find<HomeController>();
+  final ProfileController profileController =  Get.find<ProfileController>();
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +92,7 @@ class HomeScreen extends StatelessWidget {
                   subtitleText: ksViewAll,
                   onPressed: () async {
                     homeController.resetBottomNavBarData();
+                    profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksNewRelease;
@@ -161,6 +164,7 @@ class HomeScreen extends StatelessWidget {
                   subtitleText: ksViewAll,
                   onPressed: () async {
                     homeController.resetBottomNavBarData();
+                    profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksTrendingMovies;
@@ -212,7 +216,6 @@ class HomeScreen extends StatelessWidget {
                               child: MovieContentContainer(
                                 movieImage: homeController
                                     .trendingMoviesList[index].thumbnail,
-                                // seasonName: ,
                                 isPremium: homeController
                                             .trendingMoviesList[index].isPaid ==
                                         1
@@ -232,6 +235,7 @@ class HomeScreen extends StatelessWidget {
                   subtitleText: ksViewAll,
                   onPressed: () async {
                     homeController.resetBottomNavBarData();
+                    profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksRecommendedMovies;
@@ -305,6 +309,7 @@ class HomeScreen extends StatelessWidget {
                   subtitleText: ksViewAll,
                   onPressed: () async {
                     homeController.resetBottomNavBarData();
+                    profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     homeController.selectedTitle.value = ksPopularTvShows;
@@ -510,6 +515,7 @@ class HomeScreen extends StatelessWidget {
                   subtitleText: ksViewAll,
                   onPressed: () {
                     homeController.resetBottomNavBarData();
+                    profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                     Get.toNamed(krTvChannelsViewAllScreen);
@@ -549,6 +555,7 @@ class HomeScreen extends StatelessWidget {
                   subtitleText: ksViewAll,
                   onPressed: () async {
                     homeController.resetBottomNavBarData();
+                    profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
                   },

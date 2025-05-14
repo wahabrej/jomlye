@@ -59,7 +59,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
               // ),
               kH20sizedBox,
               Padding(
-                padding: const EdgeInsets.only(left: k20Padding),
+                padding: const EdgeInsets.only(left: k20Padding,right: k20Padding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -244,10 +244,54 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    // Text("hdsvg",style: semiBold16TextStyle(cWhiteColor),),
+                    kH20sizedBox,
+                    Container(
+                      width: width,
+                      // height: 100,
+                      decoration: BoxDecoration(
+                        color: cBlackColor2,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child:  Padding(
+                        padding: const EdgeInsets.all(k20Padding),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(profileController.playlistDetailsData.value?.name??"",style: medium16TextStyle(cWhiteColor),),
+                               const Expanded(child: SizedBox()),
+                               SvgPicture.asset(kiMinus),
+                              ],
+                            ),
+                               kH10sizedBox,
+                               Row(
+                                 children: [
+                                   SvgPicture.asset(kiPlay,color: cWhiteColor.withOpacity(0.8),width: 10.w,height: 10.h,),
+                                   kW4sizedBox,
+                                   Text("${profileController.playlistDetailsData.value?.totalVideo??''} videos",style: regular10TextStyle(cWhiteColor),),
+                                   ListView.separated(
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    separatorBuilder: (context,index)=> kH16sizedBox,
+                                    itemCount: profileController.playlistMovieList.length,
+                                    itemBuilder: (context,index){
+                                    return Row(
+                                      children: [
+                                        Image.network(profileController.playlistMovieList[index].thumbnail??"",width: width*0.3,height: 20,),
+                                      ],
+                                    );
+                                   },),
+                                 ],
+                               ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-
               //!Comment Widget
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: k20Padding),

@@ -218,9 +218,9 @@ class VideoPlayerScreen extends StatelessWidget {
                           image: kiAdd,
                           onPressed: () async {
                               profileController.moviePlayListIds.addAll(homeController.movieDetailsModel.value?.playlistIds??[]);
-                                                            for (int i = 0;
+                                  for (int i = 0;
                                     i <
-                                        Get.find<ProfileController>()
+                                        profileController
                                             .playlistList
                                             .length;
                                     i++) {
