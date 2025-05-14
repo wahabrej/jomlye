@@ -210,8 +210,13 @@ class VideoPlayerScreen extends StatelessWidget {
                           image: kiCrown,
                         ),
                         kW10sizedBox,
-                        const CommonContainer(
+                         CommonContainer(
                           image: kiFavorite,
+                          containerColor: profileController.isFavoriteAdded.value ? cPrimaryColor2 : null,
+                          onPressed: ()async{
+                            profileController.isFavoriteAdded.value = ! profileController.isFavoriteAdded.value;
+                            await profileController.favoriteAddOrRemove(id: homeController.movieDetailsData.value?.id??-1,type: "movie");
+                          },
                         ),
                         kW10sizedBox,
                         CommonContainer(
@@ -820,8 +825,9 @@ class VideoPlayerScreen extends StatelessWidget {
 }
 
 class CommonContainer extends StatelessWidget {
-  const CommonContainer({super.key, required this.image, this.onPressed});
+  const CommonContainer({super.key, required this.image, this.onPressed, this.containerColor});
   final String image;
+  final Color? containerColor;
   final VoidCallback? onPressed;
 
   @override
@@ -833,7 +839,7 @@ class CommonContainer extends StatelessWidget {
         height: 40.h,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: cWhiteColor.withOpacity(0.2),
+          color: containerColor ?? cWhiteColor.withOpacity(0.2),
         ),
         child: Padding(
           padding: const EdgeInsets.all(k12Padding),

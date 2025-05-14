@@ -115,6 +115,8 @@ class MovieDetails {
     final int? tmdbId;
     final DateTime? createdAt;
     final DateTime? updatedAt;
+    final bool? isFavorite;
+    
 
     MovieDetails({
         this.id,
@@ -161,6 +163,7 @@ class MovieDetails {
         this.tmdbId,
         this.createdAt,
         this.updatedAt,
+        this.isFavorite,
     });
 
     factory MovieDetails.fromJson(Map<String, dynamic> json) => MovieDetails(
@@ -208,6 +211,7 @@ class MovieDetails {
         tmdbId: json["tmdb_id"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        isFavorite: json["is_favorite"],
     );
 }
 

@@ -293,11 +293,12 @@ class HomeController extends GetxController {
     try {
       isMovieListLoading.value = true;
       String? token = await spController.getBearerToken();
+      int? userId = await spController.getUserId();
       Map<String, dynamic> body = {};
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuMovieDetails?id=$movieId",
+        url: "$kuMovieDetails?id=$movieId&user_id=${userId.toString()}",
         body: body,
       ) as CommonDM;
 

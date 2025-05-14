@@ -50,3 +50,4 @@ const String kuPlaylistAddMovie = "playlists/add-movie";
 const String kuContactUs = "contact-us";
 //!favorite
 const String kuFavoriteList = "favorites";
+const String kuFavoriteAddOrRemove = "favorite/toggle";

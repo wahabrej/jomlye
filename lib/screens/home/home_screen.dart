@@ -121,6 +121,7 @@ class HomeScreen extends StatelessWidget {
                                     movieId: homeController
                                         .newReleaseMoviesList[index].id!
                                         .toString());
+                                         profileController.isFavoriteAdded.value = homeController.movieDetailsData.value?.isFavorite??false;
                                 if (homeController.movieServerList.isNotEmpty) {
                                   String videoUrl = homeController
                                           .movieServerList[0]?.fileUrl ??
@@ -193,6 +194,7 @@ class HomeScreen extends StatelessWidget {
                                     movieId: homeController
                                         .trendingMoviesList[index].id!
                                         .toString());
+                                 profileController.isFavoriteAdded.value = homeController.movieDetailsData.value?.isFavorite??false;
                                 if (homeController.movieServerList.isNotEmpty) {
                                   String videoUrl = homeController
                                           .movieServerList[0]?.fileUrl ??
@@ -265,6 +267,7 @@ class HomeScreen extends StatelessWidget {
                                     movieId: homeController
                                         .recommendedMoviesList[index].id!
                                         .toString());
+                                        profileController.isFavoriteAdded.value = homeController.movieDetailsData.value?.isFavorite??false;
                                 if (homeController.movieServerList.isNotEmpty) {
                                   String videoUrl = homeController
                                           .movieServerList[0]?.fileUrl ??

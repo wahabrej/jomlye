@@ -667,6 +667,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
     }
   }
   //!favorite
+  final RxBool isFavoriteAdded = RxBool(false);
    final RxBool isfavoriteListLoading = RxBool(false);
    final Rx<FavoriteListModel?> favoriteListModel = Rx<FavoriteListModel?>(null);
   final RxList<FavoriteMovie> favoriteMovieList = RxList<FavoriteMovie>([]);
@@ -702,5 +703,30 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
     }
   }
 
+  
+    Future<void> favoriteAddOrRemove({required int id,required String type}) async {
+    try {
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {
+       "type": type.toString(),
+       "id": id.toString(),
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuFavoriteAddOrRemove,
+        body: body,
+        token: token,
+        requestMethod: kPost,
+      ) as CommonDM;
+      if (response.code == 200) {
+        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "contactUs Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('contactUs error: $e');
+    }
+  }
 
 }
