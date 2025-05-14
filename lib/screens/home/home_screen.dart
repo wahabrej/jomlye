@@ -89,7 +89,7 @@ class HomeScreen extends StatelessWidget {
                 kH16sizedBox,
                 HomeTitleContent(
                   title: ksNewRelease.tr,
-                  subtitleText: ksViewAll,
+                  subtitleText: homeController.newReleaseMoviesList.isNotEmpty ? ksViewAll.tr:"",
                   onPressed: () async {
                     homeController.resetBottomSheetData();
                     profileController.temporaryPlayListCheckBoxStateList.clear();
@@ -162,7 +162,7 @@ class HomeScreen extends StatelessWidget {
                 kH16sizedBox,
                 HomeTitleContent(
                   title: ksTrendingMovies.tr,
-                  subtitleText: ksViewAll,
+                  subtitleText: homeController.trendingMoviesList.isNotEmpty ? ksViewAll.tr: "",
                   onPressed: () async {
                     homeController.resetBottomSheetData();
                     profileController.temporaryPlayListCheckBoxStateList.clear();
@@ -234,7 +234,7 @@ class HomeScreen extends StatelessWidget {
                 kH16sizedBox,
                 HomeTitleContent(
                   title: ksRecommendedMovies.tr,
-                  subtitleText: ksViewAll,
+                  subtitleText: homeController.recommendedMoviesList.isNotEmpty ? ksViewAll.tr : "",
                   onPressed: () async {
                     homeController.resetBottomSheetData();
                     profileController.temporaryPlayListCheckBoxStateList.clear();
@@ -309,7 +309,7 @@ class HomeScreen extends StatelessWidget {
                 kH16sizedBox,
                 HomeTitleContent(
                   title: ksPopularTvShows.tr,
-                  subtitleText: ksViewAll,
+                  subtitleText: homeController.popularTvShowsList.isNotEmpty ? ksViewAll.tr : "",
                   onPressed: () async {
                     homeController.resetBottomSheetData();
                     profileController.temporaryPlayListCheckBoxStateList.clear();
@@ -515,7 +515,7 @@ class HomeScreen extends StatelessWidget {
                 kH16sizedBox,
                 HomeTitleContent(
                   title: ksFeaturedTvChannels.tr,
-                  subtitleText: ksViewAll,
+                  subtitleText: homeController.featuredTvChannelsList.isNotEmpty ? ksViewAll.tr : "",
                   onPressed: () {
                     homeController.resetBottomSheetData();
                     profileController.temporaryPlayListCheckBoxStateList.clear();
@@ -555,7 +555,7 @@ class HomeScreen extends StatelessWidget {
                 kH16sizedBox,
                 HomeTitleContent(
                   title: ksTvSeries.tr,
-                  subtitleText: ksViewAll,
+                  subtitleText: homeController.tvShowsList.isNotEmpty ? ksViewAll.tr:"",
                   onPressed: () async {
                     homeController.resetBottomSheetData();
                     profileController.temporaryPlayListCheckBoxStateList.clear();
@@ -596,7 +596,7 @@ class HomeScreen extends StatelessWidget {
                 kH16sizedBox,
                 HomeTitleContent(
                   title: ksTopArtists.tr,
-                  subtitleText: ksViewAll,
+                  subtitleText: homeController.topArtistsList.isNotEmpty ? ksViewAll.tr : "",
                   onPressed: () async {
                     homeController.resetBottomSheetData();
                     homeController.isViewAllSearchEnable.value = false;
@@ -642,7 +642,7 @@ class HomeScreen extends StatelessWidget {
                 kH16sizedBox,
                 HomeTitleContent(
                   title: ksLatestBlog.tr,
-                  subtitleText: ksViewAll,
+                  subtitleText: homeController.latestBlogsList.isNotEmpty ? ksViewAll.tr : "",
                   onPressed: () async {
                     homeController.resetBottomSheetData();
                     homeController.isViewAllSearchEnable.value = false;
