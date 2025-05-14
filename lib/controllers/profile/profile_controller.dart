@@ -5,6 +5,7 @@ import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
+import 'package:vidflix_flutter_app/models/profile/favorite/favorite_list_model.dart';
 import 'package:vidflix_flutter_app/models/profile/playlist/playlist_model.dart';
 import 'package:vidflix_flutter_app/models/profile/playlist/playlist_movie_list_model.dart';
 import 'package:vidflix_flutter_app/models/profile/update_profile_model.dart';
@@ -665,4 +666,41 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ll('contactUs error: $e');
     }
   }
+  //!favorite
+   final RxBool isfavoriteListLoading = RxBool(false);
+   final Rx<FavoriteListModel?> favoriteListModel = Rx<FavoriteListModel?>(null);
+  final RxList<FavoriteMovie> favoriteMovieList = RxList<FavoriteMovie>([]);
+  Future<void> getFavoriteList() async {
+    try {
+      isfavoriteListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuFavoriteList,
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        favoriteMovieList.clear();
+        FavoriteListModel favoriteListModel = FavoriteListModel.fromJson(response.data);
+        favoriteMovieList.addAll(favoriteListModel.movies!);
+        isfavoriteListLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isfavoriteListLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isfavoriteListLoading.value = false;
+      ll('getPlaylistList error: $e');
+    }
+  }
+
+
 }

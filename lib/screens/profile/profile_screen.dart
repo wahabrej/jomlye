@@ -280,7 +280,8 @@ class ProfileScreen extends StatelessWidget {
                 ProfileCommonWidget(
                   image: kiFavorite,
                   title: ksFavorite.tr,
-                  onPressed: () {
+                  onPressed: () async{
+                    await profileController.getFavoriteList();
                     Get.toNamed(krFavoriteScreen);
                   },
                 ),

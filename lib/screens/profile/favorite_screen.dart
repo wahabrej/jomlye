@@ -102,7 +102,7 @@ class FavoriteScreen extends StatelessWidget {
                     width: width - 20,
                     height: 150.h,
                     child: ListView.separated(
-                      itemCount: profileController.moviesList.length,
+                      itemCount: profileController.favoriteMovieList.length,
                       separatorBuilder: (context, index) =>
                           kW10sizedBox,
                       shrinkWrap: true,
@@ -110,9 +110,9 @@ class FavoriteScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return MovieContentContainer(
-                          movieImage: profileController.moviesList[index]["movieImage"],
+                          movieImage: profileController.favoriteMovieList[index].thumbnail??"",
                           // seasonName: profileController.moviesList[index]["season"],
-                          isPremium: profileController.moviesList[index]["isPremium"],
+                          isPremium: profileController.favoriteMovieList[index].isPaid==1 ? true : false,
                           // isSeason: profileController.moviesList[index]["isSeason"],
                         );
                       },

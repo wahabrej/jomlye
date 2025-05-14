@@ -48,3 +48,5 @@ const String kuPlaylistAddMovie = "playlists/add-movie";
 
 //! Contact us
 const String kuContactUs = "contact-us";
+//!favorite
+const String kuFavoriteList = "favorites";
