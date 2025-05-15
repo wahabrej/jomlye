@@ -10,6 +10,7 @@ const String kuOtpVerify = "otp-verify";
 const String kuUpdatePassword = "update-password";
 const String kuLogout = "logout";
 const String kuPhoneLogin = "phone-login";
+const String kuSocialLogin = "social-login";
 //interest
 const String kuInterest = "interest";
 const String kuInterestStore = "interest-store";

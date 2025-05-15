@@ -1,27 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.vidflix_flutter_app-mergeDebugResources-46:/values-pt/values-pt.xml",
+            "outputFile": "com.example.vidflix_flutter_app-mergeDebugResources-48:/values-pt/values-pt.xml",
             "map": [
                 {
-                    "source": "/Users/murad/.gradle/caches/transforms-3/9a7a783aa8682aaa028c57031d48c15e/transformed/browser-1.8.0/res/values-pt/values-pt.xml",
-                    "from": {
-                        "startLines": "2,3,4,5",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "55,170,269,381",
-                        "endColumns": "114,98,111,105",
-                        "endOffsets": "165,264,376,482"
-                    },
-                    "to": {
-                        "startLines": "37,48,49,50",
-                        "startColumns": "4,4,4,4",
-                        "startOffsets": "3648,4536,4635,4747",
-                        "endColumns": "114,98,111,105",
-                        "endOffsets": "3758,4630,4742,4848"
-                    }
-                },
-                {
-                    "source": "/Users/murad/.gradle/caches/transforms-3/8b51bb040b32a2abc8f296afdae29f34/transformed/appcompat-1.6.1/res/values-pt/values-pt.xml",
+                    "source": "/Users/murad/.gradle/caches/transforms-3/1ba357e8482d4de8fb8e753e67e556c9/transformed/appcompat-1.6.1/res/values-pt/values-pt.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
@@ -38,24 +21,24 @@
                     }
                 },
                 {
-                    "source": "/Users/murad/.gradle/caches/transforms-3/c666c258fca39b3353b46678a6b928ab/transformed/core-1.13.1/res/values-pt/values-pt.xml",
+                    "source": "/Users/murad/.gradle/caches/transforms-3/9fafeff6e2c9a136a53f557eb561626b/transformed/browser-1.8.0/res/values-pt/values-pt.xml",
                     "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,152,254,353,453,560,670,790",
-                        "endColumns": "96,101,98,99,106,109,119,100",
-                        "endOffsets": "147,249,348,448,555,665,785,886"
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,170,269,381",
+                        "endColumns": "114,98,111,105",
+                        "endOffsets": "165,264,376,482"
                     },
                     "to": {
-                        "startLines": "29,30,31,32,33,34,35,54",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "2843,2940,3042,3141,3241,3348,3458,5169",
-                        "endColumns": "96,101,98,99,106,109,119,100",
-                        "endOffsets": "2935,3037,3136,3236,3343,3453,3573,5265"
+                        "startLines": "37,48,49,50",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "3648,4536,4635,4747",
+                        "endColumns": "114,98,111,105",
+                        "endOffsets": "3758,4630,4742,4848"
                     }
                 },
                 {
-                    "source": "/Users/murad/.gradle/caches/transforms-3/10d0d8c1f4c5c1b7a3b300d05f7ebb5e/transformed/preference-1.2.1/res/values-pt/values-pt.xml",
+                    "source": "/Users/murad/.gradle/caches/transforms-3/9e93e4dd69b049117463fd6f3f011151/transformed/preference-1.2.1/res/values-pt/values-pt.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8",
                         "startColumns": "4,4,4,4,4,4,4",
@@ -72,7 +55,24 @@
                     }
                 },
                 {
-                    "source": "/Users/murad/.gradle/caches/transforms-3/8158c2d76bb15b22c5986fa6fda414a2/transformed/jetified-media3-exoplayer-1.4.1/res/values-pt/values-pt.xml",
+                    "source": "/Users/murad/.gradle/caches/transforms-3/bc4f0f6796ffb412cba824b39aeedc80/transformed/core-1.13.1/res/values-pt/values-pt.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,152,254,353,453,560,670,790",
+                        "endColumns": "96,101,98,99,106,109,119,100",
+                        "endOffsets": "147,249,348,448,555,665,785,886"
+                    },
+                    "to": {
+                        "startLines": "29,30,31,32,33,34,35,54",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "2843,2940,3042,3141,3241,3348,3458,5169",
+                        "endColumns": "96,101,98,99,106,109,119,100",
+                        "endOffsets": "2935,3037,3136,3236,3343,3453,3573,5265"
+                    }
+                },
+                {
+                    "source": "/Users/murad/.gradle/caches/transforms-3/905fef67b29e0f5136d0584395f9b614/transformed/jetified-media3-exoplayer-1.4.1/res/values-pt/values-pt.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10",
                         "startColumns": "4,4,4,4,4,4,4,4,4",

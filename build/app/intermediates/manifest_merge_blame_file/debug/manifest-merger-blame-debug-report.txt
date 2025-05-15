@@ -43,24 +43,24 @@
 32    </queries>
 33
 34    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-34-->[androidx.media3:media3-common:1.4.1] /Users/murad/.gradle/caches/transforms-3/58c35f84448069af724efa05b5523cc4/transformed/jetified-media3-common-1.4.1/AndroidManifest.xml:22:5-79
-34-->[androidx.media3:media3-common:1.4.1] /Users/murad/.gradle/caches/transforms-3/58c35f84448069af724efa05b5523cc4/transformed/jetified-media3-common-1.4.1/AndroidManifest.xml:22:22-76
+34-->[androidx.media3:media3-common:1.4.1] /Users/murad/.gradle/caches/transforms-3/042dadac6a6e108ed386d223c0986e5b/transformed/jetified-media3-common-1.4.1/AndroidManifest.xml:22:5-79
+34-->[androidx.media3:media3-common:1.4.1] /Users/murad/.gradle/caches/transforms-3/042dadac6a6e108ed386d223c0986e5b/transformed/jetified-media3-common-1.4.1/AndroidManifest.xml:22:22-76
 35
 36    <permission
-36-->[androidx.core:core:1.13.1] /Users/murad/.gradle/caches/transforms-3/c666c258fca39b3353b46678a6b928ab/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
+36-->[androidx.core:core:1.13.1] /Users/murad/.gradle/caches/transforms-3/bc4f0f6796ffb412cba824b39aeedc80/transformed/core-1.13.1/AndroidManifest.xml:22:5-24:47
 37        android:name="com.example.vidflix_flutter_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
-37-->[androidx.core:core:1.13.1] /Users/murad/.gradle/caches/transforms-3/c666c258fca39b3353b46678a6b928ab/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
+37-->[androidx.core:core:1.13.1] /Users/murad/.gradle/caches/transforms-3/bc4f0f6796ffb412cba824b39aeedc80/transformed/core-1.13.1/AndroidManifest.xml:23:9-81
 38        android:protectionLevel="signature" />
-38-->[androidx.core:core:1.13.1] /Users/murad/.gradle/caches/transforms-3/c666c258fca39b3353b46678a6b928ab/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
+38-->[androidx.core:core:1.13.1] /Users/murad/.gradle/caches/transforms-3/bc4f0f6796ffb412cba824b39aeedc80/transformed/core-1.13.1/AndroidManifest.xml:24:9-44
 39
 40    <uses-permission android:name="com.example.vidflix_flutter_app.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
-40-->[androidx.core:core:1.13.1] /Users/murad/.gradle/caches/transforms-3/c666c258fca39b3353b46678a6b928ab/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
-40-->[androidx.core:core:1.13.1] /Users/murad/.gradle/caches/transforms-3/c666c258fca39b3353b46678a6b928ab/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
+40-->[androidx.core:core:1.13.1] /Users/murad/.gradle/caches/transforms-3/bc4f0f6796ffb412cba824b39aeedc80/transformed/core-1.13.1/AndroidManifest.xml:26:5-97
+40-->[androidx.core:core:1.13.1] /Users/murad/.gradle/caches/transforms-3/bc4f0f6796ffb412cba824b39aeedc80/transformed/core-1.13.1/AndroidManifest.xml:26:22-94
 41
 42    <application
 43        android:name="android.app.Application"
 44        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-44-->[androidx.core:core:1.13.1] /Users/murad/.gradle/caches/transforms-3/c666c258fca39b3353b46678a6b928ab/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
+44-->[androidx.core:core:1.13.1] /Users/murad/.gradle/caches/transforms-3/bc4f0f6796ffb412cba824b39aeedc80/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 45        android:debuggable="true"
 46        android:extractNativeLibs="true"
 47        android:icon="@mipmap/ic_launcher"
@@ -248,85 +248,125 @@
 164-->[:url_launcher_android] /Users/murad/Desktop/Apps/VidFlix-Flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:10:13-37
 165            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
 165-->[:url_launcher_android] /Users/murad/Desktop/Apps/VidFlix-Flutter/build/url_launcher_android/intermediates/merged_manifest/debug/AndroidManifest.xml:11:13-71
-166
-167        <provider
-167-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/d3559f99e4813a171b5493c8f32a3eaf/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
-168            android:name="androidx.startup.InitializationProvider"
-168-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/d3559f99e4813a171b5493c8f32a3eaf/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
-169            android:authorities="com.example.vidflix_flutter_app.androidx-startup"
-169-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/d3559f99e4813a171b5493c8f32a3eaf/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
-170            android:exported="false" >
-170-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/d3559f99e4813a171b5493c8f32a3eaf/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
-171            <meta-data
-171-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/d3559f99e4813a171b5493c8f32a3eaf/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
-172                android:name="androidx.emoji2.text.EmojiCompatInitializer"
-172-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/d3559f99e4813a171b5493c8f32a3eaf/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
-173                android:value="androidx.startup" />
-173-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/d3559f99e4813a171b5493c8f32a3eaf/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
-174            <meta-data
-174-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/murad/.gradle/caches/transforms-3/5d9083683aa46ad6646ca7a884bd56df/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:29:13-31:52
-175                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
-175-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/murad/.gradle/caches/transforms-3/5d9083683aa46ad6646ca7a884bd56df/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:30:17-78
-176                android:value="androidx.startup" />
-176-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/murad/.gradle/caches/transforms-3/5d9083683aa46ad6646ca7a884bd56df/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:31:17-49
-177            <meta-data
-177-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
-178                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
-178-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
-179                android:value="androidx.startup" />
-179-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
-180        </provider>
-181
-182        <uses-library
-182-->[androidx.window:window:1.2.0] /Users/murad/.gradle/caches/transforms-3/3e108fe9d597d03770ae82acaebb5b63/transformed/jetified-window-1.2.0/AndroidManifest.xml:23:9-25:40
-183            android:name="androidx.window.extensions"
-183-->[androidx.window:window:1.2.0] /Users/murad/.gradle/caches/transforms-3/3e108fe9d597d03770ae82acaebb5b63/transformed/jetified-window-1.2.0/AndroidManifest.xml:24:13-54
-184            android:required="false" />
-184-->[androidx.window:window:1.2.0] /Users/murad/.gradle/caches/transforms-3/3e108fe9d597d03770ae82acaebb5b63/transformed/jetified-window-1.2.0/AndroidManifest.xml:25:13-37
-185        <uses-library
-185-->[androidx.window:window:1.2.0] /Users/murad/.gradle/caches/transforms-3/3e108fe9d597d03770ae82acaebb5b63/transformed/jetified-window-1.2.0/AndroidManifest.xml:26:9-28:40
-186            android:name="androidx.window.sidecar"
-186-->[androidx.window:window:1.2.0] /Users/murad/.gradle/caches/transforms-3/3e108fe9d597d03770ae82acaebb5b63/transformed/jetified-window-1.2.0/AndroidManifest.xml:27:13-51
-187            android:required="false" />
-187-->[androidx.window:window:1.2.0] /Users/murad/.gradle/caches/transforms-3/3e108fe9d597d03770ae82acaebb5b63/transformed/jetified-window-1.2.0/AndroidManifest.xml:28:13-37
-188
-189        <receiver
-189-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
-190            android:name="androidx.profileinstaller.ProfileInstallReceiver"
-190-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
-191            android:directBootAware="false"
-191-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
-192            android:enabled="true"
-192-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
-193            android:exported="true"
-193-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
-194            android:permission="android.permission.DUMP" >
-194-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
-195            <intent-filter>
-195-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
-196                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
-196-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
-196-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
-197            </intent-filter>
-198            <intent-filter>
-198-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
-199                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
-199-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
-199-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
-200            </intent-filter>
-201            <intent-filter>
-201-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
-202                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
-202-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
-202-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
-203            </intent-filter>
-204            <intent-filter>
-204-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
-205                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
-205-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
-205-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/1e1e8719823df11c58e964840aa823f6/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
-206            </intent-filter>
-207        </receiver>
-208    </application>
-209
-210</manifest>
+166        <activity
+166-->[com.google.android.gms:play-services-auth:21.0.0] /Users/murad/.gradle/caches/transforms-3/65fc65084f43cf6d703e5d3ce0d24f33/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:23:9-27:75
+167            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+167-->[com.google.android.gms:play-services-auth:21.0.0] /Users/murad/.gradle/caches/transforms-3/65fc65084f43cf6d703e5d3ce0d24f33/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:24:13-93
+168            android:excludeFromRecents="true"
+168-->[com.google.android.gms:play-services-auth:21.0.0] /Users/murad/.gradle/caches/transforms-3/65fc65084f43cf6d703e5d3ce0d24f33/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:25:13-46
+169            android:exported="false"
+169-->[com.google.android.gms:play-services-auth:21.0.0] /Users/murad/.gradle/caches/transforms-3/65fc65084f43cf6d703e5d3ce0d24f33/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:26:13-37
+170            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+170-->[com.google.android.gms:play-services-auth:21.0.0] /Users/murad/.gradle/caches/transforms-3/65fc65084f43cf6d703e5d3ce0d24f33/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:27:13-72
+171        <!--
+172            Service handling Google Sign-In user revocation. For apps that do not integrate with
+173            Google Sign-In, this service will never be started.
+174        -->
+175        <service
+175-->[com.google.android.gms:play-services-auth:21.0.0] /Users/murad/.gradle/caches/transforms-3/65fc65084f43cf6d703e5d3ce0d24f33/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:33:9-37:51
+176            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+176-->[com.google.android.gms:play-services-auth:21.0.0] /Users/murad/.gradle/caches/transforms-3/65fc65084f43cf6d703e5d3ce0d24f33/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:34:13-89
+177            android:exported="true"
+177-->[com.google.android.gms:play-services-auth:21.0.0] /Users/murad/.gradle/caches/transforms-3/65fc65084f43cf6d703e5d3ce0d24f33/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:35:13-36
+178            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION"
+178-->[com.google.android.gms:play-services-auth:21.0.0] /Users/murad/.gradle/caches/transforms-3/65fc65084f43cf6d703e5d3ce0d24f33/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:36:13-107
+179            android:visibleToInstantApps="true" />
+179-->[com.google.android.gms:play-services-auth:21.0.0] /Users/murad/.gradle/caches/transforms-3/65fc65084f43cf6d703e5d3ce0d24f33/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:37:13-48
+180
+181        <activity
+181-->[com.google.android.gms:play-services-base:18.0.1] /Users/murad/.gradle/caches/transforms-3/868ead0f9c565780fbef645288ac7116/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
+182            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+182-->[com.google.android.gms:play-services-base:18.0.1] /Users/murad/.gradle/caches/transforms-3/868ead0f9c565780fbef645288ac7116/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:19-85
+183            android:exported="false"
+183-->[com.google.android.gms:play-services-base:18.0.1] /Users/murad/.gradle/caches/transforms-3/868ead0f9c565780fbef645288ac7116/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:22:19-43
+184            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+184-->[com.google.android.gms:play-services-base:18.0.1] /Users/murad/.gradle/caches/transforms-3/868ead0f9c565780fbef645288ac7116/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:21:19-78
+185
+186        <meta-data
+186-->[com.google.android.gms:play-services-basement:18.2.0] /Users/murad/.gradle/caches/transforms-3/8f575c586956799f432051f3363536eb/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:21:9-23:69
+187            android:name="com.google.android.gms.version"
+187-->[com.google.android.gms:play-services-basement:18.2.0] /Users/murad/.gradle/caches/transforms-3/8f575c586956799f432051f3363536eb/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:22:13-58
+188            android:value="@integer/google_play_services_version" />
+188-->[com.google.android.gms:play-services-basement:18.2.0] /Users/murad/.gradle/caches/transforms-3/8f575c586956799f432051f3363536eb/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:23:13-66
+189
+190        <provider
+190-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/dd95162f091c2c5618b09d70e512dd81/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:24:9-32:20
+191            android:name="androidx.startup.InitializationProvider"
+191-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/dd95162f091c2c5618b09d70e512dd81/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:25:13-67
+192            android:authorities="com.example.vidflix_flutter_app.androidx-startup"
+192-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/dd95162f091c2c5618b09d70e512dd81/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:26:13-68
+193            android:exported="false" >
+193-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/dd95162f091c2c5618b09d70e512dd81/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:27:13-37
+194            <meta-data
+194-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/dd95162f091c2c5618b09d70e512dd81/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:29:13-31:52
+195                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+195-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/dd95162f091c2c5618b09d70e512dd81/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:30:17-75
+196                android:value="androidx.startup" />
+196-->[androidx.emoji2:emoji2:1.2.0] /Users/murad/.gradle/caches/transforms-3/dd95162f091c2c5618b09d70e512dd81/transformed/jetified-emoji2-1.2.0/AndroidManifest.xml:31:17-49
+197            <meta-data
+197-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/murad/.gradle/caches/transforms-3/bb493a070b5e0df1c1cb6935840312d3/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:29:13-31:52
+198                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+198-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/murad/.gradle/caches/transforms-3/bb493a070b5e0df1c1cb6935840312d3/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:30:17-78
+199                android:value="androidx.startup" />
+199-->[androidx.lifecycle:lifecycle-process:2.7.0] /Users/murad/.gradle/caches/transforms-3/bb493a070b5e0df1c1cb6935840312d3/transformed/jetified-lifecycle-process-2.7.0/AndroidManifest.xml:31:17-49
+200            <meta-data
+200-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:29:13-31:52
+201                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+201-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:30:17-85
+202                android:value="androidx.startup" />
+202-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:31:17-49
+203        </provider>
+204
+205        <uses-library
+205-->[androidx.window:window:1.2.0] /Users/murad/.gradle/caches/transforms-3/d6bcd1b093efaf88305c4d31b767d0d0/transformed/jetified-window-1.2.0/AndroidManifest.xml:23:9-25:40
+206            android:name="androidx.window.extensions"
+206-->[androidx.window:window:1.2.0] /Users/murad/.gradle/caches/transforms-3/d6bcd1b093efaf88305c4d31b767d0d0/transformed/jetified-window-1.2.0/AndroidManifest.xml:24:13-54
+207            android:required="false" />
+207-->[androidx.window:window:1.2.0] /Users/murad/.gradle/caches/transforms-3/d6bcd1b093efaf88305c4d31b767d0d0/transformed/jetified-window-1.2.0/AndroidManifest.xml:25:13-37
+208        <uses-library
+208-->[androidx.window:window:1.2.0] /Users/murad/.gradle/caches/transforms-3/d6bcd1b093efaf88305c4d31b767d0d0/transformed/jetified-window-1.2.0/AndroidManifest.xml:26:9-28:40
+209            android:name="androidx.window.sidecar"
+209-->[androidx.window:window:1.2.0] /Users/murad/.gradle/caches/transforms-3/d6bcd1b093efaf88305c4d31b767d0d0/transformed/jetified-window-1.2.0/AndroidManifest.xml:27:13-51
+210            android:required="false" />
+210-->[androidx.window:window:1.2.0] /Users/murad/.gradle/caches/transforms-3/d6bcd1b093efaf88305c4d31b767d0d0/transformed/jetified-window-1.2.0/AndroidManifest.xml:28:13-37
+211
+212        <receiver
+212-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:34:9-52:20
+213            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+213-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:35:13-76
+214            android:directBootAware="false"
+214-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:36:13-44
+215            android:enabled="true"
+215-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:37:13-35
+216            android:exported="true"
+216-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:38:13-36
+217            android:permission="android.permission.DUMP" >
+217-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:39:13-57
+218            <intent-filter>
+218-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:40:13-42:29
+219                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+219-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:17-91
+219-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:41:25-88
+220            </intent-filter>
+221            <intent-filter>
+221-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:43:13-45:29
+222                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+222-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:17-85
+222-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:44:25-82
+223            </intent-filter>
+224            <intent-filter>
+224-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:46:13-48:29
+225                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+225-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:17-88
+225-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:47:25-85
+226            </intent-filter>
+227            <intent-filter>
+227-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:49:13-51:29
+228                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+228-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:17-95
+228-->[androidx.profileinstaller:profileinstaller:1.3.1] /Users/murad/.gradle/caches/transforms-3/d78c31824e41eb11447c369309c11fca/transformed/jetified-profileinstaller-1.3.1/AndroidManifest.xml:50:25-92
+229            </intent-filter>
+230        </receiver>
+231    </application>
+232
+233</manifest>

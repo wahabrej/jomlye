@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "579292055613",
+    "project_id": "vidflix-flutter",
+    "storage_bucket": "vidflix-flutter.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:579292055613:android:d42e5f4377932b351bc254",
+        "android_client_info": {
+          "package_name": "com.example.vidflix_flutter_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "579292055613-9hbqhtmpi2t7qp7qcplqa4knhh5fhh0v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.vidflix_flutter_app",
+            "certificate_hash": "31da28705267ef484b113ab08c49636775a22a4d"
+          }
+        },
+        {
+          "client_id": "579292055613-2jjr83oermkf3d716fv46o35q7jkm5ak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7wAuEZrf8NFbJZy3_5t-XmJ-E5JA1y4k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "579292055613-2jjr83oermkf3d716fv46o35q7jkm5ak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

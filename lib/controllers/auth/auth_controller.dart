@@ -1,3 +1,4 @@
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
@@ -386,10 +387,10 @@ class AuthController extends GetxController {
         Get.toNamed(krOTPScreen);
       } else {
         showSnackBar(
-            title: ksError.tr, message: "signUp Error!", color: cPrimaryColor2);
+            title: ksError.tr, message: "phoneLogin Error!", color: cPrimaryColor2);
       }
     } catch (e) {
-      ll('signUp error: $e');
+      ll('phoneLogin error: $e');
     }
   }
 
@@ -416,6 +417,70 @@ class AuthController extends GetxController {
     }
     Get.offAllNamed(krSignInScreen);
   }
+
+  final GoogleSignIn googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+    ],
+  );
+
+  //  Future<GoogleSignInAccount?> signInWithGoogle() async {
+  //   try {
+  //     final account = await googleSignIn.signIn();
+  //     final auth = await account!.authentication;
+  //     String token = auth.idToken??"";
+  //     if (account != null) {
+  //     }
+  //     return account;
+  //   } catch (error) {
+  //     ll("123 here error");
+  //     ll('Google Sign-In error: $error');
+  //     return null;
+  //   }
+  // }
+ //!Google sign in
+  Future<void> signInWithGoogle() async {
+  try {
+    final account = await googleSignIn.signIn();
+    if (account == null) return;
+
+    final auth = await account.authentication;
+    final accessToken = auth.accessToken;
+    Map<String, dynamic> body = {
+      "access_token": accessToken,
+      "provider": "google",
+    };
+
+    var response = await apiServices.commonApiCall(
+      url: kuSocialLogin,
+      body: body,
+      requestMethod: kPost,
+    ) as CommonDM;
+
+    if (response.code == 200) {
+      Get.toNamed(krHomeScreen); 
+    } else {
+      showSnackBar(
+        title: ksError.tr,
+        message: "Google login failed!",
+        color: cPrimaryColor2,
+      );
+    }
+  } catch (e) {
+    ll('Google login error: $e');
+    showSnackBar(
+      title: ksError.tr,
+      message: "Something went wrong!",
+      color: cPrimaryColor2,
+    );
+  }
+}
+
+
+    Future<void> googleSignOut() async {
+    await googleSignIn.signOut();
+  }
+
   
   final RxList selectedInterestList = RxList([]);
   final RxList selectedInterestIdList = RxList([]);

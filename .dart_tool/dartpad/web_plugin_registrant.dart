@@ -8,6 +8,7 @@
 
 import 'package:audio_session/audio_session_web.dart';
 import 'package:flutter_inappwebview_web/web/main.dart';
+import 'package:google_sign_in_web/google_sign_in_web.dart';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:just_audio_web/just_audio_web.dart';
 import 'package:package_info_plus/src/package_info_plus_web.dart';
@@ -22,6 +23,7 @@ void registerPlugins([final Registrar? pluginRegistrar]) {
   final Registrar registrar = pluginRegistrar ?? webPluginRegistrar;
   AudioSessionWeb.registerWith(registrar);
   InAppWebViewFlutterPlugin.registerWith(registrar);
+  GoogleSignInPlugin.registerWith(registrar);
   ImagePickerPlugin.registerWith(registrar);
   JustAudioPlugin.registerWith(registrar);
   PackageInfoPlusWebPlugin.registerWith(registrar);
