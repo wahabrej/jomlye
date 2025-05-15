@@ -96,16 +96,26 @@ class OTPScreen extends StatelessWidget {
                  OtpTextField(
                             controller: authController
                                 .otpTextEditingController,
-                            onChange: (value) {
+                            onChange: (value) async {
                               // registrationHelper.checkCanOTPVerifyNow();
                               // authenticationController.checkCanOTPVerifyNow();
-                            },
-                            onSubmit: (v){
-                              if(authController
+                                if(authController
                                 .otpTextEditingController.text.length==6){
-                                   authController.otpVerification();
+                                  await authController.otpVerification();
                                 }
                             },
+                            // onSubmit: (v)async{
+                            //   if(authController
+                            //     .otpTextEditingController.text.length==6){
+                            //       await authController.otpVerification();
+                            //     }
+                            // },
+                            // onCompleted: (v)async{
+                            //   if(authController
+                            //     .otpTextEditingController.text.length==6){
+                            //       await authController.otpVerification();
+                            //     }
+                            // },
                           ),
                     kH40sizedBox,
               ],

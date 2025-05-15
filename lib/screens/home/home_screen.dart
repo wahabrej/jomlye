@@ -285,7 +285,6 @@ class HomeScreen extends StatelessWidget {
                                         VideoPlayerController.network(videoUrl),
                                   );
                                 }
-
                                 Get.toNamed(krVideoPlayerScreen);
                               },
                               child: MovieContentContainer(

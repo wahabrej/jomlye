@@ -3,6 +3,7 @@ import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/auth/interest_model.dart';
 import 'package:vidflix_flutter_app/models/auth/login_model.dart';
+import 'package:vidflix_flutter_app/models/auth/phone_login_user_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
@@ -279,12 +280,14 @@ class AuthController extends GetxController {
   }
 
   //otp verify
+  final Rx<PhoneLoginUserModel?> phoneLoginUserModel = Rx<PhoneLoginUserModel?>(null);
+  final Rx<User?> userData = Rx<User?>(null);
   final RxBool isVerifyOtpLoading = RxBool(false);
   Future<void> otpVerification() async {
     try {
       isVerifyOtpLoading.value = true;
       Map<String, dynamic> body = {
-        'email': forgotEmailTextEditingController.text.trim().toString(),
+        'email_or_phone': forgotEmailTextEditingController.text.trim()!="" ? forgotEmailTextEditingController.text.trim().toString() : "+88${phoneNumberTextEditingController.text.trim().toString()}",
         'otp': otpTextEditingController.text.trim().toString(),
       };
       ll("body : $body");
@@ -294,7 +297,35 @@ class AuthController extends GetxController {
         requestMethod: kPost,
       ) as CommonDM;
       if (response.code == 200) {
-        Get.toNamed(krResetPasswordScreen);
+        if(Get.previousRoute=="/phonesignin-screen"){
+          ll("route from phone login");
+        phoneLoginUserModel.value = PhoneLoginUserModel.fromJson(response.data);
+        userData.value = phoneLoginUserModel.value?.user;
+        await spController.saveBearerToken(phoneLoginUserModel.value?.token);
+        await spController.saveUserId(userData.value?.id);
+        await spController.saveUserImage(userData.value?.image);
+        await spController.saveUserEmail(userData.value?.email);
+        await spController.saveUserFirstName(userData.value?.firstName);
+        await spController.saveUserLastName(userData.value?.lastName);
+        await spController.saveUserPhoneNumber(userData.value?.phone);
+          Get.offAllNamed(krHomeScreen);
+        globalController.userFirstName.value =
+            await spController.getUserFirstName() ?? "";
+        globalController.userLastName.value =
+            await spController.getUserLastName() ?? "";
+        globalController.userEmail.value =
+            await spController.getUserEmail() ?? "";
+        globalController.userImage.value =
+            await spController.getUserImage() ?? "";
+        globalController.userId.value = await spController.getUserId() ?? -1;
+        globalController.userToken.value =
+            await spController.getBearerToken() ?? "";
+        globalController.userPhone.value =
+            await spController.getUserPhoneNumber() ?? "";
+        }
+        else{
+          Get.toNamed(krResetPasswordScreen);
+        }
         isVerifyOtpLoading.value = false;
       } else { 
         showSnackBar(
@@ -308,7 +339,7 @@ class AuthController extends GetxController {
     }
   }
 
-    //otp verify
+    //Reset password
   final RxBool isResetPasswordLoading = RxBool(false);
   Future<void> resetPassword() async {
     try {
@@ -339,14 +370,37 @@ class AuthController extends GetxController {
     }
   }
 
-  //! signOut
+   //!phone login
+  Future<void> phoneLogin() async {
+    try {
+      Map<String, dynamic> body = {
+       "phone" : "+88${phoneNumberTextEditingController.text.trim().toString()}",
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuPhoneLogin,
+        body: body,
+        requestMethod: kPost,
+      ) as CommonDM;
+      if (response.code == 200) {
+        Get.toNamed(krOTPScreen);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "signUp Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('signUp error: $e');
+    }
+  }
+
+    //! signOut
   void signOut() async {
     await SpController().onLogout();
     // resetLoginScreen();
-    bool? isRememberMe = await spController.getRememberMe();
+    bool isRememberMe = await spController.getRememberMe()??false;
     ll("The remember me value is $isRememberMe");
     await spController.saveRememberMe(isRememberMe);
-    if (isRememberMe == null || isRememberMe == false) {
+    if (isRememberMe == false) {
       emailTextEditingController.text = "";
       passwordTextEditingController.text = "";
       SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -362,7 +416,7 @@ class AuthController extends GetxController {
     }
     Get.offAllNamed(krSignInScreen);
   }
-
+  
   final RxList selectedInterestList = RxList([]);
   final RxList selectedInterestIdList = RxList([]);
 }

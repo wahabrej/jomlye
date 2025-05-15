@@ -2,13 +2,14 @@ const kGet = "GET";
 const kPost = "POST";
 const kPut = "PUT";
 const kDelete = "DELETE";
-//Auth
+//!Auth
 const String kuSignIn = "login";
 const String kuSignUp = "signup";
 const String kuForgotPassword = "forgot-password";
 const String kuOtpVerify = "otp-verify";
 const String kuUpdatePassword = "update-password";
 const String kuLogout = "logout";
+const String kuPhoneLogin = "phone-login";
 //interest
 const String kuInterest = "interest";
 const String kuInterestStore = "interest-store";

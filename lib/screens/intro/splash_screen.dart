@@ -1,5 +1,3 @@
-
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -8,6 +6,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
+    unFocus(context);
     
     return SafeArea(
       top: false,
