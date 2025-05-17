@@ -8,7 +8,7 @@ import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
 import 'package:vidflix_flutter_app/models/profile/favorite/favorite_list_model.dart';
 import 'package:vidflix_flutter_app/models/profile/playlist/playlist_model.dart';
 import 'package:vidflix_flutter_app/models/profile/playlist/playlist_movie_list_model.dart';
-import 'package:vidflix_flutter_app/models/profile/update_profile_model.dart';
+import 'package:vidflix_flutter_app/models/profile/profile/update_profile_model.dart';
 import 'package:vidflix_flutter_app/screens/profile/common_webview_screen.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
