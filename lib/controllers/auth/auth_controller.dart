@@ -1,3 +1,4 @@
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
@@ -399,8 +400,8 @@ class AuthController extends GetxController {
     await SpController().onLogout();
     // resetLoginScreen();
     bool isRememberMe = await spController.getRememberMe()??false;
-    ll("The remember me value is $isRememberMe");
     await spController.saveRememberMe(isRememberMe);
+    await googleSignOut();
     if (isRememberMe == false) {
       emailTextEditingController.text = "";
       passwordTextEditingController.text = "";
@@ -424,20 +425,6 @@ class AuthController extends GetxController {
     ],
   );
 
-  //  Future<GoogleSignInAccount?> signInWithGoogle() async {
-  //   try {
-  //     final account = await googleSignIn.signIn();
-  //     final auth = await account!.authentication;
-  //     String token = auth.idToken??"";
-  //     if (account != null) {
-  //     }
-  //     return account;
-  //   } catch (error) {
-  //     ll("123 here error");
-  //     ll('Google Sign-In error: $error');
-  //     return null;
-  //   }
-  // }
  //!Google sign in
   Future<void> signInWithGoogle() async {
   try {
@@ -476,10 +463,60 @@ class AuthController extends GetxController {
   }
 }
 
-
     Future<void> googleSignOut() async {
     await googleSignIn.signOut();
   }
+  //!Facebook login
+  Future<void> signInWithFacebook() async {
+  try {
+    final LoginResult result = await FacebookAuth.instance.login(
+      permissions: ['email', 'public_profile'],
+    );
+
+    if (result.status == LoginStatus.success) {
+      final accessToken = result.accessToken?.tokenString??"";
+
+      // if (accessToken == null) {
+      //   ll("Facebook access token is null");
+      //   return;
+      // }
+
+      Map<String, dynamic> body = {
+        "access_token": accessToken,
+        "provider": "facebook",
+      };
+
+      // ll("Sending Facebook login request with body: $body");
+
+      var response = await apiServices.commonApiCall(
+        url: kuSocialLogin,
+        body: body,
+        requestMethod: kPost,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        Get.toNamed(krHomeScreen);
+      } else {
+        showSnackBar(
+          title: ksError.tr,
+          message: "Facebook login failed!",
+          color: cPrimaryColor2,
+        );
+      }
+    } else if (result.status == LoginStatus.cancelled) {
+      ll("Facebook login cancelled by user");
+    } else {
+      ll("Facebook login failed: ${result.message}");
+    }
+  } catch (e) {
+    ll('Facebook login error: $e');
+    showSnackBar(
+      title: ksError.tr,
+      message: 'Facebook login error: $e',
+      color: cPrimaryColor2,
+    );
+  }
+}
 
   
   final RxList selectedInterestList = RxList([]);

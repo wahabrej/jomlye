@@ -66,7 +66,10 @@ class SignInScreen extends StatelessWidget {
                     await authController.signInWithGoogle();
                     },),
                     kW12sizedBox,
-                    CommonContainer(image: kiFacebook),
+                    CommonContainer(image: kiFacebook,
+                        onPressed: ()async{
+                      await authController.signInWithFacebook();
+                    },),
                   ],
                 ),
                 kH16sizedBox,
