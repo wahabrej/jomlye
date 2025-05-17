@@ -307,7 +307,7 @@ class ProfileScreen extends StatelessWidget {
                   image: kiInfo,
                   title: ksTermsAndConditions.tr,
                   onPressed: () {
-                    profileController.openPrivacyPolicy();
+                    profileController.openCommonWebView(commonUrl: Get.find<GlobalController>().termsAndConditionUrl.value);
                   },
                 ),
                 kH8sizedBox,
@@ -315,7 +315,7 @@ class ProfileScreen extends StatelessWidget {
                   image: kiPrivacyPolicy,
                   title: ksPrivacyPolicy.tr,
                   onPressed: () {
-                    profileController.openPrivacyPolicy();
+                    profileController.openCommonWebView(commonUrl: Get.find<GlobalController>().privacyPolicyUrl.value);
                   },
                 ),
                 kH8sizedBox,

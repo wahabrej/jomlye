@@ -3,7 +3,8 @@ import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart'
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class CommonWebViewScreen extends StatelessWidget {
-   CommonWebViewScreen({super.key});
+   CommonWebViewScreen({super.key,required this.commonUrl});
+   final String commonUrl;
   //  final String ? titleText,urlLink;
   // late bool? isLoading;
   // late InAppWebViewController webViewController;
@@ -18,7 +19,7 @@ class CommonWebViewScreen extends StatelessWidget {
         body:  Padding(
           padding: const EdgeInsets.all(k10Padding),
           child: InAppWebView(
-                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse(profileController.privacyPolicyUrl))), //* profileController.privacyPolicyUrl
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse(commonUrl))), //* profileController.privacyPolicyUrl
                 onWebViewCreated: (controller) {
                   profileController.privacyWebViewController = controller; //*profileController.webViewController
                 },

@@ -8,6 +8,7 @@ import 'package:vidflix_flutter_app/models/auth/login_model.dart';
 import 'package:vidflix_flutter_app/models/auth/phone_login_user_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
+import 'package:vidflix_flutter_app/models/common/common_user_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/utils/constants/urls.dart';
@@ -282,8 +283,8 @@ class AuthController extends GetxController {
   }
 
   //otp verify
-  final Rx<PhoneLoginUserModel?> phoneLoginUserModel = Rx<PhoneLoginUserModel?>(null);
-  final Rx<User?> userData = Rx<User?>(null);
+  final Rx<CommonLoginUserModel?> phoneLoginUserModel = Rx<CommonLoginUserModel?>(null);
+  final Rx<CommonUserModel?> userData = Rx<CommonUserModel?>(null);
   final RxBool isVerifyOtpLoading = RxBool(false);
   Future<void> otpVerification() async {
     try {
@@ -300,8 +301,7 @@ class AuthController extends GetxController {
       ) as CommonDM;
       if (response.code == 200) {
         if(Get.previousRoute=="/phonesignin-screen"){
-          ll("route from phone login");
-        phoneLoginUserModel.value = PhoneLoginUserModel.fromJson(response.data);
+        phoneLoginUserModel.value = CommonLoginUserModel.fromJson(response.data);
         userData.value = phoneLoginUserModel.value?.user;
         await spController.saveBearerToken(phoneLoginUserModel.value?.token);
         await spController.saveUserId(userData.value?.id);
@@ -430,22 +430,47 @@ class AuthController extends GetxController {
   try {
     final account = await googleSignIn.signIn();
     if (account == null) return;
-
     final auth = await account.authentication;
     final accessToken = auth.accessToken;
     Map<String, dynamic> body = {
       "access_token": accessToken,
       "provider": "google",
     };
-
+   await Clipboard.setData(ClipboardData(text: accessToken??""));
     var response = await apiServices.commonApiCall(
       url: kuSocialLogin,
       body: body,
       requestMethod: kPost,
     ) as CommonDM;
-
+      showSnackBar(
+        title: "",
+        message: "access token $accessToken",
+        color: cPrimaryColor2,
+      );
     if (response.code == 200) {
-      Get.toNamed(krHomeScreen); 
+      phoneLoginUserModel.value = CommonLoginUserModel.fromJson(response.data);
+        userData.value = phoneLoginUserModel.value?.user;
+        await spController.saveBearerToken(phoneLoginUserModel.value?.token);
+        await spController.saveUserId(userData.value?.id);
+        await spController.saveUserImage(userData.value?.image);
+        await spController.saveUserEmail(userData.value?.email);
+        await spController.saveUserFirstName(userData.value?.firstName);
+        await spController.saveUserLastName(userData.value?.lastName);
+        await spController.saveUserPhoneNumber(userData.value?.phone);
+          Get.offAllNamed(krHomeScreen);
+        globalController.userFirstName.value =
+            await spController.getUserFirstName() ?? "";
+        globalController.userLastName.value =
+            await spController.getUserLastName() ?? "";
+        globalController.userEmail.value =
+            await spController.getUserEmail() ?? "";
+        globalController.userImage.value =
+            await spController.getUserImage() ?? "";
+        globalController.userId.value = await spController.getUserId() ?? -1;
+        globalController.userToken.value =
+            await spController.getBearerToken() ?? "";
+        globalController.userPhone.value =
+            await spController.getUserPhoneNumber() ?? "";
     } else {
       showSnackBar(
         title: ksError.tr,

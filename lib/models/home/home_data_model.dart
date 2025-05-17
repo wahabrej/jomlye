@@ -12,6 +12,9 @@ class HomeDataModel {
     final List<NewReleaseMovie>? tvShows;
     final List<TopArtist>? topArtists;
     final List<LatestBlog>? latestBlogs;
+    final String? privacyPolicy;
+    final String? paymentPolicy;
+    final String? termsAndConditions;
 
     HomeDataModel({
         this.slider,
@@ -26,6 +29,9 @@ class HomeDataModel {
         this.tvShows,
         this.topArtists,
         this.latestBlogs,
+        this.privacyPolicy,
+        this.paymentPolicy,
+        this.termsAndConditions,
     });
 
     factory HomeDataModel.fromJson(Map<String, dynamic> json) => HomeDataModel(
@@ -41,6 +47,9 @@ class HomeDataModel {
         tvShows: json["tv_shows"] == null ? [] : List<NewReleaseMovie>.from(json["tv_shows"]!.map((x) => NewReleaseMovie.fromJson(x))),
         topArtists: json["top_artists"] == null ? [] : List<TopArtist>.from(json["top_artists"]!.map((x) => TopArtist.fromJson(x))),
         latestBlogs: json["latest_blogs"] == null ? [] : List<LatestBlog>.from(json["latest_blogs"]!.map((x) => LatestBlog.fromJson(x))),
+        privacyPolicy: json["privacy_policy"],
+        paymentPolicy: json["payment_policy"],
+        termsAndConditions: json["terms_and_conditions"],
     );
 }
 

@@ -1,3 +1,4 @@
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
@@ -134,7 +135,7 @@ class HomeController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
-        HomeDataModel homeDataModel = HomeDataModel.fromJson(response.data);
+         homeDataModel.value = HomeDataModel.fromJson(response.data);
         sliderList.clear();
         genreList.clear();
         newReleaseMoviesList.clear();
@@ -145,16 +146,25 @@ class HomeController extends GetxController {
         tvShowsList.clear();
         topArtistsList.clear();
         latestBlogsList.clear();
-        sliderList.addAll(homeDataModel.slider!);
-        genreList.addAll(homeDataModel.genres!);
-        newReleaseMoviesList.addAll(homeDataModel.newReleaseMovies!);
-        trendingMoviesList.addAll(homeDataModel.trendingMovies!);
-        recommendedMoviesList.addAll(homeDataModel.recommendedMovies!);
-        popularTvShowsList.addAll(homeDataModel.popularTvShows!);
-        featuredTvChannelsList.addAll(homeDataModel.featuredTvChannels!);
-        tvShowsList.addAll(homeDataModel.tvShows!);
-        topArtistsList.addAll(homeDataModel.topArtists!);
-        latestBlogsList.addAll(homeDataModel.latestBlogs!);
+        sliderList.addAll(homeDataModel.value!.slider!);
+        genreList.addAll(homeDataModel.value!.genres!);
+        newReleaseMoviesList.addAll(homeDataModel.value!.newReleaseMovies!);
+        trendingMoviesList.addAll(homeDataModel.value!.trendingMovies!);
+        recommendedMoviesList.addAll(homeDataModel.value!.recommendedMovies!);
+        popularTvShowsList.addAll(homeDataModel.value!.popularTvShows!);
+        featuredTvChannelsList.addAll(homeDataModel.value!.featuredTvChannels!);
+        tvShowsList.addAll(homeDataModel.value!.tvShows!);
+        topArtistsList.addAll(homeDataModel.value!.topArtists!);
+        latestBlogsList.addAll(homeDataModel.value!.latestBlogs!);
+         await spController.savePrivacyPolicy(homeDataModel.value!.privacyPolicy);
+         await spController.savePaymentPolicy(homeDataModel.value!.paymentPolicy);
+         await spController.saveTermsAndCondition(homeDataModel.value!.termsAndConditions);
+        Get.find<GlobalController>().privacyPolicyUrl.value =
+            await spController.getPrivacyPolicy() ?? "";
+        Get.find<GlobalController>().paymentPolicyUrl.value =
+            await spController.getPaymentPolicy() ?? "";
+        Get.find<GlobalController>().termsAndConditionUrl.value =
+            await spController.getTermsAndCondition() ?? "";
         isHomePageLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);

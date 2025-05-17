@@ -23,6 +23,9 @@ class GlobalController extends GetxController {
   final RxString  userImage = RxString("");
   final RxString  userToken = RxString("");
   final RxInt  userId = RxInt(-1);
+  final RxString privacyPolicyUrl = RxString("");
+  final RxString paymentPolicyUrl = RxString("");
+  final RxString termsAndConditionUrl = RxString("");
 
 
   //* info:: common bottom-sheet

@@ -245,12 +245,14 @@ class ProfileController extends GetxController {
 
   late InAppWebViewController privacyWebViewController;
   final RxBool privacyIsLoading = RxBool(false);
-  final String privacyPolicyUrl =
-      "https://api.salebot.app/page/privacy-policy"; //!temporary url -> change it
+  // final String privacyPolicyUrl =
+  //     Get.find<GlobalController>().privacyPolicyUrl.value;
+  // final String termsAndConditionUrl =
+  //     Get.find<GlobalController>().termsAndConditionUrl.value;
 
-  void openPrivacyPolicy() {
+  void openCommonWebView({required String commonUrl}) {
     Get.to(() =>
-        CommonWebViewScreen());
+        CommonWebViewScreen(commonUrl: commonUrl,));
   }
 
   final RxBool generalNotificationState = RxBool(false);

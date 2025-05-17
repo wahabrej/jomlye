@@ -9,6 +9,9 @@ const kFirstName = "kFirstName";
 const kLastName = "kLastName";
 const kUserPassword = "kUserPassword";
 const kPhoneNumber = "kPhoneNumber";
+const kPrivacyPolicy = "kPrivacyPolicy";
+const kPaymentPolicy = "kPaymentPolicy";
+const kTermsAndCondition = "kTermsAndCondition";
 
 class SpController {
   //* save Bearer Token
@@ -106,6 +109,39 @@ class SpController {
   Future<String?> getUserPassword() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(kUserPassword);
+  }
+
+  //* save privacy Policy
+  Future<void> savePrivacyPolicy(privacyPolicyUrl) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kPrivacyPolicy, privacyPolicyUrl.toString());
+  }
+
+  Future<String?> getPrivacyPolicy() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kPrivacyPolicy);
+  }
+
+  //* save payment policy
+  Future<void> savePaymentPolicy(paymentPolicyUrl) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kPaymentPolicy, paymentPolicyUrl.toString());
+  }
+
+  Future<String?> getPaymentPolicy() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kPaymentPolicy);
+  }
+
+    //* save payment policy
+  Future<void> saveTermsAndCondition(termsAndConditionUrl) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kTermsAndCondition, termsAndConditionUrl.toString());
+  }
+
+  Future<String?> getTermsAndCondition() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kTermsAndCondition);
   }
 
 
