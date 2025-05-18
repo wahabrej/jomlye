@@ -97,9 +97,9 @@ class MovieViewAllScreen extends StatelessWidget {
                           child: Container(
                             width: 40.w,
                             height: 40.h,
-                            decoration: const BoxDecoration(
+                            decoration:  BoxDecoration(
                               shape: BoxShape.circle,
-                              color: cPrimaryColor2,
+                              color: homeController.isApplyClicked.value ?cPrimaryColor2 : cWhiteColor.withOpacity(0.2),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(k12Padding),

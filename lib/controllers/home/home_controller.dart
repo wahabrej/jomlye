@@ -44,12 +44,9 @@ class HomeController extends GetxController {
   //* Tv Channel
       final RxList tvChannelCategoriesList =
       RxList(["News", "Drama", "Songs", "Game", "Movies","Sports", "Cricket", "Football"]);
-  final RxString selectedTvChannelCategories = RxString("");
-  final RxString selectedTvChannelsSort = RxString("");
 
       void tvChannelsFilterValueReset(){
     selectedBlogLanguage.value = "";
-    // selectedArtistsSort.value = "";
   }
 
   final RxList<Map<String, dynamic>> recentPlayedMovies =
