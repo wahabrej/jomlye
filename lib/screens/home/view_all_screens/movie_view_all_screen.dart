@@ -677,7 +677,7 @@ class AllMovieBottomSheetContent extends StatelessWidget {
                 width: width - 20.w,
                 height: 34.h,
                 child: ListView.separated(
-                  itemCount: homeController.movieSort.length,
+                  itemCount: homeController.movieSortList.length,
                   separatorBuilder: (context, index) => kW8sizedBox,
                   shrinkWrap: true,
                   physics: const AlwaysScrollableScrollPhysics(),

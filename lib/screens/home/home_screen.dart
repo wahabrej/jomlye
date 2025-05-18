@@ -560,6 +560,8 @@ class HomeScreen extends StatelessWidget {
                     profileController.temporaryPlayListCheckBoxStateList.clear();
                     homeController.isViewAllSearchEnable.value = false;
                     homeController.viewAllTextEditingController.clear();
+                    await homeController.getTvShows();
+                    Get.toNamed(krTvShowsViewAllScreen);
                   },
                 ),
                 kH16sizedBox,

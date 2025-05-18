@@ -22,7 +22,7 @@ class Filter {
     final List<Countries>? country;
     final List<Countries>? genre;
     final List<int>? year;
-    final Map<String, String>? sort;
+    final List<String>? sort;
 
     Filter({
         this.categories,
@@ -39,7 +39,7 @@ class Filter {
         country: json["country"] == null ? [] : List<Countries>.from(json["country"]!.map((x) => Countries.fromJson(x))),
         genre: json["genre"] == null ? [] : List<Countries>.from(json["genre"]!.map((x) => Countries.fromJson(x))),
         year: json["year"] == null ? [] : List<int>.from(json["year"]!.map((x) => x)),
-        sort: Map.from(json["sort"]!).map((k, v) => MapEntry<String, String>(k, v)),
+        sort: json["sort"] == null ? [] : List<String>.from(json["sort"]!.map((x) => x)),
     );
 }
 

@@ -211,7 +211,7 @@ class HomeController extends GetxController {
   final RxList<Countries?> movieLanguageList = RxList<Countries?>([]);
   final RxList<Countries?> movieGenreList = RxList<Countries?>([]);
   final RxList<int> movieYearList = RxList<int>([]);
-  final RxMap<String, String> movieSort = RxMap<String, String>();
+  final RxList<String> movieSortList = RxList<String>();
   Future<void> getMovieList({required String movieType}) async {
     try {
       isMovieListLoading.value = true;
@@ -232,6 +232,7 @@ class HomeController extends GetxController {
         movieLanguageList.clear();
         movieGenreList.clear();
         movieYearList.clear();
+        movieSortList.clear();
         MovieListModel movieListModel = MovieListModel.fromJson(response.data);
         movieList.addAll(movieListModel.movies!.data!);
         temporaryMovieList.addAll(movieListModel.movies!.data!);
@@ -240,7 +241,7 @@ class HomeController extends GetxController {
         movieLanguageList.addAll(movieListModel.filter!.languages!);
         movieGenreList.addAll(movieListModel.filter!.genre!);
         movieYearList.addAll(movieListModel.filter!.year!);
-        movieSort.value = movieListModel.filter!.sort!;
+        movieSortList.addAll(movieListModel.filter!.sort!);
         isMovieListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);

@@ -500,7 +500,7 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                 width: width - 20.w,
                 height: 34.h,
                 child: ListView.separated(
-                  itemCount: homeController.movieSort.length,
+                  itemCount: homeController.movieSortList.length,
                   separatorBuilder: (context, index) => kW8sizedBox,
                   shrinkWrap: true,
                   physics: const AlwaysScrollableScrollPhysics(),
@@ -508,15 +508,14 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            // homeController.selectedMovieSortId.value =
-                            //     homeController.movieSort[index];
+                            homeController.selectedSortId.value =
+                               index+1;
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedYear.value ==
-                                      homeController.movieYearList[index]
-                                          .toString()
+                              border: homeController.selectedSortId.value ==
+                                      index+1
                                   ? Border.all(width: 1, color: cPrimaryColor2)
                                   : Border.all(width: 0),
                               borderRadius: BorderRadius.circular(6.r),
@@ -526,7 +525,7 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.movieYearList[index]
+                                  homeController.movieSortList[index]
                                       .toString(),
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
