@@ -1,6 +1,6 @@
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
-const Color cPrimaryColor = Color(0xFF05AAFD);
+const Color cPrimaryColor = Color(0xFFD50055);
 const Color cPrimaryColor2 = Color(0xFFD50055);
 const Color cWhiteColor = Color(0xFFFFFFFF);
 const Color cRedColor = Color(0xFFFF5E5E);

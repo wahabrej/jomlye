@@ -136,33 +136,56 @@ class EditProfileScreen extends StatelessWidget {
                   ),
                 ):Stack(
                   children: [
-                             Center(
-                                            child: Container(
-                                              width: 100.w,
-                                              height: 100.h,
-                                              decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                // border: Border.all(
-                                                //   width: 2,
-                                                //   color: cPrimaryColor
-                                                //       .withOpacity(0.2),
-                                                // ),
-                                              ),
-                                              child: CircleAvatar(
-                                                backgroundColor: cWhiteColor.withOpacity(0.2),
-                                                child: ClipOval(
-                                                  child: Image.file(
-                                                    width: 100.w,
-                                                    height: 100.h,
-                                                    fit: BoxFit.cover,
-                                                    profileController
-                                                        .profileImageFile
-                                                        .value!,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                            //  Center(
+                            //                 child: Container(
+                            //                   width: 100.w,
+                            //                   height: 100.h,
+                            //                   decoration: const BoxDecoration(
+                            //                     shape: BoxShape.circle,
+                            //                   ),
+                            //                   child: CircleAvatar(
+                            //                     backgroundColor: cWhiteColor.withOpacity(0.2),
+                            //                     child: Image.file(
+                            //                       width: 100.w,
+                            //                       height: 100.h,
+                            //                       fit: BoxFit.cover,
+                            //                       profileController
+                            //                           .profileImageFile
+                            //                           .value!,
+                            //                     ),
+                            //                   ),
+                            //                 ),
+                            //               ),
+                        Center(
+                        child: Container(
+                          width: 100.h,
+                          height: 100.h,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              width: 2,
+                              color: cPrimaryColor2.withOpacity(0.2),
+                            ),
+                          ),
+                          child: CircleAvatar(
+                            backgroundColor: cPrimaryColor2.withOpacity(0.2),
+                            child: ClipOval(
+                              child: Image.file(
+                                width: 100.h,
+                                height: 100.h,
+                                fit: BoxFit.fitWidth,
+                                profileController.profileImageFile.value!,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(
+                                    Icons.person,
+                                    size: 60,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     Positioned(
                       top: 0,
                       left: 60.w,

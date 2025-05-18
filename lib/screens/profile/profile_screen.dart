@@ -12,365 +12,314 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: cBlackColor,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kAppBarSize.h),
-        //   //* info:: appBar
-        child: CustomAppBar(
-          hasBackButton: false,
-          title: GestureDetector(
-            onTap: () {
-              Get.back();
-            },
-            child: Container(
-              width: 90,
-              height: h32,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100.r),
-                color: cWhiteColor.withOpacity(0.2),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: k12Padding, vertical: k2Padding),
-                child: Row(
-                  children: [
-                    const Icon(
-                      Icons.arrow_back_ios,
-                      size: kIconSize12,
-                      color: cWhiteColor,
-                    ),
-                    kW4sizedBox,
-                    Center(
-                        child: Text(
-                      ksProfile.tr,
-                      style: regular16TextStyle(cWhiteColor),
-                    )),
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: cBlackColor,
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kAppBarSize.h),
+          //   //* info:: appBar
+          child: CustomAppBar(
+            hasBackButton: false,
+            title: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Container(
+                width: 90,
+                height: h32,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100.r),
+                  color: cWhiteColor.withOpacity(0.2),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: k12Padding, vertical: k2Padding),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.arrow_back_ios,
+                        size: kIconSize12,
+                        color: cWhiteColor,
+                      ),
+                      kW4sizedBox,
+                      Center(
+                          child: Text(
+                        ksProfile.tr,
+                        style: regular16TextStyle(cWhiteColor),
+                      )),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          actions: [
-            SvgPicture.asset(
-              kiVidflix,
-              width: h24.w,
-              height: h24.h,
-              color: cPrimaryColor2,
-            ),
-            kW4sizedBox,
-            Center(
-              child: Text(
-                ksVidflix.tr,
-                style: semiBold20TextStyle(cWhiteColor),
+            actions: [
+              SvgPicture.asset(
+                kiVidflix,
+                width: h24.w,
+                height: h24.h,
+                color: cPrimaryColor2,
               ),
-            ),
-            kW12sizedBox,
-          ],
+              kW4sizedBox,
+              Center(
+                child: Text(
+                  ksVidflix.tr,
+                  style: semiBold20TextStyle(cWhiteColor),
+                ),
+              ),
+              kW12sizedBox,
+            ],
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-          child: Obx(
-            () => Column(
-              children: [
-                kH40sizedBox,
-                // Row(
-                //   children: [
-                //     GestureDetector(
-                //       onTap: () {
-                //         Get.back();
-                //       },
-                //       child: Container(
-                //         height: h32,
-                //         decoration: BoxDecoration(
-                //           borderRadius: BorderRadius.circular(100.r),
-                //           color: cWhiteColor.withOpacity(0.2),
-                //         ),
-                //         child: Padding(
-                //           padding: const EdgeInsets.symmetric(
-                //               horizontal: k12Padding, vertical: k2Padding),
-                //           child: Row(
-                //             children: [
-                //               const Icon(
-                //                 Icons.arrow_back_ios,
-                //                 size: kIconSize12,
-                //                 color: cWhiteColor,
-                //               ),
-                //               kW4sizedBox,
-                //               Center(
-                //                   child: Text(
-                //                 ksProfile.tr,
-                //                 style: regular16TextStyle(cWhiteColor),
-                //               )),
-                //             ],
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     const Expanded(
-                //       child: SizedBox(),
-                //     ),
-                //     SvgPicture.asset(
-                //       kiVidflix,
-                //       width: h24.w,
-                //       height: h24.h,
-                //       color: cPrimaryColor2,
-                //     ),
-                //     kW4sizedBox,
-                //     Text(
-                //       ksVidflix.tr,
-                //       style: semiBold20TextStyle(cWhiteColor),
-                //     ),
-                //   ],
-                // ),
-
-                // kH8sizedBox,
-                // Divider(
-                //   color: cWhiteColor.withOpacity(0.2),
-                // ),
-                // kH40sizedBox,
-                profileController.profileImageFile.value == null
-                    ? Center(
-                        child: Container(
-                          width: 100.w,
-                          height: 100.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: cWhiteColor.withOpacity(0.2),
-                            child: ClipOval(
-                              child: Image.network(
-                                width: 100.w,
-                                height: 100.h,
-                                fit: BoxFit.cover,
-                                globalController.userImage.value,
-                                errorBuilder: (context, error, stackTrace) =>
-                                 const Icon(
-                                  Icons.person,
-                                  size: 80,
-                                  color: cPrimaryColor2,
-                                ),
-                              ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+            child: Obx(
+              () => Column(
+                children: [
+                  kH40sizedBox,
+                  // Row(
+                  //   children: [
+                  //     GestureDetector(
+                  //       onTap: () {
+                  //         Get.back();
+                  //       },
+                  //       child: Container(
+                  //         height: h32,
+                  //         decoration: BoxDecoration(
+                  //           borderRadius: BorderRadius.circular(100.r),
+                  //           color: cWhiteColor.withOpacity(0.2),
+                  //         ),
+                  //         child: Padding(
+                  //           padding: const EdgeInsets.symmetric(
+                  //               horizontal: k12Padding, vertical: k2Padding),
+                  //           child: Row(
+                  //             children: [
+                  //               const Icon(
+                  //                 Icons.arrow_back_ios,
+                  //                 size: kIconSize12,
+                  //                 color: cWhiteColor,
+                  //               ),
+                  //               kW4sizedBox,
+                  //               Center(
+                  //                   child: Text(
+                  //                 ksProfile.tr,
+                  //                 style: regular16TextStyle(cWhiteColor),
+                  //               )),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     const Expanded(
+                  //       child: SizedBox(),
+                  //     ),
+                  //     SvgPicture.asset(
+                  //       kiVidflix,
+                  //       width: h24.w,
+                  //       height: h24.h,
+                  //       color: cPrimaryColor2,
+                  //     ),
+                  //     kW4sizedBox,
+                  //     Text(
+                  //       ksVidflix.tr,
+                  //       style: semiBold20TextStyle(cWhiteColor),
+                  //     ),
+                  //   ],
+                  // ),
+      
+                  // kH8sizedBox,
+                  // Divider(
+                  //   color: cWhiteColor.withOpacity(0.2),
+                  // ),
+                  // kH40sizedBox,
+                  Center(
+                          child: Container(
+                            width: 100.w,
+                            height: 100.h,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
                             ),
-                          ),
-                        ),
-                      )
-                    : Stack(
-                        children: [
-                          Center(
-                            child: Container(
-                              width: 100.w,
-                              height: 100.h,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              child: CircleAvatar(
-                                backgroundColor: cWhiteColor.withOpacity(0.2),
-                                child: ClipOval(
-                                  child: Image.file(
-                                    width: 100.w,
-                                    height: 100.h,
-                                    fit: BoxFit.cover,
-                                    profileController.profileImageFile.value!,
+                            child: CircleAvatar(
+                              backgroundColor: cWhiteColor.withOpacity(0.2),
+                              child: ClipOval(
+                                child: Image.network(
+                                  width: 100.w,
+                                  height: 100.h,
+                                  fit: BoxFit.cover,
+                                  globalController.userImage.value,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                   const Icon(
+                                    Icons.person,
+                                    size: 80,
+                                    color: cPrimaryColor2,
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          Positioned(
-                            top: 0,
-                            left: 60.w,
-                            right: 0,
-                            child: InkWell(
-                              onTap: () {
-                                profileController.isProfileImageChnaged.value =
-                                    false;
-                                profileController.profileImageLink.value = "";
-                                profileController.profileImageFile.value = null;
-                              },
-                              child: Container(
-                                width: 16.w,
-                                height: 16.h,
-                                decoration: BoxDecoration(
-                                  color: cWhiteColor,
-                                  shape: BoxShape.circle,
-                                  border:
-                                      Border.all(width: 1, color: cRedColor),
-                                ),
-                                child: const Icon(
-                                  Icons.close,
-                                  size: 12,
-                                  color: cRedColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                kH20sizedBox,
-                Text(
-                  "${globalController.userFirstName.value} ${globalController.userLastName.value}",
-                  style: medium18TextStyle(cWhiteColor),
-                ),
-                kH6sizedBox,
-                Text(
-                  globalController.userEmail.value,
-                  style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),
-                ),
-                kH30sizedBox,
-                ProfileCommonWidget(
-                  image: kiUser2,
-                  title: ksEditProfile.tr,
-                  onPressed: () {
-                    profileController.firstNameTextEditingController.text = globalController.userFirstName.value;
-                    profileController.lastNameTextEditingController.text = globalController.userLastName.value;
-                    profileController.emailTextEditingController.text = globalController.userEmail.value;
-                    profileController.phoneTextEditingController.text = globalController.userPhone.value;
-                    profileController.getUserImage.value = globalController.userImage.value;
-                    Get.toNamed(krEditProfileScreen);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiLock,
-                  title: ksChangePassword.tr,
-                  onPressed: () {
-                    profileController. resetPassword();
-                    Get.toNamed(krChangePasswordScreen);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiLanguage,
-                  title: ksLanguage.tr,
-                  selectedLanguage: "English (US)",
-                  onPressed: () {
-                    Get.toNamed(krLanguageScreen);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiNotification,
-                  title: ksNotification.tr,
-                  onPressed: () {
-                    Get.toNamed(krNotificationScreen);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiCrown,
-                  title: ksSubscriptionPlan.tr,
-                  selectedSubscription: "Free",
-                  onPressed: () {
-                    Get.toNamed(krSubscriptionPlanScreen);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiMoney,
-                  title: ksPaymentHistory.tr,
-                  onPressed: () {
-                    Get.toNamed(krPaymentHistoryScreen);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiFavorite,
-                  title: ksFavorite.tr,
-                  onPressed: () async{
-                    await profileController.getFavoriteList();
-                    Get.toNamed(krFavoriteScreen);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiAdd,
-                  title: ksPlaylist.tr,
-                  onPressed: () async{
-                    await profileController.getPlaylistList();
-                    Get.toNamed(krPlayListScreen);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiDownload,
-                  title: ksDownload.tr,
-                  onPressed: () {
-                    Get.toNamed(krDownloadListScreen);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiInfo,
-                  title: ksTermsAndConditions.tr,
-                  onPressed: () {
-                    profileController.openCommonWebView(commonUrl: Get.find<GlobalController>().termsAndConditionUrl.value);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiPrivacyPolicy,
-                  title: ksPrivacyPolicy.tr,
-                  onPressed: () {
-                    profileController.openCommonWebView(commonUrl: Get.find<GlobalController>().privacyPolicyUrl.value);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiContactUs,
-                  title: ksContactUs.tr,
-                  onPressed: () {
-                    Get.toNamed(krContactUsScreen);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiFaq,
-                  title: ksFaq.tr,
-                  onPressed: () {
-                    profileController.selectedFaqIndex.value = -1;
-                    Get.toNamed(krFaqScereen);
-                  },
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiSettings,
-                  title: ksSettings.tr,
-                  onPressed: () {
-                    Get.toNamed(krSettingsScreen);
-                  },
-                ),
-                kH16sizedBox,
-                Divider(
-                  thickness: 1,
-                  color: cWhiteColor.withOpacity(0.1),
-                ),
-                kH8sizedBox,
-                ProfileCommonWidget(
-                  image: kiLogout,
-                  title: ksLogout.tr,
-                  containerColor: cPrimaryColor2,
-                  onPressed: () {
-                    showLogoutPopup(context);
-                  },
-                ),
-                kH8sizedBox,
-                Text(
-                  "Version 0.0.2",
-                  style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),
-                ),
-                kH20sizedBox,
-              ],
+                        ),
+                  kH20sizedBox,
+                  Text(
+                    "${globalController.userFirstName.value} ${globalController.userLastName.value}",
+                    style: medium18TextStyle(cWhiteColor),
+                  ),
+                  kH6sizedBox,
+                  Text(
+                    globalController.userEmail.value,
+                    style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),
+                  ),
+                  kH30sizedBox,
+                  ProfileCommonWidget(
+                    image: kiUser2,
+                    title: ksEditProfile.tr,
+                    onPressed: () {
+                      profileController.firstNameTextEditingController.text = globalController.userFirstName.value;
+                      profileController.lastNameTextEditingController.text = globalController.userLastName.value;
+                      profileController.emailTextEditingController.text = globalController.userEmail.value;
+                      profileController.phoneTextEditingController.text = globalController.userPhone.value;
+                      profileController.getUserImage.value = globalController.userImage.value;
+                      Get.toNamed(krEditProfileScreen);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiLock,
+                    title: ksChangePassword.tr,
+                    onPressed: () {
+                      profileController. resetPassword();
+                      Get.toNamed(krChangePasswordScreen);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiLanguage,
+                    title: ksLanguage.tr,
+                    selectedLanguage: "English (US)",
+                    onPressed: () {
+                      Get.toNamed(krLanguageScreen);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiNotification,
+                    title: ksNotification.tr,
+                    onPressed: () {
+                      Get.toNamed(krNotificationScreen);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiCrown,
+                    title: ksSubscriptionPlan.tr,
+                    selectedSubscription: "Free",
+                    onPressed: () {
+                      Get.toNamed(krSubscriptionPlanScreen);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiMoney,
+                    title: ksPaymentHistory.tr,
+                    onPressed: () {
+                      Get.toNamed(krPaymentHistoryScreen);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiFavorite,
+                    title: ksFavorite.tr,
+                    onPressed: () async{
+                      await profileController.getFavoriteList();
+                      Get.toNamed(krFavoriteScreen);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiAdd,
+                    title: ksPlaylist.tr,
+                    onPressed: () async{
+                      await profileController.getPlaylistList();
+                      Get.toNamed(krPlayListScreen);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiDownload,
+                    title: ksDownload.tr,
+                    onPressed: () {
+                      Get.toNamed(krDownloadListScreen);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiInfo,
+                    title: ksTermsAndConditions.tr,
+                    onPressed: () {
+                      profileController.openCommonWebView(commonUrl: Get.find<GlobalController>().termsAndConditionUrl.value);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiPrivacyPolicy,
+                    title: ksPrivacyPolicy.tr,
+                    onPressed: () {
+                      profileController.openCommonWebView(commonUrl: Get.find<GlobalController>().privacyPolicyUrl.value);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiContactUs,
+                    title: ksContactUs.tr,
+                    onPressed: () {
+                      Get.toNamed(krContactUsScreen);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiFaq,
+                    title: ksFaq.tr,
+                    onPressed: () {
+                      profileController.selectedFaqIndex.value = -1;
+                      Get.toNamed(krFaqScereen);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiSettings,
+                    title: ksSettings.tr,
+                    onPressed: () {
+                      Get.toNamed(krSettingsScreen);
+                    },
+                  ),
+                  kH16sizedBox,
+                  Divider(
+                    thickness: 1,
+                    color: cWhiteColor.withOpacity(0.1),
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiLogout,
+                    title: ksLogout.tr,
+                    containerColor: cPrimaryColor2,
+                    onPressed: () {
+                      showLogoutPopup(context);
+                    },
+                  ),
+                  kH8sizedBox,
+                  Text(
+                    "Version 0.0.2",
+                    style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),
+                  ),
+                  kH20sizedBox,
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        width: width,
-        selectedIndex: 4,
+        bottomNavigationBar: CustomBottomNavBar(
+          width: width,
+          selectedIndex: 4,
+        ),
       ),
     );
   }

@@ -12,6 +12,7 @@ void main() async {
       statusBarBrightness: Brightness.light,
     ),
   );
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge); //!device default bottom part show
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(const MyApp());
