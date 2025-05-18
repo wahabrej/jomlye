@@ -256,6 +256,28 @@ class MovieViewAllScreen extends StatelessWidget {
                                     style: regular14TextStyle(cWhiteColor),
                                   )),
                                 )),
+                          if (homeController.selectedSort.value != "" &&
+                              homeController.isApplyClicked.value)
+                            kW8sizedBox,
+                          if (homeController.selectedSort.value != "" &&
+                              homeController.isApplyClicked.value)
+                            Container(
+                                height: 30.h,
+                                decoration: BoxDecoration(
+                                  color: cPrimaryColor2,
+                                  borderRadius:
+                                      BorderRadius.circular(k6BorderRadius),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: k16Padding,
+                                      vertical: k6Padding),
+                                  child: Center(
+                                      child: Text(
+                                    homeController.selectedSort.value,
+                                    style: regular14TextStyle(cWhiteColor),
+                                  )),
+                                )),
                         ],
                       ),
                     ),
@@ -685,15 +707,17 @@ class AllMovieBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            // homeController.selectedMovieSortId.value =
-                            //     homeController.movieSort[index];
+                            homeController.selectedSortId.value =
+                                index+1;
+                            homeController.selectedSort.value =
+                                 homeController.movieSortList[index]
+                                      .toString().capitalizeFirst??"";
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedYear.value ==
-                                      homeController.movieYearList[index]
-                                          .toString()
+                              border: homeController.selectedSortId.value ==
+                                      index+1
                                   ? Border.all(width: 1, color: cPrimaryColor2)
                                   : Border.all(width: 0),
                               borderRadius: BorderRadius.circular(6.r),
@@ -703,8 +727,8 @@ class AllMovieBottomSheetContent extends StatelessWidget {
                                   horizontal: 16.w, vertical: 6.h),
                               child: Center(
                                 child: Text(
-                                  homeController.movieYearList[index]
-                                      .toString(),
+                                  homeController.movieSortList[index]
+                                      .toString().capitalizeFirst??"",
                                   style: regular14TextStyle(cWhiteColor),
                                   textAlign: TextAlign.center,
                                   overflow: TextOverflow.clip,

@@ -267,7 +267,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuMovieFilter?string=&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country_id=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}",
+        url: "$kuMovieFilter?string=&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country_id=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}&sort=${selectedSortId.value.toString()}",
         body: body,
       ) as CommonDM;
 
