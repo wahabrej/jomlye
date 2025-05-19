@@ -5,6 +5,7 @@ import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class MovieViewAllScreen extends StatelessWidget {
@@ -17,103 +18,183 @@ class MovieViewAllScreen extends StatelessWidget {
       child: Obx(
         () => Scaffold(
           backgroundColor: cBlackColor,
+           appBar: PreferredSize(
+            preferredSize: Size.fromHeight(kAppBarSize.h),
+            child: CustomAppBar(
+              hasBackButton: false,
+              title: homeController.isViewAllSearchEnable.value
+                  ? Row(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            homeController.isViewAllSearchEnable.value =
+                                !homeController.isViewAllSearchEnable.value;
+                          },
+                          child: const Icon(
+                            Icons.arrow_back_ios,
+                            size: kIconSize16,
+                            color: cWhiteColor,
+                          ),
+                        ),
+                        kW6sizedBox,
+                        SizedBox(
+                          height: 40.h,
+                          width: (width - 105.w),
+                          child: CustomModifiedTextField(
+                            hint: ksSearchHere.tr,
+                            controller:
+                                homeController.viewAllTextEditingController,
+                            fillColor: cBlackColor,
+                            onChanged: (v) {
+                              if (v == "") {
+                                homeController
+                                    .isTopArtistSearchSuffixShow.value = false;
+                              } else {
+                                homeController
+                                    .isTopArtistSearchSuffixShow.value = true;
+                              }
+                            },
+                            onSubmit: (v) async {
+                              if (v == "") {
+                                unfocus(context);
+                              } else {
+                                await homeController.getArtistList();
+                              }
+                            },
+                            textInputStyle: regular14TextStyle(cWhiteColor),
+                            focusBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.circular(k6BorderRadius),
+                              borderSide: const BorderSide(
+                                width: 1,
+                                color: cPrimaryColor2,
+                              ),
+                            ),
+                            border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.circular(k6BorderRadius),
+                              borderSide: BorderSide(
+                                width: 1,
+                                color: cWhiteColor.withOpacity(0.3),
+                                style: BorderStyle.solid,
+                              ),
+                            ),
+                            contentPadding: const EdgeInsets.all(8),
+                            suffixIcon:
+                                homeController.isTopArtistSearchSuffixShow.value
+                                    ? Icons.close
+                                    : null,
+                            onSuffixPress: () {
+                              homeController.isTopArtistSearchSuffixShow.value =
+                                  false;
+                              homeController.viewAllTextEditingController
+                                  .clear();
+                              unFocus(context);
+                            },
+                          ),
+                        ),
+                      ],
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        width: homeController.selectedTitle.value==ksNewRelease.tr ? 140.w : homeController.selectedTitle.value==ksTrendingMovies.tr ? 160.w : 190.w,
+                        height: h32,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100.r),
+                          color: cWhiteColor.withOpacity(0.2),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: k12Padding, vertical: k2Padding),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.arrow_back_ios,
+                                size: kIconSize12,
+                                color: cWhiteColor,
+                              ),
+                              kW4sizedBox,
+                              Center(
+                                  child: Text(
+                               homeController.selectedTitle.value,
+                                style: regular16TextStyle(cWhiteColor),
+                              )),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+              actions: [
+                if (homeController.isViewAllSearchEnable.value == false)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Container(
+                      width: 36.w,
+                      height: 36.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: cWhiteColor.withOpacity(0.2),
+                      ),
+                      child: InkWell(
+                          onTap: () {
+                            homeController.isViewAllSearchEnable.value =
+                                !homeController.isViewAllSearchEnable.value;
+                          },
+                          child: const Icon(
+                            Icons.search,
+                            color: cWhiteColor,
+                            size: kIconSize24,
+                          )),
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.only(right: k8Padding),
+                  child: InkWell(
+                    onTap: () {
+                      Get.find<GlobalController>().commonBottomSheet(
+                          bottomSheetColor: cBlackColor2,
+                          bottomSheetHeight: height * 0.8,
+                          context: context,
+                          content: AllMovieBottomSheetContent(),
+                          onPressCloseButton: () {
+                            Get.back();
+                          },
+                          isScrollControlled: true,
+                          onPressRightButton: () {},
+                          rightText: "",
+                          rightTextStyle: semiBold16TextStyle(cWhiteColor),
+                          title:
+                              "${ksFilter.tr} ${homeController.selectedTitle.value}",
+                          isRightButtonShow: false);
+                    },
+                    child: Container(
+                      width: 40.w,
+                      height: 40.h,
+                      decoration:  BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: homeController.isApplyClicked.value ? cPrimaryColor2 : cWhiteColor.withOpacity(0.2),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(k12Padding),
+                        child: SvgPicture.asset(
+                          kiFilter,
+                          color: cWhiteColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: k20Padding),
               child: Column(
                 children: [
-                  kH40sizedBox,
-                  Row(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Get.back();
-                        },
-                        child: Container(
-                          height: h32,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100.r),
-                            color: cWhiteColor.withOpacity(0.2),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: k12Padding, vertical: k2Padding),
-                            child: Row(
-                              children: [
-                                const Icon(
-                                  Icons.arrow_back_ios,
-                                  size: kIconSize12,
-                                  color: cWhiteColor,
-                                ),
-                                kW4sizedBox,
-                                Center(
-                                    child: Text(
-                                  homeController.selectedTitle.value.tr,
-                                  style: regular16TextStyle(cWhiteColor),
-                                )),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      const Expanded(
-                        child: SizedBox(),
-                      ),
-                      Container(
-                        width: 40.w,
-                        height: 40.h,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: cWhiteColor.withOpacity(0.2),
-                        ),
-                        child: const Icon(
-                          Icons.search,
-                          color: cWhiteColor,
-                          size: kIconSize24,
-                        ),
-                      ),
-                      kW6sizedBox,
-                      Padding(
-                        padding: const EdgeInsets.only(right: k8Padding),
-                        child: InkWell(
-                          onTap: () {
-                            Get.find<GlobalController>().commonBottomSheet(
-                                bottomSheetColor: cBlackColor2,
-                                bottomSheetHeight: height * 0.8,
-                                isScrollControlled: true,
-                                context: context,
-                                content: AllMovieBottomSheetContent(),
-                                onPressCloseButton: () {
-                                  Get.back();
-                                },
-                                onPressRightButton: () {},
-                                rightText: "",
-                                rightTextStyle:
-                                    semiBold16TextStyle(cWhiteColor),
-                                title:
-                                    "${ksFilter.tr} ${homeController.selectedTitle.value}",
-                                isRightButtonShow: false);
-                          },
-                          child: Container(
-                            width: 40.w,
-                            height: 40.h,
-                            decoration:  BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: homeController.isApplyClicked.value ?cPrimaryColor2 : cWhiteColor.withOpacity(0.2),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(k12Padding),
-                              child: SvgPicture.asset(
-                                kiFilter,
-                                color: cWhiteColor,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  kH8sizedBox,
                   Divider(
                     thickness: 1,
                     color: cWhiteColor.withOpacity(0.2),

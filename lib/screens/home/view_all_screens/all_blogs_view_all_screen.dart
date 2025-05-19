@@ -26,7 +26,7 @@ class AllBlogsViewAllScreen extends StatelessWidget {
               Get.back();
             },
             child: Container(
-              width: 100.w,
+              width: 110.w,
               height: h32,  
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100.r),

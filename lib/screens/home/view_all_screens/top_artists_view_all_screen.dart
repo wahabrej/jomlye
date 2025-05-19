@@ -190,6 +190,8 @@ class TopArtistsViewAllScreen extends StatelessWidget {
               ],
             ),
           ),
+          
+          
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: k20Padding),
