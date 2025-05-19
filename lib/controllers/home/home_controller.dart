@@ -699,6 +699,7 @@ class HomeController extends GetxController {
   selectedGenre.value = "";
   selectedCountry.value = "";
   selectedLanguage.value = "";
+  selectedSort.value = "";
   isApplyClicked.value = false;
   }
 

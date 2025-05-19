@@ -207,8 +207,10 @@ class VideoPlayerScreen extends StatelessWidget {
                     kH16sizedBox,
                     Row(
                       children: [
-                        const CommonContainer(
+                         CommonContainer(
                           image: kiCrown,
+                          onPressed: null,
+                          containerColor: homeController.movieDetailsData.value?.isPaid==1 ? cPrimaryColor : cWhiteColor.withOpacity(0.2),
                         ),
                         kW10sizedBox,
                          CommonContainer(
@@ -259,6 +261,26 @@ class VideoPlayerScreen extends StatelessWidget {
                           },
                         ),
                       ],
+                    ),
+                    kH16sizedBox,
+                    SizedBox(
+                        width: width-60/3,
+                        height: 40.h,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                         scrollDirection: Axis.horizontal,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        separatorBuilder: (context,index)=> kW10sizedBox,
+                         itemCount: homeController.movieServerList.length,
+                        itemBuilder: (context,index){
+                        return Container(
+                          width: width-60/3,
+                          height: 40.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(k6BorderRadius),
+                          ),
+                        );
+                      }, ),
                     ),
                     kH16sizedBox,
                     Text(
