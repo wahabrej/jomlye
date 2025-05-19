@@ -28,22 +28,73 @@ class VideoPlayerScreen extends StatelessWidget {
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              kH40sizedBox,
               // if(homeController.movieServerList.isNotEmpty && homeController.movieServerList[homeController.selectedServer.value-1]?.sourceType=="youtube")//!needed
+              // YoutubePlayerBuilder(
+              //   player: YoutubePlayer(
+              //     controller: allVideoPlayerController.youtubeController,
+              //     showVideoProgressIndicator: true,
+              //     progressIndicatorColor: Colors.red,
+              //   ),
+              //   builder: (context, player) {
+              //     return Column(
+              //       children: [
+              //         player,
+              //         const SizedBox(),
+              //       ],
+              //     );
+              //   },
+              // ),
+    
               YoutubePlayerBuilder(
-                player: YoutubePlayer(
-                  controller: allVideoPlayerController.youtubeController,
-                  showVideoProgressIndicator: true,
-                  progressIndicatorColor: Colors.red,
-                ),
-                builder: (context, player) {
-                  return Column(
-                    children: [
-                      player,
-                      const SizedBox(),
-                    ],
-                  );
-                },
-              ),
+      player: YoutubePlayer(
+    controller: allVideoPlayerController.youtubeController,
+    showVideoProgressIndicator: true,
+    progressIndicatorColor: Colors.red,
+    bottomActions: const [
+       SizedBox(width: 14.0),
+      CurrentPosition(),
+       SizedBox(width: 8.0),
+      ProgressBar(
+        isExpanded: true,
+        colors: ProgressBarColors(
+          playedColor: cPrimaryColor,
+          handleColor: cPrimaryColor,
+        ),
+      ),
+       SizedBox(width: 8.0),
+      RemainingDuration(),
+       SizedBox(width: 14.0),
+      FullScreenButton(
+        color: cPrimaryColor,
+      ),
+    ],
+      ),
+      builder: (context, player) {
+    return Stack(
+      children: [
+        Column(
+          children: [
+            player,
+            const SizedBox(),
+          ],
+        ),
+        Positioned(
+          top: 2,
+          left: 4,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back_ios, color: cWhiteColor,size: kIconSize16,),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+      ],
+    );
+      },
+    ),
+    
+              //!flick video player
               // AspectRatio(
               //   aspectRatio: 16 / 9,
               //   child: FlickVideoPlayer(
