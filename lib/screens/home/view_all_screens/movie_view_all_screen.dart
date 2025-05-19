@@ -119,7 +119,6 @@ class MovieViewAllScreen extends StatelessWidget {
                     color: cWhiteColor.withOpacity(0.2),
                   ),
                   kH8sizedBox,
-                  // if(homeController.selectedCategoryId.value != -1 || homeController.selectedCountryId.value != -1 || homeController.selectedGenreId.value != -1 || homeController.selectedLanguageId.value != -1 || homeController.selectedSortId.value != -1 || homeController.selectedYear.value != "")
                   if (homeController.isApplyClicked.value)
                     Row(
                       children: [
@@ -760,7 +759,9 @@ class AllMovieBottomSheetContent extends StatelessWidget {
                 label: ksReset.tr,
                 onPressed: () {
                   homeController.resetBottomSheetData();
-                  homeController.blogFilterValueReset();
+                     homeController.movieList.clear();
+                              homeController.movieList
+                                  .addAll(homeController.temporaryMovieList);
                 },
                 buttonColor: cWhiteColor.withOpacity(0.2),
                 textStyle: regular16TextStyle(cWhiteColor),
@@ -770,8 +771,8 @@ class AllMovieBottomSheetContent extends StatelessWidget {
               CustomElevatedButton(
                 label: ksApply.tr,
                 onPressed: () async {
-                  await homeController.getFilterMovieList();
                   homeController.isApplyClicked.value = true;
+                  await homeController.getFilterMovieList();
                 },
                 buttonColor: cPrimaryColor2,
                 textStyle: regular16TextStyle(cWhiteColor),
@@ -780,6 +781,7 @@ class AllMovieBottomSheetContent extends StatelessWidget {
             ],
           ),
         ),
+        kH50sizedBox,
       ],
     );
   }

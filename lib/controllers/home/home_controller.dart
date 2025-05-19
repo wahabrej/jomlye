@@ -479,8 +479,10 @@ class HomeController extends GetxController {
    //!Top Artist
  //Artist api implement
  final RxInt selectedMovieIndustryId = RxInt(-1);
+ final RxString selectedMovieIndustry = RxString("");
    final RxBool isArtistLoading = RxBool(false);
    final Rx<ArtistModel?> artistModel = Rx<ArtistModel?>(null);
+  final RxList<ArtistData> temporaryArtistList = RxList<ArtistData>([]);
   final RxList<ArtistData> artistList = RxList<ArtistData>([]);
   final RxList<ArtistCountry> artistCountryList = RxList<ArtistCountry>([]);
   final RxList<MovieIndustry> artistMovieIndustryList = RxList<MovieIndustry>([]);
@@ -497,13 +499,15 @@ class HomeController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
+        temporaryArtistList.clear();
         artistList.clear();
         artistCountryList.clear();
         artistMovieIndustryList.clear();
-        ArtistModel artistModel = ArtistModel.fromJson(response.data);
-        artistList.addAll(artistModel.artists!.data!);
-        artistCountryList.addAll(artistModel.filter!.countries!);
-        artistMovieIndustryList.addAll(artistModel.filter!.movieIndustries!);
+         artistModel.value = ArtistModel.fromJson(response.data);
+        temporaryArtistList.addAll(artistModel.value!.artists!.data!);
+        artistList.addAll(artistModel.value!.artists!.data!);
+        artistCountryList.addAll(artistModel.value!.filter!.countries!);
+        artistMovieIndustryList.addAll(artistModel.value!.filter!.movieIndustries!);
         isArtistLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
