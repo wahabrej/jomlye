@@ -28,7 +28,7 @@ class VideoPlayerScreen extends StatelessWidget {
           () => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // if(homeController.movieDetailsData.value.fileSource=="youtube")
+              // if(homeController.movieServerList.isNotEmpty && homeController.movieServerList[homeController.selectedServer.value-1]?.sourceType=="youtube")//!needed
               YoutubePlayerBuilder(
                 player: YoutubePlayer(
                   controller: allVideoPlayerController.youtubeController,
@@ -278,6 +278,7 @@ class VideoPlayerScreen extends StatelessWidget {
                           height: 40.h,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(k6BorderRadius),
+                            color: homeController.selectedServer.value==index+1 ? cPrimaryColor : cWhiteColor.withOpacity(0.2),
                           ),
                         );
                       }, ),

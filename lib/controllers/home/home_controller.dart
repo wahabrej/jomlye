@@ -685,7 +685,7 @@ class HomeController extends GetxController {
       ll('getBlogDetails error: $e');
     }
   }
-
+  final RxInt selectedServer = RxInt(-1);
   //!reset bottom nav bar data
   void resetBottomSheetData(){
   selectedCategoryId.value = -1;
