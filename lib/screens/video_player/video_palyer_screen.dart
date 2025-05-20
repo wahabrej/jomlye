@@ -313,12 +313,14 @@ class VideoPlayerScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    kH16sizedBox,
+                 if(homeController.movieServerList.isNotEmpty) kH16sizedBox,
+                 if(homeController.movieServerList.isNotEmpty)
                     SizedBox(
                         width: width-60/3,
                         height: 40.h,
                       child: ListView.separated(
                         shrinkWrap: true,
+                        padding: EdgeInsets.zero,
                          scrollDirection: Axis.horizontal,
                         physics: const AlwaysScrollableScrollPhysics(),
                         separatorBuilder: (context,index)=> kW10sizedBox,
@@ -395,62 +397,63 @@ class VideoPlayerScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    kH16sizedBox,
-                        Row(
-                      children: [
-                        SizedBox(
-                          width: width - 20,
-                          height: 40.h,
-                          child: ListView.separated(
-                            itemCount:
-                                homeController.movieServerList.length,
-                            separatorBuilder: (context, index) => kW10sizedBox,
-                            shrinkWrap: true,
-                            physics: const AlwaysScrollableScrollPhysics(),
-                            scrollDirection: Axis.horizontal,
-                            itemBuilder: (context, index) {
-                              return Obx(() => InkWell(
-                                    onTap: () async {
-                                      // await homeController.getMovieDetails(
-                                      //     movieId: homeController
-                                      //         .recommendedMovieList[index].id!
-                                      //         .toString());
-                                      // if (homeController
-                                      //     .movieServerList.isNotEmpty) {
-                                      //   String videoUrl = homeController
-                                      //           .movieServerList[0]?.fileUrl ??
-                                      //       "";
-                                      //   Get.find<AllVideoPlayerController>()
-                                      //       .flickManager = FlickManager(
-                                      //     videoPlayerController:
-                                      //         VideoPlayerController.network(
-                                      //             videoUrl),
-                                      //   );
-                                      // } else {
-                                      //   String videoUrl = "";
-                                      //   Get.find<AllVideoPlayerController>()
-                                      //       .flickManager = FlickManager(
-                                      //     videoPlayerController:
-                                      //         VideoPlayerController.network(
-                                      //             videoUrl),
-                                      //   );
-                                      // }
-                                      homeController.selectedMovieServer.value = index;
-                                    },
-                                    child: Container(
-                                      width: (width-60)/3,
-                                      height: 40.h,
-                                      decoration: BoxDecoration(
-                                        color: homeController.selectedMovieServer.value == index ? cPrimaryColor2 : cWhiteColor.withOpacity(0.2),
-                                      ),
-                                      child: Text(homeController.movieServerList[index]?.label??""),
-                                    ),
-                                  ));
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+                    // kH16sizedBox,
+                    //     Row(
+                    //   children: [
+                    //     SizedBox(
+                    //       width: width - 20,
+                    //       height: 40.h,
+                    //       child: ListView.separated(
+                    //         itemCount:
+                    //             homeController.movieServerList.length,
+                    //         separatorBuilder: (context, index) => kW10sizedBox,
+                    //         shrinkWrap: true,
+                    //         physics: const AlwaysScrollableScrollPhysics(),
+                    //         scrollDirection: Axis.horizontal,
+                    //         itemBuilder: (context, index) {
+                    //           return Obx(() => InkWell(
+                    //                 onTap: () async {
+                    //                   // await homeController.getMovieDetails(
+                    //                   //     movieId: homeController
+                    //                   //         .recommendedMovieList[index].id!
+                    //                   //         .toString());
+                    //                   // if (homeController
+                    //                   //     .movieServerList.isNotEmpty) {
+                    //                   //   String videoUrl = homeController
+                    //                   //           .movieServerList[0]?.fileUrl ??
+                    //                   //       "";
+                    //                   //   Get.find<AllVideoPlayerController>()
+                    //                   //       .flickManager = FlickManager(
+                    //                   //     videoPlayerController:
+                    //                   //         VideoPlayerController.network(
+                    //                   //             videoUrl),
+                    //                   //   );
+                    //                   // } else {
+                    //                   //   String videoUrl = "";
+                    //                   //   Get.find<AllVideoPlayerController>()
+                    //                   //       .flickManager = FlickManager(
+                    //                   //     videoPlayerController:
+                    //                   //         VideoPlayerController.network(
+                    //                   //             videoUrl),
+                    //                   //   );
+                    //                   // }
+                    //                   homeController.selectedMovieServer.value = index;
+                    //                 },
+                    //                 child: Container(
+                    //                   width: (width-60)/3,
+                    //                   height: 40.h,
+                    //                   decoration: BoxDecoration(
+                    //                     color: homeController.selectedMovieServer.value == index ? cPrimaryColor2 : cWhiteColor.withOpacity(0.2),
+                    //                   ),
+                    //                   child: Text(homeController.movieServerList[index]?.label??""),
+                    //                 ),
+                    //               ));
+                    //         },
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
+                    
                     kH16sizedBox,
                     Text(
                       ksRecommended.tr,

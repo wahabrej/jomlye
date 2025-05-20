@@ -36,7 +36,9 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                    onTap: () {
+                    onTap: () async {
+                      homeController.resetBottomSheetData();
+                      await homeController.getGlobalSearch();
                       Get.toNamed(krSearchScreen);
                     },
                     child: Container(
@@ -1189,6 +1191,7 @@ class HomeSlider extends StatelessWidget {
                   right: 15,
                   child: GestureDetector(
                     onTap: ()async {
+                      homeController.resetBottomSheetData();
                       await homeController.getGlobalSearch();
                       Get.toNamed(krSearchScreen);
                     },

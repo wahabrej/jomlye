@@ -265,7 +265,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuMovieFilter?string=&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country_id=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}&sort=${selectedSortId.value.toString()}",
+        url: "$kuMovieFilter?string=&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}&sort=${selectedSortId.value.toString()}",
         body: body,
       ) as CommonDM;
 
@@ -690,7 +690,11 @@ class HomeController extends GetxController {
   //!Global search
   final RxBool isGlobalSearchLoading = RxBool(false);
   final Rx<GlobalSearchModel?> globalSearchModel = Rx<GlobalSearchModel?>(null);
-  final RxList<SearchedData?> searchedDataList = RxList<SearchedData?>([]);
+  final RxList<SearchData?> searchList = RxList<SearchData?>([]);
+  final RxList<Categories?> searchCategoryList = RxList<Categories?>([]);
+  final RxList<Countries?> searchCountryList = RxList<Countries?>([]);
+  final RxList<Countries?> searchGenreList = RxList<Countries?>([]);
+  final RxList<int?> searchYearList = RxList<int?>([]);
   Future<void> getGlobalSearch() async {
     try {
       isGlobalSearchLoading.value = true;
@@ -699,14 +703,21 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuGlobalSearch?search=${globalSearchTextEditingController.text.trim().toString()}",
+        url: "$kuGlobalSearch?search=${globalSearchTextEditingController.text.trim().toString()}&category=${selectedCategoryId.value ==-1 ?"" : selectedCategoryId.value.toString()}&country=${selectedCountryId.value==-1 ? "" : selectedCountryId.value.toString()}&genre=${selectedGenreId.value==-1 ? "" : selectedGenreId.value.toString()}&year=${selectedYear.toString()}",
         body: body,
       ) as CommonDM;
-
       if (response.code == 200) {
-        searchedDataList.clear();
-         globalSearchModel.value = GlobalSearchModel.fromJson(response.data);
-        searchedDataList.addAll(globalSearchModel.value!.searchedData!);
+        searchList.clear();
+        searchCategoryList.clear();
+        searchCountryList.clear();
+        searchGenreList.clear();
+        searchYearList.clear();
+        globalSearchModel.value = GlobalSearchModel.fromJson(response.data);
+        searchList.addAll(globalSearchModel.value!.searchedData!.data!);
+        searchCategoryList.addAll(globalSearchModel.value!.filter!.categories!);
+        searchCountryList.addAll(globalSearchModel.value!.filter!.country!);
+        searchGenreList.addAll(globalSearchModel.value!.filter!.genre!);
+        searchYearList.addAll(globalSearchModel.value!.filter!.year!);
         isGlobalSearchLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -719,7 +730,7 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       isGlobalSearchLoading.value = false;
-      ll('getTvShows error: $e');
+      ll('getGlobalSearch error: $e');
     }
   }
 

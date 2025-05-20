@@ -3,6 +3,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
+import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/models/auth/interest_model.dart';
 import 'package:vidflix_flutter_app/models/auth/login_model.dart';
 import 'package:vidflix_flutter_app/models/auth/phone_login_user_model.dart';
@@ -90,6 +91,7 @@ class AuthController extends GetxController {
         await spController.saveUserFirstName(loginData.user!.firstName);
         await spController.saveUserLastName(loginData.user!.lastName);
         await spController.saveUserPhoneNumber(loginData.user!.phone);
+        await Get.find<HomeController>().getHomePage();
         Get.offAllNamed(krHomeScreen);
         globalController.userFirstName.value =
             await spController.getUserFirstName() ?? "";

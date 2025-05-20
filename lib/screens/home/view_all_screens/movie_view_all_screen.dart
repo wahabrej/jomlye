@@ -100,7 +100,7 @@ class MovieViewAllScreen extends StatelessWidget {
                         Get.back();
                       },
                       child: Container(
-                        width: homeController.selectedTitle.value==ksNewRelease.tr ? 140.w : homeController.selectedTitle.value==ksTrendingMovies.tr ? 160.w : 190.w,
+                        width: homeController.selectedTitle.value==ksNewRelease.tr ? 130.w : homeController.selectedTitle.value==ksTrendingMovies.tr ? 160.w : 180.w,
                         height: h32,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100.r),
@@ -199,7 +199,6 @@ class MovieViewAllScreen extends StatelessWidget {
                     thickness: 1,
                     color: cWhiteColor.withOpacity(0.2),
                   ),
-                  kH8sizedBox,
                   if (homeController.isApplyClicked.value)
                     Row(
                       children: [
@@ -222,6 +221,8 @@ class MovieViewAllScreen extends StatelessWidget {
                             )),
                       ],
                     ),
+                 
+                 
                   kH8sizedBox,
                   SizedBox(
                     width: width - 20,
@@ -362,6 +363,8 @@ class MovieViewAllScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                
+                
                   kH16sizedBox,
                   homeController.movieList.isEmpty
                       ? SizedBox(

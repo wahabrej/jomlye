@@ -1,16 +1,90 @@
+import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
+
 class GlobalSearchModel {
-    List<SearchedData>? searchedData;
+    GlobalSearchedData? searchedData;
+    Filter? filter;
 
     GlobalSearchModel({
         this.searchedData,
+        this.filter,
     });
 
     factory GlobalSearchModel.fromJson(Map<String, dynamic> json) => GlobalSearchModel(
-        searchedData: json["searched_data"] == null ? [] : List<SearchedData>.from(json["searched_data"]!.map((x) => SearchedData.fromJson(x))),
+        searchedData: json["searched_data"] == null ? null : GlobalSearchedData.fromJson(json["searched_data"]),
+        filter: json["filter"] == null ? null : Filter.fromJson(json["filter"]),
     );
 }
 
-class SearchedData {
+class Filter {
+    List<Categories>? categories;
+    List<Countries>? country;
+    List<Countries>? genre;
+    List<int>? year;
+
+    Filter({
+        this.categories,
+        this.country,
+        this.genre,
+        this.year,
+    });
+
+    factory Filter.fromJson(Map<String, dynamic> json) => Filter(
+        categories: json["categories"] == null ? [] : List<Categories>.from(json["categories"]!.map((x) => Categories.fromJson(x))),
+        country: json["country"] == null ? [] : List<Countries>.from(json["country"]!.map((x) => Countries.fromJson(x))),
+        genre: json["genre"] == null ? [] : List<Countries>.from(json["genre"]!.map((x) => Countries.fromJson(x))),
+        year: json["year"] == null ? [] : List<int>.from(json["year"]!.map((x) => x)),
+    );
+}
+class GlobalSearchedData {
+    int? currentPage;
+    List<SearchData>? data;
+    String? firstPageUrl;
+    int? from;
+    int? lastPage;
+    String? lastPageUrl;
+    List<Link>? links;
+    String? nextPageUrl;
+    String? path;
+    int? perPage;
+    dynamic prevPageUrl;
+    int? to;
+    int? total;
+
+    GlobalSearchedData({
+        this.currentPage,
+        this.data,
+        this.firstPageUrl,
+        this.from,
+        this.lastPage,
+        this.lastPageUrl,
+        this.links,
+        this.nextPageUrl,
+        this.path,
+        this.perPage,
+        this.prevPageUrl,
+        this.to,
+        this.total,
+    });
+
+    factory GlobalSearchedData.fromJson(Map<String, dynamic> json) => GlobalSearchedData(
+        currentPage: json["current_page"],
+        data: json["data"] == null ? [] : List<SearchData>.from(json["data"]!.map((x) => SearchData.fromJson(x))),
+        firstPageUrl: json["first_page_url"],
+        from: json["from"],
+        lastPage: json["last_page"],
+        lastPageUrl: json["last_page_url"],
+        links: json["links"] == null ? [] : List<Link>.from(json["links"]!.map((x) => Link.fromJson(x))),
+        nextPageUrl: json["next_page_url"],
+        path: json["path"],
+        perPage: json["per_page"],
+        prevPageUrl: json["prev_page_url"],
+        to: json["to"],
+        total: json["total"],
+    );
+}
+
+class SearchData {
     int? id;
     String? title;
     String? thumbnail;
@@ -26,7 +100,7 @@ class SearchedData {
     String? country;
     String? genre;
     String? language;
-    dynamic videoType;
+    String? videoType;
     String? runtime;
     String? videoQuality;
     int? isPaid;
@@ -38,7 +112,7 @@ class SearchedData {
     int? isRealLifeStory;
     int? status;
     int? trailer;
-    dynamic traillerYoutubeSource;
+    String? traillerYoutubeSource;
     int? enableDownload;
     String? focusKeyword;
     String? metaDescription;
@@ -57,7 +131,7 @@ class SearchedData {
     DateTime? updatedAt;
     String? type;
 
-    SearchedData({
+    SearchData({
         this.id,
         this.title,
         this.thumbnail,
@@ -105,7 +179,7 @@ class SearchedData {
         this.type,
     });
 
-    factory SearchedData.fromJson(Map<String, dynamic> json) => SearchedData(
+    factory SearchData.fromJson(Map<String, dynamic> json) => SearchData(
         id: json["id"],
         title: json["title"],
         thumbnail: json["thumbnail"],
@@ -153,3 +227,23 @@ class SearchedData {
         type: json["type"],
     );
 }
+
+class Link {
+    String? url;
+    String? label;
+    bool? active;
+
+    Link({
+        this.url,
+        this.label,
+        this.active,
+    });
+
+    factory Link.fromJson(Map<String, dynamic> json) => Link(
+        url: json["url"],
+        label: json["label"],
+        active: json["active"],
+    );
+}
+
+
