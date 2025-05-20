@@ -25,12 +25,35 @@ class HomeScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 HomeSlider(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                  child: Text(
-                    ksExploreByGenre,
-                    style: medium16TextStyle(cWhiteColor),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                      child: Text(
+                        ksExploreByGenre,
+                        style: medium16TextStyle(cWhiteColor),
+                      ),
+                    ),
+                    GestureDetector(
+                    onTap: () {
+                      Get.toNamed(krSearchScreen);
+                    },
+                    child: Container(
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: cWhiteColor.withOpacity(0.2),
+                      ),
+                      child: const Icon(
+                        Icons.search,
+                        color: cWhiteColor,
+                        size: kIconSize24,
+                      ),
+                    ),
                   ),
+                  ],
                 ),
                 kH16sizedBox,
                 Padding(
@@ -1165,7 +1188,8 @@ class HomeSlider extends StatelessWidget {
                   top: 30,
                   right: 15,
                   child: GestureDetector(
-                    onTap: () {
+                    onTap: ()async {
+                      await homeController.getGlobalSearch();
                       Get.toNamed(krSearchScreen);
                     },
                     child: Container(

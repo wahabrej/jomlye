@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/view_all_screens/all_blogs_view_all_screen.dart';
@@ -23,12 +24,17 @@ class SearchScreen extends StatelessWidget {
                       height: 50,
                       child: Row(
                         children: [
+                          InkWell(
+                            onTap: (){
+                              Get.back();
+                            },
+                            child: const Icon(Icons.arrow_back_ios,color: cWhiteColor,size: kIconSize20,)),
                           SizedBox(
-                            height: kTextFieldHeight.h,
-                             width: (width-95),
+                            // height: kTextFieldHeight.h,
+                             width: (width-105.w),
                             child: CustomModifiedTextField(
                                       hint: ksSearch.tr,
-                                      controller: homeController.searchTextEditingController,
+                                      controller: homeController.globalSearchTextEditingController,
                                       fillColor: cBlackColor,
                                       textInputStyle: regular14TextStyle(cWhiteColor),
                                       focusBorder: OutlineInputBorder(
@@ -43,16 +49,20 @@ class SearchScreen extends StatelessWidget {
                               suffixIconSize: kIconSize24,
                               suffixIconColor: cWhiteColor,
                               onSuffixPress: (){
-                                homeController.searchTextEditingController.clear();
+                                homeController.globalSearchTextEditingController.clear();
                                 homeController.isSearchSuffixIconShow.value = false;
                               },
                               onChanged: (value){
-                                if(homeController.searchTextEditingController.text!=""){
+                                if(homeController.globalSearchTextEditingController.text!=""){
                                 homeController.isSearchSuffixIconShow.value = true;
                                 }
                                 else{
                                 homeController.isSearchSuffixIconShow.value = false;
                                 }
+                              },
+                              onSubmit: (v)async{
+                                homeController.globalSearchTextEditingController.text = v.toString().trim();
+                                await homeController.getGlobalSearch();
                               },
                                border: 
                             OutlineInputBorder(
@@ -124,19 +134,26 @@ class SearchScreen extends StatelessWidget {
             //       Text(ksNoVideosFoundPleaseCheckFilter.tr,style: regular14TextStyle(cWhiteColor.withOpacity(0.5,)),textAlign: TextAlign.center,),
             //     ],
             //   )),
+            if(homeController.searchedDataList.isNotEmpty)
             Column(
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(ksSearchResults.tr,style: medium16TextStyle(cWhiteColor),),
-                    Text("Shown 20 results",style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),),
+                    Text("Shown ${homeController.searchedDataList.length} results",style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),),
                   ],
                 ),
               ],
             ),
             kH10sizedBox,
-            Column(
+           if(homeController.searchedDataList.isNotEmpty)
+          ListView.separated(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context,index){
+            return   Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -145,7 +162,14 @@ class SearchScreen extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(k4BorderRadius),
-                      child: Image.network("https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",width: 70.w,height: 105.h,fit: BoxFit.cover,)),
+                      child: Image.network(homeController.searchedDataList[index]?.thumbnail??"",width: 70.w,height: 105.h,fit: BoxFit.cover,   errorBuilder: (context, error, stackTrace) => Center(
+                child: SvgPicture.asset(
+                  kiDummyMovie,
+                  height: 90.h,
+                  width: 80.w,
+                  fit: BoxFit.fill,
+                ),
+              ),)),
                       kW14sizedBox,
                       Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -207,25 +231,27 @@ class SearchScreen extends StatelessWidget {
                       ],
                     ),
                     kH8sizedBox,
-                    Text("Furry 2024 | War movie",style: medium16TextStyle(cWhiteColor),),
+                    Text(homeController.searchedDataList[index]?.title??"",style: medium16TextStyle(cWhiteColor),),
                     kH8sizedBox,
                     Row(
                       children: [
                         const Icon(Icons.star_rounded,size: kIconSize14,color: cAmberColor,),
                         kW4sizedBox,
-                        Text("5.0",style: regular10TextStyle(cWhiteColor),),
+                        Text(homeController.searchedDataList[index]?.imdbRating??"",style: regular10TextStyle(cWhiteColor),),
                         kW4sizedBox,
                         const Icon(Icons.access_time_filled,size: kIconSize14,color: cPrimaryColor2,),
                         kW4sizedBox,
-                        Text("2 hr 30 mins",style: regular10TextStyle(cWhiteColor),),
+                        Text(homeController.searchedDataList[index]?.runtime??"",style: regular10TextStyle(cWhiteColor),),
                         kW4sizedBox,
                         const Icon(Icons.calendar_month_rounded,size: kIconSize14,color: cPrimaryColor2,),
                         kW4sizedBox,
-                        Text("2025",style: regular10TextStyle(cWhiteColor),),
+                        Text( DateFormat('d MMM, yyyy').format(DateTime.parse(
+                                    homeController.searchedDataList[index]!.release.toString())),style: regular10TextStyle(cWhiteColor),),
                       ],
                     ),
                     kH8sizedBox,
-                    CustomElevatedButton(label: ksPremium.tr, onPressed: (){},buttonWidth: 60.w,buttonHeight: h24.h,buttonColor: cPrimaryColor2,),
+                   if(homeController.searchedDataList[index]?.isPaid==1)
+                    CustomElevatedButton(label:ksPremium.tr, onPressed: (){},buttonWidth: 60.w,buttonHeight: h24.h,buttonColor: cPrimaryColor2,),
                         ],
                       ),
                       const Expanded(child: SizedBox()),
@@ -246,12 +272,14 @@ class SearchScreen extends StatelessWidget {
                   ],
                 ),
               ],
-            ),
-            kH4sizedBox,
+            );
+          }, separatorBuilder: (context,index)=> Column(children: [
+             kH4sizedBox,
              Divider(
               thickness: 1,
               color: cWhiteColor.withOpacity(0.2),
              ), 
+          ],), itemCount: homeController.searchedDataList.length)
           ],
         ),
       ),

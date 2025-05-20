@@ -11,7 +11,7 @@ const String kuUpdatePassword = "update-password";
 const String kuLogout = "logout";
 const String kuPhoneLogin = "phone-login";
 const String kuSocialLogin = "social-login";
-//interest
+//!Interest
 const String kuInterest = "interest";
 const String kuInterestStore = "interest-store";
 
@@ -38,7 +38,7 @@ const String kuMovies = "movies";
 const String kuMovieFilter = "movie-filter";
 const String kuMovieDetails = "movie-details";
 
-//! Profile
+//!Profile
 //playlist
 const String kuPlayList = "playlists";
 const String kuUpdatePlaylist = "update-playlist";
@@ -48,8 +48,10 @@ const String kuDeletePlaylistMovie = "playlists/remove-movie";
 const String kuCreatePlaylist = "create-playlist";
 const String kuPlaylistAddMovie = "playlists/add-movie";
 
-//! Contact us
+//!Contact us
 const String kuContactUs = "contact-us";
 //!favorite
 const String kuFavoriteList = "favorites";
 const String kuFavoriteAddOrRemove = "favorite/toggle";
+//!global search
+const String kuGlobalSearch = "global-search";

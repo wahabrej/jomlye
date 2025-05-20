@@ -2,6 +2,7 @@ import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
+import 'package:vidflix_flutter_app/models/common/global_search_model.dart';
 import 'package:vidflix_flutter_app/models/home/home_data_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_model.dart';
@@ -93,7 +94,7 @@ class HomeController extends GetxController {
 
 
   //!Common Search
-  final TextEditingController searchTextEditingController = TextEditingController();
+  final TextEditingController globalSearchTextEditingController = TextEditingController();
   final RxBool isSearchSuffixIconShow = RxBool(false);
   //! Cast details screen
   final RxInt selectedIndex = RxInt(0); // Default selected index
@@ -685,6 +686,44 @@ class HomeController extends GetxController {
       ll('getBlogDetails error: $e');
     }
   }
+
+  //!Global search
+  final RxBool isGlobalSearchLoading = RxBool(false);
+  final Rx<GlobalSearchModel?> globalSearchModel = Rx<GlobalSearchModel?>(null);
+  final RxList<SearchedData?> searchedDataList = RxList<SearchedData?>([]);
+  Future<void> getGlobalSearch() async {
+    try {
+      isGlobalSearchLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuGlobalSearch?search=${globalSearchTextEditingController.text.trim().toString()}",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        searchedDataList.clear();
+         globalSearchModel.value = GlobalSearchModel.fromJson(response.data);
+        searchedDataList.addAll(globalSearchModel.value!.searchedData!);
+        isGlobalSearchLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isGlobalSearchLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isGlobalSearchLoading.value = false;
+      ll('getTvShows error: $e');
+    }
+  }
+
+
   final RxInt selectedServer = RxInt(-1);
   //!reset bottom nav bar data
   void resetBottomSheetData(){

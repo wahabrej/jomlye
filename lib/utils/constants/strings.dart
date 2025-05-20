@@ -184,6 +184,7 @@ const String ksCreateNew = "Create New";
 const String ksFiltered = "Filtered";
 const String ksClearAll = "Clear all";
 const String ksMovieIndustries = "Movie Industries";
+const String ksFree = "Free";
 //* player screen
 const String ksTitle = "Title";
 const String ksReadMore = "Read More";
