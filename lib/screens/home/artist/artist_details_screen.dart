@@ -303,9 +303,9 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                homeController
-                                        .artistDetailsData.value?.totalMovies ??
-                                    "",
+                         homeController
+                                        .artistDetailsData.value?.totalMovies!=null ?  homeController
+                                        .artistDetailsData.value!.totalMovies.toString():"0",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
