@@ -2,6 +2,7 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
@@ -268,15 +269,24 @@ class VideoPlayerScreen extends StatelessWidget {
                           image: kiFavorite,
                           containerColor: profileController.isFavoriteAdded.value ? cPrimaryColor2 : null,
                           onPressed: ()async{
+                            if(Get.find<GlobalController>().userToken.value==""){
+                              showSnackBar(title: "Error", message: "Please Login first then add favourite", color: cRedColor);
+                            }
+                            else{
                             profileController.isFavoriteAdded.value = ! profileController.isFavoriteAdded.value;
                             await profileController.favoriteAddOrRemove(id: homeController.movieDetailsData.value?.id??-1,type: "movie");
+                            }
                           },
                         ),
                         kW10sizedBox,
                         CommonContainer(
                           image: kiAdd,
                           onPressed: () async {
-                              profileController.moviePlayListIds.addAll(homeController.movieDetailsModel.value?.playlistIds??[]);
+                                   if(Get.find<GlobalController>().userToken.value==""){
+                              showSnackBar(title: "Error", message: "Please Login first then add favourite", color: cRedColor);
+                            }
+                            else{
+                               profileController.moviePlayListIds.addAll(homeController.movieDetailsModel.value?.playlistIds??[]);
                                   for (int i = 0;
                                     i <
                                         profileController
@@ -298,6 +308,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                       .add(exists);
                                 }
                             showSaveVideoToPlayListPopup(context,homeController.movieDetailsData.value?.id??-1);
+                            }
                           },
                         ),
                         kW10sizedBox,
