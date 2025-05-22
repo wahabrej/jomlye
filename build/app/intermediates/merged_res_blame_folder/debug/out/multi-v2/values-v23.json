@@ -1,10 +1,29 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.vidflix_flutter_app-mergeDebugResources-48:/values-v23/values-v23.xml",
+            "outputFile": "com.example.vidflix_flutter_app-mergeDebugResources-53:/values-v23/values-v23.xml",
             "map": [
                 {
-                    "source": "/Users/murad/.gradle/caches/transforms-3/1ba357e8482d4de8fb8e753e67e556c9/transformed/appcompat-1.6.1/res/values-v23/values-v23.xml",
+                    "source": "/Users/murad/.gradle/caches/transforms-3/a9ca5d9684c16d3dd2638c54d753abd6/transformed/cardview-1.0.0/res/values-v23/values-v23.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "4",
+                        "endColumns": "12",
+                        "endOffsets": "200"
+                    },
+                    "to": {
+                        "startLines": "50",
+                        "startColumns": "4",
+                        "startOffsets": "3232",
+                        "endLines": "52",
+                        "endColumns": "12",
+                        "endOffsets": "3377"
+                    }
+                },
+                {
+                    "source": "/Users/murad/.gradle/caches/transforms-3/4db9143e2039cd64a7c6e82e2dd68eb1/transformed/appcompat-1.6.1/res/values-v23/values-v23.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,20,34,35,36,39,43,44,45,46",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",

@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.vidflix_flutter_app-mergeDebugResources-48:/values-sw360dp-v13/values-sw360dp-v13.xml",
+            "outputFile": "com.example.vidflix_flutter_app-mergeDebugResources-53:/values-sw360dp-v13/values-sw360dp-v13.xml",
             "map": [
                 {
-                    "source": "/Users/murad/.gradle/caches/transforms-3/9e93e4dd69b049117463fd6f3f011151/transformed/preference-1.2.1/res/values-sw360dp-v13/values-sw360dp-v13.xml",
+                    "source": "/Users/murad/.gradle/caches/transforms-3/afc841688dffaaccdd4cf0d8cb68b0de/transformed/preference-1.2.1/res/values-sw360dp-v13/values-sw360dp-v13.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
