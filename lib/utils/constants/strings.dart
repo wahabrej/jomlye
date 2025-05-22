@@ -191,3 +191,4 @@ const String ksReadMore = "Read More";
 const String ksRelatedVideos = "Related Videos";
 const String ksRecommended = "Recommended";
 const String ksEdit= "Edit";
+const String ksDownloading= "Downloading";

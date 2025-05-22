@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.vidflix_flutter_app-mergeDebugResources-53:/values-sw/values-sw.xml",
+            "outputFile": "com.example.vidflix_flutter_app-mergeDebugResources-60:/values-sw/values-sw.xml",
             "map": [
                 {
                     "source": "/Users/murad/.gradle/caches/transforms-3/ef2fe997c772465d6fac3895d85d740f/transformed/jetified-media3-exoplayer-1.4.1/res/values-sw/values-sw.xml",

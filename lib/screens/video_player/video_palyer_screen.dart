@@ -1,5 +1,8 @@
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
@@ -312,9 +315,67 @@ class VideoPlayerScreen extends StatelessWidget {
                           },
                         ),
                         kW10sizedBox,
-                        const CommonContainer(
-                          image: kiDownload,
-                        ),
+                        // CommonContainer(
+                        //   image: kiDownload,
+                        //   onPressed: (){
+
+                        //   },
+                        // ),
+                        CommonContainer(
+  image: kiDownload,
+onPressed: () async {
+  try {
+    ll("123 in try block");
+
+    // Request storage permission
+    final permission = await Permission.storage.request();
+    ll("123 in permission $permission");
+
+    if (permission.isGranted) {
+      // Download the video
+      final taskId = await FlutterDownloader.enqueue(
+        url: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+        savedDir: (await getApplicationDocumentsDirectory()).path,
+        fileName: 'downloaded_video.mp4',
+        showNotification: true,
+        openFileFromNotification: true,
+      );
+      ll("Task id is $taskId");
+
+      // Show success message
+      showSnackBar(
+        title: ksDownloading.tr,
+        message: 'Downloading Started',
+        color: cPrimaryColor2,
+      );
+    } else if (permission.isPermanentlyDenied) {
+      // Open app settings if permission is permanently denied
+      showSnackBar(
+        title: ksError.tr,
+        message: 'Storage permission is permanently denied. Please enable it from settings.',
+        color: cPrimaryColor2,
+      );
+      await openAppSettings();
+    } else {
+      // Handle temporary denied permission
+      showSnackBar(
+        title: ksError.tr,
+        message: 'Storage permission is required to download video.',
+        color: cPrimaryColor2,
+      );
+    }
+  } catch (e) {
+    // Handle any errors
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Error downloading video: $e'),
+        duration: Duration(seconds: 2),
+      ),
+    );
+  }
+},
+
+),
                         kW10sizedBox,
                         CommonContainer(
                           image: kiShare,

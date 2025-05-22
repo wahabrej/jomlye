@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.vidflix_flutter_app-mergeDebugResources-53:/values-sr/values-sr.xml",
+            "outputFile": "com.example.vidflix_flutter_app-mergeDebugResources-60:/values-sr/values-sr.xml",
             "map": [
                 {
                     "source": "/Users/murad/.gradle/caches/transforms-3/a4de20b72e539aaf5e0c6b39e8372805/transformed/jetified-play-services-base-18.0.1/res/values-sr/values.xml",

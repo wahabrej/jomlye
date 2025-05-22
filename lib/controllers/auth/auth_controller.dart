@@ -146,46 +146,6 @@ class AuthController extends GetxController {
     }
   }
 
-  // LoginModel loginData = LoginModel.fromJson(response.data);
-  // await spController.saveBearerToken(loginData.token);
-  // await spController.saveRememberMe(isStayLoggedInChecked.value);
-  // await spController.saveUserName(loginData.name.toString());
-  // await spController.saveLocation(loginData.location.toString());
-  // await spController.saveUserImage(loginData.profileImage.toString());
-  // await spController.saveUserEmail(loginData.email.toString());
-  // await spController.saveUserPassword(passwordTextEditingController.text.toString());
-  // await spController.saveUserPhone(loginData.phone.toString());
-  // await spController.saveUserId(loginData.id);
-  // bool? isRememberMe = await spController.getRememberMe();
-  // final RxBool isProfileLoading = RxBool(false);
-  // Future<void> getProfile() async {
-  //   try {
-  //     isProfileLoading.value = true;
-  //     String? token = await spController.getBearerToken();
-  //     Map<String, dynamic> body = {};
-  //     var response = await apiServices.commonApiCall(
-  //       requestMethod: get,
-  //       token: token,
-  //       url: "profile", //!kuProfile(url here)
-  //       body: body,
-  //     ) as CommonDM;
-
-  //     if (response.code == 200) {
-  //       isProfileLoading.value = false;
-  //     } else {
-  //       ErrorModel errorModel = ErrorModel.fromJson(response.data);
-  //       isProfileLoading.value = false;
-  //       if (errorModel.errors.isEmpty) {
-  //         showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
-  //       } else {
-  //         showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
-  //       }
-  //     }
-  //   } catch (e) {
-  //     isProfileLoading.value = false;
-  //     ll('profile error: $e');
-  //   }
-  // }
   final RxBool isInterestLoading = RxBool(false);
   final RxList interestList = RxList([]);
   Future<void> getInterestList() async {
@@ -397,10 +357,20 @@ class AuthController extends GetxController {
     }
   }
 
+  void resetUserData(){
+  globalController.userId.value = -1;
+  globalController.userFirstName.value = "";
+  globalController.userLastName.value = "";
+  globalController.userImage.value = "";
+  globalController.userPhone.value = "";
+  globalController.userEmail.value = "";
+  globalController.userToken.value = "";
+  }
+
     //! signOut
   void signOut() async {
     await SpController().onLogout();
-    // resetLoginScreen();
+    resetUserData();
     bool isRememberMe = await spController.getRememberMe()??false;
     await spController.saveRememberMe(isRememberMe);
     await googleSignOut();

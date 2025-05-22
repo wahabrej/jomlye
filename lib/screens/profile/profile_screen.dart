@@ -509,7 +509,7 @@ void showLogoutPopup(BuildContext context) {
                         size: kIconSize20,
                         color: cWhiteColor,
                       )),
-                ],
+                ], 
               ),
               kH8sizedBox,
               Divider(
@@ -522,6 +522,7 @@ void showLogoutPopup(BuildContext context) {
                 style: regular16TextStyle(cWhiteColor),
               ),
               kH16sizedBox,
+              
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -538,7 +539,7 @@ void showLogoutPopup(BuildContext context) {
                   CustomElevatedButton(
                     label: ksLogout.tr,
                     onPressed: () {
-                      Get.find<AuthController>().signOut();
+                    Get.find<AuthController>().signOut();
                     },
                     buttonWidth: 72.w,
                     buttonHeight: 36.h,
