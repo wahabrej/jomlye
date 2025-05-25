@@ -302,6 +302,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "flutter_media_downloader",
+      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/flutter_media_downloader-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "flutter_plugin_android_lifecycle",
       "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.26",
       "packageUri": "lib/",
@@ -693,13 +699,13 @@
     },
     {
       "name": "permission_handler",
-      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/permission_handler-12.0.0+1",
+      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/permission_handler-11.4.0",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
     {
       "name": "permission_handler_android",
-      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/permission_handler_android-13.0.1",
+      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/permission_handler_android-12.1.0",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -1112,7 +1118,7 @@
       "languageVersion": "3.4"
     }
   ],
-  "generated": "2025-05-22T09:29:05.648421Z",
+  "generated": "2025-05-24T06:15:02.993503Z",
   "generator": "pub",
   "generatorVersion": "3.5.3",
   "flutterRoot": "file:///Users/murad/Downloads/flutter",

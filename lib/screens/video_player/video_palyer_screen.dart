@@ -1,8 +1,5 @@
 import 'package:flick_video_player/flick_video_player.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
@@ -49,55 +46,59 @@ class VideoPlayerScreen extends StatelessWidget {
               //     );
               //   },
               // ),
-    
+
               YoutubePlayerBuilder(
-      player: YoutubePlayer(
-    controller: allVideoPlayerController.youtubeController,
-    showVideoProgressIndicator: true,
-    progressIndicatorColor: Colors.red,
-    bottomActions: const [
-       SizedBox(width: 14.0),
-      CurrentPosition(),
-       SizedBox(width: 8.0),
-      ProgressBar(
-        isExpanded: true,
-        colors: ProgressBarColors(
-          playedColor: cPrimaryColor,
-          handleColor: cPrimaryColor,
-        ),
-      ),
-       SizedBox(width: 8.0),
-      RemainingDuration(),
-       SizedBox(width: 14.0),
-      FullScreenButton(
-        color: cPrimaryColor,
-      ),
-    ],
-      ),
-      builder: (context, player) {
-    return Stack(
-      children: [
-        Column(
-          children: [
-            player,
-            const SizedBox(),
-          ],
-        ),
-        Positioned(
-          top: 2,
-          left: 4,
-          child: IconButton(
-            icon: const Icon(Icons.arrow_back_ios, color: cWhiteColor,size: kIconSize16,),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-        ),
-      ],
-    );
-      },
-    ),
-    
+                player: YoutubePlayer(
+                  controller: allVideoPlayerController.youtubeController,
+                  showVideoProgressIndicator: true,
+                  progressIndicatorColor: Colors.red,
+                  bottomActions: const [
+                    SizedBox(width: 14.0),
+                    CurrentPosition(),
+                    SizedBox(width: 8.0),
+                    ProgressBar(
+                      isExpanded: true,
+                      colors: ProgressBarColors(
+                        playedColor: cPrimaryColor,
+                        handleColor: cPrimaryColor,
+                      ),
+                    ),
+                    SizedBox(width: 8.0),
+                    RemainingDuration(),
+                    SizedBox(width: 14.0),
+                    FullScreenButton(
+                      color: cPrimaryColor,
+                    ),
+                  ],
+                ),
+                builder: (context, player) {
+                  return Stack(
+                    children: [
+                      Column(
+                        children: [
+                          player,
+                          const SizedBox(),
+                        ],
+                      ),
+                      Positioned(
+                        top: 2,
+                        left: 4,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back_ios,
+                            color: cWhiteColor,
+                            size: kIconSize16,
+                          ),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+
               //!flick video player
               // AspectRatio(
               //   aspectRatio: 16 / 9,
@@ -262,22 +263,37 @@ class VideoPlayerScreen extends StatelessWidget {
                     kH16sizedBox,
                     Row(
                       children: [
-                         CommonContainer(
+                        CommonContainer(
                           image: kiCrown,
                           onPressed: null,
-                          containerColor: homeController.movieDetailsData.value?.isPaid==1 ? cPrimaryColor : cWhiteColor.withOpacity(0.2),
+                          containerColor:
+                              homeController.movieDetailsData.value?.isPaid == 1
+                                  ? cPrimaryColor
+                                  : cWhiteColor.withOpacity(0.2),
                         ),
                         kW10sizedBox,
-                         CommonContainer(
+                        CommonContainer(
                           image: kiFavorite,
-                          containerColor: profileController.isFavoriteAdded.value ? cPrimaryColor2 : null,
-                          onPressed: ()async{
-                            if(Get.find<GlobalController>().userToken.value==""){
-                              showSnackBar(title: "Error", message: "Please Login first then add favourite", color: cRedColor);
-                            }
-                            else{
-                            profileController.isFavoriteAdded.value = ! profileController.isFavoriteAdded.value;
-                            await profileController.favoriteAddOrRemove(id: homeController.movieDetailsData.value?.id??-1,type: "movie");
+                          containerColor:
+                              profileController.isFavoriteAdded.value
+                                  ? cPrimaryColor2
+                                  : null,
+                          onPressed: () async {
+                            if (Get.find<GlobalController>().userToken.value ==
+                                "") {
+                              showSnackBar(
+                                  title: "Error",
+                                  message:
+                                      "Please Login first then add favourite",
+                                  color: cRedColor);
+                            } else {
+                              profileController.isFavoriteAdded.value =
+                                  !profileController.isFavoriteAdded.value;
+                              await profileController.favoriteAddOrRemove(
+                                  id: homeController
+                                          .movieDetailsData.value?.id ??
+                                      -1,
+                                  type: "movie");
                             }
                           },
                         ),
@@ -285,97 +301,183 @@ class VideoPlayerScreen extends StatelessWidget {
                         CommonContainer(
                           image: kiAdd,
                           onPressed: () async {
-                                   if(Get.find<GlobalController>().userToken.value==""){
-                              showSnackBar(title: "Error", message: "Please Login first then add favourite", color: cRedColor);
-                            }
-                            else{
-                               profileController.moviePlayListIds.addAll(homeController.movieDetailsModel.value?.playlistIds??[]);
-                                  for (int i = 0;
-                                    i <
-                                        profileController
-                                            .playlistList
-                                            .length;
-                                    i++) {
-                                  final currentId =
-                                      Get.find<ProfileController>()
-                                          .playlistList[i]
-                                          .id
-                                          .toString();
-                                  final bool exists =
-                                      Get.find<HomeController>()
-                                          .playlistIdsList
-                                          .any((element) => currentId
-                                              .contains(element.toString()));
-                                  Get.find<ProfileController>()
-                                      .temporaryPlayListCheckBoxStateList
-                                      .add(exists);
-                                }
-                            showSaveVideoToPlayListPopup(context,homeController.movieDetailsData.value?.id??-1);
+                            if (Get.find<GlobalController>().userToken.value ==
+                                "") {
+                              showSnackBar(
+                                  title: "Error",
+                                  message:
+                                      "Please Login first then add favourite",
+                                  color: cRedColor);
+                            } else {
+                              profileController.moviePlayListIds.addAll(
+                                  homeController.movieDetailsModel.value
+                                          ?.playlistIds ??
+                                      []);
+                              for (int i = 0;
+                                  i < profileController.playlistList.length;
+                                  i++) {
+                                final currentId = Get.find<ProfileController>()
+                                    .playlistList[i]
+                                    .id
+                                    .toString();
+                                final bool exists = Get.find<HomeController>()
+                                    .playlistIdsList
+                                    .any((element) =>
+                                        currentId.contains(element.toString()));
+                                Get.find<ProfileController>()
+                                    .temporaryPlayListCheckBoxStateList
+                                    .add(exists);
+                              }
+                              showSaveVideoToPlayListPopup(
+                                  context,
+                                  homeController.movieDetailsData.value?.id ??
+                                      -1);
                             }
                           },
                         ),
                         kW10sizedBox,
+                        CommonContainer(
+                          image: kiDownload,
+                          onPressed: (){
+                            // allVideoPlayerController.flutterMediaDownloaderPlugin.downloadMedia(context,'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
+                            allVideoPlayerController.flutterMediaDownloaderPlugin.downloadMedia(context,'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+                          }, 
+                        ),
+                        //flutter video download
+                        // CommonContainer(
+                        //   image: kiDownload,
+                        //   onPressed: () async {
+                        //     try {
+                        //       showDialog(
+                        //         context: context,
+                        //         barrierDismissible: false,
+                        //         builder: (context) => AlertDialog(
+                        //           content: Row(
+                        //             children: [
+                        //               CircularProgressIndicator(),
+                        //               SizedBox(width: 20),
+                        //               Text('Downloading video...'),
+                        //             ],
+                        //           ),
+                        //         ),
+                        //       );
+
+                        //       String videoUrl =
+                        //           'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4';
+                        //       String fileName =
+                        //           'video_${DateTime.now().millisecondsSinceEpoch}.mp4';
+
+                        //       await allVideoPlayerController.downloadVideo(
+                        //           videoUrl, fileName);
+
+                        //       // Hide loading dialog
+                        //       Navigator.of(context).pop();
+
+                        //       // Show success message
+                        //       ScaffoldMessenger.of(context).showSnackBar(
+                        //         SnackBar(
+                        //           content:
+                        //               Text('Video downloaded successfully!'),
+                        //           backgroundColor: Colors.green,
+                        //         ),
+                        //       );
+                        //     } catch (e) {
+                        //       // Hide loading dialog if still showing
+                        //       Navigator.of(context).pop();
+
+                        //       // Show error message
+                        //       ScaffoldMessenger.of(context).showSnackBar(
+                        //         SnackBar(
+                        //           content:
+                        //               Text('Download failed: ${e.toString()}'),
+                        //           backgroundColor: Colors.red,
+                        //         ),
+                        //       );
+                        //     }
+                        //   },
+                        // ),
+                      
+                      
+                      
+                        // kW10sizedBox,
                         // CommonContainer(
                         //   image: kiDownload,
                         //   onPressed: (){
-
                         //   },
                         // ),
-                        CommonContainer(
-  image: kiDownload,
-onPressed: () async {
-  try {
-    ll("123 in try block");
+//                         CommonContainer(
+//   image: kiDownload,
+//   onPressed: () async{
+//    await allVideoPlayerController.requestStoragePermission();
+//    await allVideoPlayerController.downloadVideo(
+//       'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
+//       'sample_video.mp4',
+//     );
+//   },
+// ),
+                        // CommonContainer(
+                        //   image: kiDownload,
+                        //   onPressed: () async {
+                        //     try {
+                        //       ll("123 in try block");
 
-    // Request storage permission
-    final permission = await Permission.storage.request();
-    ll("123 in permission $permission");
+                        //       // Request storage permission
+                        //       final permission =
+                        //           await Permission.storage.request();
+                        //       ll("123 in permission $permission");
 
-    if (permission.isGranted) {
-      // Download the video
-      final taskId = await FlutterDownloader.enqueue(
-        url: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-        savedDir: (await getApplicationDocumentsDirectory()).path,
-        fileName: 'downloaded_video.mp4',
-        showNotification: true,
-        openFileFromNotification: true,
-      );
-      ll("Task id is $taskId");
+                        //       if (permission.isGranted) {
+                        //         // Download the video
+                        //         final taskId = await FlutterDownloader.enqueue(
+                        //           // url: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                        //           url:
+                        //               'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                        //           savedDir:
+                        //               (await getApplicationDocumentsDirectory())
+                        //                   .path,
+                        //           fileName: 'downloaded_video.mp4',
+                        //           showNotification: true,
+                        //           openFileFromNotification: true,
+                        //         );
+                        //         ll("Task id is $taskId");
 
-      // Show success message
-      showSnackBar(
-        title: ksDownloading.tr,
-        message: 'Downloading Started',
-        color: cPrimaryColor2,
-      );
-    } else if (permission.isPermanentlyDenied) {
-      // Open app settings if permission is permanently denied
-      showSnackBar(
-        title: ksError.tr,
-        message: 'Storage permission is permanently denied. Please enable it from settings.',
-        color: cPrimaryColor2,
-      );
-      await openAppSettings();
-    } else {
-      // Handle temporary denied permission
-      showSnackBar(
-        title: ksError.tr,
-        message: 'Storage permission is required to download video.',
-        color: cPrimaryColor2,
-      );
-    }
-  } catch (e) {
-    // Handle any errors
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Error downloading video: $e'),
-        duration: Duration(seconds: 2),
-      ),
-    );
-  }
-},
-
-),
+                        //         // Show success message
+                        //         showSnackBar(
+                        //           title: ksDownloading.tr,
+                        //           message: 'Downloading Started',
+                        //           color: cPrimaryColor2,
+                        //         );
+                        //       } else if (permission.isPermanentlyDenied) {
+                        //         // Open app settings if permission is permanently denied
+                        //         showSnackBar(
+                        //           title: ksError.tr,
+                        //           message:
+                        //               'Storage permission is permanently denied. Please enable it from settings.',
+                        //           color: cPrimaryColor2,
+                        //         );
+                        //         await openAppSettings();
+                        //       } else {
+                        //         // Handle temporary denied permission
+                        //         showSnackBar(
+                        //           title: ksError.tr,
+                        //           message:
+                        //               'Storage permission is required to download video.',
+                        //           color: cPrimaryColor2,
+                        //         );
+                        //       }
+                        //     } catch (e) {
+                        //       // Handle any errors
+                        //       ScaffoldMessenger.of(context).showSnackBar(
+                        //         SnackBar(
+                        //           content: Text('Error downloading video: $e'),
+                        //           duration: Duration(seconds: 2),
+                        //         ),
+                        //       );
+                        //     }
+                        //   },
+                        // ),
+                      
+                      
                         kW10sizedBox,
                         CommonContainer(
                           image: kiShare,
@@ -385,29 +487,34 @@ onPressed: () async {
                         ),
                       ],
                     ),
-                 if(homeController.movieServerList.isNotEmpty) kH16sizedBox,
-                 if(homeController.movieServerList.isNotEmpty)
-                    SizedBox(
-                        width: width-60/3,
+                    if (homeController.movieServerList.isNotEmpty) kH16sizedBox,
+                    if (homeController.movieServerList.isNotEmpty)
+                      SizedBox(
+                        width: width - 60 / 3,
                         height: 40.h,
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        padding: EdgeInsets.zero,
-                         scrollDirection: Axis.horizontal,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        separatorBuilder: (context,index)=> kW10sizedBox,
-                         itemCount: homeController.movieServerList.length,
-                        itemBuilder: (context,index){
-                        return Container(
-                          width: width-60/3,
-                          height: 40.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(k6BorderRadius),
-                            color: homeController.selectedServer.value==index+1 ? cPrimaryColor : cWhiteColor.withOpacity(0.2),
-                          ),
-                        );
-                      }, ),
-                    ),
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          scrollDirection: Axis.horizontal,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          separatorBuilder: (context, index) => kW10sizedBox,
+                          itemCount: homeController.movieServerList.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              width: width - 60 / 3,
+                              height: 40.h,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(k6BorderRadius),
+                                color: homeController.selectedServer.value ==
+                                        index + 1
+                                    ? cPrimaryColor
+                                    : cWhiteColor.withOpacity(0.2),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     kH16sizedBox,
                     Text(
                       ksRelatedVideos.tr,
@@ -525,7 +632,7 @@ onPressed: () async {
                     //     ),
                     //   ],
                     // ),
-                    
+
                     kH16sizedBox,
                     Text(
                       ksRecommended.tr,
@@ -1031,7 +1138,8 @@ onPressed: () async {
 }
 
 class CommonContainer extends StatelessWidget {
-  const CommonContainer({super.key, required this.image, this.onPressed, this.containerColor});
+  const CommonContainer(
+      {super.key, required this.image, this.onPressed, this.containerColor});
   final String image;
   final Color? containerColor;
   final VoidCallback? onPressed;
@@ -1056,7 +1164,7 @@ class CommonContainer extends StatelessWidget {
   }
 }
 
-void showSaveVideoToPlayListPopup(BuildContext context,int movieId) {
+void showSaveVideoToPlayListPopup(BuildContext context, int movieId) {
   final ProfileController profileController = Get.find<ProfileController>();
   showDialog(
     context: context,
@@ -1120,39 +1228,33 @@ void showSaveVideoToPlayListPopup(BuildContext context,int movieId) {
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Obx(() => CustomCheckBox(
-                      fillColorl: cBlackColor2,
-                      borderColor: cTextColor2,
+                        fillColorl: cBlackColor2,
+                        borderColor: cTextColor2,
                         value: profileController
                             .temporaryPlayListCheckBoxStateList[index],
-                        label: profileController
-                            .playlistList[index].name??"",
+                        label: profileController.playlistList[index].name ?? "",
                         onChanged: (v) {
                           profileController
                                   .temporaryPlayListCheckBoxStateList[index] =
                               !profileController
                                   .temporaryPlayListCheckBoxStateList[index];
-                                    if (profileController.moviePlayListIds.contains(
-                                profileController
-                            .playlistList[index].id)) {
-                              profileController.moviePlayListIds.remove(
-                                  profileController
-                            .playlistList[index].id);
-                              // authController.selectedInterestList.remove(
-                              //     authController.interestList[index].title);
-                            } else {
-                              profileController.moviePlayListIds.add(
-                                  profileController
-                            .playlistList[index].id);
-                              // authController.selectedInterestList.add(
-                              //     authController.interestList[index].title);
-                            }
+                          if (profileController.moviePlayListIds.contains(
+                              profileController.playlistList[index].id)) {
+                            profileController.moviePlayListIds.remove(
+                                profileController.playlistList[index].id);
+                            // authController.selectedInterestList.remove(
+                            //     authController.interestList[index].title);
+                          } else {
+                            profileController.moviePlayListIds
+                                .add(profileController.playlistList[index].id);
+                            // authController.selectedInterestList.add(
+                            //     authController.interestList[index].title);
+                          }
                         },
                         textStyle: medium16TextStyle(cWhiteColor)));
                   },
                   separatorBuilder: (context, index) => kH8sizedBox,
-                  itemCount: profileController
-                      .playlistList
-                      .length),
+                  itemCount: profileController.playlistList.length),
               kH16sizedBox,
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
@@ -1172,7 +1274,8 @@ void showSaveVideoToPlayListPopup(BuildContext context,int movieId) {
                     label: ksSaveNow.tr,
                     onPressed: () async {
                       Get.back();
-                      await profileController.playlistAddMovie(movieId: movieId);
+                      await profileController.playlistAddMovie(
+                          movieId: movieId);
                     },
                     buttonWidth: 110.w,
                     buttonHeight: 30.h,
@@ -1187,7 +1290,6 @@ void showSaveVideoToPlayListPopup(BuildContext context,int movieId) {
     },
   );
 }
-
 
 void showCreateNewPlayListPopup(BuildContext context) {
   showDialog(
@@ -1248,12 +1350,12 @@ void showCreateNewPlayListPopup(BuildContext context) {
                 color: cWhiteColor.withOpacity(0.1),
               ),
               kH8sizedBox,
-                   Text(
-                    ksTitle.tr,
-                    style: medium16TextStyle(cWhiteColor),
-                  ),
+              Text(
+                ksTitle.tr,
+                style: medium16TextStyle(cWhiteColor),
+              ),
               kH8sizedBox,
-                            SizedBox(
+              SizedBox(
                 height: 40.h,
                 child: CustomModifiedTextField(
                   controller: Get.find<ProfileController>()
