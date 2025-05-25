@@ -25,7 +25,7 @@ class BlogSingleScreen extends StatelessWidget {
               Get.back();
             },
             child: Container(
-              width: 150.w,
+              width: 165.w,
               height: h32,  
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(100.r),
@@ -52,38 +52,40 @@ class BlogSingleScreen extends StatelessWidget {
               ),
             ),
           ),
-          actions: [
-                      Container(
-                      width: 36.w,
-                      height: 36.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: cWhiteColor.withOpacity(0.2),
-                      ),
-                      child: const Icon(Icons.search,color: cWhiteColor,size: kIconSize24,),
-                    ),
-                    kW6sizedBox,
-                    Padding(
-                      padding: const EdgeInsets.only(right: k8Padding),
-                      child: InkWell(
-                        onTap: (){
-                          // globalController.commonBottomSheet(bottomSheetColor: cBlackColor2,bottomSheetHeight: height*0.5,context: context, content: Container(), onPressCloseButton: (){Get.back();}, onPressRightButton: (){}, rightText: "", rightTextStyle: semiBold16TextStyle(cWhiteColor), title: "${ksFilter.tr} ${homeController.selectedTitle.value}", isRightButtonShow: false);
-                        },
-                        child: Container(
-                           width: 40.w,
-                          height: 40.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: cPrimaryColor2,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(k12Padding),
-                            child: SvgPicture.asset(kiFilter,color: cWhiteColor,),
-                          ),
-                        ),
-                      ),
-                    ),
-          ],
+          // actions: [
+          //             Container(
+          //             width: 36.w,
+          //             height: 36.h,
+          //             decoration: BoxDecoration(
+          //               shape: BoxShape.circle,
+          //               color: cWhiteColor.withOpacity(0.2),
+          //             ),
+          //             child: const Icon(Icons.search,color: cWhiteColor,size: kIconSize24,),
+          //           ),
+          //           kW6sizedBox,
+          //           Padding(
+          //             padding: const EdgeInsets.only(right: k8Padding),
+          //             child: InkWell(
+          //               onTap: (){
+          //                 // globalController.commonBottomSheet(bottomSheetColor: cBlackColor2,bottomSheetHeight: height*0.5,context: context, content: Container(), onPressCloseButton: (){Get.back();}, onPressRightButton: (){}, rightText: "", rightTextStyle: semiBold16TextStyle(cWhiteColor), title: "${ksFilter.tr} ${homeController.selectedTitle.value}", isRightButtonShow: false);
+          //               },
+          //               child: Container(
+          //                  width: 40.w,
+          //                 height: 40.h,
+          //                 decoration: const BoxDecoration(
+          //                   shape: BoxShape.circle,
+          //                   color: cPrimaryColor2,
+          //                 ),
+          //                 child: Padding(
+          //                   padding: const EdgeInsets.all(k12Padding),
+          //                   child: SvgPicture.asset(kiFilter,color: cWhiteColor,),
+          //                 ),
+          //               ),
+          //             ),
+          //           ),
+          // ],
+       
+       
         ),
       ),
         body: Padding(

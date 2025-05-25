@@ -100,7 +100,7 @@ class MovieViewAllScreen extends StatelessWidget {
                         Get.back();
                       },
                       child: Container(
-                        width: homeController.selectedTitle.value==ksNewRelease.tr ? 130.w : homeController.selectedTitle.value==ksTrendingMovies.tr ? 160.w : 180.w,
+                        width: homeController.selectedTitle.value==ksNewRelease.tr ? 140.w : homeController.selectedTitle.value==ksTrendingMovies.tr ? 170.w : 190.w,
                         height: h32,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100.r),

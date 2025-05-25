@@ -36,7 +36,7 @@ class SearchScreen extends StatelessWidget {
                         )),
                     SizedBox(
                       // height: kTextFieldHeight.h,
-                      width: (width - 105.w),
+                      width: (width - 110.w),
                       child: CustomModifiedTextField(
                         hint: ksSearch.tr,
                         controller:
@@ -86,7 +86,7 @@ class SearchScreen extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(12),
                       ),
                     ),
-                    kW10sizedBox,
+                    const Expanded(child: SizedBox()),
                     GestureDetector(
                       onTap: () {
                         Get.find<GlobalController>().commonBottomSheet(
