@@ -577,6 +577,7 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
             ],
           ),
         ),
+        kH50sizedBox,
       ],
     );
   }

@@ -10,11 +10,6 @@ class GlobalController extends GetxController {
   final SpController spController = SpController();
   final ApiServices apiServices = ApiServices();
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   //* globally handler user name,email, and others
   final RxString userFirstName = RxString("");
   final RxString userLastName = RxString("");

@@ -48,10 +48,10 @@ class MovieViewAllScreen extends StatelessWidget {
                             onChanged: (v) {
                               if (v == "") {
                                 homeController
-                                    .isTopArtistSearchSuffixShow.value = false;
+                                    .isViewAllSearchSuffixShow.value = false;
                               } else {
                                 homeController
-                                    .isTopArtistSearchSuffixShow.value = true;
+                                    .isViewAllSearchSuffixShow.value = true;
                               }
                             },
                             onSubmit: (v) async {
@@ -81,11 +81,11 @@ class MovieViewAllScreen extends StatelessWidget {
                             ),
                             contentPadding: const EdgeInsets.all(8),
                             suffixIcon:
-                                homeController.isTopArtistSearchSuffixShow.value
+                                homeController.isViewAllSearchSuffixShow.value
                                     ? Icons.close
                                     : null,
                             onSuffixPress: () {
-                              homeController.isTopArtistSearchSuffixShow.value =
+                              homeController.isViewAllSearchSuffixShow.value =
                                   false;
                               homeController.viewAllTextEditingController
                                   .clear();

@@ -592,11 +592,12 @@ class HomeScreen extends StatelessWidget {
                   HomeTitleContent(
                     title: ksFeaturedTvChannels.tr,
                     subtitleText: homeController.featuredTvChannelsList.isNotEmpty ? ksViewAll.tr : "",
-                    onPressed: () {
+                    onPressed: () async {
                       homeController.resetBottomSheetData();
                       profileController.temporaryPlayListCheckBoxStateList.clear();
                       homeController.isViewAllSearchEnable.value = false;
                       homeController.viewAllTextEditingController.clear();
+                      await homeController.getTvChannel();
                       Get.toNamed(krTvChannelsViewAllScreen);
                     },
                   ),

@@ -57,3 +57,5 @@ const String kuFavoriteAddOrRemove = "favorite/toggle";
 const String kuGlobalSearch = "global-search";
 //!faqs
 const String kuFaqs = "faqs";
+//! Tv Channels
+const String kuTvChannel = "live-tvs";

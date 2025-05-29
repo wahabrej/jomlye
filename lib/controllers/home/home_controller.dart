@@ -12,6 +12,7 @@ import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/filter_movie_list_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_list_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/tv_channel/tv_channel_list_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_show_filter_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
@@ -28,7 +29,7 @@ class HomeController extends GetxController {
   //* Top Artist
   final RxBool isViewAllSearchEnable = RxBool(false);
   final TextEditingController viewAllTextEditingController = TextEditingController();
-  final RxBool isTopArtistSearchSuffixShow = RxBool(false);
+  final RxBool isViewAllSearchSuffixShow = RxBool(false);
   //* blog
   final RxString selectedBlogGenre = RxString("");
   final RxString selectedBlogCategories = RxString("");
@@ -42,13 +43,6 @@ class HomeController extends GetxController {
     selectedBlogLanguage.value = "";
   }
 
-  //* Tv Channel
-      final RxList tvChannelCategoriesList =
-      RxList(["News", "Drama", "Songs", "Game", "Movies","Sports", "Cricket", "Football"]);
-
-      void tvChannelsFilterValueReset(){
-    selectedBlogLanguage.value = "";
-  }
 
   final RxList<Map<String, dynamic>> recentPlayedMovies =
       RxList<Map<String, dynamic>>([
@@ -265,7 +259,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuMovieFilter?string=&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}&sort=${selectedSortId.value.toString()}",
+        url: "$kuMovieFilter?string=${viewAllTextEditingController.text.trim().toString()}&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}&sort=${selectedSortId.value.toString()}",
         body: body,
       ) as CommonDM;
 
@@ -495,7 +489,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuArtist?name=${viewAllTextEditingController.text}&country=${selectedCountryId.value==-1 ? "" : selectedCountryId.value.toString()}&movie_industry=${selectedMovieIndustryId.value==-1 ? "" : selectedMovieIndustryId.value.toString()}",
+        url: "$kuArtist?name=${viewAllTextEditingController.text.trim().toString()}&country=${selectedCountryId.value==-1 ? "" : selectedCountryId.value.toString()}&movie_industry=${selectedMovieIndustryId.value==-1 ? "" : selectedMovieIndustryId.value.toString()}",
         body: body,
       ) as CommonDM;
 
@@ -611,7 +605,7 @@ class HomeController extends GetxController {
   }
 
 
-  //blog api implement
+  //!blog api implement
   final RxBool isBlogFilterLoading = RxBool(false);
   final Rx<FilterBlogModel?> filterBlogModel = Rx<FilterBlogModel?>(null);
   Future<void> getBlogFilterList() async {
@@ -734,6 +728,51 @@ class HomeController extends GetxController {
     }
   }
 
+  //!Tv Channel
+  final RxBool isTvChannelListLoading = RxBool(false);
+  final Rx<TvChannelListModel?> tvChannelListModel = Rx<TvChannelListModel?>(null);
+  final Rx<LiveTvs?> tvChannelData = Rx<LiveTvs?>(null);
+  final RxList<TvChannelData> allTvChannelList = RxList<TvChannelData>([]);
+  final RxList<TvChannelCategory> tvChannelCategoryList = RxList<TvChannelCategory>([]);
+  final RxList<ArtistCountry> tvChannelCountryList = RxList<ArtistCountry>([]);
+  Future<void> getTvChannel() async {
+    try {
+      isTvChannelListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuTvChannel?search=${viewAllTextEditingController.text.trim().toString()}&category_id=${selectedCategoryId.value ==-1 ? "" : selectedCategoryId.value.toString()}&country_id=${selectedCountryId.value ==-1 ? "" : selectedCountryId.value.toString()}",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        allTvChannelList.clear();
+        tvChannelCategoryList.clear();
+        tvChannelCountryList.clear();
+        tvChannelListModel.value = TvChannelListModel.fromJson(response.data);
+        tvChannelData.value = tvChannelListModel.value?.liveTvs;
+        allTvChannelList.addAll(tvChannelListModel.value!.liveTvs!.data!);
+        tvChannelCategoryList.addAll(tvChannelListModel.value!.filter!.categories!);
+        tvChannelCountryList.addAll(tvChannelListModel.value!.filter!.country!);
+        isTvChannelListLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isTvChannelListLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cRedColor);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isTvChannelListLoading.value = false;
+      ll('getTvChannels error: $e');
+    }
+  }
+
+
 
   final RxInt selectedServer = RxInt(-1);
   //!reset bottom nav bar data
@@ -752,5 +791,4 @@ class HomeController extends GetxController {
   selectedSort.value = "";
   isApplyClicked.value = false;
   }
-
 }
