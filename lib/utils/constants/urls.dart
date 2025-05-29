@@ -55,3 +55,5 @@ const String kuFavoriteList = "favorites";
 const String kuFavoriteAddOrRemove = "favorite/toggle";
 //!global search
 const String kuGlobalSearch = "global-search";
+//!faqs
+const String kuFaqs = "faqs";

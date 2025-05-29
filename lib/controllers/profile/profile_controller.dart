@@ -5,6 +5,7 @@ import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
+import 'package:vidflix_flutter_app/models/profile/faq/faq_model.dart';
 import 'package:vidflix_flutter_app/models/profile/favorite/favorite_list_model.dart';
 import 'package:vidflix_flutter_app/models/profile/playlist/playlist_model.dart';
 import 'package:vidflix_flutter_app/models/profile/playlist/playlist_movie_list_model.dart';
@@ -294,29 +295,8 @@ class ProfileController extends GetxController {
   final RxBool isNewPasswordShow = RxBool(false);
   final RxBool isConfirmNewPasswordShow = RxBool(false);
   //!faq
-  final RxList<Map<String, dynamic>> faqPurchaseAndPayment = RxList([
-    {
-      "question": "1. How do I Get Started with VidFlix?",
-      "answer":
-          "Getting started with SaleBot is easy! Simply Purchase the script from CodeCanyon, sign up for an account, follow the setup instructions, and start automating your WhatsApp marketing efforts right away"
-    },
-    {
-      "question": "2. How do I Get Started with VidFlix?",
-      "answer":
-          "Getting started with SaleBot is easy! Simply Purchase the script from CodeCanyon, sign up for an account, follow the setup instructions, and start automating your WhatsApp marketing efforts right away"
-    },
-        {
-      "question": "3. How do I Get Started with VidFlix?",
-      "answer":
-          "Getting started with SaleBot is easy! Simply Purchase the script from CodeCanyon, sign up for an account, follow the setup instructions, and start automating your WhatsApp marketing efforts right away"
-    },
-      {
-      "question": "4. How do I Get Started with VidFlix?",
-      "answer":
-          "Getting started with SaleBot is easy! Simply Purchase the script from CodeCanyon, sign up for an account, follow the setup instructions, and start automating your WhatsApp marketing efforts right away"
-    },
-  ]);
-  final RxInt selectedFaqIndex = RxInt(0);
+  final RxInt selectedPaymentFaqIndex = RxInt(0);
+  final RxInt selectedOrderFaqIndex = RxInt(0);
   // final TextEditingController fullNameTextEditingController2 = TextEditingController();
     final TextEditingController emailTextEditingController =
       TextEditingController();
@@ -701,7 +681,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       }
     } catch (e) {
       isfavoriteListLoading.value = false;
-      ll('getPlaylistList error: $e');
+      ll('getFavoriteList error: $e');
     }
   }
 
@@ -724,11 +704,50 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
         showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
       } else {
         showSnackBar(
-            title: ksError.tr, message: "contactUs Error!", color: cPrimaryColor2);
+            title: ksError.tr, message: "favoriteAddOrRemove Error!", color: cPrimaryColor2);
       }
     } catch (e) {
-      ll('contactUs error: $e');
+      ll('favoriteAddOrRemove error: $e');
     }
   }
 
+  //!Faq
+
+  final RxBool isFaqListLoading = RxBool(false);
+  final Rx<FaqModel?> faqModel = Rx<FaqModel?>(null); 
+  final RxList<Order?> paymentFaqList = RxList<Order?>([]);
+  final RxList<Order?> orderFaqList = RxList<Order?>([]);
+  Future<void> getFaqList() async {
+    try {
+      isFaqListLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuFaqs,
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        paymentFaqList.clear();
+        orderFaqList.clear();
+        faqModel.value = FaqModel.fromJson(response.data);
+        paymentFaqList.addAll(faqModel.value!.payment!);
+        orderFaqList.addAll(faqModel.value!.order!);
+        isFaqListLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isFaqListLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isFaqListLoading.value = false;
+      ll('getFaqList error: $e');
+    }
+  } 
 }

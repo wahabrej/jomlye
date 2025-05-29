@@ -18,11 +18,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      top: false,
+    top: false,
       child: WillPopScope(
       onWillPop: () async {
         if (_lastBackPressed == null || 
-            DateTime.now().difference(_lastBackPressed!) > Duration(seconds: 2)) {
+            DateTime.now().difference(_lastBackPressed!) > const Duration(seconds: 2)) {
           _lastBackPressed = DateTime.now();
           isBackPressedOnce = true;
           ScaffoldMessenger.of(context).showSnackBar(
@@ -39,6 +39,58 @@ class HomeScreen extends StatelessWidget {
       },
         child: Scaffold(
           backgroundColor: cBlackColor,
+                  appBar: PreferredSize(
+          preferredSize: Size.fromHeight(kAppBarSize.h),
+          //   //* info:: appBar
+          child: CustomAppBar(
+            hasBackButton: false,
+            title: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Row(
+                children: [
+             SvgPicture.asset(
+                kiVidflix,
+                width: h24.w,
+                height: h24.h,
+                color: cPrimaryColor2,
+              ),
+              kW4sizedBox,
+              Center(
+                child: Text(
+                  ksVidflix.tr,
+                  style: semiBold20TextStyle(cWhiteColor),
+                ),
+              ),
+                ],
+              ),
+            ),
+            actions: [
+              GestureDetector(
+                    onTap: ()async {
+                      homeController.resetBottomSheetData();
+                      await homeController.getGlobalSearch();
+                      Get.toNamed(krSearchScreen);
+                    },
+                    child: Container(
+                      width: 32.w,
+                      height: 32.h,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: cWhiteColor.withOpacity(0.2),
+                      ),
+                      child: const Icon(
+                        Icons.search,
+                        color: cWhiteColor,
+                        size: kIconSize24,
+                      ),
+                    ),
+                  ),
+                 kW12sizedBox,
+            ],
+          ),
+        ),
           body: Obx(
             () => SingleChildScrollView(
               child: Column(
@@ -51,30 +103,10 @@ class HomeScreen extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                         child: Text(
-                          ksExploreByGenre,
+                          ksExploreMovieByGenre.tr,
                           style: medium16TextStyle(cWhiteColor),
                         ),
                       ),
-                      GestureDetector(
-                      onTap: () async {
-                        homeController.resetBottomSheetData();
-                        await homeController.getGlobalSearch();
-                        Get.toNamed(krSearchScreen);
-                      },
-                      child: Container(
-                        width: 32.w,
-                        height: 32.h,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: cWhiteColor.withOpacity(0.2),
-                        ),
-                        child: const Icon(
-                          Icons.search,
-                          color: cWhiteColor,
-                          size: kIconSize24,
-                        ),
-                      ),
-                    ),
                     ],
                   ),
                   kH16sizedBox,
@@ -1178,59 +1210,61 @@ class HomeSlider extends StatelessWidget {
                       fit: BoxFit.cover,
                       width: width,
                       height: height * 0.45,
-                      errorBuilder: (context, error, stackTrace) => Center(
-                        child: SvgPicture.asset(
-                          kiDummyMovie,
-                          width: width,
-                          height: height * 0.45,
-                          fit: BoxFit.cover,
-                        ),
+                      errorBuilder: (context, error, stackTrace) => const Center(
+                        // child: SvgPicture.asset(
+                        //   kiDummyMovie,
+                        //   width: width,
+                        //   height: height * 0.45,
+                        //   fit: BoxFit.cover,
+                        // ),
+                        child:  SizedBox(),
                       ),
                     ),
                   ),
                 ),
-                Positioned(
-                  top: 30,
-                  left: 15,
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        kiVidflix,
-                        width: 28.w,
-                        height: 28.w,
-                      ),
-                      kW6sizedBox,
-                      Text(
-                        ksVidflix.tr,
-                        style: semiBold18TextStyle(cWhiteColor),
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  top: 30,
-                  right: 15,
-                  child: GestureDetector(
-                    onTap: ()async {
-                      homeController.resetBottomSheetData();
-                      await homeController.getGlobalSearch();
-                      Get.toNamed(krSearchScreen);
-                    },
-                    child: Container(
-                      width: 32.w,
-                      height: 32.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: cWhiteColor.withOpacity(0.2),
-                      ),
-                      child: const Icon(
-                        Icons.search,
-                        color: cWhiteColor,
-                        size: kIconSize24,
-                      ),
-                    ),
-                  ),
-                ),
+                // Positioned(
+                //   top: 40,
+                //   left: 15,
+                //   child: Row(
+                //     children: [
+                //       SvgPicture.asset(
+                //         kiVidflix,
+                //         width: 28.w,
+                //         height: 28.w,
+                //       ),
+                //       kW6sizedBox,
+                //       Text(
+                //         ksVidflix.tr,
+                //         style: semiBold18TextStyle(cWhiteColor),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // Positioned(
+                //   top: 40,
+                //   right: 15,
+                //   child: GestureDetector(
+                //     onTap: ()async {
+                //       homeController.resetBottomSheetData();
+                //       await homeController.getGlobalSearch();
+                //       Get.toNamed(krSearchScreen);
+                //     },
+                //     child: Container(
+                //       width: 32.w,
+                //       height: 32.h,
+                //       decoration: BoxDecoration(
+                //         shape: BoxShape.circle,
+                //         color: cWhiteColor.withOpacity(0.2),
+                //       ),
+                //       child: const Icon(
+                //         Icons.search,
+                //         color: cWhiteColor,
+                //         size: kIconSize24,
+                //       ),
+                //     ),
+                //   ),
+                // ),
+               
                 Positioned(
                   bottom: 100,
                   left: width * 0.5,
@@ -1306,7 +1340,7 @@ class HomeSlider extends StatelessWidget {
                 kH10sizedBox,
                 Positioned(
                   bottom: 60,
-                  left: width * 0.4,
+                  left: (width * 0.32).w,
                   child: Text(
                     slider.title ?? "",
                     style: semiBold24TextStyle(cWhiteColor),
@@ -1314,7 +1348,7 @@ class HomeSlider extends StatelessWidget {
                 ),
                 Positioned(
                   bottom: 6,
-                  left: width * 0.55,
+                  left: (width * 0.5).w,
                   child: Container(
                     width: 40.w,
                     height: 40.h,

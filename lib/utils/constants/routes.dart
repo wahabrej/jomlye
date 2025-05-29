@@ -66,7 +66,7 @@ const String krManageDownloadScreen = '/manage-download-screen';
 const String krVideoQualityScreen = '/video-quality-screen';
 const String krPlayListScreen = '/playlist-screen';
 const String krChangePasswordScreen = '/change-password-screen';
-const String krFaqScereen = '/faq-screen';
+const String krFaqScreen = '/faq-screen';
 const String krContactUsScreen = '/contact-us-screen';
 
 //*Home
@@ -115,7 +115,7 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krVideoQualityScreen, page: () => VideoQualityScreen(), transition: Transition.noTransition),
    GetPage(name: krPlayListScreen, page: () => PlayListScreen(), transition: Transition.noTransition),
    GetPage(name: krChangePasswordScreen, page: () => ChangePasswordScreen(), transition: Transition.noTransition),
-   GetPage(name: krFaqScereen, page: () => FAQScreen(), transition: Transition.noTransition),
+   GetPage(name: krFaqScreen, page: () => FAQScreen(), transition: Transition.noTransition),
    GetPage(name: krContactUsScreen, page: () => ContactUsScreen(), transition: Transition.noTransition),
    //*Home 
    GetPage(name: krHomeScreen, page: () => HomeScreen(), transition: Transition.noTransition),

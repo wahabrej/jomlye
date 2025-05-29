@@ -73,7 +73,7 @@ const String ksGallery = "Gallery";
 const String ksCamera = "Camera";
 
 //*Home
-const String ksExploreByGenre = "Explore by Genre";
+const String ksExploreMovieByGenre = "Explore Movie by Genre";
 const String ksNewRelease = "New Release";
 const String ksViewAll = "View All";
 const String ksTrendingMovies = "Trending Movies";
@@ -185,6 +185,7 @@ const String ksFiltered = "Filtered";
 const String ksClearAll = "Clear all";
 const String ksMovieIndustries = "Movie Industries";
 const String ksFree = "Free";
+const String ksOrder = "Order";
 //* player screen
 const String ksTitle = "Title";
 const String ksReadMore = "Read More";

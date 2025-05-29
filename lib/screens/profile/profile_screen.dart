@@ -278,9 +278,11 @@ class ProfileScreen extends StatelessWidget {
                   ProfileCommonWidget(
                     image: kiFaq,
                     title: ksFaq.tr,
-                    onPressed: () {
-                      profileController.selectedFaqIndex.value = -1;
-                      Get.toNamed(krFaqScereen);
+                    onPressed: () async{
+                      profileController.selectedPaymentFaqIndex.value = -1;
+                      profileController.selectedOrderFaqIndex.value = -1;
+                      await profileController.getFaqList();
+                      Get.toNamed(krFaqScreen);
                     },
                   ),
                   kH8sizedBox,

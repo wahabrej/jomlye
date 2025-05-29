@@ -78,7 +78,7 @@ class FAQScreen extends StatelessWidget {
                 thickness: 1,
                 color: cWhiteColor.withOpacity(0.2),
               ),
-              kH30sizedBox,
+              kH16sizedBox,
               Text(
                 ksPurchaseAndPayment.tr,
                 style: semiBold20TextStyle(cWhiteColor),
@@ -86,16 +86,19 @@ class FAQScreen extends StatelessWidget {
               kH12sizedBox,
               ListView.separated(
                   shrinkWrap: true,
+                  padding:  EdgeInsets.zero,
+                   separatorBuilder: (context, index) => kH16sizedBox,
+                  itemCount: profileController.paymentFaqList.length,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Obx(() => InkWell(
                       splashColor: cTransparentColor,
                       highlightColor: cTransparentColor,
                           onTap: () {
-                            profileController.selectedFaqIndex.value = index;
+                            profileController.selectedPaymentFaqIndex.value = index;
                           },
                           child:
-                              profileController.selectedFaqIndex.value == index
+                              profileController.selectedPaymentFaqIndex.value == index
                                   ? 
                                   Container(
                                     decoration: BoxDecoration(
@@ -114,8 +117,7 @@ class FAQScreen extends StatelessWidget {
                                                 width: width-101,
                                                  child: Text(
                                                   profileController
-                                                          .faqPurchaseAndPayment[index]
-                                                      ["question"],
+                                                          .paymentFaqList[index]?.question??"",
                                                   style: medium16TextStyle(cWhiteColor),
                                                   overflow: TextOverflow.clip,
                                                   ),
@@ -127,7 +129,7 @@ class FAQScreen extends StatelessWidget {
                                                 splashColor: cTransparentColor,
                                                 highlightColor: cTransparentColor,
                                                 onTap: (){
-                                                  profileController.selectedFaqIndex.value = -1;
+                                                  profileController.selectedPaymentFaqIndex.value = -1;
                                                 },
                                                 child: const Icon(Icons.minimize_sharp,color: cPrimaryColor2,size: kIconSize20,)),
                                              ),
@@ -142,8 +144,7 @@ class FAQScreen extends StatelessWidget {
                                               child: SizedBox(
                                                 width: width-105,
                                                 child: Text(profileController
-                                                              .faqPurchaseAndPayment[index]
-                                                          ["answer"],style: regular14TextStyle(cWhiteColor.withOpacity(0.7),),),
+                                                              .paymentFaqList[index]?.answer??"",style: regular14TextStyle(cWhiteColor.withOpacity(0.7),),),
                                               ),
                                             ),
                                           ],
@@ -155,8 +156,7 @@ class FAQScreen extends StatelessWidget {
                                       children: [
                                         Text(
                                           profileController
-                                                  .faqPurchaseAndPayment[index]
-                                              ["question"],
+                                                  .paymentFaqList[index]?.question??"",
                                           style: medium16TextStyle(cWhiteColor),
                                         ),
                                         const Expanded(child: SizedBox()),
@@ -170,8 +170,102 @@ class FAQScreen extends StatelessWidget {
                                     ),
                         ));
                   },
-                  separatorBuilder: (context, index) => kH16sizedBox,
-                  itemCount: profileController.faqPurchaseAndPayment.length),
+                 ),
+            kH20sizedBox,
+            Text(
+                ksOrder.tr,
+                style: semiBold20TextStyle(cWhiteColor),
+              ),
+              kH12sizedBox,
+              ListView.separated(
+                  shrinkWrap: true,
+                  padding:  EdgeInsets.zero,
+                   separatorBuilder: (context, index) => kH16sizedBox,
+                  itemCount: profileController.orderFaqList.length,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Obx(() => InkWell(
+                      splashColor: cTransparentColor,
+                      highlightColor: cTransparentColor,
+                          onTap: () {
+                            profileController.selectedOrderFaqIndex.value = index;
+                          },
+                          child:
+                              profileController.selectedOrderFaqIndex.value == index
+                                  ? 
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: cWhiteColor.withOpacity(0.2),
+                                      border: Border.all(width: 0.5,color: cPrimaryColor2),
+                                      borderRadius: BorderRadius.circular(k12BorderRadius),
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                         Padding(
+                                           padding: const EdgeInsets.only(top: k20Padding,right: k20Padding,left: k20Padding),
+                                           child: Row(
+                                             children: [
+                                               SizedBox(
+                                                width: width-101,
+                                                 child: Text(
+                                                  profileController
+                                                          .orderFaqList[index]?.question??"",
+                                                  style: medium16TextStyle(cWhiteColor),
+                                                  overflow: TextOverflow.clip,
+                                                  ),
+                                               ),
+                                             const Expanded(child: SizedBox(),),
+                                              Padding(
+                                               padding: const EdgeInsets.only(bottom: k10Padding),
+                                               child:  InkWell(
+                                                splashColor: cTransparentColor,
+                                                highlightColor: cTransparentColor,
+                                                onTap: (){
+                                                  profileController.selectedOrderFaqIndex.value = -1;
+                                                },
+                                                child: const Icon(Icons.minimize_sharp,color: cPrimaryColor2,size: kIconSize20,)),
+                                             ),
+                                             ],
+                                           ),
+                                         ),
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: k20Padding,right: k20Padding,bottom: k20Padding,top: k16Padding),
+                                              child: SizedBox(
+                                                width: width-105,
+                                                child: Text(profileController
+                                                              .orderFaqList[index]?.answer??"",style: regular14TextStyle(cWhiteColor.withOpacity(0.7),),),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                  : Row(
+                                      children: [
+                                        Text(
+                                          profileController
+                                                  .orderFaqList[index]?.question??"",
+                                          style: medium16TextStyle(cWhiteColor),
+                                        ),
+                                        const Expanded(child: SizedBox()),
+                                        kW20sizedBox,
+                                        const Icon(
+                                          Icons.add,
+                                          size: kIconSize16,
+                                          color: cWhiteColor,
+                                        ),
+                                      ],
+                                    ),
+                        ));
+                  },
+                 ),
+           
+           
             ],
           ),
         ),
