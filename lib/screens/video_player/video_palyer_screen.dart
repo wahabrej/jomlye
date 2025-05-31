@@ -46,66 +46,75 @@ class VideoPlayerScreen extends StatelessWidget {
               //     );
               //   },
               // ),
-
-              YoutubePlayerBuilder(
-                player: YoutubePlayer(
-                  controller: allVideoPlayerController.youtubeController,
-                  showVideoProgressIndicator: true,
-                  progressIndicatorColor: Colors.red,
-                  bottomActions: const [
-                    SizedBox(width: 14.0),
-                    CurrentPosition(),
-                    SizedBox(width: 8.0),
-                    ProgressBar(
-                      isExpanded: true,
-                      colors: ProgressBarColors(
-                        playedColor: cPrimaryColor,
-                        handleColor: cPrimaryColor,
-                      ),
-                    ),
-                    SizedBox(width: 8.0),
-                    RemainingDuration(),
-                    SizedBox(width: 14.0),
-                    FullScreenButton(
-                      color: cPrimaryColor,
-                    ),
-                  ],
-                ),
-                builder: (context, player) {
-                  return Stack(
-                    children: [
-                      Column(
-                        children: [
-                          player,
-                          const SizedBox(),
-                        ],
-                      ),
-                      Positioned(
-                        top: 2,
-                        left: 4,
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.arrow_back_ios,
-                            color: cWhiteColor,
-                            size: kIconSize16,
-                          ),
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
+              if (homeController.movieServerList.isNotEmpty &&
+                  homeController
+                          .movieServerList[homeController.selectedServer.value]
+                          ?.fileSource ==
+                      "youtube")
+                YoutubePlayerBuilder(
+                  player: YoutubePlayer(
+                    controller: allVideoPlayerController.youtubeController,
+                    showVideoProgressIndicator: true,
+                    progressIndicatorColor: Colors.red,
+                    bottomActions: const [
+                      SizedBox(width: 14.0),
+                      CurrentPosition(),
+                      SizedBox(width: 8.0),
+                      ProgressBar(
+                        isExpanded: true,
+                        colors: ProgressBarColors(
+                          playedColor: cPrimaryColor,
+                          handleColor: cPrimaryColor,
                         ),
                       ),
+                      SizedBox(width: 8.0),
+                      RemainingDuration(),
+                      SizedBox(width: 14.0),
+                      FullScreenButton(
+                        color: cPrimaryColor,
+                      ),
                     ],
-                  );
-                },
-              ),
+                  ),
+                  builder: (context, player) {
+                    return Stack(
+                      children: [
+                        Column(
+                          children: [
+                            player,
+                            const SizedBox(),
+                          ],
+                        ),
+                        Positioned(
+                          top: 2,
+                          left: 4,
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.arrow_back_ios,
+                              color: cWhiteColor,
+                              size: kIconSize16,
+                            ),
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
 
               //!flick video player
-              // AspectRatio(
-              //   aspectRatio: 16 / 9,
-              //   child: FlickVideoPlayer(
-              //     flickManager: allVideoPlayerController.flickManager,
-              //   ),
-              // ),
+              if (homeController.movieServerList.isNotEmpty &&
+                  homeController
+                          .movieServerList[homeController.selectedServer.value]
+                          ?.fileSource !=
+                      "youtube")
+                AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: FlickVideoPlayer(
+                    flickManager: allVideoPlayerController.flickManager,
+                  ),
+                ),
               kH20sizedBox,
               Padding(
                 padding: const EdgeInsets.only(left: k20Padding),
@@ -338,10 +347,13 @@ class VideoPlayerScreen extends StatelessWidget {
                         kW10sizedBox,
                         CommonContainer(
                           image: kiDownload,
-                          onPressed: (){
+                          onPressed: () {
                             // allVideoPlayerController.flutterMediaDownloaderPlugin.downloadMedia(context,'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
-                            allVideoPlayerController.flutterMediaDownloaderPlugin.downloadMedia(context,'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
-                          }, 
+                            allVideoPlayerController
+                                .flutterMediaDownloaderPlugin
+                                .downloadMedia(context,
+                                    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+                          },
                         ),
                         //flutter video download
                         // CommonContainer(
@@ -396,9 +408,7 @@ class VideoPlayerScreen extends StatelessWidget {
                         //     }
                         //   },
                         // ),
-                      
-                      
-                      
+
                         // kW10sizedBox,
                         // CommonContainer(
                         //   image: kiDownload,
@@ -476,8 +486,7 @@ class VideoPlayerScreen extends StatelessWidget {
                         //     }
                         //   },
                         // ),
-                      
-                      
+
                         kW10sizedBox,
                         CommonContainer(
                           image: kiShare,
@@ -500,18 +509,71 @@ class VideoPlayerScreen extends StatelessWidget {
                           separatorBuilder: (context, index) => kW10sizedBox,
                           itemCount: homeController.movieServerList.length,
                           itemBuilder: (context, index) {
-                            return Container(
-                              width: width - 60 / 3,
-                              height: 40.h,
-                              decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(k6BorderRadius),
-                                color: homeController.selectedServer.value ==
-                                        index + 1
-                                    ? cPrimaryColor
-                                    : cWhiteColor.withOpacity(0.2),
-                              ),
-                            );
+                            return Obx(() => InkWell(
+                                  onTap: () {
+                                    homeController.selectedServer.value = index;
+                                    if (homeController
+                                            .movieServerList[index]!.sourceType!
+                                            .toLowerCase() ==
+                                        "youtube") {
+                                      allVideoPlayerController.videoUrl.value =
+                                          homeController.movieServerList[index]!
+                                                  .fileUrl ??
+                                              "";
+                                      final videoId =
+                                          YoutubePlayer.convertUrlToId(
+                                              allVideoPlayerController
+                                                  .videoUrl.value);
+                                      allVideoPlayerController
+                                              .youtubeController =
+                                          YoutubePlayerController(
+                                        initialVideoId: videoId ?? '',
+                                        flags: const YoutubePlayerFlags(
+                                          autoPlay: false,
+                                          mute: false,
+                                        ),
+                                      );
+                                    } else if (homeController
+                                            .movieServerList[index]!.sourceType!
+                                            .toLowerCase() !=
+                                        "youtube") {
+                                      allVideoPlayerController.videoUrl.value =
+                                          homeController.movieServerList[index]!
+                                                  .fileUrl ??
+                                              "";
+                                      ll("The video url is ${allVideoPlayerController.videoUrl.value}");
+                                      Get.find<AllVideoPlayerController>()
+                                          .flickManager = FlickManager(
+                                        videoPlayerController:
+                                            VideoPlayerController.network(
+                                                homeController
+                                                        .movieServerList[index]!
+                                                        .fileUrl ??
+                                                    ""),
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    width: (width - 50) / 3,
+                                    height: 40.h,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(k6BorderRadius),
+                                      color:
+                                          homeController.selectedServer.value ==
+                                                  index
+                                              ? cPrimaryColor
+                                              : cWhiteColor.withOpacity(0.2),
+                                    ),
+                                    child: Center(
+                                        child: Text(
+                                      homeController
+                                              .movieServerList[index]?.label ??
+                                          "",
+                                      style: medium14TextStyle(cWhiteColor),
+                                    )),
+                                  ),
+                                ));
                           },
                         ),
                       ),

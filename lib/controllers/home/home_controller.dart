@@ -774,7 +774,7 @@ class HomeController extends GetxController {
 
 
 
-  final RxInt selectedServer = RxInt(-1);
+  final RxInt selectedServer = RxInt(0);
   //!reset bottom nav bar data
   void resetBottomSheetData(){
   selectedCategoryId.value = -1;

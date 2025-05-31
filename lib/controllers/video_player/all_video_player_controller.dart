@@ -6,12 +6,12 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 class AllVideoPlayerController extends GetxController {
   late YoutubePlayerController youtubeController;
 
-  final String videoUrl = 'https://www.youtube.com/watch?v=K18cpp_-gP8';
+  final RxString videoUrl = RxString('https://www.youtube.com/watch?v=K18cpp_-gP8');
 
   @override
   void onInit() {
     super.onInit();
-    final videoId = YoutubePlayer.convertUrlToId(videoUrl);
+    final videoId = YoutubePlayer.convertUrlToId(videoUrl.value);
     youtubeController = YoutubePlayerController(
       initialVideoId: videoId ?? '',
       flags: const YoutubePlayerFlags(
