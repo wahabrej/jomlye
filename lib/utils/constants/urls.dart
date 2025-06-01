@@ -59,3 +59,4 @@ const String kuGlobalSearch = "global-search";
 const String kuFaqs = "faqs";
 //! Tv Channels
 const String kuTvChannel = "live-tvs";
+const String kuLiveTvDetails = "live-tv-details";

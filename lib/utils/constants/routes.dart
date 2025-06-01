@@ -33,6 +33,7 @@ import 'package:vidflix_flutter_app/screens/profile/settings/manage_notification
 import 'package:vidflix_flutter_app/screens/profile/settings/settings_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/settings/video_quality_screen.dart';
 import 'package:vidflix_flutter_app/screens/profile/subscription_plan_screen.dart';
+import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.dart';
 import 'package:vidflix_flutter_app/screens/video_player/playlist_player_screen.dart';
 import 'package:vidflix_flutter_app/screens/video_player/tv_show_player_screen.dart';
 import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
@@ -84,6 +85,7 @@ const String krCastDetailsScreen = '/cast-details-screen';
 const String krVideoPlayerScreen = '/video-player-screen';
 const String krTvShowPlayerScreen = '/tvshow-player-screen';
 const String krPlaylistPlayerScreen = '/playlist-player-screen';
+const String krLiveTvPlayerScreen = '/live-tv-player-screen';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -132,4 +134,5 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krVideoPlayerScreen, page: () => VideoPlayerScreen(), transition: Transition.noTransition),
    GetPage(name: krTvShowPlayerScreen, page: () => TvShowPlayerScreen(), transition: Transition.noTransition),
    GetPage(name: krPlaylistPlayerScreen, page: () => PlaylistVideoPlayerScreen(), transition: Transition.noTransition),
+   GetPage(name: krLiveTvPlayerScreen, page: () => LiveTvPlayerScreen(), transition: Transition.noTransition),
 ];

@@ -12,6 +12,7 @@ import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/filter_movie_list_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_list_model.dart';
+import 'package:vidflix_flutter_app/models/home/view_all/tv_channel/tv_channel_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_channel/tv_channel_list_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_show_filter_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_details_model.dart';
@@ -769,6 +770,45 @@ class HomeController extends GetxController {
     } catch (e) {
       isTvChannelListLoading.value = false;
       ll('getTvChannels error: $e');
+    }
+  }
+
+    //Tv channel details
+  final RxBool isTvChannelDetailsLoading = RxBool(false);
+  final Rx<TvChannelDetailsModel?> tvChannelDetailsModel = Rx<TvChannelDetailsModel?>(null);
+  final Rx<LiveTvDetails?> liveTvDetailsData = Rx<LiveTvDetails?>(null);
+  final RxList<dynamic> relatedLiveTvChannelsList = RxList<dynamic>([]);
+  Future<void> getTvChannelDetails({int? tvChannelId}) async {
+    try {
+      isTvChannelDetailsLoading.value = true;
+      String? token = await spController.getBearerToken();
+      int? userId = await spController.getUserId();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuLiveTvDetails?id=${tvChannelId.toString()}&user_id=${userId.toString()}",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        relatedLiveTvChannelsList.clear();
+        tvChannelDetailsModel.value = TvChannelDetailsModel.fromJson(response.data);
+        liveTvDetailsData.value = tvChannelDetailsModel.value?.liveTvDetails;
+        relatedLiveTvChannelsList.addAll(tvChannelDetailsModel.value!.relatedLiveTvs!);
+        isTvChannelDetailsLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isTvChannelDetailsLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cRedColor);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isTvChannelDetailsLoading.value = false;
+      ll('getTvChannelDetails error: $e');
     }
   }
 
