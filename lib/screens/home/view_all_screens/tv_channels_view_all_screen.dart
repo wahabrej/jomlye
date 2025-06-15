@@ -1,6 +1,7 @@
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
+import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -301,7 +302,9 @@ class TvChannelsViewAllScreen extends StatelessWidget {
                               await homeController.getTvChannelDetails(
                                   tvChannelId: homeController
                                       .allTvChannelList[index].id);
-                                      Get.toNamed(krLiveTvPlayerScreen);
+                                      // Get.toNamed(krLiveTvPlayerScreen);
+                                      Get.to(()=>LiveTvPlayerScreen(liveTvUrl: homeController
+                                      .allTvChannelList[index].streamUrl,));
                             },
                             child: FeaturedTvChannelsContentContainer(
                               containerWidth: 94.w,
