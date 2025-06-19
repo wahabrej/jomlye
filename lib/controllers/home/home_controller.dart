@@ -226,15 +226,15 @@ class HomeController extends GetxController {
         movieGenreList.clear();
         movieYearList.clear();
         movieSortList.clear();
-        MovieListModel movieListModel = MovieListModel.fromJson(response.data);
-        movieList.addAll(movieListModel.movies!.data!);
-        temporaryMovieList.addAll(movieListModel.movies!.data!);
-        movieCategoryList.addAll(movieListModel.filter!.categories!);
-        movieCountryList.addAll(movieListModel.filter!.country!);
-        movieLanguageList.addAll(movieListModel.filter!.languages!);
-        movieGenreList.addAll(movieListModel.filter!.genre!);
-        movieYearList.addAll(movieListModel.filter!.year!);
-        movieSortList.addAll(movieListModel.filter!.sort!);
+        movieListModel.value = MovieListModel.fromJson(response.data);
+        movieList.addAll(movieListModel.value!.movies!.data!);
+        temporaryMovieList.addAll(movieListModel.value!.movies!.data!);
+        movieCategoryList.addAll(movieListModel.value!.filter!.categories!);
+        movieCountryList.addAll(movieListModel.value!.filter!.country!);
+        movieLanguageList.addAll(movieListModel.value!.filter!.languages!);
+        movieGenreList.addAll(movieListModel.value!.filter!.genre!);
+        movieYearList.addAll(movieListModel.value!.filter!.year!);
+        movieSortList.addAll(movieListModel.value!.filter!.sort!);
         isMovieListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -250,7 +250,7 @@ class HomeController extends GetxController {
       ll('getMovieList error: $e');
     }
   }
-
+  final RxBool isHomeGenreClicked = RxBool(false);
   final Rx<FilterMovieListModel?> filterMovieListModel = Rx<FilterMovieListModel?>(null);
   Future<void> getFilterMovieList() async {
     try {
@@ -260,15 +260,27 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuMovieFilter?string=${viewAllTextEditingController.text.trim().toString()}&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}&sort=${selectedSortId.value.toString()}",
+        url: "$kuMovieFilter?string=${viewAllTextEditingController.text.trim().toString()}&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}&sort=${selectedSortId.value!=-1 ? selectedSortId.value.toString():""}",
         body: body,
       ) as CommonDM;
 
       if (response.code == 200) {
         movieList.clear();
-        FilterMovieListModel filterMovieListModel = FilterMovieListModel.fromJson(response.data);
-        movieList.addAll(filterMovieListModel.movies!.data!);
-        Get.back();
+        movieCategoryList.clear();
+        movieCountryList.clear();
+        movieLanguageList.clear();
+        movieGenreList.clear();
+        movieYearList.clear();
+        movieSortList.clear();
+        filterMovieListModel.value = FilterMovieListModel.fromJson(response.data);
+        movieList.addAll(filterMovieListModel.value!.movies!.data!);
+        movieCategoryList.addAll(filterMovieListModel.value!.filter!.categories!);
+        movieCountryList.addAll(filterMovieListModel.value!.filter!.country!);
+        movieLanguageList.addAll(filterMovieListModel.value!.filter!.languages!);
+        movieGenreList.addAll(filterMovieListModel.value!.filter!.genre!);
+        movieYearList.addAll(filterMovieListModel.value!.filter!.year!);
+        movieSortList.addAll(filterMovieListModel.value!.filter!.sort!);
+        // Get.back();
         isMovieListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);

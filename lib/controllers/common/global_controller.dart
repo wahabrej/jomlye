@@ -135,7 +135,7 @@ class GlobalController extends GetxController {
     );
   }
 
-    ImagePicker _picker = ImagePicker();
+   final ImagePicker _picker = ImagePicker();
 
   Future<bool> selectImageSource(
       RxBool isChanged, imageLink, imageFile, String source,

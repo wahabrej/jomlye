@@ -1,5 +1,4 @@
 import 'package:vidflix_flutter_app/screens/profile/profile_screen.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_app_bar.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class SettingsScreen extends StatelessWidget {

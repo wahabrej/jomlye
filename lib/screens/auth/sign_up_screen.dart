@@ -4,7 +4,6 @@ import 'package:vidflix_flutter_app/screens/auth/sign_in_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_checkbox.dart';
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class SignUpScreen extends StatelessWidget {

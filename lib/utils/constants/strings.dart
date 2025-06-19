@@ -121,6 +121,7 @@ const String ksHome = "Home";
 const String ksTopNews = "Top News";
 const String ksTvShows = "Tv Shows";
 const String ksSearchHere = "Search here";
+const String ksAllMovies = "All Movies";
 //*Profile
 const String ksProfile = "Profile";
 const String ksEditProfile = "Edit Profile";

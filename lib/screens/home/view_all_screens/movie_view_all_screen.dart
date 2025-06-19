@@ -100,7 +100,7 @@ class MovieViewAllScreen extends StatelessWidget {
                         Get.back();
                       },
                       child: Container(
-                        width: homeController.selectedTitle.value==ksNewRelease.tr ? 140.w : homeController.selectedTitle.value==ksTrendingMovies.tr ? 170.w : 190.w,
+                        width: homeController.selectedTitle.value==ksNewRelease ? 140.w : homeController.selectedTitle.value==ksTrendingMovies ? 170.w : homeController.selectedTitle.value=="" ? 110.w : 190.w,
                         height: h32,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100.r),
@@ -119,7 +119,7 @@ class MovieViewAllScreen extends StatelessWidget {
                               kW4sizedBox,
                               Center(
                                   child: Text(
-                               homeController.selectedTitle.value,
+                               homeController.selectedTitle.value =="" ? ksAllMovies.tr : homeController.selectedTitle.value,
                                 style: regular16TextStyle(cWhiteColor),
                               )),
                             ],
@@ -210,9 +210,13 @@ class MovieViewAllScreen extends StatelessWidget {
                         InkWell(
                             onTap: () {
                               homeController.resetBottomSheetData();
+                              if(homeController.isHomeGenreClicked.value){
+                                homeController.getFilterMovieList();
+                              }
+                              else{
                               homeController.movieList.clear();
-                              homeController.movieList
-                                  .addAll(homeController.temporaryMovieList);
+                              homeController.movieList.addAll(homeController.temporaryMovieList);
+                              }
                             },
                             child: Text(
                               ksClearAll.tr,
@@ -368,7 +372,7 @@ class MovieViewAllScreen extends StatelessWidget {
                   kH16sizedBox,
                   homeController.movieList.isEmpty
                       ? SizedBox(
-                          height: (height * 0.6),
+                          height: (height * 0.5),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -856,6 +860,7 @@ class AllMovieBottomSheetContent extends StatelessWidget {
                 label: ksApply.tr,
                 onPressed: () async {
                   homeController.isApplyClicked.value = true;
+                  Get.back();
                   await homeController.getFilterMovieList();
                 },
                 buttonColor: cPrimaryColor2,

@@ -3,13 +3,16 @@ import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_list_model.
 
 class FilterMovieListModel {
     final Movies? movies;
+    final Filter? filter;
 
     FilterMovieListModel({
         this.movies,
+        this.filter,
     });
 
     factory FilterMovieListModel.fromJson(Map<String, dynamic> json) => FilterMovieListModel(
         movies: json["movies"] == null ? null : Movies.fromJson(json["movies"]),
+        filter: json["filter"] == null ? null : Filter.fromJson(json["filter"]),
     );
 }
 

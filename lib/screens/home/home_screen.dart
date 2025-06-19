@@ -9,7 +9,7 @@ import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
 class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+ HomeScreen({super.key});
   final HomeController homeController = Get.find<HomeController>();
   final ProfileController profileController =  Get.find<ProfileController>();
   bool isBackPressedOnce = false;
@@ -129,6 +129,14 @@ class HomeScreen extends StatelessWidget {
                                       homeController.selectedBlogGenre.value =
                                           homeController.genreList[index].name ??
                                               "";
+                                      homeController.selectedGenre.value =
+                                          homeController.genreList[index].name ??
+                                              "";
+                                              homeController.selectedGenreId.value =  homeController.genreList[index].id ?? -1;
+                                              homeController.isApplyClicked.value=true;
+                                              homeController.getFilterMovieList();
+                                              homeController.isHomeGenreClicked.value = true;
+                                              Get.toNamed(krMovieViewAllScreen);
                                     },
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -174,6 +182,7 @@ class HomeScreen extends StatelessWidget {
                       homeController.viewAllTextEditingController.clear();
                       homeController.selectedTitle.value = ksNewRelease;
                       await homeController.getMovieList(movieType: "newRelease");
+                      homeController.isHomeGenreClicked.value = false;
                       Get.toNamed(krMovieViewAllScreen);
                     },
                   ),
@@ -247,6 +256,7 @@ class HomeScreen extends StatelessWidget {
                       homeController.viewAllTextEditingController.clear();
                       homeController.selectedTitle.value = ksTrendingMovies;
                       await homeController.getMovieList(movieType: "trending");
+                      homeController.isHomeGenreClicked.value = false;
                       Get.toNamed(krMovieViewAllScreen);
                     },
                   ),
@@ -319,6 +329,7 @@ class HomeScreen extends StatelessWidget {
                       homeController.viewAllTextEditingController.clear();
                       homeController.selectedTitle.value = ksRecommendedMovies;
                       await homeController.getMovieList(movieType: "recommended");
+                      homeController.isHomeGenreClicked.value = false;
                       Get.toNamed(krMovieViewAllScreen);
                     },
                   ),
@@ -1022,8 +1033,8 @@ class TopArtistContent extends StatelessWidget {
                 errorBuilder: (context, error, stackTrace) => Center(
                   child: SvgPicture.asset(
                     kiDummyMovie,
-                    height: contentHeight ?? 210.h,
-                    width: (width - 30),
+                    height: 100.h,
+                    width: 100.w,
                     fit: BoxFit.fill,
                   ),
                 ),

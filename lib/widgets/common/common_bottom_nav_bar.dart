@@ -85,7 +85,6 @@ class _BottomNavbarItem extends StatelessWidget {
   final VoidCallback? onPressed;
 
   const _BottomNavbarItem({
-    super.key,
     required this.width,
     required this.isSelected,
     required this.title,
