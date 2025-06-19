@@ -22,10 +22,11 @@ import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/utils/constants/urls.dart';
 
 class HomeController extends GetxController {
-    final SpController spController = SpController();
+  final SpController spController = SpController();
   final ApiServices apiServices = ApiServices();
   var currentIndex = 0.obs;
-  final RxString selectedTitle = RxString(""); 
+  final RxString selectedTitle = RxString("");
+ 
 
   //* Top Artist
   final RxBool isViewAllSearchEnable = RxBool(false);
@@ -725,6 +726,12 @@ class HomeController extends GetxController {
         searchCountryList.addAll(globalSearchModel.value!.filter!.country!);
         searchGenreList.addAll(globalSearchModel.value!.filter!.genre!);
         searchYearList.addAll(globalSearchModel.value!.filter!.year!);
+         globalSearchListSubLink.value = globalSearchModel.value?.searchedData?.nextPageUrl;
+        if (globalSearchListSubLink.value != null) {
+          globalSearchListScrolled.value = false;
+        } else {
+          globalSearchListScrolled.value = true;
+        }
         isGlobalSearchLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -740,6 +747,115 @@ class HomeController extends GetxController {
       ll('getGlobalSearch error: $e');
     }
   }
+ //! pagination for global search
+  final ScrollController globalSearchScrollController = ScrollController();
+  final Rx<String?> globalSearchListSubLink = Rx<String?>(null);
+  final RxBool globalSearchListScrolled = RxBool(false);
+    //*Get More global search for pagination
+  Future<void> getMoreGlobalSearch([take]) async {
+    ll("getLoadMoreGlobalSearch is called");
+    try {
+      String? token = await spController.getBearerToken();
+      dynamic globalSearchListSub;
+
+      if (globalSearchListSubLink.value == null) {
+        return;
+      } else {
+        globalSearchListSub = globalSearchListSubLink.value!.split('?');
+      }
+
+      String friendListSuffixUrl = '';
+
+      friendListSuffixUrl = '&${globalSearchListSub[1]}';
+
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        // url: kuGlobalSearch + friendListSuffixUrl,
+        url: "$kuGlobalSearch?search=${globalSearchTextEditingController.text.trim().toString()}&category=${selectedCategoryId.value ==-1 ?"" : selectedCategoryId.value.toString()}&country=${selectedCountryId.value==-1 ? "" : selectedCountryId.value.toString()}&genre=${selectedGenreId.value==-1 ? "" : selectedGenreId.value.toString()}&year=${selectedYear.toString()}$friendListSuffixUrl",
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        globalSearchModel.value = GlobalSearchModel.fromJson(response.data);
+        
+        // friendList.addAll(friendListData.value!.friends!.data);
+        searchList.addAll(globalSearchModel.value!.searchedData!.data!);
+        globalSearchListSubLink.value = globalSearchModel.value!.searchedData!.nextPageUrl;
+        if (globalSearchListSubLink.value != null) {
+          globalSearchListScrolled.value = false;
+        } else {
+          globalSearchListScrolled.value = true;
+        }
+
+        isGlobalSearchLoading.value = false;
+      } else {
+        isGlobalSearchLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          // globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          // globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isGlobalSearchLoading.value = true;
+      ll('getLoadMoreGlobalSearch error: $e');
+    }
+  }
+  //!
+//  final ScrollController globalSearchScrollController = ScrollController();
+//  final RxBool hasGlobalSearchNextPage = RxBool(false);
+ //  final RxBool isLoadMoreGlobalSearchRunning = RxBool(false);
+//  final RxBool globalSearchScrolled = RxBool(false);
+//     void loadMoreGlobalSearch() async {
+//     ll("The loadMoreGlobalSearch() is called");
+//     if (hasGlobalSearchNextPage.value==false && !isGlobalSearchLoading.value && !isLoadMoreGlobalSearchRunning.value) {
+//     // if (hasNextPage.value) {
+//       String? token = await spController.getBearerToken();
+//       // double scrollPosition = scrollController.position.pixels;
+//       // double maxScrollExtent = scrollController.position.maxScrollExtent;
+//       // double triggerThreshold = 0.9;
+
+//       // if (scrollPosition / maxScrollExtent > triggerThreshold) {
+//         // _isLoadMoreConversationRunning.value = true;
+//         isLoadMoreGlobalSearchRunning.value = true;
+//         try {
+//           var response = await apiServices.commonApiCall(
+//             url: "$kuGlobalSearch?search=${globalSearchTextEditingController.text.trim().toString()}&category=${selectedCategoryId.value ==-1 ?"" : selectedCategoryId.value.toString()}&country=${selectedCountryId.value==-1 ? "" : selectedCountryId.value.toString()}&genre=${selectedGenreId.value==-1 ? "" : selectedGenreId.value.toString()}&year=${selectedYear.toString()}&page=2",
+//               requestMethod: kGet,
+//               token: token,
+//           ) as CommonDM;
+//           if (response.success == true) {
+//            GlobalSearchModel globalSearchModel = GlobalSearchModel.fromJson(response.data);
+//             searchList.addAll(globalSearchModel.searchedData!.data!);
+//               // hasGlobalSearchNextPage.value =  globalSearchModel.value.nextPageUrl??false; //!needed
+//             if (hasGlobalSearchNextPage.value) {
+//           // currentConversationPage.value++;
+//           globalSearchScrolled.value = false;
+//         } else {
+//           globalSearchScrolled.value = true;
+//         }
+//             // if(chatRoomsModel.chatRooms == null || chatRoomsModel.chatRooms!.isEmpty){
+//             //   // _hasNextPage.value = false;
+//             //   hasNextPage.value = false;
+//             // }else{
+//             //   currentConversationPage.value++;
+//             // }
+//           }
+//           else {
+//             showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor);
+//           }
+//         } catch (e) {
+//           // _isLoadMoreConversationRunning.value = false;
+//           // isLoadMoreConversationRunning.value = false;//!not needed now
+//           ll('chat room error: $e');
+//         }finally {
+//           // _isLoadMoreConversationRunning.value = false;
+//           // isLoadMoreConversationRunning.value = false;//!not needed now
+//         }
+//       // }
+//     }
+//   }
 
   //!Tv Channel
   final RxBool isTvChannelListLoading = RxBool(false);
