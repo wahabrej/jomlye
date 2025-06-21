@@ -1,4 +1,5 @@
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flutter/rendering.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
@@ -58,7 +59,7 @@ class MovieViewAllScreen extends StatelessWidget {
                               if (v == "") {
                                 unfocus(context);
                               } else {
-                                await homeController.getArtistList();
+                                await homeController.getMovieList(movieType: homeController.selectedTitle.value);
                               }
                             },
                             textInputStyle: regular14TextStyle(cWhiteColor),
@@ -190,256 +191,284 @@ class MovieViewAllScreen extends StatelessWidget {
               ],
             ),
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: Column(
-                children: [
-                  Divider(
-                    thickness: 1,
-                    color: cWhiteColor.withOpacity(0.2),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+            child: Column(
+              children: [
+                Divider(
+                  thickness: 1,
+                  color: cWhiteColor.withOpacity(0.2),
+                ),
+                if (homeController.isApplyClicked.value)
+                  Row(
+                    children: [
+                      Text(
+                        ksFiltered.tr,
+                        style: medium16TextStyle(cWhiteColor),
+                      ),
+                      const Expanded(child: SizedBox()),
+                      InkWell(
+                          onTap: () {
+                            homeController.resetBottomSheetData();
+                            if(homeController.isHomeGenreClicked.value){
+                              homeController.getFilterMovieList();
+                            }
+                            else{
+                            homeController.movieList.clear();
+                            homeController.movieList.addAll(homeController.temporaryMovieList);
+                            }
+                          },
+                          child: Text(
+                            ksClearAll.tr,
+                            style: regular12TextStyle(
+                                cWhiteColor.withOpacity(0.5)),
+                          )),
+                    ],
                   ),
-                  if (homeController.isApplyClicked.value)
-                    Row(
+               
+               
+                kH8sizedBox,
+                SizedBox(
+                  width: width - 20,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
                       children: [
-                        Text(
-                          ksFiltered.tr,
-                          style: medium16TextStyle(cWhiteColor),
-                        ),
-                        const Expanded(child: SizedBox()),
-                        InkWell(
-                            onTap: () {
-                              homeController.resetBottomSheetData();
-                              if(homeController.isHomeGenreClicked.value){
-                                homeController.getFilterMovieList();
-                              }
-                              else{
-                              homeController.movieList.clear();
-                              homeController.movieList.addAll(homeController.temporaryMovieList);
-                              }
-                            },
-                            child: Text(
-                              ksClearAll.tr,
-                              style: regular12TextStyle(
-                                  cWhiteColor.withOpacity(0.5)),
-                            )),
+                        if (homeController.selectedCategoryId.value != -1 &&
+                            homeController.isApplyClicked.value)
+                          Container(
+                              height: 30.h,
+                              decoration: BoxDecoration(
+                                color: cPrimaryColor2,
+                                borderRadius:
+                                    BorderRadius.circular(k6BorderRadius),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: k16Padding,
+                                    vertical: k6Padding),
+                                child: Center(
+                                    child: Text(
+                                  homeController.selectedCategory.value,
+                                  style: regular14TextStyle(cWhiteColor),
+                                )),
+                              )),
+                        if (homeController.selectedGenreId.value != -1 &&
+                            homeController.isApplyClicked.value)
+                          kW8sizedBox,
+                        if (homeController.selectedGenreId.value != -1 &&
+                            homeController.isApplyClicked.value)
+                          Container(
+                              height: 30.h,
+                              decoration: BoxDecoration(
+                                color: cPrimaryColor2,
+                                borderRadius:
+                                    BorderRadius.circular(k6BorderRadius),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: k16Padding,
+                                    vertical: k6Padding),
+                                child: Center(
+                                    child: Text(
+                                  homeController.selectedGenre.value,
+                                  style: regular14TextStyle(cWhiteColor),
+                                )),
+                              )),
+                        if (homeController.selectedCountryId.value != -1 &&
+                            homeController.isApplyClicked.value)
+                          kW8sizedBox,
+                        if (homeController.selectedCountryId.value != -1 &&
+                            homeController.isApplyClicked.value)
+                          Container(
+                              height: 30.h,
+                              decoration: BoxDecoration(
+                                color: cPrimaryColor2,
+                                borderRadius:
+                                    BorderRadius.circular(k6BorderRadius),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: k16Padding,
+                                    vertical: k6Padding),
+                                child: Center(
+                                    child: Text(
+                                  homeController.selectedCountry.value,
+                                  style: regular14TextStyle(cWhiteColor),
+                                )),
+                              )),
+                        if (homeController.selectedLanguageId.value != -1 &&
+                            homeController.isApplyClicked.value)
+                          kW8sizedBox,
+                        if (homeController.selectedLanguageId.value != -1 &&
+                            homeController.isApplyClicked.value)
+                          Container(
+                              height: 30.h,
+                              decoration: BoxDecoration(
+                                color: cPrimaryColor2,
+                                borderRadius:
+                                    BorderRadius.circular(k6BorderRadius),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: k16Padding,
+                                    vertical: k6Padding),
+                                child: Center(
+                                    child: Text(
+                                  homeController.selectedLanguage.value,
+                                  style: regular14TextStyle(cWhiteColor),
+                                )),
+                              )),
+                        if (homeController.selectedYear.value != "" &&
+                            homeController.isApplyClicked.value)
+                          kW8sizedBox,
+                        if (homeController.selectedYear.value != "" &&
+                            homeController.isApplyClicked.value)
+                          Container(
+                              height: 30.h,
+                              decoration: BoxDecoration(
+                                color: cPrimaryColor2,
+                                borderRadius:
+                                    BorderRadius.circular(k6BorderRadius),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: k16Padding,
+                                    vertical: k6Padding),
+                                child: Center(
+                                    child: Text(
+                                  homeController.selectedYear.value,
+                                  style: regular14TextStyle(cWhiteColor),
+                                )),
+                              )),
+                        if (homeController.selectedSort.value != "" &&
+                            homeController.isApplyClicked.value)
+                          kW8sizedBox,
+                        if (homeController.selectedSort.value != "" &&
+                            homeController.isApplyClicked.value)
+                          Container(
+                              height: 30.h,
+                              decoration: BoxDecoration(
+                                color: cPrimaryColor2,
+                                borderRadius:
+                                    BorderRadius.circular(k6BorderRadius),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: k16Padding,
+                                    vertical: k6Padding),
+                                child: Center(
+                                    child: Text(
+                                  homeController.selectedSort.value,
+                                  style: regular14TextStyle(cWhiteColor),
+                                )),
+                              )),
                       ],
                     ),
-                 
-                 
-                  kH8sizedBox,
-                  SizedBox(
-                    width: width - 20,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          if (homeController.selectedCategoryId.value != -1 &&
-                              homeController.isApplyClicked.value)
-                            Container(
-                                height: 30.h,
-                                decoration: BoxDecoration(
-                                  color: cPrimaryColor2,
-                                  borderRadius:
-                                      BorderRadius.circular(k6BorderRadius),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: k16Padding,
-                                      vertical: k6Padding),
-                                  child: Center(
-                                      child: Text(
-                                    homeController.selectedCategory.value,
-                                    style: regular14TextStyle(cWhiteColor),
-                                  )),
-                                )),
-                          if (homeController.selectedGenreId.value != -1 &&
-                              homeController.isApplyClicked.value)
-                            kW8sizedBox,
-                          if (homeController.selectedGenreId.value != -1 &&
-                              homeController.isApplyClicked.value)
-                            Container(
-                                height: 30.h,
-                                decoration: BoxDecoration(
-                                  color: cPrimaryColor2,
-                                  borderRadius:
-                                      BorderRadius.circular(k6BorderRadius),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: k16Padding,
-                                      vertical: k6Padding),
-                                  child: Center(
-                                      child: Text(
-                                    homeController.selectedGenre.value,
-                                    style: regular14TextStyle(cWhiteColor),
-                                  )),
-                                )),
-                          if (homeController.selectedCountryId.value != -1 &&
-                              homeController.isApplyClicked.value)
-                            kW8sizedBox,
-                          if (homeController.selectedCountryId.value != -1 &&
-                              homeController.isApplyClicked.value)
-                            Container(
-                                height: 30.h,
-                                decoration: BoxDecoration(
-                                  color: cPrimaryColor2,
-                                  borderRadius:
-                                      BorderRadius.circular(k6BorderRadius),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: k16Padding,
-                                      vertical: k6Padding),
-                                  child: Center(
-                                      child: Text(
-                                    homeController.selectedCountry.value,
-                                    style: regular14TextStyle(cWhiteColor),
-                                  )),
-                                )),
-                          if (homeController.selectedLanguageId.value != -1 &&
-                              homeController.isApplyClicked.value)
-                            kW8sizedBox,
-                          if (homeController.selectedLanguageId.value != -1 &&
-                              homeController.isApplyClicked.value)
-                            Container(
-                                height: 30.h,
-                                decoration: BoxDecoration(
-                                  color: cPrimaryColor2,
-                                  borderRadius:
-                                      BorderRadius.circular(k6BorderRadius),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: k16Padding,
-                                      vertical: k6Padding),
-                                  child: Center(
-                                      child: Text(
-                                    homeController.selectedLanguage.value,
-                                    style: regular14TextStyle(cWhiteColor),
-                                  )),
-                                )),
-                          if (homeController.selectedYear.value != "" &&
-                              homeController.isApplyClicked.value)
-                            kW8sizedBox,
-                          if (homeController.selectedYear.value != "" &&
-                              homeController.isApplyClicked.value)
-                            Container(
-                                height: 30.h,
-                                decoration: BoxDecoration(
-                                  color: cPrimaryColor2,
-                                  borderRadius:
-                                      BorderRadius.circular(k6BorderRadius),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: k16Padding,
-                                      vertical: k6Padding),
-                                  child: Center(
-                                      child: Text(
-                                    homeController.selectedYear.value,
-                                    style: regular14TextStyle(cWhiteColor),
-                                  )),
-                                )),
-                          if (homeController.selectedSort.value != "" &&
-                              homeController.isApplyClicked.value)
-                            kW8sizedBox,
-                          if (homeController.selectedSort.value != "" &&
-                              homeController.isApplyClicked.value)
-                            Container(
-                                height: 30.h,
-                                decoration: BoxDecoration(
-                                  color: cPrimaryColor2,
-                                  borderRadius:
-                                      BorderRadius.circular(k6BorderRadius),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: k16Padding,
-                                      vertical: k6Padding),
-                                  child: Center(
-                                      child: Text(
-                                    homeController.selectedSort.value,
-                                    style: regular14TextStyle(cWhiteColor),
-                                  )),
-                                )),
-                        ],
-                      ),
-                    ),
                   ),
-                
-                
-                  kH16sizedBox,
-                  homeController.movieList.isEmpty
-                      ? SizedBox(
-                          height: (height * 0.5),
+                ),
+              
+              
+                kH16sizedBox,
+                homeController.movieList.isEmpty
+                    ? SizedBox(
+                        height: (height * 0.5),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              kiSearchResultPng,
+                              width: 200.w,
+                              height: 200.h,
+                            ),
+                            Text(
+                              ksNoVideoFound.tr,
+                              style: medium16TextStyle(cPrimaryColor2),
+                            ),
+                            kH16sizedBox,
+                            Text(
+                              ksNoVideosFoundPleaseCheckFilter.tr,
+                              style:
+                                  regular14TextStyle(cWhiteColor.withOpacity(
+                                0.5,
+                              )),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      )
+                    :  homeController.isMovieListLoading.value
+                          ? const CircularProgressIndicator()
+                          : NotificationListener<ScrollNotification>(
+                              onNotification: (scrollNotification) {
+                                if (homeController.movieListScrollController
+                                            .position.userScrollDirection ==
+                                        ScrollDirection.reverse &&
+                                    scrollNotification.metrics.pixels ==
+                                        scrollNotification
+                                            .metrics.maxScrollExtent &&
+                                    !homeController.movieListScrolled.value) {
+                                  homeController.movieListScrolled.value =
+                                      true;
+                                  if (homeController.movieList.isNotEmpty) {
+                                    homeController.getMoreMovieList(homeController.selectedTitle.value==ksNewRelease ? "newRelease" : homeController.selectedTitle.value== ksTrendingMovies ? "trending" : "recommended");
+                                  }
+                                  return true;
+                                }
+                                return false;
+                              },
+                      child: Expanded(
+                        child: SingleChildScrollView(
+                          controller: homeController.movieListScrollController,
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(
-                                kiSearchResultPng,
-                                width: 200.w,
-                                height: 200.h,
-                              ),
-                              Text(
-                                ksNoVideoFound.tr,
-                                style: medium16TextStyle(cPrimaryColor2),
-                              ),
-                              kH16sizedBox,
-                              Text(
-                                ksNoVideosFoundPleaseCheckFilter.tr,
-                                style:
-                                    regular14TextStyle(cWhiteColor.withOpacity(
-                                  0.5,
-                                )),
-                                textAlign: TextAlign.center,
-                              ),
+                              GridView.builder(
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                    childAspectRatio: 0.6,
+                                  ),
+                                  itemCount: homeController.movieList.length,
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () async {
+                                        await homeController.getMovieDetails(
+                                            movieId: homeController
+                                                .movieList[index]!.id!
+                                                .toString());
+                                        String videoUrl = homeController
+                                                .movieServerList[0]?.fileUrl ??
+                                            "";
+                                        Get.find<AllVideoPlayerController>()
+                                            .flickManager = FlickManager(
+                                          videoPlayerController:
+                                              VideoPlayerController.network(videoUrl),
+                                        );
+                                        Get.toNamed(krVideoPlayerScreen);
+                                      },
+                                      child: MovieContentContainer(
+                                        movieImage: homeController
+                                                .movieList[index]?.thumbnail ??
+                                            "",
+                                        isPremium:
+                                            homeController.movieList[index]?.isPaid == 1
+                                                ? true
+                                                : false,
+                                      ),
+                                    );
+                                  },
+                                ),
                             ],
                           ),
-                        )
-                      : GridView.builder(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            childAspectRatio: 0.6,
-                          ),
-                          itemCount: homeController.movieList.length,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () async {
-                                await homeController.getMovieDetails(
-                                    movieId: homeController
-                                        .movieList[index]!.id!
-                                        .toString());
-                                String videoUrl = homeController
-                                        .movieServerList[0]?.fileUrl ??
-                                    "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                );
-                                Get.toNamed(krVideoPlayerScreen);
-                              },
-                              child: MovieContentContainer(
-                                movieImage: homeController
-                                        .movieList[index]?.thumbnail ??
-                                    "",
-                                isPremium:
-                                    homeController.movieList[index]?.isPaid == 1
-                                        ? true
-                                        : false,
-                              ),
-                            );
-                          },
                         ),
-                ],
-              ),
+                      ),
+                    ),
+              ],
             ),
           ),
         ),

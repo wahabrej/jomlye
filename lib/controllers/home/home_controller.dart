@@ -224,7 +224,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuMovies?type=$movieType",
+        url: "$kuMovies?type=$movieType&per_page=10",
         body: body,
       ) as CommonDM;
 
@@ -246,6 +246,12 @@ class HomeController extends GetxController {
         movieGenreList.addAll(movieListModel.value!.filter!.genre!);
         movieYearList.addAll(movieListModel.value!.filter!.year!);
         movieSortList.addAll(movieListModel.value!.filter!.sort!);
+        movieListSubLink.value = movieListModel.value!.movies!.nextPageUrl;
+        if (movieListSubLink.value != null) {
+          movieListScrolled.value = false;
+        } else {
+          movieListScrolled.value = true;
+        }
         isMovieListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -265,6 +271,57 @@ class HomeController extends GetxController {
     } catch (e) {
       isMovieListLoading.value = false;
       ll('getMovieList error: $e');
+    }
+  }
+
+  //! pagination for movie List
+   ScrollController movieListScrollController = ScrollController();
+  final Rx<String?> movieListSubLink = Rx<String?>(null);
+  final RxBool movieListScrolled = RxBool(false);
+  Future<void> getMoreMovieList(String? movieType,[take]) async {
+    ll("getMoreMovieList is called");
+    try {
+      String? token = await spController.getBearerToken();
+      dynamic movieListSub;
+
+      if (movieListSubLink.value == null) {
+        return;
+      } else {
+        movieListSub = movieListSubLink.value!.split('?');
+      }
+
+      String movieListSuffixUrl = '';
+
+      movieListSuffixUrl = '&${movieListSub[1]}';
+
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+         url: "$kuMovies?type=$movieType$movieListSuffixUrl",
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        movieListModel.value = MovieListModel.fromJson(response.data);
+        movieList.addAll(movieListModel.value!.movies!.data!);
+        movieListSubLink.value = movieListModel.value!.movies!.nextPageUrl;
+        if (movieListSubLink.value != null) {
+          movieListScrolled.value = false;
+        } else {
+          movieListScrolled.value = true;
+        }
+        isMovieListLoading.value = false;
+      } else {
+        isMovieListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          // globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          // globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isMovieListLoading.value = true;
+      ll('getMoreArtistList error: $e');
     }
   }
 
