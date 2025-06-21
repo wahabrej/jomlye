@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.vidflix_flutter_app-mergeDebugResources-60:/values-es-rUS/values-es-rUS.xml",
+            "outputFile": "com.example.vidflix_flutter_app-mergeDebugResources-55:/values-es-rUS/values-es-rUS.xml",
             "map": [
                 {
                     "source": "/Users/murad/.gradle/caches/transforms-3/e4f2ac47a16ff4fd15bf94f04a155455/transformed/core-1.13.1/res/values-es-rUS/values-es-rUS.xml",

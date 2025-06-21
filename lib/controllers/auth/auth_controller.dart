@@ -1,4 +1,4 @@
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
@@ -464,56 +464,56 @@ class AuthController extends GetxController {
     await googleSignIn.signOut();
   }
   //!Facebook login
-  Future<void> signInWithFacebook() async {
-  try {
-    final LoginResult result = await FacebookAuth.instance.login(
-      permissions: ['email', 'public_profile'],
-    );
+//   Future<void> signInWithFacebook() async {
+//   try {
+//     final LoginResult result = await FacebookAuth.instance.login(
+//       permissions: ['email', 'public_profile'],
+//     );
 
-    if (result.status == LoginStatus.success) {
-      final accessToken = result.accessToken?.tokenString??"";
+//     if (result.status == LoginStatus.success) {
+//       final accessToken = result.accessToken?.tokenString??"";
 
-      // if (accessToken == null) {
-      //   ll("Facebook access token is null");
-      //   return;
-      // }
+//       // if (accessToken == null) {
+//       //   ll("Facebook access token is null");
+//       //   return;
+//       // }
 
-      Map<String, dynamic> body = {
-        "access_token": accessToken,
-        "provider": "facebook",
-      };
+//       Map<String, dynamic> body = {
+//         "access_token": accessToken,
+//         "provider": "facebook",
+//       };
 
-      // ll("Sending Facebook login request with body: $body");
+//       // ll("Sending Facebook login request with body: $body");
 
-      var response = await apiServices.commonApiCall(
-        url: kuSocialLogin,
-        body: body,
-        requestMethod: kPost,
-      ) as CommonDM;
+//       var response = await apiServices.commonApiCall(
+//         url: kuSocialLogin,
+//         body: body,
+//         requestMethod: kPost,
+//       ) as CommonDM;
 
-      if (response.code == 200) {
-        Get.toNamed(krHomeScreen);
-      } else {
-        showSnackBar(
-          title: ksError.tr,
-          message: "Facebook login failed!",
-          color: cPrimaryColor2,
-        );
-      }
-    } else if (result.status == LoginStatus.cancelled) {
-      ll("Facebook login cancelled by user");
-    } else {
-      ll("Facebook login failed: ${result.message}");
-    }
-  } catch (e) {
-    ll('Facebook login error: $e');
-    showSnackBar(
-      title: ksError.tr,
-      message: 'Facebook login error: $e',
-      color: cPrimaryColor2,
-    );
-  }
-}
+//       if (response.code == 200) {
+//         Get.toNamed(krHomeScreen);
+//       } else {
+//         showSnackBar(
+//           title: ksError.tr,
+//           message: "Facebook login failed!",
+//           color: cPrimaryColor2,
+//         );
+//       }
+//     } else if (result.status == LoginStatus.cancelled) {
+//       ll("Facebook login cancelled by user");
+//     } else {
+//       ll("Facebook login failed: ${result.message}");
+//     }
+//   } catch (e) {
+//     ll('Facebook login error: $e');
+//     showSnackBar(
+//       title: ksError.tr,
+//       message: 'Facebook login error: $e',
+//       color: cPrimaryColor2,
+//     );
+//   }
+// }
 
   
   final RxList selectedInterestList = RxList([]);

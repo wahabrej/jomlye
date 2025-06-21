@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
@@ -46,11 +47,11 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                             fillColor: cBlackColor,
                             onChanged: (v) {
                               if (v == "") {
-                                homeController
-                                    .isViewAllSearchSuffixShow.value = false;
+                                homeController.isViewAllSearchSuffixShow.value =
+                                    false;
                               } else {
-                                homeController
-                                    .isViewAllSearchSuffixShow.value = true;
+                                homeController.isViewAllSearchSuffixShow.value =
+                                    true;
                               }
                             },
                             onSubmit: (v) async {
@@ -190,20 +191,18 @@ class TopArtistsViewAllScreen extends StatelessWidget {
               ],
             ),
           ),
-          
-          
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: Obx(
-                () => Column(
-                  children: [
-                    Divider(
-                      thickness: 1,
-                      color: cWhiteColor.withOpacity(0.2),
-                    ),
-                    kH16sizedBox,
-                    if (homeController.isApplyClicked.value)
+
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+            child: Obx(
+              () => Column(
+                children: [
+                  Divider(
+                    thickness: 1,
+                    color: cWhiteColor.withOpacity(0.2),
+                  ),
+                  kH16sizedBox,
+                  if (homeController.isApplyClicked.value)
                     Row(
                       children: [
                         Text(
@@ -212,9 +211,9 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                         ),
                         const Expanded(child: SizedBox()),
                         InkWell(
-                            onTap: () async{
+                            onTap: () async {
                               homeController.resetBottomSheetData();
-                             await homeController.getArtistList();
+                              await homeController.getArtistList();
                             },
                             child: Text(
                               ksClearAll.tr,
@@ -223,7 +222,7 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                             )),
                       ],
                     ),
-                   kH8sizedBox,
+                  kH8sizedBox,
                   SizedBox(
                     width: width - 20,
                     child: SingleChildScrollView(
@@ -252,10 +251,12 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                                     style: regular14TextStyle(cWhiteColor),
                                   )),
                                 )),
-                          if (homeController.selectedMovieIndustry.value != "" &&
+                          if (homeController.selectedMovieIndustry.value !=
+                                  "" &&
                               homeController.isApplyClicked.value)
                             kW8sizedBox,
-                          if (homeController.selectedMovieIndustry.value != "" &&
+                          if (homeController.selectedMovieIndustry.value !=
+                                  "" &&
                               homeController.isApplyClicked.value)
                             Container(
                                 height: 30.h,
@@ -278,68 +279,105 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                kH8sizedBox,
-                    homeController.artistList.isEmpty
-                        ? SizedBox(
-                            height: (height * 0.7),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  kiSearchResultPng,
-                                  width: 200.w,
-                                  height: 200.h,
-                                ),
-                                Text(
-                                  ksNoArtistFound.tr,
-                                  style: medium16TextStyle(cPrimaryColor2),
-                                ),
-                                kH16sizedBox,
-                                Text(
-                                  ksNoArtistFoundPleaseCheckFilter.tr,
-                                  style: regular14TextStyle(
-                                      cWhiteColor.withOpacity(
-                                    0.5,
-                                  )),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          )
-                        : GridView.builder(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                              childAspectRatio: 1,
-                            ),
-                            itemCount: homeController.artistList.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () async {
-                                  await homeController.getArtistDetails(
-                                      homeController.artistList[index].id);
-                                  Get.toNamed(krCastDetailsScreen);
-                                },
-                                child: TopArtistContent(
-                                  image: homeController
-                                          .artistList[index].starImage ??
-                                      "",
-                                  name: homeController
-                                          .artistList[index].starName ??
-                                      "",
-                                  contentWidth: (width - 60) / 3,
-                                  contentHeight: 120.h,
-                                ),
-                              );
-                            },
+                  kH8sizedBox,
+                  homeController.artistList.isEmpty
+                      ? SizedBox(
+                          height: (height * 0.7),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                kiSearchResultPng,
+                                width: 200.w,
+                                height: 200.h,
+                              ),
+                              Text(
+                                ksNoArtistFound.tr,
+                                style: medium16TextStyle(cPrimaryColor2),
+                              ),
+                              kH16sizedBox,
+                              Text(
+                                ksNoArtistFoundPleaseCheckFilter.tr,
+                                style:
+                                    regular14TextStyle(cWhiteColor.withOpacity(
+                                  0.5,
+                                )),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
-                  ],
-                ),
+                        )
+                      : homeController.isArtistLoading.value
+                          ? const CircularProgressIndicator()
+                          : NotificationListener<ScrollNotification>(
+                              onNotification: (scrollNotification) {
+                                if (homeController.artistListScrollController
+                                            .position.userScrollDirection ==
+                                        ScrollDirection.reverse &&
+                                    scrollNotification.metrics.pixels ==
+                                        scrollNotification
+                                            .metrics.maxScrollExtent &&
+                                    !homeController.artistListScrolled.value) {
+                                  homeController.artistListScrolled.value =
+                                      true;
+                                  if (homeController.artistList.isNotEmpty) {
+                                    homeController.getMoreArtistList(null);
+                                  }
+                                  return true;
+                                }
+                                return false;
+                              },
+                              child: Expanded(
+                                child: SingleChildScrollView(
+                                  controller:
+                                      homeController.artistListScrollController,
+                                  child: Column(
+                                    children: [
+                                      GridView.builder(
+                                        shrinkWrap: true,
+                                        padding: EdgeInsets.zero,
+                                        physics:
+                                            const NeverScrollableScrollPhysics(),
+                                        gridDelegate:
+                                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount: 3,
+                                          crossAxisSpacing: 10,
+                                          mainAxisSpacing: 10,
+                                          childAspectRatio: 1,
+                                        ),
+                                        itemCount:
+                                            homeController.artistList.length,
+                                        itemBuilder: (context, index) {
+                                          return GestureDetector(
+                                            onTap: () async {
+                                              await homeController
+                                                  .getArtistDetails(
+                                                      homeController
+                                                          .artistList[index]
+                                                          .id);
+                                              Get.toNamed(krCastDetailsScreen);
+                                            },
+                                            child: TopArtistContent(
+                                              image: homeController
+                                                      .artistList[index]
+                                                      .starImage ??
+                                                  "",
+                                              name: homeController
+                                                      .artistList[index]
+                                                      .starName ??
+                                                  "",
+                                              contentWidth: (width - 60) / 3,
+                                              contentHeight: 120.h,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                ],
               ),
             ),
           ),
@@ -386,7 +424,8 @@ class TopArtistBottomSheetContent extends StatelessWidget {
                             homeController.selectedCountryId.value =
                                 homeController.artistCountryList[index].id!;
                             homeController.selectedCountry.value =
-                                homeController.artistCountryList[index].name??"";
+                                homeController.artistCountryList[index].name ??
+                                    "";
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -450,7 +489,8 @@ class TopArtistBottomSheetContent extends StatelessWidget {
                                     .artistMovieIndustryList[index].id!;
                             homeController.selectedMovieIndustry.value =
                                 homeController
-                                    .artistMovieIndustryList[index].name??"";
+                                        .artistMovieIndustryList[index].name ??
+                                    "";
                           },
                           child: Container(
                             decoration: BoxDecoration(
@@ -511,7 +551,7 @@ class TopArtistBottomSheetContent extends StatelessWidget {
               CustomElevatedButton(
                 label: ksApply.tr,
                 onPressed: () async {
-                  homeController.isApplyClicked.value= true;
+                  homeController.isApplyClicked.value = true;
                   await homeController.getArtistList();
                   Get.back();
                 },

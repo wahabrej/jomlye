@@ -26,11 +26,11 @@ class HomeController extends GetxController {
   final ApiServices apiServices = ApiServices();
   var currentIndex = 0.obs;
   final RxString selectedTitle = RxString("");
- 
 
   //* Top Artist
   final RxBool isViewAllSearchEnable = RxBool(false);
-  final TextEditingController viewAllTextEditingController = TextEditingController();
+  final TextEditingController viewAllTextEditingController =
+      TextEditingController();
   final RxBool isViewAllSearchSuffixShow = RxBool(false);
   //* blog
   final RxString selectedBlogGenre = RxString("");
@@ -39,12 +39,12 @@ class HomeController extends GetxController {
   final RxString selectedBlogYear = RxString("");
   final RxString selectedBlogLanguage = RxString("");
 
-    void blogFilterValueReset(){
-    selectedBlogCategories.value ="";
+
+  void blogFilterValueReset() {
+    selectedBlogCategories.value = "";
     selectedBlogYear.value = "";
     selectedBlogLanguage.value = "";
   }
-
 
   final RxList<Map<String, dynamic>> recentPlayedMovies =
       RxList<Map<String, dynamic>>([
@@ -73,7 +73,7 @@ class HomeController extends GetxController {
       "duration": "2 hr 20 mins",
     },
   ]);
-  
+
   final RxList blogBulletPointList = RxList([
     "Sed mattis risus vel lectus faucibus, lobortis tristique dolor consequat.",
     "Praesent interdum mauris sit amet sapien rutrum, non pellentesque urna fermentum.",
@@ -86,11 +86,12 @@ class HomeController extends GetxController {
   }
 
   //!blog
-  final TextEditingController addCommentTextEditingController = TextEditingController();
-
+  final TextEditingController addCommentTextEditingController =
+      TextEditingController();
 
   //!Common Search
-  final TextEditingController globalSearchTextEditingController = TextEditingController();
+  final TextEditingController globalSearchTextEditingController =
+      TextEditingController();
   final RxBool isSearchSuffixIconShow = RxBool(false);
   //! Cast details screen
   final RxInt selectedIndex = RxInt(0); // Default selected index
@@ -99,6 +100,7 @@ class HomeController extends GetxController {
   void changeTab(int index) {
     selectedIndex.value = index;
   }
+
   final RxDouble lowerValue = RxDouble(0);
   final RxDouble upperValue = RxDouble(0);
 
@@ -107,15 +109,20 @@ class HomeController extends GetxController {
   final Rx<HomeDataModel?> homeDataModel = Rx<HomeDataModel?>(null);
   final RxList<NewReleaseMovie> sliderList = RxList<NewReleaseMovie>([]);
   final RxList<Genre> genreList = RxList<Genre>([]);
-  final RxList<NewReleaseMovie> newReleaseMoviesList = RxList<NewReleaseMovie>([]);
-  final RxList<NewReleaseMovie> trendingMoviesList = RxList<NewReleaseMovie>([]);
-  final RxList<NewReleaseMovie> recommendedMoviesList = RxList<NewReleaseMovie>([]);
-  final RxList<NewReleaseMovie> popularTvShowsList = RxList<NewReleaseMovie>([]);
-  final RxList<FeaturedTvChannel> featuredTvChannelsList = RxList<FeaturedTvChannel>([]);
+  final RxList<NewReleaseMovie> newReleaseMoviesList =
+      RxList<NewReleaseMovie>([]);
+  final RxList<NewReleaseMovie> trendingMoviesList =
+      RxList<NewReleaseMovie>([]);
+  final RxList<NewReleaseMovie> recommendedMoviesList =
+      RxList<NewReleaseMovie>([]);
+  final RxList<NewReleaseMovie> popularTvShowsList =
+      RxList<NewReleaseMovie>([]);
+  final RxList<FeaturedTvChannel> featuredTvChannelsList =
+      RxList<FeaturedTvChannel>([]);
   final RxList<NewReleaseMovie> tvShowsList = RxList<NewReleaseMovie>([]);
   final RxList<TopArtist> topArtistsList = RxList<TopArtist>([]);
   final RxList<LatestBlog> latestBlogsList = RxList<LatestBlog>([]);
-   final RxBool isHomePageLoading = RxBool(false);
+  final RxBool isHomePageLoading = RxBool(false);
   Future<void> getHomePage() async {
     try {
       isHomePageLoading.value = true;
@@ -129,7 +136,7 @@ class HomeController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
-         homeDataModel.value = HomeDataModel.fromJson(response.data);
+        homeDataModel.value = HomeDataModel.fromJson(response.data);
         sliderList.clear();
         genreList.clear();
         newReleaseMoviesList.clear();
@@ -150,9 +157,12 @@ class HomeController extends GetxController {
         tvShowsList.addAll(homeDataModel.value!.tvShows!);
         topArtistsList.addAll(homeDataModel.value!.topArtists!);
         latestBlogsList.addAll(homeDataModel.value!.latestBlogs!);
-         await spController.savePrivacyPolicy(homeDataModel.value!.privacyPolicy);
-         await spController.savePaymentPolicy(homeDataModel.value!.paymentPolicy);
-         await spController.saveTermsAndCondition(homeDataModel.value!.termsAndConditions);
+        await spController
+            .savePrivacyPolicy(homeDataModel.value!.privacyPolicy);
+        await spController
+            .savePaymentPolicy(homeDataModel.value!.paymentPolicy);
+        await spController
+            .saveTermsAndCondition(homeDataModel.value!.termsAndConditions);
         Get.find<GlobalController>().privacyPolicyUrl.value =
             await spController.getPrivacyPolicy() ?? "";
         Get.find<GlobalController>().paymentPolicyUrl.value =
@@ -241,9 +251,15 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isMovieListLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -251,8 +267,10 @@ class HomeController extends GetxController {
       ll('getMovieList error: $e');
     }
   }
+
   final RxBool isHomeGenreClicked = RxBool(false);
-  final Rx<FilterMovieListModel?> filterMovieListModel = Rx<FilterMovieListModel?>(null);
+  final Rx<FilterMovieListModel?> filterMovieListModel =
+      Rx<FilterMovieListModel?>(null);
   Future<void> getFilterMovieList() async {
     try {
       isMovieListLoading.value = true;
@@ -261,7 +279,8 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuMovieFilter?string=${viewAllTextEditingController.text.trim().toString()}&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}&sort=${selectedSortId.value!=-1 ? selectedSortId.value.toString():""}",
+        url:
+            "$kuMovieFilter?string=${viewAllTextEditingController.text.trim().toString()}&category_id=${selectedCategoryId.value != -1 ? selectedCategoryId.value.toString() : ""}&genre=${selectedGenreId.value != -1 ? selectedGenreId.value.toString() : ""}&country=${selectedCountryId.value != -1 ? selectedCountryId.value.toString() : ""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value != -1 ? selectedLanguageId.value.toString() : ""}&sort=${selectedSortId.value != -1 ? selectedSortId.value.toString() : ""}",
         body: body,
       ) as CommonDM;
 
@@ -273,11 +292,14 @@ class HomeController extends GetxController {
         movieGenreList.clear();
         movieYearList.clear();
         movieSortList.clear();
-        filterMovieListModel.value = FilterMovieListModel.fromJson(response.data);
+        filterMovieListModel.value =
+            FilterMovieListModel.fromJson(response.data);
         movieList.addAll(filterMovieListModel.value!.movies!.data!);
-        movieCategoryList.addAll(filterMovieListModel.value!.filter!.categories!);
+        movieCategoryList
+            .addAll(filterMovieListModel.value!.filter!.categories!);
         movieCountryList.addAll(filterMovieListModel.value!.filter!.country!);
-        movieLanguageList.addAll(filterMovieListModel.value!.filter!.languages!);
+        movieLanguageList
+            .addAll(filterMovieListModel.value!.filter!.languages!);
         movieGenreList.addAll(filterMovieListModel.value!.filter!.genre!);
         movieYearList.addAll(filterMovieListModel.value!.filter!.year!);
         movieSortList.addAll(filterMovieListModel.value!.filter!.sort!);
@@ -287,9 +309,15 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isMovieListLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -298,7 +326,7 @@ class HomeController extends GetxController {
     }
   }
 
-    // movie details api implement
+  // movie details api implement
   final RxBool isMovieDetailsLoading = RxBool(false);
   final Rx<MovieDetailsModel?> movieDetailsModel = Rx<MovieDetailsModel?>(null);
   final Rx<MovieDetails?> movieDetailsData = Rx<MovieDetails?>(null);
@@ -330,7 +358,8 @@ class HomeController extends GetxController {
         relatedMovieList.clear();
         recommendedMovieList.clear();
         playlistIdsList.clear();
-        MovieDetailsModel movieDetailsModel = MovieDetailsModel.fromJson(response.data);
+        MovieDetailsModel movieDetailsModel =
+            MovieDetailsModel.fromJson(response.data);
         movieDetailsData.value = movieDetailsModel.details;
         movieServerList.addAll(movieDetailsModel.server!);
         movieCastList.addAll(movieDetailsModel.cast!);
@@ -344,9 +373,15 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isMovieListLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -355,8 +390,8 @@ class HomeController extends GetxController {
     }
   }
 
-    //!Tv Shows
-    //tv shows api implement
+  //!Tv Shows
+  //tv shows api implement
   final RxBool isTvShowLoading = RxBool(false);
   final Rx<TvShowsModel?> tvShowsModel = Rx<TvShowsModel?>(null);
   final RxList<TvShowData?> tvShowList = RxList<TvShowData?>([]);
@@ -397,9 +432,15 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isTvShowLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -409,7 +450,8 @@ class HomeController extends GetxController {
   }
 
   final RxBool isTvShowDetailsLoading = RxBool(false);
-  final Rx<TvShowDetailsModel?> tvShowDetailsModel = Rx<TvShowDetailsModel?>(null);
+  final Rx<TvShowDetailsModel?> tvShowDetailsModel =
+      Rx<TvShowDetailsModel?>(null);
   final Rx<TvShows?> tvShowDetailsData = Rx<TvShows?>(null);
   final RxList<Season?> tvShowsSeasonList = RxList<Season?>([]);
   final RxList<Episode?> tvShowEpisodeList = RxList<Episode?>([]);
@@ -428,20 +470,28 @@ class HomeController extends GetxController {
       if (response.code == 200) {
         tvShowsSeasonList.clear();
         tvShowEpisodeList.clear();
-        TvShowDetailsModel tvShowDetailsModel = TvShowDetailsModel.fromJson(response.data);
-        tvShowDetailsData.value =  tvShowDetailsModel.shows;
+        TvShowDetailsModel tvShowDetailsModel =
+            TvShowDetailsModel.fromJson(response.data);
+        tvShowDetailsData.value = tvShowDetailsModel.shows;
         tvShowsSeasonList.addAll(tvShowDetailsModel.shows!.seasons!);
-        if(tvShowsSeasonList.isNotEmpty){
-        tvShowEpisodeList.addAll(tvShowDetailsModel.shows!.seasons![0].episodes!);
+        if (tvShowsSeasonList.isNotEmpty) {
+          tvShowEpisodeList
+              .addAll(tvShowDetailsModel.shows!.seasons![0].episodes!);
         }
         isTvShowLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isTvShowLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -449,7 +499,6 @@ class HomeController extends GetxController {
       ll('getTvShows error: $e');
     }
   }
-
 
   final Rx<TvShowFilterModel?> tvShowFilterModel = Rx<TvShowFilterModel?>(null);
   Future<void> getTvShowFilter() async {
@@ -460,13 +509,15 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuTvShowFilter?string=&category_id=${selectedCategoryId.value!=-1 ? selectedCategoryId.value.toString():""}&genre=${selectedGenreId.value!=-1 ? selectedGenreId.value.toString():""}&country_id=${selectedCountryId.value!=-1 ? selectedCountryId.value.toString():""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value!=-1 ? selectedLanguageId.value.toString():""}",
+        url:
+            "$kuTvShowFilter?string=&category_id=${selectedCategoryId.value != -1 ? selectedCategoryId.value.toString() : ""}&genre=${selectedGenreId.value != -1 ? selectedGenreId.value.toString() : ""}&country_id=${selectedCountryId.value != -1 ? selectedCountryId.value.toString() : ""}&year=${selectedYear.value.toString()}&language_id=${selectedLanguageId.value != -1 ? selectedLanguageId.value.toString() : ""}",
         body: body,
       ) as CommonDM;
 
       if (response.code == 200) {
         tvShowList.clear();
-        TvShowFilterModel tvShowFilterModel = TvShowFilterModel.fromJson(response.data);
+        TvShowFilterModel tvShowFilterModel =
+            TvShowFilterModel.fromJson(response.data);
         tvShowList.addAll(tvShowFilterModel.details!.data!);
         Get.back();
         isTvShowLoading.value = false;
@@ -474,9 +525,15 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isTvShowLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -485,16 +542,17 @@ class HomeController extends GetxController {
     }
   }
 
-   //!Top Artist
- //Artist api implement
- final RxInt selectedMovieIndustryId = RxInt(-1);
- final RxString selectedMovieIndustry = RxString("");
-   final RxBool isArtistLoading = RxBool(false);
-   final Rx<ArtistModel?> artistModel = Rx<ArtistModel?>(null);
+  //!Top Artist
+  //Artist api implement
+  final RxInt selectedMovieIndustryId = RxInt(-1);
+  final RxString selectedMovieIndustry = RxString("");
+  final RxBool isArtistLoading = RxBool(false);
+  final Rx<ArtistModel?> artistModel = Rx<ArtistModel?>(null);
   final RxList<ArtistData> temporaryArtistList = RxList<ArtistData>([]);
   final RxList<ArtistData> artistList = RxList<ArtistData>([]);
   final RxList<ArtistCountry> artistCountryList = RxList<ArtistCountry>([]);
-  final RxList<MovieIndustry> artistMovieIndustryList = RxList<MovieIndustry>([]);
+  final RxList<MovieIndustry> artistMovieIndustryList =
+      RxList<MovieIndustry>([]);
   Future<void> getArtistList() async {
     try {
       isArtistLoading.value = true;
@@ -503,7 +561,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuArtist?name=${viewAllTextEditingController.text.trim().toString()}&country=${selectedCountryId.value==-1 ? "" : selectedCountryId.value.toString()}&movie_industry=${selectedMovieIndustryId.value==-1 ? "" : selectedMovieIndustryId.value.toString()}",
+        url: "$kuArtist?name=${viewAllTextEditingController.text.trim().toString()}&country=${selectedCountryId.value == -1 ? "" : selectedCountryId.value.toString()}&movie_industry=${selectedMovieIndustryId.value == -1 ? "" : selectedMovieIndustryId.value.toString()}",
         body: body,
       ) as CommonDM;
 
@@ -512,19 +570,32 @@ class HomeController extends GetxController {
         artistList.clear();
         artistCountryList.clear();
         artistMovieIndustryList.clear();
-         artistModel.value = ArtistModel.fromJson(response.data);
+        artistModel.value = ArtistModel.fromJson(response.data);
         temporaryArtistList.addAll(artistModel.value!.artists!.data!);
         artistList.addAll(artistModel.value!.artists!.data!);
         artistCountryList.addAll(artistModel.value!.filter!.countries!);
-        artistMovieIndustryList.addAll(artistModel.value!.filter!.movieIndustries!);
+        artistMovieIndustryList
+            .addAll(artistModel.value!.filter!.movieIndustries!);
+        artistListSubLink.value = artistModel.value?.artists?.nextPageUrl;
+        if (artistListSubLink.value != null) {
+          artistListScrolled.value = false;
+        } else {
+          artistListScrolled.value = true;
+        }
         isArtistLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isArtistLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -533,9 +604,62 @@ class HomeController extends GetxController {
     }
   }
 
-   //Artist details api implement
-   final RxBool isArtistDetailsLoading = RxBool(false);
-   final Rx<ArtistDetailsModel?> artistDetailsModel = Rx<ArtistDetailsModel?>(null);
+//! pagination for Top Artist List
+   ScrollController artistListScrollController = ScrollController();
+  final Rx<String?> artistListSubLink = Rx<String?>(null);
+  final RxBool artistListScrolled = RxBool(false);
+  Future<void> getMoreArtistList([take]) async {
+    ll("getMoreArtistList is called");
+    try {
+      String? token = await spController.getBearerToken();
+      dynamic artistListSub;
+
+      if (artistListSubLink.value == null) {
+        return;
+      } else {
+        artistListSub = artistListSubLink.value!.split('?');
+      }
+
+      String artistListSuffixUrl = '';
+
+      artistListSuffixUrl = '&${artistListSub[1]}';
+
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuArtist?name=${viewAllTextEditingController.text.trim().toString()}&country=${selectedCountryId.value == -1 ? "" : selectedCountryId.value.toString()}&movie_industry=${selectedMovieIndustryId.value == -1 ? "" : selectedMovieIndustryId.value.toString()}$artistListSuffixUrl",
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        artistModel.value = ArtistModel.fromJson(response.data);
+        artistList.addAll(artistModel.value!.artists!.data!);
+        artistListSubLink.value = artistModel.value!.artists!.nextPageUrl;
+        if (artistListSubLink.value != null) {
+          artistListScrolled.value = false;
+        } else {
+          artistListScrolled.value = true;
+        }
+        isArtistLoading.value = false;
+      } else {
+        isArtistLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          // globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          // globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isArtistLoading.value = true;
+      ll('getMoreArtistList error: $e');
+    }
+  }
+
+
+  //Artist details api implement
+  final RxBool isArtistDetailsLoading = RxBool(false);
+  final Rx<ArtistDetailsModel?> artistDetailsModel =
+      Rx<ArtistDetailsModel?>(null);
   final Rx<Details?> artistDetailsData = Rx<Details?>(null);
   final RxList<Movie> artistMovieList = RxList<Movie>([]);
   Future<void> getArtistDetails([int? id]) async {
@@ -551,7 +675,8 @@ class HomeController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
-        ArtistDetailsModel artistDetailsModel = ArtistDetailsModel.fromJson(response.data);
+        ArtistDetailsModel artistDetailsModel =
+            ArtistDetailsModel.fromJson(response.data);
         artistMovieList.clear();
         artistMovieList.addAll(artistDetailsModel.movies!);
         artistDetailsData.value = artistDetailsModel.details;
@@ -560,9 +685,15 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isArtistDetailsLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -571,10 +702,10 @@ class HomeController extends GetxController {
     }
   }
 
-   //!Blogs
- //blog api implement
-   final RxBool isBlogLoading = RxBool(false);
-   final Rx<BlogModel?> blogModel = Rx<BlogModel?>(null);
+  //!Blogs
+  //blog api implement
+  final RxBool isBlogLoading = RxBool(false);
+  final Rx<BlogModel?> blogModel = Rx<BlogModel?>(null);
   final Rx<Blogs?> blogs = Rx<Blogs?>(null);
   final RxList<Categories> blogCategoryList = RxList<Categories>([]);
   final RxList<BlogData> blogList = RxList<BlogData>([]);
@@ -607,9 +738,15 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isBlogLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -617,7 +754,6 @@ class HomeController extends GetxController {
       ll('getBlogList error: $e');
     }
   }
-
 
   //!blog api implement
   final RxBool isBlogFilterLoading = RxBool(false);
@@ -630,12 +766,14 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuBlogFilter?string=&category_id=${selectedBlogCategoryId.value.toString()}&year=${selectedBlogYear.value.toString()}",
+        url:
+            "$kuBlogFilter?string=&category_id=${selectedBlogCategoryId.value.toString()}&year=${selectedBlogYear.value.toString()}",
         body: body,
       ) as CommonDM;
 
       if (response.code == 200) {
-        FilterBlogModel filterBlogModel = FilterBlogModel.fromJson(response.data);
+        FilterBlogModel filterBlogModel =
+            FilterBlogModel.fromJson(response.data);
         blogList.clear();
         blogList.addAll(filterBlogModel.details!.data!);
         isBlogFilterLoading.value = false;
@@ -644,9 +782,15 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isBlogFilterLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -656,8 +800,8 @@ class HomeController extends GetxController {
   }
 
   //blog details api implement
-   final RxBool isBlogDetailsLoading = RxBool(false);
-   final Rx<BlogDetailsModel?> blogDetailsModel = Rx<BlogDetailsModel?>(null);
+  final RxBool isBlogDetailsLoading = RxBool(false);
+  final Rx<BlogDetailsModel?> blogDetailsModel = Rx<BlogDetailsModel?>(null);
   final Rx<Detailes?> blogDetails = Rx<Detailes?>(null);
   final Rx<Categories?> blogCategories = Rx<Categories?>(null);
   final RxList<Detailes> latestBlogList = RxList<Detailes>([]);
@@ -675,7 +819,8 @@ class HomeController extends GetxController {
 
       if (response.code == 200) {
         latestBlogList.clear();
-        BlogDetailsModel blogDetailsModel = BlogDetailsModel.fromJson(response.data);
+        BlogDetailsModel blogDetailsModel =
+            BlogDetailsModel.fromJson(response.data);
         blogDetails.value = blogDetailsModel.details;
         blogCategories.value = blogDetailsModel.category;
         latestBlogList.addAll(blogDetailsModel.latestBlogs!);
@@ -684,9 +829,15 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isBlogDetailsLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -711,7 +862,8 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuGlobalSearch?search=${globalSearchTextEditingController.text.trim().toString()}&category=${selectedCategoryId.value ==-1 ?"" : selectedCategoryId.value.toString()}&country=${selectedCountryId.value==-1 ? "" : selectedCountryId.value.toString()}&genre=${selectedGenreId.value==-1 ? "" : selectedGenreId.value.toString()}&year=${selectedYear.toString()}",
+        url:
+            "$kuGlobalSearch?search=${globalSearchTextEditingController.text.trim().toString()}&category=${selectedCategoryId.value == -1 ? "" : selectedCategoryId.value.toString()}&country=${selectedCountryId.value == -1 ? "" : selectedCountryId.value.toString()}&genre=${selectedGenreId.value == -1 ? "" : selectedGenreId.value.toString()}&year=${selectedYear.toString()}",
         body: body,
       ) as CommonDM;
       if (response.code == 200) {
@@ -726,7 +878,8 @@ class HomeController extends GetxController {
         searchCountryList.addAll(globalSearchModel.value!.filter!.country!);
         searchGenreList.addAll(globalSearchModel.value!.filter!.genre!);
         searchYearList.addAll(globalSearchModel.value!.filter!.year!);
-         globalSearchListSubLink.value = globalSearchModel.value?.searchedData?.nextPageUrl;
+        globalSearchListSubLink.value =
+            globalSearchModel.value?.searchedData?.nextPageUrl;
         if (globalSearchListSubLink.value != null) {
           globalSearchListScrolled.value = false;
         } else {
@@ -737,9 +890,15 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isGlobalSearchLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
         }
       }
     } catch (e) {
@@ -747,11 +906,12 @@ class HomeController extends GetxController {
       ll('getGlobalSearch error: $e');
     }
   }
- //! pagination for global search
+
+  //! pagination for global search
   final ScrollController globalSearchScrollController = ScrollController();
   final Rx<String?> globalSearchListSubLink = Rx<String?>(null);
   final RxBool globalSearchListScrolled = RxBool(false);
-    //*Get More global search for pagination
+  //*Get More global search for pagination
   Future<void> getMoreGlobalSearch([take]) async {
     ll("getLoadMoreGlobalSearch is called");
     try {
@@ -764,23 +924,25 @@ class HomeController extends GetxController {
         globalSearchListSub = globalSearchListSubLink.value!.split('?');
       }
 
-      String friendListSuffixUrl = '';
+      String globalSearchListSuffixUrl = '';
 
-      friendListSuffixUrl = '&${globalSearchListSub[1]}';
+      globalSearchListSuffixUrl = '&${globalSearchListSub[1]}';
 
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
         // url: kuGlobalSearch + friendListSuffixUrl,
-        url: "$kuGlobalSearch?search=${globalSearchTextEditingController.text.trim().toString()}&category=${selectedCategoryId.value ==-1 ?"" : selectedCategoryId.value.toString()}&country=${selectedCountryId.value==-1 ? "" : selectedCountryId.value.toString()}&genre=${selectedGenreId.value==-1 ? "" : selectedGenreId.value.toString()}&year=${selectedYear.toString()}$friendListSuffixUrl",
+        url:
+            "$kuGlobalSearch?search=${globalSearchTextEditingController.text.trim().toString()}&category=${selectedCategoryId.value == -1 ? "" : selectedCategoryId.value.toString()}&country=${selectedCountryId.value == -1 ? "" : selectedCountryId.value.toString()}&genre=${selectedGenreId.value == -1 ? "" : selectedGenreId.value.toString()}&year=${selectedYear.toString()}$globalSearchListSuffixUrl",
       ) as CommonDM;
 
       if (response.code == 200) {
         globalSearchModel.value = GlobalSearchModel.fromJson(response.data);
-        
+
         // friendList.addAll(friendListData.value!.friends!.data);
         searchList.addAll(globalSearchModel.value!.searchedData!.data!);
-        globalSearchListSubLink.value = globalSearchModel.value!.searchedData!.nextPageUrl;
+        globalSearchListSubLink.value =
+            globalSearchModel.value!.searchedData!.nextPageUrl;
         if (globalSearchListSubLink.value != null) {
           globalSearchListScrolled.value = false;
         } else {
@@ -802,67 +964,15 @@ class HomeController extends GetxController {
       ll('getLoadMoreGlobalSearch error: $e');
     }
   }
-  //!
-//  final ScrollController globalSearchScrollController = ScrollController();
-//  final RxBool hasGlobalSearchNextPage = RxBool(false);
- //  final RxBool isLoadMoreGlobalSearchRunning = RxBool(false);
-//  final RxBool globalSearchScrolled = RxBool(false);
-//     void loadMoreGlobalSearch() async {
-//     ll("The loadMoreGlobalSearch() is called");
-//     if (hasGlobalSearchNextPage.value==false && !isGlobalSearchLoading.value && !isLoadMoreGlobalSearchRunning.value) {
-//     // if (hasNextPage.value) {
-//       String? token = await spController.getBearerToken();
-//       // double scrollPosition = scrollController.position.pixels;
-//       // double maxScrollExtent = scrollController.position.maxScrollExtent;
-//       // double triggerThreshold = 0.9;
-
-//       // if (scrollPosition / maxScrollExtent > triggerThreshold) {
-//         // _isLoadMoreConversationRunning.value = true;
-//         isLoadMoreGlobalSearchRunning.value = true;
-//         try {
-//           var response = await apiServices.commonApiCall(
-//             url: "$kuGlobalSearch?search=${globalSearchTextEditingController.text.trim().toString()}&category=${selectedCategoryId.value ==-1 ?"" : selectedCategoryId.value.toString()}&country=${selectedCountryId.value==-1 ? "" : selectedCountryId.value.toString()}&genre=${selectedGenreId.value==-1 ? "" : selectedGenreId.value.toString()}&year=${selectedYear.toString()}&page=2",
-//               requestMethod: kGet,
-//               token: token,
-//           ) as CommonDM;
-//           if (response.success == true) {
-//            GlobalSearchModel globalSearchModel = GlobalSearchModel.fromJson(response.data);
-//             searchList.addAll(globalSearchModel.searchedData!.data!);
-//               // hasGlobalSearchNextPage.value =  globalSearchModel.value.nextPageUrl??false; //!needed
-//             if (hasGlobalSearchNextPage.value) {
-//           // currentConversationPage.value++;
-//           globalSearchScrolled.value = false;
-//         } else {
-//           globalSearchScrolled.value = true;
-//         }
-//             // if(chatRoomsModel.chatRooms == null || chatRoomsModel.chatRooms!.isEmpty){
-//             //   // _hasNextPage.value = false;
-//             //   hasNextPage.value = false;
-//             // }else{
-//             //   currentConversationPage.value++;
-//             // }
-//           }
-//           else {
-//             showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor);
-//           }
-//         } catch (e) {
-//           // _isLoadMoreConversationRunning.value = false;
-//           // isLoadMoreConversationRunning.value = false;//!not needed now
-//           ll('chat room error: $e');
-//         }finally {
-//           // _isLoadMoreConversationRunning.value = false;
-//           // isLoadMoreConversationRunning.value = false;//!not needed now
-//         }
-//       // }
-//     }
-//   }
 
   //!Tv Channel
   final RxBool isTvChannelListLoading = RxBool(false);
-  final Rx<TvChannelListModel?> tvChannelListModel = Rx<TvChannelListModel?>(null);
+  final Rx<TvChannelListModel?> tvChannelListModel =
+      Rx<TvChannelListModel?>(null);
   final Rx<LiveTvs?> tvChannelData = Rx<LiveTvs?>(null);
   final RxList<TvChannelData> allTvChannelList = RxList<TvChannelData>([]);
-  final RxList<TvChannelCategory> tvChannelCategoryList = RxList<TvChannelCategory>([]);
+  final RxList<TvChannelCategory> tvChannelCategoryList =
+      RxList<TvChannelCategory>([]);
   final RxList<ArtistCountry> tvChannelCountryList = RxList<ArtistCountry>([]);
   Future<void> getTvChannel() async {
     try {
@@ -872,7 +982,8 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuTvChannel?search=${viewAllTextEditingController.text.trim().toString()}&category_id=${selectedCategoryId.value ==-1 ? "" : selectedCategoryId.value.toString()}&country_id=${selectedCountryId.value ==-1 ? "" : selectedCountryId.value.toString()}",
+        url:
+            "$kuTvChannel?search=${viewAllTextEditingController.text.trim().toString()}&category_id=${selectedCategoryId.value == -1 ? "" : selectedCategoryId.value.toString()}&country_id=${selectedCountryId.value == -1 ? "" : selectedCountryId.value.toString()}",
         body: body,
       ) as CommonDM;
 
@@ -883,16 +994,23 @@ class HomeController extends GetxController {
         tvChannelListModel.value = TvChannelListModel.fromJson(response.data);
         tvChannelData.value = tvChannelListModel.value?.liveTvs;
         allTvChannelList.addAll(tvChannelListModel.value!.liveTvs!.data!);
-        tvChannelCategoryList.addAll(tvChannelListModel.value!.filter!.categories!);
+        tvChannelCategoryList
+            .addAll(tvChannelListModel.value!.filter!.categories!);
         tvChannelCountryList.addAll(tvChannelListModel.value!.filter!.country!);
         isTvChannelListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isTvChannelListLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cRedColor);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cRedColor);
         }
       }
     } catch (e) {
@@ -901,9 +1019,10 @@ class HomeController extends GetxController {
     }
   }
 
-    //Tv channel details
+  //Tv channel details
   final RxBool isTvChannelDetailsLoading = RxBool(false);
-  final Rx<TvChannelDetailsModel?> tvChannelDetailsModel = Rx<TvChannelDetailsModel?>(null);
+  final Rx<TvChannelDetailsModel?> tvChannelDetailsModel =
+      Rx<TvChannelDetailsModel?>(null);
   final Rx<LiveTvDetails?> liveTvDetailsData = Rx<LiveTvDetails?>(null);
   final RxList<dynamic> relatedLiveTvChannelsList = RxList<dynamic>([]);
   Future<void> getTvChannelDetails({int? tvChannelId}) async {
@@ -915,23 +1034,32 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuLiveTvDetails?id=${tvChannelId.toString()}&user_id=${userId.toString()}",
+        url:
+            "$kuLiveTvDetails?id=${tvChannelId.toString()}&user_id=${userId.toString()}",
         body: body,
       ) as CommonDM;
 
       if (response.code == 200) {
         relatedLiveTvChannelsList.clear();
-        tvChannelDetailsModel.value = TvChannelDetailsModel.fromJson(response.data);
+        tvChannelDetailsModel.value =
+            TvChannelDetailsModel.fromJson(response.data);
         liveTvDetailsData.value = tvChannelDetailsModel.value?.liveTvDetails;
-        relatedLiveTvChannelsList.addAll(tvChannelDetailsModel.value!.relatedLiveTvs!);
+        relatedLiveTvChannelsList
+            .addAll(tvChannelDetailsModel.value!.relatedLiveTvs!);
         isTvChannelDetailsLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isTvChannelDetailsLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cRedColor);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cRedColor);
         }
       }
     } catch (e) {
@@ -940,23 +1068,21 @@ class HomeController extends GetxController {
     }
   }
 
-
-
   final RxInt selectedServer = RxInt(0);
   //!reset bottom nav bar data
-  void resetBottomSheetData(){
-  selectedCategoryId.value = -1;
-  selectedCountryId.value = -1;
-  selectedGenreId.value = -1;
-  selectedLanguageId.value = -1;
-  selectedSortId.value = -1;
-  selectedYear.value = "";
-  selectedMovieIndustryId.value = -1;
-  selectedCategory.value = "";
-  selectedGenre.value = "";
-  selectedCountry.value = "";
-  selectedLanguage.value = "";
-  selectedSort.value = "";
-  isApplyClicked.value = false;
+  void resetBottomSheetData() {
+    selectedCategoryId.value = -1;
+    selectedCountryId.value = -1;
+    selectedGenreId.value = -1;
+    selectedLanguageId.value = -1;
+    selectedSortId.value = -1;
+    selectedYear.value = "";
+    selectedMovieIndustryId.value = -1;
+    selectedCategory.value = "";
+    selectedGenre.value = "";
+    selectedCountry.value = "";
+    selectedLanguage.value = "";
+    selectedSort.value = "";
+    isApplyClicked.value = false;
   }
 }

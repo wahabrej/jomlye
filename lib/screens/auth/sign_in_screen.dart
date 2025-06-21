@@ -105,7 +105,7 @@ class SignInScreen extends StatelessWidget {
                         CommonContainer(
                           image: kiFacebook,
                           onPressed: () async {
-                            await authController.signInWithFacebook();
+                            // await authController.signInWithFacebook();
                           },
                         ),
                       ],
