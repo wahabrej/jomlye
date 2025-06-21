@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
@@ -87,53 +88,107 @@ class AllBlogsViewAllScreen extends StatelessWidget {
           ],
         ),
       ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-            child: Obx(
-              () => Column(
-                children: [
-                  Divider(
-                    thickness: 1,
-                    color: cWhiteColor.withOpacity(0.2),
-                  ),
-                  kH16sizedBox,
-                  //!needed
-                  GridView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 0.7,
-                    ),
-                    itemCount: homeController.blogList.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () async {
-                          await homeController.getBlogDetails(
-                              homeController.blogList[index].id);
-                          Get.toNamed(krBlogSingleScreen);
-                        },
-                        child: LatestBlogPostContent(
-                          contentHeight: 240.h,
-                          image: homeController.blogList[index].image ?? "",
-                          title: homeController.blogList[index].title ?? "",
-                          subTitle:
-                              homeController.blogList[index].seoTitle ?? "",
-                          // date: homeController.blogDetails.value?.createdAt?.toString()??"",
-                          date: homeController.blogDetails.value?.createdAt != null ? DateFormat('d MMM, yyyy').format(DateTime.parse(homeController.blogDetails.value?.createdAt?.toString()??"")):"",
-                          reporter: homeController.blogList[index].author ?? "",
-                          isTop: homeController.blogList[index].isTop,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+          child: Obx(
+            () => Column(
+              children: [
+                Divider(
+                  thickness: 1,
+                  color: cWhiteColor.withOpacity(0.2),
+                ),
+                kH16sizedBox,
+                homeController.blogList.isEmpty
+                    ? SizedBox(
+                        height: (height * 0.65),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              kiSearchResultPng,
+                              width: 200.w,
+                              height: 200.h,
+                            ),
+                            Text(
+                              ksNoBlogFound.tr,
+                              style: medium16TextStyle(cPrimaryColor2),
+                            ),
+                            kH16sizedBox,
+                            Text(
+                              ksNoBlogsFoundPleaseCheckFilter.tr,
+                              style:
+                                  regular14TextStyle(cWhiteColor.withOpacity(
+                                0.5,
+                              )),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
                         ),
-                      );
-                    },
+                      )
+                     : homeController.isBlogLoading.value
+                          ? const CircularProgressIndicator()
+                          : NotificationListener<ScrollNotification>(
+                              onNotification: (scrollNotification) {
+                                if (homeController.blogListScrollController
+                                            .position.userScrollDirection ==
+                                        ScrollDirection.reverse &&
+                                    scrollNotification.metrics.pixels ==
+                                        scrollNotification
+                                            .metrics.maxScrollExtent &&
+                                    !homeController.blogListScrolled.value) {
+                                  homeController.blogListScrolled.value =
+                                      true;
+                                  if (homeController.blogList.isNotEmpty) {
+                                    homeController.getMoreBlogList();
+                                  }
+                                  return true;
+                                }
+                                return false;
+                              },
+                  child: Expanded(
+                    child: SingleChildScrollView(
+                      controller: homeController.blogListScrollController,
+                      child: Column(
+                        children: [
+                          GridView.builder(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                              childAspectRatio: 0.7,
+                            ),
+                            itemCount: homeController.blogList.length,
+                            itemBuilder: (context, index) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  await homeController.getBlogDetails(
+                                      homeController.blogList[index].id);
+                                  Get.toNamed(krBlogSingleScreen);
+                                },
+                                child: LatestBlogPostContent(
+                                  contentHeight: 240.h,
+                                  image: homeController.blogList[index].image ?? "",
+                                  title: homeController.blogList[index].title ?? "",
+                                  subTitle:
+                                      homeController.blogList[index].seoTitle ?? "",
+                                  // date: homeController.blogDetails.value?.createdAt?.toString()??"",
+                                  date: homeController.blogDetails.value?.createdAt != null ? DateFormat('d MMM, yyyy').format(DateTime.parse(homeController.blogDetails.value?.createdAt?.toString()??"")):"",
+                                  reporter: homeController.blogList[index].author ?? "",
+                                  isTop: homeController.blogList[index].isTop,
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

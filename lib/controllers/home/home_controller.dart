@@ -224,7 +224,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuMovies?type=$movieType&per_page=10",
+        url: "$kuMovies?type=$movieType&per_page=15",
         body: body,
       ) as CommonDM;
 
@@ -279,7 +279,6 @@ class HomeController extends GetxController {
   final Rx<String?> movieListSubLink = Rx<String?>(null);
   final RxBool movieListScrolled = RxBool(false);
   Future<void> getMoreMovieList(String? movieType,[take]) async {
-    ll("getMoreMovieList is called");
     try {
       String? token = await spController.getBearerToken();
       dynamic movieListSub;
@@ -297,7 +296,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-         url: "$kuMovies?type=$movieType$movieListSuffixUrl",
+        url: "$kuMovies?type=$movieType$movieListSuffixUrl&per_page=15",
       ) as CommonDM;
 
       if (response.code == 200) {
@@ -321,7 +320,7 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       isMovieListLoading.value = true;
-      ll('getMoreArtistList error: $e');
+      ll('getMoreMovieList error: $e');
     }
   }
 
@@ -775,21 +774,27 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuBlogs,
+        url: "$kuBlogs?per_page=1",
         body: body,
       ) as CommonDM;
 
       if (response.code == 200) {
-        BlogModel blogModel = BlogModel.fromJson(response.data);
+        blogModel.value = BlogModel.fromJson(response.data);
         blogCategoryList.clear();
         blogYearList.clear();
         blogList.clear();
-        blogs.value = blogModel.blogs;
-        blogList.addAll(blogModel.blogs!.data!);
-        ll("The blog filter category data is ${blogModel.filter!.categories}");
-        ll("The blog filter category data length is ${blogModel.filter!.categories!.length}");
-        blogCategoryList.addAll(blogModel.filter!.categories!);
-        blogYearList.addAll(blogModel.filter!.year!);
+        blogs.value = blogModel.value!.blogs;
+        blogList.addAll(blogModel.value!.blogs!.data!);
+        ll("The blog filter category data is ${blogModel.value!.filter!.categories}");
+        ll("The blog filter category data length is ${blogModel.value!.filter!.categories!.length}");
+        blogCategoryList.addAll(blogModel.value!.filter!.categories!);
+        blogYearList.addAll(blogModel.value!.filter!.year!);
+         blogListSubLink.value = blogModel.value!.blogs!.nextPageUrl;
+        if (blogListSubLink.value != null) {
+          blogListScrolled.value = false;
+        } else {
+          blogListScrolled.value = true;
+        }
         isBlogLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -809,6 +814,57 @@ class HomeController extends GetxController {
     } catch (e) {
       isBlogLoading.value = false;
       ll('getBlogList error: $e');
+    }
+  }
+
+
+  //! pagination for blog List
+  ScrollController blogListScrollController = ScrollController();
+  final Rx<String?> blogListSubLink = Rx<String?>(null);
+  final RxBool blogListScrolled = RxBool(false);
+  Future<void> getMoreBlogList([take]) async {
+    try {
+      String? token = await spController.getBearerToken();
+      dynamic blogListSub;
+
+      if (blogListSubLink.value == null) {
+        return;
+      } else {
+        blogListSub = blogListSubLink.value!.split('?');
+      }
+
+      String blogListSuffixUrl = '';
+
+      blogListSuffixUrl = '&${blogListSub[1]}';
+
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuBlogs$blogListSuffixUrl&per_page=1",
+      ) as CommonDM;
+
+      if (response.code == 200) {
+      blogModel.value = BlogModel.fromJson(response.data);
+        blogList.addAll(blogModel.value!.blogs!.data!);
+        blogListSubLink.value = blogModel.value!.blogs!.nextPageUrl;
+        if (blogListSubLink.value != null) {
+          blogListScrolled.value = false;
+        } else {
+          blogListScrolled.value = true;
+        }
+        isBlogLoading.value = false;
+      } else {
+        isBlogLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          // globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          // globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isBlogLoading.value = true;
+      ll('getMoreBlogList error: $e');
     }
   }
 
