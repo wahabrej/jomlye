@@ -33,7 +33,6 @@ class HomeController extends GetxController {
       TextEditingController();
   final RxBool isViewAllSearchSuffixShow = RxBool(false);
   //* blog
-  final RxString selectedBlogGenre = RxString("");
   final RxString selectedBlogCategories = RxString("");
   final RxString selectedBlogCategoryId = RxString("");
   final RxString selectedBlogYear = RxString("");
