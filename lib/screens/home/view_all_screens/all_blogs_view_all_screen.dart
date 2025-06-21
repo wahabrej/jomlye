@@ -231,21 +231,20 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedBlogCategories.value =
+                            homeController.selectedCategory.value =
                                 homeController
                                         .blogCategoryList[index].videoType ??
                                     "";
-                            homeController.selectedBlogCategoryId.value =
-                                homeController.blogCategoryList[index].id
-                                    .toString();
+                            homeController.selectedCategoryId.value =
+                                homeController.blogCategoryList[index].id??-1;
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
                               border: homeController
-                                          .selectedBlogCategories.value ==
+                                          .selectedCategoryId.value ==
                                       homeController
-                                          .blogCategoryList[index].videoType
+                                          .blogCategoryList[index].id
                                   ? Border.all(width: 1, color: cPrimaryColor2)
                                   : Border.all(width: 0),
                               borderRadius: BorderRadius.circular(6.r),
@@ -298,13 +297,13 @@ class AllBlogBottomSheetContent extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return Obx(() => GestureDetector(
                           onTap: () {
-                            homeController.selectedBlogYear.value =
+                            homeController.selectedYear.value =
                                 homeController.blogYearList[index].toString();
                           },
                           child: Container(
                             decoration: BoxDecoration(
                               color: cWhiteColor.withOpacity(0.04),
-                              border: homeController.selectedBlogYear.value ==
+                              border: homeController.selectedYear.value ==
                                       homeController.blogYearList[index]
                                           .toString()
                                   ? Border.all(width: 1, color: cPrimaryColor2)
@@ -347,7 +346,7 @@ class AllBlogBottomSheetContent extends StatelessWidget {
               CustomElevatedButton(
                 label: ksReset.tr,
                 onPressed: () {
-                  homeController.blogFilterValueReset();
+                  homeController.resetBottomSheetData();
                 },
                 buttonColor: cWhiteColor.withOpacity(0.2),
                 textStyle: regular16TextStyle(cWhiteColor),

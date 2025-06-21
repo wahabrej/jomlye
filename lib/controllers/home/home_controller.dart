@@ -32,18 +32,6 @@ class HomeController extends GetxController {
   final TextEditingController viewAllTextEditingController =
       TextEditingController();
   final RxBool isViewAllSearchSuffixShow = RxBool(false);
-  //* blog
-  final RxString selectedBlogCategories = RxString("");
-  final RxString selectedBlogCategoryId = RxString("");
-  final RxString selectedBlogYear = RxString("");
-  final RxString selectedBlogLanguage = RxString("");
-
-
-  void blogFilterValueReset() {
-    selectedBlogCategories.value = "";
-    selectedBlogYear.value = "";
-    selectedBlogLanguage.value = "";
-  }
 
   final RxList<Map<String, dynamic>> recentPlayedMovies =
       RxList<Map<String, dynamic>>([
@@ -879,7 +867,7 @@ class HomeController extends GetxController {
         requestMethod: kGet,
         token: token,
         url:
-            "$kuBlogFilter?string=&category_id=${selectedBlogCategoryId.value.toString()}&year=${selectedBlogYear.value.toString()}",
+            "$kuBlogFilter?string=&category_id=${selectedCategoryId.value.toString()}&year=${selectedYear.value.toString()}",
         body: body,
       ) as CommonDM;
 

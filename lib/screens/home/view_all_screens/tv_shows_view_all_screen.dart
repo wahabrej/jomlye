@@ -558,7 +558,6 @@ class AllTvShowsBottomSheetContent extends StatelessWidget {
                 label: ksReset.tr,
                 onPressed: () {
                   homeController.resetBottomSheetData();
-                  homeController.blogFilterValueReset();
                 },
                 buttonColor: cWhiteColor.withOpacity(0.2),
                 textStyle: regular16TextStyle(cWhiteColor),

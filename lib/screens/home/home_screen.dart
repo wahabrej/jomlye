@@ -815,9 +815,6 @@ class HomeScreen extends StatelessWidget {
                         homeController.isViewAllSearchEnable.value = false;
                         homeController.viewAllTextEditingController.clear();
                         await homeController.getBlogList();
-                        homeController.selectedBlogCategories.value = "";
-                        homeController.selectedBlogCategoryId.value = "";
-                        homeController.selectedBlogYear.value = "";
                         Get.toNamed(krAllBlogsViewAllScreen);
                       },
                     ),
