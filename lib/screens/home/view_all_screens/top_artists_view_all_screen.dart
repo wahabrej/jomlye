@@ -174,9 +174,9 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                     child: Container(
                       width: 40.w,
                       height: 40.h,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: cPrimaryColor2,
+                        color: homeController.isApplyClicked.value ? cPrimaryColor2 : cWhiteColor.withOpacity(0.2),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(k12Padding),
@@ -190,6 +190,7 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                 ),
               ],
             ),
+          
           ),
 
           body: Padding(
@@ -222,6 +223,7 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                             )),
                       ],
                     ),
+                 
                   kH8sizedBox,
                   SizedBox(
                     width: width - 20,
@@ -279,6 +281,7 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                 
                   kH8sizedBox,
                   homeController.artistList.isEmpty
                       ? SizedBox(

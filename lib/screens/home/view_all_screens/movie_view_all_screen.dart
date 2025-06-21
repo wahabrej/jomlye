@@ -225,8 +225,6 @@ class MovieViewAllScreen extends StatelessWidget {
                           )),
                     ],
                   ),
-               
-               
                 kH8sizedBox,
                 SizedBox(
                   width: width - 20,

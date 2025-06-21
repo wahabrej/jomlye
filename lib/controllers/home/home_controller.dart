@@ -288,6 +288,7 @@ class HomeController extends GetxController {
 
       if (response.code == 200) {
         movieListModel.value = MovieListModel.fromJson(response.data);
+        temporaryMovieList.addAll(movieListModel.value!.movies!.data!);
         movieList.addAll(movieListModel.value!.movies!.data!);
         movieListSubLink.value = movieListModel.value!.movies!.nextPageUrl;
         if (movieListSubLink.value != null) {
@@ -752,6 +753,7 @@ class HomeController extends GetxController {
   final Rx<Blogs?> blogs = Rx<Blogs?>(null);
   final RxList<Categories> blogCategoryList = RxList<Categories>([]);
   final RxList<BlogData> blogList = RxList<BlogData>([]);
+  final RxList<BlogData> temporaryBlogList = RxList<BlogData>([]);
   final RxList<int> blogYearList = RxList<int>([]);
   Future<void> getBlogList() async {
     try {
@@ -761,7 +763,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuBlogs?per_page=1",
+        url: "$kuBlogs?per_page=15",
         body: body,
       ) as CommonDM;
 
@@ -769,8 +771,10 @@ class HomeController extends GetxController {
         blogModel.value = BlogModel.fromJson(response.data);
         blogCategoryList.clear();
         blogYearList.clear();
+        temporaryBlogList.clear();
         blogList.clear();
         blogs.value = blogModel.value!.blogs;
+        temporaryBlogList.addAll(blogModel.value!.blogs!.data!);
         blogList.addAll(blogModel.value!.blogs!.data!);
         ll("The blog filter category data is ${blogModel.value!.filter!.categories}");
         ll("The blog filter category data length is ${blogModel.value!.filter!.categories!.length}");
@@ -827,11 +831,12 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuBlogs$blogListSuffixUrl&per_page=1",
+        url: "$kuBlogs$blogListSuffixUrl&per_page=15",
       ) as CommonDM;
 
       if (response.code == 200) {
       blogModel.value = BlogModel.fromJson(response.data);
+        temporaryBlogList.addAll(blogModel.value!.blogs!.data!);
         blogList.addAll(blogModel.value!.blogs!.data!);
         blogListSubLink.value = blogModel.value!.blogs!.nextPageUrl;
         if (blogListSubLink.value != null) {
