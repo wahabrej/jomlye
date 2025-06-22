@@ -13,6 +13,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      top: false,
       child: Scaffold(
         backgroundColor: cBlackColor,
         appBar: PreferredSize(
@@ -25,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
                 Get.back();
               },
               child: Container(
-                width: 90,
+                width: profileController.selectedLanguage.value == "Arabic" ? 130 : 100,
                 height: h32,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(100.r),
@@ -195,7 +196,7 @@ class ProfileScreen extends StatelessWidget {
                   ProfileCommonWidget(
                     image: kiLanguage,
                     title: ksLanguage.tr,
-                    selectedLanguage: "English (US)",
+                    selectedLanguage: profileController.selectedLanguage.value,
                     onPressed: () {
                       Get.toNamed(krLanguageScreen);
                     },
@@ -534,7 +535,7 @@ void showLogoutPopup(BuildContext context) {
                     onPressed: () {
                       Get.back();
                     },
-                    buttonWidth: 72.w,
+                    buttonWidth: 80.w,
                     buttonHeight: 36.h,
                     buttonColor: cWhiteColor.withOpacity(0.2),
                   ),
@@ -544,7 +545,7 @@ void showLogoutPopup(BuildContext context) {
                     onPressed: () {
                     Get.find<AuthController>().signOut();
                     },
-                    buttonWidth: 72.w,
+                    buttonWidth: 80.w,
                     buttonHeight: 36.h,
                     buttonColor: cPrimaryColor2,
                   ),

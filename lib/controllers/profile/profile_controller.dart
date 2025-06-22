@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
@@ -27,18 +28,6 @@ class ProfileController extends GetxController {
   final RxBool isProfileImageChnaged = RxBool(false);
   final RxString profileImageLink = RxString("");
   final Rx<File?> profileImageFile = Rx<File?>(null);
-  final RxList languageList = RxList([
-    "Bangla",
-    "Hindi",
-    "Chinese",
-    "Russian",
-    "Urdu",
-    "German",
-    "Spanish",
-    "French",
-    "Arabic",
-    "Indonesian"
-  ]);
   final RxList favoriteTvChannelList = RxList([
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0tieg_XmSWY4Er34er592OFueSzMT0OzWQA&s",
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSLPK5f26HCqYTxBDwVVj-6OttdrGCI2wuvQ&s",
@@ -754,5 +743,61 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       isFaqListLoading.value = false;
       ll('getFaqList error: $e');
     }
-  } 
+  }
+
+
+
+
+  //!##Lnaguage##
+ static const String LANGUAGE_KEY = 'selected_language';
+final RxString selectedLanguage = RxString("English");
+  final RxInt selectedLanguageIndex = RxInt(0);
+  final RxList languageList = RxList([
+    "Bangla",
+    "French",
+    "Arabic",
+  ]);
+
+@override
+void onInit() {
+  super.onInit();
+  loadSavedLanguage();
+}
+
+Future<void> loadSavedLanguage() async {
+  final prefs = await SharedPreferences.getInstance();
+  final savedLanguage = prefs.getString(LANGUAGE_KEY);
+  if (savedLanguage != null) {
+    selectedLanguage.value = savedLanguage;
+    await changeLanguage(savedLanguage);
+  }
+}
+
+Future<void> changeLanguage(String language) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString(LANGUAGE_KEY, language);
+  
+  switch (language) {
+    case 'English':
+    selectedLanguageIndex.value = 0;
+      await Get.updateLocale(const Locale('en', 'US'));
+      break;
+    case 'Bangla':
+    selectedLanguageIndex.value = 1;
+      await Get.updateLocale(const Locale('bn', 'BD'));
+      break;
+    case 'French':
+    selectedLanguageIndex.value = 2;
+      await Get.updateLocale(const Locale('fr', 'FR'));
+      break;
+    case 'Arabic':
+    selectedLanguageIndex.value = 3;
+      await Get.updateLocale(const Locale('ar', 'SA'));
+      break;
+  }
+  
+  selectedLanguage.value = language;
+}
+
+
 }

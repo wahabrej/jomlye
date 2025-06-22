@@ -1,3 +1,4 @@
+import 'package:vidflix_flutter_app/language/languages.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/common/binder_controller.dart';
 
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
           }
         },
         child: GetMaterialApp(
+          translations: Languages(),
+          locale: const Locale('en', 'US'),
+          fallbackLocale: const Locale('en', 'US'),
           localizationsDelegates: const [
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
