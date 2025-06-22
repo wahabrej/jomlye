@@ -438,13 +438,14 @@ class HomeController extends GetxController {
   //tv shows api implement
   final RxBool isTvShowLoading = RxBool(false);
   final Rx<TvShowsModel?> tvShowsModel = Rx<TvShowsModel?>(null);
+  final RxList<TvShowData?> temporaryTvShowList = RxList<TvShowData?>([]);
   final RxList<TvShowData?> tvShowList = RxList<TvShowData?>([]);
   final RxList<Categories?> tvShowsCategoryList = RxList<Categories?>([]);
   final RxList<Countries?> tvShowCountryList = RxList<Countries?>([]);
   final RxList<Countries?> tvShowLanguageList = RxList<Countries?>([]);
   final RxList<Countries?> tvShowGenreList = RxList<Countries?>([]);
   final RxList<int> tvShowYearList = RxList<int>([]);
-  final RxMap<String, String> tvShowSort = RxMap<String, String>();
+   final RxList<String> tvShowSortList = RxList<String>();
   Future<void> getTvShows() async {
     try {
       isTvShowLoading.value = true;
@@ -453,24 +454,27 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: kuTvShows,
+        url: "$kuTvShows",
         body: body,
       ) as CommonDM;
 
       if (response.code == 200) {
+        temporaryTvShowList.clear();
         tvShowList.clear();
         tvShowsCategoryList.clear();
         tvShowCountryList.clear();
         tvShowLanguageList.clear();
         tvShowGenreList.clear();
         tvShowYearList.clear();
-        TvShowsModel tvShowsModel = TvShowsModel.fromJson(response.data);
-        tvShowList.addAll(tvShowsModel.shows!.data!);
-        tvShowsCategoryList.addAll(tvShowsModel.filter!.categories!);
-        tvShowCountryList.addAll(tvShowsModel.filter!.country!);
-        tvShowLanguageList.addAll(tvShowsModel.filter!.languages!);
-        tvShowGenreList.addAll(tvShowsModel.filter!.genre!);
-        tvShowYearList.addAll(tvShowsModel.filter!.year!);
+        tvShowsModel.value = TvShowsModel.fromJson(response.data);
+        temporaryTvShowList.addAll(tvShowsModel.value!.shows!.data!);
+        tvShowList.addAll(tvShowsModel.value!.shows!.data!);
+        tvShowsCategoryList.addAll(tvShowsModel.value!.filter!.categories!);
+        tvShowCountryList.addAll(tvShowsModel.value!.filter!.country!);
+        tvShowLanguageList.addAll(tvShowsModel.value!.filter!.languages!);
+        tvShowGenreList.addAll(tvShowsModel.value!.filter!.genre!);
+        tvShowYearList.addAll(tvShowsModel.value!.filter!.year!);
+        // tvShowSortList.addAll(tvShowsModel.value!.filter!.sort!);
         isTvShowLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -490,6 +494,56 @@ class HomeController extends GetxController {
     } catch (e) {
       isTvShowLoading.value = false;
       ll('getTvShows error: $e');
+    }
+  }
+
+
+  //! pagination for Tv show List
+   ScrollController tvShowListScrollController = ScrollController();
+  final Rx<String?> tvShowListSubLink = Rx<String?>(null);
+  final RxBool tvShowListScrolled = RxBool(false);
+  Future<void> getMoreTvShowList(String? movieType,[take]) async {
+    try {
+      String? token = await spController.getBearerToken();
+      dynamic tvShowListSub;
+      if (tvShowListSubLink.value == null) {
+        return;
+      } else {
+        tvShowListSub = tvShowListSubLink.value!.split('?');
+      }
+
+      String tvShowListSuffixUrl = '';
+
+      tvShowListSuffixUrl = '&${tvShowListSub[1]}';
+
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuTvShows?per_page=2$tvShowListSuffixUrl",
+      ) as CommonDM;
+      if (response.code == 200) {
+        tvShowsModel.value = TvShowsModel.fromJson(response.data);
+        temporaryTvShowList.addAll(tvShowsModel.value!.shows!.data!);
+        tvShowList.addAll(tvShowsModel.value!.shows!.data!);
+        tvShowListSubLink.value = tvShowsModel.value!.shows!.nextPageUrl;
+        if (tvShowListSubLink.value != null) {
+          tvShowListScrolled.value = false;
+        } else {
+          tvShowListScrolled.value = true;
+        }
+        isTvShowLoading.value = false;
+      } else {
+        isTvShowLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          // globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          // globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isTvShowLoading.value = true;
+      ll('getMoreTvShowList error: $e');
     }
   }
 
@@ -560,9 +614,9 @@ class HomeController extends GetxController {
 
       if (response.code == 200) {
         tvShowList.clear();
-        TvShowFilterModel tvShowFilterModel =
+        tvShowFilterModel.value =
             TvShowFilterModel.fromJson(response.data);
-        tvShowList.addAll(tvShowFilterModel.details!.data!);
+        tvShowList.addAll(tvShowFilterModel.value!.details!.data!);
         Get.back();
         isTvShowLoading.value = false;
       } else {
