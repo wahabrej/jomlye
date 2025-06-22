@@ -489,7 +489,7 @@ class EditProfileScreen extends StatelessWidget {
                     CustomElevatedButton(
                       label: ksSkip.tr,
                       onPressed: () {
-                        // Get.toNamed(krEditProfileScreen);
+                        Get.back();
                       },
                       buttonWidth: (width - 56) / 2,
                       buttonHeight: kButtonHeight.h,
