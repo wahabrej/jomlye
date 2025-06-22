@@ -1,4 +1,3 @@
-
 import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_list_model.dart';
 
 class FilterMovieListModel {

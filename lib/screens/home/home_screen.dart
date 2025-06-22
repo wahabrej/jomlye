@@ -478,16 +478,10 @@ class HomeScreen extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 return InkWell(
-                                  onTap: () {
-                                    const String videoUrl =
-                                        "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"; //!dummy video url
-                                    Get.find<AllVideoPlayerController>()
-                                        .flickManager = FlickManager(
-                                      videoPlayerController:
-                                          VideoPlayerController.network(
-                                              videoUrl),
-                                    );
-                                    Get.toNamed(krVideoPlayerScreen);
+                                  onTap: () async{
+                                           await homeController.getTvShowDetails(
+                                                              showId: homeController.tvShowList[index]!.id!);
+                                                          Get.toNamed(krTvShowPlayerScreen);
                                   },
                                   child: MovieContentContainer(
                                     movieImage: homeController
@@ -707,53 +701,55 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     kH16sizedBox,
-                    HomeTitleContent(
-                      title: ksTvSeries.tr,
-                      subtitleText: homeController.tvShowsList.isNotEmpty
-                          ? ksViewAll.tr
-                          : "",
-                      onPressed: () async {
-                        homeController.resetBottomSheetData();
-                        profileController.temporaryPlayListCheckBoxStateList
-                            .clear();
-                        homeController.isViewAllSearchEnable.value = false;
-                        homeController.viewAllTextEditingController.clear();
-                        await homeController.getTvShows();
-                        Get.toNamed(krTvShowsViewAllScreen);
-                      },
-                    ),
-                    kH16sizedBox,
-                    Padding(
-                      padding: const EdgeInsets.only(left: k20Padding),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: width - 20,
-                            height: 150.h,
-                            child: ListView.separated(
-                              itemCount: homeController.tvShowsList.length,
-                              separatorBuilder: (context, index) =>
-                                  kW10sizedBox,
-                              shrinkWrap: true,
-                              physics: const AlwaysScrollableScrollPhysics(),
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (context, index) {
-                                return MovieContentContainer(
-                                  movieImage: homeController
-                                      .tvShowsList[index].thumbnail,
-                                  // seasonName: homeController.tvShowsList[index].,
-                                  isPremium: homeController
-                                              .tvShowsList[index].isPaid ==
-                                          1
-                                      ? true
-                                      : false,
-                                );
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // HomeTitleContent(
+                    //   title: ksTvSeries.tr,
+                    //   subtitleText: homeController.tvShowsList.isNotEmpty
+                    //       ? ksViewAll.tr
+                    //       : "",
+                    //   onPressed: () async {
+                    //     homeController.resetBottomSheetData();
+                    //     profileController.temporaryPlayListCheckBoxStateList
+                    //         .clear();
+                    //     homeController.isViewAllSearchEnable.value = false;
+                    //     homeController.viewAllTextEditingController.clear();
+                    //     await homeController.getTvShows();
+                    //     Get.toNamed(krTvShowsViewAllScreen);
+                    //   },
+                    // ),
+                    // kH16sizedBox,
+                    // Padding(
+                    //   padding: const EdgeInsets.only(left: k20Padding),
+                    //   child: Row(
+                    //     children: [
+                    //       SizedBox(
+                    //         width: width - 20,
+                    //         height: 150.h,
+                    //         child: ListView.separated(
+                    //           itemCount: homeController.tvShowsList.length,
+                    //           separatorBuilder: (context, index) =>
+                    //               kW10sizedBox,
+                    //           shrinkWrap: true,
+                    //           physics: const AlwaysScrollableScrollPhysics(),
+                    //           scrollDirection: Axis.horizontal,
+                    //           itemBuilder: (context, index) {
+                    //             return MovieContentContainer(
+                    //               movieImage: homeController
+                    //                   .tvShowsList[index].thumbnail,
+                    //               // seasonName: homeController.tvShowsList[index].,
+                    //               isPremium: homeController
+                    //                           .tvShowsList[index].isPaid ==
+                    //                       1
+                    //                   ? true
+                    //                   : false,
+                    //             );
+                    //           },
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                   
+                   
                     kH16sizedBox,
                     HomeTitleContent(
                       title: ksTopArtists.tr,

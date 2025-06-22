@@ -1142,7 +1142,7 @@ class HomeController extends GetxController {
         requestMethod: kGet,
         token: token,
         url:
-            "$kuTvChannel?search=${viewAllTextEditingController.text.trim().toString()}&category_id=${selectedCategoryId.value == -1 ? "" : selectedCategoryId.value.toString()}&country_id=${selectedCountryId.value == -1 ? "" : selectedCountryId.value.toString()}",
+            "$kuTvChannel?search=${viewAllTextEditingController.text.trim().toString()}&category_id=${selectedCategoryId.value == -1 ? "" : selectedCategoryId.value.toString()}&country_id=${selectedCountryId.value == -1 ? "" : selectedCountryId.value.toString()}&per_page=1",
         body: body,
       ) as CommonDM;
 
@@ -1175,6 +1175,56 @@ class HomeController extends GetxController {
     } catch (e) {
       isTvChannelListLoading.value = false;
       ll('getTvChannels error: $e');
+    }
+  }
+
+
+  //! pagination for Tv channel List
+   ScrollController tvChannelListScrollController = ScrollController();
+  final Rx<String?> tvChannelListSubLink = Rx<String?>(null);
+  final RxBool tvChannelListScrolled = RxBool(false);
+  Future<void> getMoreTvChannelList([take]) async {
+    try {
+      String? token = await spController.getBearerToken();
+      dynamic tvChannelListSub;
+      if (tvChannelListSubLink.value == null) {
+        return;
+      } else {
+        tvChannelListSub = tvChannelListSubLink.value!.split('?');
+      }
+
+      String tvChannelListSuffixUrl = '';
+
+      tvChannelListSuffixUrl = '&${tvChannelListSub[1]}';
+
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuTvChannel?search=${viewAllTextEditingController.text.trim().toString()}&category_id=${selectedCategoryId.value == -1 ? "" : selectedCategoryId.value.toString()}&country_id=${selectedCountryId.value == -1 ? "" : selectedCountryId.value.toString()}$tvChannelListSuffixUrl&per_page=1",
+      ) as CommonDM;
+      if (response.code == 200) {
+        tvChannelListModel.value = TvChannelListModel.fromJson(response.data);
+        tvChannelData.value = tvChannelListModel.value?.liveTvs;
+        allTvChannelList.addAll(tvChannelListModel.value!.liveTvs!.data!);
+        tvChannelListSubLink.value = tvShowsModel.value!.shows!.nextPageUrl;
+        if (tvChannelListSubLink.value != null) {
+          tvChannelListScrolled.value = false;
+        } else {
+          tvChannelListScrolled.value = true;
+        }
+        isTvChannelListLoading.value = false;
+      } else {
+        isTvChannelListLoading.value = true;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          // globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          // globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isTvChannelListLoading.value = true;
+      ll('getMoreTvChannelList error: $e');
     }
   }
 

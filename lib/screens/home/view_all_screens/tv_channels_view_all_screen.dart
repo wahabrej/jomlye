@@ -1,3 +1,4 @@
+import 'package:flutter/rendering.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
@@ -191,132 +192,160 @@ class TvChannelsViewAllScreen extends StatelessWidget {
               ],
             ),
           ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              child: Column(
-                children: [
-                  kH8sizedBox,
-                  Divider(
-                    thickness: 1,
-                    color: cWhiteColor.withOpacity(0.2),
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+            child: Column(
+              children: [
+                kH8sizedBox,
+                Divider(
+                  thickness: 1,
+                  color: cWhiteColor.withOpacity(0.2),
+                ),
+                kH8sizedBox,
+                if (homeController.isApplyClicked.value ||
+                    homeController.viewAllTextEditingController.text
+                            .trim()
+                            .toString() !=
+                        "")
+                  Row(
+                    children: [
+                      Text(
+                        ksFiltered.tr,
+                        style: medium16TextStyle(cWhiteColor),
+                      ),
+                      const Expanded(child: SizedBox()),
+                      InkWell(
+                          onTap: () async {
+                            homeController.resetBottomSheetData();
+                            homeController.viewAllTextEditingController
+                                .clear();
+                            homeController.isViewAllSearchSuffixShow.value =
+                                false;
+                            await homeController.getTvChannel();
+                          },
+                          child: Text(
+                            ksClearAll.tr,
+                            style: regular12TextStyle(
+                                cWhiteColor.withOpacity(0.5)),
+                          )),
+                    ],
                   ),
-                  kH8sizedBox,
-                  if (homeController.isApplyClicked.value ||
-                      homeController.viewAllTextEditingController.text
-                              .trim()
-                              .toString() !=
-                          "")
-                    Row(
-                      children: [
-                        Text(
-                          ksFiltered.tr,
-                          style: medium16TextStyle(cWhiteColor),
-                        ),
-                        const Expanded(child: SizedBox()),
-                        InkWell(
-                            onTap: () async {
-                              homeController.resetBottomSheetData();
-                              homeController.viewAllTextEditingController
-                                  .clear();
-                              homeController.isViewAllSearchSuffixShow.value =
-                                  false;
-                              await homeController.getTvChannel();
-                            },
-                            child: Text(
-                              ksClearAll.tr,
-                              style: regular12TextStyle(
-                                  cWhiteColor.withOpacity(0.5)),
-                            )),
-                      ],
-                    ),
-                  if (homeController.isApplyClicked.value) kH8sizedBox,
-                  if (homeController.isApplyClicked.value)
-                    SizedBox(
-                      width: width - 20,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: [
-                            if (homeController.selectedCategoryId.value != -1 &&
-                                homeController.isApplyClicked.value)
-                              Container(
-                                  height: 30.h,
-                                  decoration: BoxDecoration(
-                                    color: cPrimaryColor2,
-                                    borderRadius:
-                                        BorderRadius.circular(k6BorderRadius),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: k16Padding,
-                                        vertical: k6Padding),
-                                    child: Center(
-                                        child: Text(
-                                      homeController.selectedCategory.value,
-                                      style: regular14TextStyle(cWhiteColor),
-                                    )),
+                if (homeController.isApplyClicked.value) kH8sizedBox,
+                if (homeController.isApplyClicked.value)
+                  SizedBox(
+                    width: width - 20,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          if (homeController.selectedCategoryId.value != -1 &&
+                              homeController.isApplyClicked.value)
+                            Container(
+                                height: 30.h,
+                                decoration: BoxDecoration(
+                                  color: cPrimaryColor2,
+                                  borderRadius:
+                                      BorderRadius.circular(k6BorderRadius),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: k16Padding,
+                                      vertical: k6Padding),
+                                  child: Center(
+                                      child: Text(
+                                    homeController.selectedCategory.value,
+                                    style: regular14TextStyle(cWhiteColor),
                                   )),
-                            if (homeController.selectedCountryId.value != -1 &&
-                                homeController.isApplyClicked.value)
-                              kW8sizedBox,
-                            if (homeController.selectedCountryId.value != -1 &&
-                                homeController.isApplyClicked.value)
-                              Container(
-                                  height: 30.h,
-                                  decoration: BoxDecoration(
-                                    color: cPrimaryColor2,
-                                    borderRadius:
-                                        BorderRadius.circular(k6BorderRadius),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: k16Padding,
-                                        vertical: k6Padding),
-                                    child: Center(
-                                        child: Text(
-                                      homeController.selectedCountry.value,
-                                      style: regular14TextStyle(cWhiteColor),
-                                    )),
+                                )),
+                          if (homeController.selectedCountryId.value != -1 &&
+                              homeController.isApplyClicked.value)
+                            kW8sizedBox,
+                          if (homeController.selectedCountryId.value != -1 &&
+                              homeController.isApplyClicked.value)
+                            Container(
+                                height: 30.h,
+                                decoration: BoxDecoration(
+                                  color: cPrimaryColor2,
+                                  borderRadius:
+                                      BorderRadius.circular(k6BorderRadius),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: k16Padding,
+                                      vertical: k6Padding),
+                                  child: Center(
+                                      child: Text(
+                                    homeController.selectedCountry.value,
+                                    style: regular14TextStyle(cWhiteColor),
                                   )),
-                          ],
-                        ),
+                                )),
+                        ],
                       ),
                     ),
-                  if (homeController.isApplyClicked.value) kH16sizedBox,
-                  GridView.builder(
-                    shrinkWrap: true,
-                    padding: EdgeInsets.zero,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 8,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 0.98,
-                    ),
-                    itemCount: homeController.allTvChannelList.length,
-                    itemBuilder: (context, index) {
-                      return Obx(() => InkWell(
-                            onTap: () async {
-                              await homeController.getTvChannelDetails(
-                                  tvChannelId: homeController
-                                      .allTvChannelList[index].id);
-                                      // Get.toNamed(krLiveTvPlayerScreen);
-                                      Get.to(()=>LiveTvPlayerScreen(liveTvUrl: homeController
-                                      .allTvChannelList[index].streamUrl,));
-                            },
-                            child: FeaturedTvChannelsContentContainer(
-                              containerWidth: 94.w,
-                              image: homeController
-                                      .allTvChannelList[index].thumbnail ??
-                                  "",
-                            ),
-                          ));
-                    },
                   ),
-                ],
-              ),
+                if (homeController.isApplyClicked.value) kH16sizedBox,
+                homeController.isTvChannelListLoading.value
+                          ? const CircularProgressIndicator()
+                          : NotificationListener<ScrollNotification>(
+                              onNotification: (scrollNotification) {
+                                if (homeController.tvChannelListScrollController
+                                            .position.userScrollDirection ==
+                                        ScrollDirection.reverse &&
+                                    scrollNotification.metrics.pixels ==
+                                        scrollNotification
+                                            .metrics.maxScrollExtent &&
+                                    !homeController.tvChannelListScrolled.value) {
+                                  homeController.tvChannelListScrolled.value =
+                                      true;
+                                  if (homeController.allTvChannelList.isNotEmpty) {
+                                    homeController.getMoreTvChannelList();
+                                  }
+                                  return true;
+                                }
+                                return false;
+                              },
+                  child: Expanded(
+                    child: SingleChildScrollView(
+                      controller: homeController.tvChannelListScrollController,
+                      child: Column(
+                        children: [
+                          GridView.builder(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 10,
+                              childAspectRatio: 0.98,
+                            ),
+                            itemCount: homeController.allTvChannelList.length,
+                            itemBuilder: (context, index) {
+                              return Obx(() => InkWell(
+                                    onTap: () async {
+                                      await homeController.getTvChannelDetails(
+                                          tvChannelId: homeController
+                                              .allTvChannelList[index].id);
+                                              // Get.toNamed(krLiveTvPlayerScreen);
+                                              Get.to(()=>LiveTvPlayerScreen(liveTvUrl: homeController
+                                              .allTvChannelList[index].streamUrl,));
+                                    },
+                                    child: FeaturedTvChannelsContentContainer(
+                                      containerWidth: 94.w,
+                                      image: homeController
+                                              .allTvChannelList[index].thumbnail ??
+                                          "",
+                                    ),
+                                  ));
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
