@@ -38,6 +38,7 @@ class SplashScreenController extends GetxController {
     globalController.userId.value = await spController.getUserId() ?? -1;
     globalController.userToken.value = await spController.getBearerToken() ?? "";
     globalController.userPhone.value = await spController.getUserPhoneNumber() ?? "";
+    globalController.userGender.value = await spController.getUserGender() ?? "";
     if (state == null || state == false) {
       rememberStatus = false;
       ll("the remember status is $state");

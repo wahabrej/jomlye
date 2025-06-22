@@ -91,6 +91,7 @@ class AuthController extends GetxController {
         await spController.saveUserFirstName(loginData.user!.firstName);
         await spController.saveUserLastName(loginData.user!.lastName);
         await spController.saveUserPhoneNumber(loginData.user!.phone);
+        await spController.saveUserGender(loginData.user!.gender);
         await Get.find<HomeController>().getHomePage();
         Get.offAllNamed(krHomeScreen);
         globalController.userFirstName.value =
@@ -106,6 +107,8 @@ class AuthController extends GetxController {
             await spController.getBearerToken() ?? "";
         globalController.userPhone.value =
             await spController.getUserPhoneNumber() ?? "";
+        globalController.userGender.value =
+            await spController.getUserGender() ?? "";
       } else {
         showSnackBar(
             title: ksError.tr, message: "signIn Error!", color: cPrimaryColor2);
@@ -272,6 +275,7 @@ class AuthController extends GetxController {
         await spController.saveUserFirstName(userData.value?.firstName);
         await spController.saveUserLastName(userData.value?.lastName);
         await spController.saveUserPhoneNumber(userData.value?.phone);
+        await spController.saveUserGender(userData.value?.gender);
           Get.offAllNamed(krHomeScreen);
         globalController.userFirstName.value =
             await spController.getUserFirstName() ?? "";
@@ -286,6 +290,8 @@ class AuthController extends GetxController {
             await spController.getBearerToken() ?? "";
         globalController.userPhone.value =
             await spController.getUserPhoneNumber() ?? "";
+        globalController.userGender.value =
+            await spController.getUserGender() ?? "";
         }
         else{
           Get.toNamed(krResetPasswordScreen);
@@ -429,6 +435,7 @@ class AuthController extends GetxController {
         await spController.saveUserFirstName(userData.value?.firstName);
         await spController.saveUserLastName(userData.value?.lastName);
         await spController.saveUserPhoneNumber(userData.value?.phone);
+        await spController.saveUserGender(userData.value?.gender);
           Get.offAllNamed(krHomeScreen);
         globalController.userFirstName.value =
             await spController.getUserFirstName() ?? "";
@@ -443,6 +450,8 @@ class AuthController extends GetxController {
             await spController.getBearerToken() ?? "";
         globalController.userPhone.value =
             await spController.getUserPhoneNumber() ?? "";
+        globalController.userGender.value =
+            await spController.getUserGender() ?? "";
     } else {
       showSnackBar(
         title: ksError.tr,

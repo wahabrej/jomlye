@@ -440,7 +440,7 @@ class EditProfileScreen extends StatelessWidget {
                         context: context,
                         bottomSheetColor: cBlackColor2,
                         content: GenderContent(),
-                        bottomSheetHeight: height * 0.25,
+                        bottomSheetHeight: height * 0.3,
                         onPressCloseButton: () {
                           Get.back();
                         },

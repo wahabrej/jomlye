@@ -9,6 +9,7 @@ const kFirstName = "kFirstName";
 const kLastName = "kLastName";
 const kUserPassword = "kUserPassword";
 const kPhoneNumber = "kPhoneNumber";
+const kUserGender = "kUserGender";
 const kPrivacyPolicy = "kPrivacyPolicy";
 const kPaymentPolicy = "kPaymentPolicy";
 const kTermsAndCondition = "kTermsAndCondition";
@@ -98,6 +99,17 @@ class SpController {
   Future<String?> getUserPhoneNumber() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(kPhoneNumber);
+  }
+
+   //* save user 
+  Future<void> saveUserGender(gender) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kUserGender, gender.toString());
+  }
+
+  Future<String?> getUserGender() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kUserGender);
   }
 
       //* save user password

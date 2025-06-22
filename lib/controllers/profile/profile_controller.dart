@@ -18,6 +18,7 @@ import 'package:vidflix_flutter_app/utils/constants/urls.dart';
 class ProfileController extends GetxController {
   final SpController spController = SpController();
   final ApiServices apiServices = ApiServices();
+  final GlobalController globalController = Get.find<GlobalController>();
   final TextEditingController fullNameTextEditingController =
       TextEditingController();
   final RxString selectedGender = RxString("");
@@ -315,12 +316,12 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
     try {
       String? token = await spController.getBearerToken();
       Map<String, dynamic> body = {
-        "user_id": Get.find<GlobalController>().userId.value.toString(),
+        "user_id": globalController.userId.value.toString(),
         "first_name": firstNameTextEditingController.text.trim().toString(),
         "last_name": lastNameTextEditingController.text.trim().toString(),
         "phone": phoneTextEditingController.text.trim().toString(),
         "email": emailTextEditingController.text.trim().toString(),
-        "gender": "1",
+        "gender": selectedGender.value == "Male" ? "1" : "2" ,
       };
       ll("body : $body");
       var response = await apiServices.commonApiCall(
@@ -337,16 +338,21 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
         await spController.saveUserFirstName(updateProfileModel.value?.details?.firstName);
         await spController.saveUserLastName(updateProfileModel.value?.details?.lastName);
         await spController.saveUserPhoneNumber(updateProfileModel.value?.details?.phone);
-        Get.find<GlobalController>().userFirstName.value =
+        await spController.saveUserGender(updateProfileModel.value?.details?.gender);
+        globalController.userFirstName.value =
             await spController.getUserFirstName() ?? "";
-         Get.find<GlobalController>().userLastName.value =
+         globalController.userLastName.value =
             await spController.getUserLastName() ?? "";
-         Get.find<GlobalController>().userEmail.value =
+         globalController.userEmail.value =
             await spController.getUserEmail() ?? "";
-         Get.find<GlobalController>().userImage.value =
+         globalController.userImage.value =
             await spController.getUserImage() ?? "";
-         Get.find<GlobalController>().userPhone.value =
+         globalController.userPhone.value =
             await spController.getUserPhoneNumber() ?? "";
+         globalController.userGender.value =
+            await spController.getUserGender() ?? "";
+         globalController.userGender.value =
+            await spController.getUserGender() ?? "";
         Get.back();
       } else {
         showSnackBar(
@@ -360,8 +366,8 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
 //change Password
   resetPassword(){
       oldPasswordTextEditingController.clear();
-        newPasswordTextEditingController.clear();
-        confirmNewPasswordTextEditingController.clear();
+      newPasswordTextEditingController.clear();
+      confirmNewPasswordTextEditingController.clear();
   }
   Future<void> changePassword() async {
     try {
@@ -370,7 +376,6 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
         "old_password": oldPasswordTextEditingController.text.trim().toString(),
         "new_password": newPasswordTextEditingController.text.trim().toString(),
         "confirm_password": confirmNewPasswordTextEditingController.text.trim().toString(),
-
       };
       ll("body : $body");
       var response = await apiServices.commonApiCall(
