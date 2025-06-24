@@ -1,5 +1,6 @@
 import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
+import 'package:vidflix_flutter_app/controllers/payment/payment_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -70,7 +71,7 @@ class ProfileScreen extends StatelessWidget {
               kW12sizedBox,
             ],
           ),
-        ),
+        ), 
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: k20Padding),
@@ -214,7 +215,8 @@ class ProfileScreen extends StatelessWidget {
                     image: kiCrown,
                     title: ksSubscriptionPlan.tr,
                     selectedSubscription: "Free",
-                    onPressed: () {
+                    onPressed: () async{
+                      await Get.find<PaymentController>().getSubscriptionPlan();
                       Get.toNamed(krSubscriptionPlanScreen);
                     },
                   ),

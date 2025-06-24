@@ -60,3 +60,5 @@ const String kuFaqs = "faqs";
 //! Tv Channels
 const String kuTvChannel = "live-tvs";
 const String kuLiveTvDetails = "live-tv-details";
+//!payment
+const String kuSubscriptionPlan = "packages";

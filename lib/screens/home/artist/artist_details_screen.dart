@@ -1,3 +1,4 @@
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -87,62 +88,65 @@ class CastDetailsScreen extends StatelessWidget {
                       //      ),
                       //    ),
                       //  ),
-                      child: Center(
-                        child: Container(
-                          width: 98.w,
-                          height: 98.h,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 2,
-                              color: cPrimaryColor2,
+                      child:               Center(
+                          child: Container(
+                            width: 100.h,
+                            height: 100.h,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                width: 1,
+                                color: cPrimaryColor.withOpacity(0.2),
+                              ),
                             ),
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: cPrimaryColor2,
-                            child: ClipOval(
-                              child: Image.network(
-                                width: 100,
-                                height: 100,
-                                fit: BoxFit.cover,
-                                homeController
-                                        .artistDetailsData.value?.starImage ??
-                                    "",
-                                // loadingBuilder: imageLoadingBuilder,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Center(
-                                  child: SvgPicture.asset(
-                                    kiDummyMovie,
-                                  ),
+                            child: CircleAvatar(
+                              backgroundColor: cPrimaryColor.withOpacity(0.2),
+                              child: ClipOval(
+                                child: Image.network(
+                                  width: 100.h,
+                                  height: 100.h,
+                                  fit: BoxFit.fitWidth,
+                                  homeController.artistDetailsData.value?.starImage ??
+                                      "",
+                                  // loadingBuilder: imageLoadingBuilder,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return const Icon(
+                                      Icons.person,
+                                      size: 70,
+                                    );
+                                  },
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
+                    
                     ),
                     Positioned(
                       top: 40,
                       // bottom: 0,
-                      left: width * 0.34,
-                      // right: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            homeController.artistDetailsData.value?.starName ??
-                                "",
-                            style: semiBold24TextStyle(cWhiteColor),
-                          ),
-                          // kH6sizedBox,
-                          Text(
-                            homeController.artistDetailsData.value?.starType ??
-                                "",
-                            style: regular16TextStyle(
-                              cWhiteColor.withOpacity(0.7),
+                      left: width * 0.4,
+                      // right: 0,                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                      child: Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              homeController.artistDetailsData.value?.starName ??
+                                  "",
+                              style: semiBold24TextStyle(cWhiteColor),
+                              overflow: TextOverflow.clip,
                             ),
-                          ),
-                        ],
+                            // kH6sizedBox,
+                            Text(
+                              homeController.artistDetailsData.value?.starType ??
+                                  "",
+                              style: regular16TextStyle(
+                                cWhiteColor.withOpacity(0.7),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
