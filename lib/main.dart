@@ -1,4 +1,6 @@
+import 'package:vidflix_flutter_app/controllers/payment/payment_controller.dart';
 import 'package:vidflix_flutter_app/language/languages.dart';
+import 'package:vidflix_flutter_app/services/purchase_api.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/common/binder_controller.dart';
 
@@ -6,6 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: Environment.fileName);
   ll("Filename : ${Environment.fileName}");
+  await PurchaseApi.initRevenueCat();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,

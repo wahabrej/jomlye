@@ -1,3 +1,4 @@
+import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
@@ -8,12 +9,13 @@ import 'package:vidflix_flutter_app/utils/constants/urls.dart';
 
 class PaymentController extends GetxController {
   final SpController spController = SpController();
+  
   final ApiServices apiServices = ApiServices();
 
   //! Subscription plan
   final RxBool isSubscriptionPlanLoading = RxBool(false);
   final Rx<SubscriptionPlanModel?> subscriptionPlanData = Rx<SubscriptionPlanModel?>(null);
-  final RxList<Package?> subscriptionPlanList = RxList<Package?>([]);
+  final RxList<Packages?> subscriptionPlanList = RxList<Packages?>([]);
   Future<void> getSubscriptionPlan() async {
     try {
       isSubscriptionPlanLoading.value = true;
@@ -51,4 +53,43 @@ class PaymentController extends GetxController {
       ll('getSubscriptionPlan error: $e');
     }
   }
+
+//!In App purchase
+final RxList<String> storeProductIds = RxList<String>([]);
+final RxList<Package> storeProducts = RxList<Package>([]);
+
+Future<void> initializeInAppPurchase() async {
+    Offerings? offerings;
+    offerings = await Purchases.getOfferings();
+
+    if (offerings.current == null) {
+      ll("No offerings available");
+    } else {
+      var availablePackage = offerings.current!.availablePackages;
+      storeProductIds.clear();
+      storeProducts.clear();
+      for (int i = 0; i < availablePackage.length; i++) {
+        var splitStoreProductIdString = offerings.current!.availablePackages[i].storeProduct.identifier.toString().split(":");
+        storeProductIds.add(splitStoreProductIdString[0]);
+        storeProducts.add(offerings.current!.availablePackages[i]);
+      }
+      ll("The store product list is ${storeProducts.length}");
+      ll("The store product ids list is $storeProductIds");
+      // UtilityFunction().ll("store product Ids : $storeProductIds");
+      // UtilityFunction().ll("admin product count : ${Get.find<SubscriptionController>().subscriptionList.length}");
+    }
+  }
+
+   //!for finding a product id and match with your product id which get from the backend server
+    findStoreProductById(int index) {
+     ll("The id is ${storeProducts.length}");
+    for (int j = 0; j < storeProductIds.length; j++) {
+      if (storeProductIds[j] == subscriptionPlanList[index]!.storeSubscriptionId.toString()) {
+        // UtilityFunction().ll(Get.find<PurchaseController>().storeProducts[j]);
+        ll("The selected id is ${storeProductIds[j]}");
+        return storeProducts[j];
+      }
+    }
+  }
+  
 }
