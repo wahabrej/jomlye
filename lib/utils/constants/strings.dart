@@ -112,7 +112,9 @@ const String ksNoBlogFound = "No Blog Found";
 const String ksNoBlogsFoundPleaseCheckFilter = "No blogs found. Please check filter or explore other categories for more exciting content!";
 const String ksNoVideosFoundPleaseCheckFilter = "No videos found. Please check filter or explore other categories for more exciting content!";
 const String ksNoArtistFound = "No Artist Found";
+const String ksNoPaymentHistoryFound = "No Payment History Found";
 const String ksNoArtistFoundPleaseCheckFilter = "No artist found. Please check filter or explore other categories for more exciting content!";
+const String ksNoPaymentHistoryFoundPleaseCheckFilter = "No payment history found. Please check filter or explore other categories for more exciting content!";
 const String ksPremium = "Premium";
 const String ksCastDetails = "Cast Details";
 const String ksMovieBackground = "Movie Background";
@@ -189,6 +191,7 @@ const String ksClearAll = "Clear all";
 const String ksMovieIndustries = "Movie Industries";
 const String ksFree = "Free";
 const String ksOrder = "Order";
+
 //* player screen
 const String ksTitle = "Title";
 const String ksReadMore = "Read More";

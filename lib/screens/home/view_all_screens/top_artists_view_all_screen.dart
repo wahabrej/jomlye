@@ -285,7 +285,7 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                   kH8sizedBox,
                   homeController.artistList.isEmpty
                       ? SizedBox(
-                          height: (height * 0.7),
+                          height: (height * 0.65),
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

@@ -2,6 +2,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
+import 'package:vidflix_flutter_app/models/payment/payment_history_model.dart';
 import 'package:vidflix_flutter_app/models/payment/subscription_plan_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -9,7 +10,7 @@ import 'package:vidflix_flutter_app/utils/constants/urls.dart';
 
 class PaymentController extends GetxController {
   final SpController spController = SpController();
-  
+
   final ApiServices apiServices = ApiServices();
 
   //! Subscription plan
@@ -54,6 +55,103 @@ class PaymentController extends GetxController {
     }
   }
 
+//!payment history
+  final RxBool isPaymentHistoryLoading = RxBool(false);
+  final Rx<PaymentHistoryModel?> paymentHistoryData = Rx<PaymentHistoryModel?>(null);
+  final RxList<PaymentHistoryData?> paymentHistoryList = RxList<PaymentHistoryData?>([]);
+  Future<void> getPaymentHistory() async {
+    try {
+      isPaymentHistoryLoading.value = true;
+      String? token = await spController.getBearerToken();
+      int? userId = await spController.getUserId();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuPaymentHistory?user_id=${userId.toString()}",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        paymentHistoryList.clear();
+        paymentHistoryData.value = PaymentHistoryModel.fromJson(response.data);
+        paymentHistoryList.addAll(paymentHistoryData.value!.paymentHistory!.data!);
+         paymentHistoryListSubLink.value = paymentHistoryData.value!.paymentHistory!.nextPageUrl;
+        if (paymentHistoryListSubLink.value != null) {
+          paymentHistoryListScrolled.value = false;
+        } else {
+          paymentHistoryListScrolled.value = true;
+        }
+        isPaymentHistoryLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isPaymentHistoryLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
+        } else {
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isPaymentHistoryLoading.value = false;
+      ll('getPaymentHistory error: $e');
+    }
+  }
+  //* more payment history
+   ScrollController paymentHistoryScrollController = ScrollController();
+  final Rx<String?> paymentHistoryListSubLink = Rx<String?>(null);
+  final RxBool paymentHistoryListScrolled = RxBool(false);
+  Future<void> getMorePaymentHistory([take]) async {
+    int? userId = await spController.getUserId();
+    ll("getMorePaymentHistory is called");
+    try {
+      String? token = await spController.getBearerToken();
+      dynamic paymentHistoryListSub;
+
+      if (paymentHistoryListSubLink.value == null) {
+        return;
+      } else {
+        paymentHistoryListSub = paymentHistoryListSubLink.value!.split('?');
+      }
+
+      String paymentHistorySuffixUrl = '';
+
+      paymentHistorySuffixUrl = '&${paymentHistoryListSub[1]}';
+
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuPaymentHistory?user_id=${userId.toString()}$paymentHistorySuffixUrl",
+      ) as CommonDM;
+
+      if (response.code == 200) {
+         paymentHistoryData.value = PaymentHistoryModel.fromJson(response.data);
+        paymentHistoryList.addAll(paymentHistoryData.value!.paymentHistory!.data!);
+        paymentHistoryListSubLink.value = paymentHistoryData.value!.paymentHistory!.nextPageUrl;
+        if (paymentHistoryListSubLink.value != null) {
+          paymentHistoryListScrolled.value = false;
+        } else {
+          paymentHistoryListScrolled.value = true;
+        }
+        isPaymentHistoryLoading.value = false;
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        if (errorModel.errors.isEmpty) {
+          // globalController.showSnackBar(title: ksError.tr, message: response.message, color: cRedColor);
+        } else {
+          // globalController.showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isPaymentHistoryLoading.value = true;
+      ll('getMorePaymentHistory error: $e');
+    }
+  }
 //!In App purchase
 final RxList<String> storeProductIds = RxList<String>([]);
 final RxList<Package> storeProducts = RxList<Package>([]);

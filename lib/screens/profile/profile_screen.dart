@@ -225,7 +225,8 @@ class ProfileScreen extends StatelessWidget {
                   ProfileCommonWidget(
                     image: kiMoney,
                     title: ksPaymentHistory.tr,
-                    onPressed: () {
+                    onPressed: () async{
+                      await Get.find<PaymentController>().getPaymentHistory();
                       Get.toNamed(krPaymentHistoryScreen);
                     },
                   ),
