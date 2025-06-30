@@ -17,6 +17,7 @@ class SplashScreenController extends GetxController {
     await getRemember();
     startSplashScreen();
     await Get.find<HomeController>().getHomePage();
+    await globalController.getConfig();
     String? token = await spController.getBearerToken();
     if(token!=null){
     await Get.find<ProfileController>().getPlaylistList();
@@ -39,6 +40,7 @@ class SplashScreenController extends GetxController {
     globalController.userToken.value = await spController.getBearerToken() ?? "";
     globalController.userPhone.value = await spController.getUserPhoneNumber() ?? "";
     globalController.userGender.value = await spController.getUserGender() ?? "";
+    globalController.currency.value = await spController.getCurrency() ?? "";
     if (state == null || state == false) {
       rememberStatus = false;
       ll("the remember status is $state");

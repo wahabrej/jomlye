@@ -1,8 +1,12 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
+import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
+import 'package:vidflix_flutter_app/models/common/config_model.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_text_button.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:vidflix_flutter_app/utils/constants/urls.dart';
 
 import 'sp_controller.dart';
 
@@ -18,6 +22,7 @@ class GlobalController extends GetxController {
   final RxString  userImage = RxString("");
   final RxString  userGender = RxString("");
   final RxString  userToken = RxString("");
+  final RxString  currency = RxString("");
   final RxInt  userId = RxInt(-1);
   final RxString privacyPolicyUrl = RxString("");
   final RxString paymentPolicyUrl = RxString("");
@@ -169,5 +174,45 @@ class GlobalController extends GetxController {
       return false;
     }
   }
+    final RxBool isConfigLoading = RxBool(false);
+  final Rx<ConfigModel?> configModelData = Rx<ConfigModel?>(null);
+  Future<void> getConfig() async {
+    try {
+      isConfigLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuConfig,
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        configModelData.value = ConfigModel.fromJson(response.data);
+        spController.saveCurrency(configModelData.value?.currencySymbol??"");
+        currency.value = await spController.getCurrency() ?? "";
+        isConfigLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isConfigLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
+        } else {
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isConfigLoading.value = false;
+      ll('getSubscriptionPlan error: $e');
+    }
+  }
+
 
 }

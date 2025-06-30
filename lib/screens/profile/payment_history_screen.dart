@@ -1,5 +1,6 @@
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/payment/payment_controller.dart';
 
@@ -152,7 +153,7 @@ class PaymentHistoryScreen extends StatelessWidget {
                                 image: kiCrown,
                                 packageName: "Package Name",
                                 transactionId: paymentController.paymentHistoryList[index]?.transactionId??"",
-                                price: "\$${paymentController.paymentHistoryList[index]?.amount}",
+                                price: "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.amount}",
                                 dateTime: DateFormat('dd/MM/yyyy, hh:mm a').format(paymentController.paymentHistoryList[index]!.createdAt!));
                           }),
                     ],

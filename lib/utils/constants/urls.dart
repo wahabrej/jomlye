@@ -63,3 +63,6 @@ const String kuLiveTvDetails = "live-tv-details";
 //!payment
 const String kuSubscriptionPlan = "packages";
 const String kuPaymentHistory = "payment-history";
+
+//! config
+const String kuConfig = "config";

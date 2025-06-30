@@ -13,6 +13,7 @@ const kUserGender = "kUserGender";
 const kPrivacyPolicy = "kPrivacyPolicy";
 const kPaymentPolicy = "kPaymentPolicy";
 const kTermsAndCondition = "kTermsAndCondition";
+const kCurrency = "kCurrency";
 
 class SpController {
   //* save Bearer Token
@@ -154,6 +155,17 @@ class SpController {
   Future<String?> getTermsAndCondition() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(kTermsAndCondition);
+  }
+
+      //* save user currency name
+  Future<void> saveCurrency(String currency) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kCurrency, currency.toString());
+  }
+
+  Future<String?> getCurrency() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kCurrency);
   }
 
 
