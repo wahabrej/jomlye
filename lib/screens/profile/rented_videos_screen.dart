@@ -1,13 +1,9 @@
-import 'package:flick_video_player/flick_video_player.dart';
-import 'package:video_player/video_player.dart';
-import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 
-class FavoriteScreen extends StatelessWidget {
-   FavoriteScreen({super.key});
+class RentedVideoScreen extends StatelessWidget {
+   RentedVideoScreen({super.key});
    final ProfileController profileController = Get.find<ProfileController>();
 
   @override
@@ -50,7 +46,7 @@ class FavoriteScreen extends StatelessWidget {
                                       kW4sizedBox,
                                       Center(
                                           child: Text(
-                                        ksFavoriteList.tr,
+                                        ksRentedVideo.tr,
                                         style: regular16TextStyle(cWhiteColor),
                                       )),
                                     ],
@@ -104,61 +100,7 @@ class FavoriteScreen extends StatelessWidget {
                     kH16sizedBox,
                           SizedBox(
                     width: width - 20,
-                    height: 150.h,
-                    child: ListView.separated(
-                      itemCount: profileController.favoriteMovieList.length,
-                      separatorBuilder: (context, index) =>
-                          kW10sizedBox,
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                               onTap: () async {
-                                    await Get.find<HomeController>().getMovieDetails(
-                                        movieId: profileController.favoriteMovieList[index].id
-                                            .toString());
-                                    // profileController.isFavoriteAdded.value =
-                                    //      profileController.favoriteMovieList[index].
-                                    //             ?.isFavorite ??
-                                    //         false;
-                                    if (profileController.favoriteMovieList.isNotEmpty) {
-                                      // String videoUrl = profileController.favoriteMovieList[0]?.fileUrl ??
-                                      //     "";
-                                       String videoUrl = "";
-                                      Get.find<AllVideoPlayerController>()
-                                          .flickManager = FlickManager(
-                                        videoPlayerController:
-                                            VideoPlayerController.network(
-                                                videoUrl),
-                                      );
-                                    } else {
-                                      String videoUrl = "";
-                                      Get.find<AllVideoPlayerController>()
-                                          .flickManager = FlickManager(
-                                        videoPlayerController:
-                                            VideoPlayerController.network(
-                                                videoUrl),
-                                      );
-                                    }
-                                    Get.toNamed(krVideoPlayerScreen);
-                                  },
-                          child: MovieContentContainer(
-                            movieImage: profileController.favoriteMovieList[index].thumbnail??"",
-                            // seasonName: profileController.moviesList[index]["season"],
-                            isPremium: profileController.favoriteMovieList[index].isPaid==1 ? true : false,
-                            // isSeason: profileController.moviesList[index]["isSeason"],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                    kH16sizedBox,
-                    Text(ksTvSeries.tr,style: medium16TextStyle(cWhiteColor),),
-                    kH16sizedBox,
-                    SizedBox(
-                    width: width - 20,
-                    height: 150.h,
+                    height: 140.h,
                     child: ListView.separated(
                       itemCount: profileController.tvSeriesList.length,
                       separatorBuilder: (context, index) =>
@@ -167,10 +109,33 @@ class FavoriteScreen extends StatelessWidget {
                       physics: const AlwaysScrollableScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return MovieContentContainer(
+                        return RentedVideoContentContainer(
+                           movieImage: profileController.tvSeriesList[index]["movieImage"],
+                          // seasonName: profileController.tvSeriesList[index]["season"],
+                          isRented: profileController.tvSeriesList[index]["isPremium"],
+                          // isSeason: profileController.moviesList[index]["isSeason"],
+                        );
+                      },
+                    ),
+                  ),
+                    kH16sizedBox,
+                    Text(ksTvSeries.tr,style: medium16TextStyle(cWhiteColor),),
+                    kH16sizedBox,
+                          SizedBox(
+                    width: width - 20,
+                    height: 140.h,
+                    child: ListView.separated(
+                      itemCount: profileController.tvSeriesList.length,
+                      separatorBuilder: (context, index) =>
+                          kW10sizedBox,
+                      shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return RentedVideoContentContainer(
                           movieImage: profileController.tvSeriesList[index]["movieImage"],
                           // seasonName: profileController.tvSeriesList[index]["season"],
-                          isPremium: profileController.tvSeriesList[index]["isPremium"],
+                          isRented: profileController.tvSeriesList[index]["isPremium"],
                           // isSeason: profileController.tvSeriesList[index]["isSeason"],
                         );
                       },
@@ -185,3 +150,57 @@ class FavoriteScreen extends StatelessWidget {
   }
 }
 
+class RentedVideoContentContainer extends StatelessWidget {
+  const RentedVideoContentContainer({super.key, this.movieImage, this.isRented});
+  final String? movieImage;
+  final bool? isRented;
+  @override
+  Widget build(BuildContext context) {
+   return Stack(
+      children: [
+        Container(
+          width: (width - 70) / 2.6,
+          height: 150.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(k6BorderRadius),
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(k6BorderRadius),
+            child: Image.network(
+              movieImage ?? "",
+              width: (width - 60) / 3,
+              height: 150.h,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Center(
+                child: SvgPicture.asset(
+                  kiDummyMovie,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+        ),
+        if (isRented == true)
+          Positioned(
+              top: 4,
+              right: 4,
+              child: Container(
+                height: 16.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(k6BorderRadius),
+                  color: cPurpleColor,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: k4Padding, vertical: 1),
+                  child: Center(
+                      child: Text(
+                    isRented! ? "Rented" : "",
+                    style: regular10TextStyle(cWhiteColor),
+                  )),
+                ),
+              )),
+      ],
+    );
+  }
+}

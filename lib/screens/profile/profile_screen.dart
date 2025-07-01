@@ -232,6 +232,14 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   kH8sizedBox,
                   ProfileCommonWidget(
+                    image: kiMoney,
+                    title: ksRentedVideo.tr,
+                    onPressed: () async{
+                      Get.toNamed(krRentedVideoScreen);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
                     image: kiFavorite,
                     title: ksFavorite.tr,
                     onPressed: () async{
