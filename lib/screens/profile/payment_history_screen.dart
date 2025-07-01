@@ -5,8 +5,8 @@ import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/payment/payment_controller.dart';
 
 class PaymentHistoryScreen extends StatelessWidget {
- PaymentHistoryScreen({super.key});
- final PaymentController paymentController = Get.find<PaymentController>();
+  PaymentHistoryScreen({super.key});
+  final PaymentController paymentController = Get.find<PaymentController>();
 
   @override
   Widget build(BuildContext context) {
@@ -91,76 +91,115 @@ class PaymentHistoryScreen extends StatelessWidget {
             ),
             kH16sizedBox,
             // PaymentHistoryWidget(),
-             paymentController.paymentHistoryList.isEmpty
-                      ? SizedBox(
-                          height: (height * 0.65),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                kiSearchResultPng,
-                                width: 200.w,
-                                height: 200.h,
-                              ),
-                              Text(
-                                ksNoPaymentHistoryFound.tr,
-                                style: medium16TextStyle(cPrimaryColor2),
-                              ),
-                              kH16sizedBox,
-                              Text(
-                                ksNoPaymentHistoryFoundPleaseCheckFilter.tr,
-                                style:
-                                    regular14TextStyle(cWhiteColor.withOpacity(
-                                  0.5,
-                                )),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+            paymentController.paymentHistoryList.isEmpty
+                ? SizedBox(
+                    height: (height * 0.65),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          kiSearchResultPng,
+                          width: 200.w,
+                          height: 200.h,
+                        ),
+                        Text(
+                          ksNoPaymentHistoryFound.tr,
+                          style: medium16TextStyle(cPrimaryColor2),
+                        ),
+                        kH16sizedBox,
+                        Text(
+                          ksNoPaymentHistoryFoundPleaseCheckFilter.tr,
+                          style: regular14TextStyle(cWhiteColor.withOpacity(
+                            0.5,
+                          )),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  )
+                : paymentController.isPaymentHistoryLoading.value
+                    ? const CircularProgressIndicator()
+                    : NotificationListener<ScrollNotification>(
+                        onNotification: (scrollNotification) {
+                          if (paymentController.paymentHistoryScrollController
+                                      .position.userScrollDirection ==
+                                  ScrollDirection.reverse &&
+                              scrollNotification.metrics.pixels ==
+                                  scrollNotification.metrics.maxScrollExtent &&
+                              !paymentController
+                                  .paymentHistoryListScrolled.value) {
+                            paymentController.paymentHistoryListScrolled.value =
+                                true;
+                            if (paymentController
+                                .paymentHistoryList.isNotEmpty) {
+                              paymentController.getMorePaymentHistory(null);
+                            }
+                            return true;
+                          }
+                          return false;
+                        },
+                        child: Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                ListView.separated(
+                                    shrinkWrap: true,
+                                    padding: const EdgeInsets.all(k0Padding),
+                                    separatorBuilder: (context, index) =>
+                                        kH10sizedBox,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemCount: paymentController
+                                        .paymentHistoryList.length,
+                                    itemBuilder: (context, index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          Get.find<GlobalController>()
+                                              .commonBottomSheet(
+                                                  context: context,
+                                                  content:
+                                                      PaymentHistoryBottomSheetContent(
+                                                    timeAndDate: DateFormat(
+                                                            'dd/MM/yyyy, hh:mm a')
+                                                        .format(paymentController
+                                                            .paymentHistoryList[
+                                                                index]!
+                                                            .createdAt!),
+                                                    amount:
+                                                        "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.amount}",
+                                                  ),
+                                                  onPressCloseButton: () {},
+                                                  onPressRightButton: () {},
+                                                  rightText: "Done",
+                                                  rightTextStyle:
+                                                      regular14TextStyle(
+                                                          cWhiteColor),
+                                                  title: "Package Name",
+                                                  isRightButtonShow: false,
+                                                  bottomSheetColor:
+                                                      cBlackColor2);
+                                        },
+                                        child: PaymentHistoryWidget(
+                                            image: kiCrown,
+                                            packageName: "Package Name",
+                                            transactionId: paymentController
+                                                    .paymentHistoryList[index]
+                                                    ?.transactionId ??
+                                                "",
+                                            price:
+                                                "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.amount}",
+                                            dateTime: DateFormat(
+                                                    'dd/MM/yyyy, hh:mm a')
+                                                .format(paymentController
+                                                    .paymentHistoryList[index]!
+                                                    .createdAt!)),
+                                      );
+                                    }),
+                              ],
+                            ),
                           ),
-                        )
-                      : paymentController.isPaymentHistoryLoading.value
-                          ? const CircularProgressIndicator()
-                          : NotificationListener<ScrollNotification>(
-                              onNotification: (scrollNotification) {
-                                if (paymentController.paymentHistoryScrollController
-                                            .position.userScrollDirection ==
-                                        ScrollDirection.reverse &&
-                                    scrollNotification.metrics.pixels ==
-                                        scrollNotification
-                                            .metrics.maxScrollExtent &&
-                                    !paymentController.paymentHistoryListScrolled.value) {
-                                  paymentController.paymentHistoryListScrolled.value =
-                                      true;
-                                  if (paymentController.paymentHistoryList.isNotEmpty) {
-                                    paymentController.getMorePaymentHistory(null);
-                                  }
-                                  return true;
-                                }
-                                return false;
-                              },
-              child: Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      ListView.separated(
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.all(k0Padding),
-                          separatorBuilder: (context, index) => kH10sizedBox,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: paymentController.paymentHistoryList.length,
-                          itemBuilder: (context, index) {
-                            return PaymentHistoryWidget(
-                                image: kiCrown,
-                                packageName: "Package Name",
-                                transactionId: paymentController.paymentHistoryList[index]?.transactionId??"",
-                                price: "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.amount}",
-                                dateTime: DateFormat('dd/MM/yyyy, hh:mm a').format(paymentController.paymentHistoryList[index]!.createdAt!));
-                          }),
-                    ],
-                  ),
-                ),
-              ),
-            ),
+                        ),
+                      ),
           ],
         ),
       ),
@@ -173,7 +212,7 @@ class PaymentHistoryWidget extends StatelessWidget {
       {super.key,
       required this.image,
       required this.packageName,
-       this.transactionId,
+      this.transactionId,
       required this.price,
       required this.dateTime});
   final String? image, packageName, transactionId, price, dateTime;
@@ -208,11 +247,12 @@ class PaymentHistoryWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  packageName??"",
+                  packageName ?? "",
                   style: medium16TextStyle(cWhiteColor),
                 ),
                 kH6sizedBox,
-                Text("Transaction ID: $transactionId",
+                Text(
+                  "Transaction ID: $transactionId",
                   style: regular12TextStyle(cWhiteColor),
                 ),
               ],
@@ -224,13 +264,13 @@ class PaymentHistoryWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    price??"",
+                    price ?? "",
                     style: medium16TextStyle(cPrimaryColor2),
-                     overflow: TextOverflow.ellipsis,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   kH6sizedBox,
                   Text(
-                    dateTime??"",
+                    dateTime ?? "",
                     style: regular12TextStyle(cWhiteColor),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -245,6 +285,188 @@ class PaymentHistoryWidget extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class PaymentHistoryBottomSheetContent extends StatelessWidget {
+  const PaymentHistoryBottomSheetContent(
+      {super.key, this.timeAndDate, this.amount, this.transactionId});
+  final String? timeAndDate, amount, transactionId;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        kH16sizedBox,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+          child: Row(
+            children: [
+              SizedBox(
+                width: (width - 56) / 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ksPaymentGetway.tr,
+                      style: regular14TextStyle(cWhiteColor),
+                    ),
+                    kH10sizedBox,
+                    Container(
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        color: cWhiteColor.withOpacity(0.04),
+                        borderRadius: BorderRadius.circular(k6BorderRadius),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(k12Padding),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "bkash",
+                              style: regular14TextStyle(cWhiteColor),
+                            ),
+                            Image.network(
+                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcuU7XHlUY2MShKGdYaPQb2GmaEOpyX0AJgg&s",
+                              width: 24.w,
+                              height: 24.h,
+                              errorBuilder: (context, error, stackTrace) {
+                                return SvgPicture.asset(
+                                  kiMoney,
+                                  width: 20.w,
+                                  height: 20.h,
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              kW16sizedBox,
+              SizedBox(
+                width: (width - 56) / 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ksTimeAndDate.tr,
+                      style: regular14TextStyle(cWhiteColor),
+                    ),
+                    kH10sizedBox,
+                    Container(
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        color: cWhiteColor.withOpacity(0.04),
+                        borderRadius: BorderRadius.circular(k6BorderRadius),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(k12Padding),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              timeAndDate ?? "",
+                              style: regular14TextStyle(cWhiteColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        kH16sizedBox,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+          child: Row(
+            children: [
+              SizedBox(
+                width: (width - 56) / 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ksAmount.tr,
+                      style: regular14TextStyle(cWhiteColor),
+                    ),
+                    kH10sizedBox,
+                    Container(
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        color: cWhiteColor.withOpacity(0.04),
+                        borderRadius: BorderRadius.circular(k6BorderRadius),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(k12Padding),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              amount ?? "",
+                              style: regular14TextStyle(cWhiteColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              kW16sizedBox,
+              SizedBox(
+                width: (width - 56) / 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ksTransactionId.tr,
+                      style: regular14TextStyle(cWhiteColor),
+                    ),
+                    kH10sizedBox,
+                    Container(
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        color: cWhiteColor.withOpacity(0.04),
+                        borderRadius: BorderRadius.circular(k6BorderRadius),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(k12Padding),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              transactionId ?? "",
+                              style: regular14TextStyle(cWhiteColor),
+                            ),
+                            InkWell(
+                                onTap: () {
+                                  Clipboard.setData(
+                                      ClipboardData(text: transactionId ?? ""));
+                                  // ScaffoldMessenger.of(context).showSnackBar(
+                                  //   const SnackBar(
+                                  //       content: Text('Copied to clipboard ')),
+                                  // );
+                                },
+                                child: SvgPicture.asset(kiCopy)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

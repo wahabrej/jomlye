@@ -191,6 +191,10 @@ const String ksClearAll = "Clear all";
 const String ksMovieIndustries = "Movie Industries";
 const String ksFree = "Free";
 const String ksOrder = "Order";
+const String ksPaymentGetway = "Payment Getway";
+const String ksTimeAndDate = "Time & Date";
+const String ksAmount = "Amount";
+const String ksTransactionId = "Transaction ID";
 
 //* player screen
 const String ksTitle = "Title";
