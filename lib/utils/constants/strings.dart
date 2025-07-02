@@ -198,6 +198,13 @@ const String ksTransactionId = "Transaction ID";
 const String ksRentedVideo = "Rented Video";
 const String ksRented = "Rented";
 const String ksExpire = "Expire";
+const String ksVideoCost = "Video cost";
+const String ksValidity = "Validity";
+const String ksDeviceLimit = "Device limit";
+const String ksExpireDate = "Expire date";
+const String ksAds = "Ads";
+const String ksPremiumContent = "Premium content";
+const String ksProceedToPayment = "Proceed To Payment";
 
 //* player screen
 const String ksTitle = "Title";

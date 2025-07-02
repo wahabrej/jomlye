@@ -454,7 +454,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuTvShows",
+        url: kuTvShows,
         body: body,
       ) as CommonDM;
 
@@ -1275,6 +1275,30 @@ class HomeController extends GetxController {
       isTvChannelDetailsLoading.value = false;
       ll('getTvChannelDetails error: $e');
     }
+  }
+
+  //! rented video
+    // Map of all packages with price and duration
+  final packageDetails = {
+    'daily': {
+      'price': '\$10',
+      'duration': '24 hours',
+    },
+    'weekly': {
+      'price': '\$30',
+      'duration': '1 week',
+    },
+    'monthly': {
+      'price': '\$50',
+      'duration': '1 month',
+    },
+  };
+
+  // Selected package name
+  var selectedPackage = 'monthly'.obs;
+
+  void selectPackage(String packageName) {
+    selectedPackage.value = packageName;
   }
 
   final RxInt selectedServer = RxInt(0);

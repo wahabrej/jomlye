@@ -14,7 +14,8 @@ import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_co
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerScreen extends StatelessWidget {
-  VideoPlayerScreen({super.key,this.isRentedVideo=true});//!make it --> false
+  VideoPlayerScreen(
+      {super.key, this.isRentedVideo = true}); //!make it --> false
   final bool? isRentedVideo;
   final AllVideoPlayerController allVideoPlayerController =
       Get.find<AllVideoPlayerController>();
@@ -124,39 +125,56 @@ class VideoPlayerScreen extends StatelessWidget {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsets.only(right: 6.w, top: 3.h,bottom: 3.h),
+                          EdgeInsets.only(right: 6.w, top: 3.h, bottom: 3.h),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                         if(isRentedVideo==true)
-                         Container(
-                          width: 120.w,
-                          height: 24.h,
-                          decoration: BoxDecoration(
-                            color: cWhiteColor.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(k4BorderRadius),
-                            border: Border.all(width: 0.65,color: cWhiteColor.withOpacity(0.1),),
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: k4Padding),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: cPurpleColor,
-                                    borderRadius: BorderRadius.circular(k4BorderRadius),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: k8Padding,vertical: k4Padding),
-                                    child: Text(ksRented.tr,style: regular10TextStyle(cWhiteColor),),
-                                  ),
+                          if (isRentedVideo == true)
+                            Container(
+                              width: 120.w,
+                              height: 24.h,
+                              decoration: BoxDecoration(
+                                color: cWhiteColor.withOpacity(0.1),
+                                borderRadius:
+                                    BorderRadius.circular(k4BorderRadius),
+                                border: Border.all(
+                                  width: 0.65,
+                                  color: cWhiteColor.withOpacity(0.1),
                                 ),
                               ),
-                              Expanded(child: Text("$ksExpire: 10/06/2025",style: regular10TextStyle(cWhiteColor),overflow: TextOverflow.ellipsis,)),
-                            ],
-                          ),
-                         ),
-                      if(isRentedVideo==true) Spacer(),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: k4Padding),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: cPurpleColor,
+                                        borderRadius: BorderRadius.circular(
+                                            k4BorderRadius),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: k8Padding,
+                                            vertical: k4Padding),
+                                        child: Text(
+                                          ksRented.tr,
+                                          style:
+                                              regular10TextStyle(cWhiteColor),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: Text(
+                                    "$ksExpire: 10/06/2025",
+                                    style: regular10TextStyle(cWhiteColor),
+                                    overflow: TextOverflow.ellipsis,
+                                  )),
+                                ],
+                              ),
+                            ),
+                          if (isRentedVideo == true) Spacer(),
                           Row(
                             children: [
                               const Icon(
@@ -608,6 +626,18 @@ class VideoPlayerScreen extends StatelessWidget {
                         ),
                       ),
                     kH16sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.only(right: k20Padding),
+                      child: Divider(
+                        thickness: 1,
+                        color: cWhiteColor.withOpacity(0.2),
+                      ),
+                    ),
+                    kH16sizedBox,
+                    SubscriptionSelector(),
+                    kH16sizedBox,
+                    RentProductDetailsContentContainer(),
+                    kH16sizedBox,
                     Text(
                       ksRelatedVideos.tr,
                       style: medium16TextStyle(cWhiteColor),
@@ -724,7 +754,6 @@ class VideoPlayerScreen extends StatelessWidget {
                     //     ),
                     //   ],
                     // ),
-
                     kH16sizedBox,
                     Text(
                       ksRecommended.tr,
@@ -1142,9 +1171,12 @@ class VideoPlayerScreen extends StatelessWidget {
                       color: cWhiteColor.withOpacity(0.14),
                     ),
                     kH20sizedBox,
-                    Text(
-                      ksAddYourComment.tr,
-                      style: medium16TextStyle(cWhiteColor),
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        ksAddYourComment.tr,
+                        style: medium16TextStyle(cWhiteColor),
+                      ),
                     ),
                     kH20sizedBox,
                     CustomModifiedTextField(
@@ -1505,4 +1537,134 @@ void showCreateNewPlayListPopup(BuildContext context) {
       );
     },
   );
+}
+
+class SubscriptionSelector extends StatelessWidget {
+  SubscriptionSelector({super.key});
+  final HomeController controller = Get.put(HomeController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() => Container(
+          width: width - 40,
+          height: 60.h,
+          decoration: BoxDecoration(
+            color: cWhiteColor,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: k8Padding),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: controller.packageDetails.keys.map((packageName) {
+                return _buildOption(packageName);
+              }).toList(),
+            ),
+          ),
+        ));
+  }
+
+  Widget _buildOption(String packageName) {
+    final isSelected = controller.selectedPackage.value == packageName;
+    final package = controller.packageDetails[packageName]!;
+    final price = package['price']!;
+    final duration = package['duration']!;
+
+    return InkWell(
+      onTap: () => controller.selectPackage(packageName),
+      borderRadius: BorderRadius.circular(20),
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(k2Padding),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: isSelected ? cPrimaryColor : cBlackColor3,
+                width: 2,
+              ),
+            ),
+            child: CircleAvatar(
+              radius: 6,
+              backgroundColor: isSelected ? cPrimaryColor : cWhiteColor,
+            ),
+          ),
+          const SizedBox(width: k4Padding),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: price,
+                  style: medium14TextStyle(cBlackColor),
+                ),
+                TextSpan(
+                  text: '/$duration',
+                  style: regular14TextStyle(cBlackColor3),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class RentProductDetailsContentContainer extends StatelessWidget {
+  const RentProductDetailsContentContainer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width - 40,
+      decoration: BoxDecoration(
+        color: cWhiteColor.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(k6BorderRadius),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(k20Padding),
+        child: Column(
+          children: [
+           RentProductDetailsRow(title: ksVideoCost.tr,value: "\$50.00",),
+           kH12sizedBox,
+           RentProductDetailsRow(title: ksValidity.tr,value: "30 days",),
+           kH12sizedBox,
+           RentProductDetailsRow(title: ksDeviceLimit.tr,value: "2",),
+           kH12sizedBox,
+           RentProductDetailsRow(title: ksExpireDate.tr,value: "11/06/2025",),
+           kH12sizedBox,
+           RentProductDetailsRow(title: ksAds.tr,value: "Not Shown",),
+           kH12sizedBox,
+           RentProductDetailsRow(title: ksDownload.tr,value: "Not Allowed",),
+           kH12sizedBox,
+           RentProductDetailsRow(title: ksPremiumContent.tr,value: "Not Allowed",),
+           kH20sizedBox,
+           CustomElevatedButton(label: ksProceedToPayment.tr, onPressed: (){Get.toNamed(krPaymentMethodScreen);},textStyle: semiBold14TextStyle(cWhiteColor),buttonWidth: width-80,),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class RentProductDetailsRow extends StatelessWidget {
+  const RentProductDetailsRow({super.key,this.title,this.value});
+  final String? title,value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "$title: ",
+          style: regular16TextStyle(cWhiteColor),
+        ),
+        Text(
+          value??"",
+          style: regular16TextStyle(cWhiteColor),
+        ),
+      ],
+    );
+  }
 }
