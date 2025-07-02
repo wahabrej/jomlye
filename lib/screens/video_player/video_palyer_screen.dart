@@ -14,7 +14,8 @@ import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_co
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerScreen extends StatelessWidget {
-  VideoPlayerScreen({super.key});
+  VideoPlayerScreen({super.key,this.isRentedVideo=true});//!make it --> false
+  final bool? isRentedVideo;
   final AllVideoPlayerController allVideoPlayerController =
       Get.find<AllVideoPlayerController>();
   final HomeController homeController = Get.find<HomeController>();
@@ -123,10 +124,39 @@ class VideoPlayerScreen extends StatelessWidget {
                   children: [
                     Padding(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
+                          EdgeInsets.only(right: 6.w, top: 3.h,bottom: 3.h),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                         if(isRentedVideo==true)
+                         Container(
+                          width: 120.w,
+                          height: 24.h,
+                          decoration: BoxDecoration(
+                            color: cWhiteColor.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(k4BorderRadius),
+                            border: Border.all(width: 0.65,color: cWhiteColor.withOpacity(0.1),),
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: cPurpleColor,
+                                    borderRadius: BorderRadius.circular(k4BorderRadius),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: k8Padding,vertical: k4Padding),
+                                    child: Text(ksRented.tr,style: regular10TextStyle(cWhiteColor),),
+                                  ),
+                                ),
+                              ),
+                              Expanded(child: Text("$ksExpire: 10/06/2025",style: regular10TextStyle(cWhiteColor),overflow: TextOverflow.ellipsis,)),
+                            ],
+                          ),
+                         ),
+                      if(isRentedVideo==true) Spacer(),
                           Row(
                             children: [
                               const Icon(

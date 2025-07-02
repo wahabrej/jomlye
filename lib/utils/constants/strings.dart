@@ -195,7 +195,9 @@ const String ksPaymentGetway = "Payment Getway";
 const String ksTimeAndDate = "Time & Date";
 const String ksAmount = "Amount";
 const String ksTransactionId = "Transaction ID";
-const String ksRentedVideo = "Revted Video";
+const String ksRentedVideo = "Rented Video";
+const String ksRented = "Rented";
+const String ksExpire = "Expire";
 
 //* player screen
 const String ksTitle = "Title";

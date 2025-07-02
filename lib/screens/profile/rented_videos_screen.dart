@@ -1,4 +1,5 @@
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
+import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 
@@ -98,7 +99,7 @@ class RentedVideoScreen extends StatelessWidget {
                     kH16sizedBox,
                     Text(ksMovies.tr,style: medium16TextStyle(cWhiteColor),),
                     kH16sizedBox,
-                          SizedBox(
+                    SizedBox(
                     width: width - 20,
                     height: 140.h,
                     child: ListView.separated(
@@ -109,11 +110,17 @@ class RentedVideoScreen extends StatelessWidget {
                       physics: const AlwaysScrollableScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return RentedVideoContentContainer(
-                           movieImage: profileController.tvSeriesList[index]["movieImage"],
-                          // seasonName: profileController.tvSeriesList[index]["season"],
-                          isRented: profileController.tvSeriesList[index]["isPremium"],
-                          // isSeason: profileController.moviesList[index]["isSeason"],
+                        return InkWell(
+                          onTap: (){
+                            Get.to(()=> VideoPlayerScreen(isRentedVideo: true,));
+                            // Get.toNamed(krVideoPlayerScreen);
+                          },
+                          child: RentedVideoContentContainer(
+                             movieImage: profileController.tvSeriesList[index]["movieImage"],
+                            // seasonName: profileController.tvSeriesList[index]["season"],
+                            isRented: profileController.tvSeriesList[index]["isPremium"],
+                            // isSeason: profileController.moviesList[index]["isSeason"],
+                          ),
                         );
                       },
                     ),
@@ -195,7 +202,7 @@ class RentedVideoContentContainer extends StatelessWidget {
                       horizontal: k4Padding, vertical: 1),
                   child: Center(
                       child: Text(
-                    isRented! ? "Rented" : "",
+                    isRented! ? ksRented.tr : "",
                     style: regular10TextStyle(cWhiteColor),
                   )),
                 ),

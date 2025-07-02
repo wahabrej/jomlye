@@ -58,6 +58,7 @@ class TvShowPlayerScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          // Text("This is test text"),
                           Row(
                             children: [
                               const Icon(
@@ -127,6 +128,7 @@ class TvShowPlayerScreen extends StatelessWidget {
                               ),
                             ],
                           ),
+
                         ],
                       ),
                     ),
