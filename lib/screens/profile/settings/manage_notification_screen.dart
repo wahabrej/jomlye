@@ -1,9 +1,11 @@
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
+import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class ManageNotificationScreen extends StatelessWidget {
   ManageNotificationScreen({super.key});
-  final ProfileController profileController = Get.find<ProfileController>();
+  final GlobalController globalController = Get.find<GlobalController>();
 
   @override
   Widget build(BuildContext context) {
@@ -69,15 +71,71 @@ class ManageNotificationScreen extends StatelessWidget {
         child: Column(
           children: [
             kH16sizedBox,
-            ManageNotificationContentRow(titleText: ksGeneralNotification,switchState: profileController.generalNotificationState,),
+            ManageNotificationContentRow(
+              titleText: ksGeneralNotification,
+              switchState: globalController.generalNotificationState,
+              onPressed: () async {
+                globalController.generalNotificationState.value =
+                    !globalController.generalNotificationState.value;
+                SpController().saveGeneralNotificationState(
+                    globalController.generalNotificationState.value);
+                globalController.generalNotificationState.value =
+                    await SpController().getGeneralNotificationState() ?? true;
+              },
+            ),
             kH12sizedBox,
-            ManageNotificationContentRow(titleText: ksNewRelease,switchState: profileController.newReleaseState,),
+            // ManageNotificationContentRow(titleText: ksNewRelease,switchState: globalController.newReleaseState,),
+            ManageNotificationContentRow(
+              titleText: ksNewRelease,
+              switchState: globalController.newReleaseState,
+              onPressed: () async {
+                globalController.newReleaseState.value =
+                    !globalController.newReleaseState.value;
+                SpController().saveNewReleaseState(
+                    globalController.newReleaseState.value);
+                globalController.newReleaseState.value =
+                    await SpController().getNewReleaseState() ?? true;
+              },
+            ),
             kH12sizedBox,
-            ManageNotificationContentRow(titleText: ksPaymentNotification,switchState: profileController.paymentNotificationState,),
+            ManageNotificationContentRow(
+              titleText: ksPaymentNotification,
+              switchState: globalController.paymentNotificationState,
+               onPressed: () async {
+                globalController.paymentNotificationState.value =
+                    !globalController.paymentNotificationState.value;
+                SpController().savePaymentNotificationState(
+                    globalController.paymentNotificationState.value);
+                globalController.paymentNotificationState.value =
+                    await SpController().getPaymentNotificationState() ?? true;
+              },
+            ),
             kH12sizedBox,
-            ManageNotificationContentRow(titleText: ksAppUpdate,switchState: profileController.appUpdateState,),
+            ManageNotificationContentRow(
+              titleText: ksAppUpdate,
+              switchState: globalController.appUpdateState,
+                    onPressed: () async {
+                globalController.appUpdateState.value =
+                    !globalController.appUpdateState.value;
+                SpController().saveAppUpdateState(
+                    globalController.appUpdateState.value);
+                globalController.appUpdateState.value =
+                    await SpController().getAppUpdateState() ?? true;
+              },
+            ),
             kH12sizedBox,
-            ManageNotificationContentRow(titleText: ksSubscription,switchState: profileController.subscriptionState,),
+            ManageNotificationContentRow(
+              titleText: ksSubscription,
+              switchState: globalController.subscriptionState,
+                   onPressed: () async {
+                globalController.subscriptionState.value =
+                    !globalController.subscriptionState.value;
+                SpController().saveSubscriptionState(
+                    globalController.subscriptionState.value);
+                globalController.subscriptionState.value =
+                    await SpController().getSubscriptionState() ?? true;
+              },
+            ),
           ],
         ),
       ),
@@ -86,10 +144,12 @@ class ManageNotificationScreen extends StatelessWidget {
 }
 
 class ManageNotificationContentRow extends StatelessWidget {
-  ManageNotificationContentRow({super.key, required this.titleText,required this.switchState});
+  ManageNotificationContentRow(
+      {super.key, required this.titleText,required this.switchState ,this.onPressed});
   final ProfileController profileController = Get.find<ProfileController>();
   final String titleText;
   final RxBool switchState;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -110,10 +170,13 @@ class ManageNotificationContentRow extends StatelessWidget {
             ),
             const Expanded(child: SizedBox()),
             GestureDetector(
-              onTap: () {
-                switchState.value =
-                    !switchState.value;
-              },
+              // onTap: () {
+              //   switchState.value =
+              //       !switchState.value;
+              //   onPressed!();
+
+              // },
+              onTap: onPressed,
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 width: 36.w,
@@ -126,12 +189,8 @@ class ManageNotificationContentRow extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(
-                      left: switchState.value
-                          ? k0Padding
-                          : 3,
-                      right: switchState.value
-                          ? 3
-                          : k0Padding),
+                      left: switchState.value ? k0Padding : 3,
+                      right: switchState.value ? 3 : k0Padding),
                   child: AnimatedAlign(
                     duration: const Duration(milliseconds: 300),
                     alignment: switchState.value

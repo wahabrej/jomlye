@@ -1,4 +1,3 @@
-import 'package:vidflix_flutter_app/controllers/payment/payment_controller.dart';
 import 'package:vidflix_flutter_app/language/languages.dart';
 import 'package:vidflix_flutter_app/services/purchase_api.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';

@@ -1,3 +1,5 @@
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
+import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/profile/settings/manage_notification_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
@@ -70,7 +72,16 @@ class ManageDownloadScreen extends StatelessWidget {
         child: Column(
           children: [
             kH16sizedBox,
-            ManageNotificationContentRow(titleText: ksWifiOnly.tr,switchState: profileController.wifiOnlyState,),
+            ManageNotificationContentRow(titleText: ksWifiOnly.tr,switchState: Get.find<GlobalController>().wifiOnlyState,
+            onPressed: () async {
+                Get.find<GlobalController>().wifiOnlyState.value =
+                    !Get.find<GlobalController>().wifiOnlyState.value;
+                SpController().saveWifiOnlyState(
+                    Get.find<GlobalController>().wifiOnlyState.value);
+                Get.find<GlobalController>().wifiOnlyState.value =
+                    await SpController().getWifiOnlyState() ?? true;
+              },
+            ),
             kH12sizedBox,
             Row(
           children: [

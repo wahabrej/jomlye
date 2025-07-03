@@ -246,12 +246,11 @@ class ProfileController extends GetxController {
         CommonWebViewScreen(commonUrl: commonUrl,));
   }
 
-  final RxBool generalNotificationState = RxBool(false);
-  final RxBool newReleaseState = RxBool(false);
-  final RxBool paymentNotificationState = RxBool(false);
-  final RxBool appUpdateState = RxBool(false);
-  final RxBool subscriptionState = RxBool(false);
-  final RxBool wifiOnlyState = RxBool(false);
+  // final RxBool generalNotificationState = RxBool(false);
+  // final RxBool newReleaseState = RxBool(false);
+  // final RxBool paymentNotificationState = RxBool(false);
+  // final RxBool appUpdateState = RxBool(false);
+  // final RxBool subscriptionState = RxBool(false);
   final RxList<Map<String, dynamic>> videoQualityList =
       RxList<Map<String, dynamic>>([
     {

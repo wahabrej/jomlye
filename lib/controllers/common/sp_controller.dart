@@ -14,6 +14,12 @@ const kPrivacyPolicy = "kPrivacyPolicy";
 const kPaymentPolicy = "kPaymentPolicy";
 const kTermsAndCondition = "kTermsAndCondition";
 const kCurrency = "kCurrency";
+const kGeneralNotificationState = "kGeneralNotificationState";
+const kNewReleaseState = "kNewReleaseState";
+const kPaymentNotificationState = "kPaymentNotificationState";
+const kAppUpdateState = "kAppUpdateState";
+const kSubscriptionState = "kSubscriptionState";
+const kWifiOnlyState = "kWifiOnlyState";
 
 class SpController {
   //* save Bearer Token
@@ -157,7 +163,7 @@ class SpController {
     return preferences.getString(kTermsAndCondition);
   }
 
-      //* save user currency name
+  //* save user currency name
   Future<void> saveCurrency(String currency) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString(kCurrency, currency.toString());
@@ -166,6 +172,67 @@ class SpController {
   Future<String?> getCurrency() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(kCurrency);
+  }
+  //* save General Notification State
+  Future<void> saveGeneralNotificationState(bool generalNotificationState) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(kGeneralNotificationState, generalNotificationState);
+  }
+  
+  Future<bool?> getGeneralNotificationState() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(kGeneralNotificationState);
+  }
+  //* save New Release State
+  Future<void> saveNewReleaseState(bool newReleaseState) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(kNewReleaseState, newReleaseState);
+  }
+
+  Future<bool?> getNewReleaseState() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(kNewReleaseState);
+  }
+  //* save Payment Notification State
+  Future<void> savePaymentNotificationState(bool paymentNotificationState) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(kPaymentNotificationState, paymentNotificationState);
+  }
+
+  Future<bool?> getPaymentNotificationState() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(kPaymentNotificationState);
+  }
+
+  //* save App Update State
+  Future<void> saveAppUpdateState(bool appUpdateState) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(kAppUpdateState, appUpdateState);
+  }
+
+  Future<bool?> getAppUpdateState() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(kAppUpdateState);
+  }
+  //* save Subscription State
+  Future<void> saveSubscriptionState(bool subscriptionState) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(kSubscriptionState, subscriptionState);
+  }
+
+  Future<bool?> getSubscriptionState() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(kSubscriptionState);
+  }
+  //* save Subscription State
+  Future<void> saveWifiOnlyState(bool wifiOnlyState) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(kWifiOnlyState, wifiOnlyState);
+  }
+
+  Future<bool?> getWifiOnlyState() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(kWifiOnlyState);
   }
 
 

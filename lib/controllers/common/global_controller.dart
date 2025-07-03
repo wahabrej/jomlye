@@ -27,6 +27,12 @@ class GlobalController extends GetxController {
   final RxString privacyPolicyUrl = RxString("");
   final RxString paymentPolicyUrl = RxString("");
   final RxString termsAndConditionUrl = RxString("");
+  final RxBool generalNotificationState = RxBool(true);
+  final RxBool newReleaseState = RxBool(true);
+  final RxBool paymentNotificationState = RxBool(true);
+  final RxBool appUpdateState = RxBool(true);
+  final RxBool subscriptionState = RxBool(true);
+  final RxBool wifiOnlyState = RxBool(true);
 
 
   //* info:: common bottom-sheet

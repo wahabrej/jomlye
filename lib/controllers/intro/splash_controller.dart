@@ -41,6 +41,12 @@ class SplashScreenController extends GetxController {
     globalController.userPhone.value = await spController.getUserPhoneNumber() ?? "";
     globalController.userGender.value = await spController.getUserGender() ?? "";
     globalController.currency.value = await spController.getCurrency() ?? "";
+    globalController.generalNotificationState.value = await spController.getGeneralNotificationState() ?? true;
+    globalController.newReleaseState.value = await spController.getNewReleaseState() ?? true;
+    globalController.paymentNotificationState.value = await spController.getPaymentNotificationState() ?? true;
+    globalController.appUpdateState.value = await spController.getAppUpdateState() ?? true;
+    globalController.subscriptionState.value = await spController.getSubscriptionState() ?? true;
+    globalController.wifiOnlyState.value = await spController.getWifiOnlyState() ?? true;
     if (state == null || state == false) {
       rememberStatus = false;
       ll("the remember status is $state");
