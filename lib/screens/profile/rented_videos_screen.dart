@@ -112,7 +112,7 @@ class RentedVideoScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return InkWell(
                           onTap: (){
-                            Get.to(()=> VideoPlayerScreen(isRentedVideo: true,));
+                            // Get.to(()=> VideoPlayerScreen(isRentedVideo: true,));
                             // Get.toNamed(krVideoPlayerScreen);
                           },
                           child: RentedVideoContentContainer(

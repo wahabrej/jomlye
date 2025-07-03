@@ -205,6 +205,7 @@ const String ksExpireDate = "Expire date";
 const String ksAds = "Ads";
 const String ksPremiumContent = "Premium content";
 const String ksProceedToPayment = "Proceed To Payment";
+const String ksSelectPaymentMethod = "Select Payment Method";
 
 //* player screen
 const String ksTitle = "Title";

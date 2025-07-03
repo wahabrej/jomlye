@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/payment/payment_controller.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -316,7 +319,7 @@ class SubscriptionPlanScreen extends StatelessWidget {
                           buttonColor: cPrimaryColor2,
                           textStyle: regular14TextStyle(cWhiteColor),
                           buttonWidth: width - 80,
-                          buttonHeight: 40.h,
+                          buttonHeight: 36.h,
                         ),
                       ],
                     ),
@@ -335,7 +338,7 @@ class SubscriptionPlanScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(k8BorderRadius),
                         color: cBlackColor,
                         border: Border.all(
-                            width: 1, color: cPrimaryColor2.withOpacity(0.5)),
+                            width: 1, color: cPrimaryColor2.withOpacity(0.3)),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -356,11 +359,12 @@ class SubscriptionPlanScreen extends StatelessWidget {
                                   "",
                               style: semiBold24TextStyle(cWhiteColor),
                             ),
-                            kH16sizedBox,
+                            kH12sizedBox,
                             Divider(
                               thickness: 1,
                               color: cWhiteColor.withOpacity(0.2),
                             ),
+                            kH8sizedBox,
                             Row(
                               children: [
                                 // SvgPicture.asset("Validity",width: h14.w,height: h14.h,),
@@ -438,14 +442,15 @@ class SubscriptionPlanScreen extends StatelessWidget {
                             CustomElevatedButton(
                               label: ksGetStarted.tr,
                               onPressed: () async {
-                                await Purchases.purchasePackage(
-                                    paymentController
-                                        .findStoreProductById(index));
+                                // await Purchases.purchasePackage(
+                                //     paymentController
+                                //         .findStoreProductById(index));
+                                Get.find<GlobalController>().commonBottomSheet(context: context, content: PaymentMethodSelectBottomSheetContent(index: index,), onPressCloseButton: (){}, onPressRightButton: (){}, rightText: "", rightTextStyle: regular12TextStyle(cWhiteColor), title: ksSelectPaymentMethod.tr, isRightButtonShow: false,bottomSheetHeight: height*0.3,bottomSheetColor: cBlackColor2);
                               },
                               buttonColor: cPrimaryColor2,
                               textStyle: regular14TextStyle(cWhiteColor),
                               buttonWidth: width - 82,
-                              buttonHeight: 40.h,
+                              buttonHeight: 36.h,
                             ),
                           ],
                         ),
@@ -459,6 +464,30 @@ class SubscriptionPlanScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+
+class PaymentMethodSelectBottomSheetContent extends StatelessWidget {
+  const PaymentMethodSelectBottomSheetContent({super.key,required this.index});
+  final int index;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        kH6sizedBox,
+        CustomElevatedButton(label: Platform.isAndroid ? "Google Pay" : "Apple Pay", onPressed: () async{
+          Get.back();
+           await Purchases.purchasePackage(
+                                    Get.find<PaymentController>()
+                                        .findStoreProductById(index));
+        },buttonWidth: width-40,textStyle: medium14TextStyle(cBlackColor),buttonColor: cWhiteColor,borderColor: cWhiteColor,),
+        kH12sizedBox,
+        CustomElevatedButton(label: "Other Payment Getway", onPressed: (){
+          Get.back();
+          Get.toNamed(krPaymentMethodScreen);},buttonWidth: width-40,textStyle: medium14TextStyle(cWhiteColor),buttonColor: cPrimaryColor,borderColor: cPrimaryColor,),
+      ],
     );
   }
 }
