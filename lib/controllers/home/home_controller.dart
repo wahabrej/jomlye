@@ -1,5 +1,7 @@
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
+import 'package:vidflix_flutter_app/helpers/ad_helper.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
 import 'package:vidflix_flutter_app/models/common/global_search_model.dart';
@@ -26,6 +28,139 @@ class HomeController extends GetxController {
   final ApiServices apiServices = ApiServices();
   var currentIndex = 0.obs;
   final RxString selectedTitle = RxString("");
+
+//    BannerAd bannerAd = BannerAd(
+//   adUnitId: AdHelper.bannerAdUnitId,
+//   request: AdRequest(),
+//   size: AdSize.banner,
+//   listener: BannerAdListener(
+//     onAdLoaded: (_) => ll('Banner Ad Loaded'),
+//     onAdFailedToLoad: (ad, error) {
+//       ad.dispose();
+//       ll('Banner Ad Failed to Load: $error');
+//     },
+//   ),
+// )..load();
+
+//  BannerAd? bannerAd;
+//   RxBool isBannerAdLoaded = false.obs;
+
+//   @override
+//   void onInit() {
+//     super.onInit();
+//     loadBannerAd();
+//   }
+
+//   void loadBannerAd() {
+//     bannerAd = BannerAd(
+//       adUnitId: AdHelper.bannerAdUnitId,
+//       request: AdRequest(),
+//       size: AdSize.banner,
+//       listener: BannerAdListener(
+//         onAdLoaded: (Ad ad) {
+//           isBannerAdLoaded.value = true;
+//           ll('Banner Ad Loaded');
+//         },
+//         onAdFailedToLoad: (ad, error) {
+//           ad.dispose();
+//           isBannerAdLoaded.value = false;
+//           ll('Banner Ad Failed to Load: $error');
+//         },
+//       ),
+//     );
+//   }
+
+//   @override
+//   void onClose() {
+//     bannerAd!.dispose(); // Dispose the ad when controller is destroyed
+//     super.onClose();
+//   }
+
+  BannerAd? bannerAd;
+  RxBool isBannerAdLoaded = false.obs;
+
+  InterstitialAd? interstitialAd;
+  RxBool isInterstitialAdLoaded = false.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    loadBannerAd();
+    loadInterstitialAd(); // Load interstitial ad
+  }
+
+  // Banner Ad Load
+  void loadBannerAd() {
+    bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          isBannerAdLoaded.value = true;
+          ll('Banner Ad Loaded');
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+          isBannerAdLoaded.value = false;
+          ll('Banner Ad Failed to Load: $error');
+        },
+      ),
+    )..load();
+  }
+
+  // Interstitial Ad Load
+  void loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.interestitialAdUnitId,
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (InterstitialAd ad) {
+          interstitialAd = ad;
+          isInterstitialAdLoaded.value = true;
+          ll('Interstitial Ad Loaded');
+
+          interstitialAd!.setImmersiveMode(true); // Optional: For full-screen effect
+        },
+        onAdFailedToLoad: (LoadAdError error) {
+          ll('Interstitial Ad Failed to Load: $error');
+          isInterstitialAdLoaded.value = false;
+        },
+      ),
+    );
+  }
+
+  // Show Interstitial Ad
+  void showInterstitialAd() {
+    if (interstitialAd != null) {
+      interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdDismissedFullScreenContent: (InterstitialAd ad) {
+          ll('Interstitial Ad Dismissed');
+          ad.dispose();
+          loadInterstitialAd(); // Load another after dismissal
+        },
+        onAdFailedToShowFullScreenContent: (ad, error) {
+          ll('Interstitial Ad Failed to Show: $error');
+          ad.dispose();
+          loadInterstitialAd();
+        },
+      );
+
+      interstitialAd!.show();
+      interstitialAd = null;
+      isInterstitialAdLoaded.value = false;
+    } else {
+      ll("Interstitial Ad is not ready yet.");
+    }
+  }
+
+  @override
+  void onClose() {
+    bannerAd?.dispose();
+    interstitialAd?.dispose();
+    super.onClose();
+  }
+
 
   //* Top Artist
   final RxBool isViewAllSearchEnable = RxBool(false);

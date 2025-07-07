@@ -1,3 +1,4 @@
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:vidflix_flutter_app/language/languages.dart';
 import 'package:vidflix_flutter_app/services/purchase_api.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -5,8 +6,14 @@ import 'package:vidflix_flutter_app/controllers/common/binder_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+   MobileAds.instance.initialize();
   await dotenv.load(fileName: Environment.fileName);
   ll("Filename : ${Environment.fileName}");
+  RequestConfiguration requestConfiguration = RequestConfiguration(
+    testDeviceIds: ["a0824a2e-4a1f-4a6d-b908-6a3ec2c37d1f"],
+  );
+ await MobileAds.instance.updateRequestConfiguration(requestConfiguration);
+  await MobileAds.instance.initialize();
   await PurchaseApi.initRevenueCat();
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(

@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
@@ -17,6 +18,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    homeController.bannerAd!.load();
     return SafeArea(
       top: false,
       child: WillPopScope(
@@ -104,6 +106,12 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                        Container(
+                      alignment: Alignment.bottomCenter,
+                      width: homeController.bannerAd!.size.width.toDouble(),
+                      height: homeController.bannerAd!.size.height.toDouble(),
+                      child: AdWidget(ad: homeController.bannerAd!),
+                    ),
                     HomeSlider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -153,8 +161,7 @@ class HomeScreen extends StatelessWidget {
                                       child: Container(
                                         decoration: BoxDecoration(
                                           color: homeController
-                                                      .selectedGenreId
-                                                      .value ==
+                                                      .selectedGenreId.value ==
                                                   homeController
                                                       .genreList[index].id
                                               ? cPrimaryColor2
@@ -223,6 +230,7 @@ class HomeScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () async {
+                                    homeController.showInterstitialAd();
                                     await homeController.getMovieDetails(
                                         movieId: homeController
                                             .newReleaseMoviesList[index].id!
@@ -478,10 +486,11 @@ class HomeScreen extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 return InkWell(
-                                  onTap: () async{
-                                           await homeController.getTvShowDetails(
-                                                              showId: homeController.tvShowList[index]!.id!);
-                                                          Get.toNamed(krTvShowPlayerScreen);
+                                  onTap: () async {
+                                    await homeController.getTvShowDetails(
+                                        showId: homeController
+                                            .tvShowList[index]!.id!);
+                                    Get.toNamed(krTvShowPlayerScreen);
                                   },
                                   child: MovieContentContainer(
                                     movieImage: homeController
@@ -748,8 +757,7 @@ class HomeScreen extends StatelessWidget {
                     //     ],
                     //   ),
                     // ),
-                   
-                   
+
                     kH16sizedBox,
                     HomeTitleContent(
                       title: ksTopArtists.tr,
