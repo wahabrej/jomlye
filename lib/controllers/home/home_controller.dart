@@ -86,6 +86,7 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     loadBannerAd();
+    // bannerAd!.load();
     loadInterstitialAd(); // Load interstitial ad
   }
 

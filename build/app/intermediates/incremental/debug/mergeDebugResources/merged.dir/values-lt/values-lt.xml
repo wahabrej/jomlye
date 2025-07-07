@@ -67,11 +67,33 @@
     <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Kopijuoti nuorodą"</string>
     <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Atidaryti naršyklėje"</string>
     <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Bendrinti nuorodą"</string>
+    <string name="native_body">Tekstas</string>
+    <string name="native_headline">Antraštė</string>
+    <string name="native_media_view">Medijos rodinys</string>
     <string msgid="6573031135582639649" name="not_set">"Nenustatyta"</string>
+    <string name="notifications_permission_confirm">Leisti</string>
+    <string name="notifications_permission_decline">Neleisti</string>
+    <string name="notifications_permission_title">Leisti programai siųsti jums pranešimus?</string>
+    <string name="offline_dialog_image_description">Piktograma</string>
+    <string name="offline_dialog_text">Dėkojame, kad domitės.\nPasidalysime daugiau informacijos, kai vėl prisijungsite.</string>
+    <string name="offline_notification_title">Vėl esate prisijungę! Tęskime nuo ten, kur baigėme</string>
+    <string name="offline_notification_title_with_advertiser">Vėl esate prisijungę! Toliau mokykitės apie „%s“</string>
+    <string name="offline_opt_in_confirm">Gerai</string>
+    <string name="offline_opt_in_decline">Ne, ačiū</string>
+    <string name="offline_opt_in_message">Atsiųsime jums pranešimą su nuoroda į reklamuotojo svetainę.</string>
+    <string name="offline_opt_in_title">Atidarykite skelbimą, kai vėl prisijungsite.</string>
     <string msgid="6685851473431805375" name="preference_copied">"Suvestinė „<ns1:g id="SUMMARY">%1$s</ns1:g>“ nukopijuota į iškarpinę."</string>
+    <string name="s1">Išsaugoti vaizdą</string>
+    <string name="s2">Leisti skelbimui išsaugoti vaizdą nuotraukų galerijoje?</string>
+    <string name="s3">Sutikti</string>
+    <string name="s4">Atmesti</string>
+    <string name="s5">Sukurti kalendoriaus įvykį</string>
+    <string name="s6">Leisti skelbimui sukurti kalendoriaus įvykį?</string>
+    <string name="s7">Bandomasis skelbimas</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Ieškoti"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
     <string msgid="9167775378838880170" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
     <string msgid="3140233346420563315" name="v7_preference_off">"IŠJUNGTA"</string>
     <string msgid="89551595707643515" name="v7_preference_on">"ĮJUNGTA"</string>
+    <string name="watermark_label_prefix">„AdMob“ – </string>
 </resources>

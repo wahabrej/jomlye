@@ -67,11 +67,33 @@
     <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Копирај линк"</string>
     <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Отвори у прегледачу"</string>
     <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Дели линк"</string>
+    <string name="native_body">Садржај</string>
+    <string name="native_headline">Наслов</string>
+    <string name="native_media_view">Приказ медија</string>
     <string msgid="6573031135582639649" name="not_set">"Није подешено"</string>
+    <string name="notifications_permission_confirm">Дозволи</string>
+    <string name="notifications_permission_decline">Не дозволи</string>
+    <string name="notifications_permission_title">Желите да дозволите апликацији да вам шаље обавештења?</string>
+    <string name="offline_dialog_image_description">Икона</string>
+    <string name="offline_dialog_text">Хвала вам на интересовању.\nПоделићемо више информација када поново будете онлајн.</string>
+    <string name="offline_notification_title">Поново сте онлајн! Хајде да наставимо тамо где смо стали</string>
+    <string name="offline_notification_title_with_advertiser">Поново сте онлајн! Сазнајте више о оглашивачу: %s</string>
+    <string name="offline_opt_in_confirm">Потврди</string>
+    <string name="offline_opt_in_decline">Не, хвала</string>
+    <string name="offline_opt_in_message">Послаћемо вам обавештење са линком до сајта оглашавача.</string>
+    <string name="offline_opt_in_title">Отворите оглас кад поново будете онлајн.</string>
     <string msgid="6685851473431805375" name="preference_copied">"Резиме „<ns1:g id="SUMMARY">%1$s</ns1:g>“ је копиран у привремену меморију."</string>
+    <string name="s1">Чување слике</string>
+    <string name="s2">Желите ли да дозволите да оглас сачува слику у Галерији слика?</string>
+    <string name="s3">Прихвати</string>
+    <string name="s4">Одбиј</string>
+    <string name="s5">Прављење догађаја у календару</string>
+    <string name="s6">Желите ли да дозволите да оглас направи догађај у календару?</string>
+    <string name="s7">Пробни оглас</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Претражите"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
     <string msgid="9167775378838880170" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
     <string msgid="3140233346420563315" name="v7_preference_off">"ИСКЉУЧЕНО"</string>
     <string msgid="89551595707643515" name="v7_preference_on">"УКЉУЧЕНО"</string>
+    <string name="watermark_label_prefix">AdMob - </string>
 </resources>

@@ -58,11 +58,33 @@
     <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Copiar link"</string>
     <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Abrir no navegador"</string>
     <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Compartilhar link"</string>
+    <string name="native_body">Corpo</string>
+    <string name="native_headline">Título</string>
+    <string name="native_media_view">Visualização de mídia</string>
     <string msgid="6573031135582639649" name="not_set">"Não definido"</string>
+    <string name="notifications_permission_confirm">Permitir</string>
+    <string name="notifications_permission_decline">Não permitir</string>
+    <string name="notifications_permission_title">Permitir que o app envie notificações?</string>
+    <string name="offline_dialog_image_description">Ícone</string>
+    <string name="offline_dialog_text">Agradecemos seu interesse.\nVamos compartilhar mais informações quando você estiver on-line de novo.</string>
+    <string name="offline_notification_title">Você está on-line de novo. Vamos continuar de onde paramos</string>
+    <string name="offline_notification_title_with_advertiser">Você está on-line de novo. Continue aprendendo sobre %s</string>
+    <string name="offline_opt_in_confirm">OK</string>
+    <string name="offline_opt_in_decline">Não</string>
+    <string name="offline_opt_in_message">Enviaremos uma notificação com um link para o site do anunciante.</string>
+    <string name="offline_opt_in_title">Abrir o anúncio quando você ficar on-line novamente.</string>
     <string msgid="6685851473431805375" name="preference_copied">"\"<ns1:g id="SUMMARY">%1$s</ns1:g>\" copiado para a área de transferência."</string>
+    <string name="s1">Salvar imagem</string>
+    <string name="s2">Permitir que os anúncios armazenem imagens na galeria de imagens?</string>
+    <string name="s3">Aceitar</string>
+    <string name="s4">Recusar</string>
+    <string name="s5">Criar evento na agenda</string>
+    <string name="s6">Permitir que os anúncios criem um evento na agenda?</string>
+    <string name="s7">Anúncio de teste</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Pesquisar"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
     <string msgid="9167775378838880170" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
     <string msgid="3140233346420563315" name="v7_preference_off">"DESATIVADO"</string>
     <string msgid="89551595707643515" name="v7_preference_on">"ATIVADO"</string>
+    <string name="watermark_label_prefix">AdMob - </string>
 </resources>

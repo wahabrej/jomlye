@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    homeController.bannerAd!.load();
+    // homeController.bannerAd!.load();
     return SafeArea(
       top: false,
       child: WillPopScope(

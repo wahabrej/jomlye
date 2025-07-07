@@ -67,11 +67,33 @@
     <string msgid="4566929209979330987" name="fallback_menu_item_copy_link">"Kopiatu esteka"</string>
     <string msgid="3413186855122069269" name="fallback_menu_item_open_in_browser">"Ireki arakatzailean"</string>
     <string msgid="7145444925855055364" name="fallback_menu_item_share_link">"Partekatu esteka"</string>
+    <string name="native_body">Gorputza</string>
+    <string name="native_headline">Titulua</string>
+    <string name="native_media_view">Multimedia-edukiaren ikuspegia</string>
     <string msgid="6573031135582639649" name="not_set">"Ez da ezarri"</string>
+    <string name="notifications_permission_confirm">Eman baimena</string>
+    <string name="notifications_permission_decline">Ez eman baimenik</string>
+    <string name="notifications_permission_title">Zuri jakinarazpenak bidaltzeko baimena eman nahi diozu aplikazioari?</string>
+    <string name="offline_dialog_image_description">Ikonoa</string>
+    <string name="offline_dialog_text">Eskerrik asko interesa erakusteagatik.\nBerriro konektatzen zarenean, xehetasun gehiago emango dizkizugu.</string>
+    <string name="offline_notification_title">Konektatuta zaude berriro. Jarraitu utzitako tokitik</string>
+    <string name="offline_notification_title_with_advertiser">Konektatuta zaude berriro. Jarraitu %s iragarleari buruz ikasten</string>
+    <string name="offline_opt_in_confirm">Ados</string>
+    <string name="offline_opt_in_decline">Ez</string>
+    <string name="offline_opt_in_message">Jakinarazpen bat bidaliko dizugu iragarlearen gunerako esteka batekin.</string>
+    <string name="offline_opt_in_title">Ireki iragarkia berriro konektatzen zarenean.</string>
     <string msgid="6685851473431805375" name="preference_copied">"Arbelean kopiatu da \"<ns1:g id="SUMMARY">%1$s</ns1:g>\"."</string>
+    <string name="s1">Gorde irudia</string>
+    <string name="s2">Irudia irudien galerian gordetzea baimendu nahi diozu iragarkiari?</string>
+    <string name="s3">Onartu</string>
+    <string name="s4">Baztertu</string>
+    <string name="s5">Sortu egutegiko gertaera bat</string>
+    <string name="s6">Egutegiko gertaera bat sortzea baimendu nahi diozu iragarkiari?</string>
+    <string name="s7">Probako iragarkia</string>
     <string msgid="6264217191555673260" name="search_menu_title">"Bilatu"</string>
     <string msgid="6277540029070332960" name="status_bar_notification_info_overflow">"999+"</string>
     <string msgid="9167775378838880170" name="summary_collapsed_preference_list">"<ns1:g id="CURRENT_ITEMS">%1$s</ns1:g>, <ns1:g id="ADDED_ITEMS">%2$s</ns1:g>"</string>
     <string msgid="3140233346420563315" name="v7_preference_off">"DESAKTIBATUTA"</string>
     <string msgid="89551595707643515" name="v7_preference_on">"AKTIBATUTA"</string>
+    <string name="watermark_label_prefix">AdMob - </string>
 </resources>
