@@ -66,3 +66,5 @@ const String kuPaymentHistory = "payment-history";
 
 //! config
 const String kuConfig = "config";
+//!ads
+const String kuAds = "ads";

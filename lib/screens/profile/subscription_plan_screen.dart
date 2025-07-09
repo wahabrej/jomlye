@@ -346,17 +346,12 @@ class SubscriptionPlanScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              paymentController
-                                  .subscriptionPlanList[index]!.price
-                                  .toString(),
+                            Text("${Get.find<GlobalController>().currency.value} ${paymentController.subscriptionPlanList[index]!.price.toString()}",
                               style: regular16TextStyle(cWhiteColor),
                             ),
                             kH20sizedBox,
                             Text(
-                              paymentController
-                                      .subscriptionPlanList[index]?.name ??
-                                  "",
+                              paymentController.subscriptionPlanList[index]?.name ?? "",
                               style: semiBold24TextStyle(cWhiteColor),
                             ),
                             kH12sizedBox,

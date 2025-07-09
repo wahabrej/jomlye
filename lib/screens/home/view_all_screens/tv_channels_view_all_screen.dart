@@ -6,6 +6,7 @@ import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.d
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
 class TvChannelsViewAllScreen extends StatelessWidget {
   TvChannelsViewAllScreen({super.key});
@@ -348,6 +349,15 @@ class TvChannelsViewAllScreen extends StatelessWidget {
               ],
             ),
           ),
+             bottomNavigationBar: CustomBottomNavBar(
+              width: width,
+              selectedIndex: 1,
+              // isFirstButtonClicked: true,
+              // isSecondButtonClicked: false,
+              // isThirdButtonClicked: false,
+              // isFourthButtonClicked: false,
+              // isFifthButtonClicked: false,
+            ),
         ),
       ),
     );

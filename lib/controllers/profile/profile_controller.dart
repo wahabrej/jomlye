@@ -422,9 +422,9 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isPlayListLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+          // showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
         } else {
-          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+          // showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
         }
       }
     } catch (e) {

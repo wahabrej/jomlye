@@ -19,6 +19,7 @@ import 'package:vidflix_flutter_app/models/home/view_all/tv_channel/tv_channel_l
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_show_filter_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
+import 'package:vidflix_flutter_app/models/local_ads_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/utils/constants/urls.dart';
@@ -75,7 +76,7 @@ class HomeController extends GetxController {
 //     bannerAd!.dispose(); // Dispose the ad when controller is destroyed
 //     super.onClose();
 //   }
-
+ //!Ads
   BannerAd? bannerAd;
   RxBool isBannerAdLoaded = false.obs;
 
@@ -86,18 +87,19 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     loadBannerAd();
-    // bannerAd!.load();
     loadInterstitialAd(); // Load interstitial ad
   }
 
-  // Banner Ad Load
-  void loadBannerAd() {
+    Future<void> loadBannerAd() async {
+    // Always dispose previous ad first
+    await disposeBannerAd();
+    
     bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
-      request: AdRequest(),
+      request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
-        onAdLoaded: (Ad ad) {
+        onAdLoaded: (ad) {
           isBannerAdLoaded.value = true;
           ll('Banner Ad Loaded');
         },
@@ -109,6 +111,26 @@ class HomeController extends GetxController {
       ),
     )..load();
   }
+
+  // Banner Ad Load
+  // void loadBannerAd() {
+  //   bannerAd = BannerAd(
+  //     adUnitId: AdHelper.bannerAdUnitId,
+  //     request: AdRequest(),
+  //     size: AdSize.banner,
+  //     listener: BannerAdListener(
+  //       onAdLoaded: (Ad ad) {
+  //         isBannerAdLoaded.value = true;
+  //         ll('Banner Ad Loaded');
+  //       },
+  //       onAdFailedToLoad: (ad, error) {
+  //         ad.dispose();
+  //         isBannerAdLoaded.value = false;
+  //         ll('Banner Ad Failed to Load: $error');
+  //       },
+  //     ),
+  //   )..load();
+  // }
 
   // Interstitial Ad Load
   void loadInterstitialAd() {
@@ -154,10 +176,16 @@ class HomeController extends GetxController {
       ll("Interstitial Ad is not ready yet.");
     }
   }
+    Future<void> disposeBannerAd() async {
+    await bannerAd?.dispose();
+    bannerAd = null;
+    isBannerAdLoaded.value = false;
+  }
 
   @override
   void onClose() {
-    bannerAd?.dispose();
+    // bannerAd?.dispose();
+    disposeBannerAd();
     interstitialAd?.dispose();
     super.onClose();
   }
@@ -1436,6 +1464,53 @@ class HomeController extends GetxController {
   void selectPackage(String packageName) {
     selectedPackage.value = packageName;
   }
+
+  //Local Ads
+  final RxBool isLocalAdsLoading = RxBool(false);
+  final Rx<LocalAdsModel?> localAdsModel =
+      Rx<LocalAdsModel?>(null);
+  final RxList<Ads> localAdList = RxList<Ads>([]);
+  Future<void> getLocalAds() async {
+    try {
+      isLocalAdsLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuAds,
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        localAdList.clear();
+        localAdsModel.value =
+            LocalAdsModel.fromJson(response.data);
+        localAdList
+            .addAll(localAdsModel.value!.ads);
+        isLocalAdsLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isLocalAdsLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cRedColor);
+        } else {
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isLocalAdsLoading.value = false;
+      ll('getLocalAds error: $e');
+    }
+  }
+
+
 
   final RxInt selectedServer = RxInt(0);
   //!reset bottom nav bar data

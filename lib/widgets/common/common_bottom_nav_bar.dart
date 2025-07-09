@@ -1,4 +1,5 @@
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
+import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -34,6 +35,8 @@ class CustomBottomNavBar extends StatelessWidget {
                 title: "Live",
                 onPressed: () async {
                   // Navigate to live stream
+                  await Get.find<HomeController>().getTvChannel();
+                  Get.toNamed(krTvChannelsViewAllScreen);
                 },
                 image: kiLiveStream,
               ),

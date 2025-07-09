@@ -18,7 +18,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // homeController.bannerAd!.load();
+    homeController.bannerAd!.load();
     return SafeArea(
       top: false,
       child: WillPopScope(
@@ -106,12 +106,7 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                        Container(
-                      alignment: Alignment.bottomCenter,
-                      width: homeController.bannerAd!.size.width.toDouble(),
-                      height: homeController.bannerAd!.size.height.toDouble(),
-                      child: AdWidget(ad: homeController.bannerAd!),
-                    ),
+                  BannerAdWidget(homeController: homeController),
                     HomeSlider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -872,6 +867,20 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                    for(int i=0;i<homeController.localAdList.length;i++)
+                    if(homeController.localAdList[i].position.toLowerCase()=="footer")
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(k8BorderRadius),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: k12Padding,horizontal: k28Padding).copyWith(right: 8),
+                        child: SizedBox(
+                          width: width,
+                          child: Image.network(homeController.localAdList[i].banner,errorBuilder: (context, error, stackTrace) {
+                            return SvgPicture.asset(kiDummyMovie,width: width-40,height: 100,fit: BoxFit.cover,);
+                          },),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -1464,5 +1473,26 @@ class HomeSlider extends StatelessWidget {
         kH10sizedBox,
       ],
     );
+  }
+}
+
+class BannerAdWidget extends StatelessWidget {
+  final HomeController homeController;
+
+  const BannerAdWidget({
+    Key? key,
+    required this.homeController,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return homeController.bannerAd != null
+        ? Container(
+            alignment: Alignment.bottomCenter,
+            width: homeController.bannerAd!.size.width.toDouble(),
+            height: homeController.bannerAd!.size.height.toDouble(),
+            child: AdWidget(ad: homeController.bannerAd!),
+          )
+        : const SizedBox.shrink();
   }
 }
