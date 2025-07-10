@@ -637,6 +637,72 @@ class VideoPlayerScreen extends StatelessWidget {
                     SubscriptionSelector(),
                     kH16sizedBox,
                     RentProductDetailsContentContainer(),
+                    kH12sizedBox,
+                    Container(
+                      width: width - 40,
+                      height: 46.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.r),
+                        color: Colors.white.withOpacity(0.1),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: List.generate(
+                              homeController.movieDetailsTabs.length, (index) {
+                            return GestureDetector(
+                              onTap: () => homeController.videoDetailsChangeTab(index),
+                              child: Obx(() => Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 16.w, vertical: 8.h),
+                                    decoration: BoxDecoration(
+                                      color: homeController
+                                                  .movietSelectedIndex.value ==
+                                              index
+                                          ? Colors.grey[800]
+                                          : Colors.transparent,
+                                      borderRadius: BorderRadius.circular(100.r),
+                                    ),
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                        maxWidth: (width - 40) /
+                                                homeController
+                                                    .movieDetailsTabs.length -
+                                            14.w,
+                                      ),
+                                      child: Text(
+                                        homeController.movieDetailsTabs[index],
+                                        style: regular14TextStyle(cWhiteColor),
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  )),
+                            );
+                          }),
+                        ),
+                      ),
+                    ),
+                    kH12sizedBox,
+                    SizedBox(
+                      width: width-20,
+                      height: 50.h,
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (context,index) => kW8sizedBox,
+                        itemCount: 5,
+                        itemBuilder: (context,index){
+                        return VideoDetailsContentWidget(
+                        imageUrl: "https://image.tmdb.org/t/p/original/tXjWQ5sCLGSaL0YnwWFvF3O3XzQ.jpg",
+                        title: "Test User",
+                        subTitle: "Actor/Director",
+                      );
+                        },
+                      ),
+                    ),
                     kH16sizedBox,
                     Text(
                       ksRelatedVideos.tr,
@@ -1625,21 +1691,49 @@ class RentProductDetailsContentContainer extends StatelessWidget {
         padding: const EdgeInsets.all(k20Padding),
         child: Column(
           children: [
-           RentProductDetailsRow(title: ksVideoCost.tr,value: "\$50.00",),
-           kH12sizedBox,
-           RentProductDetailsRow(title: ksValidity.tr,value: "30 days",),
-           kH12sizedBox,
-           RentProductDetailsRow(title: ksDeviceLimit.tr,value: "2",),
-           kH12sizedBox,
-           RentProductDetailsRow(title: ksExpireDate.tr,value: "11/06/2025",),
-           kH12sizedBox,
-           RentProductDetailsRow(title: ksAds.tr,value: "Not Shown",),
-           kH12sizedBox,
-           RentProductDetailsRow(title: ksDownload.tr,value: "Not Allowed",),
-           kH12sizedBox,
-           RentProductDetailsRow(title: ksPremiumContent.tr,value: "Not Allowed",),
-           kH20sizedBox,
-           CustomElevatedButton(label: ksProceedToPayment.tr, onPressed: (){Get.toNamed(krPaymentMethodScreen);},textStyle: semiBold14TextStyle(cWhiteColor),buttonWidth: width-80,),
+            RentProductDetailsRow(
+              title: ksVideoCost.tr,
+              value: "\$50.00",
+            ),
+            kH12sizedBox,
+            RentProductDetailsRow(
+              title: ksValidity.tr,
+              value: "30 days",
+            ),
+            kH12sizedBox,
+            RentProductDetailsRow(
+              title: ksDeviceLimit.tr,
+              value: "2",
+            ),
+            kH12sizedBox,
+            RentProductDetailsRow(
+              title: ksExpireDate.tr,
+              value: "11/06/2025",
+            ),
+            kH12sizedBox,
+            RentProductDetailsRow(
+              title: ksAds.tr,
+              value: "Not Shown",
+            ),
+            kH12sizedBox,
+            RentProductDetailsRow(
+              title: ksDownload.tr,
+              value: "Not Allowed",
+            ),
+            kH12sizedBox,
+            RentProductDetailsRow(
+              title: ksPremiumContent.tr,
+              value: "Not Allowed",
+            ),
+            kH20sizedBox,
+            CustomElevatedButton(
+              label: ksProceedToPayment.tr,
+              onPressed: () {
+                Get.toNamed(krPaymentMethodScreen);
+              },
+              textStyle: semiBold14TextStyle(cWhiteColor),
+              buttonWidth: width - 80,
+            ),
           ],
         ),
       ),
@@ -1647,9 +1741,40 @@ class RentProductDetailsContentContainer extends StatelessWidget {
   }
 }
 
+class VideoDetailsContentWidget extends StatelessWidget {
+  const VideoDetailsContentWidget({super.key, this.imageUrl, this.title, this.subTitle});
+  final String? imageUrl,title, subTitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Image.network(imageUrl??"",width: 70.w,height: 40.h,fit: BoxFit.cover, errorBuilder: (context, error, stackTrace) => Center(
+              child: SvgPicture.asset(
+                kiDummyMovie,
+                width: 70.w,
+                height: 50.h,
+                fit: BoxFit.cover,
+              ),
+            ),),
+            kW12sizedBox,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title??"",style: semiBold14TextStyle(cWhiteColor),),
+                kH4sizedBox,
+                Text(subTitle??"",style: regular12TextStyle(cWhiteColor),),
+              ],
+            ),
+      ],
+    );
+  }
+}
+
 class RentProductDetailsRow extends StatelessWidget {
-  const RentProductDetailsRow({super.key,this.title,this.value});
-  final String? title,value;
+  const RentProductDetailsRow({super.key, this.title, this.value});
+  final String? title, value;
 
   @override
   Widget build(BuildContext context) {
@@ -1661,7 +1786,7 @@ class RentProductDetailsRow extends StatelessWidget {
           style: regular16TextStyle(cWhiteColor),
         ),
         Text(
-          value??"",
+          value ?? "",
           style: regular16TextStyle(cWhiteColor),
         ),
       ],

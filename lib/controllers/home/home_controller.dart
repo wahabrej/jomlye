@@ -245,12 +245,18 @@ class HomeController extends GetxController {
       TextEditingController();
   final RxBool isSearchSuffixIconShow = RxBool(false);
   //! Cast details screen
-  final RxInt selectedIndex = RxInt(0); // Default selected index
-  final List<String> tabs = ["Movies", "Personal Information"];
+  final RxInt castSelectedIndex = RxInt(0); // Default selected index
+  final List<String> castDetailsTabs = ["Movies", "Personal Information"];
+  final RxInt movietSelectedIndex = RxInt(0); // Default selected index
+  final List<String> movieDetailsTabs = ["Cast", "Director", "Writer", "Review & Ratings"];
 
-  void changeTab(int index) {
-    selectedIndex.value = index;
+  void actorDetailsChangeTab(int index) {
+    castSelectedIndex.value = index;
   }
+    void videoDetailsChangeTab(int index) {
+    movietSelectedIndex.value = index;
+  }
+
 
   final RxDouble lowerValue = RxDouble(0);
   final RxDouble upperValue = RxDouble(0);
@@ -1493,15 +1499,15 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isLocalAdsLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(
-              title: ksError.tr,
-              message: response.message.toString(),
-              color: cRedColor);
+          // showSnackBar(
+          //     title: ksError.tr,
+          //     message: response.message.toString(),
+          //     color: cRedColor);
         } else {
-          showSnackBar(
-              title: ksError.tr,
-              message: errorModel.errors[0].message,
-              color: cRedColor);
+          // showSnackBar(
+          //     title: ksError.tr,
+          //     message: errorModel.errors[0].message,
+          //     color: cRedColor);
         }
       }
     } catch (e) {

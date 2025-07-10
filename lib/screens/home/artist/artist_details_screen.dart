@@ -172,21 +172,21 @@ class CastDetailsScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children:
-                        List.generate(homeController.tabs.length, (index) {
+                        List.generate(homeController.castDetailsTabs.length, (index) {
                       return GestureDetector(
-                        onTap: () => homeController.changeTab(index),
+                        onTap: () => homeController.actorDetailsChangeTab(index),
                         child: Obx(() => Container(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 16.w, vertical: 8.h),
                               decoration: BoxDecoration(
                                 color:
-                                    homeController.selectedIndex.value == index
+                                    homeController.castSelectedIndex.value == index
                                         ? Colors.grey[800]
                                         : Colors.transparent,
                                 borderRadius: BorderRadius.circular(100.r),
                               ),
                               child: Text(
-                                homeController.tabs[index],
+                                homeController.castDetailsTabs[index],
                                 style: regular14TextStyle(cWhiteColor),
                               ),
                             )),
@@ -194,13 +194,15 @@ class CastDetailsScreen extends StatelessWidget {
                     }),
                   ),
                 ),
+              
+              
                 kH16sizedBox,
                 Divider(
                   thickness: 1,
                   color: cWhiteColor.withOpacity(0.2),
                 ),
                 kH16sizedBox,
-                if (homeController.selectedIndex.value == 0)
+                if (homeController.castSelectedIndex.value == 0)
                   GridView.builder(
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
@@ -224,7 +226,7 @@ class CastDetailsScreen extends StatelessWidget {
                       );
                     },
                   ),
-                if (homeController.selectedIndex.value == 1)
+                if (homeController.castSelectedIndex.value == 1)
                   Container(
                     width: width - 40,
                     decoration: BoxDecoration(
