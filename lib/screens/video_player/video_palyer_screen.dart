@@ -653,8 +653,15 @@ class VideoPlayerScreen extends StatelessWidget {
                           children: List.generate(
                               homeController.movieDetailsTabs.length, (index) {
                             return GestureDetector(
-                              onTap: () =>
-                                  homeController.videoDetailsChangeTab(index),
+                              onTap: () async {
+                                homeController.videoDetailsChangeTab(index);
+                                if (homeController.movietSelectedIndex.value ==
+                                    3) {
+                                  await homeController.getUserReview(
+                                      movieId: homeController.movieDetailsModel
+                                          .value!.details!.id!);
+                                }
+                              },
                               child: Obx(() => Container(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 16.w, vertical: 8.h),
@@ -783,7 +790,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "0 Reviews",
+                                      "${homeController.movieReviewList.length+1} ${ksReviews.tr}",
                                       style: semiBold14TextStyle(cWhiteColor),
                                     ),
                                     const Spacer(),
@@ -808,7 +815,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                         );
                                       }),
                                     ),
-                                  ], 
+                                  ],
                                 ),
                               ),
                             ),
@@ -856,7 +863,14 @@ class VideoPlayerScreen extends StatelessWidget {
                                 kW12sizedBox,
                                 CustomElevatedButton(
                                   label: ksPostNow.tr,
-                                  onPressed: () {},
+                                  onPressed: () async {
+                                    await homeController.userRating(
+                                        movieId: homeController
+                                            .movieDetailsModel
+                                            .value!
+                                            .details!
+                                            .id!);
+                                  },
                                   buttonColor: cPrimaryColor2,
                                   textStyle: regular14TextStyle(cWhiteColor),
                                   buttonWidth: 90.w,
@@ -866,106 +880,145 @@ class VideoPlayerScreen extends StatelessWidget {
                             ),
                             kH12sizedBox,
                             ListView.separated(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                padding: const EdgeInsets.all(k0Padding),
-                                 separatorBuilder: (context, index) =>
-                                    kH8sizedBox,
-                                itemCount: homeController.movieReviewList.length,
-                                itemBuilder: (context, index) {
-                                  return Row(
-                                    children: [
-                                      Container(
-                                        width: 40.w,
-                                        height: 40.h,
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: CircleAvatar(
-                                          backgroundColor:
-                                              cWhiteColor.withOpacity(0.2),
-                                          child: ClipOval(
-                                            child: Image.network(
-                                                width: 40.w,
-                                                height: 40.h,
-                                                fit: BoxFit.cover,
-                                                homeController.movieReviewList[index]?.image??"",
-                                                ),
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.all(k0Padding),
+                              separatorBuilder: (context, index) => kH8sizedBox,
+                              itemCount: homeController.movieReviewList.length,
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  children: [
+                                    Container(
+                                      width: 40.w,
+                                      height: 40.h,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: CircleAvatar(
+                                        backgroundColor:
+                                            cWhiteColor.withOpacity(0.2),
+                                        child: ClipOval(
+                                          child: Image.network(
+                                            width: 40.w,
+                                            height: 40.h,
+                                            fit: BoxFit.cover,
+                                            homeController
+                                                    .movieReviewList[index]
+                                                    ?.user
+                                                    ?.profileImage ??
+                                                "",
                                           ),
                                         ),
                                       ),
-                                      kW12sizedBox,
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Text(
-                                                homeController.movieReviewList[index]?.name??"",
-                                                style: medium16TextStyle(
-                                                    cWhiteColor),
-                                              ),
-                                              kW6sizedBox,
-                                              Container(
-                                                width: 6.w,
-                                                height: 6.h,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  color: cGreyColor
-                                                      .withOpacity(0.8),
-                                                ),
-                                              ),
-                                              kW6sizedBox,
-                                              Icon(
-                                                Icons.access_time,
+                                    ),
+                                    kW12sizedBox,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              homeController
+                                                      .movieReviewList[index]
+                                                      ?.user
+                                                      ?.userName ??
+                                                  "",
+                                              style: medium16TextStyle(
+                                                  cWhiteColor),
+                                            ),
+                                            kW6sizedBox,
+                                            Container(
+                                              width: 6.w,
+                                              height: 6.h,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
                                                 color:
                                                     cGreyColor.withOpacity(0.8),
-                                                size: kIconSize16,
                                               ),
-                                              kW6sizedBox,
-                                              Text(
-                                                "2 years ago",
-                                                style: regular10TextStyle(
-                                                    cGreyColor
-                                                        .withOpacity(0.8)),
-                                              ),
-                                            ],
-                                          ),
-                                          kH10sizedBox,
-                                          SizedBox(
-                                            width: width - 96,
-                                            child: Row(
-                                              children: [
-                                                const Icon(
-                                                  Icons.favorite_outline,
-                                                  color: cWhiteColor,
-                                                  size: kIconSize20,
-                                                ),
-                                                kW6sizedBox,
-                                                Text(
-                                                  "100K",
-                                                  style: regular12TextStyle(
-                                                      cGreyColor
-                                                          .withOpacity(0.8)),
-                                                ),
-                                              ],
                                             ),
-                                          ),
-                                          kH10sizedBox,
-                                          Text(
-                                            "are kisu na emni",
-                                            style:
-                                                medium12TextStyle(cWhiteColor),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  );
-                                },
-                               ),
+                                            kW6sizedBox,
+                                            Icon(
+                                              Icons.access_time,
+                                              color:
+                                                  cGreyColor.withOpacity(0.8),
+                                              size: kIconSize16,
+                                            ),
+                                            kW6sizedBox,
+                                            Text(
+                                              homeController.movieReviewList[index]?.createdAt??"",
+                                              style: regular10TextStyle(
+                                                  cGreyColor.withOpacity(0.8)),
+                                            ),
+                                          ],
+                                        ),
+                                        kH10sizedBox,
+                                        Obx(() => SizedBox(
+                                              width: width - 96,
+                                              child: Row(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () async {
+                                                      homeController.movieReviewList[index]!.isLiked!.value = !homeController.movieReviewList[index]!.isLiked!.value;
+                                                      if(homeController.movieReviewList[index]!.isLiked!.value==true){
+                                                        homeController.movieReviewList[index]!.totalLikes!.value++;
+                                                      } 
+                                                      if(homeController.movieReviewList[index]!.isLiked!.value==false){
+                                                        homeController.movieReviewList[index]!.totalLikes!.value--;
+                                                      } 
+                                                      await homeController.reviewLikeToggle(reviewId: homeController.movieReviewList[index]!.id!);
+                                                    },
+                                                    child: Icon(
+                                                      homeController
+                                                                  .movieReviewList[
+                                                                      index]!
+                                                                  .isLiked!
+                                                                  .value ==
+                                                              true
+                                                          ? Icons.favorite
+                                                          : Icons
+                                                              .favorite_outline,
+                                                      color: homeController
+                                                                  .movieReviewList[
+                                                                      index]!
+                                                                  .isLiked!
+                                                                  .value ==
+                                                              true
+                                                          ? cPrimaryColor
+                                                          : cWhiteColor,
+                                                      size: kIconSize20,
+                                                    ),
+                                                  ),
+                                                  kW6sizedBox,
+                                                  Text(
+                                                    homeController
+                                                            .movieReviewList[
+                                                                index]
+                                                            ?.totalLikes?.value
+                                                            .toString() ??
+                                                        "",
+                                                    style: regular12TextStyle(
+                                                        cGreyColor
+                                                            .withOpacity(0.8)),
+                                                  ),
+                                                ],
+                                              ),
+                                            )),
+                                        kH10sizedBox,
+                                        Text(
+                                          homeController.movieReviewList[index]
+                                                  ?.review ??
+                                              "",
+                                          style: medium12TextStyle(cWhiteColor),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -1530,8 +1583,6 @@ class VideoPlayerScreen extends StatelessWidget {
               //     ],
               //   ),
               // ),
-          
-          
             ],
           ),
         ),

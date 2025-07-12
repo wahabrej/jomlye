@@ -50,10 +50,8 @@ class SplashScreenController extends GetxController {
     globalController.wifiOnlyState.value = await spController.getWifiOnlyState() ?? true;
     if (state == null || state == false) {
       rememberStatus = false;
-      ll("the remember status is $state");
     } else {
       rememberStatus = true;
-      ll("the remember status is $state");
     }
   }
 

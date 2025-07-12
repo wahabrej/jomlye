@@ -4,7 +4,7 @@ class MovieDetailsModel {
     final List<Cast>? cast;
     final List<Cast>? director;
     final List<Cast>? writer;
-    final List<Review>? reviews;
+    // final List<Review>? reviews;
     final List<MovieDetails>? relatedMovie;
     final List<MovieDetails>? recommendedMovie;
     final List<int>? playlistIds;
@@ -15,7 +15,7 @@ class MovieDetailsModel {
         this.cast,
         this.director,
         this.writer,
-        this.reviews,
+        // this.reviews,
         this.relatedMovie,
         this.recommendedMovie,
         this.playlistIds,
@@ -27,7 +27,7 @@ class MovieDetailsModel {
         cast: json["cast"] == null ? [] : List<Cast>.from(json["cast"]!.map((x) => Cast.fromJson(x))),
         director: json["director"] == null ? [] : List<Cast>.from(json["director"]!.map((x) => Cast.fromJson(x))),
         writer: json["writer"] == null ? [] : List<Cast>.from(json["writer"]!.map((x) => Cast.fromJson(x))),
-        reviews: List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
+        // reviews: List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
         relatedMovie: json["related_movie"] == null ? [] : List<MovieDetails>.from(json["related_movie"]!.map((x) => MovieDetails.fromJson(x))),
         recommendedMovie: json["recommended_movie"] == null ? [] : List<MovieDetails>.from(json["recommended_movie"]!.map((x) => MovieDetails.fromJson(x))),
         playlistIds: json["playlist_ids"] == null ? [] : List<int>.from(json["playlist_ids"]!.map((x) => x)),
@@ -73,32 +73,32 @@ class Cast {
     );
 }
 
-class Review {
-    final int reviewId;
-    final int userId;
-    final String name;
-    final String review;
-    final int rating;
-    final String image;
+// class Review {
+//     final int reviewId;
+//     final int userId;
+//     final String name;
+//     final String review;
+//     final int rating;
+//     final String image;
 
-    Review({
-        required this.reviewId,
-        required this.userId,
-        required this.name,
-        required this.review,
-        required this.rating,
-        required this.image,
-    });
+//     Review({
+//         required this.reviewId,
+//         required this.userId,
+//         required this.name,
+//         required this.review,
+//         required this.rating,
+//         required this.image,
+//     });
 
-    factory Review.fromJson(Map<String, dynamic> json) => Review(
-        reviewId: json["review_id"],
-        userId: json["user_id"],
-        name: json["name"],
-        review: json["review"],
-        rating: json["rating"],
-        image: json["image"],
-    );
-}
+//     factory Review.fromJson(Map<String, dynamic> json) => Review(
+//         reviewId: json["review_id"],
+//         userId: json["user_id"],
+//         name: json["name"],
+//         review: json["review"],
+//         rating: json["rating"],
+//         image: json["image"],
+//     );
+// }
 
 class MovieDetails {
     final int? id;

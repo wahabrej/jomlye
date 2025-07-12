@@ -206,6 +206,7 @@ const String ksAds = "Ads";
 const String ksPremiumContent = "Premium content";
 const String ksProceedToPayment = "Proceed To Payment";
 const String ksSelectPaymentMethod = "Select Payment Method";
+const String ksReviews = "Reviews";
 
 //* player screen
 const String ksTitle = "Title";

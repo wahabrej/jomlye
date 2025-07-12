@@ -68,3 +68,7 @@ const String kuPaymentHistory = "payment-history";
 const String kuConfig = "config";
 //!ads
 const String kuAds = "ads";
+//!review & rating
+const String kuRating = "rating";
+const String kuReviewList = "review-list";
+const String kuLikeToggle = "like-toggle";

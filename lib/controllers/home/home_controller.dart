@@ -20,6 +20,7 @@ import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_show_filter
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_details_model.dart';
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
 import 'package:vidflix_flutter_app/models/local_ads_model.dart';
+import 'package:vidflix_flutter_app/models/review/review_list_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/utils/constants/urls.dart';
@@ -548,7 +549,7 @@ class HomeController extends GetxController {
   final RxList<Cast?> movieCastList = RxList<Cast?>([]);
   final RxList<Cast?> movieDirectorList = RxList<Cast?>([]);
   final RxList<Cast?> movieWriterList = RxList<Cast?>([]);
-  final RxList<Review?> movieReviewList = RxList<Review?>([]);
+  // final RxList<Review?> movieReviewList = RxList<Review?>([]);
   final RxList<MovieDetails> relatedMovieList = RxList<MovieDetails>([]);
   final RxList<MovieDetails> recommendedMovieList = RxList<MovieDetails>([]);
   final RxList<int> playlistIdsList = RxList<int>([]);
@@ -570,7 +571,7 @@ class HomeController extends GetxController {
         movieCastList.clear();
         movieDirectorList.clear();
         movieWriterList.clear();
-        movieReviewList.clear();
+        // movieReviewList.clear();
         relatedMovieList.clear();
         recommendedMovieList.clear();
         playlistIdsList.clear();
@@ -580,7 +581,7 @@ class HomeController extends GetxController {
         movieCastList.addAll(movieDetailsModel.value!.cast!);
         movieDirectorList.addAll(movieDetailsModel.value!.director!);
         movieWriterList.addAll(movieDetailsModel.value!.writer!);
-        movieReviewList.addAll(movieDetailsModel.value!.reviews!);
+        // movieReviewList.addAll(movieDetailsModel.value!.reviews!);
         relatedMovieList.addAll(movieDetailsModel.value!.relatedMovie!);
         recommendedMovieList.addAll(movieDetailsModel.value!.recommendedMovie!);
         playlistIdsList.addAll(movieDetailsModel.value!.playlistIds!);
@@ -1517,9 +1518,116 @@ class HomeController extends GetxController {
       ll('getLocalAds error: $e');
     }
   }
+//!Review & Rating
+  Future<void> userRating({required int movieId}) async {
+    // final int userId = await spController.getUserId()??-1;
+    try {
+      String? token = await spController.getBearerToken();
+      int? userId = await spController.getUserId();
+      Map<String, dynamic> body = {
+        "user_id": userId.toString(),
+        "review": addCommentTextEditingController.text.trim().toString(),
+        "rating": rating.toString(),
+        "movie_id": movieId.toString(),
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuRating,
+        body: body,
+        token: token,
+        requestMethod: kPost,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        await getUserReview(movieId: movieId);
+        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('userRating error: $e');
+    }
+  }
 
 
- var rating = 0.obs;
+  // get user Review
+  final RxBool isUserReviewLoading = RxBool(false);
+  final Rx<ReviewListModel?> reviewListModel = Rx<ReviewListModel?>(null);
+  final RxList<Review?> movieReviewList = RxList<Review?>([]);
+  Future<void> getUserReview({required int movieId}) async {
+    try {
+      isUserReviewLoading.value = true;
+      String? token = await spController.getBearerToken();
+      int? userId = await spController.getUserId();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuReviewList?user_id=${userId.toString()}&movie_id=${movieId.toString()}",
+        // url: kuAds,
+        body: body,
+      ) as CommonDM;
+      if (response.code == 200) {
+        movieReviewList.clear();
+        reviewListModel.value =
+            ReviewListModel.fromJson(response.data);
+        movieReviewList
+            .addAll(reviewListModel.value!.reviews!);
+        isUserReviewLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isUserReviewLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          // showSnackBar(
+          //     title: ksError.tr,
+          //     message: response.message.toString(),
+          //     color: cRedColor);
+        } else {
+          // showSnackBar(
+          //     title: ksError.tr,
+          //     message: errorModel.errors[0].message,
+          //     color: cRedColor);
+        }
+      }
+    } catch (e) {
+      isUserReviewLoading.value = false;
+      ll('getUserReview error: $e');
+    }
+  }
+  // 
+  Future<void> reviewLikeToggle({required int reviewId,}) async {
+    // final int userId = await spController.getUserId()??-1;
+    try {
+      String? token = await spController.getBearerToken();
+      int? userId = await spController.getUserId();
+      Map<String, dynamic> body = {
+        "user_id": userId.toString(),
+        "review_id": reviewId.toString(),
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuLikeToggle,
+        body: body,
+        token: token,
+        requestMethod: kPost,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('userRating error: $e');
+    }
+  }
+
+
+
+
+ final RxInt rating = RxInt(0);
 
   void updateRating(int newRating) {
     rating.value = newRating;
