@@ -646,13 +646,15 @@ class VideoPlayerScreen extends StatelessWidget {
                         color: Colors.white.withOpacity(0.1),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: k4Padding),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: List.generate(
                               homeController.movieDetailsTabs.length, (index) {
                             return GestureDetector(
-                              onTap: () => homeController.videoDetailsChangeTab(index),
+                              onTap: () =>
+                                  homeController.videoDetailsChangeTab(index),
                               child: Obx(() => Container(
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 16.w, vertical: 8.h),
@@ -662,7 +664,8 @@ class VideoPlayerScreen extends StatelessWidget {
                                               index
                                           ? Colors.grey[800]
                                           : Colors.transparent,
-                                      borderRadius: BorderRadius.circular(100.r),
+                                      borderRadius:
+                                          BorderRadius.circular(100.r),
                                     ),
                                     child: Container(
                                       constraints: BoxConstraints(
@@ -685,24 +688,287 @@ class VideoPlayerScreen extends StatelessWidget {
                       ),
                     ),
                     kH12sizedBox,
-                    SizedBox(
-                      width: width-20,
-                      height: 50.h,
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        separatorBuilder: (context,index) => kW8sizedBox,
-                        itemCount: 5,
-                        itemBuilder: (context,index){
-                        return VideoDetailsContentWidget(
-                        imageUrl: "https://image.tmdb.org/t/p/original/tXjWQ5sCLGSaL0YnwWFvF3O3XzQ.jpg",
-                        title: "Test User",
-                        subTitle: "Actor/Director",
-                      );
-                        },
+                    if (homeController.movietSelectedIndex.value == 0)
+                      SizedBox(
+                        width: width - 20,
+                        height: 50.h,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (context, index) => kW8sizedBox,
+                          itemCount: homeController.movieCastList.length,
+                          itemBuilder: (context, index) {
+                            return VideoDetailsContentWidget(
+                              imageUrl: homeController
+                                      .movieCastList[index]?.starImage ??
+                                  "",
+                              title: homeController
+                                      .movieCastList[index]?.starName ??
+                                  "",
+                              subTitle: homeController
+                                      .movieCastList[index]?.starType ??
+                                  "",
+                            );
+                          },
+                        ),
                       ),
-                    ),
+                    if (homeController.movietSelectedIndex.value == 1)
+                      SizedBox(
+                        width: width - 20,
+                        height: 50.h,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (context, index) => kW8sizedBox,
+                          itemCount: homeController.movieDirectorList.length,
+                          itemBuilder: (context, index) {
+                            return VideoDetailsContentWidget(
+                              imageUrl: homeController
+                                      .movieDirectorList[index]?.starImage ??
+                                  "",
+                              title: homeController
+                                      .movieDirectorList[index]?.starName ??
+                                  "",
+                              subTitle: homeController
+                                      .movieDirectorList[index]?.starType ??
+                                  "",
+                            );
+                          },
+                        ),
+                      ),
+                    if (homeController.movietSelectedIndex.value == 2)
+                      SizedBox(
+                        width: width - 20,
+                        height: 50.h,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (context, index) => kW8sizedBox,
+                          itemCount: homeController.movieWriterList.length,
+                          itemBuilder: (context, index) {
+                            return VideoDetailsContentWidget(
+                              imageUrl: homeController
+                                      .movieWriterList[index]?.starImage ??
+                                  "",
+                              title: homeController
+                                      .movieWriterList[index]?.starName ??
+                                  "",
+                              subTitle: homeController
+                                      .movieWriterList[index]?.starType ??
+                                  "",
+                            );
+                          },
+                        ),
+                      ),
+                    if (homeController.movietSelectedIndex.value == 3)
+                      Padding(
+                        padding: const EdgeInsets.only(right: k20Padding),
+                        child: Column(
+                          children: [
+                            Container(
+                              width: width,
+                              height: 32.h,
+                              decoration: BoxDecoration(
+                                color: cWhiteColor.withOpacity(0.1),
+                                borderRadius:
+                                    BorderRadius.circular(k8BorderRadius),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: k12Padding),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "0 Reviews",
+                                      style: semiBold14TextStyle(cWhiteColor),
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      ksSubmitRating.tr,
+                                      style: regular14TextStyle(cWhiteColor),
+                                    ),
+                                    kW4sizedBox,
+                                    Row(
+                                      children: List.generate(5, (index) {
+                                        return GestureDetector(
+                                          onTap: () => homeController
+                                              .updateRating(index + 1),
+                                          child: Icon(
+                                            Icons.star,
+                                            size: kIconSize16,
+                                            color: index <
+                                                    homeController.rating.value
+                                                ? cAmberColor
+                                                : Colors.grey,
+                                          ),
+                                        );
+                                      }),
+                                    ),
+                                  ], 
+                                ),
+                              ),
+                            ),
+                            kH16sizedBox,
+                            CustomModifiedTextField(
+                              hint: ksEnterHere.tr,
+                              controller: homeController
+                                  .addCommentTextEditingController,
+                              fillColor: cBlackColor,
+                              textInputStyle: regular14TextStyle(cWhiteColor),
+                              focusBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.circular(k6BorderRadius),
+                                borderSide: const BorderSide(
+                                  width: 1,
+                                  color: cPrimaryColor2,
+                                ),
+                              ),
+                              maxLines: 4,
+                              inputAction: TextInputAction.newline,
+                              inputType: TextInputType.multiline,
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.circular(k6BorderRadius),
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: cWhiteColor.withOpacity(0.3),
+                                  style: BorderStyle.solid,
+                                ),
+                              ),
+                              contentPadding: const EdgeInsets.all(12),
+                            ),
+                            kH12sizedBox,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                CustomElevatedButton(
+                                  label: ksCancel.tr,
+                                  onPressed: () {},
+                                  buttonColor: cWhiteColor.withOpacity(0.1),
+                                  textStyle: regular14TextStyle(cWhiteColor),
+                                  buttonWidth: 70.w,
+                                  buttonHeight: h32.h,
+                                ),
+                                kW12sizedBox,
+                                CustomElevatedButton(
+                                  label: ksPostNow.tr,
+                                  onPressed: () {},
+                                  buttonColor: cPrimaryColor2,
+                                  textStyle: regular14TextStyle(cWhiteColor),
+                                  buttonWidth: 90.w,
+                                  buttonHeight: h32.h,
+                                ),
+                              ],
+                            ),
+                            kH12sizedBox,
+                            ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: const EdgeInsets.all(k0Padding),
+                                 separatorBuilder: (context, index) =>
+                                    kH8sizedBox,
+                                itemCount: homeController.movieReviewList.length,
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    children: [
+                                      Container(
+                                        width: 40.w,
+                                        height: 40.h,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: CircleAvatar(
+                                          backgroundColor:
+                                              cWhiteColor.withOpacity(0.2),
+                                          child: ClipOval(
+                                            child: Image.network(
+                                                width: 40.w,
+                                                height: 40.h,
+                                                fit: BoxFit.cover,
+                                                homeController.movieReviewList[index]?.image??"",
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                      kW12sizedBox,
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                homeController.movieReviewList[index]?.name??"",
+                                                style: medium16TextStyle(
+                                                    cWhiteColor),
+                                              ),
+                                              kW6sizedBox,
+                                              Container(
+                                                width: 6.w,
+                                                height: 6.h,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: cGreyColor
+                                                      .withOpacity(0.8),
+                                                ),
+                                              ),
+                                              kW6sizedBox,
+                                              Icon(
+                                                Icons.access_time,
+                                                color:
+                                                    cGreyColor.withOpacity(0.8),
+                                                size: kIconSize16,
+                                              ),
+                                              kW6sizedBox,
+                                              Text(
+                                                "2 years ago",
+                                                style: regular10TextStyle(
+                                                    cGreyColor
+                                                        .withOpacity(0.8)),
+                                              ),
+                                            ],
+                                          ),
+                                          kH10sizedBox,
+                                          SizedBox(
+                                            width: width - 96,
+                                            child: Row(
+                                              children: [
+                                                const Icon(
+                                                  Icons.favorite_outline,
+                                                  color: cWhiteColor,
+                                                  size: kIconSize20,
+                                                ),
+                                                kW6sizedBox,
+                                                Text(
+                                                  "100K",
+                                                  style: regular12TextStyle(
+                                                      cGreyColor
+                                                          .withOpacity(0.8)),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          kH10sizedBox,
+                                          Text(
+                                            "are kisu na emni",
+                                            style:
+                                                medium12TextStyle(cWhiteColor),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                },
+                               ),
+                          ],
+                        ),
+                      ),
                     kH16sizedBox,
                     Text(
                       ksRelatedVideos.tr,
@@ -764,62 +1030,6 @@ class VideoPlayerScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // kH16sizedBox,
-                    //     Row(
-                    //   children: [
-                    //     SizedBox(
-                    //       width: width - 20,
-                    //       height: 40.h,
-                    //       child: ListView.separated(
-                    //         itemCount:
-                    //             homeController.movieServerList.length,
-                    //         separatorBuilder: (context, index) => kW10sizedBox,
-                    //         shrinkWrap: true,
-                    //         physics: const AlwaysScrollableScrollPhysics(),
-                    //         scrollDirection: Axis.horizontal,
-                    //         itemBuilder: (context, index) {
-                    //           return Obx(() => InkWell(
-                    //                 onTap: () async {
-                    //                   // await homeController.getMovieDetails(
-                    //                   //     movieId: homeController
-                    //                   //         .recommendedMovieList[index].id!
-                    //                   //         .toString());
-                    //                   // if (homeController
-                    //                   //     .movieServerList.isNotEmpty) {
-                    //                   //   String videoUrl = homeController
-                    //                   //           .movieServerList[0]?.fileUrl ??
-                    //                   //       "";
-                    //                   //   Get.find<AllVideoPlayerController>()
-                    //                   //       .flickManager = FlickManager(
-                    //                   //     videoPlayerController:
-                    //                   //         VideoPlayerController.network(
-                    //                   //             videoUrl),
-                    //                   //   );
-                    //                   // } else {
-                    //                   //   String videoUrl = "";
-                    //                   //   Get.find<AllVideoPlayerController>()
-                    //                   //       .flickManager = FlickManager(
-                    //                   //     videoPlayerController:
-                    //                   //         VideoPlayerController.network(
-                    //                   //             videoUrl),
-                    //                   //   );
-                    //                   // }
-                    //                   homeController.selectedMovieServer.value = index;
-                    //                 },
-                    //                 child: Container(
-                    //                   width: (width-60)/3,
-                    //                   height: 40.h,
-                    //                   decoration: BoxDecoration(
-                    //                     color: homeController.selectedMovieServer.value == index ? cPrimaryColor2 : cWhiteColor.withOpacity(0.2),
-                    //                   ),
-                    //                   child: Text(homeController.movieServerList[index]?.label??""),
-                    //                 ),
-                    //               ));
-                    //         },
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
                     kH16sizedBox,
                     Text(
                       ksRecommended.tr,
@@ -887,438 +1097,441 @@ class VideoPlayerScreen extends StatelessWidget {
                   ],
                 ),
               ),
+              kH60sizedBox,
               //!Comment Widget
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                child: Column(
-                  children: [
-                    kH20sizedBox,
-                    Container(
-                      width: width,
-                      decoration: BoxDecoration(
-                        color: cWhiteColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(k6BorderRadius),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: k16Padding, vertical: k20Padding),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "10 Comments",
-                              style: medium16TextStyle(cWhiteColor),
-                            ),
-                            // kW36sizedBox,
-                            Text(
-                              "${ksSubmitRating.tr}:",
-                              style: regular16TextStyle(cWhiteColor),
-                            ),
-                            //!temporary(this is not valid)
-                            const Row(
-                              children: [
-                                Icon(
-                                  Icons.star_border,
-                                  size: kIconSize16,
-                                  color: cWhiteColor,
-                                ),
-                                Icon(
-                                  Icons.star_border,
-                                  size: kIconSize16,
-                                  color: cWhiteColor,
-                                ),
-                                Icon(
-                                  Icons.star_border,
-                                  size: kIconSize16,
-                                  color: cWhiteColor,
-                                ),
-                                Icon(
-                                  Icons.star_border,
-                                  size: kIconSize16,
-                                  color: cWhiteColor,
-                                ),
-                                Icon(
-                                  Icons.star_border,
-                                  size: kIconSize16,
-                                  color: cWhiteColor,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    kH20sizedBox,
-                    Row(
-                      children: [
-                        Container(
-                          width: 40.w,
-                          height: 40.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: cWhiteColor.withOpacity(0.2),
-                            child: ClipOval(
-                              child: Image.network(
-                                  width: 40.w,
-                                  height: 40.h,
-                                  fit: BoxFit.cover,
-                                  "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D"),
-                            ),
-                          ),
-                        ),
-                        kW12sizedBox,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "Saikat Ahmmed",
-                                  style: medium16TextStyle(cWhiteColor),
-                                ),
-                                kW6sizedBox,
-                                Container(
-                                  width: 6.w,
-                                  height: 6.h,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: cGreyColor.withOpacity(0.8),
-                                  ),
-                                ),
-                                kW6sizedBox,
-                                Icon(
-                                  Icons.access_time,
-                                  color: cGreyColor.withOpacity(0.8),
-                                  size: kIconSize16,
-                                ),
-                                kW6sizedBox,
-                                Text(
-                                  "2 years ago",
-                                  style: regular10TextStyle(
-                                      cGreyColor.withOpacity(0.8)),
-                                ),
-                              ],
-                            ),
-                            kH10sizedBox,
-                            SizedBox(
-                              width: width - 96,
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.favorite_outline,
-                                    color: cWhiteColor,
-                                    size: kIconSize20,
-                                  ),
-                                  kW6sizedBox,
-                                  Text(
-                                    "100K",
-                                    style: regular12TextStyle(
-                                        cGreyColor.withOpacity(0.8)),
-                                  ),
-                                  kW12sizedBox,
-                                  SizedBox(
-                                    height: h8.h,
-                                    child: VerticalDivider(
-                                      width: 1,
-                                      thickness: 1,
-                                      color: cWhiteColor.withOpacity(0.14),
-                                    ),
-                                  ),
-                                  kW12sizedBox,
-                                  SvgPicture.asset(
-                                    kiMessage,
-                                    width: 14.w,
-                                    height: 14.h,
-                                    color: cWhiteColor,
-                                  ),
-                                  kW6sizedBox,
-                                  Text(
-                                    "10k replies",
-                                    style: regular12TextStyle(
-                                        cGreyColor.withOpacity(0.8)),
-                                  ),
-                                  kW6sizedBox,
-                                  const Icon(
-                                    Icons.keyboard_arrow_down_outlined,
-                                    color: cWhiteColor,
-                                    size: kIconSize20,
-                                  ),
-                                  //  Spacer(),
-                                  const Expanded(child: SizedBox()),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        kiReply,
-                                        width: 16.w,
-                                        height: 16.h,
-                                        color: cPrimaryColor2,
-                                      ),
-                                      kW14sizedBox,
-                                      Text(
-                                        ksReply.tr,
-                                        style:
-                                            regular16TextStyle(cPrimaryColor2),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    kH12sizedBox,
-                    Padding(
-                      padding: EdgeInsets.only(left: 52.w),
-                      child: SizedBox(
-                        width: width - 72,
-                        child: Column(
-                          children: [
-                            Divider(
-                              thickness: 1,
-                              color: cWhiteColor.withOpacity(0.14),
-                            ),
-                            Text(
-                              "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
-                              style: regular14TextStyle(cWhiteColor),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    kH20sizedBox,
-                    Row(
-                      children: [
-                        Container(
-                          width: 40.w,
-                          height: 40.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: cWhiteColor.withOpacity(0.2),
-                            child: ClipOval(
-                              child: Image.network(
-                                  width: 40.w,
-                                  height: 40.h,
-                                  fit: BoxFit.cover,
-                                  "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D"),
-                            ),
-                          ),
-                        ),
-                        kW12sizedBox,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "Saikat Ahmmed",
-                                  style: medium16TextStyle(cWhiteColor),
-                                ),
-                                kW6sizedBox,
-                                Container(
-                                  width: 6.w,
-                                  height: 6.h,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: cGreyColor.withOpacity(0.8),
-                                  ),
-                                ),
-                                kW6sizedBox,
-                                Icon(
-                                  Icons.access_time,
-                                  color: cGreyColor.withOpacity(0.8),
-                                  size: kIconSize16,
-                                ),
-                                kW6sizedBox,
-                                Text(
-                                  "2 years ago",
-                                  style: regular10TextStyle(
-                                      cGreyColor.withOpacity(0.8)),
-                                ),
-                              ],
-                            ),
-                            kH10sizedBox,
-                            SizedBox(
-                              width: width - 96,
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.favorite_outline,
-                                    color: cWhiteColor,
-                                    size: kIconSize20,
-                                  ),
-                                  kW6sizedBox,
-                                  Text(
-                                    "100K",
-                                    style: regular12TextStyle(
-                                        cGreyColor.withOpacity(0.8)),
-                                  ),
-                                  kW12sizedBox,
-                                  SizedBox(
-                                    height: h8.h,
-                                    child: VerticalDivider(
-                                      width: 1,
-                                      thickness: 1,
-                                      color: cWhiteColor.withOpacity(0.14),
-                                    ),
-                                  ),
-                                  kW12sizedBox,
-                                  SvgPicture.asset(
-                                    kiMessage,
-                                    width: 14.w,
-                                    height: 14.h,
-                                    color: cWhiteColor,
-                                  ),
-                                  kW6sizedBox,
-                                  Text(
-                                    "10k replies",
-                                    style: regular12TextStyle(
-                                        cGreyColor.withOpacity(0.8)),
-                                  ),
-                                  kW6sizedBox,
-                                  const Icon(
-                                    Icons.keyboard_arrow_down_outlined,
-                                    color: cWhiteColor,
-                                    size: kIconSize20,
-                                  ),
-                                  const Expanded(child: SizedBox()),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        kiReply,
-                                        width: 16.w,
-                                        height: 16.h,
-                                        color: cPrimaryColor2,
-                                      ),
-                                      kW14sizedBox,
-                                      Text(
-                                        ksReply.tr,
-                                        style:
-                                            regular16TextStyle(cPrimaryColor2),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    kH12sizedBox,
-                    Padding(
-                      padding: EdgeInsets.only(left: 52.w),
-                      child: SizedBox(
-                        width: width - 72,
-                        child: Column(
-                          children: [
-                            Divider(
-                              thickness: 1,
-                              color: cWhiteColor.withOpacity(0.14),
-                            ),
-                            Text(
-                              "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
-                              style: regular14TextStyle(cWhiteColor),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    kH12sizedBox,
-                    Divider(
-                      thickness: 1,
-                      color: cWhiteColor.withOpacity(0.14),
-                    ),
-                    kH20sizedBox,
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        ksAddYourComment.tr,
-                        style: medium16TextStyle(cWhiteColor),
-                      ),
-                    ),
-                    kH20sizedBox,
-                    CustomModifiedTextField(
-                      hint: ksEnterHere.tr,
-                      controller:
-                          homeController.addCommentTextEditingController,
-                      fillColor: cBlackColor,
-                      textInputStyle: regular14TextStyle(cWhiteColor),
-                      focusBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(k6BorderRadius),
-                        borderSide: const BorderSide(
-                          width: 1,
-                          color: cPrimaryColor2,
-                        ),
-                      ),
-                      maxLines: 4,
-                      inputAction: TextInputAction.newline,
-                      inputType: TextInputType.multiline,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(k6BorderRadius),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: cWhiteColor.withOpacity(0.3),
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.all(12),
-                    ),
-                    kH12sizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 34.w,
-                          height: 34.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(k6BorderRadius),
-                            color: cWhiteColor.withOpacity(0.1),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(9.0),
-                            child: SvgPicture.asset(
-                              kiEmoji,
-                              width: 16.w,
-                              height: 16.h,
-                              color: cWhiteColor,
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: [
-                            CustomElevatedButton(
-                              label: ksCancel.tr,
-                              onPressed: () {},
-                              buttonColor: cWhiteColor.withOpacity(0.1),
-                              textStyle: regular16TextStyle(cWhiteColor),
-                              buttonWidth: 70.w,
-                              buttonHeight: h36.h,
-                            ),
-                            kW12sizedBox,
-                            CustomElevatedButton(
-                              label: ksPostNow.tr,
-                              onPressed: () {},
-                              buttonColor: cPrimaryColor2,
-                              textStyle: regular16TextStyle(cWhiteColor),
-                              buttonWidth: 90.w,
-                              buttonHeight: h36.h,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    kH20sizedBox,
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              //   child: Column(
+              //     children: [
+              //       kH20sizedBox,
+              //       Container(
+              //         width: width,
+              //         decoration: BoxDecoration(
+              //           color: cWhiteColor.withOpacity(0.1),
+              //           borderRadius: BorderRadius.circular(k6BorderRadius),
+              //         ),
+              //         child: Padding(
+              //           padding: const EdgeInsets.symmetric(
+              //               horizontal: k16Padding, vertical: k20Padding),
+              //           child: Row(
+              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //             children: [
+              //               Text(
+              //                 "10 Comments",
+              //                 style: medium16TextStyle(cWhiteColor),
+              //               ),
+              //               // kW36sizedBox,
+              //               Text(
+              //                 "${ksSubmitRating.tr}:",
+              //                 style: regular16TextStyle(cWhiteColor),
+              //               ),
+              //               //!temporary(this is not valid)
+              //               const Row(
+              //                 children: [
+              //                   Icon(
+              //                     Icons.star_border,
+              //                     size: kIconSize16,
+              //                     color: cWhiteColor,
+              //                   ),
+              //                   Icon(
+              //                     Icons.star_border,
+              //                     size: kIconSize16,
+              //                     color: cWhiteColor,
+              //                   ),
+              //                   Icon(
+              //                     Icons.star_border,
+              //                     size: kIconSize16,
+              //                     color: cWhiteColor,
+              //                   ),
+              //                   Icon(
+              //                     Icons.star_border,
+              //                     size: kIconSize16,
+              //                     color: cWhiteColor,
+              //                   ),
+              //                   Icon(
+              //                     Icons.star_border,
+              //                     size: kIconSize16,
+              //                     color: cWhiteColor,
+              //                   ),
+              //                 ],
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       kH20sizedBox,
+              //       Row(
+              //         children: [
+              //           Container(
+              //             width: 40.w,
+              //             height: 40.h,
+              //             decoration: const BoxDecoration(
+              //               shape: BoxShape.circle,
+              //             ),
+              //             child: CircleAvatar(
+              //               backgroundColor: cWhiteColor.withOpacity(0.2),
+              //               child: ClipOval(
+              //                 child: Image.network(
+              //                     width: 40.w,
+              //                     height: 40.h,
+              //                     fit: BoxFit.cover,
+              //                     "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D"),
+              //               ),
+              //             ),
+              //           ),
+              //           kW12sizedBox,
+              //           Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             mainAxisAlignment: MainAxisAlignment.start,
+              //             children: [
+              //               Row(
+              //                 children: [
+              //                   Text(
+              //                     "Saikat Ahmmed",
+              //                     style: medium16TextStyle(cWhiteColor),
+              //                   ),
+              //                   kW6sizedBox,
+              //                   Container(
+              //                     width: 6.w,
+              //                     height: 6.h,
+              //                     decoration: BoxDecoration(
+              //                       shape: BoxShape.circle,
+              //                       color: cGreyColor.withOpacity(0.8),
+              //                     ),
+              //                   ),
+              //                   kW6sizedBox,
+              //                   Icon(
+              //                     Icons.access_time,
+              //                     color: cGreyColor.withOpacity(0.8),
+              //                     size: kIconSize16,
+              //                   ),
+              //                   kW6sizedBox,
+              //                   Text(
+              //                     "2 years ago",
+              //                     style: regular10TextStyle(
+              //                         cGreyColor.withOpacity(0.8)),
+              //                   ),
+              //                 ],
+              //               ),
+              //               kH10sizedBox,
+              //               SizedBox(
+              //                 width: width - 96,
+              //                 child: Row(
+              //                   children: [
+              //                     const Icon(
+              //                       Icons.favorite_outline,
+              //                       color: cWhiteColor,
+              //                       size: kIconSize20,
+              //                     ),
+              //                     kW6sizedBox,
+              //                     Text(
+              //                       "100K",
+              //                       style: regular12TextStyle(
+              //                           cGreyColor.withOpacity(0.8)),
+              //                     ),
+              //                     kW12sizedBox,
+              //                     SizedBox(
+              //                       height: h8.h,
+              //                       child: VerticalDivider(
+              //                         width: 1,
+              //                         thickness: 1,
+              //                         color: cWhiteColor.withOpacity(0.14),
+              //                       ),
+              //                     ),
+              //                     kW12sizedBox,
+              //                     SvgPicture.asset(
+              //                       kiMessage,
+              //                       width: 14.w,
+              //                       height: 14.h,
+              //                       color: cWhiteColor,
+              //                     ),
+              //                     kW6sizedBox,
+              //                     Text(
+              //                       "10k replies",
+              //                       style: regular12TextStyle(
+              //                           cGreyColor.withOpacity(0.8)),
+              //                     ),
+              //                     kW6sizedBox,
+              //                     const Icon(
+              //                       Icons.keyboard_arrow_down_outlined,
+              //                       color: cWhiteColor,
+              //                       size: kIconSize20,
+              //                     ),
+              //                     //  Spacer(),
+              //                     const Expanded(child: SizedBox()),
+              //                     Row(
+              //                       children: [
+              //                         SvgPicture.asset(
+              //                           kiReply,
+              //                           width: 16.w,
+              //                           height: 16.h,
+              //                           color: cPrimaryColor2,
+              //                         ),
+              //                         kW14sizedBox,
+              //                         Text(
+              //                           ksReply.tr,
+              //                           style:
+              //                               regular16TextStyle(cPrimaryColor2),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //       kH12sizedBox,
+              //       Padding(
+              //         padding: EdgeInsets.only(left: 52.w),
+              //         child: SizedBox(
+              //           width: width - 72,
+              //           child: Column(
+              //             children: [
+              //               Divider(
+              //                 thickness: 1,
+              //                 color: cWhiteColor.withOpacity(0.14),
+              //               ),
+              //               Text(
+              //                 "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
+              //                 style: regular14TextStyle(cWhiteColor),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       kH20sizedBox,
+              //       Row(
+              //         children: [
+              //           Container(
+              //             width: 40.w,
+              //             height: 40.h,
+              //             decoration: const BoxDecoration(
+              //               shape: BoxShape.circle,
+              //             ),
+              //             child: CircleAvatar(
+              //               backgroundColor: cWhiteColor.withOpacity(0.2),
+              //               child: ClipOval(
+              //                 child: Image.network(
+              //                     width: 40.w,
+              //                     height: 40.h,
+              //                     fit: BoxFit.cover,
+              //                     "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D"),
+              //               ),
+              //             ),
+              //           ),
+              //           kW12sizedBox,
+              //           Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             mainAxisAlignment: MainAxisAlignment.start,
+              //             children: [
+              //               Row(
+              //                 children: [
+              //                   Text(
+              //                     "Saikat Ahmmed",
+              //                     style: medium16TextStyle(cWhiteColor),
+              //                   ),
+              //                   kW6sizedBox,
+              //                   Container(
+              //                     width: 6.w,
+              //                     height: 6.h,
+              //                     decoration: BoxDecoration(
+              //                       shape: BoxShape.circle,
+              //                       color: cGreyColor.withOpacity(0.8),
+              //                     ),
+              //                   ),
+              //                   kW6sizedBox,
+              //                   Icon(
+              //                     Icons.access_time,
+              //                     color: cGreyColor.withOpacity(0.8),
+              //                     size: kIconSize16,
+              //                   ),
+              //                   kW6sizedBox,
+              //                   Text(
+              //                     "2 years ago",
+              //                     style: regular10TextStyle(
+              //                         cGreyColor.withOpacity(0.8)),
+              //                   ),
+              //                 ],
+              //               ),
+              //               kH10sizedBox,
+              //               SizedBox(
+              //                 width: width - 96,
+              //                 child: Row(
+              //                   children: [
+              //                     const Icon(
+              //                       Icons.favorite_outline,
+              //                       color: cWhiteColor,
+              //                       size: kIconSize20,
+              //                     ),
+              //                     kW6sizedBox,
+              //                     Text(
+              //                       "100K",
+              //                       style: regular12TextStyle(
+              //                           cGreyColor.withOpacity(0.8)),
+              //                     ),
+              //                     kW12sizedBox,
+              //                     SizedBox(
+              //                       height: h8.h,
+              //                       child: VerticalDivider(
+              //                         width: 1,
+              //                         thickness: 1,
+              //                         color: cWhiteColor.withOpacity(0.14),
+              //                       ),
+              //                     ),
+              //                     kW12sizedBox,
+              //                     SvgPicture.asset(
+              //                       kiMessage,
+              //                       width: 14.w,
+              //                       height: 14.h,
+              //                       color: cWhiteColor,
+              //                     ),
+              //                     kW6sizedBox,
+              //                     Text(
+              //                       "10k replies",
+              //                       style: regular12TextStyle(
+              //                           cGreyColor.withOpacity(0.8)),
+              //                     ),
+              //                     kW6sizedBox,
+              //                     const Icon(
+              //                       Icons.keyboard_arrow_down_outlined,
+              //                       color: cWhiteColor,
+              //                       size: kIconSize20,
+              //                     ),
+              //                     const Expanded(child: SizedBox()),
+              //                     Row(
+              //                       children: [
+              //                         SvgPicture.asset(
+              //                           kiReply,
+              //                           width: 16.w,
+              //                           height: 16.h,
+              //                           color: cPrimaryColor2,
+              //                         ),
+              //                         kW14sizedBox,
+              //                         Text(
+              //                           ksReply.tr,
+              //                           style:
+              //                               regular16TextStyle(cPrimaryColor2),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //       kH12sizedBox,
+              //       Padding(
+              //         padding: EdgeInsets.only(left: 52.w),
+              //         child: SizedBox(
+              //           width: width - 72,
+              //           child: Column(
+              //             children: [
+              //               Divider(
+              //                 thickness: 1,
+              //                 color: cWhiteColor.withOpacity(0.14),
+              //               ),
+              //               Text(
+              //                 "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
+              //                 style: regular14TextStyle(cWhiteColor),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       kH12sizedBox,
+              //       Divider(
+              //         thickness: 1,
+              //         color: cWhiteColor.withOpacity(0.14),
+              //       ),
+              //       kH20sizedBox,
+              //       Align(
+              //         alignment: Alignment.centerLeft,
+              //         child: Text(
+              //           ksAddYourComment.tr,
+              //           style: medium16TextStyle(cWhiteColor),
+              //         ),
+              //       ),
+              //       kH20sizedBox,
+              //       CustomModifiedTextField(
+              //         hint: ksEnterHere.tr,
+              //         controller:
+              //             homeController.addCommentTextEditingController,
+              //         fillColor: cBlackColor,
+              //         textInputStyle: regular14TextStyle(cWhiteColor),
+              //         focusBorder: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(k6BorderRadius),
+              //           borderSide: const BorderSide(
+              //             width: 1,
+              //             color: cPrimaryColor2,
+              //           ),
+              //         ),
+              //         maxLines: 4,
+              //         inputAction: TextInputAction.newline,
+              //         inputType: TextInputType.multiline,
+              //         border: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(k6BorderRadius),
+              //           borderSide: BorderSide(
+              //             width: 1,
+              //             color: cWhiteColor.withOpacity(0.3),
+              //             style: BorderStyle.solid,
+              //           ),
+              //         ),
+              //         contentPadding: const EdgeInsets.all(12),
+              //       ),
+              //       kH12sizedBox,
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Container(
+              //             width: 34.w,
+              //             height: 34.h,
+              //             decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(k6BorderRadius),
+              //               color: cWhiteColor.withOpacity(0.1),
+              //             ),
+              //             child: Padding(
+              //               padding: const EdgeInsets.all(9.0),
+              //               child: SvgPicture.asset(
+              //                 kiEmoji,
+              //                 width: 16.w,
+              //                 height: 16.h,
+              //                 color: cWhiteColor,
+              //               ),
+              //             ),
+              //           ),
+              //           Row(
+              //             children: [
+              //               CustomElevatedButton(
+              //                 label: ksCancel.tr,
+              //                 onPressed: () {},
+              //                 buttonColor: cWhiteColor.withOpacity(0.1),
+              //                 textStyle: regular16TextStyle(cWhiteColor),
+              //                 buttonWidth: 70.w,
+              //                 buttonHeight: h36.h,
+              //               ),
+              //               kW12sizedBox,
+              //               CustomElevatedButton(
+              //                 label: ksPostNow.tr,
+              //                 onPressed: () {},
+              //                 buttonColor: cPrimaryColor2,
+              //                 textStyle: regular16TextStyle(cWhiteColor),
+              //                 buttonWidth: 90.w,
+              //                 buttonHeight: h36.h,
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //       kH20sizedBox,
+              //     ],
+              //   ),
+              // ),
+          
+          
             ],
           ),
         ),
@@ -1742,31 +1955,44 @@ class RentProductDetailsContentContainer extends StatelessWidget {
 }
 
 class VideoDetailsContentWidget extends StatelessWidget {
-  const VideoDetailsContentWidget({super.key, this.imageUrl, this.title, this.subTitle});
-  final String? imageUrl,title, subTitle;
+  const VideoDetailsContentWidget(
+      {super.key, this.imageUrl, this.title, this.subTitle});
+  final String? imageUrl, title, subTitle;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.network(imageUrl??"",width: 70.w,height: 40.h,fit: BoxFit.cover, errorBuilder: (context, error, stackTrace) => Center(
-              child: SvgPicture.asset(
-                kiDummyMovie,
-                width: 70.w,
-                height: 50.h,
-                fit: BoxFit.cover,
-              ),
-            ),),
-            kW12sizedBox,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title??"",style: semiBold14TextStyle(cWhiteColor),),
-                kH4sizedBox,
-                Text(subTitle??"",style: regular12TextStyle(cWhiteColor),),
-              ],
+        Image.network(
+          imageUrl ?? "",
+          width: 70.w,
+          height: 40.h,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) => Center(
+            child: SvgPicture.asset(
+              kiDummyMovie,
+              width: 70.w,
+              height: 50.h,
+              fit: BoxFit.cover,
             ),
+          ),
+        ),
+        kW12sizedBox,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title ?? "",
+              style: semiBold14TextStyle(cWhiteColor),
+            ),
+            kH4sizedBox,
+            Text(
+              subTitle ?? "",
+              style: regular12TextStyle(cWhiteColor),
+            ),
+          ],
+        ),
       ],
     );
   }

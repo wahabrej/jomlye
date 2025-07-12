@@ -548,6 +548,7 @@ class HomeController extends GetxController {
   final RxList<Cast?> movieCastList = RxList<Cast?>([]);
   final RxList<Cast?> movieDirectorList = RxList<Cast?>([]);
   final RxList<Cast?> movieWriterList = RxList<Cast?>([]);
+  final RxList<Review?> movieReviewList = RxList<Review?>([]);
   final RxList<MovieDetails> relatedMovieList = RxList<MovieDetails>([]);
   final RxList<MovieDetails> recommendedMovieList = RxList<MovieDetails>([]);
   final RxList<int> playlistIdsList = RxList<int>([]);
@@ -569,19 +570,20 @@ class HomeController extends GetxController {
         movieCastList.clear();
         movieDirectorList.clear();
         movieWriterList.clear();
+        movieReviewList.clear();
         relatedMovieList.clear();
         recommendedMovieList.clear();
         playlistIdsList.clear();
-        MovieDetailsModel movieDetailsModel =
-            MovieDetailsModel.fromJson(response.data);
-        movieDetailsData.value = movieDetailsModel.details;
-        movieServerList.addAll(movieDetailsModel.server!);
-        movieCastList.addAll(movieDetailsModel.cast!);
-        movieDirectorList.addAll(movieDetailsModel.cast!);
-        movieWriterList.addAll(movieDetailsModel.writer!);
-        relatedMovieList.addAll(movieDetailsModel.relatedMovie!);
-        recommendedMovieList.addAll(movieDetailsModel.recommendedMovie!);
-        playlistIdsList.addAll(movieDetailsModel.playlistIds!);
+         movieDetailsModel.value = MovieDetailsModel.fromJson(response.data);
+        movieDetailsData.value = movieDetailsModel.value!.details;
+        movieServerList.addAll(movieDetailsModel.value!.server!);
+        movieCastList.addAll(movieDetailsModel.value!.cast!);
+        movieDirectorList.addAll(movieDetailsModel.value!.director!);
+        movieWriterList.addAll(movieDetailsModel.value!.writer!);
+        movieReviewList.addAll(movieDetailsModel.value!.reviews!);
+        relatedMovieList.addAll(movieDetailsModel.value!.relatedMovie!);
+        recommendedMovieList.addAll(movieDetailsModel.value!.recommendedMovie!);
+        playlistIdsList.addAll(movieDetailsModel.value!.playlistIds!);
         isMovieListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -1517,6 +1519,11 @@ class HomeController extends GetxController {
   }
 
 
+ var rating = 0.obs;
+
+  void updateRating(int newRating) {
+    rating.value = newRating;
+  }
 
   final RxInt selectedServer = RxInt(0);
   //!reset bottom nav bar data

@@ -650,7 +650,7 @@ class BlogSingleScreen extends StatelessWidget {
                                ),
                              ),
                 kH20sizedBox,
-                                Row(
+                 Row(
                   children: [
                     Container(
                       width: 40.w,
@@ -770,6 +770,8 @@ class BlogSingleScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                            
+                            
                              kH12sizedBox,
                              Padding(
                                padding: EdgeInsets.only(left: 52.w),
