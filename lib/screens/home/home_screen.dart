@@ -868,14 +868,14 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     for(int i=0;i<homeController.localAdList.length;i++)
-                    if(homeController.localAdList[i].position.toLowerCase()=="footer")
+                    if(homeController.localAdList[i].position?.toLowerCase()=="footer")
                     ClipRRect(
                       borderRadius: BorderRadius.circular(k8BorderRadius),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(vertical: k12Padding,horizontal: k28Padding).copyWith(right: 8),
                         child: SizedBox(
                           width: width,
-                          child: Image.network(homeController.localAdList[i].banner,errorBuilder: (context, error, stackTrace) {
+                          child: Image.network(homeController.localAdList[i].banner??"",errorBuilder: (context, error, stackTrace) {
                             return SvgPicture.asset(kiDummyMovie,width: width-40,height: 100,fit: BoxFit.cover,);
                           },),
                         ),

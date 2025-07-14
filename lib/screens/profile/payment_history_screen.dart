@@ -167,6 +167,7 @@ class PaymentHistoryScreen extends StatelessWidget {
                                                             .createdAt!),
                                                     amount:
                                                         "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.amount}",
+                                                        transactionId: "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.transactionId}",
                                                   ),
                                                   onPressCloseButton: () {},
                                                   onPressRightButton: () {},
@@ -251,9 +252,13 @@ class PaymentHistoryWidget extends StatelessWidget {
                   style: medium16TextStyle(cWhiteColor),
                 ),
                 kH6sizedBox,
-                Text(
-                  "Transaction ID: $transactionId",
-                  style: regular12TextStyle(cWhiteColor),
+                SizedBox(
+                  width: (width*0.4),
+                  child: Text(
+                    "Transaction ID: $transactionId",
+                    style: regular12TextStyle(cWhiteColor),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
@@ -442,9 +447,12 @@ class PaymentHistoryBottomSheetContent extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              transactionId ?? "",
-                              style: regular14TextStyle(cWhiteColor),
+                            Expanded(
+                              child: Text(
+                                transactionId ?? "",
+                                style: regular14TextStyle(cWhiteColor),
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             ),
                             InkWell(
                                 onTap: () {

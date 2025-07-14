@@ -12,20 +12,20 @@ class LocalAdsModel {
 }
 
 class Ads {
-    final int id;
-    final String title;
-    final String type;
-    final String position;
-    final int status;
-    final String startDate;
-    final String endDate;
-    final String redirectUrl;
-    final String size;
-    final String banner;
+    final int? id;
+    final String? title;
+    final String? type;
+    final String? position;
+    final int? status;
+    final String? startDate;
+    final String? endDate;
+    final String? redirectUrl;
+    final String? size;
+    final String? banner;
     final dynamic content;
-    final DateTime createdAt;
-    final DateTime updatedAt;
-    final String poster;
+    final DateTime? createdAt;
+    final DateTime? updatedAt;
+    final String? poster;
 
     Ads({
         required this.id,
