@@ -72,3 +72,5 @@ const String kuAds = "ads";
 const String kuRating = "rating";
 const String kuReviewList = "review-list";
 const String kuLikeToggle = "like-toggle";
+//!Rented video
+const String kuRentedVideoList = "rent-video-list";

@@ -235,6 +235,7 @@ class ProfileScreen extends StatelessWidget {
                     image: kiMoney,
                     title: ksRentedVideo.tr,
                     onPressed: () async{
+                      await profileController.getRentedVideo();
                       Get.toNamed(krRentedVideoScreen);
                     },
                   ),

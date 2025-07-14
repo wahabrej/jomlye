@@ -103,7 +103,7 @@ class RentedVideoScreen extends StatelessWidget {
                     width: width - 20,
                     height: 140.h,
                     child: ListView.separated(
-                      itemCount: profileController.tvSeriesList.length,
+                      itemCount: profileController.rentedVideoList.length,
                       separatorBuilder: (context, index) =>
                           kW10sizedBox,
                       shrinkWrap: true,
@@ -116,9 +116,10 @@ class RentedVideoScreen extends StatelessWidget {
                             // Get.toNamed(krVideoPlayerScreen);
                           },
                           child: RentedVideoContentContainer(
-                             movieImage: profileController.tvSeriesList[index]["movieImage"],
+                             movieImage: profileController.rentedVideoList[index]?.image??"",
+                             isRented: true,
                             // seasonName: profileController.tvSeriesList[index]["season"],
-                            isRented: profileController.tvSeriesList[index]["isPremium"],
+                            // isRented: profileController.rentedVideoList[index]?.videoType??"",
                             // isSeason: profileController.moviesList[index]["isSeason"],
                           ),
                         );

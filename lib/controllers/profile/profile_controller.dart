@@ -11,6 +11,7 @@ import 'package:vidflix_flutter_app/models/profile/favorite/favorite_list_model.
 import 'package:vidflix_flutter_app/models/profile/playlist/playlist_model.dart';
 import 'package:vidflix_flutter_app/models/profile/playlist/playlist_movie_list_model.dart';
 import 'package:vidflix_flutter_app/models/profile/profile/update_profile_model.dart';
+import 'package:vidflix_flutter_app/models/profile/rent/rented_video_model.dart';
 import 'package:vidflix_flutter_app/screens/profile/common_webview_screen.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -705,7 +706,6 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
   }
 
   //!Faq
-
   final RxBool isFaqListLoading = RxBool(false);
   final Rx<FaqModel?> faqModel = Rx<FaqModel?>(null); 
   final RxList<Order?> paymentFaqList = RxList<Order?>([]);
@@ -740,6 +740,43 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       }
     } catch (e) {
       isFaqListLoading.value = false;
+      ll('getFaqList error: $e');
+    }
+  }
+
+    //!Rented Video
+  final RxBool isRentedVideoLoading = RxBool(false);
+  final Rx<RentedVideoModel?> rentedVideoModel = Rx<RentedVideoModel?>(null); 
+  final RxList<Rent?> rentedVideoList = RxList<Rent?>([]);
+  Future<void> getRentedVideo() async {
+    try {
+      isRentedVideoLoading.value = true;
+      String? token = await spController.getBearerToken();
+      int? userId = await spController.getUserId();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuRentedVideoList?user_id=${userId.toString()}",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        rentedVideoList.clear();
+        rentedVideoModel.value = RentedVideoModel.fromJson(response.data);
+        rentedVideoList.addAll(rentedVideoModel.value!.rents!);
+        isRentedVideoLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isRentedVideoLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isRentedVideoLoading.value = false;
       ll('getFaqList error: $e');
     }
   }
