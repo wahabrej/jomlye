@@ -39,7 +39,7 @@ class LiveTvDetails {
     final DateTime? createdAt;
     final DateTime? updatedAt;
     final bool? isFavorite;
-    final dynamic stream1;
+    final Stream1? stream1;
 
     LiveTvDetails({
         this.id,
@@ -96,6 +96,45 @@ class LiveTvDetails {
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         isFavorite: json["is_favorite"],
-        stream1: json["stream1"],
+        stream1: json["stream1"] == null ? null : Stream1.fromJson(json["stream1"]),
     );
 }
+class Stream1 {
+    int id;
+    String streamKey;
+    int liveTvId;
+    String urlFor;
+    String source;
+    String label;
+    String quality;
+    String url;
+    DateTime createdAt;
+    DateTime updatedAt;
+
+    Stream1({
+        required this.id,
+        required this.streamKey,
+        required this.liveTvId,
+        required this.urlFor,
+        required this.source,
+        required this.label,
+        required this.quality,
+        required this.url,
+        required this.createdAt,
+        required this.updatedAt,
+    });
+
+    factory Stream1.fromJson(Map<String, dynamic> json) => Stream1(
+        id: json["id"],
+        streamKey: json["stream_key"],
+        liveTvId: json["live_tv_id"],
+        urlFor: json["url_for"],
+        source: json["source"],
+        label: json["label"],
+        quality: json["quality"],
+        url: json["url"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+    );
+}
+

@@ -15,21 +15,57 @@ class LiveTvPlayerScreen extends StatelessWidget {
       top: false,
       child: Scaffold(
         backgroundColor: cBlackColor,
-        body: Column(
-          children: [
-      kH60sizedBox,
-      SizedBox(
-        width: width,
-        child: YoYoPlayer(
-        // aspectRatio: 16 / 9,
-        // url: homeController.liveTvDetailsData.value?.streamUrl??"",
-        // url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
-        url: liveTvUrl??"",
-        videoStyle: const VideoStyle(),
-        videoLoadingStyle: const VideoLoadingStyle(),
-            ),
-      ),
-          ],
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+                kH30sizedBox,
+                // SizedBox(
+                //   width: width,
+                //   child: YoYoPlayer(
+                //   // aspectRatio: 16 / 9,
+                //   // url: homeController.liveTvDetailsData.value?.streamUrl??"",
+                //   // url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+                //   url: liveTvUrl??"",
+                //   videoStyle: const VideoStyle(),
+                //   videoLoadingStyle: const VideoLoadingStyle(),
+                //       ),
+                // ),
+          kH20sizedBox,
+          Row(
+            children: [
+              Container(
+                width: 50.w,
+                height: 20.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(k4BorderRadius),
+                  color: cPrimaryColor,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 6.w,
+                      height: 6.h,
+                      decoration: BoxDecoration(
+                        color: cGreyBoxColor2,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                    kW4sizedBox,
+                    Center(child: Text(ksLive.tr,style: regular14TextStyle(cWhiteColor),)),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              Text(homeController.liveTvDetailsData.value?.stream1?.quality??"",style: regular14TextStyle(cWhiteColor),),
+            ],
+          ),
+          kH16sizedBox,
+          Text(ksChannelName.tr,style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),),
+            ],
+          ),
         ),
       ),
     );

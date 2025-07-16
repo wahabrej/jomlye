@@ -215,3 +215,5 @@ const String ksRelatedVideos = "Related Videos";
 const String ksRecommended = "Recommended";
 const String ksEdit= "Edit";
 const String ksDownloading= "Downloading";
+const String ksLive = "Live";
+const String ksChannelName = "Channel Name";

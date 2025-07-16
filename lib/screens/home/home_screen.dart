@@ -6,6 +6,7 @@ import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
+import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
@@ -694,11 +695,21 @@ class HomeScreen extends StatelessWidget {
                               physics: const AlwaysScrollableScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
-                                return FeaturedTvChannelsContentContainer(
-                                  image: homeController
-                                          .featuredTvChannelsList[index]
-                                          .thumbnail ??
-                                      "",
+                                return InkWell(
+                                 onTap: () async {
+                                      await homeController.getTvChannelDetails(
+                                          tvChannelId: homeController
+                                              .featuredTvChannelsList[index].id);
+                                              // Get.toNamed(krLiveTvPlayerScreen);
+                                              Get.to(()=>LiveTvPlayerScreen(liveTvUrl: homeController
+                                              .featuredTvChannelsList[index].streamUrl,));
+                                    },
+                                  child: FeaturedTvChannelsContentContainer(
+                                    image: homeController
+                                            .featuredTvChannelsList[index]
+                                            .thumbnail ??
+                                        "",
+                                  ),
                                 );
                               },
                             ),
@@ -890,11 +901,6 @@ class HomeScreen extends StatelessWidget {
             bottomNavigationBar: CustomBottomNavBar(
               width: width,
               selectedIndex: 0,
-              // isFirstButtonClicked: true,
-              // isSecondButtonClicked: false,
-              // isThirdButtonClicked: false,
-              // isFourthButtonClicked: false,
-              // isFifthButtonClicked: false,
             ),
           ),
         ),
