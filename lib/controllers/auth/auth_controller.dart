@@ -1,5 +1,6 @@
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
@@ -109,6 +110,12 @@ class AuthController extends GetxController {
             await spController.getUserPhoneNumber() ?? "";
         globalController.userGender.value =
             await spController.getUserGender() ?? "";
+
+      //await OneSignal;
+      
+      await OneSignal.login(globalController.userId.value.toString());
+
+
       } else {
         showSnackBar(
             title: ksError.tr, message: "signIn Error!", color: cPrimaryColor2);
@@ -376,6 +383,7 @@ class AuthController extends GetxController {
     //! signOut
   void signOut() async {
     await SpController().onLogout();
+    await OneSignal.logout();
     resetUserData();
     bool isRememberMe = await spController.getRememberMe()??false;
     await spController.saveRememberMe(isRememberMe);

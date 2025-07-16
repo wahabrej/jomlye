@@ -15,7 +15,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerScreen extends StatelessWidget {
   VideoPlayerScreen(
-      {super.key, this.isRentedVideo = true}); //!make it --> false
+      {super.key, this.isRentedVideo = false}); //!make it --> false
   final bool? isRentedVideo;
   final AllVideoPlayerController allVideoPlayerController =
       Get.find<AllVideoPlayerController>();
@@ -61,7 +61,7 @@ class VideoPlayerScreen extends StatelessWidget {
                     bottomActions: const [
                       SizedBox(width: 14.0),
                       CurrentPosition(),
-                      SizedBox(width: 8.0),
+                      kW8sizedBox,
                       ProgressBar(
                         isExpanded: true,
                         colors: ProgressBarColors(
@@ -69,7 +69,7 @@ class VideoPlayerScreen extends StatelessWidget {
                           handleColor: cPrimaryColor,
                         ),
                       ),
-                      SizedBox(width: 8.0),
+                      kW8sizedBox,
                       RemainingDuration(),
                       SizedBox(width: 14.0),
                       FullScreenButton(
@@ -618,6 +618,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                       homeController
                                               .movieServerList[index]?.label ??
                                           "",
+                                          textAlign: TextAlign.center,
                                       style: medium14TextStyle(cWhiteColor),
                                     )),
                                   ),

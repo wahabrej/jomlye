@@ -252,6 +252,8 @@ class ProfileController extends GetxController {
   // final RxBool paymentNotificationState = RxBool(false);
   // final RxBool appUpdateState = RxBool(false);
   // final RxBool subscriptionState = RxBool(false);
+  final RxInt selectedVideoQualityIndex = RxInt(0);
+  final RxInt previousVideoQualityIndex = RxInt(0);
   final RxList<Map<String, dynamic>> videoQualityList =
       RxList<Map<String, dynamic>>([
     {

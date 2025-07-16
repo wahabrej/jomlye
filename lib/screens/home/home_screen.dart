@@ -106,7 +106,9 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  BannerAdWidget(homeController: homeController),
+                  Center(child: SizedBox(
+                    width: width-40,
+                    child: BannerAdWidget(homeController: homeController))),
                     HomeSlider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1443,10 +1445,14 @@ class HomeSlider extends StatelessWidget {
                 kH10sizedBox,
                 Positioned(
                   bottom: 60,
-                  left: (width * 0.32).w,
-                  child: Text(
-                    slider.title ?? "",
-                    style: semiBold24TextStyle(cWhiteColor),
+                  left: (width * 0.4).w,
+                  child: SizedBox(
+                    width: (width*0.55).w,
+                    child: Text(
+                      slider.title ?? "",
+                      style: semiBold24TextStyle(cWhiteColor),
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
                 Positioned(

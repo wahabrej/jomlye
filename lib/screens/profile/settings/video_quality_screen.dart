@@ -1,3 +1,4 @@
+import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
@@ -80,8 +81,15 @@ class VideoQualityScreen extends StatelessWidget {
                     return Obx(() => VideoQualityItem(
                                           videoQuality: profileController.videoQualityList[index]["quality"],
                                           state: profileController.videoQualityList[index]["state"],
-                                          onPressed: (){
-                                           profileController.videoQualityList[index]["state"] = true;
+                                          onPressed: () async {
+                                            profileController.videoQualityList[profileController.previousVideoQualityIndex.value]["state"] = false;
+                                            profileController.selectedVideoQualityIndex.value = index;
+                                            profileController.previousVideoQualityIndex.value = index;
+                                            if(profileController.selectedVideoQualityIndex.value==index){
+                                            profileController.videoQualityList[index]["state"] = true;
+                                            SpController().saveVideoQualityIndex(index);
+                                            profileController.previousVideoQualityIndex.value = await SpController().getVideoQualityIndex()?? -1;
+                                            }
                                           },
                                         ));
                   },),

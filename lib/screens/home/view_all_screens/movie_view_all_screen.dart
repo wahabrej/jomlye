@@ -365,12 +365,10 @@ class MovieViewAllScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-              
-              
                 kH16sizedBox,
                 homeController.movieList.isEmpty
                     ? SizedBox(
-                        height: (height * 0.65),
+                        height: (height * 0.6),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
