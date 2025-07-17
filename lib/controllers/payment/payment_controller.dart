@@ -1,8 +1,10 @@
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
 import 'package:vidflix_flutter_app/models/payment/payment_history_model.dart';
+import 'package:vidflix_flutter_app/models/payment/subscription_check_model.dart';
 import 'package:vidflix_flutter_app/models/payment/subscription_plan_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -152,6 +154,47 @@ class PaymentController extends GetxController {
       ll('getMorePaymentHistory error: $e');
     }
   }
+  //! Subscription check api
+  final RxBool isSubscriptionCheckLoading = RxBool(false);
+  final Rx<SubscriptionCheckModel?> subscriptionCheckModel = Rx<SubscriptionCheckModel?>(null);
+  Future<void> getSubscriptionCheck() async {
+    try {
+      isSubscriptionCheckLoading.value = true;
+      String? token = await spController.getBearerToken();
+      int? userId = await spController.getUserId();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuSubscriptionCheck?user_id=${userId.toString()}",
+        body: body,
+      ) as CommonDM;
+      if (response.code == 200) {
+        subscriptionCheckModel.value = SubscriptionCheckModel.fromJson(response.data);
+        spController.saveSubscribedUser(subscriptionCheckModel.value?.isSubscribed??false);
+        Get.find<GlobalController>().subscriptionState.value = await spController.getSubscribedUser()??false;
+        isSubscriptionCheckLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isSubscriptionCheckLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
+        } else {
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isSubscriptionCheckLoading.value = false;
+      ll('getSubscriptionCheck error: $e');
+    }
+  }
+
 //!In App purchase
 final RxList<String> storeProductIds = RxList<String>([]);
 final RxList<Package> storeProducts = RxList<Package>([]);
@@ -163,6 +206,7 @@ Future<void> initializeInAppPurchase() async {
     if (offerings.current == null) {
       ll("No offerings available");
     } else {
+      ll("offerings available!!");
       var availablePackage = offerings.current!.availablePackages;
       storeProductIds.clear();
       storeProducts.clear();
@@ -182,6 +226,7 @@ Future<void> initializeInAppPurchase() async {
     findStoreProductById(int index) {
      ll("The id is ${storeProducts.length}");
     for (int j = 0; j < storeProductIds.length; j++) {
+      ll("The data is from findStoreProductById");
       if (storeProductIds[j] == subscriptionPlanList[index]!.storeSubscriptionId.toString()) {
         // UtilityFunction().ll(Get.find<PurchaseController>().storeProducts[j]);
         ll("The selected id is ${storeProductIds[j]}");
@@ -189,5 +234,4 @@ Future<void> initializeInAppPurchase() async {
       }
     }
   }
-  
 }

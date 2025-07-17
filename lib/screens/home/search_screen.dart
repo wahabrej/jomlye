@@ -103,7 +103,8 @@ class SearchScreen extends StatelessWidget {
                             rightTextStyle: semiBold14TextStyle(cWhiteColor),
                             title: ksFilterBlogs.tr,
                             isRightButtonShow: false,
-                            bottomSheetColor: cBlackColor);
+                            bottomSheetColor: cBlackColor
+                            );
                       },
                       child: Container(
                         width: 40.w,
@@ -527,36 +528,36 @@ class SearchScreen extends StatelessWidget {
                                                   1)
                                                 CustomElevatedButton(
                                                   label: ksPremium.tr,
-                                                  onPressed: () {},
+                                                  onPressed: null,
                                                   buttonWidth: 60.w,
                                                   buttonHeight: h24.h,
                                                   buttonColor: cPrimaryColor2,
                                                 ),
                                             ],
                                           ),
-                                          const Expanded(child: SizedBox()),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Container(
-                                                width: 36.w,
-                                                height: h36.h,
-                                                decoration: BoxDecoration(
-                                                  color: cWhiteColor
-                                                      .withOpacity(0.1),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          k8BorderRadius),
-                                                ),
-                                                child: const Icon(
-                                                  Icons.close,
-                                                  size: kIconSize24,
-                                                  color: cPrimaryColor2,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+                                          // const Expanded(child: SizedBox()),
+                                          // Column(
+                                          //   mainAxisAlignment:
+                                          //       MainAxisAlignment.center,
+                                          //   children: [
+                                          //     Container(
+                                          //       width: 36.w,
+                                          //       height: h36.h,
+                                          //       decoration: BoxDecoration(
+                                          //         color: cWhiteColor
+                                          //             .withOpacity(0.1),
+                                          //         borderRadius:
+                                          //             BorderRadius.circular(
+                                          //                 k8BorderRadius),
+                                          //       ),
+                                          //       child: const Icon(
+                                          //         Icons.close,
+                                          //         size: kIconSize24,
+                                          //         color: cPrimaryColor2,
+                                          //       ),
+                                          //     ),
+                                          //   ],
+                                          // ),
                                         ],
                                       ),
                                     ],

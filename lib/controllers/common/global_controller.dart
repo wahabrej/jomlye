@@ -32,6 +32,7 @@ class GlobalController extends GetxController {
   final RxBool paymentNotificationState = RxBool(true);
   final RxBool appUpdateState = RxBool(true);
   final RxBool subscriptionState = RxBool(true);
+  final RxBool subscribedUserCheck = RxBool(false);
   final RxBool wifiOnlyState = RxBool(true);
 
 

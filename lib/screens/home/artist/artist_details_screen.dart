@@ -1,4 +1,4 @@
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
+import 'package:intl/intl.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
@@ -261,9 +261,7 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                homeController
-                                        .artistDetailsData.value?.country ??
-                                    "",
+                                homeController.artistDetailsData.value?.country?.name ?? "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -276,10 +274,10 @@ class CastDetailsScreen extends StatelessWidget {
                                 style: regular16TextStyle(
                                     cWhiteColor.withOpacity(0.7)),
                               ),
-                              Text(
-                                homeController
-                                        .artistDetailsData.value?.background ??
-                                    "",
+                              // Text(homeController.artistDetailsData.value?.background ?? "",
+                              //   style: regular16TextStyle(cWhiteColor),
+                              // ),
+                              Text(homeController.artistDetailsData.value?.country?.name ?? "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],
@@ -293,11 +291,11 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                homeController
-                                        .artistDetailsData.value?.starDob ??
-                                    "",
+                             homeController.artistDetailsData.value?.starDob == null ? "" : DateFormat('d MMM, yyyy').format(homeController.artistDetailsData.value!.starDob!),
                                 style: regular16TextStyle(cWhiteColor),
                               ),
+                              // DateFormat('d MMM, yyyy').format(
+                              //           homeController.artistDetailsData.value?.starDob?.toString()??""),
                             ],
                           ),
                           kH16sizedBox,

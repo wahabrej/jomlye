@@ -20,6 +20,7 @@ const kPaymentNotificationState = "kPaymentNotificationState";
 const kAppUpdateState = "kAppUpdateState";
 const kSubscriptionState = "kSubscriptionState";
 const kWifiOnlyState = "kWifiOnlyState";
+const kSubscribedUserCheck = "kSubscribedUserCheck";
 const kSubscriptionId = 'kSubscriptionId';
 const kVideoQualityIndex = 'kVideoQualityIndex';
 
@@ -226,7 +227,7 @@ class SpController {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getBool(kSubscriptionState);
   }
-  //* save Subscription State
+  //* save Wifi Only State
   Future<void> saveWifiOnlyState(bool wifiOnlyState) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setBool(kWifiOnlyState, wifiOnlyState);
@@ -235,6 +236,17 @@ class SpController {
   Future<bool?> getWifiOnlyState() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getBool(kWifiOnlyState);
+  }
+
+  //* save Subscribed User 
+  Future<void> saveSubscribedUser(bool subscribedUserCheck) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setBool(kSubscribedUserCheck, subscribedUserCheck);
+  }
+
+  Future<bool?> getSubscribedUser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool(kSubscribedUserCheck);
   }
 
       //! save One signal Subscription Id
@@ -248,7 +260,7 @@ class SpController {
     return preferences.getString(kSubscriptionId);
   }
 
-      //* save user id
+  //* save video quality
   Future<void> saveVideoQualityIndex(videoQualityIndex) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setInt(kVideoQualityIndex, videoQualityIndex);
