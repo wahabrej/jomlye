@@ -217,3 +217,5 @@ const String ksEdit= "Edit";
 const String ksDownloading= "Downloading";
 const String ksLive = "Live";
 const String ksChannelName = "Channel Name";
+const String ksChannelDetails = "Channel Details";
+const String ksRelatedTvChannels = "Related TV Channels";

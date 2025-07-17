@@ -250,6 +250,8 @@ class HomeController extends GetxController {
   final List<String> castDetailsTabs = ["Movies", "Personal Information"];
   final RxInt movietSelectedIndex = RxInt(0); // Default selected index
   final List<String> movieDetailsTabs = ["Cast", "Director", "Writer", "Review & Ratings"];
+  final List<String> liveTvDetailsTabs = ["Review & Ratings"];
+  final RxInt liveTvSelectedIndex = RxInt(0); // Default selected index
 
   void actorDetailsChangeTab(int index) {
     castSelectedIndex.value = index;
@@ -1565,7 +1567,6 @@ class HomeController extends GetxController {
         requestMethod: kGet,
         token: token,
         url: "$kuReviewList?user_id=${userId.toString()}&movie_id=${movieId.toString()}",
-        // url: kuAds,
         body: body,
       ) as CommonDM;
       if (response.code == 200) {
