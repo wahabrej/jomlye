@@ -219,3 +219,4 @@ const String ksLive = "Live";
 const String ksChannelName = "Channel Name";
 const String ksChannelDetails = "Channel Details";
 const String ksRelatedTvChannels = "Related TV Channels";
+const String ksVideos = "Videos";

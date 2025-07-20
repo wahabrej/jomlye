@@ -634,10 +634,14 @@ class VideoPlayerScreen extends StatelessWidget {
                         color: cWhiteColor.withOpacity(0.2),
                       ),
                     ),
+                    // kH16sizedBox,
+                    // SubscriptionSelector(),
                     kH16sizedBox,
-                    SubscriptionSelector(),
-                    kH16sizedBox,
-                    RentProductDetailsContentContainer(),
+                    RentProductDetailsContentContainer(
+                      rentPrice: homeController.rentalVideoData.value?.price??"",
+                      rentValidity: homeController.rentalVideoData.value?.validity??"",
+                      rentExpireDate: homeController.rentalVideoData.value?.expireData.toString()??"",
+                    ),
                     kH12sizedBox,
                     Container(
                       width: width - 40,
@@ -791,7 +795,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
-                                      "${homeController.movieReviewList.length+1} ${ksReviews.tr}",
+                                      "${homeController.movieReviewList.length} ${ksReviews.tr}",
                                       style: semiBold14TextStyle(cWhiteColor),
                                     ),
                                     const Spacer(),
@@ -1942,7 +1946,8 @@ class SubscriptionSelector extends StatelessWidget {
 }
 
 class RentProductDetailsContentContainer extends StatelessWidget {
-  const RentProductDetailsContentContainer({super.key});
+  const RentProductDetailsContentContainer({super.key, this.rentPrice, this.rentValidity, this.rentExpireDate});
+  final String? rentPrice,rentValidity,rentExpireDate;
 
   @override
   Widget build(BuildContext context) {
@@ -1958,22 +1963,23 @@ class RentProductDetailsContentContainer extends StatelessWidget {
           children: [
             RentProductDetailsRow(
               title: ksVideoCost.tr,
-              value: "\$50.00",
+              value: rentPrice??"",
             ),
             kH12sizedBox,
             RentProductDetailsRow(
               title: ksValidity.tr,
-              value: "30 days",
+              value: rentValidity??"",
             ),
-            kH12sizedBox,
-            RentProductDetailsRow(
-              title: ksDeviceLimit.tr,
-              value: "2",
-            ),
+            // kH12sizedBox,
+            // RentProductDetailsRow(
+            //   title: ksDeviceLimit.tr,
+            //   value: "2",
+            // ),
             kH12sizedBox,
             RentProductDetailsRow(
               title: ksExpireDate.tr,
-              value: "11/06/2025",
+              value: DateFormat('d MMM, yyyy, hh:mm a').format(DateTime.parse(rentExpireDate??"")),
+              // value: "sfhbvsbgjbrgjhdrhjbgjdsfbvjsbfgjbdfgdejbgj",
             ),
             kH12sizedBox,
             RentProductDetailsRow(
@@ -2066,6 +2072,7 @@ class RentProductDetailsRow extends StatelessWidget {
         Text(
           value ?? "",
           style: regular16TextStyle(cWhiteColor),
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );

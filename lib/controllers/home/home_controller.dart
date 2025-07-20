@@ -547,6 +547,7 @@ class HomeController extends GetxController {
   final RxBool isMovieDetailsLoading = RxBool(false);
   final Rx<MovieDetailsModel?> movieDetailsModel = Rx<MovieDetailsModel?>(null);
   final Rx<MovieDetails?> movieDetailsData = Rx<MovieDetails?>(null);
+  final Rx<Rental?> rentalVideoData = Rx<Rental?>(null);
   final RxList<Server?> movieServerList = RxList<Server?>([]);
   final RxList<Cast?> movieCastList = RxList<Cast?>([]);
   final RxList<Cast?> movieDirectorList = RxList<Cast?>([]);
@@ -579,6 +580,7 @@ class HomeController extends GetxController {
         playlistIdsList.clear();
          movieDetailsModel.value = MovieDetailsModel.fromJson(response.data);
         movieDetailsData.value = movieDetailsModel.value!.details;
+        rentalVideoData.value = movieDetailsModel.value!.rental;
         movieServerList.addAll(movieDetailsModel.value!.server!);
         movieCastList.addAll(movieDetailsModel.value!.cast!);
         movieDirectorList.addAll(movieDetailsModel.value!.director!);
@@ -1541,11 +1543,12 @@ class HomeController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
+        addCommentTextEditingController.clear();
+        rating.value=0;
         await getUserReview(movieId: movieId);
         showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
       } else {
-        showSnackBar(
-            title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);
+        showSnackBar(title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);
       }
     } catch (e) {
       ll('userRating error: $e');
@@ -1635,6 +1638,7 @@ class HomeController extends GetxController {
   }
 
   final RxInt selectedServer = RxInt(0);
+  final RxInt selectedSeason = RxInt(0);
   //!reset bottom nav bar data
   void resetBottomSheetData() {
     selectedCategoryId.value = -1;

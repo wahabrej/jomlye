@@ -8,6 +8,7 @@ class MovieDetailsModel {
     final List<MovieDetails>? relatedMovie;
     final List<MovieDetails>? recommendedMovie;
     final List<int>? playlistIds;
+    final Rental? rental;
 
     MovieDetailsModel({
         this.details,
@@ -19,6 +20,7 @@ class MovieDetailsModel {
         this.relatedMovie,
         this.recommendedMovie,
         this.playlistIds,
+        this.rental,
     });
 
     factory MovieDetailsModel.fromJson(Map<String, dynamic> json) => MovieDetailsModel(
@@ -31,6 +33,7 @@ class MovieDetailsModel {
         relatedMovie: json["related_movie"] == null ? [] : List<MovieDetails>.from(json["related_movie"]!.map((x) => MovieDetails.fromJson(x))),
         recommendedMovie: json["recommended_movie"] == null ? [] : List<MovieDetails>.from(json["recommended_movie"]!.map((x) => MovieDetails.fromJson(x))),
         playlistIds: json["playlist_ids"] == null ? [] : List<int>.from(json["playlist_ids"]!.map((x) => x)),
+        rental: json["rental"] == null ? null : Rental.fromJson(json["rental"]),
     );
 }
 
@@ -281,5 +284,24 @@ class Server {
         order: json["order"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    );
+}
+
+
+class Rental {
+    final String? price;
+    final String? validity;
+    final DateTime? expireData;
+
+    Rental({
+        this.price,
+        this.validity,
+        this.expireData,
+    });
+
+    factory Rental.fromJson(Map<String, dynamic> json) => Rental(
+        price: json["price"],
+        validity: json["validity"],
+        expireData: json["expire_data"] == null ? null : DateTime.parse(json["expire_data"]),
     );
 }

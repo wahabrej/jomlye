@@ -487,7 +487,7 @@ class HomeScreen extends StatelessWidget {
                                   onTap: () async {
                                     await homeController.getTvShowDetails(
                                         showId: homeController
-                                            .tvShowList[index]!.id!);
+                                            .popularTvShowsList[index].id!);
                                     Get.toNamed(krTvShowPlayerScreen);
                                   },
                                   child: MovieContentContainer(
@@ -807,6 +807,7 @@ class HomeScreen extends StatelessWidget {
                                     await homeController.getArtistDetails(
                                         homeController
                                             .topArtistsList[index].id);
+                                      homeController.castSelectedIndex.value=0;
                                     Get.toNamed(krCastDetailsScreen);
                                   },
                                 );

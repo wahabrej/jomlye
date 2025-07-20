@@ -1,5 +1,7 @@
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
@@ -232,6 +234,151 @@ class TvShowPlayerScreen extends StatelessWidget {
                   ],
                 ),
               ),
+               if (homeController.tvShowsSeasonList.isNotEmpty) kH16sizedBox,
+                    if (homeController.tvShowsSeasonList.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: k20Padding),
+                        child: SizedBox(
+                          width: width - 60 / 3,
+                          height: 40.h,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            scrollDirection: Axis.horizontal,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            separatorBuilder: (context, index) => kW10sizedBox,
+                            itemCount: homeController.tvShowsSeasonList.length,
+                            itemBuilder: (context, index) {
+                              return Obx(() => InkWell(
+                                onTap: (){
+                                  homeController.selectedSeason.value = index;
+                                },
+                                child: Container(
+                                  width: (width - 50) / 3,
+                                  height: 40.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(k6BorderRadius),
+                                    color:
+                                        homeController.selectedSeason.value ==
+                                                index
+                                            ? cPrimaryColor
+                                            : cWhiteColor.withOpacity(0.2),
+                                  ),
+                                  child: Center(
+                                      child: Text(
+                                    homeController
+                                            .tvShowsSeasonList[index]?.seasonName ??
+                                        "",
+                                        textAlign: TextAlign.center,
+                                    style: medium14TextStyle(cWhiteColor),
+                                  )),
+                                ),
+                              ));
+                            },
+                          ),
+                        ),
+                      ),
+                      kH16sizedBox,
+                      Padding(
+                        padding: const EdgeInsets.only(left: k20Padding),
+                        child: Container(
+                          width: width-40,
+                          decoration: BoxDecoration(
+                            color: cBlackColor2,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(k20Padding),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("${homeController.tvShowDetailsData.value?.title ?? ""} - ${ homeController.tvShowsSeasonList[homeController.selectedSeason.value]?.seasonName ??""}",style: medium16TextStyle(cWhiteColor)),
+                                     SvgPicture.asset(kiAdd,width: 10.w,height: 10.h,),
+                                  ],
+                                ),
+                                kH6sizedBox,
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                     SvgPicture.asset(kiPlay,width: 10.w,height: 10.h,),
+                                     kW4sizedBox,
+                                     Text("${homeController.tvShowEpisodeList.length} $ksVideos",style: regular10TextStyle(cWhiteColor),),
+                                     kW4sizedBox,
+                                       SizedBox(
+                                        height: 10.h,
+                                         child: VerticalDivider(
+                                                width: 1,
+                                                thickness: 1,
+                                                color:cWhiteColor.withOpacity(0.2),
+                                              ),
+                                       ),
+                                       kW4sizedBox,
+                                       Icon(Icons.timer_outlined,size: kIconSize14,color: cWhiteColor.withOpacity(0.8),),
+                                       kW4sizedBox,
+                                      //  Text("${homeController.tvShowsSeasonList[homeController.selectedSeason.value]!.createdAt}",style: regular10TextStyle(cWhiteColor),),
+                                       Text(   DateFormat('yyyy').format(DateTime.parse(
+                                    homeController.tvShowsSeasonList[homeController.selectedSeason.value]!.createdAt.toString())),style: regular10TextStyle(cWhiteColor),),
+                                  ],
+                                ),
+                                kH8sizedBox,
+                                    Divider(
+                                     thickness: 1,
+                                     color: cWhiteColor.withOpacity(0.2),
+                                    ),
+                                kH8sizedBox,
+                                ListView.separated(
+                                      shrinkWrap: true,
+                                      padding: EdgeInsets.zero,
+                                      physics: const NeverScrollableScrollPhysics(),
+                                      separatorBuilder: (context, index) => kH10sizedBox,
+                                      itemCount: homeController.tvShowEpisodeList.length,
+                                      
+                                      itemBuilder: (context, index) {
+                                        // return Container(
+                                        //   width: width,
+                                        //   decoration: BoxDecoration(
+                                        //     borderRadius:
+                                        //         BorderRadius.circular(k6BorderRadius),
+                                        //   ),
+                                        //   child: Text(
+                                        //                                               homeController
+                                        //         .tvShowEpisodeList[index]?.episodeName ??
+                                        //     "",
+                                        //                                               textAlign: TextAlign.center,
+                                        //                                               style: medium14TextStyle(cWhiteColor),
+                                        //                                             ),
+                                        // );
+                                        return Row(
+                                          children: [
+                                            Image.network(homeController.tvShowEpisodeList[index]?.fileUrl??"", errorBuilder: (context, error, stackTrace) => Center(
+                child: SvgPicture.asset(
+                  kiDummyMovie,
+                  height: 90.h,
+                  width: 150.w,
+                  fit: BoxFit.cover,
+                ),
+              ),),
+              kW8sizedBox,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(homeController.tvShowEpisodeList[index]?.episodeName??"",style: medium14TextStyle(cWhiteColor),),
+                ],
+              ),
+                                          ],
+                                        );
+                                      },
+                                    ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+
               //!Comment Widget
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: k20Padding),
