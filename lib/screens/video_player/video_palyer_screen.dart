@@ -636,19 +636,20 @@ class VideoPlayerScreen extends StatelessWidget {
                     ),
                     // kH16sizedBox,
                     // SubscriptionSelector(),
-                    kH16sizedBox,
-                    RentProductDetailsContentContainer(
-                      rentPrice: homeController.rentalVideoData.value?.price??"",
-                      rentValidity: homeController.rentalVideoData.value?.validity??"",
-                      rentExpireDate: homeController.rentalVideoData.value?.expireData.toString()??"",
-                    ),
+                    //! For rental video this widget(RentProductDetailsContentContainer)
+                    // kH16sizedBox,
+                    // RentProductDetailsContentContainer(
+                    //   rentPrice: homeController.rentalVideoData.value?.price??"",
+                    //   rentValidity: homeController.rentalVideoData.value?.validity??"",
+                    //   rentExpireDate: homeController.rentalVideoData.value?.expireData.toString()??"",
+                    // ),
                     kH12sizedBox,
                     Container(
                       width: width - 40,
                       height: 46.h,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100.r),
-                        color: Colors.white.withOpacity(0.1),
+                        color: cWhiteColor.withOpacity(0.1),
                       ),
                       child: Padding(
                         padding:
@@ -699,6 +700,7 @@ class VideoPlayerScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                   
                     kH12sizedBox,
                     if (homeController.movietSelectedIndex.value == 0)
                       SizedBox(
@@ -1088,6 +1090,7 @@ class VideoPlayerScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                   
                     kH16sizedBox,
                     Text(
                       ksRecommended.tr,

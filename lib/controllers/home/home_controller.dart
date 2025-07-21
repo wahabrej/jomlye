@@ -730,6 +730,11 @@ class HomeController extends GetxController {
   final Rx<TvShows?> tvShowDetailsData = Rx<TvShows?>(null);
   final RxList<Season?> tvShowsSeasonList = RxList<Season?>([]);
   final RxList<Episode?> tvShowEpisodeList = RxList<Episode?>([]);
+  final RxList<Cast?> tvShowCastList = RxList<Cast?>([]);
+  final RxList<Cast?> tvShowDirectorList = RxList<Cast?>([]);
+  final RxList<Cast?> tvShowWritterList = RxList<Cast?>([]);
+  final RxList<TvShows?> relatedTvShowsList = RxList<TvShows?>([]);
+  final RxList<String?> tvShowVideoTagsList = RxList<String?>([]);
   Future<void> getTvShowDetails({required int showId}) async {
     try {
       isTvShowLoading.value = true;
@@ -745,13 +750,23 @@ class HomeController extends GetxController {
       if (response.code == 200) {
         tvShowsSeasonList.clear();
         tvShowEpisodeList.clear();
-        TvShowDetailsModel tvShowDetailsModel =
-            TvShowDetailsModel.fromJson(response.data);
-        tvShowDetailsData.value = tvShowDetailsModel.shows;
-        tvShowsSeasonList.addAll(tvShowDetailsModel.shows!.seasons!);
+        tvShowCastList.clear();
+        tvShowDirectorList.clear();
+        tvShowWritterList.clear();
+        relatedTvShowsList.clear();
+        tvShowVideoTagsList.clear();
+        tvShowDetailsModel.value = TvShowDetailsModel.fromJson(response.data);
+        tvShowDetailsData.value = tvShowDetailsModel.value!.shows;
+        tvShowsSeasonList.addAll(tvShowDetailsModel.value!.shows!.seasons!);
+        tvShowCastList.addAll(tvShowDetailsModel.value!.cast!);
+        tvShowDirectorList.addAll(tvShowDetailsModel.value!.director!);
+        tvShowWritterList.addAll(tvShowDetailsModel.value!.writer!);
+        relatedTvShowsList.addAll(tvShowDetailsModel.value!.relatedTvShows!);
+        ll("the related tv shows list length is ${relatedTvShowsList.length}");
+        tvShowVideoTagsList.addAll(tvShowDetailsModel.value!.videoTags!);
         if (tvShowsSeasonList.isNotEmpty) {
           tvShowEpisodeList
-              .addAll(tvShowDetailsModel.shows!.seasons![0].episodes!);
+              .addAll(tvShowDetailsModel.value!.shows!.seasons![0].episodes!);
         }
         isTvShowLoading.value = false;
       } else {
@@ -771,7 +786,7 @@ class HomeController extends GetxController {
       }
     } catch (e) {
       isTvShowLoading.value = false;
-      ll('getTvShows error: $e');
+      ll('getTvShowDetails error: $e');
     }
   }
 
@@ -1639,6 +1654,7 @@ class HomeController extends GetxController {
 
   final RxInt selectedServer = RxInt(0);
   final RxInt selectedSeason = RxInt(0);
+  final RxBool isTvShowsListExpand = RxBool(true);
   //!reset bottom nav bar data
   void resetBottomSheetData() {
     selectedCategoryId.value = -1;

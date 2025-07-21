@@ -1,12 +1,28 @@
+import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_details_model.dart';
+
 class TvShowDetailsModel {
     final TvShows? shows;
-
+    final List<Cast>? cast;
+    final List<Cast>? director;
+    final List<Cast>? writer;
+    final List<TvShows>? relatedTvShows;
+    final List<String>? videoTags;
     TvShowDetailsModel({
         this.shows,
+        this.cast,
+        this.director,
+        this.writer,
+        this.relatedTvShows,
+        this.videoTags,
     });
 
     factory TvShowDetailsModel.fromJson(Map<String, dynamic> json) => TvShowDetailsModel(
         shows: json["shows"] == null ? null : TvShows.fromJson(json["shows"]),
+        cast: json["cast"] == null ? [] : List<Cast>.from(json["cast"]!.map((x) => Cast.fromJson(x))),
+        director: json["director"] == null ? [] : List<Cast>.from(json["director"]!.map((x) => Cast.fromJson(x))),
+        writer: json["writer"] == null ? [] : List<Cast>.from(json["writer"]!.map((x) => Cast.fromJson(x))),
+        relatedTvShows: json["related_tv_shows"] == null ? [] : List<TvShows>.from(json["related_tv_shows"]!.map((x) => TvShows.fromJson(x))),
+        videoTags: json["video_tags"] == null ? [] : List<String>.from(json["video_tags"]!.map((x) => x)),
     );
 }
 

@@ -1,8 +1,9 @@
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:video_player/video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
+import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
@@ -124,8 +125,8 @@ class TvShowPlayerScreen extends StatelessWidget {
                               Text(
                                 DateFormat('d MMM, yyyy').format(DateTime.parse(
                                     homeController
-                                        .tvShowDetailsData.value!.release
-                                        .toString())),
+                                        .tvShowDetailsData.value?.release
+                                        .toString()??"")),
                                 style: regular12TextStyle(cWhiteColor),
                               ),
                             ],
@@ -252,6 +253,8 @@ class TvShowPlayerScreen extends StatelessWidget {
                               return Obx(() => InkWell(
                                 onTap: (){
                                   homeController.selectedSeason.value = index;
+                                  homeController.tvShowEpisodeList
+              .addAll(homeController.tvShowDetailsModel.value!.shows!.seasons![homeController.selectedSeason.value].episodes!);
                                 },
                                 child: Container(
                                   width: (width - 50) / 3,
@@ -279,7 +282,9 @@ class TvShowPlayerScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                     
                       kH16sizedBox,
+                      if (homeController.tvShowEpisodeList.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(left: k20Padding),
                         child: Container(
@@ -297,7 +302,15 @@ class TvShowPlayerScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text("${homeController.tvShowDetailsData.value?.title ?? ""} - ${ homeController.tvShowsSeasonList[homeController.selectedSeason.value]?.seasonName ??""}",style: medium16TextStyle(cWhiteColor)),
-                                     SvgPicture.asset(kiAdd,width: 10.w,height: 10.h,),
+                                   homeController.isTvShowsListExpand.value ? InkWell(
+                                    onTap: (){
+                                      homeController.isTvShowsListExpand.value = !homeController.isTvShowsListExpand.value;
+                                    },
+                                    child: Icon(Icons.minimize,color: cWhiteColor,size: kIconSize20,)) : InkWell(
+                                          onTap: (){
+                                      homeController.isTvShowsListExpand.value = !homeController.isTvShowsListExpand.value;
+                                    },
+                                      child: SvgPicture.asset(kiAdd,width: 10.w,height: 10.h,)),
                                   ],
                                 ),
                                 kH6sizedBox,
@@ -330,13 +343,13 @@ class TvShowPlayerScreen extends StatelessWidget {
                                      color: cWhiteColor.withOpacity(0.2),
                                     ),
                                 kH8sizedBox,
+                                if(homeController.isTvShowsListExpand.value==true)
                                 ListView.separated(
                                       shrinkWrap: true,
                                       padding: EdgeInsets.zero,
                                       physics: const NeverScrollableScrollPhysics(),
                                       separatorBuilder: (context, index) => kH10sizedBox,
                                       itemCount: homeController.tvShowEpisodeList.length,
-                                      
                                       itemBuilder: (context, index) {
                                         // return Container(
                                         //   width: width,
@@ -354,7 +367,9 @@ class TvShowPlayerScreen extends StatelessWidget {
                                         // );
                                         return Row(
                                           children: [
-                                            Image.network(homeController.tvShowEpisodeList[index]?.fileUrl??"", errorBuilder: (context, error, stackTrace) => Center(
+                                            Image.network(homeController.tvShowEpisodeList[index]?.fileUrl??"", height: 90.h,
+                  width: 150.w,
+                  fit: BoxFit.cover, errorBuilder: (context, error, stackTrace) => Center(
                 child: SvgPicture.asset(
                   kiDummyMovie,
                   height: 90.h,
@@ -366,7 +381,23 @@ class TvShowPlayerScreen extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(homeController.tvShowEpisodeList[index]?.seasonId.toString()??"",style: medium14TextStyle(cWhiteColor),),
+                  kH4sizedBox,
                   Text(homeController.tvShowEpisodeList[index]?.episodeName??"",style: medium14TextStyle(cWhiteColor),),
+                  kH4sizedBox,
+                  // Text("${ksTimeDuration.tr}: ${homeController.tvShowEpisodeList[index]?.}",style: medium14TextStyle(cWhiteColor),),
+                  Container(
+                    height: 32.h,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(2),
+                      // color: homeController.tvShowEpisodeList[index].isPaid ? cPrimaryColor : cWhiteColor.withOpacity(0.1),
+                      color: cPrimaryColor,
+                    ),
+                    // child: Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: k8Padding,vertical: k2Padding),
+                    //   child: Text(homeController.tvShowEpisodeList[index].isPaid ? ksPremium.tr : ksFree.tr),
+                    // ),
+                  ),
                 ],
               ),
                                           ],
@@ -379,435 +410,880 @@ class TvShowPlayerScreen extends StatelessWidget {
                         ),
                       ),
 
-              //!Comment Widget
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                child: Column(
-                  children: [
-                    kH20sizedBox,
+                       kH12sizedBox,
                     Container(
-                      width: width,
+                      width: width - 40,
+                      height: 46.h,
                       decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100.r),
                         color: cWhiteColor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(k6BorderRadius),
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: k16Padding, vertical: k20Padding),
+                        padding:
+                            const EdgeInsets.symmetric(horizontal: k4Padding),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "10 Comments",
-                              style: medium16TextStyle(cWhiteColor),
-                            ),
-                            // kW36sizedBox,
-                            Text(
-                              "${ksSubmitRating.tr}:",
-                              style: regular16TextStyle(cWhiteColor),
-                            ),
-                            //!temporary(this is not valid)
-                            const Row(
-                              children: [
-                                Icon(
-                                  Icons.star_border,
-                                  size: kIconSize16,
-                                  color: cWhiteColor,
-                                ),
-                                Icon(
-                                  Icons.star_border,
-                                  size: kIconSize16,
-                                  color: cWhiteColor,
-                                ),
-                                Icon(
-                                  Icons.star_border,
-                                  size: kIconSize16,
-                                  color: cWhiteColor,
-                                ),
-                                Icon(
-                                  Icons.star_border,
-                                  size: kIconSize16,
-                                  color: cWhiteColor,
-                                ),
-                                Icon(
-                                  Icons.star_border,
-                                  size: kIconSize16,
-                                  color: cWhiteColor,
-                                ),
-                              ],
-                            ),
-                          ],
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: List.generate(
+                              homeController.movieDetailsTabs.length, (index) {
+                            return GestureDetector(
+                              onTap: () async {
+                                homeController.videoDetailsChangeTab(index);
+                                if (homeController.movietSelectedIndex.value ==
+                                    3) {
+                                  await homeController.getUserReview(
+                                      movieId: homeController.movieDetailsModel
+                                          .value!.details!.id!);
+                                }
+                              },
+                              child: Obx(() => Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 16.w, vertical: 8.h),
+                                    decoration: BoxDecoration(
+                                      color: homeController
+                                                  .movietSelectedIndex.value ==
+                                              index
+                                          ? Colors.grey[800]
+                                          : Colors.transparent,
+                                      borderRadius:
+                                          BorderRadius.circular(100.r),
+                                    ),
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                        maxWidth: (width - 40) /
+                                                homeController
+                                                    .movieDetailsTabs.length -
+                                            14.w,
+                                      ),
+                                      child: Text(
+                                        homeController.movieDetailsTabs[index],
+                                        style: regular14TextStyle(cWhiteColor),
+                                        overflow: TextOverflow.ellipsis,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  )),
+                            );
+                          }),
                         ),
                       ),
                     ),
-                    kH20sizedBox,
-                    Row(
-                      children: [
-                        Container(
-                          width: 40.w,
-                          height: 40.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: cWhiteColor.withOpacity(0.2),
-                            child: ClipOval(
-                              child: Image.network(
-                                  width: 40.w,
-                                  height: 40.h,
-                                  fit: BoxFit.cover,
-                                  "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D"),
-                            ),
-                          ),
-                        ),
-                        kW12sizedBox,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  "Saikat Ahmmed",
-                                  style: medium16TextStyle(cWhiteColor),
-                                ),
-                                kW6sizedBox,
-                                Container(
-                                  width: 6.w,
-                                  height: 6.h,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: cGreyColor.withOpacity(0.8),
-                                  ),
-                                ),
-                                kW6sizedBox,
-                                Icon(
-                                  Icons.access_time,
-                                  color: cGreyColor.withOpacity(0.8),
-                                  size: kIconSize16,
-                                ),
-                                kW6sizedBox,
-                                Text(
-                                  "2 years ago",
-                                  style: regular10TextStyle(
-                                      cGreyColor.withOpacity(0.8)),
-                                ),
-                              ],
-                            ),
-                            kH10sizedBox,
-                            SizedBox(
-                              width: width - 96,
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.favorite_outline,
-                                    color: cWhiteColor,
-                                    size: kIconSize20,
-                                  ),
-                                  kW6sizedBox,
-                                  Text(
-                                    "100K",
-                                    style: regular12TextStyle(
-                                        cGreyColor.withOpacity(0.8)),
-                                  ),
-                                  kW12sizedBox,
-                                  SizedBox(
-                                    height: h8.h,
-                                    child: VerticalDivider(
-                                      width: 1,
-                                      thickness: 1,
-                                      color: cWhiteColor.withOpacity(0.14),
-                                    ),
-                                  ),
-                                  kW12sizedBox,
-                                  SvgPicture.asset(
-                                    kiMessage,
-                                    width: 14.w,
-                                    height: 14.h,
-                                    color: cWhiteColor,
-                                  ),
-                                  kW6sizedBox,
-                                  Text(
-                                    "10k replies",
-                                    style: regular12TextStyle(
-                                        cGreyColor.withOpacity(0.8)),
-                                  ),
-                                  kW6sizedBox,
-                                  const Icon(
-                                    Icons.keyboard_arrow_down_outlined,
-                                    color: cWhiteColor,
-                                    size: kIconSize20,
-                                  ),
-                                  //  Spacer(),
-                                  Expanded(child: SizedBox()),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        kiReply,
-                                        width: 16.w,
-                                        height: 16.h,
-                                        color: cPrimaryColor2,
-                                      ),
-                                      kW14sizedBox,
-                                      Text(
-                                        ksReply.tr,
-                                        style:
-                                            regular16TextStyle(cPrimaryColor2),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                   
                     kH12sizedBox,
-                    Padding(
-                      padding: EdgeInsets.only(left: 52.w),
-                      child: SizedBox(
-                        width: width - 72,
+                    if (homeController.movietSelectedIndex.value == 0)
+                      SizedBox(
+                        width: width - 20,
+                        height: 50.h,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (context, index) => kW8sizedBox,
+                          itemCount: homeController.tvShowCastList.length,
+                          itemBuilder: (context, index) {
+                            return VideoDetailsContentWidget(
+                              imageUrl: homeController
+                                      .tvShowCastList[index]?.starImage ??
+                                  "",
+                              title: homeController
+                                      .tvShowCastList[index]?.starName ??
+                                  "",
+                              subTitle: homeController
+                                      .tvShowCastList[index]?.starType ??
+                                  "",
+                            );
+                          },
+                        ),
+                      ),
+                    if (homeController.movietSelectedIndex.value == 1)
+                      SizedBox(
+                        width: width - 20,
+                        height: 50.h,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (context, index) => kW8sizedBox,
+                          itemCount: homeController.tvShowDirectorList.length,
+                          itemBuilder: (context, index) {
+                            return VideoDetailsContentWidget(
+                              imageUrl: homeController
+                                      .tvShowDirectorList[index]?.starImage ??
+                                  "",
+                              title: homeController
+                                      .tvShowDirectorList[index]?.starName ??
+                                  "",
+                              subTitle: homeController
+                                      .tvShowDirectorList[index]?.starType ??
+                                  "",
+                            );
+                          },
+                        ),
+                      ),
+                    if (homeController.movietSelectedIndex.value == 2)
+                      SizedBox(
+                        width: width - 20,
+                        height: 50.h,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.horizontal,
+                          separatorBuilder: (context, index) => kW8sizedBox,
+                          itemCount: homeController.tvShowWritterList.length,
+                          itemBuilder: (context, index) {
+                            return VideoDetailsContentWidget(
+                              imageUrl: homeController
+                                      .tvShowWritterList[index]?.starImage ??
+                                  "",
+                              title: homeController
+                                      .tvShowWritterList[index]?.starName ??
+                                  "",
+                              subTitle: homeController
+                                      .tvShowWritterList[index]?.starType ??
+                                  "",
+                            );
+                          },
+                        ),
+                      ),
+                    if (homeController.movietSelectedIndex.value == 3)
+                      Padding(
+                        padding: const EdgeInsets.only(right: k20Padding),
                         child: Column(
                           children: [
-                            Divider(
-                              thickness: 1,
-                              color: cWhiteColor.withOpacity(0.14),
+                            Container(
+                              width: width,
+                              height: 32.h,
+                              decoration: BoxDecoration(
+                                color: cWhiteColor.withOpacity(0.1),
+                                borderRadius:
+                                    BorderRadius.circular(k8BorderRadius),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: k12Padding),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${homeController.movieReviewList.length} ${ksReviews.tr}",
+                                      style: semiBold14TextStyle(cWhiteColor),
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      ksSubmitRating.tr,
+                                      style: regular14TextStyle(cWhiteColor),
+                                    ),
+                                    kW4sizedBox,
+                                    Row(
+                                      children: List.generate(5, (index) {
+                                        return GestureDetector(
+                                          onTap: () => homeController
+                                              .updateRating(index + 1),
+                                          child: Icon(
+                                            Icons.star,
+                                            size: kIconSize16,
+                                            color: index <
+                                                    homeController.rating.value
+                                                ? cAmberColor
+                                                : Colors.grey,
+                                          ),
+                                        );
+                                      }),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                            Text(
-                              "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
-                              style: regular14TextStyle(cWhiteColor),
+                            kH16sizedBox,
+                            CustomModifiedTextField(
+                              hint: ksEnterHere.tr,
+                              controller: homeController
+                                  .addCommentTextEditingController,
+                              fillColor: cBlackColor,
+                              textInputStyle: regular14TextStyle(cWhiteColor),
+                              focusBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.circular(k6BorderRadius),
+                                borderSide: const BorderSide(
+                                  width: 1,
+                                  color: cPrimaryColor2,
+                                ),
+                              ),
+                              maxLines: 4,
+                              inputAction: TextInputAction.newline,
+                              inputType: TextInputType.multiline,
+                              border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.circular(k6BorderRadius),
+                                borderSide: BorderSide(
+                                  width: 1,
+                                  color: cWhiteColor.withOpacity(0.3),
+                                  style: BorderStyle.solid,
+                                ),
+                              ),
+                              contentPadding: const EdgeInsets.all(12),
                             ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    kH20sizedBox,
-                    Row(
-                      children: [
-                        Container(
-                          width: 40.w,
-                          height: 40.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: CircleAvatar(
-                            backgroundColor: cWhiteColor.withOpacity(0.2),
-                            child: ClipOval(
-                              child: Image.network(
-                                  width: 40.w,
-                                  height: 40.h,
-                                  fit: BoxFit.cover,
-                                  "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D"),
-                            ),
-                          ),
-                        ),
-                        kW12sizedBox,
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
+                            kH12sizedBox,
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                Text(
-                                  "Saikat Ahmmed",
-                                  style: medium16TextStyle(cWhiteColor),
+                                CustomElevatedButton(
+                                  label: ksCancel.tr,
+                                  onPressed: () {},
+                                  buttonColor: cWhiteColor.withOpacity(0.1),
+                                  textStyle: regular14TextStyle(cWhiteColor),
+                                  buttonWidth: 70.w,
+                                  buttonHeight: h32.h,
                                 ),
-                                kW6sizedBox,
-                                Container(
-                                  width: 6.w,
-                                  height: 6.h,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: cGreyColor.withOpacity(0.8),
-                                  ),
-                                ),
-                                kW6sizedBox,
-                                Icon(
-                                  Icons.access_time,
-                                  color: cGreyColor.withOpacity(0.8),
-                                  size: kIconSize16,
-                                ),
-                                kW6sizedBox,
-                                Text(
-                                  "2 years ago",
-                                  style: regular10TextStyle(
-                                      cGreyColor.withOpacity(0.8)),
+                                kW12sizedBox,
+                                CustomElevatedButton(
+                                  label: ksPostNow.tr,
+                                  onPressed: () async {
+                                    await homeController.userRating(
+                                        movieId: homeController
+                                            .movieDetailsModel
+                                            .value!
+                                            .details!
+                                            .id!);
+                                  },
+                                  buttonColor: cPrimaryColor2,
+                                  textStyle: regular14TextStyle(cWhiteColor),
+                                  buttonWidth: 90.w,
+                                  buttonHeight: h32.h,
                                 ),
                               ],
                             ),
-                            kH10sizedBox,
-                            SizedBox(
-                              width: width - 96,
-                              child: Row(
-                                children: [
-                                  const Icon(
-                                    Icons.favorite_outline,
-                                    color: cWhiteColor,
-                                    size: kIconSize20,
-                                  ),
-                                  kW6sizedBox,
-                                  Text(
-                                    "100K",
-                                    style: regular12TextStyle(
-                                        cGreyColor.withOpacity(0.8)),
-                                  ),
-                                  kW12sizedBox,
-                                  SizedBox(
-                                    height: h8.h,
-                                    child: VerticalDivider(
-                                      width: 1,
-                                      thickness: 1,
-                                      color: cWhiteColor.withOpacity(0.14),
+                            kH12sizedBox,
+                            ListView.separated(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              padding: const EdgeInsets.all(k0Padding),
+                              separatorBuilder: (context, index) => kH8sizedBox,
+                              itemCount: homeController.movieReviewList.length,
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  children: [
+                                    Container(
+                                      width: 40.w,
+                                      height: 40.h,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: CircleAvatar(
+                                        backgroundColor:
+                                            cWhiteColor.withOpacity(0.2),
+                                        child: ClipOval(
+                                          child: Image.network(
+                                            width: 40.w,
+                                            height: 40.h,
+                                            fit: BoxFit.cover,
+                                            homeController
+                                                    .movieReviewList[index]
+                                                    ?.user
+                                                    ?.profileImage ??
+                                                "",
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  kW12sizedBox,
-                                  SvgPicture.asset(
-                                    kiMessage,
-                                    width: 14.w,
-                                    height: 14.h,
-                                    color: cWhiteColor,
-                                  ),
-                                  kW6sizedBox,
-                                  Text(
-                                    "10k replies",
-                                    style: regular12TextStyle(
-                                        cGreyColor.withOpacity(0.8)),
-                                  ),
-                                  kW6sizedBox,
-                                  const Icon(
-                                    Icons.keyboard_arrow_down_outlined,
-                                    color: cWhiteColor,
-                                    size: kIconSize20,
-                                  ),
-                                  const Expanded(child: SizedBox()),
-                                  Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                        kiReply,
-                                        width: 16.w,
-                                        height: 16.h,
-                                        color: cPrimaryColor2,
-                                      ),
-                                      kW14sizedBox,
-                                      Text(
-                                        ksReply.tr,
-                                        style:
-                                            regular16TextStyle(cPrimaryColor2),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    kW12sizedBox,
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              homeController
+                                                      .movieReviewList[index]
+                                                      ?.user
+                                                      ?.userName ??
+                                                  "",
+                                              style: medium16TextStyle(
+                                                  cWhiteColor),
+                                            ),
+                                            kW6sizedBox,
+                                            Container(
+                                              width: 6.w,
+                                              height: 6.h,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color:
+                                                    cGreyColor.withOpacity(0.8),
+                                              ),
+                                            ),
+                                            kW6sizedBox,
+                                            Icon(
+                                              Icons.access_time,
+                                              color:
+                                                  cGreyColor.withOpacity(0.8),
+                                              size: kIconSize16,
+                                            ),
+                                            kW6sizedBox,
+                                            Text(
+                                              homeController.movieReviewList[index]?.createdAt??"",
+                                              style: regular10TextStyle(
+                                                  cGreyColor.withOpacity(0.8)),
+                                            ),
+                                          ],
+                                        ),
+                                        kH10sizedBox,
+                                        Obx(() => SizedBox(
+                                              width: width - 96,
+                                              child: Row(
+                                                children: [
+                                                  InkWell(
+                                                    onTap: () async {
+                                                      homeController.movieReviewList[index]!.isLiked!.value = !homeController.movieReviewList[index]!.isLiked!.value;
+                                                      if(homeController.movieReviewList[index]!.isLiked!.value==true){
+                                                        homeController.movieReviewList[index]!.totalLikes!.value++;
+                                                      } 
+                                                      if(homeController.movieReviewList[index]!.isLiked!.value==false){
+                                                        homeController.movieReviewList[index]!.totalLikes!.value--;
+                                                      } 
+                                                      await homeController.reviewLikeToggle(reviewId: homeController.movieReviewList[index]!.id!);
+                                                    },
+                                                    child: Icon(
+                                                      homeController
+                                                                  .movieReviewList[
+                                                                      index]!
+                                                                  .isLiked!
+                                                                  .value ==
+                                                              true
+                                                          ? Icons.favorite
+                                                          : Icons
+                                                              .favorite_outline,
+                                                      color: homeController
+                                                                  .movieReviewList[
+                                                                      index]!
+                                                                  .isLiked!
+                                                                  .value ==
+                                                              true
+                                                          ? cPrimaryColor
+                                                          : cWhiteColor,
+                                                      size: kIconSize20,
+                                                    ),
+                                                  ),
+                                                  kW6sizedBox,
+                                                  Text(
+                                                    homeController
+                                                            .movieReviewList[
+                                                                index]
+                                                            ?.totalLikes?.value
+                                                            .toString() ??
+                                                        "",
+                                                    style: regular12TextStyle(
+                                                        cGreyColor
+                                                            .withOpacity(0.8)),
+                                                  ),
+                                                ],
+                                              ),
+                                            )),
+                                        kH10sizedBox,
+                                        Text(
+                                          homeController.movieReviewList[index]
+                                                  ?.review ??
+                                              "",
+                                          style: medium12TextStyle(cWhiteColor),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                );
+                              },
                             ),
                           ],
                         ),
-                      ],
+                      ),
+                    kH16sizedBox,
+                         HomeTitleContent(
+                      title: ksRelatedVideos.tr,
+                      subtitleText: homeController.relatedTvShowsList.isNotEmpty
+                          ? ksViewAll.tr
+                          : "",
+                      onPressed: () async {
+                        homeController.resetBottomSheetData();
+                        homeController.isViewAllSearchEnable.value = false;
+                        homeController.viewAllTextEditingController.clear();
+                        homeController.selectedTitle.value = ksPopularTvShows;
+                        await homeController.getTvShows();
+                        Get.toNamed(krTvShowsViewAllScreen);
+                        // Get.toNamed(krMovieViewAllScreen);
+                      },
                     ),
-                    kH12sizedBox,
+                    kH16sizedBox,
                     Padding(
-                      padding: EdgeInsets.only(left: 52.w),
-                      child: SizedBox(
-                        width: width - 72,
-                        child: Column(
-                          children: [
-                            Divider(
-                              thickness: 1,
-                              color: cWhiteColor.withOpacity(0.14),
-                            ),
-                            Text(
-                              "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
-                              style: regular14TextStyle(cWhiteColor),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    kH12sizedBox,
-                    Divider(
-                      thickness: 1,
-                      color: cWhiteColor.withOpacity(0.14),
-                    ),
-                    kH20sizedBox,
-                    Text(
-                      ksAddYourComment.tr,
-                      style: medium16TextStyle(cWhiteColor),
-                    ),
-                    kH20sizedBox,
-                    CustomModifiedTextField(
-                      hint: ksEnterHere.tr,
-                      controller:
-                          homeController.addCommentTextEditingController,
-                      fillColor: cBlackColor,
-                      textInputStyle: regular14TextStyle(cWhiteColor),
-                      focusBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(k6BorderRadius),
-                        borderSide: const BorderSide(
-                          width: 1,
-                          color: cPrimaryColor2,
-                        ),
-                      ),
-                      maxLines: 4,
-                      inputAction: TextInputAction.newline,
-                      inputType: TextInputType.multiline,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(k6BorderRadius),
-                        borderSide: BorderSide(
-                          width: 1,
-                          color: cWhiteColor.withOpacity(0.3),
-                          style: BorderStyle.solid,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.all(12),
-                    ),
-                    kH12sizedBox,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                          width: 34.w,
-                          height: 34.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(k6BorderRadius),
-                            color: cWhiteColor.withOpacity(0.1),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(9.0),
-                            child: SvgPicture.asset(
-                              kiEmoji,
-                              width: 16.w,
-                              height: 16.h,
-                              color: cWhiteColor,
+                      padding: const EdgeInsets.only(left: k20Padding),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: width - 20,
+                            height: 150.h,
+                            child: ListView.separated(
+                              itemCount:
+                                  homeController.relatedTvShowsList.length,
+                              separatorBuilder: (context, index) => kW8sizedBox,
+                              shrinkWrap: true,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return InkWell(
+                                  onTap: () async {
+                                    await homeController.getTvShowDetails(
+                                        showId: homeController
+                                            .relatedTvShowsList[index]?.id??-1);
+                                    Get.toNamed(krTvShowPlayerScreen);
+                                  },
+                                  child: MovieContentContainer(
+                                    movieImage: homeController
+                                        .relatedTvShowsList[index]?.thumbnail,
+                                    // seasonName: ,
+                                    isPremium: homeController
+                                                .relatedTvShowsList[index]
+                                                ?.isPaid ==
+                                            1
+                                        ? true
+                                        : false,
+                                  ),
+                                );
+                              },
                             ),
                           ),
-                        ),
-                        Row(
-                          children: [
-                            CustomElevatedButton(
-                              label: ksCancel.tr,
-                              onPressed: () {},
-                              buttonColor: cWhiteColor.withOpacity(0.1),
-                              textStyle: regular16TextStyle(cWhiteColor),
-                              buttonWidth: 70.w,
-                              buttonHeight: h36.h,
-                            ),
-                            kW12sizedBox,
-                            CustomElevatedButton(
-                              label: ksPostNow.tr,
-                              onPressed: () {},
-                              buttonColor: cPrimaryColor2,
-                              textStyle: regular16TextStyle(cWhiteColor),
-                              buttonWidth: 90.w,
-                              buttonHeight: h36.h,
-                            ),
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     kH20sizedBox,
-                  ],
-                ),
-              ),
+              //!Comment Widget
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              //   child: Column(
+              //     children: [
+              //       kH20sizedBox,
+              //       Container(
+              //         width: width,
+              //         decoration: BoxDecoration(
+              //           color: cWhiteColor.withOpacity(0.1),
+              //           borderRadius: BorderRadius.circular(k6BorderRadius),
+              //         ),
+              //         child: Padding(
+              //           padding: const EdgeInsets.symmetric(
+              //               horizontal: k16Padding, vertical: k20Padding),
+              //           child: Row(
+              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //             children: [
+              //               Text(
+              //                 "10 Comments",
+              //                 style: medium16TextStyle(cWhiteColor),
+              //               ),
+              //               // kW36sizedBox,
+              //               Text(
+              //                 "${ksSubmitRating.tr}:",
+              //                 style: regular16TextStyle(cWhiteColor),
+              //               ),
+              //               //!temporary(this is not valid)
+              //               const Row(
+              //                 children: [
+              //                   Icon(
+              //                     Icons.star_border,
+              //                     size: kIconSize16,
+              //                     color: cWhiteColor,
+              //                   ),
+              //                   Icon(
+              //                     Icons.star_border,
+              //                     size: kIconSize16,
+              //                     color: cWhiteColor,
+              //                   ),
+              //                   Icon(
+              //                     Icons.star_border,
+              //                     size: kIconSize16,
+              //                     color: cWhiteColor,
+              //                   ),
+              //                   Icon(
+              //                     Icons.star_border,
+              //                     size: kIconSize16,
+              //                     color: cWhiteColor,
+              //                   ),
+              //                   Icon(
+              //                     Icons.star_border,
+              //                     size: kIconSize16,
+              //                     color: cWhiteColor,
+              //                   ),
+              //                 ],
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       kH20sizedBox,
+              //       Row(
+              //         children: [
+              //           Container(
+              //             width: 40.w,
+              //             height: 40.h,
+              //             decoration: const BoxDecoration(
+              //               shape: BoxShape.circle,
+              //             ),
+              //             child: CircleAvatar(
+              //               backgroundColor: cWhiteColor.withOpacity(0.2),
+              //               child: ClipOval(
+              //                 child: Image.network(
+              //                     width: 40.w,
+              //                     height: 40.h,
+              //                     fit: BoxFit.cover,
+              //                     "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D"),
+              //               ),
+              //             ),
+              //           ),
+              //           kW12sizedBox,
+              //           Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             mainAxisAlignment: MainAxisAlignment.start,
+              //             children: [
+              //               Row(
+              //                 children: [
+              //                   Text(
+              //                     "Saikat Ahmmed",
+              //                     style: medium16TextStyle(cWhiteColor),
+              //                   ),
+              //                   kW6sizedBox,
+              //                   Container(
+              //                     width: 6.w,
+              //                     height: 6.h,
+              //                     decoration: BoxDecoration(
+              //                       shape: BoxShape.circle,
+              //                       color: cGreyColor.withOpacity(0.8),
+              //                     ),
+              //                   ),
+              //                   kW6sizedBox,
+              //                   Icon(
+              //                     Icons.access_time,
+              //                     color: cGreyColor.withOpacity(0.8),
+              //                     size: kIconSize16,
+              //                   ),
+              //                   kW6sizedBox,
+              //                   Text(
+              //                     "2 years ago",
+              //                     style: regular10TextStyle(
+              //                         cGreyColor.withOpacity(0.8)),
+              //                   ),
+              //                 ],
+              //               ),
+              //               kH10sizedBox,
+              //               SizedBox(
+              //                 width: width - 96,
+              //                 child: Row(
+              //                   children: [
+              //                     const Icon(
+              //                       Icons.favorite_outline,
+              //                       color: cWhiteColor,
+              //                       size: kIconSize20,
+              //                     ),
+              //                     kW6sizedBox,
+              //                     Text(
+              //                       "100K",
+              //                       style: regular12TextStyle(
+              //                           cGreyColor.withOpacity(0.8)),
+              //                     ),
+              //                     kW12sizedBox,
+              //                     SizedBox(
+              //                       height: h8.h,
+              //                       child: VerticalDivider(
+              //                         width: 1,
+              //                         thickness: 1,
+              //                         color: cWhiteColor.withOpacity(0.14),
+              //                       ),
+              //                     ),
+              //                     kW12sizedBox,
+              //                     SvgPicture.asset(
+              //                       kiMessage,
+              //                       width: 14.w,
+              //                       height: 14.h,
+              //                       color: cWhiteColor,
+              //                     ),
+              //                     kW6sizedBox,
+              //                     Text(
+              //                       "10k replies",
+              //                       style: regular12TextStyle(
+              //                           cGreyColor.withOpacity(0.8)),
+              //                     ),
+              //                     kW6sizedBox,
+              //                     const Icon(
+              //                       Icons.keyboard_arrow_down_outlined,
+              //                       color: cWhiteColor,
+              //                       size: kIconSize20,
+              //                     ),
+              //                     //  Spacer(),
+              //                     Expanded(child: SizedBox()),
+              //                     Row(
+              //                       children: [
+              //                         SvgPicture.asset(
+              //                           kiReply,
+              //                           width: 16.w,
+              //                           height: 16.h,
+              //                           color: cPrimaryColor2,
+              //                         ),
+              //                         kW14sizedBox,
+              //                         Text(
+              //                           ksReply.tr,
+              //                           style:
+              //                               regular16TextStyle(cPrimaryColor2),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //       kH12sizedBox,
+              //       Padding(
+              //         padding: EdgeInsets.only(left: 52.w),
+              //         child: SizedBox(
+              //           width: width - 72,
+              //           child: Column(
+              //             children: [
+              //               Divider(
+              //                 thickness: 1,
+              //                 color: cWhiteColor.withOpacity(0.14),
+              //               ),
+              //               Text(
+              //                 "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
+              //                 style: regular14TextStyle(cWhiteColor),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       kH20sizedBox,
+              //       Row(
+              //         children: [
+              //           Container(
+              //             width: 40.w,
+              //             height: 40.h,
+              //             decoration: const BoxDecoration(
+              //               shape: BoxShape.circle,
+              //             ),
+              //             child: CircleAvatar(
+              //               backgroundColor: cWhiteColor.withOpacity(0.2),
+              //               child: ClipOval(
+              //                 child: Image.network(
+              //                     width: 40.w,
+              //                     height: 40.h,
+              //                     fit: BoxFit.cover,
+              //                     "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D"),
+              //               ),
+              //             ),
+              //           ),
+              //           kW12sizedBox,
+              //           Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             mainAxisAlignment: MainAxisAlignment.start,
+              //             children: [
+              //               Row(
+              //                 children: [
+              //                   Text(
+              //                     "Saikat Ahmmed",
+              //                     style: medium16TextStyle(cWhiteColor),
+              //                   ),
+              //                   kW6sizedBox,
+              //                   Container(
+              //                     width: 6.w,
+              //                     height: 6.h,
+              //                     decoration: BoxDecoration(
+              //                       shape: BoxShape.circle,
+              //                       color: cGreyColor.withOpacity(0.8),
+              //                     ),
+              //                   ),
+              //                   kW6sizedBox,
+              //                   Icon(
+              //                     Icons.access_time,
+              //                     color: cGreyColor.withOpacity(0.8),
+              //                     size: kIconSize16,
+              //                   ),
+              //                   kW6sizedBox,
+              //                   Text(
+              //                     "2 years ago",
+              //                     style: regular10TextStyle(
+              //                         cGreyColor.withOpacity(0.8)),
+              //                   ),
+              //                 ],
+              //               ),
+              //               kH10sizedBox,
+              //               SizedBox(
+              //                 width: width - 96,
+              //                 child: Row(
+              //                   children: [
+              //                     const Icon(
+              //                       Icons.favorite_outline,
+              //                       color: cWhiteColor,
+              //                       size: kIconSize20,
+              //                     ),
+              //                     kW6sizedBox,
+              //                     Text(
+              //                       "100K",
+              //                       style: regular12TextStyle(
+              //                           cGreyColor.withOpacity(0.8)),
+              //                     ),
+              //                     kW12sizedBox,
+              //                     SizedBox(
+              //                       height: h8.h,
+              //                       child: VerticalDivider(
+              //                         width: 1,
+              //                         thickness: 1,
+              //                         color: cWhiteColor.withOpacity(0.14),
+              //                       ),
+              //                     ),
+              //                     kW12sizedBox,
+              //                     SvgPicture.asset(
+              //                       kiMessage,
+              //                       width: 14.w,
+              //                       height: 14.h,
+              //                       color: cWhiteColor,
+              //                     ),
+              //                     kW6sizedBox,
+              //                     Text(
+              //                       "10k replies",
+              //                       style: regular12TextStyle(
+              //                           cGreyColor.withOpacity(0.8)),
+              //                     ),
+              //                     kW6sizedBox,
+              //                     const Icon(
+              //                       Icons.keyboard_arrow_down_outlined,
+              //                       color: cWhiteColor,
+              //                       size: kIconSize20,
+              //                     ),
+              //                     const Expanded(child: SizedBox()),
+              //                     Row(
+              //                       children: [
+              //                         SvgPicture.asset(
+              //                           kiReply,
+              //                           width: 16.w,
+              //                           height: 16.h,
+              //                           color: cPrimaryColor2,
+              //                         ),
+              //                         kW14sizedBox,
+              //                         Text(
+              //                           ksReply.tr,
+              //                           style:
+              //                               regular16TextStyle(cPrimaryColor2),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ],
+              //                 ),
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //       kH12sizedBox,
+              //       Padding(
+              //         padding: EdgeInsets.only(left: 52.w),
+              //         child: SizedBox(
+              //           width: width - 72,
+              //           child: Column(
+              //             children: [
+              //               Divider(
+              //                 thickness: 1,
+              //                 color: cWhiteColor.withOpacity(0.14),
+              //               ),
+              //               Text(
+              //                 "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
+              //                 style: regular14TextStyle(cWhiteColor),
+              //               ),
+              //             ],
+              //           ),
+              //         ),
+              //       ),
+              //       kH12sizedBox,
+              //       Divider(
+              //         thickness: 1,
+              //         color: cWhiteColor.withOpacity(0.14),
+              //       ),
+              //       kH20sizedBox,
+              //       Text(
+              //         ksAddYourComment.tr,
+              //         style: medium16TextStyle(cWhiteColor),
+              //       ),
+              //       kH20sizedBox,
+              //       CustomModifiedTextField(
+              //         hint: ksEnterHere.tr,
+              //         controller:
+              //             homeController.addCommentTextEditingController,
+              //         fillColor: cBlackColor,
+              //         textInputStyle: regular14TextStyle(cWhiteColor),
+              //         focusBorder: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(k6BorderRadius),
+              //           borderSide: const BorderSide(
+              //             width: 1,
+              //             color: cPrimaryColor2,
+              //           ),
+              //         ),
+              //         maxLines: 4,
+              //         inputAction: TextInputAction.newline,
+              //         inputType: TextInputType.multiline,
+              //         border: OutlineInputBorder(
+              //           borderRadius: BorderRadius.circular(k6BorderRadius),
+              //           borderSide: BorderSide(
+              //             width: 1,
+              //             color: cWhiteColor.withOpacity(0.3),
+              //             style: BorderStyle.solid,
+              //           ),
+              //         ),
+              //         contentPadding: const EdgeInsets.all(12),
+              //       ),
+              //       kH12sizedBox,
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Container(
+              //             width: 34.w,
+              //             height: 34.h,
+              //             decoration: BoxDecoration(
+              //               borderRadius: BorderRadius.circular(k6BorderRadius),
+              //               color: cWhiteColor.withOpacity(0.1),
+              //             ),
+              //             child: Padding(
+              //               padding: const EdgeInsets.all(9.0),
+              //               child: SvgPicture.asset(
+              //                 kiEmoji,
+              //                 width: 16.w,
+              //                 height: 16.h,
+              //                 color: cWhiteColor,
+              //               ),
+              //             ),
+              //           ),
+              //           Row(
+              //             children: [
+              //               CustomElevatedButton(
+              //                 label: ksCancel.tr,
+              //                 onPressed: () {},
+              //                 buttonColor: cWhiteColor.withOpacity(0.1),
+              //                 textStyle: regular16TextStyle(cWhiteColor),
+              //                 buttonWidth: 70.w,
+              //                 buttonHeight: h36.h,
+              //               ),
+              //               kW12sizedBox,
+              //               CustomElevatedButton(
+              //                 label: ksPostNow.tr,
+              //                 onPressed: () {},
+              //                 buttonColor: cPrimaryColor2,
+              //                 textStyle: regular16TextStyle(cWhiteColor),
+              //                 buttonWidth: 90.w,
+              //                 buttonHeight: h36.h,
+              //               ),
+              //             ],
+              //           ),
+              //         ],
+              //       ),
+              //       kH20sizedBox,
+              //     ],
+              //   ),
+              // ),
+            
             ],
           ),
         ),
