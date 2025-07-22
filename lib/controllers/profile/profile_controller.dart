@@ -837,5 +837,5 @@ Future<void> changeLanguage(String language) async {
   selectedLanguage.value = language;
 }
 
-
+final RxBool isplaylistListExpand = RxBool(true);
 }

@@ -2,7 +2,9 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:video_player/video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
+import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
@@ -208,12 +210,46 @@ class TvShowPlayerScreen extends StatelessWidget {
                     kH16sizedBox,
                     Row(
                       children: [
-                        const CommonContainer(
+                        // const CommonContainer(
+                        //   image: kiCrown,
+                        // ),
+                        // kW10sizedBox,
+                        // const CommonContainer(
+                        //   image: kiFavorite,
+                        // ),
+                         CommonContainer(
                           image: kiCrown,
+                          onPressed: null,
+                          containerColor:
+                              homeController.tvShowDetailsData.value?.isPaid == 1
+                                  ? cPrimaryColor
+                                  : cWhiteColor.withOpacity(0.2),
                         ),
                         kW10sizedBox,
-                        const CommonContainer(
+                        CommonContainer(
                           image: kiFavorite,
+                          containerColor:
+                              Get.find<ProfileController>().isFavoriteAdded.value
+                                  ? cPrimaryColor2
+                                  : null,
+                          onPressed: () async {
+                            if (Get.find<GlobalController>().userToken.value ==
+                                "") {
+                              showSnackBar(
+                                  title: "Error",
+                                  message:
+                                      "Please Login first then add favourite",
+                                  color: cRedColor);
+                            } else {
+                              Get.find<ProfileController>().isFavoriteAdded.value =
+                                  !Get.find<ProfileController>().isFavoriteAdded.value;
+                              await Get.find<ProfileController>().favoriteAddOrRemove(
+                                  id: homeController
+                                          .tvShowDetailsData.value?.id ??
+                                      -1,
+                                  type: "tv_shows");
+                            }
+                          },
                         ),
                         kW10sizedBox,
                         const CommonContainer(
@@ -351,20 +387,6 @@ class TvShowPlayerScreen extends StatelessWidget {
                                       separatorBuilder: (context, index) => kH10sizedBox,
                                       itemCount: homeController.tvShowEpisodeList.length,
                                       itemBuilder: (context, index) {
-                                        // return Container(
-                                        //   width: width,
-                                        //   decoration: BoxDecoration(
-                                        //     borderRadius:
-                                        //         BorderRadius.circular(k6BorderRadius),
-                                        //   ),
-                                        //   child: Text(
-                                        //                                               homeController
-                                        //         .tvShowEpisodeList[index]?.episodeName ??
-                                        //     "",
-                                        //                                               textAlign: TextAlign.center,
-                                        //                                               style: medium14TextStyle(cWhiteColor),
-                                        //                                             ),
-                                        // );
                                         return Row(
                                           children: [
                                             Image.network(homeController.tvShowEpisodeList[index]?.fileUrl??"", height: 90.h,
@@ -467,7 +489,6 @@ class TvShowPlayerScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                   
                     kH12sizedBox,
                     if (homeController.movietSelectedIndex.value == 0)
                       SizedBox(

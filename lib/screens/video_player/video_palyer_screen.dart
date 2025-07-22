@@ -723,6 +723,13 @@ class VideoPlayerScreen extends StatelessWidget {
                               subTitle: homeController
                                       .movieCastList[index]?.starType ??
                                   "",
+                                  onPressed: () async {
+                                           await homeController.getArtistDetails(
+                                        homeController
+                                            .movieCastList[index]?.id);
+                                      homeController.castSelectedIndex.value=0;
+                                    Get.toNamed(krCastDetailsScreen);
+                                  },
                             );
                           },
                         ),
@@ -748,6 +755,13 @@ class VideoPlayerScreen extends StatelessWidget {
                               subTitle: homeController
                                       .movieDirectorList[index]?.starType ??
                                   "",
+                                        onPressed: () async {
+                                           await homeController.getArtistDetails(
+                                        homeController
+                                            .movieDirectorList[index]?.id);
+                                      homeController.castSelectedIndex.value=0;
+                                    Get.toNamed(krCastDetailsScreen);
+                                  },
                             );
                           },
                         ),
@@ -773,6 +787,13 @@ class VideoPlayerScreen extends StatelessWidget {
                               subTitle: homeController
                                       .movieWriterList[index]?.starType ??
                                   "",
+                                   onPressed: () async {
+                                           await homeController.getArtistDetails(
+                                        homeController
+                                            .movieWriterList[index]?.id);
+                                      homeController.castSelectedIndex.value=0;
+                                    Get.toNamed(krCastDetailsScreen);
+                                  },
                             );
                           },
                         ),
@@ -2017,44 +2038,48 @@ class RentProductDetailsContentContainer extends StatelessWidget {
 
 class VideoDetailsContentWidget extends StatelessWidget {
   const VideoDetailsContentWidget(
-      {super.key, this.imageUrl, this.title, this.subTitle});
+      {super.key, this.imageUrl, this.title, this.subTitle,this.onPressed});
   final String? imageUrl, title, subTitle;
+  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Image.network(
-          imageUrl ?? "",
-          width: 70.w,
-          height: 40.h,
-          fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => Center(
-            child: SvgPicture.asset(
-              kiDummyMovie,
-              width: 70.w,
-              height: 50.h,
-              fit: BoxFit.cover,
+    return InkWell(
+      onTap: onPressed,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.network(
+            imageUrl ?? "",
+            width: 70.w,
+            height: 40.h,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => Center(
+              child: SvgPicture.asset(
+                kiDummyMovie,
+                width: 70.w,
+                height: 50.h,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
-        kW12sizedBox,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              title ?? "",
-              style: semiBold14TextStyle(cWhiteColor),
-            ),
-            kH4sizedBox,
-            Text(
-              subTitle ?? "",
-              style: regular12TextStyle(cWhiteColor),
-            ),
-          ],
-        ),
-      ],
+          kW12sizedBox,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title ?? "",
+                style: semiBold14TextStyle(cWhiteColor),
+              ),
+              kH4sizedBox,
+              Text(
+                subTitle ?? "",
+                style: regular12TextStyle(cWhiteColor),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
