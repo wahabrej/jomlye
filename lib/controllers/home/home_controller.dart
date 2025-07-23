@@ -1538,7 +1538,7 @@ class HomeController extends GetxController {
     }
   }
 //!Review & Rating
-  Future<void> userRating({required int movieId}) async {
+  Future<void> userRating({required int reviewableId,required String reviewableType}) async {
     // final int userId = await spController.getUserId()??-1;
     try {
       String? token = await spController.getBearerToken();
@@ -1547,7 +1547,8 @@ class HomeController extends GetxController {
         "user_id": userId.toString(),
         "review": addCommentTextEditingController.text.trim().toString(),
         "rating": rating.toString(),
-        "movie_id": movieId.toString(),
+        "reviewable_id": reviewableId.toString(),
+        "reviewable_type": reviewableType,
       };
       ll("body : $body");
       var response = await apiServices.commonApiCall(
@@ -1560,7 +1561,7 @@ class HomeController extends GetxController {
       if (response.code == 200) {
         addCommentTextEditingController.clear();
         rating.value=0;
-        await getUserReview(movieId: movieId);
+        await getUserReview(movieId: reviewableId);
         showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
       } else {
         showSnackBar(title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);

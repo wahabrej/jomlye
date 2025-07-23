@@ -109,7 +109,9 @@ const String ksSearch = "Search";
 const String ksSearchResults = "Search results";
 const String ksNoVideoFound = "No Video Found";
 const String ksNoBlogFound = "No Blog Found";
-const String ksNoBlogsFoundPleaseCheckFilter = "No blogs found. Please check filter or explore other categories for more exciting content!";
+const String ksNoBlogDetailsFound = "No Blog Details Found";
+const String ksNoBlogsDetailsFoundPleaseCheckFilter = "No blogs found. Please check filter or explore other categories for more exciting content!";
+const String ksNoBlogsFoundPleaseCheckFilter = "No blogs details found. Please check for more exciting content!";
 const String ksNoVideosFoundPleaseCheckFilter = "No videos found. Please check filter or explore other categories for more exciting content!";
 const String ksNoArtistFound = "No Artist Found";
 const String ksNoPaymentHistoryFound = "No Payment History Found";
@@ -207,6 +209,7 @@ const String ksPremiumContent = "Premium content";
 const String ksProceedToPayment = "Proceed To Payment";
 const String ksSelectPaymentMethod = "Select Payment Method";
 const String ksReviews = "Reviews";
+const String ksTv = "Tv";
 
 //* player screen
 const String ksTitle = "Title";

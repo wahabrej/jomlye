@@ -1,5 +1,7 @@
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
+import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
+import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -32,7 +34,7 @@ class CustomBottomNavBar extends StatelessWidget {
               _BottomNavbarItem(
                 width: width,
                 isSelected: selectedIndex == 1,
-                title: "Live",
+                title: ksLive.tr,
                 onPressed: () async {
                   // Navigate to live stream
                   await Get.find<HomeController>().getTvChannel();
@@ -43,16 +45,18 @@ class CustomBottomNavBar extends StatelessWidget {
               _BottomNavbarItem(
                 width: width,
                 isSelected: selectedIndex == 2,
-                title: "Food",
+                title: ksMovies.tr,
                 onPressed: () async {
                   // Navigate to popcorn section
+                  await Get.find<HomeController>().getMovieList(movieType: "");
+                  Get.toNamed(krMovieViewAllScreen);
                 },
                 image: kiPopcorn,
               ),
               _BottomNavbarItem(
                 width: width,
                 isSelected: selectedIndex == 3,
-                title: "TV",
+                title: ksTv.tr,
                 onPressed: () async {
                   // Navigate to TV screen
                 },
@@ -61,13 +65,15 @@ class CustomBottomNavBar extends StatelessWidget {
               _BottomNavbarItem(
                 width: width,
                 isSelected: selectedIndex == 4,
-                title: "Profile",
-                onPressed: () {
+                title: ksProfile.tr,
+                onPressed: () async{
                   if(Get.find<GlobalController>().userToken.value==""){
                     Get.toNamed(krSignInScreen);
                   }
                   else{
                     Get.toNamed(krProfileScreen);
+                    final int userId = await SpController().getUserId()??-1;
+                    await Get.find<ProfileController>().getProfile(userId: userId);
                   }
                 },
                 image: kiProfile,

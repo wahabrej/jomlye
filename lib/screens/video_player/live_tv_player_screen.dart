@@ -325,11 +325,14 @@ class LiveTvPlayerScreen extends StatelessWidget {
                                 CustomElevatedButton(
                                   label: ksPostNow.tr,
                                   onPressed: () async {
-                                    await homeController.userRating(
-                                        movieId: homeController
-                                            .liveTvDetailsData
-                                            .value!
-                                            .id!);
+                                    // await homeController.userRating(
+                                    //     reviewableId: homeController
+                                    //         .liveTvDetailsData
+                                    
+                                    //         .value!
+                                    //         .id!,
+                                    //         reviewableType: ""
+                                    //         );
                                   },
                                   buttonColor: cPrimaryColor2,
                                   textStyle: regular14TextStyle(cWhiteColor),

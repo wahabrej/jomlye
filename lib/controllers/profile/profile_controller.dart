@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
@@ -10,6 +9,7 @@ import 'package:vidflix_flutter_app/models/profile/faq/faq_model.dart';
 import 'package:vidflix_flutter_app/models/profile/favorite/favorite_list_model.dart';
 import 'package:vidflix_flutter_app/models/profile/playlist/playlist_model.dart';
 import 'package:vidflix_flutter_app/models/profile/playlist/playlist_movie_list_model.dart';
+import 'package:vidflix_flutter_app/models/profile/profile/profile_model.dart';
 import 'package:vidflix_flutter_app/models/profile/profile/update_profile_model.dart';
 import 'package:vidflix_flutter_app/models/profile/rent/rented_video_model.dart';
 import 'package:vidflix_flutter_app/screens/profile/common_webview_screen.dart';
@@ -296,6 +296,60 @@ class ProfileController extends GetxController {
       TextEditingController();
     final TextEditingController messageTextEditingController =
       TextEditingController();
+
+  //!profile
+  final RxBool isProfileLoading = RxBool(false);
+  final Rx<ProfileModel?> profileData = Rx<ProfileModel?>(null);
+  Future<void> getProfile({required int userId}) async {
+    try {
+      isProfileLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuProfile?id=${userId.toString()}",
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        profileData.value = ProfileModel.fromJson(response.data);
+        // profileData.value = profileData.value;
+        await spController.saveUserImage(profileData.value?.user.image);
+        await spController.saveUserEmail(profileData.value?.user.email);
+        await spController.saveUserFirstName(profileData.value?.user.firstName);
+        await spController.saveUserLastName(profileData.value?.user.lastName);
+        await spController.saveUserPhoneNumber(profileData.value?.user.phone);
+        await spController.saveUserGender(profileData.value?.user.gender);
+        globalController.userFirstName.value =
+            await spController.getUserFirstName() ?? "";
+         globalController.userLastName.value =
+            await spController.getUserLastName() ?? "";
+         globalController.userEmail.value =
+            await spController.getUserEmail() ?? "";
+         globalController.userImage.value =
+            await spController.getUserImage() ?? "";
+         globalController.userPhone.value =
+            await spController.getUserPhoneNumber() ?? "";
+         globalController.userGender.value =
+            await spController.getUserGender() ?? "";
+         globalController.userGender.value =
+            await spController.getUserGender() ?? "";
+        isProfileLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isProfileLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(title: ksError.tr, message: response.message.toString(), color: cPrimaryColor2);
+        } else {
+          showSnackBar(title: ksError.tr, message: errorModel.errors[0].message, color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isProfileLoading.value = false;
+      ll('getProfile error: $e');
+    }
+  }
   //!profile update
   final TextEditingController firstNameTextEditingController = TextEditingController();
   final TextEditingController lastNameTextEditingController = TextEditingController();
@@ -306,7 +360,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
   Future<void> updateProfile() async {
     try {
       String? token = await spController.getBearerToken();
-      Map<String, dynamic> body = {
+      Map<String, String> body = {
         "user_id": globalController.userId.value.toString(),
         "first_name": firstNameTextEditingController.text.trim().toString(),
         "last_name": lastNameTextEditingController.text.trim().toString(),
@@ -315,13 +369,27 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
         "gender": selectedGender.value == "Male" ? "1" : "2" ,
       };
       ll("body : $body");
-      var response = await apiServices.commonApiCall(
+            final List<String> key = [];
+      if(profileImageFile.value?.path!=null && profileImageFile.value?.path!=""){
+        key.add('profile');
+      }
+      final List<dynamic> value = [];
+      if(profileImageFile.value?.path!=null && profileImageFile.value?.path!=""){
+        value.add(profileImageFile.value?.path);
+      }
+      var response =  key.isNotEmpty ? await apiServices.mediaUploadMultipleKeyAndValue(
         url: kuUpdateProfile,
         body: body,
+        token: token,
+        keys: key,
+        values: value,
+      )as CommonDM :
+        await apiServices.commonApiCall(
+        url: kuUpdateProfile,
         requestMethod: kPost,
+        body: body,
         token: token,
       ) as CommonDM;
-
       if (response.code == 200) {
         updateProfileModel.value = UpdateProfileModel.fromJson(response.data);
         await spController.saveUserImage(updateProfileModel.value?.details?.image);
@@ -833,7 +901,6 @@ Future<void> changeLanguage(String language) async {
       await Get.updateLocale(const Locale('ar', 'SA'));
       break;
   }
-  
   selectedLanguage.value = language;
 }
 

@@ -181,6 +181,9 @@ class ProfileScreen extends StatelessWidget {
                       profileController.phoneTextEditingController.text = globalController.userPhone.value;
                       profileController.getUserImage.value = globalController.userImage.value;
                       profileController.selectedGender.value = globalController.userGender.value=="1" ? "Male" : "Female";
+                      profileController.profileImageFile.value = null;
+                      profileController.profileImageLink.value = "";
+                      profileController.isProfileImageChnaged.value = false;
                       Get.toNamed(krEditProfileScreen);
                     },
                   ),

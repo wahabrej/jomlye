@@ -16,7 +16,7 @@ const String kuInterest = "interest";
 const String kuInterestStore = "interest-store";
 
 //User profile
-const String kuProfile = "profile";
+const String kuProfile = "user-details";
 const String kuUpdateProfile = "update-profile";
 const String kuChangePassword = "change-password";
 //Home

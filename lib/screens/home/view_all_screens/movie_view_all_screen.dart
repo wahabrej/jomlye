@@ -407,7 +407,7 @@ class MovieViewAllScreen extends StatelessWidget {
                                   homeController.movieListScrolled.value =
                                       true;
                                   if (homeController.movieList.isNotEmpty) {
-                                    homeController.getMoreMovieList(homeController.selectedTitle.value==ksNewRelease ? "newRelease" : homeController.selectedTitle.value== ksTrendingMovies ? "trending" : "recommended");
+                                    homeController.getMoreMovieList(homeController.selectedTitle.value==ksNewRelease ? "newRelease" : homeController.selectedTitle.value== ksTrendingMovies ? "trending" : homeController.selectedTitle.value== ksRecommended ? "recommended": "");
                                   }
                                   return true;
                                 }

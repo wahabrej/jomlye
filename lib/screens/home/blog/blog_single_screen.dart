@@ -194,6 +194,33 @@ class BlogSingleScreen extends StatelessWidget {
               //     return null;
               //   },
               // ),
+              if(homeController.blogDetails.value?.description==null || homeController.blogDetails.value?.description=="")
+              SizedBox(
+                        height: (height * 0.5),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              kiSearchResultPng,
+                              width: 200.w,
+                              height: 200.h,
+                            ),
+                            Text(
+                              ksNoBlogDetailsFound.tr,
+                              style: medium16TextStyle(cPrimaryColor2),
+                            ),
+                            kH16sizedBox,
+                            Text(
+                              ksNoBlogsDetailsFoundPleaseCheckFilter.tr,
+                              style:
+                                  regular14TextStyle(cWhiteColor.withOpacity(
+                                0.5,
+                              )),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
               if(homeController.blogDetails.value?.description!=null)
                 HtmlWidget(homeController.blogDetails.value?.description),
               //   kH20sizedBox,

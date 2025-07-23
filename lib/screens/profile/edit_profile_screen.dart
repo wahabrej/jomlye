@@ -158,7 +158,7 @@ class EditProfileScreen extends StatelessWidget {
                             //               ),
                         Center(
                         child: Container(
-                          width: 100.h,
+                          width: 100.w,
                           height: 100.h,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -171,9 +171,9 @@ class EditProfileScreen extends StatelessWidget {
                             backgroundColor: cPrimaryColor2.withOpacity(0.2),
                             child: ClipOval(
                               child: Image.file(
-                                width: 100.h,
-                                height: 100.h,
-                                fit: BoxFit.fitWidth,
+                                width: 98.w,
+                                height: 98.h,
+                                fit: BoxFit.fill,
                                 profileController.profileImageFile.value!,
                                 errorBuilder: (context, error, stackTrace) {
                                   return const Icon(

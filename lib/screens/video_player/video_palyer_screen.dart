@@ -893,11 +893,13 @@ class VideoPlayerScreen extends StatelessWidget {
                                   label: ksPostNow.tr,
                                   onPressed: () async {
                                     await homeController.userRating(
-                                        movieId: homeController
+                                        reviewableId: homeController
                                             .movieDetailsModel
                                             .value!
                                             .details!
-                                            .id!);
+                                            .id!,
+                                            reviewableType: "movie",
+                                            );
                                   },
                                   buttonColor: cPrimaryColor2,
                                   textStyle: regular14TextStyle(cWhiteColor),
