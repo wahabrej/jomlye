@@ -453,8 +453,10 @@ class TvShowPlayerScreen extends StatelessWidget {
                                 if (homeController.movietSelectedIndex.value ==
                                     3) {
                                   await homeController.getUserReview(
-                                      movieId: homeController.movieDetailsModel
-                                          .value!.details!.id!);
+                                      reviewableId: homeController.movieDetailsModel
+                                          .value!.details!.id!,
+                                          reviewableType: "tvshow",
+                                          );
                                 }
                               },
                               child: Obx(() => Container(
@@ -647,15 +649,15 @@ class TvShowPlayerScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                CustomElevatedButton(
-                                  label: ksCancel.tr,
-                                  onPressed: () {},
-                                  buttonColor: cWhiteColor.withOpacity(0.1),
-                                  textStyle: regular14TextStyle(cWhiteColor),
-                                  buttonWidth: 70.w,
-                                  buttonHeight: h32.h,
-                                ),
-                                kW12sizedBox,
+                                // CustomElevatedButton(
+                                //   label: ksCancel.tr,
+                                //   onPressed: () {},
+                                //   buttonColor: cWhiteColor.withOpacity(0.1),
+                                //   textStyle: regular14TextStyle(cWhiteColor),
+                                //   buttonWidth: 70.w,
+                                //   buttonHeight: h32.h,
+                                // ),
+                                // kW12sizedBox,
                                 CustomElevatedButton(
                                   label: ksPostNow.tr,
                                   onPressed: () async {

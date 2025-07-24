@@ -8,6 +8,7 @@ class MovieDetailsModel {
     final List<MovieDetails>? relatedMovie;
     final List<MovieDetails>? recommendedMovie;
     final List<int>? playlistIds;
+    List<String>? videoTags;
     final Rental? rental;
 
     MovieDetailsModel({
@@ -20,6 +21,7 @@ class MovieDetailsModel {
         this.relatedMovie,
         this.recommendedMovie,
         this.playlistIds,
+        this.videoTags,
         this.rental,
     });
 
@@ -33,6 +35,7 @@ class MovieDetailsModel {
         relatedMovie: json["related_movie"] == null ? [] : List<MovieDetails>.from(json["related_movie"]!.map((x) => MovieDetails.fromJson(x))),
         recommendedMovie: json["recommended_movie"] == null ? [] : List<MovieDetails>.from(json["recommended_movie"]!.map((x) => MovieDetails.fromJson(x))),
         playlistIds: json["playlist_ids"] == null ? [] : List<int>.from(json["playlist_ids"]!.map((x) => x)),
+        videoTags: json["video_tags"] == null ? [] : List<String>.from(json["video_tags"]!.map((x) => x)),
         rental: json["rental"] == null ? null : Rental.fromJson(json["rental"]),
     );
 }

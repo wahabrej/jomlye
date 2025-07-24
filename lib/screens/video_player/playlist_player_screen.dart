@@ -3,7 +3,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -94,8 +93,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                     ),
                                     kW6sizedBox,
                                     Text(
-                                      profileController.playlistMovieList[0]
-                                              .imdbRating ??
+                                      // profileController.playlistMovieList[profileController.selectedPlayListMovieIndex.value].imdbRating ??//!Change here
                                           "",
                                       style: regular12TextStyle(cWhiteColor),
                                     ),
@@ -120,8 +118,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                     ),
                                     kW6sizedBox,
                                     Text(
-                                      profileController
-                                              .playlistMovieList[0].runtime ??
+                                      // profileController.playlistMovieList[profileController.selectedPlayListMovieIndex.value].runtime ??//!Change here
                                           "",
                                       style: regular12TextStyle(cWhiteColor),
                                     ),
@@ -148,7 +145,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                     Text(
                                       DateFormat('d MMM, yyyy').format(
                                           DateTime.parse(profileController
-                                              .playlistMovieList[0].release
+                                              .playlistMovieList[profileController.selectedPlayListMovieIndex.value].releaseDate
                                               .toString())),
                                       style: regular12TextStyle(cWhiteColor),
                                     ),
@@ -202,7 +199,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                           ),
                           kH12sizedBox,
                           Text(
-                            profileController.playlistMovieList[0].title ?? "",
+                            profileController.playlistMovieList[profileController.selectedPlayListMovieIndex.value].name ?? "",
                             style: medium20TextStyle(cWhiteColor),
                           ),
                           kH12sizedBox,
@@ -211,7 +208,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                               children: [
                                 TextSpan(
                                   text: profileController
-                                          .playlistMovieList[0].description ??
+                                          .playlistMovieList[profileController.selectedPlayListMovieIndex.value].description ??
                                       "",
                                   style: regular14TextStyle(
                                       cWhiteColor.withOpacity(0.5)),
@@ -246,7 +243,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                   showDeletePlayListMoviePopup(
                                       context: context,
                                       movieId: profileController
-                                          .playlistMovieList[0].id!);
+                                          .playlistMovieList[profileController.selectedPlayListMovieIndex.value].id!);
                                 },
                               ),
                               kW10sizedBox,
@@ -395,14 +392,15 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                                       profileController
                                                               .playlistMovieList[
                                                                   index]
-                                                              .title ??
+                                                              .name ??
                                                           "",
                                                       style: medium14TextStyle(
                                                           cWhiteColor),
                                                     )),
                                                 kH4sizedBox,
                                                 Text(
-                                                  "${ksTimeDuration.tr}: ${profileController.playlistMovieList[index].runtime}",
+                                                  // "${ksTimeDuration.tr}: ${profileController.playlistMovieList[index].runtime}",//!Change here
+                                                  "",
                                                   style: medium14TextStyle(
                                                       cWhiteColor),
                                                 ),
@@ -413,14 +411,8 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             2),
-                                                    color: profileController
-                                                                .playlistMovieList[
-                                                                    index]
-                                                                .isPaid ==
-                                                            1
-                                                        ? cPrimaryColor
-                                                        : cWhiteColor
-                                                            .withOpacity(0.1),
+                                                    // color: profileController.playlistMovieList[index].isPaid == 1 ? cPrimaryColor : cWhiteColor.withOpacity(0.1),//!Change here
+                                                    color: cPrimaryColor,
                                                   ),
                                                   child: Padding(
                                                     padding: const EdgeInsets
@@ -429,13 +421,8 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                                         vertical: k2Padding),
                                                     child: Center(
                                                         child: Text(
-                                                      profileController
-                                                                  .playlistMovieList[
-                                                                      index]
-                                                                  .isPaid ==
-                                                              1
-                                                          ? ksPremium.tr
-                                                          : ksFree.tr,
+                                                      // profileController.playlistMovieList[index].isPaid == 1 ? ksPremium.tr : ksFree.tr,//!Change here
+                                                      "",
                                                       style: regular12TextStyle(
                                                           cWhiteColor),
                                                     )),
@@ -958,16 +945,16 @@ void showDeletePlayListMoviePopup(
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  CustomElevatedButton(
-                    label: ksCancel.tr,
-                    onPressed: () {
-                      Get.back();
-                    },
-                    buttonWidth: 80.w,
-                    buttonHeight: 30.h,
-                    buttonColor: cWhiteColor.withOpacity(0.2),
-                  ),
-                  kW12sizedBox,
+                  // CustomElevatedButton(
+                  //   label: ksCancel.tr,
+                  //   onPressed: () {
+                  //     Get.back();
+                  //   },
+                  //   buttonWidth: 80.w,
+                  //   buttonHeight: 30.h,
+                  //   buttonColor: cWhiteColor.withOpacity(0.2),
+                  // ),
+                  // kW12sizedBox,
                   CustomElevatedButton(
                     label: ksDeleteVideo.tr,
                     onPressed: () async {

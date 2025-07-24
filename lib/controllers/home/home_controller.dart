@@ -1170,11 +1170,11 @@ class HomeController extends GetxController {
 
       if (response.code == 200) {
         latestBlogList.clear();
-        BlogDetailsModel blogDetailsModel =
+        blogDetailsModel.value =
             BlogDetailsModel.fromJson(response.data);
-        blogDetails.value = blogDetailsModel.details;
-        blogCategories.value = blogDetailsModel.category;
-        latestBlogList.addAll(blogDetailsModel.latestBlogs!);
+        blogDetails.value = blogDetailsModel.value!.details;
+        blogCategories.value = blogDetailsModel.value!.category;
+        latestBlogList.addAll(blogDetailsModel.value!.latestBlogs!);
         isBlogDetailsLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -1561,7 +1561,7 @@ class HomeController extends GetxController {
       if (response.code == 200) {
         addCommentTextEditingController.clear();
         rating.value=0;
-        await getUserReview(movieId: reviewableId);
+        await getUserReview(reviewableId: reviewableId,reviewableType: reviewableType);
         showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
       } else {
         showSnackBar(title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);
@@ -1576,16 +1576,16 @@ class HomeController extends GetxController {
   final RxBool isUserReviewLoading = RxBool(false);
   final Rx<ReviewListModel?> reviewListModel = Rx<ReviewListModel?>(null);
   final RxList<Review?> movieReviewList = RxList<Review?>([]);
-  Future<void> getUserReview({required int movieId}) async {
+  Future<void> getUserReview({required int reviewableId, required String reviewableType}) async {
     try {
       isUserReviewLoading.value = true;
       String? token = await spController.getBearerToken();
-      int? userId = await spController.getUserId();
+      // int? userId = await spController.getUserId();
       Map<String, dynamic> body = {};
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url: "$kuReviewList?user_id=${userId.toString()}&movie_id=${movieId.toString()}",
+        url: "$kuReviewList?reviewable_id=${reviewableId.toString()}&reviewable_type=$reviewableType",
         body: body,
       ) as CommonDM;
       if (response.code == 200) {
@@ -1656,6 +1656,11 @@ class HomeController extends GetxController {
   final RxInt selectedServer = RxInt(0);
   final RxInt selectedSeason = RxInt(0);
   final RxBool isTvShowsListExpand = RxBool(true);
+  //!reset rating data
+  void resetRatingData(){
+    addCommentTextEditingController.clear();
+    rating.value=0;
+  }
   //!reset bottom nav bar data
   void resetBottomSheetData() {
     selectedCategoryId.value = -1;

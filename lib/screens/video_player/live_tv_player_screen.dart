@@ -201,8 +201,10 @@ class LiveTvPlayerScreen extends StatelessWidget {
                                   if (homeController.liveTvSelectedIndex.value ==
                                       0) {
                                     await homeController.getUserReview(
-                                        movieId: homeController.liveTvDetailsData
-                                            .value!.id!);
+                                        reviewableId: homeController.liveTvDetailsData
+                                            .value!.id!,
+                                            reviewableType: "livetv"
+                                            );
                                   }
                                 },
                                 child: Obx(() => Container(
@@ -313,15 +315,15 @@ class LiveTvPlayerScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                CustomElevatedButton(
-                                  label: ksCancel.tr,
-                                  onPressed: () {},
-                                  buttonColor: cWhiteColor.withOpacity(0.1),
-                                  textStyle: regular14TextStyle(cWhiteColor),
-                                  buttonWidth: 70.w,
-                                  buttonHeight: h32.h,
-                                ),
-                                kW12sizedBox,
+                                // CustomElevatedButton(
+                                //   label: ksCancel.tr,
+                                //   onPressed: () {},
+                                //   buttonColor: cWhiteColor.withOpacity(0.1),
+                                //   textStyle: regular14TextStyle(cWhiteColor),
+                                //   buttonWidth: 70.w,
+                                //   buttonHeight: h32.h,
+                                // ),
+                                // kW12sizedBox,
                                 CustomElevatedButton(
                                   label: ksPostNow.tr,
                                   onPressed: () async {

@@ -253,12 +253,11 @@ class VideoPlayerScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: List.generate(
-                          allVideoPlayerController.movieTypeList.length * 2 - 1,
+                          homeController.movieDetailsModel.value!.videoTags!.length * 2 - 1,
                           (index) {
                             if (index.isOdd) return kW8sizedBox;
                             final itemIndex = index ~/ 2;
-                            final movieType = allVideoPlayerController
-                                .movieTypeList[itemIndex];
+                            final movieType = homeController.movieDetailsModel.value?.videoTags?[itemIndex];
                             return Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -273,7 +272,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                 vertical: k4Padding,
                               ),
                               child: Text(
-                                movieType,
+                                movieType??"",
                                 style: regular14TextStyle(cWhiteColor),
                               ),
                             );
@@ -664,8 +663,10 @@ class VideoPlayerScreen extends StatelessWidget {
                                 if (homeController.movietSelectedIndex.value ==
                                     3) {
                                   await homeController.getUserReview(
-                                      movieId: homeController.movieDetailsModel
-                                          .value!.details!.id!);
+                                      reviewableId: homeController.movieDetailsModel
+                                          .value!.details!.id!,
+                                          reviewableType: "movie"
+                                          );
                                 }
                               },
                               child: Obx(() => Container(
@@ -880,15 +881,15 @@ class VideoPlayerScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                CustomElevatedButton(
-                                  label: ksCancel.tr,
-                                  onPressed: () {},
-                                  buttonColor: cWhiteColor.withOpacity(0.1),
-                                  textStyle: regular14TextStyle(cWhiteColor),
-                                  buttonWidth: 70.w,
-                                  buttonHeight: h32.h,
-                                ),
-                                kW12sizedBox,
+                                // CustomElevatedButton(
+                                //   label: ksCancel.tr,
+                                //   onPressed: () {},
+                                //   buttonColor: cWhiteColor.withOpacity(0.1),
+                                //   textStyle: regular14TextStyle(cWhiteColor),
+                                //   buttonWidth: 70.w,
+                                //   buttonHeight: h32.h,
+                                // ),
+                                // kW12sizedBox,
                                 CustomElevatedButton(
                                   label: ksPostNow.tr,
                                   onPressed: () async {
@@ -1052,6 +1053,7 @@ class VideoPlayerScreen extends StatelessWidget {
                           ],
                         ),
                       ),
+                    
                     kH16sizedBox,
                     Text(
                       ksRelatedVideos.tr,
@@ -1870,16 +1872,16 @@ void showCreateNewPlayListPopup(BuildContext context) {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  CustomElevatedButton(
-                    label: ksCancel.tr,
-                    onPressed: () {
-                      Get.back();
-                    },
-                    buttonWidth: 80.w,
-                    buttonHeight: 30.h,
-                    buttonColor: cWhiteColor.withOpacity(0.2),
-                  ),
-                  kW12sizedBox,
+                  // CustomElevatedButton(
+                  //   label: ksCancel.tr,
+                  //   onPressed: () {
+                  //     Get.back();
+                  //   },
+                  //   buttonWidth: 80.w,
+                  //   buttonHeight: 30.h,
+                  //   buttonColor: cWhiteColor.withOpacity(0.2),
+                  // ),
+                  // kW12sizedBox,
                   CustomElevatedButton(
                     label: ksCreateNew.tr,
                     onPressed: () async {

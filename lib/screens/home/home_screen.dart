@@ -228,6 +228,7 @@ class HomeScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () async {
+                                    homeController.resetRatingData();
                                     homeController.showInterstitialAd();
                                     await homeController.getMovieDetails(
                                         movieId: homeController
@@ -314,6 +315,7 @@ class HomeScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () async {
+                                    homeController.resetRatingData();
                                     await homeController.getMovieDetails(
                                         movieId: homeController
                                             .trendingMoviesList[index].id!
@@ -401,6 +403,7 @@ class HomeScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () async {
+                                    homeController.resetRatingData();
                                     await homeController.getMovieDetails(
                                         movieId: homeController
                                             .recommendedMoviesList[index].id!
@@ -849,10 +852,12 @@ class HomeScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return GestureDetector(
                                   onTap: () async {
+                                    homeController.resetRatingData();
                                     await homeController.getBlogDetails(
                                         homeController
                                             .latestBlogsList[index].id);
                                     Get.toNamed(krBlogSingleScreen);
+                                    await homeController.getUserReview(reviewableId: homeController.latestBlogsList[index].id!, reviewableType: "blog");
                                   },
                                   child: LatestBlogPostContent(
                                     image: homeController
@@ -927,7 +932,7 @@ class LatestBlogPostContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      //!extra added this sized nox. remove it
+      //!extra added this sized box. remove it
       width: (width - 30) / 2,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -1291,335 +1296,6 @@ class MovieContentContainer extends StatelessWidget {
 
 // class HomeSlider extends StatelessWidget {
 //   HomeSlider({super.key});
-//   final HomeController homeController = Get.find<HomeController>();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     // return Column(
-//     //   crossAxisAlignment: CrossAxisAlignment.start,
-//     //   children: [
-//     //     CarouselSlider(
-//     //       options: CarouselOptions(
-//     //         height: height * 0.45,
-//     //         autoPlay: true,
-//     //         enlargeCenterPage: true,
-//     //         // viewportFraction: 0.9,
-//     //         viewportFraction: 1,
-//     //         onPageChanged: (index, reason) {
-//     //           homeController.updateCurrentIndex(index);
-//     //         },
-//     //       ),
-//     //       items: homeController.sliderList.map((slider) {
-//     //         return Stack(
-//     //           children: [
-//     //             SizedBox(
-//     //               width: width,
-//     //               child: ClipRRect(
-//     //                 borderRadius: BorderRadius.circular(k8BorderRadius.r),
-//     //                 child: Image.network(
-//     //                   slider.thumbnail ?? "",
-//     //                   fit: BoxFit.cover,
-//     //                   width: width,
-//     //                   height: height * 0.45,
-//     //                   errorBuilder: (context, error, stackTrace) =>
-//     //                       const Center(
-//     //                     // child: SvgPicture.asset(
-//     //                     //   kiDummyMovie,
-//     //                     //   width: width,
-//     //                     //   height: height * 0.45,
-//     //                     //   fit: BoxFit.cover,
-//     //                     // ),
-//     //                     child: SizedBox(),
-//     //                   ),
-//     //                 ),
-//     //               ),
-//     //             ),
-//     //             // Positioned(
-//     //             //   top: 40,
-//     //             //   left: 15,
-//     //             //   child: Row(
-//     //             //     children: [
-//     //             //       SvgPicture.asset(
-//     //             //         kiVidflix,
-//     //             //         width: 28.w,
-//     //             //         height: 28.w,
-//     //             //       ),
-//     //             //       kW6sizedBox,
-//     //             //       Text(
-//     //             //         ksVidflix.tr,
-//     //             //         style: semiBold18TextStyle(cWhiteColor),
-//     //             //       ),
-//     //             //     ],
-//     //             //   ),
-//     //             // ),
-//     //             // Positioned(
-//     //             //   top: 40,
-//     //             //   right: 15,
-//     //             //   child: GestureDetector(
-//     //             //     onTap: ()async {
-//     //             //       homeController.resetBottomSheetData();
-//     //             //       await homeController.getGlobalSearch();
-//     //             //       Get.toNamed(krSearchScreen);
-//     //             //     },
-//     //             //     child: Container(
-//     //             //       width: 32.w,
-//     //             //       height: 32.h,
-//     //             //       decoration: BoxDecoration(
-//     //             //         shape: BoxShape.circle,
-//     //             //         color: cWhiteColor.withOpacity(0.2),
-//     //             //       ),
-//     //             //       child: const Icon(
-//     //             //         Icons.search,
-//     //             //         color: cWhiteColor,
-//     //             //         size: kIconSize24,
-//     //             //       ),
-//     //             //     ),
-//     //             //   ),
-//     //             // ),
-
-//     //             Positioned(
-//     //               bottom: 100,
-//     //               left: width * 0.5,
-//     //               child: Column(
-//     //                 crossAxisAlignment: CrossAxisAlignment.start,
-//     //                 children: [
-//     //                   Obx(() => Row(
-//     //                         mainAxisAlignment: MainAxisAlignment.center,
-//     //                         children: List.generate(
-//     //                           homeController.sliderList.length,
-//     //                           (index) => Container(
-//     //                             width:
-//     //                                 homeController.currentIndex.value == index
-//     //                                     ? 24
-//     //                                     : 8,
-//     //                             height:
-//     //                                 homeController.currentIndex.value == index
-//     //                                     ? 6
-//     //                                     : 8,
-//     //                             margin:
-//     //                                 const EdgeInsets.symmetric(horizontal: 3),
-//     //                             decoration: homeController.currentIndex.value ==
-//     //                                     index
-//     //                                 ? BoxDecoration(
-//     //                                     borderRadius:
-//     //                                         BorderRadius.circular(100.r),
-//     //                                     color:
-//     //                                         homeController.currentIndex.value ==
-//     //                                                 index
-//     //                                             ? cPrimaryColor2
-//     //                                             : cLineColor,
-//     //                                   )
-//     //                                 : BoxDecoration(
-//     //                                     shape: BoxShape.circle,
-//     //                                     color:
-//     //                                         homeController.currentIndex.value ==
-//     //                                                 index
-//     //                                             ? cPrimaryColor2
-//     //                                             : cLineColor,
-//     //                                   ),
-//     //                           ),
-//     //                         ),
-//     //                       )),
-//     //                   kH10sizedBox,
-//     //                 ],
-//     //               ),
-//     //             ),
-//     //             // Positioned(
-//     //             //   bottom: 75,
-//     //             //   left: width * 0.3,
-//     //             //   child: Row(
-//     //             //     children: slider.tags.map<Widget>((tag) {
-//     //             //       return Container(
-//     //             //         margin: const EdgeInsets.only(right: 5),
-//     //             //         padding: const EdgeInsets.symmetric(
-//     //             //             horizontal: 8, vertical: 4),
-//     //             //         decoration: BoxDecoration(
-//     //             //           color: cWhiteColor.withOpacity(0.2),
-//     //             //           borderRadius: BorderRadius.circular(8.r),
-//     //             //           border: Border.all(
-//     //             //             width: 1.33,
-//     //             //             color: cPrimaryColor2.withOpacity(0.3),
-//     //             //           ),
-//     //             //         ),
-//     //             //         child: Text(
-//     //             //           tag,
-//     //             //           style: semiBold14TextStyle(cWhiteColor),
-//     //             //         ),
-//     //             //       );
-//     //             //     }).toList(),
-//     //             //   ),
-//     //             // ),
-//     //             kH10sizedBox,
-//     //             Positioned(
-//     //               bottom: 60,
-//     //               left: (width * 0.4).w,
-//     //               child: SizedBox(
-//     //                 width: (width*0.55).w,
-//     //                 child: Text(
-//     //                   slider.title ?? "",
-//     //                   style: semiBold24TextStyle(cWhiteColor),
-//     //                   overflow: TextOverflow.ellipsis,
-//     //                 ),
-//     //               ),
-//     //             ),
-//     //             Positioned(
-//     //               bottom: 6,
-//     //               left: (width * 0.5).w,
-//     //               child: Container(
-//     //                 width: 40.w,
-//     //                 height: 40.h,
-//     //                 decoration: const BoxDecoration(
-//     //                   shape: BoxShape.circle,
-//     //                   color: cPrimaryColor2,
-//     //                 ),
-//     //                 child: const Icon(
-//     //                   Icons.play_arrow,
-//     //                   size: kIconSize28,
-//     //                   color: cWhiteColor,
-//     //                 ),
-//     //               ),
-//     //             ),
-//     //           ],
-//     //         );
-//     //       }).toList(),
-//     //     ),
-//     //     kH10sizedBox,
-//     //   ],
-//     // );
-  
-  
-//       return Column(
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         CarouselSlider(
-//           options: CarouselOptions(
-//             height: height * 0.45,
-//             autoPlay: true,
-//             enlargeCenterPage: true,
-//             viewportFraction: 1,
-//             onPageChanged: (index, reason) {
-//               homeController.updateCurrentIndex(index);
-//             },
-//           ),
-//           items: homeController.sliderList.map((slider) {
-//             return Stack(
-//               children: [
-//                 // Background Image
-//                 SizedBox(
-//                   width: width,
-//                   child: ClipRRect(
-//                     borderRadius: BorderRadius.circular(k8BorderRadius),
-//                     child: Image.network(
-//                       slider.thumbnail ?? "",
-//                       fit: BoxFit.cover,
-//                       width: width,
-//                       height: height * 0.45,
-//                       errorBuilder: (context, error, stackTrace) =>
-//                           const SizedBox(),
-//                     ),
-//                   ),
-//                 ),
-
-//                 // Overlay content
-//                 Positioned.fill(
-//                   child: Container(
-//                     alignment: Alignment.bottomCenter,
-//                     padding: const EdgeInsets.only(bottom: 20),
-//                     child: Column(
-//                       mainAxisAlignment: MainAxisAlignment.end,
-//                       children: [
-//                         // Tags
-//                         // if (slider.tags != null)
-//                         //   Row(
-//                         //     mainAxisAlignment: MainAxisAlignment.center,
-//                         //     children: slider.tags!.map<Widget>((tag) {
-//                         //       return Container(
-//                         //         margin: const EdgeInsets.symmetric(horizontal: 4),
-//                         //         padding: const EdgeInsets.symmetric(
-//                         //             horizontal: 10, vertical: 4),
-//                         //         decoration: BoxDecoration(
-//                         //           color: Colors.white.withOpacity(0.2),
-//                         //           borderRadius: BorderRadius.circular(8),
-//                         //           border: Border.all(
-//                         //             color: cPrimaryColor2.withOpacity(0.3),
-//                         //             width: 1,
-//                         //           ),
-//                         //         ),
-//                         //         child: Text(
-//                         //           tag,
-//                         //           style: semiBold12TextStyle(cWhiteColor),
-//                         //         ),
-//                         //       );
-//                         //     }).toList(),
-//                         //   ),
-
-//                         kH10sizedBox,
-
-//                         // Title
-//                         Text(
-//                           slider.title ?? "",
-//                           style: semiBold24TextStyle(cWhiteColor),
-//                           textAlign: TextAlign.center,
-//                           overflow: TextOverflow.ellipsis,
-//                         ),
-
-//                         kH10sizedBox,
-
-//                         // Dots
-//                         Obx(() => Row(
-//                               mainAxisAlignment: MainAxisAlignment.center,
-//                               children: List.generate(
-//                                 homeController.sliderList.length,
-//                                 (index) => AnimatedContainer(
-//                                   duration: const Duration(milliseconds: 300),
-//                                   width: homeController.currentIndex.value == index
-//                                       ? 24
-//                                       : 8,
-//                                   height: 8,
-//                                   margin: const EdgeInsets.symmetric(horizontal: 3),
-//                                   decoration: BoxDecoration(
-//                                     borderRadius: BorderRadius.circular(100),
-//                                     color: homeController.currentIndex.value == index
-//                                         ? cPrimaryColor2
-//                                         : cWhiteColor.withOpacity(0.3),
-//                                   ),
-//                                 ),
-//                               ),
-//                             )),
-
-//                         kH10sizedBox,
-
-//                         // Play Button
-//                         Container(
-//                           width: 40,
-//                           height: 40,
-//                           decoration: const BoxDecoration(
-//                             shape: BoxShape.circle,
-//                             color: cPrimaryColor2,
-//                           ),
-//                           child: const Icon(
-//                             Icons.play_arrow,
-//                             size: kIconSize28,
-//                             color: cWhiteColor,
-//                           ),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ],
-//             );
-//           }).toList(),
-//         ),
-//         kH10sizedBox,
-//       ],
-//     );
-//   }
-// }
-
-
-// class HomeSlider extends StatelessWidget {
-//   HomeSlider({super.key});
 
 //   final HomeController homeController = Get.find<HomeController>();
 
@@ -1811,6 +1487,7 @@ class HomeSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
        onTap: () async{
+        homeController.resetRatingData();
                      homeController.showInterstitialAd();
                                     await homeController.getMovieDetails(
                                         movieId: homeController
@@ -1839,7 +1516,6 @@ class HomeSlider extends StatelessWidget {
                                                 videoUrl),
                                       );
                                     }
-      
                 Get.toNamed(krVideoPlayerScreen, arguments: "");
                         },
       child: Column(

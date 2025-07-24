@@ -559,6 +559,9 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ll('deletePlaylist error: $e');
     }
   }
+
+  //!playlist movies
+  final RxInt selectedPlayListMovieIndex = RxInt(0);
   final RxBool isPlaylistMovieListLoading = RxBool(false);
   final Rx<PlaylistMovieListModel?> playlistMovieListModel = Rx<PlaylistMovieListModel?>(null);
   final Rx<PlaylistDetails?> playlistDetailsData = Rx<PlaylistDetails?>(null);

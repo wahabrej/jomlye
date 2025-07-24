@@ -8,6 +8,7 @@ import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
 class MovieViewAllScreen extends StatelessWidget {
   MovieViewAllScreen({super.key});
@@ -467,6 +468,10 @@ class MovieViewAllScreen extends StatelessWidget {
               ],
             ),
           ),
+              bottomNavigationBar: CustomBottomNavBar(
+              width: width,
+              selectedIndex: 2,
+            ),
         ),
       ),
     );
