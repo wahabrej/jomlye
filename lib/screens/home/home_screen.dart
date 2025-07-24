@@ -836,7 +836,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     kH16sizedBox,
                     Padding(
-                      padding: const EdgeInsets.only(left: k20Padding),
+                      padding: const EdgeInsets.only(left: k16Padding),
                       child: Row(
                         children: [
                           SizedBox(
@@ -844,6 +844,7 @@ class HomeScreen extends StatelessWidget {
                             height: 210.h,
                             child: ListView.separated(
                               itemCount: homeController.latestBlogsList.length,
+                              padding: const EdgeInsets.all(k0Padding),
                               separatorBuilder: (context, index) =>
                                   kW10sizedBox,
                               shrinkWrap: true,
