@@ -75,3 +75,6 @@ const String kuReviewList = "review-list";
 const String kuLikeToggle = "like-toggle";
 //!Rented video
 const String kuRentedVideoList = "rent-video-list";
+
+//!Watch History
+const String kuWatchHistory = "watch-histories";

@@ -9,6 +9,7 @@ import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_co
 import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -107,9 +108,11 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  Center(child: SizedBox(
-                    width: width-40,
-                    child: BannerAdWidget(homeController: homeController))),
+                    Center(
+                        child: SizedBox(
+                            width: width - 40,
+                            child: BannerAdWidget(
+                                homeController: homeController))),
                     HomeSlider(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -512,128 +515,160 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     kH20sizedBox,
-                    Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: k20Padding),
-                      child: Stack(
-                        children: [
-                          ClipRRect(
-                              borderRadius:
-                                  BorderRadius.circular(k6BorderRadius),
-                              child: Image.network(
-                                "https://i.ytimg.com/vi/Le_aY-4FJ7E/maxresdefault.jpg",
-                                width: width - 40,
-                                height: 210.h,
-                                fit: BoxFit.cover,
-                              )),
-                          Positioned(
-                            top: 60,
-                            right: width * 0.15,
-                            child: Column(
-                              children: [
-                                Container(
-                                  width: width * 0.6,
-                                  height: 24.h,
-                                  decoration: BoxDecoration(
-                                    color: cWhiteColor.withOpacity(0.3),
-                                    borderRadius: BorderRadius.circular(100.r),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 6.w, vertical: 3.h),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.star,
-                                              color: cPrimaryColor2,
-                                              size: kIconSize20,
-                                            ),
-                                            kW6sizedBox,
-                                            Text(
-                                              "4.6",
-                                              style: regular12TextStyle(
-                                                  cWhiteColor),
-                                            ),
-                                            kW6sizedBox,
-                                            VerticalDivider(
-                                              width: 1,
-                                              thickness: 1,
-                                              color:
-                                                  cWhiteColor.withOpacity(0.5),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.access_time_filled_sharp,
-                                              color: cPrimaryColor2,
-                                              size: kIconSize20,
-                                            ),
-                                            kW6sizedBox,
-                                            Text(
-                                              "2 hr 30 mins",
-                                              style: regular12TextStyle(
-                                                  cWhiteColor),
-                                            ),
-                                            kW6sizedBox,
-                                            VerticalDivider(
-                                              width: 1,
-                                              thickness: 1,
-                                              color:
-                                                  cWhiteColor.withOpacity(0.5),
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.calendar_today_outlined,
-                                              color: cPrimaryColor2,
-                                              size: kIconSize20,
-                                            ),
-                                            kW6sizedBox,
-                                            Text(
-                                              "2024",
-                                              style: regular12TextStyle(
-                                                  cWhiteColor),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const Text(
-                                  "3 idiots",
-                                  style: TextStyle(
-                                      fontSize: 32,
-                                      fontWeight: FontWeight.w700,
-                                      color: cWhiteColor),
-                                ),
-                                Container(
-                                  width: 46.w,
-                                  height: 46.h,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: cPrimaryColor2,
-                                  ),
-                                  child: const Icon(
-                                    Icons.play_arrow,
-                                    size: kIconSize28,
-                                    color: cWhiteColor,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // Padding(
+                    //   padding:
+                    //       const EdgeInsets.symmetric(horizontal: k20Padding),
+                    //   child: Stack(
+                    //     children: [
+                    //       ClipRRect(
+                    //           borderRadius:
+                    //               BorderRadius.circular(k6BorderRadius),
+                    //           child: Image.network(
+                    //             "https://i.ytimg.com/vi/Le_aY-4FJ7E/maxresdefault.jpg",
+                    //             width: width - 40,
+                    //             height: 210.h,
+                    //             fit: BoxFit.cover,
+                    //           )),
+                    //       Positioned(
+                    //         top: 60,
+                    //         right: width * 0.15,
+                    //         child: Column(
+                    //           children: [
+                    //             Container(
+                    //               width: width * 0.6,
+                    //               height: 24.h,
+                    //               decoration: BoxDecoration(
+                    //                 color: cWhiteColor.withOpacity(0.3),
+                    //                 borderRadius: BorderRadius.circular(100.r),
+                    //               ),
+                    //               child: Padding(
+                    //                 padding: EdgeInsets.symmetric(
+                    //                     horizontal: 6.w, vertical: 3.h),
+                    //                 child: Row(
+                    //                   mainAxisAlignment:
+                    //                       MainAxisAlignment.spaceBetween,
+                    //                   children: [
+                    //                     Row(
+                    //                       children: [
+                    //                         const Icon(
+                    //                           Icons.star,
+                    //                           color: cPrimaryColor2,
+                    //                           size: kIconSize20,
+                    //                         ),
+                    //                         kW6sizedBox,
+                    //                         Text(
+                    //                           "4.6",
+                    //                           style: regular12TextStyle(
+                    //                               cWhiteColor),
+                    //                         ),
+                    //                         kW6sizedBox,
+                    //                         VerticalDivider(
+                    //                           width: 1,
+                    //                           thickness: 1,
+                    //                           color:
+                    //                               cWhiteColor.withOpacity(0.5),
+                    //                         ),
+                    //                       ],
+                    //                     ),
+                    //                     Row(
+                    //                       children: [
+                    //                         const Icon(
+                    //                           Icons.access_time_filled_sharp,
+                    //                           color: cPrimaryColor2,
+                    //                           size: kIconSize20,
+                    //                         ),
+                    //                         kW6sizedBox,
+                    //                         Text(
+                    //                           "2 hr 30 mins",
+                    //                           style: regular12TextStyle(
+                    //                               cWhiteColor),
+                    //                         ),
+                    //                         kW6sizedBox,
+                    //                         VerticalDivider(
+                    //                           width: 1,
+                    //                           thickness: 1,
+                    //                           color:
+                    //                               cWhiteColor.withOpacity(0.5),
+                    //                         ),
+                    //                       ],
+                    //                     ),
+                    //                     Row(
+                    //                       children: [
+                    //                         const Icon(
+                    //                           Icons.calendar_today_outlined,
+                    //                           color: cPrimaryColor2,
+                    //                           size: kIconSize20,
+                    //                         ),
+                    //                         kW6sizedBox,
+                    //                         Text(
+                    //                           "2024",
+                    //                           style: regular12TextStyle(
+                    //                               cWhiteColor),
+                    //                         ),
+                    //                       ],
+                    //                     ),
+                    //                   ],
+                    //                 ),
+                    //               ),
+                    //             ),
+                    //             const Text(
+                    //               "3 idiots",
+                    //               style: TextStyle(
+                    //                   fontSize: 32,
+                    //                   fontWeight: FontWeight.w700,
+                    //                   color: cWhiteColor),
+                    //             ),
+                    //             Container(
+                    //               width: 46.w,
+                    //               height: 46.h,
+                    //               decoration: const BoxDecoration(
+                    //                 shape: BoxShape.circle,
+                    //                 color: cPrimaryColor2,
+                    //               ),
+                    //               child: const Icon(
+                    //                 Icons.play_arrow,
+                    //                 size: kIconSize28,
+                    //                 color: cWhiteColor,
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+
+                    // kH16sizedBox,
+                    // Padding(
+                    //   padding: const EdgeInsets.only(left: k20Padding),
+                    //   child: Row(
+                    //     children: [
+                    //       SizedBox(
+                    //         width: width - 20,
+                    //         height: 140.h,
+                    //         child: ListView.separated(
+                    //           itemCount:
+                    //               homeController.recentPlayedMovies.length,
+                    //           separatorBuilder: (context, index) =>
+                    //               kW10sizedBox,
+                    //           shrinkWrap: true,
+                    //           physics: const AlwaysScrollableScrollPhysics(),
+                    //           scrollDirection: Axis.horizontal,
+                    //           itemBuilder: (context, index) {
+                    //             return MovieCard(
+                    //               imageUrl: homeController
+                    //                   .recentPlayedMovies[index]["imageUrl"],
+                    //               title: homeController
+                    //                   .recentPlayedMovies[index]["title"],
+                    //               duration: homeController
+                    //                   .recentPlayedMovies[index]["duration"],
+                    //             );
+                    //           },
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     kH16sizedBox,
                     Padding(
                       padding: const EdgeInsets.only(left: k20Padding),
@@ -641,23 +676,87 @@ class HomeScreen extends StatelessWidget {
                         children: [
                           SizedBox(
                             width: width - 20,
-                            height: 140.h,
+                            height: 150.h,
                             child: ListView.separated(
-                              itemCount:
-                                  homeController.recentPlayedMovies.length,
+                              itemCount: homeController.watchHistoryList.length,
                               separatorBuilder: (context, index) =>
                                   kW10sizedBox,
                               shrinkWrap: true,
                               physics: const AlwaysScrollableScrollPhysics(),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
-                                return MovieCard(
-                                  imageUrl: homeController
-                                      .recentPlayedMovies[index]["imageUrl"],
-                                  title: homeController
-                                      .recentPlayedMovies[index]["title"],
-                                  duration: homeController
-                                      .recentPlayedMovies[index]["duration"],
+                                return InkWell(
+                                  onTap: () async {
+                                    if (homeController.watchHistoryList[index]
+                                            ?.watchableType
+                                            ?.toLowerCase() ==
+                                        "movie") {
+                                      await homeController.getMovieDetails(
+                                          movieId: homeController
+                                              .watchHistoryList[index]!
+                                              .watchableId!
+                                              .toString());
+                                      // if (homeController.movieServerList[index]!
+                                      //         .sourceType!
+                                      //         .toLowerCase() ==
+                                      //     "youtube") {
+                                      //   if (homeController
+                                      //       .movieServerList.isNotEmpty) {
+                                      //     Get.find<AllVideoPlayerController>()
+                                      //         .videoUrl
+                                      //         .value = homeController
+                                      //             .movieServerList[0]!
+                                      //             .fileUrl ??
+                                      //         "";
+                                      //     final videoId = YoutubePlayer
+                                      //         .convertUrlToId(Get.find<
+                                      //                 AllVideoPlayerController>()
+                                      //             .videoUrl
+                                      //             .value);
+                                      //     Get.find<AllVideoPlayerController>()
+                                      //             .youtubeController =
+                                      //         YoutubePlayerController(
+                                      //       initialVideoId: videoId ?? '',
+                                      //       flags: const YoutubePlayerFlags(
+                                      //         autoPlay: false,
+                                      //         mute: false,
+                                      //       ),
+                                      //     );
+                                      //   }
+                                      // }
+                                      Get.toNamed(krVideoPlayerScreen);
+                                    } else if (homeController
+                                            .watchHistoryList[index]
+                                            ?.watchableType
+                                            ?.toLowerCase() ==
+                                        "episode") {
+                                      await homeController.getTvShowDetails(
+                                          showId: homeController
+                                              .watchHistoryList[index]!
+                                              .watchableId!);
+                                      Get.toNamed(krTvShowPlayerScreen);
+                                    }
+                                  },
+                                  child: MovieCard(
+                                    imageUrl: homeController
+                                            .watchHistoryList[index]
+                                            ?.watchableDetails
+                                            ?.thumbnail ??
+                                        "",
+                                    title: homeController
+                                            .watchHistoryList[index]
+                                            ?.watchableDetails
+                                            ?.title ??
+                                        "",
+                                    duration: homeController
+                                            .watchHistoryList[index]
+                                            ?.duration ??
+                                        "",
+                                    completePercentage: homeController
+                                            .watchHistoryList[index]
+                                            ?.completionPercentage ??
+                                        "",
+                                  ),
                                 );
                               },
                             ),
@@ -665,6 +764,7 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+
                     kH16sizedBox,
                     HomeTitleContent(
                       title: ksFeaturedTvChannels.tr,
@@ -699,14 +799,17 @@ class HomeScreen extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 return InkWell(
-                                 onTap: () async {
-                                      await homeController.getTvChannelDetails(
-                                          tvChannelId: homeController
-                                              .featuredTvChannelsList[index].id);
-                                              // Get.toNamed(krLiveTvPlayerScreen);
-                                              Get.to(()=>LiveTvPlayerScreen(liveTvUrl: homeController
-                                              .featuredTvChannelsList[index].streamUrl,));
-                                    },
+                                  onTap: () async {
+                                    await homeController.getTvChannelDetails(
+                                        tvChannelId: homeController
+                                            .featuredTvChannelsList[index].id);
+                                    // Get.toNamed(krLiveTvPlayerScreen);
+                                    Get.to(() => LiveTvPlayerScreen(
+                                          liveTvUrl: homeController
+                                              .featuredTvChannelsList[index]
+                                              .streamUrl,
+                                        ));
+                                  },
                                   child: FeaturedTvChannelsContentContainer(
                                     image: homeController
                                             .featuredTvChannelsList[index]
@@ -720,7 +823,7 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    kH16sizedBox,
+                    // kH16sizedBox,
                     // HomeTitleContent(
                     //   title: ksTvSeries.tr,
                     //   subtitleText: homeController.tvShowsList.isNotEmpty
@@ -810,7 +913,7 @@ class HomeScreen extends StatelessWidget {
                                     await homeController.getArtistDetails(
                                         homeController
                                             .topArtistsList[index].id);
-                                      homeController.castSelectedIndex.value=0;
+                                    homeController.castSelectedIndex.value = 0;
                                     Get.toNamed(krCastDetailsScreen);
                                   },
                                 );
@@ -858,7 +961,10 @@ class HomeScreen extends StatelessWidget {
                                         homeController
                                             .latestBlogsList[index].id);
                                     Get.toNamed(krBlogSingleScreen);
-                                    await homeController.getUserReview(reviewableId: homeController.latestBlogsList[index].id!, reviewableType: "blog");
+                                    await homeController.getUserReview(
+                                        reviewableId: homeController
+                                            .latestBlogsList[index].id!,
+                                        reviewableType: "blog");
                                   },
                                   child: LatestBlogPostContent(
                                     image: homeController
@@ -887,20 +993,33 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    for(int i=0;i<homeController.localAdList.length;i++)
-                    if(homeController.localAdList[i].position?.toLowerCase()=="footer")
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(k8BorderRadius),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: k12Padding,horizontal: k28Padding).copyWith(right: 8),
-                        child: SizedBox(
-                          width: width,
-                          child: Image.network(homeController.localAdList[i].banner??"",errorBuilder: (context, error, stackTrace) {
-                            return SvgPicture.asset(kiDummyMovie,width: width-40,height: 100,fit: BoxFit.cover,);
-                          },),
+                    for (int i = 0; i < homeController.localAdList.length; i++)
+                      if (homeController.localAdList[i].position
+                              ?.toLowerCase() ==
+                          "footer")
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                    vertical: k12Padding,
+                                    horizontal: k28Padding)
+                                .copyWith(right: 8),
+                            child: SizedBox(
+                              width: width,
+                              child: Image.network(
+                                homeController.localAdList[i].banner ?? "",
+                                errorBuilder: (context, error, stackTrace) {
+                                  return SvgPicture.asset(
+                                    kiDummyMovie,
+                                    width: width - 40,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
                   ],
                 ),
               ),
@@ -1043,33 +1162,127 @@ class LatestBlogPostContent extends StatelessWidget {
   }
 }
 
+// class MovieCard extends StatelessWidget {
+//   const MovieCard({
+//     super.key,
+//      this.imageUrl,
+//      this.title,
+//      this.duration,
+//      this.completePercentage,
+//   });
+//   final String? imageUrl, title, duration,completePercentage;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: [
+//         ClipRRect(
+//           borderRadius: BorderRadius.circular(k6BorderRadius),
+//           child: Image.network(
+//             imageUrl??"",
+//             width: (width - 70) / 2.6,
+//             height: 150.h,
+//             fit: BoxFit.cover,
+//                 errorBuilder: (context, error, stackTrace) => Center(
+//                   child: SvgPicture.asset(
+//                   kiDummyMovie,
+//                   width: (width - 70) / 2.6,
+//                   height: 150.h,
+//                     fit: BoxFit.fill,
+//                   ),
+//                 ),
+//           ),
+//         ),
+//         Container(
+//           width: 100.w,
+//           height: 140.h,
+//           decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(16),
+//             gradient: LinearGradient(
+//               begin: Alignment.bottomCenter,
+//               end: Alignment.center,
+//               colors: [
+//                 cBlackColor.withOpacity(0.8),
+//                 cBlackColor.withOpacity(0.0),
+//               ],
+//             ),
+//           ),
+//         ),
+//         Positioned(
+//           bottom: 10,
+//           left: 10,
+//           right: 10,
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Text(
+//                 title??"",
+//                 style: semiBold12TextStyle(cWhiteColor),
+//               ),
+//               kH4sizedBox,
+//               Text(duration??"", style: regular10TextStyle(cWhiteColor)),
+//               kH4sizedBox,
+//               Container(
+//                 height: 3,
+//                 width: 100,
+//                 decoration: BoxDecoration(
+//                   color: cPrimaryColor2,
+//                   borderRadius: BorderRadius.circular(4),
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
 class MovieCard extends StatelessWidget {
   const MovieCard({
     super.key,
-    required this.imageUrl,
-    required this.title,
-    required this.duration,
+    this.imageUrl,
+    this.title,
+    this.duration,
+    this.completePercentage,
   });
-  final String imageUrl, title, duration;
+
+  final String? imageUrl, title, duration, completePercentage;
 
   @override
   Widget build(BuildContext context) {
+    // Parse percentage value safely
+    double percentage =
+        double.parse((completePercentage ?? '0').replaceAll('%', ''));
+    percentage = percentage.clamp(0.0, 100.0);
+
     return Stack(
       children: [
+        // Background Image
         ClipRRect(
           borderRadius: BorderRadius.circular(k6BorderRadius),
           child: Image.network(
-            imageUrl,
-            width: 100.w,
-            height: 140.h,
+            imageUrl ?? "",
+            width: (width - 70) / 2.6,
+            height: 150.h,
             fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => Center(
+              child: SvgPicture.asset(
+                kiDummyMovie,
+                width: (width - 70) / 2.6,
+                height: 150.h,
+                fit: BoxFit.fill,
+              ),
+            ),
           ),
         ),
+
+        // Gradient Overlay
         Container(
-          width: 100.w,
-          height: 140.h,
+          width: (width - 70) / 2.6,
+          height: 150.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(k6BorderRadius),
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.center,
@@ -1080,6 +1293,8 @@ class MovieCard extends StatelessWidget {
             ),
           ),
         ),
+
+        // Title, Duration and Progress Bar
         Positioned(
           bottom: 10,
           left: 10,
@@ -1088,18 +1303,36 @@ class MovieCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                title ?? "",
                 style: semiBold12TextStyle(cWhiteColor),
               ),
               kH4sizedBox,
-              Text(duration, style: regular10TextStyle(cWhiteColor)),
+              Text(
+                duration ?? "",
+                style: regular10TextStyle(cWhiteColor),
+              ),
               kH4sizedBox,
+
+              // ✅ Progress Bar
               Container(
-                height: 3,
+                height: 6,
                 width: 100,
                 decoration: BoxDecoration(
-                  color: cPrimaryColor2,
-                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.white, // Background track
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Stack(
+                  children: [
+                    FractionallySizedBox(
+                      widthFactor: percentage / 100,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: cPrimaryColor2, // Filled portion
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -1378,7 +1611,6 @@ class MovieContentContainer extends StatelessWidget {
 //                 //   ),
 //                 // ),
 
-                
 //                 // Center Bottom Overlay
 //                 Positioned(
 //                   bottom: 30.h,
@@ -1409,8 +1641,7 @@ class MovieContentContainer extends StatelessWidget {
 //                       //     );
 //                       //   }).toList(),
 //                       // ),
-                     
-                     
+
 //                       kH10sizedBox,
 
 //                       // Title
@@ -1478,7 +1709,6 @@ class MovieContentContainer extends StatelessWidget {
 //   }
 // }
 
-
 class HomeSlider extends StatelessWidget {
   HomeSlider({super.key});
 
@@ -1487,38 +1717,29 @@ class HomeSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-       onTap: () async{
+      onTap: () async {
         homeController.resetRatingData();
-                     homeController.showInterstitialAd();
-                                    await homeController.getMovieDetails(
-                                        movieId: homeController
-                                            .sliderList[homeController.currentIndex.value].id!
-                                            .toString());
-                                    // Get.find<ProfileController>().isFavoriteAdded.value =
-                                    //     homeController.sliderList[homeController.currentIndex.value]?.isFavorite ??
-                                    //         false;
-                                    if (homeController
-                                        .movieServerList.isNotEmpty) {
-                                      String videoUrl = homeController
-                                              .movieServerList[0]?.fileUrl ??
-                                          "";
-                                      Get.find<AllVideoPlayerController>()
-                                          .flickManager = FlickManager(
-                                        videoPlayerController:
-                                            VideoPlayerController.network(
-                                                videoUrl),
-                                      );
-                                    } else {
-                                      String videoUrl = "";
-                                      Get.find<AllVideoPlayerController>()
-                                          .flickManager = FlickManager(
-                                        videoPlayerController:
-                                            VideoPlayerController.network(
-                                                videoUrl),
-                                      );
-                                    }
-                Get.toNamed(krVideoPlayerScreen, arguments: "");
-                        },
+        homeController.showInterstitialAd();
+        await homeController.getMovieDetails(
+            movieId: homeController
+                .sliderList[homeController.currentIndex.value].id!
+                .toString());
+        // Get.find<ProfileController>().isFavoriteAdded.value =
+        //     homeController.sliderList[homeController.currentIndex.value]?.isFavorite ??
+        //         false;
+        if (homeController.movieServerList.isNotEmpty) {
+          String videoUrl = homeController.movieServerList[0]?.fileUrl ?? "";
+          Get.find<AllVideoPlayerController>().flickManager = FlickManager(
+            videoPlayerController: VideoPlayerController.network(videoUrl),
+          );
+        } else {
+          String videoUrl = "";
+          Get.find<AllVideoPlayerController>().flickManager = FlickManager(
+            videoPlayerController: VideoPlayerController.network(videoUrl),
+          );
+        }
+        Get.toNamed(krVideoPlayerScreen, arguments: "");
+      },
       child: Column(
         children: [
           CarouselSlider(
@@ -1549,7 +1770,7 @@ class HomeSlider extends StatelessWidget {
                       ),
                     ),
                   ),
-      
+
                   // // Top Bar (Logo & Search)
                   // Positioned(
                   //   top: 40.h,
@@ -1595,8 +1816,7 @@ class HomeSlider extends StatelessWidget {
                   //     ],
                   //   ),
                   // ),
-      
-                 
+
                   // Bottom Overlay Section (Ordered as requested)
                   Positioned(
                     bottom: 30.h,
@@ -1607,44 +1827,47 @@ class HomeSlider extends StatelessWidget {
                       children: [
                         // Tags (Action, Trending, 2024)
                         // if (slider.tags.isNotEmpty)
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: slider.tags.map<Widget>((tag) {
-                          //     return Container(
-                          //       margin: const EdgeInsets.symmetric(horizontal: 5),
-                          //       padding: const EdgeInsets.symmetric(
-                          //           horizontal: 10, vertical: 4),
-                          //       decoration: BoxDecoration(
-                          //         color: cWhiteColor.withOpacity(0.2),
-                          //         borderRadius: BorderRadius.circular(8.r),
-                          //         border: Border.all(
-                          //           width: 1.33,
-                          //           color: cPrimaryColor2.withOpacity(0.3),
-                          //         ),
-                          //       ),
-                          //       child: Text(
-                          //         tag,
-                          //         style: semiBold14TextStyle(cWhiteColor),
-                          //       ),
-                          //     );
-                          //   }).toList(),
-                          // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: slider.tags.map<Widget>((tag) {
+                        //     return Container(
+                        //       margin: const EdgeInsets.symmetric(horizontal: 5),
+                        //       padding: const EdgeInsets.symmetric(
+                        //           horizontal: 10, vertical: 4),
+                        //       decoration: BoxDecoration(
+                        //         color: cWhiteColor.withOpacity(0.2),
+                        //         borderRadius: BorderRadius.circular(8.r),
+                        //         border: Border.all(
+                        //           width: 1.33,
+                        //           color: cPrimaryColor2.withOpacity(0.3),
+                        //         ),
+                        //       ),
+                        //       child: Text(
+                        //         tag,
+                        //         style: semiBold14TextStyle(cWhiteColor),
+                        //       ),
+                        //     );
+                        //   }).toList(),
+                        // ),
                         kH10sizedBox,
-      
+
                         // Dots Indicator
                         Obx(() => Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: List.generate(
                                 homeController.sliderList.length,
                                 (index) => Container(
-                                  width: homeController.currentIndex.value == index
-                                      ? 24
-                                      : 8,
+                                  width:
+                                      homeController.currentIndex.value == index
+                                          ? 24
+                                          : 8,
                                   height: 8,
-                                  margin: const EdgeInsets.symmetric(horizontal: 3),
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 3),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100.r),
-                                    color: homeController.currentIndex.value == index
+                                    color: homeController.currentIndex.value ==
+                                            index
                                         ? cPrimaryColor2
                                         : cWhiteColor.withOpacity(0.3),
                                   ),
@@ -1652,10 +1875,10 @@ class HomeSlider extends StatelessWidget {
                               ),
                             )),
                         kH10sizedBox,
-      
+
                         // Movie Name (after tags & dots)
                         SizedBox(
-                          width: width*0.95,
+                          width: width * 0.95,
                           child: Text(
                             slider.title ?? "",
                             style: semiBold24TextStyle(cWhiteColor),
@@ -1664,7 +1887,7 @@ class HomeSlider extends StatelessWidget {
                           ),
                         ),
                         kH10sizedBox,
-      
+
                         // Play Button (bottom-most)
                         Container(
                           width: 40.w,

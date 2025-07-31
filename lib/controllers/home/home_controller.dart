@@ -21,6 +21,7 @@ import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_detai
 import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
 import 'package:vidflix_flutter_app/models/local_ads_model.dart';
 import 'package:vidflix_flutter_app/models/review/review_list_model.dart';
+import 'package:vidflix_flutter_app/models/watch_history/watch_history_model.dart';
 import 'package:vidflix_flutter_app/services/api_services.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/utils/constants/urls.dart';
@@ -197,34 +198,6 @@ class HomeController extends GetxController {
   final TextEditingController viewAllTextEditingController =
       TextEditingController();
   final RxBool isViewAllSearchSuffixShow = RxBool(false);
-
-  final RxList<Map<String, dynamic>> recentPlayedMovies =
-      RxList<Map<String, dynamic>>([
-    {
-      "imageUrl":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "title": "The Bad Boys",
-      "duration": "2 hr 20 mins",
-    },
-    {
-      "imageUrl":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "title": "The Bad Boys",
-      "duration": "2 hr 20 mins",
-    },
-    {
-      "imageUrl":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "title": "The Bad Boys",
-      "duration": "2 hr 20 mins",
-    },
-    {
-      "imageUrl":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "title": "The Bad Boys",
-      "duration": "2 hr 20 mins",
-    },
-  ]);
 
   final RxList blogBulletPointList = RxList([
     "Sed mattis risus vel lectus faucibus, lobortis tristique dolor consequat.",
@@ -1599,15 +1572,8 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isUserReviewLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          // showSnackBar(
-          //     title: ksError.tr,
-          //     message: response.message.toString(),
-          //     color: cRedColor);
+
         } else {
-          // showSnackBar(
-          //     title: ksError.tr,
-          //     message: errorModel.errors[0].message,
-          //     color: cRedColor);
         }
       }
     } catch (e) {
@@ -1615,7 +1581,45 @@ class HomeController extends GetxController {
       ll('getUserReview error: $e');
     }
   }
-  // 
+  
+    // get user Review
+  final RxBool isWatchHistoryLoading = RxBool(false);
+  final Rx<WatchHistoryModel?> watchHistoryModel = Rx<WatchHistoryModel?>(null);
+  final RxList<WatchHistoryData?> watchHistoryList = RxList<WatchHistoryData?>([]);
+  Future<void> getWatchHistory() async {
+    try {
+      isWatchHistoryLoading.value = true;
+      String? token = await spController.getBearerToken();
+      int? userId = await spController.getUserId();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuWatchHistory?user_id=${userId.toString()}",
+        body: body,
+      ) as CommonDM;
+      if (response.code == 200) {
+        watchHistoryList.clear();
+        watchHistoryModel.value =
+            WatchHistoryModel.fromJson(response.data);
+        watchHistoryList
+            .addAll(watchHistoryModel.value!.histories!.data!);
+        isWatchHistoryLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isWatchHistoryLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+
+        } else {
+        }
+      }
+    } catch (e) {
+      isWatchHistoryLoading.value = false;
+      ll('getWatchHistory error: $e');
+    }
+  }
+
+  //! review like loggle api call
   Future<void> reviewLikeToggle({required int reviewId,}) async {
     // final int userId = await spController.getUserId()??-1;
     try {
@@ -1643,6 +1647,7 @@ class HomeController extends GetxController {
       ll('userRating error: $e');
     }
   }
+  
 
 
 

@@ -53,57 +53,83 @@ class VideoPlayerScreen extends StatelessWidget {
                           .movieServerList[homeController.selectedServer.value]
                           ?.fileSource ==
                       "youtube")
-                YoutubePlayerBuilder(
-                  player: YoutubePlayer(
-                    controller: allVideoPlayerController.youtubeController,
-                    showVideoProgressIndicator: true,
-                    progressIndicatorColor: Colors.red,
-                    bottomActions: const [
-                      SizedBox(width: 14.0),
-                      CurrentPosition(),
-                      kW8sizedBox,
-                      ProgressBar(
-                        isExpanded: true,
-                        colors: ProgressBarColors(
-                          playedColor: cPrimaryColor,
-                          handleColor: cPrimaryColor,
-                        ),
-                      ),
-                      kW8sizedBox,
-                      RemainingDuration(),
-                      SizedBox(width: 14.0),
-                      FullScreenButton(
-                        color: cPrimaryColor,
-                      ),
-                    ],
-                  ),
-                  builder: (context, player) {
-                    return Stack(
-                      children: [
-                        Column(
-                          children: [
-                            player,
-                            const SizedBox(),
-                          ],
-                        ),
-                        Positioned(
-                          top: 2,
-                          left: 4,
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.arrow_back_ios,
-                              color: cWhiteColor,
-                              size: kIconSize16,
-                            ),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                ),
+                // YoutubePlayerBuilder(
+                //   player: YoutubePlayer(
+                //     controller: allVideoPlayerController.youtubeController,
+                //     showVideoProgressIndicator: true,
+                //     progressIndicatorColor: Colors.red,
+                //     bottomActions: const [
+                //       SizedBox(width: 14.0),
+                //       CurrentPosition(),
+                //       kW8sizedBox,
+                //       ProgressBar(
+                //         isExpanded: true,
+                //         colors: ProgressBarColors(
+                //           playedColor: cPrimaryColor,
+                //           handleColor: cPrimaryColor,
+                //         ),
+                //       ),
+                //       kW8sizedBox,
+                //       RemainingDuration(),
+                //       SizedBox(width: 14.0),
+                //       FullScreenButton(
+                //         color: cPrimaryColor,
+                //       ),
+                //     ],
+                //   ),
+                //   builder: (context, player) {
+                //     return Stack(
+                //       children: [
+                //         Column(
+                //           children: [
+                //             player,
+                //             const SizedBox(),
+                //           ],
+                //         ),
+                //         Positioned(
+                //           top: 2,
+                //           left: 4,
+                //           child: IconButton(
+                //             icon: const Icon(
+                //               Icons.arrow_back_ios,
+                //               color: cWhiteColor,
+                //               size: kIconSize16,
+                //             ),
+                //             onPressed: () {
+                //               Navigator.pop(context);
+                //             },
+                //           ),
+                //         ),
+                //       ],
+                //     );
+                //   },
+                // ),
+
+              
+              YoutubePlayer(
+  controller: allVideoPlayerController.youtubeController,
+  showVideoProgressIndicator: true,
+  progressIndicatorColor: Colors.red,
+  onReady: () {
+    allVideoPlayerController.youtubeController.seekTo(Duration.zero);
+  },
+  bottomActions: const [
+    SizedBox(width: 14.0),
+    CurrentPosition(),
+    kW8sizedBox,
+    ProgressBar(
+      isExpanded: true,
+      colors: ProgressBarColors(
+        playedColor: cPrimaryColor,
+        handleColor: cPrimaryColor,
+      ),
+    ),
+    kW8sizedBox,
+    RemainingDuration(),
+    SizedBox(width: 14.0),
+    FullScreenButton(color: cPrimaryColor),
+  ],
+),
 
               //!flick video player
               if (homeController.movieServerList.isNotEmpty &&
@@ -572,14 +598,12 @@ class VideoPlayerScreen extends StatelessWidget {
                                               allVideoPlayerController
                                                   .videoUrl.value);
                                       allVideoPlayerController
-                                              .youtubeController =
-                                          YoutubePlayerController(
-                                        initialVideoId: videoId ?? '',
-                                        flags: const YoutubePlayerFlags(
-                                          autoPlay: false,
-                                          mute: false,
-                                        ),
-                                      );
+                                              .youtubeController =  YoutubePlayerController(initialVideoId: videoId ?? '',
+      flags: const YoutubePlayerFlags(
+        autoPlay: false,
+        mute: false,
+      ),
+    );
                                     } else if (homeController
                                             .movieServerList[index]!.sourceType!
                                             .toLowerCase() !=
