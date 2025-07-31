@@ -1619,6 +1619,37 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<void> watchHistoryStore({required String watchableType,required int watchableId,required String duration,required String watchedSeconds}) async {
+    try {
+      String? token = await spController.getBearerToken();
+      int? userId = await spController.getUserId();
+      Map<String, dynamic> body = {
+        "user_id": userId.toString(),
+        "watchable_type": watchableType.toString(),
+        "watchable_id": watchableId.toString(),
+        "duration": duration.toString(),
+        "watched_seconds": watchedSeconds.toString(),
+      };
+      ll("body : $body");
+      var response = await apiServices.commonApiCall(
+        url: kuWatchHistoryStore,
+        body: body,
+        token: token,
+        requestMethod: kPost,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        addCommentTextEditingController.clear();
+        rating.value=0;
+        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+      } else {
+        showSnackBar(title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('watchHistoryStore error: $e');
+    }
+  }
+
   //! review like loggle api call
   Future<void> reviewLikeToggle({required int reviewId,}) async {
     // final int userId = await spController.getUserId()??-1;

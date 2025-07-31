@@ -78,3 +78,4 @@ const String kuRentedVideoList = "rent-video-list";
 
 //!Watch History
 const String kuWatchHistory = "watch-histories";
+const String kuWatchHistoryStore = "watch-history-store";

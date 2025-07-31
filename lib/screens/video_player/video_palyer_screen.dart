@@ -14,8 +14,8 @@ import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_co
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerScreen extends StatelessWidget {
-  VideoPlayerScreen(
-      {super.key, this.isRentedVideo = false}); //!make it --> false
+  VideoPlayerScreen({super.key, this.isRentedVideo = false});
+
   final bool? isRentedVideo;
   final AllVideoPlayerController allVideoPlayerController =
       Get.find<AllVideoPlayerController>();
@@ -24,6 +24,15 @@ class VideoPlayerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Run this once after the first frame is rendered
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 5), () {
+        // Check if this widget is still mounted using context (safe for StatelessWidget)
+        if (ModalRoute.of(context)?.isCurrent == true) {
+          homeController.watchHistoryStore(watchableType: 'movie', watchableId: 1, duration: '100', watchedSeconds: '90');
+        }
+      });
+    });
     return Scaffold(
       backgroundColor: cBlackColor,
       body: SingleChildScrollView(
