@@ -14,6 +14,7 @@ const kPrivacyPolicy = "kPrivacyPolicy";
 const kPaymentPolicy = "kPaymentPolicy";
 const kTermsAndCondition = "kTermsAndCondition";
 const kCurrency = "kCurrency";
+const kGoogleDriveApiKey = "kGoogleDriveApiKey";
 const kGeneralNotificationState = "kGeneralNotificationState";
 const kNewReleaseState = "kNewReleaseState";
 const kPaymentNotificationState = "kPaymentNotificationState";
@@ -175,6 +176,16 @@ class SpController {
   Future<String?> getCurrency() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     return preferences.getString(kCurrency);
+  }
+  //* Google drive api key
+  Future<void> saveGoogleDriveApiKey(String googleDriveApiKey) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(kGoogleDriveApiKey, googleDriveApiKey.toString());
+  }
+
+  Future<String?> getGoogleDriveApiKey() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getString(kGoogleDriveApiKey);
   }
   //* save General Notification State
   Future<void> saveGeneralNotificationState(bool generalNotificationState) async {

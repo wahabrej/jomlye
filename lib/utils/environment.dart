@@ -15,7 +15,6 @@ class Environment {
   static String get baseUrl {
     return dotenv.get('Base_Url');
   }
-
   static String get imageBaseUrl {
     return dotenv.get('Image_Base_Url');
   }

@@ -23,6 +23,7 @@ class GlobalController extends GetxController {
   final RxString  userGender = RxString("");
   final RxString  userToken = RxString("");
   final RxString  currency = RxString("");
+  final RxString  googleDriveApiKey = RxString("");
   final RxInt  userId = RxInt(-1);
   final RxString privacyPolicyUrl = RxString("");
   final RxString paymentPolicyUrl = RxString("");
@@ -198,7 +199,9 @@ class GlobalController extends GetxController {
       if (response.code == 200) {
         configModelData.value = ConfigModel.fromJson(response.data);
         spController.saveCurrency(configModelData.value?.currencySymbol??"");
+        spController.saveGoogleDriveApiKey(configModelData.value?.googleDriveApiKey??"");
         currency.value = await spController.getCurrency() ?? "";
+        googleDriveApiKey.value = await spController.getGoogleDriveApiKey() ?? "";
         isConfigLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);

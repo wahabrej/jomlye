@@ -232,7 +232,7 @@ class HomeScreen extends StatelessWidget {
                                 return InkWell(
                                   onTap: () async {
                                     homeController.resetRatingData();
-                                    homeController.showInterstitialAd();
+                                    // homeController.showInterstitialAd();
                                     await homeController.getMovieDetails(
                                         movieId: homeController
                                             .newReleaseMoviesList[index].id!
@@ -1719,7 +1719,7 @@ class HomeSlider extends StatelessWidget {
     return InkWell(
       onTap: () async {
         homeController.resetRatingData();
-        homeController.showInterstitialAd();
+        // homeController.showInterstitialAd();
         await homeController.getMovieDetails(
             movieId: homeController
                 .sliderList[homeController.currentIndex.value].id!

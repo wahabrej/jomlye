@@ -1,3 +1,4 @@
+import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
@@ -115,7 +116,7 @@ class VideoPlayerScreen extends StatelessWidget {
                 // ),
 
               
-              YoutubePlayer(
+  YoutubePlayer(
   controller: allVideoPlayerController.youtubeController,
   showVideoProgressIndicator: true,
   progressIndicatorColor: Colors.red,
@@ -140,18 +141,314 @@ class VideoPlayerScreen extends StatelessWidget {
   ],
 ),
 
-              //!flick video player
-              if (homeController.movieServerList.isNotEmpty &&
-                  homeController
-                          .movieServerList[homeController.selectedServer.value]
-                          ?.fileSource !=
-                      "youtube")
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: FlickVideoPlayer(
-                    flickManager: allVideoPlayerController.flickManager,
-                  ),
-                ),
+              // //!flick video player
+              // if (homeController.movieServerList.isNotEmpty &&
+              //     homeController
+              //             .movieServerList[homeController.selectedServer.value]
+              //             ?.fileSource !=
+              //         "youtube")
+              //   AspectRatio(
+              //     aspectRatio: 16 / 9,
+              //     child: FlickVideoPlayer(
+              //       flickManager: allVideoPlayerController.flickManager,
+              //     ),
+              //   ),
+              
+                    // BetterPlayer with ads for non-YouTube sources
+              // if (homeController.movieServerList.isNotEmpty &&
+              //     homeController.movieServerList[homeController.selectedServer.value]?.fileSource != "youtube")
+              //   Stack(
+              //     children: [
+              //       AspectRatio(
+              //         aspectRatio: 16 / 9,
+              //         child: BetterPlayerPlaylist(
+              //           betterPlayerConfiguration: const BetterPlayerConfiguration(
+              //             autoPlay: true,
+              //             controlsConfiguration: BetterPlayerControlsConfiguration(
+              //               showControls: true,
+              //               enableSkips: false,
+              //               enableProgressText: true,
+              //             ),
+              //           ),
+              //           betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
+              //             loopVideos: false,
+              //           ),
+              //           betterPlayerDataSourceList: [
+              //             BetterPlayerDataSource(
+              //               BetterPlayerDataSourceType.network,
+              //               allVideoPlayerController.preRollAdUrl,
+              //               cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+              //             ),
+              //             BetterPlayerDataSource(
+              //               BetterPlayerDataSourceType.network,
+              //               homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "",
+              //               cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+              //             ),
+              //             BetterPlayerDataSource(
+              //               BetterPlayerDataSourceType.network,
+              //               allVideoPlayerController.postRollAdUrl,
+              //               cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+              //             ),
+              //           ],
+              //         ),
+              //       ),
+              //       Positioned(
+              //         top: 8,
+              //         left: 8,
+              //         child: IconButton(
+              //           icon: const Icon(
+              //             Icons.arrow_back_ios,
+              //             color: cWhiteColor,
+              //             size: kIconSize20,
+              //           ),
+              //           onPressed: () {
+              //             Navigator.pop(context);
+              //           },
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              
+              // Updated view code
+// if (homeController.movieServerList.isNotEmpty &&
+//     homeController.movieServerList[homeController.selectedServer.value]?.fileSource != "youtube")
+//   Stack(
+//     children: [
+//       AspectRatio(
+//         aspectRatio: 16 / 9,
+//     child: Obx(() {
+//   if (allVideoPlayerController.playlistController == null) {
+//     final rawUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
+//     final apiKey = Get.find<GlobalController>().googleDriveApiKey;
+//     final url = allVideoPlayerController.generateGoogleDriveDirectUrl(rawUrl, apiKey.value);
+
+//     if (url.isNotEmpty) {
+//       allVideoPlayerController.initializeBetterPlayerWithAds(url);
+//     }
+
+//     return const Center(
+//       child: CircularProgressIndicator(),
+//     );
+//   }
+
+//   final rawUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
+//   final apiKey = Get.find<GlobalController>().googleDriveApiKey;
+//   final url = allVideoPlayerController.generateGoogleDriveDirectUrl(rawUrl, apiKey.value);
+
+//   return BetterPlayerPlaylist(
+//     betterPlayerDataSourceList: [
+//       BetterPlayerDataSource(
+//         BetterPlayerDataSourceType.network,
+//         allVideoPlayerController.preRollAdUrl,
+//         cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+//       ),
+//       BetterPlayerDataSource(
+//         BetterPlayerDataSourceType.network,
+//         url,
+//         cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+//       ),
+//       BetterPlayerDataSource(
+//         BetterPlayerDataSourceType.network,
+//         allVideoPlayerController.postRollAdUrl,
+//         cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+//       ),
+//     ],
+//     betterPlayerConfiguration: const BetterPlayerConfiguration(
+//       autoPlay: true,
+//       controlsConfiguration: BetterPlayerControlsConfiguration(
+//         showControls: true,
+//         enableSkips: false,
+//         enableProgressText: true,
+//       ),
+//     ),
+//     betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
+//       loopVideos: false,
+//     ),
+//   );
+// }),
+//       ),
+//       Positioned(
+//         top: 8,
+//         left: 8,
+//         child: IconButton(
+//           icon: const Icon(
+//             Icons.arrow_back_ios,
+//             color: Colors.white, // Use Colors.white instead of cWhiteColor if not defined
+//             size: 20, // Use direct size instead of kIconSize20 if not defined
+//           ),
+//           onPressed: () {
+//             Navigator.pop(context);
+//           },
+//         ),
+//       ),
+//     ],
+//   ),
+// if (homeController.movieServerList.isNotEmpty &&
+//     homeController.movieServerList[homeController.selectedServer.value]?.fileSource != "youtube")
+//   Stack(
+//     children: [
+//       AspectRatio(
+//         aspectRatio: 16 / 9,
+//         child: Obx(() {
+//           String url = ""; // Declare url variable outside if statement
+          
+//           if (allVideoPlayerController.playlistController == null) {
+//             final rawUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
+//             final apiKey = Get.find<GlobalController>().googleDriveApiKey;
+//             url = allVideoPlayerController.generateGoogleDriveDirectUrl(rawUrl, apiKey.value);
+//             if (url.isNotEmpty) {
+//               Future.microtask(() => allVideoPlayerController.initializeBetterPlayerWithAds(url));
+//             }
+//             return const Center(
+//               child: CircularProgressIndicator(),
+//             );
+//           }
+          
+//           // Get url again for the playlist
+//           final rawUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
+//           final apiKey = Get.find<GlobalController>().googleDriveApiKey;
+//           url = allVideoPlayerController.generateGoogleDriveDirectUrl(rawUrl, apiKey.value);
+          
+//           return BetterPlayerPlaylist(
+//             betterPlayerDataSourceList: [
+//               BetterPlayerDataSource(
+//                 BetterPlayerDataSourceType.network,
+//                 allVideoPlayerController.preRollAdUrl,
+//                 cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+//               ),
+//               BetterPlayerDataSource(
+//                 BetterPlayerDataSourceType.network,
+//                 url,
+//                 cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+//               ),
+//               BetterPlayerDataSource(
+//                 BetterPlayerDataSourceType.network,
+//                 allVideoPlayerController.postRollAdUrl,
+//                 cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+//               ),
+//             ],
+//             betterPlayerConfiguration: const BetterPlayerConfiguration(
+//               autoPlay: false, // Disable autoplay initially
+//               controlsConfiguration: BetterPlayerControlsConfiguration(
+//                 showControls: true,
+//                 enableSkips: false,
+//                 enableProgressText: true,
+//                 enablePlaybackSpeed: true,
+//                 enableMute: true,
+//               ),
+//             ),
+//             betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
+//               loopVideos: false,
+//             ),
+//           );
+//         }),
+//       ),
+//       Positioned(
+//         top: 8,
+//         left: 8,
+//         child: IconButton(
+//           icon: const Icon(
+//             Icons.arrow_back_ios,
+//             color: Colors.white,
+//             size: 20,
+//           ),
+//           onPressed: () {
+//             Navigator.pop(context);
+//           },
+//         ),
+//       ),
+//     ],
+//   ),
+  //! previous
+if (homeController.movieServerList.isNotEmpty &&
+    homeController.movieServerList[homeController.selectedServer.value]?.fileSource != "youtube")
+  Stack(
+    children: [
+      AspectRatio(
+        aspectRatio: 16 / 9,
+        child: Obx(() {
+          String url = "";
+          
+          if (allVideoPlayerController.playlistController == null) {
+            final rawUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
+            final apiKey = Get.find<GlobalController>().googleDriveApiKey;
+            url = allVideoPlayerController.generateGoogleDriveDirectUrl(rawUrl, apiKey.value);
+            if (url.isNotEmpty) {
+              Future.microtask(() => allVideoPlayerController.initializeBetterPlayerWithAds(url));
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          
+          // Get url again for the playlist
+          final rawUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
+          final apiKey = Get.find<GlobalController>().googleDriveApiKey;
+          url = allVideoPlayerController.generateGoogleDriveDirectUrl(rawUrl, apiKey.value);
+          
+          return BetterPlayerPlaylist(
+            betterPlayerDataSourceList: [
+              BetterPlayerDataSource(
+                BetterPlayerDataSourceType.network,
+                allVideoPlayerController.preRollAdUrl,
+                cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+              ),
+              BetterPlayerDataSource(
+                BetterPlayerDataSourceType.network,
+             homeController.movieServerList[homeController.selectedServer.value]!.fileSource!.toString().toLowerCase()=="gdrive" ? url : rawUrl,
+                cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+                videoFormat: BetterPlayerVideoFormat.other,
+              ),
+              BetterPlayerDataSource(
+                BetterPlayerDataSourceType.network,
+                allVideoPlayerController.postRollAdUrl,
+                cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+              ),
+            ],
+            betterPlayerConfiguration: BetterPlayerConfiguration(
+              autoPlay: true,
+              autoDispose: false,
+              startAt: Duration.zero,
+              controlsConfiguration: const BetterPlayerControlsConfiguration(
+                showControls: true,
+                enableSkips: false,
+                enableProgressText: true,
+                enablePlaybackSpeed: true,
+                enableMute: true,
+              ),
+              eventListener: (event) {
+                if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
+                  // Reset position when video initializes
+                  Future.delayed(const Duration(milliseconds: 100), () {
+                    allVideoPlayerController.playlistController?.betterPlayerController?.seekTo(Duration.zero);
+                  });
+                }
+              },
+            ),
+            betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
+              loopVideos: false,
+              nextVideoDelay: Duration(milliseconds: 500),
+            ),
+          );
+        }),
+      ),
+      Positioned(
+        top: 8,
+        left: 8,
+        child: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.white,
+            size: 20,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    ],
+  ),
+
               kH20sizedBox,
               Padding(
                 padding: const EdgeInsets.only(left: k20Padding),
@@ -573,7 +870,7 @@ class VideoPlayerScreen extends StatelessWidget {
                         CommonContainer(
                           image: kiShare,
                           onPressed: () {
-                            Share.share('Share data from vidflix app! 🚀');
+                            Share.share(homeController.movieServerList[homeController.selectedServer.value]?.fileUrl??"");
                           },
                         ),
                       ],
