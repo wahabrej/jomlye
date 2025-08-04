@@ -1,39 +1,194 @@
-// import 'package:flick_video_player/flick_video_player.dart';
-// import 'package:flutter_media_downloader/flutter_media_downloader.dart';
-// import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-// import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+// // import 'package:flick_video_player/flick_video_player.dart';
+// // import 'package:flutter_media_downloader/flutter_media_downloader.dart';
+// // import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+// // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-// class AllVideoPlayerController extends GetxController {
-//   late YoutubePlayerController youtubeController;
+// // class AllVideoPlayerController extends GetxController {
+// //   late YoutubePlayerController youtubeController;
 
-//   final RxString videoUrl = RxString('https://www.youtube.com/watch?v=K18cpp_-gP8');
+// //   final RxString videoUrl = RxString('https://www.youtube.com/watch?v=K18cpp_-gP8');
 
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     final videoId = YoutubePlayer.convertUrlToId(videoUrl.value);
-//     youtubeController = YoutubePlayerController(
-//       initialVideoId: videoId ?? '',
-//       flags: const YoutubePlayerFlags(
-//         autoPlay: true,
-//         mute: false,
-//       ),
-//     );
-//   }
+// //   @override
+// //   void onInit() {
+// //     super.onInit();
+// //     final videoId = YoutubePlayer.convertUrlToId(videoUrl.value);
+// //     youtubeController = YoutubePlayerController(
+// //       initialVideoId: videoId ?? '',
+// //       flags: const YoutubePlayerFlags(
+// //         autoPlay: true,
+// //         mute: false,
+// //       ),
+// //     );
+// //   }
 
-//   @override
-//   void onClose() {
-//     youtubeController.dispose();
-//     super.onClose();
-//   }
+// //   @override
+// //   void onClose() {
+// //     youtubeController.dispose();
+// //     super.onClose();
+// //   }
 
-//   late FlickManager flickManager;
-//   final RxList movieTypeList = RxList([
-//   "HD","Action", "Super Hit", "Block Buster"
-//   ]);
+// //   late FlickManager flickManager;
+// //   final RxList movieTypeList = RxList([
+// //   "HD","Action", "Super Hit", "Block Buster"
+// //   ]);
 
-//   final MediaDownload flutterMediaDownloaderPlugin = MediaDownload();
-// }
+// //   final MediaDownload flutterMediaDownloaderPlugin = MediaDownload();
+// // }
+
+// // import 'package:better_player_plus/better_player_plus.dart';
+// // import 'package:flick_video_player/flick_video_player.dart';
+// // import 'package:flutter_media_downloader/flutter_media_downloader.dart';
+// // import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+// // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+
+// // class AllVideoPlayerController extends GetxController {
+// //   late FlickManager flickManager;
+// //   late YoutubePlayerController youtubeController;
+// //   late BetterPlayerPlaylistController playlistController;
+
+// //   final RxString videoUrl = RxString('https://www.youtube.com/watch?v=K18cpp_-gP8');
+// //   final RxBool isMidRollAdPlaying = RxBool(false);
+
+// //   // Ad URLs - using your first code's static URLs
+// //   final String preRollAdUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
+// //   final String postRollAdUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
+// //   final List<Map<String, dynamic>> midRollAds = [
+// //     {"time": 15, "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", "shown": false},
+// //     {"time": 30, "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", "shown": false},
+// //   ];
+
+// //   @override
+// //   void onInit() {
+// //     super.onInit();
+// //     final videoId = YoutubePlayer.convertUrlToId(videoUrl.value);
+// //     youtubeController = YoutubePlayerController(
+// //       initialVideoId: videoId ?? '',
+// //       flags: const YoutubePlayerFlags(
+// //         autoPlay: false,
+// //         mute: false,
+// //       ),
+// //     );
+// //   }
+
+// //   void setupBetterPlayerWithAds(String mainContentUrl) {
+// //     // Reset mid-roll ad states
+// //     for (var ad in midRollAds) {
+// //       ad["shown"] = false;
+// //     }
+// //     isMidRollAdPlaying.value = false;
+
+// //     final List<BetterPlayerDataSource> playlist = [
+// //       BetterPlayerDataSource(
+// //         BetterPlayerDataSourceType.network,
+// //         preRollAdUrl,
+// //         cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+// //       ),
+// //       BetterPlayerDataSource(
+// //         BetterPlayerDataSourceType.network,
+// //         mainContentUrl,
+// //         cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+// //       ),
+// //       BetterPlayerDataSource(
+// //         BetterPlayerDataSourceType.network,
+// //         postRollAdUrl,
+// //         cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+// //       ),
+// //     ];
+
+// //     playlistController = BetterPlayerPlaylistController(
+// //       playlist,
+// //       betterPlayerConfiguration: const BetterPlayerConfiguration(
+// //         autoPlay: true,
+// //         controlsConfiguration: BetterPlayerControlsConfiguration(
+// //           showControls: true,
+// //           enableSkips: false,
+// //           enableProgressText: true,
+// //         ),
+// //       ),
+// //       betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
+// //         loopVideos: false,
+// //       ),
+// //     );
+
+// //     // Setup mid-roll ads after controller is initialized
+// //     WidgetsBinding.instance.addPostFrameCallback((_) {
+// //       _setupMidRollAds();
+// //     });
+// //   }
+
+// //   void _setupMidRollAds() {
+// //     playlistController.betterPlayerController?.addEventsListener((event) {
+// //       if (isMidRollAdPlaying.value) return;
+
+// //       if (event.betterPlayerEventType == BetterPlayerEventType.progress) {
+// //         final currentPos = event.parameters!['progress'] ~/ 1000; // Current position in seconds
+
+// //         for (final ad in midRollAds) {
+// //           if (currentPos >= ad["time"] && !ad["shown"]) {
+// //             ad["shown"] = true;
+// //             _playMidRollAd(ad["url"]);
+// //             break; // Only trigger one ad at a time
+// //           }
+// //         }
+// //       }
+// //     });
+// //   }
+
+// //   void _playMidRollAd(String adUrl) {
+// //     isMidRollAdPlaying.value = true;
+// //     playlistController.betterPlayerController?.pause();
+
+// //     showDialog(
+// //       context: Get.context!,
+// //       barrierDismissible: false,
+// //       builder: (context) => AlertDialog(
+// //         title: const Text("Advertisement"),
+// //         content: SizedBox(
+// //           width: MediaQuery.of(context).size.width * 0.8,
+// //           height: 200,
+// //           child: BetterPlayer(
+// //             controller: BetterPlayerController(
+// //               const BetterPlayerConfiguration(
+// //                 autoPlay: true,
+// //                 controlsConfiguration: BetterPlayerControlsConfiguration(
+// //                   showControls: true,
+// //                   enableSkips: true,
+// //                 ),
+// //               ),
+// //               betterPlayerDataSource: BetterPlayerDataSource(
+// //                 BetterPlayerDataSourceType.network,
+// //                 adUrl,
+// //               ),
+// //             ),
+// //           ),
+// //         ),
+// //         actions: [
+// //           TextButton(
+// //             onPressed: () {
+// //               Navigator.pop(context);
+// //               isMidRollAdPlaying.value = false;
+// //               playlistController.betterPlayerController?.play();
+// //             },
+// //             child: const Text("Close"),
+// //           ),
+// //         ],
+// //       ),
+// //     );
+// //   }
+
+// //   final RxList movieTypeList = RxList([
+// //     "HD", "Action", "Super Hit", "Block Buster"
+// //   ]);
+
+// //   final MediaDownload flutterMediaDownloaderPlugin = MediaDownload();
+
+// //   @override
+// //   void onClose() {
+// //     youtubeController.dispose();
+// //     playlistController.dispose();
+// //     super.onClose();
+// //   }
+// // }
 
 // import 'package:better_player_plus/better_player_plus.dart';
 // import 'package:flick_video_player/flick_video_player.dart';
@@ -44,12 +199,13 @@
 // class AllVideoPlayerController extends GetxController {
 //   late FlickManager flickManager;
 //   late YoutubePlayerController youtubeController;
-//   late BetterPlayerPlaylistController playlistController;
+//   BetterPlayerController? betterPlayerController;
+//   BetterPlayerPlaylistController? playlistController;
 
 //   final RxString videoUrl = RxString('https://www.youtube.com/watch?v=K18cpp_-gP8');
 //   final RxBool isMidRollAdPlaying = RxBool(false);
 
-//   // Ad URLs - using your first code's static URLs
+//   // Ad URLs
 //   final String preRollAdUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
 //   final String postRollAdUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
 //   final List<Map<String, dynamic>> midRollAds = [
@@ -60,6 +216,10 @@
 //   @override
 //   void onInit() {
 //     super.onInit();
+//     _initializeYouTubeController();
+//   }
+
+//   void _initializeYouTubeController() {
 //     final videoId = YoutubePlayer.convertUrlToId(videoUrl.value);
 //     youtubeController = YoutubePlayerController(
 //       initialVideoId: videoId ?? '',
@@ -70,110 +230,165 @@
 //     );
 //   }
 
-//   void setupBetterPlayerWithAds(String mainContentUrl) {
-//     // Reset mid-roll ad states
-//     for (var ad in midRollAds) {
-//       ad["shown"] = false;
-//     }
-//     isMidRollAdPlaying.value = false;
+//   // Initialize Better Player with ads
+//   Future<void> initializeBetterPlayerWithAds(String mainContentUrl) async {
+//     try {
+//       // Dispose existing controller if any
+//       await _disposeBetterPlayer();
+      
+//       // Reset mid-roll ad states
+//       for (var ad in midRollAds) {
+//         ad["shown"] = false;
+//       }
+//       isMidRollAdPlaying.value = false;
 
-//     final List<BetterPlayerDataSource> playlist = [
-//       BetterPlayerDataSource(
-//         BetterPlayerDataSourceType.network,
-//         preRollAdUrl,
-//         cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
-//       ),
-//       BetterPlayerDataSource(
-//         BetterPlayerDataSourceType.network,
-//         mainContentUrl,
-//         cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
-//       ),
-//       BetterPlayerDataSource(
-//         BetterPlayerDataSourceType.network,
-//         postRollAdUrl,
-//         cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
-//       ),
-//     ];
-
-//     playlistController = BetterPlayerPlaylistController(
-//       playlist,
-//       betterPlayerConfiguration: const BetterPlayerConfiguration(
-//         autoPlay: true,
-//         controlsConfiguration: BetterPlayerControlsConfiguration(
-//           showControls: true,
-//           enableSkips: false,
-//           enableProgressText: true,
+//       // Create playlist data sources
+//       final List<BetterPlayerDataSource> playlist = [
+//         BetterPlayerDataSource(
+//           BetterPlayerDataSourceType.network,
+//           preRollAdUrl,
+//           cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
 //         ),
-//       ),
-//       betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
-//         loopVideos: false,
-//       ),
-//     );
+//         BetterPlayerDataSource(
+//           BetterPlayerDataSourceType.network,
+//           mainContentUrl,
+//           cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+//         ),
+//         BetterPlayerDataSource(
+//           BetterPlayerDataSourceType.network,
+//           postRollAdUrl,
+//           cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+//         ),
+//       ];
 
-//     // Setup mid-roll ads after controller is initialized
-//     WidgetsBinding.instance.addPostFrameCallback((_) {
+//       // Initialize playlist controller
+//       playlistController = BetterPlayerPlaylistController(
+//         playlist,
+//         betterPlayerConfiguration: const BetterPlayerConfiguration(
+//           autoPlay: true,
+//           aspectRatio: 16/9,
+//           fit: BoxFit.contain,
+//           controlsConfiguration: BetterPlayerControlsConfiguration(
+//             showControls: true,
+//             enableSkips: false,
+//             enableProgressText: true,
+//             enableMute: true,
+//             enableFullscreen: true,
+//           ),
+//         ),
+//         betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
+//           loopVideos: false,
+//           nextVideoDelay: Duration(seconds: 1),
+//         ),
+//       );
+
+//       // Wait for controller to be ready
+//       await Future.delayed(const Duration(milliseconds: 500));
+      
+//       // Setup mid-roll ads
 //       _setupMidRollAds();
-//     });
+      
+//     } catch (e) {
+//       print('Error initializing Better Player: $e');
+//     }
 //   }
 
 //   void _setupMidRollAds() {
-//     playlistController.betterPlayerController?.addEventsListener((event) {
+//     if (playlistController?.betterPlayerController == null) return;
+
+//     playlistController!.betterPlayerController!.addEventsListener((event) {
 //       if (isMidRollAdPlaying.value) return;
 
 //       if (event.betterPlayerEventType == BetterPlayerEventType.progress) {
-//         final currentPos = event.parameters!['progress'] ~/ 1000; // Current position in seconds
+//         final progress = event.parameters?['progress'];
+//         if (progress == null) return;
+        
+//         final currentPos = (progress as Duration).inSeconds;
 
 //         for (final ad in midRollAds) {
 //           if (currentPos >= ad["time"] && !ad["shown"]) {
 //             ad["shown"] = true;
 //             _playMidRollAd(ad["url"]);
-//             break; // Only trigger one ad at a time
+//             break;
 //           }
 //         }
 //       }
 //     });
 //   }
 
+//   String generateGoogleDriveDirectUrl(String sharedUrl, String apiKey) {
+//   final regExp = RegExp(r'd/([a-zA-Z0-9_-]+)');
+//   final match = regExp.firstMatch(sharedUrl);
+//   if (match != null && match.groupCount > 0) {
+//     final fileId = match.group(1);
+//     // Construct direct API URL for downloading video file
+//     return "https://www.googleapis.com/drive/v3/files/$fileId?alt=media&key=$apiKey";
+//   }
+//   return sharedUrl; // fallback: original URL (in case it's not a Google Drive link)
+// }
+
+
 //   void _playMidRollAd(String adUrl) {
+//     if (Get.context == null) return;
+    
 //     isMidRollAdPlaying.value = true;
-//     playlistController.betterPlayerController?.pause();
+//     playlistController?.betterPlayerController?.pause();
+
+//     BetterPlayerController? adController;
 
 //     showDialog(
 //       context: Get.context!,
 //       barrierDismissible: false,
-//       builder: (context) => AlertDialog(
-//         title: const Text("Advertisement"),
-//         content: SizedBox(
-//           width: MediaQuery.of(context).size.width * 0.8,
-//           height: 200,
-//           child: BetterPlayer(
-//             controller: BetterPlayerController(
-//               const BetterPlayerConfiguration(
-//                 autoPlay: true,
-//                 controlsConfiguration: BetterPlayerControlsConfiguration(
-//                   showControls: true,
-//                   enableSkips: true,
-//                 ),
-//               ),
-//               betterPlayerDataSource: BetterPlayerDataSource(
-//                 BetterPlayerDataSourceType.network,
-//                 adUrl,
-//               ),
+//       builder: (context) {
+//         adController = BetterPlayerController(
+//           const BetterPlayerConfiguration(
+//             autoPlay: true,
+//             aspectRatio: 16/9,
+//             controlsConfiguration: BetterPlayerControlsConfiguration(
+//               showControls: true,
+//               enableSkips: true,
+//               enableFullscreen: false,
 //             ),
 //           ),
-//         ),
-//         actions: [
-//           TextButton(
-//             onPressed: () {
-//               Navigator.pop(context);
-//               isMidRollAdPlaying.value = false;
-//               playlistController.betterPlayerController?.play();
-//             },
-//             child: const Text("Close"),
+//           betterPlayerDataSource: BetterPlayerDataSource(
+//             BetterPlayerDataSourceType.network,
+//             adUrl,
+//             cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
 //           ),
-//         ],
-//       ),
+//         );
+
+//         return AlertDialog(
+//           title: const Text("Advertisement"),
+//           content: SizedBox(
+//             width: MediaQuery.of(context).size.width * 0.8,
+//             height: 200,
+//             child: BetterPlayer(controller: adController!),
+//           ),
+//           actions: [
+//             TextButton(
+//               onPressed: () {
+//                 adController?.dispose();
+//                 Navigator.pop(context);
+//                 isMidRollAdPlaying.value = false;
+//                 playlistController?.betterPlayerController?.play();
+//               },
+//               child: const Text("Close"),
+//             ),
+//           ],
+//         );
+//       },
 //     );
+//   }
+
+//   Future<void> _disposeBetterPlayer() async {
+//     try {
+//       betterPlayerController?.dispose();
+//       playlistController?.dispose();
+//       betterPlayerController = null;
+//       playlistController = null;
+//     } catch (e) {
+//       print('Error disposing Better Player: $e');
+//     }
 //   }
 
 //   final RxList movieTypeList = RxList([
@@ -185,7 +400,7 @@
 //   @override
 //   void onClose() {
 //     youtubeController.dispose();
-//     playlistController.dispose();
+//     _disposeBetterPlayer();
 //     super.onClose();
 //   }
 // }
@@ -193,6 +408,7 @@
 import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter_media_downloader/flutter_media_downloader.dart';
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -204,6 +420,8 @@ class AllVideoPlayerController extends GetxController {
 
   final RxString videoUrl = RxString('https://www.youtube.com/watch?v=K18cpp_-gP8');
   final RxBool isMidRollAdPlaying = RxBool(false);
+  final RxBool isPlayerInitialized = RxBool(false);
+  final RxBool isInitializing = RxBool(false);
 
   // Ad URLs
   final String preRollAdUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
@@ -212,6 +430,9 @@ class AllVideoPlayerController extends GetxController {
     {"time": 15, "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", "shown": false},
     {"time": 30, "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", "shown": false},
   ];
+
+  // Store the current main content URL to avoid re-initialization
+  String? currentMainContentUrl;
 
   @override
   void onInit() {
@@ -230,51 +451,86 @@ class AllVideoPlayerController extends GetxController {
     );
   }
 
-  // Initialize Better Player with ads
+  // Initialize Better Player Plus with ads - only if URL changed
   Future<void> initializeBetterPlayerWithAds(String mainContentUrl) async {
+    // Check if already initialized with the same URL
+    if (isPlayerInitialized.value && currentMainContentUrl == mainContentUrl) {
+      return;
+    }
+
+    // Prevent multiple simultaneous initializations
+    if (isInitializing.value) {
+      return;
+    }
+
     try {
+      isInitializing.value = true;
+      
       // Dispose existing controller if any
       await _disposeBetterPlayer();
       
-      // Reset mid-roll ad states
+      // Reset states
       for (var ad in midRollAds) {
         ad["shown"] = false;
       }
       isMidRollAdPlaying.value = false;
+      isPlayerInitialized.value = false;
+
+      // Store current URL
+      currentMainContentUrl = mainContentUrl;
 
       // Create playlist data sources
       final List<BetterPlayerDataSource> playlist = [
         BetterPlayerDataSource(
           BetterPlayerDataSourceType.network,
           preRollAdUrl,
-          cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+          cacheConfiguration: const BetterPlayerCacheConfiguration(
+            useCache: true,
+            preCacheSize: 10 * 1024 * 1024,
+            maxCacheSize: 100 * 1024 * 1024,
+          ),
         ),
         BetterPlayerDataSource(
           BetterPlayerDataSourceType.network,
           mainContentUrl,
-          cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+          cacheConfiguration: const BetterPlayerCacheConfiguration(
+            useCache: true,
+            preCacheSize: 20 * 1024 * 1024,
+            maxCacheSize: 200 * 1024 * 1024,
+          ),
+          videoFormat: BetterPlayerVideoFormat.other,
         ),
         BetterPlayerDataSource(
           BetterPlayerDataSourceType.network,
           postRollAdUrl,
-          cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
+          cacheConfiguration: const BetterPlayerCacheConfiguration(
+            useCache: true,
+            preCacheSize: 10 * 1024 * 1024,
+            maxCacheSize: 100 * 1024 * 1024,
+          ),
         ),
       ];
 
       // Initialize playlist controller
       playlistController = BetterPlayerPlaylistController(
         playlist,
-        betterPlayerConfiguration: const BetterPlayerConfiguration(
+        betterPlayerConfiguration: BetterPlayerConfiguration(
           autoPlay: true,
           aspectRatio: 16/9,
           fit: BoxFit.contain,
-          controlsConfiguration: BetterPlayerControlsConfiguration(
+          autoDispose: false,
+          startAt: Duration.zero,
+          controlsConfiguration: const BetterPlayerControlsConfiguration(
             showControls: true,
             enableSkips: false,
             enableProgressText: true,
             enableMute: true,
             enableFullscreen: true,
+            enablePlaybackSpeed: true,
+            controlsHideTime: Duration(seconds: 3),
+            enableOverflowMenu: true,
           ),
+          eventListener: _onBetterPlayerEvent,
         ),
         betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
           loopVideos: false,
@@ -283,13 +539,27 @@ class AllVideoPlayerController extends GetxController {
       );
 
       // Wait for controller to be ready
-      await Future.delayed(const Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 800));
       
       // Setup mid-roll ads
       _setupMidRollAds();
       
+      isPlayerInitialized.value = true;
+      
     } catch (e) {
-      print('Error initializing Better Player: $e');
+      print('Error initializing Better Player Plus: $e');
+      isPlayerInitialized.value = false;
+    } finally {
+      isInitializing.value = false;
+    }
+  }
+
+  void _onBetterPlayerEvent(BetterPlayerEvent event) {
+    if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
+      // Reset position when video initializes
+      Future.delayed(const Duration(milliseconds: 100), () {
+        playlistController?.betterPlayerController?.seekTo(Duration.zero);
+      });
     }
   }
 
@@ -304,29 +574,44 @@ class AllVideoPlayerController extends GetxController {
         if (progress == null) return;
         
         final currentPos = (progress as Duration).inSeconds;
-
-        for (final ad in midRollAds) {
-          if (currentPos >= ad["time"] && !ad["shown"]) {
-            ad["shown"] = true;
-            _playMidRollAd(ad["url"]);
-            break;
+        final currentDataSource = playlistController?.betterPlayerController?.betterPlayerDataSource;
+        
+        // Only trigger mid-roll ads for main content (second item in playlist)
+        if (currentDataSource?.url == currentMainContentUrl) {
+          for (final ad in midRollAds) {
+            if (currentPos >= ad["time"] && !ad["shown"]) {
+              ad["shown"] = true;
+              _playMidRollAd(ad["url"]);
+              break;
+            }
           }
         }
       }
     });
   }
 
-  String generateGoogleDriveDirectUrl(String sharedUrl, String apiKey) {
-  final regExp = RegExp(r'd/([a-zA-Z0-9_-]+)');
-  final match = regExp.firstMatch(sharedUrl);
-  if (match != null && match.groupCount > 0) {
-    final fileId = match.group(1);
-    // Construct direct API URL for downloading video file
-    return "https://www.googleapis.com/drive/v3/files/$fileId?alt=media&key=$apiKey";
-  }
-  return sharedUrl; // fallback: original URL (in case it's not a Google Drive link)
-}
+  final RxString finalUrl = RxString("");
 
+  Future<void> parseVideoUrl({required String fileUrl,required String fileSource}) async {
+          final apiKey = Get.find<GlobalController>().googleDriveApiKey;
+           finalUrl.value = "";
+          if (fileSource == "gdrive") {
+          finalUrl.value =await generateGoogleDriveDirectUrl(fileUrl, apiKey.value);
+          } else {
+            finalUrl.value = fileUrl;
+          }
+  }
+
+  Future<String> generateGoogleDriveDirectUrl(String sharedUrl, String apiKey) async{
+    final regExp = RegExp(r'd/([a-zA-Z0-9_-]+)');
+    final match = regExp.firstMatch(sharedUrl);
+    if (match != null && match.groupCount > 0) {
+      final fileId = match.group(1);
+      // Construct direct API URL for downloading video file
+      return "https://www.googleapis.com/drive/v3/files/$fileId?alt=media&key=$apiKey";
+    }
+    return sharedUrl; // fallback: original URL (in case it's not a Google Drive link)
+  }
 
   void _playMidRollAd(String adUrl) {
     if (Get.context == null) return;
@@ -341,13 +626,15 @@ class AllVideoPlayerController extends GetxController {
       barrierDismissible: false,
       builder: (context) {
         adController = BetterPlayerController(
-          const BetterPlayerConfiguration(
+          BetterPlayerConfiguration(
             autoPlay: true,
             aspectRatio: 16/9,
-            controlsConfiguration: BetterPlayerControlsConfiguration(
+            fit: BoxFit.contain,
+            controlsConfiguration: const BetterPlayerControlsConfiguration(
               showControls: true,
               enableSkips: true,
               enableFullscreen: false,
+              controlsHideTime: Duration(seconds: 2),
             ),
           ),
           betterPlayerDataSource: BetterPlayerDataSource(
@@ -386,9 +673,16 @@ class AllVideoPlayerController extends GetxController {
       playlistController?.dispose();
       betterPlayerController = null;
       playlistController = null;
+      isPlayerInitialized.value = false;
+      currentMainContentUrl = null;
     } catch (e) {
-      print('Error disposing Better Player: $e');
+      print('Error disposing Better Player Plus: $e');
     }
+  }
+
+  // Method to reset player for new content
+  void resetPlayer() {
+    _disposeBetterPlayer();
   }
 
   final RxList movieTypeList = RxList([
