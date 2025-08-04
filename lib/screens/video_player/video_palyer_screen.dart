@@ -140,7 +140,6 @@ class VideoPlayerScreen extends StatelessWidget {
     FullScreenButton(color: cPrimaryColor),
   ],
 ),
-
               // //!flick video player
               if (homeController.movieServerList.isNotEmpty &&
                   homeController
@@ -150,6 +149,124 @@ class VideoPlayerScreen extends StatelessWidget {
                           .movieServerList[homeController.selectedServer.value]
                           ?.fileSource.toString().toLowerCase() !=
                       "gdrive")
+                      Container(
+      height: 250,
+      width: double.infinity,
+      color: Colors.black,
+      child: Obx(() {
+        if (homeController.movieServerList.isNotEmpty &&
+            homeController.movieServerList[homeController.selectedServer.value]?.fileSource != "youtube" && 
+            homeController.movieServerList[homeController.selectedServer.value]?.fileSource.toString().toLowerCase() != "gdrive") {
+          
+          String videoUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
+          
+          if (videoUrl.isEmpty) {
+            return Center(
+              child: Text('No video URL available', style: TextStyle(color: Colors.white)),
+            );
+          }
+          
+          // Initialize video if not already initialized
+          if (!allVideoPlayerController.isInitialized.value) {
+            allVideoPlayerController.initBetterPlayerVideo(videoUrl);
+            return Center(
+              child: CircularProgressIndicator(color: Colors.white),
+            );
+          }
+          
+          // Show error if any
+          if (allVideoPlayerController.hasError.value) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.error, color: Colors.red, size: 48),
+                  SizedBox(height: 8),
+                  Text('Error loading video', style: TextStyle(color: Colors.white)),
+                  SizedBox(height: 8),
+                  ElevatedButton(
+                    onPressed: () => allVideoPlayerController.initBetterPlayerVideo(videoUrl),
+                    child: Text('Retry'),
+                  ),
+                ],
+              ),
+            );
+          }
+          
+          // Show video player
+          if (allVideoPlayerController.betterPlayerController != null) {
+            return BetterPlayer(
+              controller: allVideoPlayerController.betterPlayerController!,
+            );
+          }
+          
+          return Center(
+            child: CircularProgressIndicator(color: Colors.white),
+          );
+        }
+        
+        return Center(
+          child: Text('Video not available', style: TextStyle(color: Colors.white)),
+        );
+      }),
+    ),
+    //                   Container(
+    //   height: 200,
+    //   width: double.infinity,
+    //   color: Colors.black,
+    //   child: Obx(() {
+    //     if (homeController.movieServerList.isNotEmpty &&
+    //         homeController.movieServerList[homeController.selectedServer.value]?.fileSource != "youtube" && 
+    //         homeController.movieServerList[homeController.selectedServer.value]?.fileSource.toString().toLowerCase() != "gdrive") {
+          
+    //       String videoUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
+          
+    //       if (allVideoPlayerController.videoController == null) {
+    //         allVideoPlayerController.initVideo(videoUrl);
+    //         return Center(child: CircularProgressIndicator(color: Colors.white));
+    //       }
+          
+    //       if (!allVideoPlayerController.isInitialized.value) {
+    //         return Center(child: CircularProgressIndicator(color: Colors.white));
+    //       }
+          
+    //       return Stack(
+    //         children: [
+    //           Center(
+    //             child: AspectRatio(
+    //               aspectRatio: allVideoPlayerController.videoController!.value.aspectRatio,
+    //               child: VideoPlayer(allVideoPlayerController.videoController!),
+    //             ),
+    //           ),
+    //           Center(
+    //             child: IconButton(
+    //               iconSize: 60,
+    //               icon: Icon(
+    //                 allVideoPlayerController.videoController!.value.isPlaying 
+    //                     ? Icons.pause 
+    //                     : Icons.play_arrow,
+    //                 color: Colors.white,
+    //               ),
+    //               onPressed: () {
+    //                 if (allVideoPlayerController.videoController!.value.isPlaying) {
+    //                   allVideoPlayerController.videoController!.pause();
+    //                 } else {
+    //                   allVideoPlayerController.videoController!.play();
+    //                 }
+    //               },
+    //             ),
+    //           ),
+    //         ],
+    //       );
+    //     }
+        
+    //     return Center(
+    //       child: Text('Video not available', style: TextStyle(color: Colors.white)),
+    //     );
+    //   }),
+    // ),
+               
+               
                 // AspectRatio(
                 //   aspectRatio: 16 / 9,
                 //   child: FlickVideoPlayer(
@@ -308,134 +425,136 @@ class VideoPlayerScreen extends StatelessWidget {
 //     ],
 //   ),
 
-       // Updated Video Player Screen Widget
-if (homeController.movieServerList.isNotEmpty &&
-    homeController.movieServerList[homeController.selectedServer.value]?.fileSource == "gdrive")
-  Stack(
-    children: [
-      AspectRatio(
-        aspectRatio: 16 / 9,
-        child: Obx(() {
-          // Show loading indicator while initializing
-          if (allVideoPlayerController.isInitializing.value) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+//!needed for better player ad video widget
+// if (homeController.movieServerList.isNotEmpty &&
+//     homeController.movieServerList[homeController.selectedServer.value]?.fileSource == "gdrive")
+  // Stack(
+  //   children: [
+  //     AspectRatio(
+  //       aspectRatio: 16 / 9,
+  //       child: Obx(() {
+  //         // Show loading indicator while initializing
+  //         if (allVideoPlayerController.isInitializing.value) {
+  //           return const Center(
+  //             child: CircularProgressIndicator(),
+  //           );
+  //         }
 
-          // // Get the URL once
-          // final rawUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
-          // final apiKey = Get.find<GlobalController>().googleDriveApiKey;
-          // final fileSource = homeController.movieServerList[homeController.selectedServer.value]?.fileSource?.toString().toLowerCase();
+  //         // // Get the URL once
+  //         // final rawUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
+  //         // final apiKey = Get.find<GlobalController>().googleDriveApiKey;
+  //         // final fileSource = homeController.movieServerList[homeController.selectedServer.value]?.fileSource?.toString().toLowerCase();
           
-          // String finalUrl = "";
-          // if (fileSource == "gdrive") {
-          //   finalUrl = allVideoPlayerController.generateGoogleDriveDirectUrl(rawUrl, apiKey.value);
-          // } else {
-          //   finalUrl = rawUrl;
-          // }
+  //         // String finalUrl = "";
+  //         // if (fileSource == "gdrive") {
+  //         //   finalUrl = allVideoPlayerController.generateGoogleDriveDirectUrl(rawUrl, apiKey.value);
+  //         // } else {
+  //         //   finalUrl = rawUrl;
+  //         // }
 
-          // Initialize player if not already done for this URL
-          if (!allVideoPlayerController.isPlayerInitialized.value || 
-              allVideoPlayerController.currentMainContentUrl != allVideoPlayerController.finalUrl.value) {
-            if (allVideoPlayerController.finalUrl.value.isNotEmpty) {
-              Future.microtask(() => allVideoPlayerController.initializeBetterPlayerWithAds(allVideoPlayerController.finalUrl.value));
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+  //         // Initialize player if not already done for this URL
+  //         if (!allVideoPlayerController.isPlayerInitialized.value || 
+  //             allVideoPlayerController.currentMainContentUrl != allVideoPlayerController.finalUrl.value) {
+  //           if (allVideoPlayerController.finalUrl.value.isNotEmpty) {
+  //             Future.microtask(() => allVideoPlayerController.initializeBetterPlayerWithAds(allVideoPlayerController.finalUrl.value));
+  //           }
+  //           return const Center(
+  //             child: CircularProgressIndicator(),
+  //           );
+  //         }
 
-          // Return the playlist player
-          if (allVideoPlayerController.playlistController != null) {
-            return BetterPlayerPlaylist(
-              betterPlayerDataSourceList: [
-                BetterPlayerDataSource(
-                  BetterPlayerDataSourceType.network,
-                  allVideoPlayerController.preRollAdUrl,
-                  cacheConfiguration: const BetterPlayerCacheConfiguration(
-                    useCache: true,
-                    preCacheSize: 10 * 1024 * 1024,
-                    maxCacheSize: 100 * 1024 * 1024,
-                  ),
-                ),
-                BetterPlayerDataSource(
-                  BetterPlayerDataSourceType.network,
-                  allVideoPlayerController.finalUrl.value,
-                  cacheConfiguration: const BetterPlayerCacheConfiguration(
-                    useCache: true,
-                    preCacheSize: 20 * 1024 * 1024,
-                    maxCacheSize: 200 * 1024 * 1024,
-                  ),
-                  videoFormat: BetterPlayerVideoFormat.other,
-                ),
-                BetterPlayerDataSource(
-                  BetterPlayerDataSourceType.network,
-                  allVideoPlayerController.postRollAdUrl,
-                  cacheConfiguration: const BetterPlayerCacheConfiguration(
-                    useCache: true,
-                    preCacheSize: 10 * 1024 * 1024,
-                    maxCacheSize: 100 * 1024 * 1024,
-                  ),
-                ),
-              ],
-              betterPlayerConfiguration: BetterPlayerConfiguration(
-                autoPlay: true,
-                autoDispose: false,
-                startAt: Duration.zero,
-                aspectRatio: 16/9,
-                fit: BoxFit.contain,
-                controlsConfiguration: const BetterPlayerControlsConfiguration(
-                  showControls: true,
-                  enableSkips: false,
-                  enableProgressText: true,
-                  enablePlaybackSpeed: true,
-                  enableMute: true,
-                  enableFullscreen: true,
-                  controlsHideTime: Duration(seconds: 3),
-                  enableOverflowMenu: true,
-                  showControlsOnInitialize: false,
-                ),
-                eventListener: (event) {
-                  if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
-                    // Reset position when video initializes
-                    Future.delayed(const Duration(milliseconds: 100), () {
-                      allVideoPlayerController.playlistController?.betterPlayerController?.seekTo(Duration.zero);
-                    });
-                  }
-                },
-              ),
-              betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
-                loopVideos: false,
-                nextVideoDelay: Duration(milliseconds: 100),
-              ),
-            );
-          }
+  //         // Return the playlist player
+  //         if (allVideoPlayerController.playlistController != null) {
+  //           return BetterPlayerPlaylist(
+  //             betterPlayerDataSourceList: [
+  //               BetterPlayerDataSource(
+  //                 BetterPlayerDataSourceType.network,
+  //                 allVideoPlayerController.preRollAdUrl,
+  //                 cacheConfiguration: const BetterPlayerCacheConfiguration(
+  //                   useCache: true,
+  //                   preCacheSize: 10 * 1024 * 1024,
+  //                   maxCacheSize: 100 * 1024 * 1024,
+  //                 ),
+  //               ),
+  //               BetterPlayerDataSource(
+  //                 BetterPlayerDataSourceType.network,
+  //                 allVideoPlayerController.finalUrl.value,
+  //                 cacheConfiguration: const BetterPlayerCacheConfiguration(
+  //                   useCache: true,
+  //                   preCacheSize: 20 * 1024 * 1024,
+  //                   maxCacheSize: 200 * 1024 * 1024,
+  //                 ),
+  //                 videoFormat: BetterPlayerVideoFormat.other,
+  //               ),
+  //               BetterPlayerDataSource(
+  //                 BetterPlayerDataSourceType.network,
+  //                 allVideoPlayerController.postRollAdUrl,
+  //                 cacheConfiguration: const BetterPlayerCacheConfiguration(
+  //                   useCache: true,
+  //                   preCacheSize: 10 * 1024 * 1024,
+  //                   maxCacheSize: 100 * 1024 * 1024,
+  //                 ),
+  //               ),
+  //             ],
+  //             betterPlayerConfiguration: BetterPlayerConfiguration(
+  //               autoPlay: true,
+  //               autoDispose: false,
+  //               startAt: Duration.zero,
+  //               aspectRatio: 16/9,
+  //               fit: BoxFit.contain,
+  //               controlsConfiguration: const BetterPlayerControlsConfiguration(
+  //                 showControls: true,
+  //                 enableSkips: false,
+  //                 enableProgressText: true,
+  //                 enablePlaybackSpeed: true,
+  //                 enableMute: true,
+  //                 enableFullscreen: true,
+  //                 controlsHideTime: Duration(seconds: 3),
+  //                 enableOverflowMenu: true,
+  //                 showControlsOnInitialize: false,
+  //               ),
+  //               eventListener: (event) {
+  //                 if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
+  //                   // Reset position when video initializes
+  //                   Future.delayed(const Duration(milliseconds: 100), () {
+  //                     allVideoPlayerController.playlistController?.betterPlayerController?.seekTo(Duration.zero);
+  //                   });
+  //                 }
+  //               },
+  //             ),
+  //             betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
+  //               loopVideos: false,
+  //               nextVideoDelay: Duration(milliseconds: 100),
+  //             ),
+  //           );
+  //         }
 
-          return const Center(
-            child: Text(
-              'Failed to initialize video player',
-              style: TextStyle(color: Colors.white),
-            ),
-          );
-        }),
-      ),
-      Positioned(
-        top: 8,
-        left: 8,
-        child: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-            size: 20,
-          ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-      ),
-    ],
-  ),      
+  //         return const Center(
+  //           child: Text(
+  //             'Failed to initialize video player',
+  //             style: TextStyle(color: Colors.white),
+  //           ),
+  //         );
+  //       }),
+  //     ),
+  //     Positioned(
+  //       top: 8,
+  //       left: 8,
+  //       child: IconButton(
+  //         icon: const Icon(
+  //           Icons.arrow_back_ios,
+  //           color: Colors.white,
+  //           size: 20,
+  //         ),
+  //         onPressed: () {
+  //           Navigator.pop(context);
+  //         },
+  //       ),
+  //     ),
+  //   ],
+  // ),      
+             
+             
               kH20sizedBox,
               Padding(
                 padding: const EdgeInsets.only(left: k20Padding),
@@ -906,6 +1025,9 @@ if (homeController.movieServerList.isNotEmpty &&
                                                   .fileUrl ??
                                               "";
                                       ll("The video url is ${allVideoPlayerController.videoUrl.value}");
+                                      allVideoPlayerController.initBetterPlayerVideo(homeController.movieServerList[index]!
+                                                  .fileUrl ??
+                                              "");
                                       Get.find<AllVideoPlayerController>()
                                           .flickManager = FlickManager(
                                         videoPlayerController:
