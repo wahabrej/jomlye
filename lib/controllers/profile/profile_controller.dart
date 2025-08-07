@@ -866,10 +866,10 @@ final RxString selectedLanguage = RxString("English");
     "French",
     "Arabic",
   ]);
-
 @override
-void onInit() {
+void onInit() async{
   super.onInit();
+  
   loadSavedLanguage();
 }
 

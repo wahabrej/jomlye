@@ -240,19 +240,19 @@ class HomeController extends GetxController {
   //!Home Api implement
   //*Home
   final Rx<HomeDataModel?> homeDataModel = Rx<HomeDataModel?>(null);
-  final RxList<NewReleaseMovie> sliderList = RxList<NewReleaseMovie>([]);
-  final RxList<Genre> genreList = RxList<Genre>([]);
-  final RxList<NewReleaseMovie> newReleaseMoviesList =
-      RxList<NewReleaseMovie>([]);
-  final RxList<NewReleaseMovie> trendingMoviesList =
-      RxList<NewReleaseMovie>([]);
-  final RxList<NewReleaseMovie> recommendedMoviesList =
-      RxList<NewReleaseMovie>([]);
-  final RxList<NewReleaseMovie> popularTvShowsList =
-      RxList<NewReleaseMovie>([]);
+  final RxList<FeaturedMovie> sliderList = RxList<FeaturedMovie>([]);
+  final RxList<Country> genreList = RxList<Country>([]);
+  final RxList<FeaturedMovie> newReleaseMoviesList =
+      RxList<FeaturedMovie>([]);
+  final RxList<FeaturedMovie> trendingMoviesList =
+      RxList<FeaturedMovie>([]);
+  final RxList<FeaturedMovie> recommendedMoviesList =
+      RxList<FeaturedMovie>([]);
+  final RxList<TvShow> popularTvShowsList =
+      RxList<TvShow>([]);
   final RxList<FeaturedTvChannel> featuredTvChannelsList =
       RxList<FeaturedTvChannel>([]);
-  final RxList<NewReleaseMovie> tvShowsList = RxList<NewReleaseMovie>([]);
+  final RxList<TvShow> tvShowsList = RxList<TvShow>([]);
   final RxList<TopArtist> topArtistsList = RxList<TopArtist>([]);
   final RxList<LatestBlog> latestBlogsList = RxList<LatestBlog>([]);
   final RxBool isHomePageLoading = RxBool(false);
@@ -280,7 +280,7 @@ class HomeController extends GetxController {
         tvShowsList.clear();
         topArtistsList.clear();
         latestBlogsList.clear();
-        sliderList.addAll(homeDataModel.value!.slider!);
+        sliderList.addAll(homeDataModel.value!.sliders!);
         genreList.addAll(homeDataModel.value!.genres!);
         newReleaseMoviesList.addAll(homeDataModel.value!.newReleaseMovies!);
         trendingMoviesList.addAll(homeDataModel.value!.trendingMovies!);

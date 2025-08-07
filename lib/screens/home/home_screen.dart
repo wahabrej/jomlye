@@ -3,13 +3,13 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -21,6 +21,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // homeController.bannerAd!.load();
+      ll("the subscription status is ${Get.find<GlobalController>().subscribedUserCheck.value}");
     return SafeArea(
       top: false,
       child: WillPopScope(
@@ -269,10 +270,7 @@ class HomeScreen extends StatelessWidget {
                                         .newReleaseMoviesList[index].thumbnail,
                                     isPremium: homeController
                                                 .newReleaseMoviesList[index]
-                                                .isPaid ==
-                                            1
-                                        ? true
-                                        : false,
+                                                .isPremium,
                                   ),
                                 );
                               },
@@ -355,10 +353,7 @@ class HomeScreen extends StatelessWidget {
                                         .trendingMoviesList[index].thumbnail,
                                     isPremium: homeController
                                                 .trendingMoviesList[index]
-                                                .isPaid ==
-                                            1
-                                        ? true
-                                        : false,
+                                               .isPremium,
                                   ),
                                 );
                               },
@@ -443,10 +438,7 @@ class HomeScreen extends StatelessWidget {
                                     // seasonName: ,
                                     isPremium: homeController
                                                 .recommendedMoviesList[index]
-                                                .isPaid ==
-                                            1
-                                        ? true
-                                        : false,
+                                                .isPremium,
                                   ),
                                 );
                               },
@@ -502,10 +494,7 @@ class HomeScreen extends StatelessWidget {
                                     // seasonName: ,
                                     isPremium: homeController
                                                 .popularTvShowsList[index]
-                                                .isPaid ==
-                                            1
-                                        ? true
-                                        : false,
+                                                .isPopular == 1 ? true : false,//!change it
                                   ),
                                 );
                               },
@@ -1162,82 +1151,6 @@ class LatestBlogPostContent extends StatelessWidget {
   }
 }
 
-// class MovieCard extends StatelessWidget {
-//   const MovieCard({
-//     super.key,
-//      this.imageUrl,
-//      this.title,
-//      this.duration,
-//      this.completePercentage,
-//   });
-//   final String? imageUrl, title, duration,completePercentage;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Stack(
-//       children: [
-//         ClipRRect(
-//           borderRadius: BorderRadius.circular(k6BorderRadius),
-//           child: Image.network(
-//             imageUrl??"",
-//             width: (width - 70) / 2.6,
-//             height: 150.h,
-//             fit: BoxFit.cover,
-//                 errorBuilder: (context, error, stackTrace) => Center(
-//                   child: SvgPicture.asset(
-//                   kiDummyMovie,
-//                   width: (width - 70) / 2.6,
-//                   height: 150.h,
-//                     fit: BoxFit.fill,
-//                   ),
-//                 ),
-//           ),
-//         ),
-//         Container(
-//           width: 100.w,
-//           height: 140.h,
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(16),
-//             gradient: LinearGradient(
-//               begin: Alignment.bottomCenter,
-//               end: Alignment.center,
-//               colors: [
-//                 cBlackColor.withOpacity(0.8),
-//                 cBlackColor.withOpacity(0.0),
-//               ],
-//             ),
-//           ),
-//         ),
-//         Positioned(
-//           bottom: 10,
-//           left: 10,
-//           right: 10,
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Text(
-//                 title??"",
-//                 style: semiBold12TextStyle(cWhiteColor),
-//               ),
-//               kH4sizedBox,
-//               Text(duration??"", style: regular10TextStyle(cWhiteColor)),
-//               kH4sizedBox,
-//               Container(
-//                 height: 3,
-//                 width: 100,
-//                 decoration: BoxDecoration(
-//                   color: cPrimaryColor2,
-//                   borderRadius: BorderRadius.circular(4),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
 class MovieCard extends StatelessWidget {
   const MovieCard({
     super.key,
@@ -1527,187 +1440,6 @@ class MovieContentContainer extends StatelessWidget {
     );
   }
 }
-
-// class HomeSlider extends StatelessWidget {
-//   HomeSlider({super.key});
-
-//   final HomeController homeController = Get.find<HomeController>();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         CarouselSlider(
-//           options: CarouselOptions(
-//             height: height * 0.45,
-//             autoPlay: true,
-//             enlargeCenterPage: true,
-//             viewportFraction: 1,
-//             onPageChanged: (index, reason) {
-//               homeController.updateCurrentIndex(index);
-//             },
-//           ),
-//           items: homeController.sliderList.map((slider) {
-//             return Stack(
-//               children: [
-//                 // Background Image
-//                 SizedBox(
-//                   width: width,
-//                   child: ClipRRect(
-//                     borderRadius: BorderRadius.circular(k8BorderRadius.r),
-//                     child: Image.network(
-//                       slider.thumbnail ?? "",
-//                       fit: BoxFit.cover,
-//                       width: width,
-//                       height: height * 0.45,
-//                       errorBuilder: (context, error, stackTrace) => const SizedBox(),
-//                     ),
-//                   ),
-//                 ),
-
-//                 // Top Bar (Logo + Search)
-//                 // Positioned(
-//                 //   top: 40.h,
-//                 //   left: 15.w,
-//                 //   right: 15.w,
-//                 //   child: Row(
-//                 //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 //     children: [
-//                 //       Row(
-//                 //         children: [
-//                 //           SvgPicture.asset(
-//                 //             kiVidflix,
-//                 //             width: 28.w,
-//                 //             height: 28.w,
-//                 //           ),
-//                 //           kW6sizedBox,
-//                 //           Text(
-//                 //             ksVidflix.tr,
-//                 //             style: semiBold18TextStyle(cWhiteColor),
-//                 //           ),
-//                 //         ],
-//                 //       ),
-//                 //       GestureDetector(
-//                 //         onTap: () async {
-//                 //           homeController.resetBottomSheetData();
-//                 //           await homeController.getGlobalSearch();
-//                 //           Get.toNamed(krSearchScreen);
-//                 //         },
-//                 //         child: Container(
-//                 //           width: 32.w,
-//                 //           height: 32.h,
-//                 //           decoration: BoxDecoration(
-//                 //             shape: BoxShape.circle,
-//                 //             color: cWhiteColor.withOpacity(0.2),
-//                 //           ),
-//                 //           child: const Icon(
-//                 //             Icons.search,
-//                 //             color: cWhiteColor,
-//                 //             size: kIconSize24,
-//                 //           ),
-//                 //         ),
-//                 //       ),
-//                 //     ],
-//                 //   ),
-//                 // ),
-
-//                 // Center Bottom Overlay
-//                 Positioned(
-//                   bottom: 30.h,
-//                   left: 0,
-//                   right: 0,
-//                   child: Column(
-//                     children: [
-//                       // Tags
-//                       // Row(
-//                       //   mainAxisAlignment: MainAxisAlignment.center,
-//                       //   children: slider.tags!.map<Widget>((tag) {
-//                       //     return Container(
-//                       //       margin: const EdgeInsets.symmetric(horizontal: 5),
-//                       //       padding: const EdgeInsets.symmetric(
-//                       //           horizontal: 10, vertical: 4),
-//                       //       decoration: BoxDecoration(
-//                       //         color: cWhiteColor.withOpacity(0.2),
-//                       //         borderRadius: BorderRadius.circular(8.r),
-//                       //         border: Border.all(
-//                       //           width: 1.33,
-//                       //           color: cPrimaryColor2.withOpacity(0.3),
-//                       //         ),
-//                       //       ),
-//                       //       child: Text(
-//                       //         tag,
-//                       //         style: semiBold14TextStyle(cWhiteColor),
-//                       //       ),
-//                       //     );
-//                       //   }).toList(),
-//                       // ),
-
-//                       kH10sizedBox,
-
-//                       // Title
-//                       SizedBox(
-//                         width: width * 0.7,
-//                         child: Text(
-//                           slider.title ?? "",
-//                           style: semiBold24TextStyle(cWhiteColor),
-//                           textAlign: TextAlign.center,
-//                           overflow: TextOverflow.ellipsis,
-//                         ),
-//                       ),
-//                       kH10sizedBox,
-
-//                       // Dot indicators
-//                       Obx(() => Row(
-//                             mainAxisAlignment: MainAxisAlignment.center,
-//                             children: List.generate(
-//                               homeController.sliderList.length,
-//                               (index) => Container(
-//                                 width: homeController.currentIndex.value == index ? 24 : 8,
-//                                 height: 8,
-//                                 margin: const EdgeInsets.symmetric(horizontal: 3),
-//                                 decoration: BoxDecoration(
-//                                   borderRadius: BorderRadius.circular(100.r),
-//                                   color: homeController.currentIndex.value == index
-//                                       ? cPrimaryColor2
-//                                       : cWhiteColor.withOpacity(0.3),
-//                                 ),
-//                               ),
-//                             ),
-//                           )),
-//                       kH10sizedBox,
-
-//                       // Play Button (tap to play)
-//                       GestureDetector(
-//                         onTap: () {
-//                           // Example: Navigate to video details or player
-//                           Get.toNamed(krVideoPlayerScreen, arguments: slider);
-//                         },
-//                         child: Container(
-//                           width: 40.w,
-//                           height: 40.h,
-//                           decoration: const BoxDecoration(
-//                             shape: BoxShape.circle,
-//                             color: cPrimaryColor2,
-//                           ),
-//                           child: const Icon(
-//                             Icons.play_arrow,
-//                             size: kIconSize28,
-//                             color: cWhiteColor,
-//                           ),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ],
-//             );
-//           }).toList(),
-//         ),
-//         kH10sizedBox,
-//       ],
-//     );
-//   }
-// }
 
 class HomeSlider extends StatelessWidget {
   HomeSlider({super.key});

@@ -480,7 +480,8 @@ class PaymentMethodSelectBottomSheetContent extends StatelessWidget {
         },buttonWidth: width-40,textStyle: medium14TextStyle(cBlackColor),buttonColor: cWhiteColor,borderColor: cWhiteColor,),
         kH12sizedBox,
         CustomElevatedButton(label: "Other Payment Getway", onPressed: (){
-          Get.back();
+          // Get.back();
+          
           Get.toNamed(krPaymentMethodScreen);},buttonWidth: width-40,textStyle: medium14TextStyle(cWhiteColor),buttonColor: cPrimaryColor,borderColor: cPrimaryColor,),
       ],
     );
