@@ -10,6 +10,7 @@ class MovieDetailsModel {
     final List<int>? playlistIds;
     List<String>? videoTags;
     final Rental? rental;
+    final Download? download;
 
     MovieDetailsModel({
         this.details,
@@ -23,6 +24,7 @@ class MovieDetailsModel {
         this.playlistIds,
         this.videoTags,
         this.rental,
+        this.download,
     });
 
     factory MovieDetailsModel.fromJson(Map<String, dynamic> json) => MovieDetailsModel(
@@ -37,8 +39,65 @@ class MovieDetailsModel {
         playlistIds: json["playlist_ids"] == null ? [] : List<int>.from(json["playlist_ids"]!.map((x) => x)),
         videoTags: json["video_tags"] == null ? [] : List<String>.from(json["video_tags"]!.map((x) => x)),
         rental: json["rental"] == null ? null : Rental.fromJson(json["rental"]),
+        download: json["download"] == null ? null : Download.fromJson(json["download"]),
     );
 }
+
+
+class Download {
+    final int? isDownloadable;
+    final List<Detail>? details;
+
+    Download({
+        this.isDownloadable,
+        this.details,
+    });
+
+    factory Download.fromJson(Map<String, dynamic> json) => Download(
+        isDownloadable: json["is_downloadable"],
+        details: json["details"] == null ? [] : List<Detail>.from(json["details"]!.map((x) => Detail.fromJson(x))),
+    );
+}
+
+class Detail {
+    final int? id;
+    final String? title;
+    final String? link;
+    final String? resolution;
+    final String? fileSize;
+    final int? status;
+    final String? downloadableType;
+    final int? downloadableId;
+    final DateTime? createdAt;
+    final DateTime? updatedAt;
+
+    Detail({
+        this.id,
+        this.title,
+        this.link,
+        this.resolution,
+        this.fileSize,
+        this.status,
+        this.downloadableType,
+        this.downloadableId,
+        this.createdAt,
+        this.updatedAt,
+    });
+
+    factory Detail.fromJson(Map<String, dynamic> json) => Detail(
+        id: json["id"],
+        title: json["title"],
+        link: json["link"],
+        resolution: json["resolution"],
+        fileSize: json["file_size"],
+        status: json["status"],
+        downloadableType: json["downloadable_type"],
+        downloadableId: json["downloadable_id"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    );
+}
+
 
 class Cast {
     final int? id;

@@ -30,17 +30,17 @@ class LiveTvPlayerScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           kH30sizedBox,
-                          // SizedBox(
-                          //   width: width,
-                          //   child: YoYoPlayer(
-                          //   // aspectRatio: 16 / 9,
-                          //   // url: homeController.liveTvDetailsData.value?.streamUrl??"",
-                          //   // url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
-                          //   url: liveTvUrl??"",
-                          //   videoStyle: const VideoStyle(),
-                          //   videoLoadingStyle: const VideoLoadingStyle(),
-                          //       ),
-                          // ),
+                          SizedBox(
+                            width: width,
+                            child: YoYoPlayer(
+                            // aspectRatio: 16 / 9,
+                            // url: homeController.liveTvDetailsData.value?.streamUrl??"",
+                            // url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+                            url: liveTvUrl??"",
+                            videoStyle: const VideoStyle(),
+                            videoLoadingStyle: const VideoLoadingStyle(),
+                                ),
+                          ),
                           kH20sizedBox,
                           Row(
                             children: [
@@ -486,15 +486,7 @@ class LiveTvPlayerScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                          kH16sizedBox,
-                      // Row(
-                      //   children: [
-                      //     // Text(
-                      //     //   ksRelatedTvChannels.tr,
-                      //     //   style: medium16TextStyle(cWhiteColor),
-                      //     // ),
-                      //   ],
-                      // ),
+                      kH16sizedBox,
                      HomeTitleContent(
                         title: ksFeaturedTvChannels.tr,
                         subtitleText:
@@ -514,7 +506,6 @@ class LiveTvPlayerScreen extends StatelessWidget {
                       ),
                       kH16sizedBox,
                       SizedBox(
-                        // width: width - 20,
                         height: 150.h,
                         child: ListView.separated(
                           itemCount: homeController.relatedLiveTvChannelsList.length,

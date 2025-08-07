@@ -20,8 +20,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // homeController.bannerAd!.load();
-      ll("the subscription status is ${Get.find<GlobalController>().subscribedUserCheck.value}");
+    homeController.bannerAd!.load();
+    ll("the subscription status is ${Get.find<GlobalController>().subscribedUserCheck.value}");
     return SafeArea(
       top: false,
       child: WillPopScope(

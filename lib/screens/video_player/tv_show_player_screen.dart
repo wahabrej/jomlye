@@ -1,5 +1,5 @@
-import 'package:flick_video_player/flick_video_player.dart';
-import 'package:video_player/video_player.dart';
+// import 'package:flick_video_player/flick_video_player.dart';
+// import 'package:video_player/video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';

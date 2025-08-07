@@ -58,6 +58,22 @@ class VideoPlayerScreen extends StatelessWidget {
               //     );
               //   },
               // ),
+              if (homeController.movieServerList.isEmpty)
+                SizedBox(
+                  width: width,
+                  height: 200,
+                  child: Image.network(
+                    homeController.movieDetailsData.value?.thumbnail ?? "",
+                    errorBuilder: (context, error, stackTrace) {
+                      return SvgPicture.asset(
+                        kiDummyMovie,
+                        width: width - 40,
+                        height: 100,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                  ),
+                ),
               if (homeController.movieServerList.isNotEmpty &&
                   homeController
                           .movieServerList[homeController.selectedServer.value]
@@ -115,173 +131,194 @@ class VideoPlayerScreen extends StatelessWidget {
                 //   },
                 // ),
 
-              
-  YoutubePlayer(
-  controller: allVideoPlayerController.youtubeController,
-  showVideoProgressIndicator: true,
-  progressIndicatorColor: Colors.red,
-  onReady: () {
-    allVideoPlayerController.youtubeController.seekTo(Duration.zero);
-  },
-  bottomActions: const [
-    SizedBox(width: 14.0),
-    CurrentPosition(),
-    kW8sizedBox,
-    ProgressBar(
-      isExpanded: true,
-      colors: ProgressBarColors(
-        playedColor: cPrimaryColor,
-        handleColor: cPrimaryColor,
-      ),
-    ),
-    kW8sizedBox,
-    RemainingDuration(),
-    SizedBox(width: 14.0),
-    FullScreenButton(color: cPrimaryColor),
-  ],
-),
+                YoutubePlayer(
+                  controller: allVideoPlayerController.youtubeController,
+                  showVideoProgressIndicator: true,
+                  progressIndicatorColor: Colors.red,
+                  onReady: () {
+                    allVideoPlayerController.youtubeController
+                        .seekTo(Duration.zero);
+                  },
+                  bottomActions: const [
+                    SizedBox(width: 14.0),
+                    CurrentPosition(),
+                    kW8sizedBox,
+                    ProgressBar(
+                      isExpanded: true,
+                      colors: ProgressBarColors(
+                        playedColor: cPrimaryColor,
+                        handleColor: cPrimaryColor,
+                      ),
+                    ),
+                    kW8sizedBox,
+                    RemainingDuration(),
+                    SizedBox(width: 14.0),
+                    FullScreenButton(color: cPrimaryColor),
+                  ],
+                ),
               // //!flick video player
               if (homeController.movieServerList.isNotEmpty &&
                   homeController
                           .movieServerList[homeController.selectedServer.value]
                           ?.fileSource !=
-                      "youtube" && homeController
+                      "youtube" &&
+                  homeController
                           .movieServerList[homeController.selectedServer.value]
-                          ?.fileSource.toString().toLowerCase() !=
+                          ?.fileSource
+                          .toString()
+                          .toLowerCase() !=
                       "gdrive")
-                      Container(
-      height: 250,
-      width: double.infinity,
-      color: Colors.black,
-      child: Obx(() {
-        if (homeController.movieServerList.isNotEmpty &&
-            homeController.movieServerList[homeController.selectedServer.value]?.fileSource != "youtube" && 
-            homeController.movieServerList[homeController.selectedServer.value]?.fileSource.toString().toLowerCase() != "gdrive") {
-          
-          String videoUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
-          
-          if (videoUrl.isEmpty) {
-            return Center(
-              child: Text('No video URL available', style: TextStyle(color: Colors.white)),
-            );
-          }
-          
-          // Initialize video if not already initialized
-          if (!allVideoPlayerController.isInitialized.value) {
-            allVideoPlayerController.initBetterPlayerVideo(videoUrl);
-            return Center(
-              child: CircularProgressIndicator(color: Colors.white),
-            );
-          }
-          
-          // Show error if any
-          if (allVideoPlayerController.hasError.value) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.error, color: Colors.red, size: 48),
-                  SizedBox(height: 8),
-                  Text('Error loading video', style: TextStyle(color: Colors.white)),
-                  SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: () => allVideoPlayerController.initBetterPlayerVideo(videoUrl),
-                    child: Text('Retry'),
-                  ),
-                ],
-              ),
-            );
-          }
-          
-          // Show video player
-          if (allVideoPlayerController.betterPlayerController != null) {
-            return BetterPlayer(
-              controller: allVideoPlayerController.betterPlayerController!,
-            );
-          }
-          
-          return Center(
-            child: CircularProgressIndicator(color: Colors.white),
-          );
-        }
-        
-        return Center(
-          child: Text('Video not available', style: TextStyle(color: Colors.white)),
-        );
-      }),
-    ),
-    //                   Container(
-    //   height: 200,
-    //   width: double.infinity,
-    //   color: Colors.black,
-    //   child: Obx(() {
-    //     if (homeController.movieServerList.isNotEmpty &&
-    //         homeController.movieServerList[homeController.selectedServer.value]?.fileSource != "youtube" && 
-    //         homeController.movieServerList[homeController.selectedServer.value]?.fileSource.toString().toLowerCase() != "gdrive") {
-          
-    //       String videoUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
-          
-    //       if (allVideoPlayerController.videoController == null) {
-    //         allVideoPlayerController.initVideo(videoUrl);
-    //         return Center(child: CircularProgressIndicator(color: Colors.white));
-    //       }
-          
-    //       if (!allVideoPlayerController.isInitialized.value) {
-    //         return Center(child: CircularProgressIndicator(color: Colors.white));
-    //       }
-          
-    //       return Stack(
-    //         children: [
-    //           Center(
-    //             child: AspectRatio(
-    //               aspectRatio: allVideoPlayerController.videoController!.value.aspectRatio,
-    //               child: VideoPlayer(allVideoPlayerController.videoController!),
-    //             ),
-    //           ),
-    //           Center(
-    //             child: IconButton(
-    //               iconSize: 60,
-    //               icon: Icon(
-    //                 allVideoPlayerController.videoController!.value.isPlaying 
-    //                     ? Icons.pause 
-    //                     : Icons.play_arrow,
-    //                 color: Colors.white,
-    //               ),
-    //               onPressed: () {
-    //                 if (allVideoPlayerController.videoController!.value.isPlaying) {
-    //                   allVideoPlayerController.videoController!.pause();
-    //                 } else {
-    //                   allVideoPlayerController.videoController!.play();
-    //                 }
-    //               },
-    //             ),
-    //           ),
-    //         ],
-    //       );
-    //     }
-        
-    //     return Center(
-    //       child: Text('Video not available', style: TextStyle(color: Colors.white)),
-    //     );
-    //   }),
-    // ),
-               
-               
-                // AspectRatio(
-                //   aspectRatio: 16 / 9,
-                //   child: FlickVideoPlayer(
-                //     flickManager: allVideoPlayerController.flickManager,
-                //   ),
-                // ),
-        //  AspectRatio(
-        //   aspectRatio: 16 / 9,
-        //   child: FlickVideoPlayer(
-        //     flickManager: allVideoPlayerController.flickManager,
-        //   ),
-        // ),
-        
-              
-                    // BetterPlayer with ads for non-YouTube sources
+                Container(
+                  height: 250,
+                  width: double.infinity,
+                  color: Colors.black,
+                  child: Obx(() {
+                    if (homeController.movieServerList.isNotEmpty &&
+                        homeController
+                                .movieServerList[
+                                    homeController.selectedServer.value]
+                                ?.fileSource !=
+                            "youtube" &&
+                        homeController
+                                .movieServerList[
+                                    homeController.selectedServer.value]
+                                ?.fileSource
+                                .toString()
+                                .toLowerCase() !=
+                            "gdrive") {
+                      String videoUrl = homeController
+                              .movieServerList[
+                                  homeController.selectedServer.value]
+                              ?.fileUrl ??
+                          "";
+
+                      if (videoUrl.isEmpty) {
+                        return Center(
+                          child: Text('No video URL available',
+                              style: TextStyle(color: Colors.white)),
+                        );
+                      }
+
+                      // Initialize video if not already initialized
+                      if (!allVideoPlayerController.isInitialized.value) {
+                        allVideoPlayerController
+                            .initBetterPlayerVideo(videoUrl);
+                        return Center(
+                          child: CircularProgressIndicator(color: Colors.white),
+                        );
+                      }
+
+                      // Show error if any
+                      if (allVideoPlayerController.hasError.value) {
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.error, color: Colors.red, size: 48),
+                              SizedBox(height: 8),
+                              Text('Error loading video',
+                                  style: TextStyle(color: Colors.white)),
+                              SizedBox(height: 8),
+                              ElevatedButton(
+                                onPressed: () => allVideoPlayerController
+                                    .initBetterPlayerVideo(videoUrl),
+                                child: Text('Retry'),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+
+                      // Show video player
+                      if (allVideoPlayerController.betterPlayerController !=
+                          null) {
+                        return BetterPlayer(
+                          controller:
+                              allVideoPlayerController.betterPlayerController!,
+                        );
+                      }
+
+                      return Center(
+                        child: CircularProgressIndicator(color: Colors.white),
+                      );
+                    }
+
+                    return Center(
+                      child: Text('Video not available',
+                          style: TextStyle(color: Colors.white)),
+                    );
+                  }),
+                ),
+              //                   Container(
+              //   height: 200,
+              //   width: double.infinity,
+              //   color: Colors.black,
+              //   child: Obx(() {
+              //     if (homeController.movieServerList.isNotEmpty &&
+              //         homeController.movieServerList[homeController.selectedServer.value]?.fileSource != "youtube" &&
+              //         homeController.movieServerList[homeController.selectedServer.value]?.fileSource.toString().toLowerCase() != "gdrive") {
+
+              //       String videoUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
+
+              //       if (allVideoPlayerController.videoController == null) {
+              //         allVideoPlayerController.initVideo(videoUrl);
+              //         return Center(child: CircularProgressIndicator(color: Colors.white));
+              //       }
+
+              //       if (!allVideoPlayerController.isInitialized.value) {
+              //         return Center(child: CircularProgressIndicator(color: Colors.white));
+              //       }
+
+              //       return Stack(
+              //         children: [
+              //           Center(
+              //             child: AspectRatio(
+              //               aspectRatio: allVideoPlayerController.videoController!.value.aspectRatio,
+              //               child: VideoPlayer(allVideoPlayerController.videoController!),
+              //             ),
+              //           ),
+              //           Center(
+              //             child: IconButton(
+              //               iconSize: 60,
+              //               icon: Icon(
+              //                 allVideoPlayerController.videoController!.value.isPlaying
+              //                     ? Icons.pause
+              //                     : Icons.play_arrow,
+              //                 color: Colors.white,
+              //               ),
+              //               onPressed: () {
+              //                 if (allVideoPlayerController.videoController!.value.isPlaying) {
+              //                   allVideoPlayerController.videoController!.pause();
+              //                 } else {
+              //                   allVideoPlayerController.videoController!.play();
+              //                 }
+              //               },
+              //             ),
+              //           ),
+              //         ],
+              //       );
+              //     }
+
+              //     return Center(
+              //       child: Text('Video not available', style: TextStyle(color: Colors.white)),
+              //     );
+              //   }),
+              // ),
+
+              // AspectRatio(
+              //   aspectRatio: 16 / 9,
+              //   child: FlickVideoPlayer(
+              //     flickManager: allVideoPlayerController.flickManager,
+              //   ),
+              // ),
+              //  AspectRatio(
+              //   aspectRatio: 16 / 9,
+              //   child: FlickVideoPlayer(
+              //     flickManager: allVideoPlayerController.flickManager,
+              //   ),
+              // ),
+
+              // BetterPlayer with ads for non-YouTube sources
               // if (homeController.movieServerList.isNotEmpty &&
               //     homeController.movieServerList[homeController.selectedServer.value]?.fileSource != "youtube")
               //   Stack(
@@ -335,7 +372,7 @@ class VideoPlayerScreen extends StatelessWidget {
               //       ),
               //     ],
               //   ),
-  //! previous
+              //! previous
 // if (homeController.movieServerList.isNotEmpty &&
 //     homeController.movieServerList[homeController.selectedServer.value]?.fileSource != "youtube")
 //   Stack(
@@ -344,7 +381,7 @@ class VideoPlayerScreen extends StatelessWidget {
 //         aspectRatio: 16 / 9,
 //         child: Obx(() {
 //           String url = "";
-          
+
 //           if (allVideoPlayerController.playlistController == null) {
 //             final rawUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
 //             final apiKey = Get.find<GlobalController>().googleDriveApiKey;
@@ -356,12 +393,12 @@ class VideoPlayerScreen extends StatelessWidget {
 //               child: CircularProgressIndicator(),
 //             );
 //           }
-          
+
 //           // Get url again for the playlist
 //           final rawUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
 //           final apiKey = Get.find<GlobalController>().googleDriveApiKey;
 //           url = allVideoPlayerController.generateGoogleDriveDirectUrl(rawUrl, apiKey.value);
-          
+
 //           return BetterPlayerPlaylist(
 //             betterPlayerDataSourceList: [
 //               BetterPlayerDataSource(
@@ -428,133 +465,132 @@ class VideoPlayerScreen extends StatelessWidget {
 //!needed for better player ad video widget
 // if (homeController.movieServerList.isNotEmpty &&
 //     homeController.movieServerList[homeController.selectedServer.value]?.fileSource == "gdrive")
-  // Stack(
-  //   children: [
-  //     AspectRatio(
-  //       aspectRatio: 16 / 9,
-  //       child: Obx(() {
-  //         // Show loading indicator while initializing
-  //         if (allVideoPlayerController.isInitializing.value) {
-  //           return const Center(
-  //             child: CircularProgressIndicator(),
-  //           );
-  //         }
+              // Stack(
+              //   children: [
+              //     AspectRatio(
+              //       aspectRatio: 16 / 9,
+              //       child: Obx(() {
+              //         // Show loading indicator while initializing
+              //         if (allVideoPlayerController.isInitializing.value) {
+              //           return const Center(
+              //             child: CircularProgressIndicator(),
+              //           );
+              //         }
 
-  //         // // Get the URL once
-  //         // final rawUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
-  //         // final apiKey = Get.find<GlobalController>().googleDriveApiKey;
-  //         // final fileSource = homeController.movieServerList[homeController.selectedServer.value]?.fileSource?.toString().toLowerCase();
-          
-  //         // String finalUrl = "";
-  //         // if (fileSource == "gdrive") {
-  //         //   finalUrl = allVideoPlayerController.generateGoogleDriveDirectUrl(rawUrl, apiKey.value);
-  //         // } else {
-  //         //   finalUrl = rawUrl;
-  //         // }
+              //         // // Get the URL once
+              //         // final rawUrl = homeController.movieServerList[homeController.selectedServer.value]?.fileUrl ?? "";
+              //         // final apiKey = Get.find<GlobalController>().googleDriveApiKey;
+              //         // final fileSource = homeController.movieServerList[homeController.selectedServer.value]?.fileSource?.toString().toLowerCase();
 
-  //         // Initialize player if not already done for this URL
-  //         if (!allVideoPlayerController.isPlayerInitialized.value || 
-  //             allVideoPlayerController.currentMainContentUrl != allVideoPlayerController.finalUrl.value) {
-  //           if (allVideoPlayerController.finalUrl.value.isNotEmpty) {
-  //             Future.microtask(() => allVideoPlayerController.initializeBetterPlayerWithAds(allVideoPlayerController.finalUrl.value));
-  //           }
-  //           return const Center(
-  //             child: CircularProgressIndicator(),
-  //           );
-  //         }
+              //         // String finalUrl = "";
+              //         // if (fileSource == "gdrive") {
+              //         //   finalUrl = allVideoPlayerController.generateGoogleDriveDirectUrl(rawUrl, apiKey.value);
+              //         // } else {
+              //         //   finalUrl = rawUrl;
+              //         // }
 
-  //         // Return the playlist player
-  //         if (allVideoPlayerController.playlistController != null) {
-  //           return BetterPlayerPlaylist(
-  //             betterPlayerDataSourceList: [
-  //               BetterPlayerDataSource(
-  //                 BetterPlayerDataSourceType.network,
-  //                 allVideoPlayerController.preRollAdUrl,
-  //                 cacheConfiguration: const BetterPlayerCacheConfiguration(
-  //                   useCache: true,
-  //                   preCacheSize: 10 * 1024 * 1024,
-  //                   maxCacheSize: 100 * 1024 * 1024,
-  //                 ),
-  //               ),
-  //               BetterPlayerDataSource(
-  //                 BetterPlayerDataSourceType.network,
-  //                 allVideoPlayerController.finalUrl.value,
-  //                 cacheConfiguration: const BetterPlayerCacheConfiguration(
-  //                   useCache: true,
-  //                   preCacheSize: 20 * 1024 * 1024,
-  //                   maxCacheSize: 200 * 1024 * 1024,
-  //                 ),
-  //                 videoFormat: BetterPlayerVideoFormat.other,
-  //               ),
-  //               BetterPlayerDataSource(
-  //                 BetterPlayerDataSourceType.network,
-  //                 allVideoPlayerController.postRollAdUrl,
-  //                 cacheConfiguration: const BetterPlayerCacheConfiguration(
-  //                   useCache: true,
-  //                   preCacheSize: 10 * 1024 * 1024,
-  //                   maxCacheSize: 100 * 1024 * 1024,
-  //                 ),
-  //               ),
-  //             ],
-  //             betterPlayerConfiguration: BetterPlayerConfiguration(
-  //               autoPlay: true,
-  //               autoDispose: false,
-  //               startAt: Duration.zero,
-  //               aspectRatio: 16/9,
-  //               fit: BoxFit.contain,
-  //               controlsConfiguration: const BetterPlayerControlsConfiguration(
-  //                 showControls: true,
-  //                 enableSkips: false,
-  //                 enableProgressText: true,
-  //                 enablePlaybackSpeed: true,
-  //                 enableMute: true,
-  //                 enableFullscreen: true,
-  //                 controlsHideTime: Duration(seconds: 3),
-  //                 enableOverflowMenu: true,
-  //                 showControlsOnInitialize: false,
-  //               ),
-  //               eventListener: (event) {
-  //                 if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
-  //                   // Reset position when video initializes
-  //                   Future.delayed(const Duration(milliseconds: 100), () {
-  //                     allVideoPlayerController.playlistController?.betterPlayerController?.seekTo(Duration.zero);
-  //                   });
-  //                 }
-  //               },
-  //             ),
-  //             betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
-  //               loopVideos: false,
-  //               nextVideoDelay: Duration(milliseconds: 100),
-  //             ),
-  //           );
-  //         }
+              //         // Initialize player if not already done for this URL
+              //         if (!allVideoPlayerController.isPlayerInitialized.value ||
+              //             allVideoPlayerController.currentMainContentUrl != allVideoPlayerController.finalUrl.value) {
+              //           if (allVideoPlayerController.finalUrl.value.isNotEmpty) {
+              //             Future.microtask(() => allVideoPlayerController.initializeBetterPlayerWithAds(allVideoPlayerController.finalUrl.value));
+              //           }
+              //           return const Center(
+              //             child: CircularProgressIndicator(),
+              //           );
+              //         }
 
-  //         return const Center(
-  //           child: Text(
-  //             'Failed to initialize video player',
-  //             style: TextStyle(color: Colors.white),
-  //           ),
-  //         );
-  //       }),
-  //     ),
-  //     Positioned(
-  //       top: 8,
-  //       left: 8,
-  //       child: IconButton(
-  //         icon: const Icon(
-  //           Icons.arrow_back_ios,
-  //           color: Colors.white,
-  //           size: 20,
-  //         ),
-  //         onPressed: () {
-  //           Navigator.pop(context);
-  //         },
-  //       ),
-  //     ),
-  //   ],
-  // ),      
-             
-             
+              //         // Return the playlist player
+              //         if (allVideoPlayerController.playlistController != null) {
+              //           return BetterPlayerPlaylist(
+              //             betterPlayerDataSourceList: [
+              //               BetterPlayerDataSource(
+              //                 BetterPlayerDataSourceType.network,
+              //                 allVideoPlayerController.preRollAdUrl,
+              //                 cacheConfiguration: const BetterPlayerCacheConfiguration(
+              //                   useCache: true,
+              //                   preCacheSize: 10 * 1024 * 1024,
+              //                   maxCacheSize: 100 * 1024 * 1024,
+              //                 ),
+              //               ),
+              //               BetterPlayerDataSource(
+              //                 BetterPlayerDataSourceType.network,
+              //                 allVideoPlayerController.finalUrl.value,
+              //                 cacheConfiguration: const BetterPlayerCacheConfiguration(
+              //                   useCache: true,
+              //                   preCacheSize: 20 * 1024 * 1024,
+              //                   maxCacheSize: 200 * 1024 * 1024,
+              //                 ),
+              //                 videoFormat: BetterPlayerVideoFormat.other,
+              //               ),
+              //               BetterPlayerDataSource(
+              //                 BetterPlayerDataSourceType.network,
+              //                 allVideoPlayerController.postRollAdUrl,
+              //                 cacheConfiguration: const BetterPlayerCacheConfiguration(
+              //                   useCache: true,
+              //                   preCacheSize: 10 * 1024 * 1024,
+              //                   maxCacheSize: 100 * 1024 * 1024,
+              //                 ),
+              //               ),
+              //             ],
+              //             betterPlayerConfiguration: BetterPlayerConfiguration(
+              //               autoPlay: true,
+              //               autoDispose: false,
+              //               startAt: Duration.zero,
+              //               aspectRatio: 16/9,
+              //               fit: BoxFit.contain,
+              //               controlsConfiguration: const BetterPlayerControlsConfiguration(
+              //                 showControls: true,
+              //                 enableSkips: false,
+              //                 enableProgressText: true,
+              //                 enablePlaybackSpeed: true,
+              //                 enableMute: true,
+              //                 enableFullscreen: true,
+              //                 controlsHideTime: Duration(seconds: 3),
+              //                 enableOverflowMenu: true,
+              //                 showControlsOnInitialize: false,
+              //               ),
+              //               eventListener: (event) {
+              //                 if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
+              //                   // Reset position when video initializes
+              //                   Future.delayed(const Duration(milliseconds: 100), () {
+              //                     allVideoPlayerController.playlistController?.betterPlayerController?.seekTo(Duration.zero);
+              //                   });
+              //                 }
+              //               },
+              //             ),
+              //             betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
+              //               loopVideos: false,
+              //               nextVideoDelay: Duration(milliseconds: 100),
+              //             ),
+              //           );
+              //         }
+
+              //         return const Center(
+              //           child: Text(
+              //             'Failed to initialize video player',
+              //             style: TextStyle(color: Colors.white),
+              //           ),
+              //         );
+              //       }),
+              //     ),
+              //     Positioned(
+              //       top: 8,
+              //       left: 8,
+              //       child: IconButton(
+              //         icon: const Icon(
+              //           Icons.arrow_back_ios,
+              //           color: Colors.white,
+              //           size: 20,
+              //         ),
+              //         onPressed: () {
+              //           Navigator.pop(context);
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // ),
+
               kH20sizedBox,
               Padding(
                 padding: const EdgeInsets.only(left: k20Padding),
@@ -691,11 +727,15 @@ class VideoPlayerScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: List.generate(
-                          homeController.movieDetailsModel.value!.videoTags!.length * 2 - 1,
+                          homeController.movieDetailsModel.value!.videoTags!
+                                      .length *
+                                  2 -
+                              1,
                           (index) {
                             if (index.isOdd) return kW8sizedBox;
                             final itemIndex = index ~/ 2;
-                            final movieType = homeController.movieDetailsModel.value?.videoTags?[itemIndex];
+                            final movieType = homeController
+                                .movieDetailsModel.value?.videoTags?[itemIndex];
                             return Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
@@ -710,7 +750,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                 vertical: k4Padding,
                               ),
                               child: Text(
-                                movieType??"",
+                                movieType ?? "",
                                 style: regular14TextStyle(cWhiteColor),
                               ),
                             );
@@ -830,15 +870,18 @@ class VideoPlayerScreen extends StatelessWidget {
                           },
                         ),
                         kW10sizedBox,
-                        CommonContainer(
+                       CommonContainer(
                           image: kiDownload,
-                          onPressed: () {
+                          containerColor: homeController.movieDetailsModel.value?.download?.isDownloadable==0 ? cWhiteColor.withOpacity(0.1):null,
+                          iconColor: homeController.movieDetailsModel.value?.download?.isDownloadable==0 ? cWhiteColor.withOpacity(0.2) : null,
+                          onPressed: homeController.movieDetailsModel.value?.download?.isDownloadable==1 ? () {
                             // allVideoPlayerController.flutterMediaDownloaderPlugin.downloadMedia(context,'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
-                            allVideoPlayerController
-                                .flutterMediaDownloaderPlugin
-                                .downloadMedia(context,
-                                    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
-                          },
+                            showDownloadVideoPopup(context);
+                            // allVideoPlayerController
+                            //     .flutterMediaDownloaderPlugin
+                            //     .downloadMedia(context,
+                            //         'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+                          } : null,
                         ),
                         //flutter video download
                         // CommonContainer(
@@ -976,7 +1019,11 @@ class VideoPlayerScreen extends StatelessWidget {
                         CommonContainer(
                           image: kiShare,
                           onPressed: () {
-                            Share.share(homeController.movieServerList[homeController.selectedServer.value]?.fileUrl??"");
+                            Share.share(homeController
+                                    .movieServerList[
+                                        homeController.selectedServer.value]
+                                    ?.fileUrl ??
+                                "");
                           },
                         ),
                       ],
@@ -995,7 +1042,7 @@ class VideoPlayerScreen extends StatelessWidget {
                           itemCount: homeController.movieServerList.length,
                           itemBuilder: (context, index) {
                             return Obx(() => InkWell(
-                                  onTap: () async{
+                                  onTap: () async {
                                     homeController.selectedServer.value = index;
                                     if (homeController
                                             .movieServerList[index]!.sourceType!
@@ -1010,12 +1057,14 @@ class VideoPlayerScreen extends StatelessWidget {
                                               allVideoPlayerController
                                                   .videoUrl.value);
                                       allVideoPlayerController
-                                              .youtubeController =  YoutubePlayerController(initialVideoId: videoId ?? '',
-      flags: const YoutubePlayerFlags(
-        autoPlay: false,
-        mute: false,
-      ),
-    );
+                                              .youtubeController =
+                                          YoutubePlayerController(
+                                        initialVideoId: videoId ?? '',
+                                        flags: const YoutubePlayerFlags(
+                                          autoPlay: false,
+                                          mute: false,
+                                        ),
+                                      );
                                     } else if (homeController
                                             .movieServerList[index]!.sourceType!
                                             .toLowerCase() !=
@@ -1025,7 +1074,9 @@ class VideoPlayerScreen extends StatelessWidget {
                                                   .fileUrl ??
                                               "";
                                       ll("The video url is ${allVideoPlayerController.videoUrl.value}");
-                                      allVideoPlayerController.initBetterPlayerVideo(homeController.movieServerList[index]!
+                                      allVideoPlayerController
+                                          .initBetterPlayerVideo(homeController
+                                                  .movieServerList[index]!
                                                   .fileUrl ??
                                               "");
                                       Get.find<AllVideoPlayerController>()
@@ -1037,11 +1088,16 @@ class VideoPlayerScreen extends StatelessWidget {
                                                         .fileUrl ??
                                                     ""),
                                       );
-                                     await allVideoPlayerController.parseVideoUrl(fileUrl: homeController.movieServerList[index]!
-                                                  .fileUrl ??
-                                              "",fileSource: homeController.movieServerList[index]!
-                                                  .fileSource ??
-                                              "");
+                                      await allVideoPlayerController
+                                          .parseVideoUrl(
+                                              fileUrl: homeController
+                                                      .movieServerList[index]!
+                                                      .fileUrl ??
+                                                  "",
+                                              fileSource: homeController
+                                                      .movieServerList[index]!
+                                                      .fileSource ??
+                                                  "");
                                     }
                                   },
                                   child: Container(
@@ -1061,7 +1117,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                       homeController
                                               .movieServerList[index]?.label ??
                                           "",
-                                          textAlign: TextAlign.center,
+                                      textAlign: TextAlign.center,
                                       style: medium14TextStyle(cWhiteColor),
                                     )),
                                   ),
@@ -1107,10 +1163,12 @@ class VideoPlayerScreen extends StatelessWidget {
                                 if (homeController.movietSelectedIndex.value ==
                                     3) {
                                   await homeController.getUserReview(
-                                      reviewableId: homeController.movieDetailsModel
-                                          .value!.details!.id!,
-                                          reviewableType: "movie"
-                                          );
+                                      reviewableId: homeController
+                                          .movieDetailsModel
+                                          .value!
+                                          .details!
+                                          .id!,
+                                      reviewableType: "movie");
                                 }
                               },
                               child: Obx(() => Container(
@@ -1145,7 +1203,7 @@ class VideoPlayerScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                   
+
                     kH12sizedBox,
                     if (homeController.movietSelectedIndex.value == 0)
                       SizedBox(
@@ -1168,13 +1226,12 @@ class VideoPlayerScreen extends StatelessWidget {
                               subTitle: homeController
                                       .movieCastList[index]?.starType ??
                                   "",
-                                  onPressed: () async {
-                                           await homeController.getArtistDetails(
-                                        homeController
-                                            .movieCastList[index]?.id);
-                                      homeController.castSelectedIndex.value=0;
-                                    Get.toNamed(krCastDetailsScreen);
-                                  },
+                              onPressed: () async {
+                                await homeController.getArtistDetails(
+                                    homeController.movieCastList[index]?.id);
+                                homeController.castSelectedIndex.value = 0;
+                                Get.toNamed(krCastDetailsScreen);
+                              },
                             );
                           },
                         ),
@@ -1200,13 +1257,13 @@ class VideoPlayerScreen extends StatelessWidget {
                               subTitle: homeController
                                       .movieDirectorList[index]?.starType ??
                                   "",
-                                        onPressed: () async {
-                                           await homeController.getArtistDetails(
-                                        homeController
-                                            .movieDirectorList[index]?.id);
-                                      homeController.castSelectedIndex.value=0;
-                                    Get.toNamed(krCastDetailsScreen);
-                                  },
+                              onPressed: () async {
+                                await homeController.getArtistDetails(
+                                    homeController
+                                        .movieDirectorList[index]?.id);
+                                homeController.castSelectedIndex.value = 0;
+                                Get.toNamed(krCastDetailsScreen);
+                              },
                             );
                           },
                         ),
@@ -1232,13 +1289,12 @@ class VideoPlayerScreen extends StatelessWidget {
                               subTitle: homeController
                                       .movieWriterList[index]?.starType ??
                                   "",
-                                   onPressed: () async {
-                                           await homeController.getArtistDetails(
-                                        homeController
-                                            .movieWriterList[index]?.id);
-                                      homeController.castSelectedIndex.value=0;
-                                    Get.toNamed(krCastDetailsScreen);
-                                  },
+                              onPressed: () async {
+                                await homeController.getArtistDetails(
+                                    homeController.movieWriterList[index]?.id);
+                                homeController.castSelectedIndex.value = 0;
+                                Get.toNamed(krCastDetailsScreen);
+                              },
                             );
                           },
                         ),
@@ -1338,13 +1394,13 @@ class VideoPlayerScreen extends StatelessWidget {
                                   label: ksPostNow.tr,
                                   onPressed: () async {
                                     await homeController.userRating(
-                                        reviewableId: homeController
-                                            .movieDetailsModel
-                                            .value!
-                                            .details!
-                                            .id!,
-                                            reviewableType: "movie",
-                                            );
+                                      reviewableId: homeController
+                                          .movieDetailsModel
+                                          .value!
+                                          .details!
+                                          .id!,
+                                      reviewableType: "movie",
+                                    );
                                   },
                                   buttonColor: cPrimaryColor2,
                                   textStyle: regular14TextStyle(cWhiteColor),
@@ -1423,7 +1479,10 @@ class VideoPlayerScreen extends StatelessWidget {
                                             ),
                                             kW6sizedBox,
                                             Text(
-                                              homeController.movieReviewList[index]?.createdAt??"",
+                                              homeController
+                                                      .movieReviewList[index]
+                                                      ?.createdAt ??
+                                                  "",
                                               style: regular10TextStyle(
                                                   cGreyColor.withOpacity(0.8)),
                                             ),
@@ -1436,14 +1495,47 @@ class VideoPlayerScreen extends StatelessWidget {
                                                 children: [
                                                   InkWell(
                                                     onTap: () async {
-                                                      homeController.movieReviewList[index]!.isLiked!.value = !homeController.movieReviewList[index]!.isLiked!.value;
-                                                      if(homeController.movieReviewList[index]!.isLiked!.value==true){
-                                                        homeController.movieReviewList[index]!.totalLikes!.value++;
-                                                      } 
-                                                      if(homeController.movieReviewList[index]!.isLiked!.value==false){
-                                                        homeController.movieReviewList[index]!.totalLikes!.value--;
-                                                      } 
-                                                      await homeController.reviewLikeToggle(reviewId: homeController.movieReviewList[index]!.id!);
+                                                      homeController
+                                                              .movieReviewList[
+                                                                  index]!
+                                                              .isLiked!
+                                                              .value =
+                                                          !homeController
+                                                              .movieReviewList[
+                                                                  index]!
+                                                              .isLiked!
+                                                              .value;
+                                                      if (homeController
+                                                              .movieReviewList[
+                                                                  index]!
+                                                              .isLiked!
+                                                              .value ==
+                                                          true) {
+                                                        homeController
+                                                            .movieReviewList[
+                                                                index]!
+                                                            .totalLikes!
+                                                            .value++;
+                                                      }
+                                                      if (homeController
+                                                              .movieReviewList[
+                                                                  index]!
+                                                              .isLiked!
+                                                              .value ==
+                                                          false) {
+                                                        homeController
+                                                            .movieReviewList[
+                                                                index]!
+                                                            .totalLikes!
+                                                            .value--;
+                                                      }
+                                                      await homeController
+                                                          .reviewLikeToggle(
+                                                              reviewId:
+                                                                  homeController
+                                                                      .movieReviewList[
+                                                                          index]!
+                                                                      .id!);
                                                     },
                                                     child: Icon(
                                                       homeController
@@ -1471,7 +1563,8 @@ class VideoPlayerScreen extends StatelessWidget {
                                                     homeController
                                                             .movieReviewList[
                                                                 index]
-                                                            ?.totalLikes?.value
+                                                            ?.totalLikes
+                                                            ?.value
                                                             .toString() ??
                                                         "",
                                                     style: regular12TextStyle(
@@ -1497,7 +1590,7 @@ class VideoPlayerScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                    
+
                     kH16sizedBox,
                     Text(
                       ksRelatedVideos.tr,
@@ -1559,7 +1652,7 @@ class VideoPlayerScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                   
+
                     kH16sizedBox,
                     Text(
                       ksRecommended.tr,
@@ -2070,9 +2163,9 @@ class VideoPlayerScreen extends StatelessWidget {
 
 class CommonContainer extends StatelessWidget {
   const CommonContainer(
-      {super.key, required this.image, this.onPressed, this.containerColor});
+      {super.key, required this.image, this.onPressed, this.containerColor,this.iconColor});
   final String image;
-  final Color? containerColor;
+  final Color? containerColor,iconColor;
   final VoidCallback? onPressed;
 
   @override
@@ -2088,7 +2181,7 @@ class CommonContainer extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(k12Padding),
-          child: SvgPicture.asset(image),
+          child: SvgPicture.asset(image,color: iconColor??cWhiteColor,),
         ),
       ),
     );
@@ -2221,6 +2314,139 @@ void showSaveVideoToPlayListPopup(BuildContext context, int movieId) {
     },
   );
 }
+
+
+void showDownloadVideoPopup(BuildContext context) {
+  final HomeController homeController = Get.find<HomeController>();
+  final AllVideoPlayerController allVideoPlayerController = Get.find<AllVideoPlayerController>();
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        insetPadding: const EdgeInsets.symmetric(horizontal: k20Padding),
+        backgroundColor: cBlackColor2,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: k20Padding, vertical: k25Padding),
+          width: width.w,
+          decoration: BoxDecoration(
+            color: cBlackColor2,
+            borderRadius: BorderRadius.circular(k16BorderRadius.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: h36.w,
+                    height: h36.h,
+                    decoration: BoxDecoration(
+                      color: cWhiteColor.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(k10Padding),
+                      child: SvgPicture.asset(
+                        kiDownload,
+                        color: cWhiteColor,
+                      ),
+                    ),
+                  ),
+                  kW12sizedBox,
+                  Text(
+                    ksAvailableDownloads.tr,
+                    style: semiBold18TextStyle(cWhiteColor),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        size: kIconSize20,
+                        color: cWhiteColor,
+                      )),
+                ],
+              ),
+              kH8sizedBox,
+              Divider(
+                thickness: 1,
+                color: cWhiteColor.withOpacity(0.1),
+              ),
+              kH8sizedBox,
+              ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                 return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("${homeController.movieDetailsModel.value!.download!.details![index].title}",style: medium14TextStyle(cWhiteColor),),
+                                CustomElevatedButton(
+                    label: ksDownload.tr,
+                    onPressed: () async {
+                      // homeController.movieDetailsModel.value!.download!.details![index].
+                       await allVideoPlayerController
+                                .flutterMediaDownloaderPlugin
+                                .downloadMedia(context,homeController.movieDetailsModel.value!.download!.details![index].link?? ""
+                      );
+                      Get.back();
+                    },
+                    buttonWidth: 110.w,
+                    buttonHeight: 30.h,
+                    buttonColor: cPrimaryColor,
+                  ),
+                   ],
+                    ),
+                    kH4sizedBox,
+                        Text("Resolution: ${homeController.movieDetailsModel.value!.download!.details![index].resolution}",style: regular14TextStyle(cWhiteColor),),
+                    kH4sizedBox,
+                        Text("Size: ${homeController.movieDetailsModel.value!.download!.details![index].fileSize}",style: regular14TextStyle(cWhiteColor),),
+                  ],
+                 );
+                  },
+                  separatorBuilder: (context, index) => kH8sizedBox,
+                  itemCount: homeController.movieDetailsModel.value!.download!.details!.length),
+              kH16sizedBox,
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     CustomElevatedButton(
+              //       label: ksCreateNewPlaylist.tr,
+              //       onPressed: () {
+              //         Get.back();
+              //         showCreateNewPlayListPopup(context);
+              //       },
+              //       buttonWidth: 140.w,
+              //       buttonHeight: 30.h,
+              //       buttonColor: cWhiteColor.withOpacity(0.2),
+              //     ),
+              //     kW12sizedBox,
+              //     CustomElevatedButton(
+              //       label: ksSaveNow.tr,
+              //       onPressed: () async {
+              //         Get.back();
+            
+              //       },
+              //       buttonWidth: 110.w,
+              //       buttonHeight: 30.h,
+              //       buttonColor: cPrimaryColor2,
+              //     ),
+              //   ],
+              // ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
 
 void showCreateNewPlayListPopup(BuildContext context) {
   showDialog(
@@ -2418,8 +2644,9 @@ class SubscriptionSelector extends StatelessWidget {
 }
 
 class RentProductDetailsContentContainer extends StatelessWidget {
-  const RentProductDetailsContentContainer({super.key, this.rentPrice, this.rentValidity, this.rentExpireDate});
-  final String? rentPrice,rentValidity,rentExpireDate;
+  const RentProductDetailsContentContainer(
+      {super.key, this.rentPrice, this.rentValidity, this.rentExpireDate});
+  final String? rentPrice, rentValidity, rentExpireDate;
 
   @override
   Widget build(BuildContext context) {
@@ -2435,12 +2662,12 @@ class RentProductDetailsContentContainer extends StatelessWidget {
           children: [
             RentProductDetailsRow(
               title: ksVideoCost.tr,
-              value: rentPrice??"",
+              value: rentPrice ?? "",
             ),
             kH12sizedBox,
             RentProductDetailsRow(
               title: ksValidity.tr,
-              value: rentValidity??"",
+              value: rentValidity ?? "",
             ),
             // kH12sizedBox,
             // RentProductDetailsRow(
@@ -2450,7 +2677,8 @@ class RentProductDetailsContentContainer extends StatelessWidget {
             kH12sizedBox,
             RentProductDetailsRow(
               title: ksExpireDate.tr,
-              value: DateFormat('d MMM, yyyy, hh:mm a').format(DateTime.parse(rentExpireDate??"")),
+              value: DateFormat('d MMM, yyyy, hh:mm a')
+                  .format(DateTime.parse(rentExpireDate ?? "")),
               // value: "sfhbvsbgjbrgjhdrhjbgjdsfbvjsbfgjbdfgdejbgj",
             ),
             kH12sizedBox,
@@ -2486,7 +2714,7 @@ class RentProductDetailsContentContainer extends StatelessWidget {
 
 class VideoDetailsContentWidget extends StatelessWidget {
   const VideoDetailsContentWidget(
-      {super.key, this.imageUrl, this.title, this.subTitle,this.onPressed});
+      {super.key, this.imageUrl, this.title, this.subTitle, this.onPressed});
   final String? imageUrl, title, subTitle;
   final VoidCallback? onPressed;
 

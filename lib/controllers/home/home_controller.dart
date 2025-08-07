@@ -698,8 +698,7 @@ class HomeController extends GetxController {
   }
 
   final RxBool isTvShowDetailsLoading = RxBool(false);
-  final Rx<TvShowDetailsModel?> tvShowDetailsModel =
-      Rx<TvShowDetailsModel?>(null);
+  final Rx<TvShowDetailsModel?> tvShowDetailsModel = Rx<TvShowDetailsModel?>(null);
   final Rx<TvShows?> tvShowDetailsData = Rx<TvShows?>(null);
   final RxList<Season?> tvShowsSeasonList = RxList<Season?>([]);
   final RxList<Episode?> tvShowEpisodeList = RxList<Episode?>([]);

@@ -15,7 +15,6 @@ class TvShowDetailsModel {
         this.relatedTvShows,
         this.videoTags,
     });
-
     factory TvShowDetailsModel.fromJson(Map<String, dynamic> json) => TvShowDetailsModel(
         shows: json["shows"] == null ? null : TvShows.fromJson(json["shows"]),
         cast: json["cast"] == null ? [] : List<Cast>.from(json["cast"]!.map((x) => Cast.fromJson(x))),

@@ -210,6 +210,7 @@ const String ksProceedToPayment = "Proceed To Payment";
 const String ksSelectPaymentMethod = "Select Payment Method";
 const String ksReviews = "Reviews";
 const String ksTv = "Tv";
+const String ksAvailableDownloads = "Available Downloads";
 
 //* player screen
 const String ksTitle = "Title";
