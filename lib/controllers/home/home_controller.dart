@@ -1407,8 +1407,7 @@ class HomeController extends GetxController {
       var response = await apiServices.commonApiCall(
         requestMethod: kGet,
         token: token,
-        url:
-            "$kuLiveTvDetails?id=${tvChannelId.toString()}&user_id=${userId.toString()}",
+        url: "$kuLiveTvDetails?id=${tvChannelId.toString()}&user_id=${userId.toString()}",
         body: body,
       ) as CommonDM;
 

@@ -429,7 +429,6 @@
 
 
 import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_details_model.dart';
-
 class HomeDataModel {
     final List<FeaturedMovie>? sliders;
     final List<Country>? genres;
@@ -497,7 +496,11 @@ class FeaturedMovie {
     final String? title;
     final String? thumbnail;
     final String? poster;
-    final bool? isPremium;
+    final bool? isFree;
+    final bool? isRental;
+    final String? price;
+    final String? validity;
+    final DateTime? expireData;
     final List<String>? tags;
 
     FeaturedMovie({
@@ -505,7 +508,11 @@ class FeaturedMovie {
         this.title,
         this.thumbnail,
         this.poster,
-        this.isPremium,
+        this.isFree,
+        this.isRental,
+        this.price,
+        this.validity,
+        this.expireData,
         this.tags,
     });
 
@@ -514,7 +521,11 @@ class FeaturedMovie {
         title: json["title"],
         thumbnail: json["thumbnail"],
         poster: json["poster"],
-        isPremium: json["is_premium"],
+        isFree: json["is_free"],
+        isRental: json["is_rental"],
+        price: json["price"],
+        validity: json["validity"],
+        expireData: json["expire_data"] == null ? null : DateTime.parse(json["expire_data"]),
         tags: json["tags"] == null ? [] : List<String>.from(json["tags"]!.map((x) => x)),
     );
 }
@@ -601,6 +612,34 @@ class FeaturedTvChannel {
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         poster: json["poster"],
     );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "tv_name": tvName,
+        "slug": slug,
+        "description": description,
+        "live_tv_category_id": liveTvCategoryId,
+        "country_id": countryId,
+        "language": language,
+        "stream_from": streamFrom,
+        "stream_label": streamLabel,
+        "stream_url": streamUrl,
+        "thumbnail": thumbnail,
+        "tags": tags,
+        "seo_title": seoTitle,
+        "focus_keyword": focusKeyword,
+        "meta_description": metaDescription,
+        "today_view": todayView,
+        "weekly_view": weeklyView,
+        "monthly_view": monthlyView,
+        "total_view": totalView,
+        "featured": featured,
+        "is_free": isFree,
+        "status": status,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "poster": poster,
+    };
 }
 
 class LatestBlog {
@@ -655,6 +694,24 @@ class LatestBlog {
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         author: json["author"],
     );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "title": title,
+        "slug": slug,
+        "description": description,
+        "category_id": categoryId,
+        "image": image,
+        "seo_title": seoTitle,
+        "meta_description": metaDescription,
+        "focus_keyword": focusKeyword,
+        "tags": tags,
+        "status": status,
+        "is_top": isTop,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "author": author,
+    };
 }
 
 class LiveTvCategory {
@@ -685,6 +742,16 @@ class LiveTvCategory {
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "live_tv_category": liveTvCategory,
+        "slug": slug,
+        "live_tv_category_desc": liveTvCategoryDesc,
+        "status": status,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+    };
 }
 
 class TvShow {
@@ -920,4 +987,3 @@ class TopArtist {
         country: json["country"],
     );
 }
-

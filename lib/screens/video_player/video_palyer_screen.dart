@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
@@ -26,14 +28,14 @@ class VideoPlayerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Run this once after the first frame is rendered
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   Future.delayed(const Duration(seconds: 5), () {
-    //     // Check if this widget is still mounted using context (safe for StatelessWidget)
-    //     if (ModalRoute.of(context)?.isCurrent == true) {
-    //       homeController.watchHistoryStore(watchableType: 'movie', watchableId: 1, duration: '100', watchedSeconds: '90');
-    //     }
-    //   });
-    // });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 5), () {
+        // Check if this widget is still mounted using context (safe for StatelessWidget)
+        if (ModalRoute.of(context)?.isCurrent == true) {
+          homeController.watchHistoryStore(watchableType: 'movie', watchableId: 1, duration: '100', watchedSeconds: '90');
+        }
+      });
+    });
     return Scaffold(
       backgroundColor: cBlackColor,
       body: SingleChildScrollView(
@@ -1654,9 +1656,25 @@ class VideoPlayerScreen extends StatelessWidget {
                     ),
 
                     kH16sizedBox,
-                    Text(
-                      ksRecommended.tr,
-                      style: medium16TextStyle(cWhiteColor),
+                            HomeTitleContent(
+                      title: ksRecommendedMovies.tr,
+                      subtitleText:
+                          homeController.recommendedMoviesList.isNotEmpty
+                              ? ksViewAll.tr
+                              : "",
+                      onPressed: () async {
+                        homeController.resetBottomSheetData();
+                        profileController.temporaryPlayListCheckBoxStateList
+                            .clear();
+                        homeController.isViewAllSearchEnable.value = false;
+                        homeController.viewAllTextEditingController.clear();
+                        homeController.selectedTitle.value =
+                            ksRecommendedMovies;
+                        await homeController.getMovieList(
+                            movieType: "recommended");
+                        homeController.isHomeGenreClicked.value = false;
+                        Get.toNamed(krMovieViewAllScreen);
+                      },
                     ),
                     kH16sizedBox,
                     Row(

@@ -270,7 +270,16 @@ class HomeScreen extends StatelessWidget {
                                         .newReleaseMoviesList[index].thumbnail,
                                     isPremium: homeController
                                                 .newReleaseMoviesList[index]
-                                                .isPremium,
+                                                .isFree==false && homeController
+                                                .newReleaseMoviesList[index]
+                                                .isRental == false,
+                                   isRentable: homeController
+                                                .newReleaseMoviesList[index]
+                                                .isFree==false && homeController
+                                                .newReleaseMoviesList[index]
+                                                .isRental==true,
+                                   price: homeController
+                                                .newReleaseMoviesList[index].price,
                                   ),
                                 );
                               },
@@ -351,9 +360,18 @@ class HomeScreen extends StatelessWidget {
                                   child: MovieContentContainer(
                                     movieImage: homeController
                                         .trendingMoviesList[index].thumbnail,
-                                    isPremium: homeController
+                                     isPremium: homeController
                                                 .trendingMoviesList[index]
-                                               .isPremium,
+                                                .isFree==false && homeController
+                                                .trendingMoviesList[index]
+                                                .isRental == false,
+                                    isRentable: homeController
+                                                .trendingMoviesList[index]
+                                                .isFree==false && homeController
+                                                .trendingMoviesList[index]
+                                                .isRental == true,
+                                    price: homeController
+                                                .trendingMoviesList[index].price, 
                                   ),
                                 );
                               },
@@ -438,7 +456,16 @@ class HomeScreen extends StatelessWidget {
                                     // seasonName: ,
                                     isPremium: homeController
                                                 .recommendedMoviesList[index]
-                                                .isPremium,
+                                                .isFree==false && homeController
+                                                .recommendedMoviesList[index]
+                                                .isRental == false,
+                                                isRentable:  homeController
+                                                .recommendedMoviesList[index]
+                                                .isFree==false && homeController
+                                                .recommendedMoviesList[index]
+                                                .isRental == true,
+                                                price: homeController
+                                                .recommendedMoviesList[index].price,
                                   ),
                                 );
                               },
@@ -494,7 +521,19 @@ class HomeScreen extends StatelessWidget {
                                     // seasonName: ,
                                     isPremium: homeController
                                                 .popularTvShowsList[index]
-                                                .isPopular == 1 ? true : false,//!change it
+                                                .isFree==0 && homeController
+                                                .popularTvShowsList[index]
+                                                .isRental==0 ? true : false,
+                                                isRentable: homeController
+                                                .popularTvShowsList[index]
+                                                .isFree==0 && homeController
+                                                .popularTvShowsList[index]
+                                                .isRental==1 ? true : false,
+                                                price: homeController
+                                                .popularTvShowsList[index]
+                                                .rentalPrice!=null ? homeController
+                                                .popularTvShowsList[index]
+                                                .rentalPrice.toString():"",
                                   ),
                                 );
                               },
@@ -1386,9 +1425,9 @@ class HomeTitleContent extends StatelessWidget {
 }
 
 class MovieContentContainer extends StatelessWidget {
-  const MovieContentContainer({super.key, this.movieImage, this.isPremium});
-  final String? movieImage;
-  final bool? isPremium;
+  const MovieContentContainer({super.key, this.movieImage, this.price,this.isPremium,this.isRentable});
+  final String? movieImage,price;
+  final bool? isPremium, isRentable;
 
   @override
   Widget build(BuildContext context) {
@@ -1416,7 +1455,7 @@ class MovieContentContainer extends StatelessWidget {
             ),
           ),
         ),
-        if (isPremium == true)
+        if (isPremium == true && isRentable == false)
           Positioned(
               top: 4,
               right: 4,
@@ -1432,6 +1471,26 @@ class MovieContentContainer extends StatelessWidget {
                   child: Center(
                       child: Text(
                     isPremium! ? "Premium" : "",
+                    style: regular10TextStyle(cWhiteColor),
+                  )),
+                ),
+              )),
+       if (isRentable == true && isPremium == false)
+          Positioned(
+              top: 4,
+              right: 4,
+              child: Container(
+                height: 16.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(k6BorderRadius),
+                  color: cPurpleColor,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: k4Padding, vertical: 1),
+                  child: Center(
+                      child: Text(
+                    isRentable! ? "Rent ${price ?? ""} " : "",
                     style: regular10TextStyle(cWhiteColor),
                   )),
                 ),
