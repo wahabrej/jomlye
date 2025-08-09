@@ -72,11 +72,11 @@ class LiveTvPlayerScreen extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    Text(
-                      homeController.liveTvDetailsData.value?.stream1?.quality ??
-                          "",
-                      style: regular14TextStyle(cWhiteColor),
-                    ),
+                    // Text(
+                    //   homeController.liveTvDetailsData.value?.?.quality ??
+                    //       "",
+                    //   style: regular14TextStyle(cWhiteColor),
+                    // ),
                   ],
                 ),
                 kH16sizedBox,

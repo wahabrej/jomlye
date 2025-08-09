@@ -1,5 +1,4 @@
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
-import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 
@@ -83,7 +82,7 @@ class RentedVideoScreen extends StatelessWidget {
                       width: width - 20,
                       height: 120.h,
                       child: ListView.separated(
-                        itemCount: profileController.favoriteTvChannelList.length,
+                        itemCount: profileController.rentedVideoList.length,
                         separatorBuilder: (context, index) =>
                             kW8sizedBox,
                         shrinkWrap: true,
@@ -91,7 +90,7 @@ class RentedVideoScreen extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return FeaturedTvChannelsContentContainer(
-                            image: profileController.favoriteTvChannelList[index],
+                            image: profileController.rentedVideoList[index]?.title??'',
                           );
                         },
                       ),
@@ -122,29 +121,6 @@ class RentedVideoScreen extends StatelessWidget {
                             // isRented: profileController.rentedVideoList[index]?.videoType??"",
                             // isSeason: profileController.moviesList[index]["isSeason"],
                           ),
-                        );
-                      },
-                    ),
-                  ),
-                    kH16sizedBox,
-                    Text(ksTvSeries.tr,style: medium16TextStyle(cWhiteColor),),
-                    kH16sizedBox,
-                          SizedBox(
-                    width: width - 20,
-                    height: 140.h,
-                    child: ListView.separated(
-                      itemCount: profileController.tvSeriesList.length,
-                      separatorBuilder: (context, index) =>
-                          kW10sizedBox,
-                      shrinkWrap: true,
-                      physics: const AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return RentedVideoContentContainer(
-                          movieImage: profileController.tvSeriesList[index]["movieImage"],
-                          // seasonName: profileController.tvSeriesList[index]["season"],
-                          isRented: profileController.tvSeriesList[index]["isPremium"],
-                          // isSeason: profileController.tvSeriesList[index]["isSeason"],
                         );
                       },
                     ),

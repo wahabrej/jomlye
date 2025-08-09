@@ -3,6 +3,7 @@ import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
+import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 
@@ -86,15 +87,28 @@ class FavoriteScreen extends StatelessWidget {
                       width: width - 20,
                       height: 120.h,
                       child: ListView.separated(
-                        itemCount: profileController.favoriteTvChannelList.length,
+                        itemCount: profileController.favoriteLiveTvList.length,
                         separatorBuilder: (context, index) =>
                             kW8sizedBox,
                         shrinkWrap: true,
                         physics: const AlwaysScrollableScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return FeaturedTvChannelsContentContainer(
-                            image: profileController.favoriteTvChannelList[index],
+                          return InkWell(
+                            onTap: () async {
+                                    await Get.find<HomeController>().getTvChannelDetails(
+                                        tvChannelId: profileController
+                                            .favoriteLiveTvList[index].id);
+                                    // Get.toNamed(krLiveTvPlayerScreen);
+                                    Get.to(() => LiveTvPlayerScreen(
+                                          // liveTvUrl: profileController
+                                          //     .favoriteLiveTvList[index]
+                                          //     .,
+                                        ));
+                                  },
+                            child: FeaturedTvChannelsContentContainer(
+                              image: profileController.favoriteLiveTvList[index].thumbnail??"",
+                            ),
                           );
                         },
                       ),
@@ -118,10 +132,7 @@ class FavoriteScreen extends StatelessWidget {
                                     await Get.find<HomeController>().getMovieDetails(
                                         movieId: profileController.favoriteMovieList[index].id
                                             .toString());
-                                    // profileController.isFavoriteAdded.value =
-                                    //      profileController.favoriteMovieList[index].
-                                    //             ?.isFavorite ??
-                                    //         false;
+                                        profileController.isFavoriteAdded.value = true;
                                     if (profileController.favoriteMovieList.isNotEmpty) {
                                       // String videoUrl = profileController.favoriteMovieList[0]?.fileUrl ??
                                       //     "";
@@ -145,9 +156,9 @@ class FavoriteScreen extends StatelessWidget {
                                   },
                           child: MovieContentContainer(
                             movieImage: profileController.favoriteMovieList[index].thumbnail??"",
-                            // seasonName: profileController.moviesList[index]["season"],
-                            isPremium: profileController.favoriteMovieList[index].isPaid==1 ? true : false,
-                            // isSeason: profileController.moviesList[index]["isSeason"],
+                            isPremium: profileController.favoriteMovieList[index].isFree==0 && profileController.favoriteMovieList[index].isRental==0 ? true : false,
+                            isRentable: profileController.favoriteMovieList[index].isFree==0 && profileController.favoriteMovieList[index].isRental==1 ? true : false,
+                            price: profileController.favoriteMovieList[index].rentalPrice.toString(),
                           ),
                         );
                       },
@@ -160,7 +171,7 @@ class FavoriteScreen extends StatelessWidget {
                     width: width - 20,
                     height: 150.h,
                     child: ListView.separated(
-                      itemCount: profileController.tvSeriesList.length,
+                      itemCount: profileController.favoriteTvShowList.length,
                       separatorBuilder: (context, index) =>
                           kW10sizedBox,
                       shrinkWrap: true,
@@ -168,9 +179,9 @@ class FavoriteScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return MovieContentContainer(
-                          movieImage: profileController.tvSeriesList[index]["movieImage"],
+                          movieImage: profileController.favoriteTvShowList[index].thumbnail,
                           // seasonName: profileController.tvSeriesList[index]["season"],
-                          isPremium: profileController.tvSeriesList[index]["isPremium"],
+                          isPremium: profileController.favoriteTvShowList[index].isFree==0 && profileController.favoriteTvShowList[index].isRental==0 ? true : false,
                           // isSeason: profileController.tvSeriesList[index]["isSeason"],
                         );
                       },

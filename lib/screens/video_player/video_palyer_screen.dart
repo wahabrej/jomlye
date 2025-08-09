@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
@@ -32,7 +30,7 @@ class VideoPlayerScreen extends StatelessWidget {
       Future.delayed(const Duration(seconds: 5), () {
         // Check if this widget is still mounted using context (safe for StatelessWidget)
         if (ModalRoute.of(context)?.isCurrent == true) {
-          homeController.watchHistoryStore(watchableType: 'movie', watchableId: 1, duration: '100', watchedSeconds: '90');
+          homeController.watchHistoryStore(watchableType: 'movie', watchableId: 1, duration: '1000', watchedSeconds: '900');
         }
       });
     });

@@ -1024,7 +1024,7 @@ class HomeScreen extends StatelessWidget {
                     for (int i = 0; i < homeController.localAdList.length; i++)
                       if (homeController.localAdList[i].position
                               ?.toLowerCase() ==
-                          "footer")
+                          "footer" )
                         ClipRRect(
                           borderRadius: BorderRadius.circular(k8BorderRadius),
                           child: Padding(

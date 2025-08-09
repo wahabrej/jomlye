@@ -29,13 +29,6 @@ class ProfileController extends GetxController {
   final RxBool isProfileImageChnaged = RxBool(false);
   final RxString profileImageLink = RxString("");
   final Rx<File?> profileImageFile = Rx<File?>(null);
-  final RxList favoriteTvChannelList = RxList([
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0tieg_XmSWY4Er34er592OFueSzMT0OzWQA&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSSLPK5f26HCqYTxBDwVVj-6OttdrGCI2wuvQ&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLhtv6ztC-4z0LOeNh-bvvlqcAmHPQf_iP2enwcFqzX3P1oDBIp8e06M&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLhtv6ztC-4z0LOeNh-bvvlqcAmHPQf_iP2enwcFqzX3P1oDBIp8e06M&s",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrLhtv6ztC-4z0LOeNh-bvvlqcAmHPQf_iP2enwcFqzX3P1oDBIp8e06M&s"
-  ]);
   final RxList<Map<String, dynamic>> moviesList = RxList<Map<String, dynamic>>([
     {
       "movieImage":
@@ -66,55 +59,7 @@ class ProfileController extends GetxController {
       "season": "Season 1",
     },
   ]);
-  final RxList<Map<String, dynamic>> tvSeriesList =
-      RxList<Map<String, dynamic>>([
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": true,
-      "season": "Season 1"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": true,
-      "season": "Season 2"
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": true,
-      "isSeason": false,
-      "season": "Season 3",
-    },
-    {
-      "movieImage":
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMgWX4g09aEYCNiwNF7yFNjLgvoThYfC4XgA&s",
-      "isPremium": false,
-      "isSeason": false,
-      "season": "Season 1",
-    },
-  ]);
   final RxInt selectedPaymentMethodIndex = RxInt(-1);
-  final RxList paymentMethodList = RxList([
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHU4tOI-bAL4XVfQSGS1phLDJNB3QaE7tQvAIy6SlhSzSQ48UhwbllHTCCRZHPQCZEWBE&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHU4tOI-bAL4XVfQSGS1phLDJNB3QaE7tQvAIy6SlhSzSQ48UhwbllHTCCRZHPQCZEWBE&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHU4tOI-bAL4XVfQSGS1phLDJNB3QaE7tQvAIy6SlhSzSQ48UhwbllHTCCRZHPQCZEWBE&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHU4tOI-bAL4XVfQSGS1phLDJNB3QaE7tQvAIy6SlhSzSQ48UhwbllHTCCRZHPQCZEWBE&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCyJzFJkymecBHNfTCJtUKIb79dTP1NQhWp2cZdx24aeWvrnP2zukxtoX6PGGm59TaHQ&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCyJzFJkymecBHNfTCJtUKIb79dTP1NQhWp2cZdx24aeWvrnP2zukxtoX6PGGm59TaHQ&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCyJzFJkymecBHNfTCJtUKIb79dTP1NQhWp2cZdx24aeWvrnP2zukxtoX6PGGm59TaHQ&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyCyJzFJkymecBHNfTCJtUKIb79dTP1NQhWp2cZdx24aeWvrnP2zukxtoX6PGGm59TaHQ&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOyH__aIgH_qYVbGe-7z_9WHHuPZ0qzVqqZxjohk_QluzBPPBoKi1VrF5dV2cqiRIWc5Y&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOyH__aIgH_qYVbGe-7z_9WHHuPZ0qzVqqZxjohk_QluzBPPBoKi1VrF5dV2cqiRIWc5Y&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOyH__aIgH_qYVbGe-7z_9WHHuPZ0qzVqqZxjohk_QluzBPPBoKi1VrF5dV2cqiRIWc5Y&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOyH__aIgH_qYVbGe-7z_9WHHuPZ0qzVqqZxjohk_QluzBPPBoKi1VrF5dV2cqiRIWc5Y&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8V8uPFT10fPjw59627CgxWeBKWpaaGFLhowPOcO81UExqoLyCwvk9Zq757SbAPbLhA74&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8V8uPFT10fPjw59627CgxWeBKWpaaGFLhowPOcO81UExqoLyCwvk9Zq757SbAPbLhA74&usqp=CAU",
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8V8uPFT10fPjw59627CgxWeBKWpaaGFLhowPOcO81UExqoLyCwvk9Zq757SbAPbLhA74&usqp=CAU",
-  ]);
   final RxList movieTagList = RxList(["Action", "2024"]);
   final RxList<Map<String, dynamic>> downloadedMovieList =
       RxList<Map<String, dynamic>>([
@@ -583,6 +528,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
         PlaylistMovieListModel playlistMovieListModel = PlaylistMovieListModel.fromJson(response.data);
         playlistDetailsData.value = playlistMovieListModel.playlistDetails;
         playlistMovieList.addAll(playlistMovieListModel.playListMovies!);
+        ll("the palylist movie list length ${playlistMovieList.length}");
         isPlaylistMovieListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -719,7 +665,9 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
   final RxBool isFavoriteAdded = RxBool(false);
    final RxBool isfavoriteListLoading = RxBool(false);
    final Rx<FavoriteListModel?> favoriteListModel = Rx<FavoriteListModel?>(null);
-  final RxList<FavoriteMovie> favoriteMovieList = RxList<FavoriteMovie>([]);
+  final RxList<Movie> favoriteMovieList = RxList<Movie>([]);
+  final RxList<Movie> favoriteTvShowList = RxList<Movie>([]);
+  final RxList<LiveTv> favoriteLiveTvList = RxList<LiveTv>([]);
   Future<void> getFavoriteList() async {
     try {
       isfavoriteListLoading.value = true;
@@ -734,8 +682,12 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
 
       if (response.code == 200) {
         favoriteMovieList.clear();
-        FavoriteListModel favoriteListModel = FavoriteListModel.fromJson(response.data);
-        favoriteMovieList.addAll(favoriteListModel.movies!);
+        favoriteTvShowList.clear();
+        favoriteLiveTvList.clear();
+         favoriteListModel.value = FavoriteListModel.fromJson(response.data);
+        favoriteMovieList.addAll(favoriteListModel.value!.movies!);
+        favoriteTvShowList.addAll(favoriteListModel.value!.tvShows!);
+        favoriteLiveTvList.addAll(favoriteListModel.value!.liveTvs!);
         isfavoriteListLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
