@@ -380,7 +380,7 @@ class AuthController extends GetxController {
   globalController.userToken.value = "";
   }
 
-    //! signOut
+  //! signOut
   void signOut() async {
     await SpController().onLogout();
     await OneSignal.logout();

@@ -217,7 +217,7 @@ class ProfileScreen extends StatelessWidget {
                   ProfileCommonWidget(
                     image: kiCrown,
                     title: ksSubscriptionPlan.tr,
-                    selectedSubscription: "Free",
+                    selectedSubscription: profileController.profileData.value?.user.subscriptionPlan??ksFree.tr,
                     onPressed: () async{
                       await Get.find<PaymentController>().getSubscriptionPlan();
                       Get.toNamed(krSubscriptionPlanScreen);
@@ -260,14 +260,15 @@ class ProfileScreen extends StatelessWidget {
                       Get.toNamed(krPlayListScreen);
                     },
                   ),
-                  kH8sizedBox,
-                  ProfileCommonWidget(
-                    image: kiDownload,
-                    title: ksDownload.tr,
-                    onPressed: () {
-                      Get.toNamed(krDownloadListScreen);
-                    },
-                  ),
+                  //! Download widget
+                  // kH8sizedBox,
+                  // ProfileCommonWidget(
+                  //   image: kiDownload,
+                  //   title: ksDownload.tr,
+                  //   onPressed: () {
+                  //     Get.toNamed(krDownloadListScreen);
+                  //   },
+                  // ),
                   kH8sizedBox,
                   ProfileCommonWidget(
                     image: kiInfo,

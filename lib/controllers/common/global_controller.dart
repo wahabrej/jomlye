@@ -220,7 +220,7 @@ class GlobalController extends GetxController {
       }
     } catch (e) {
       isConfigLoading.value = false;
-      ll('getSubscriptionPlan error: $e');
+      ll('getConfig error: $e');
     }
   }
 

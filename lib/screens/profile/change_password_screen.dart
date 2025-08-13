@@ -64,7 +64,7 @@ class ChangePasswordScreen extends StatelessWidget {
                                Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              ksNewPassword.tr,
+                              ksOldPassword.tr,
                               style: regular16TextStyle(cWhiteColor),
                             )),
                         kH8sizedBox,

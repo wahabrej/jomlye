@@ -72,30 +72,30 @@ class DownloadListScreen extends StatelessWidget {
                   color: cWhiteColor.withOpacity(0.2),
                 ),
                 kH8sizedBox,
-                ListView.separated(
-                  padding: const EdgeInsets.all(k0Padding),
-                  separatorBuilder: (context, index) => kH16sizedBox,
-                  itemCount: profileController.downloadedMovieList.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return CommonMovieListWidget(
-                      movieImage: profileController.downloadedMovieList[index]
-                          ["movieImage"],
-                      movieName: profileController.downloadedMovieList[index]
-                          ["movieName"],
-                      movieDuration: profileController.downloadedMovieList[index]
-                          ["movieDuration"],
-                      movieSize: profileController.downloadedMovieList[index]
-                          ["movieSize"],
-                      movieTagList: profileController.downloadedMovieList[index]
-                          ["movieTagList"],
-                          deleteonPressed: (){
-                showDeleteDownloadPopup(context);
-              },
-                    );
-                  },
-                ),
+              //   ListView.separated(
+              //     padding: const EdgeInsets.all(k0Padding),
+              //     separatorBuilder: (context, index) => kH16sizedBox,
+              //     itemCount: profileController.downloadedMovieList.length,
+              //     shrinkWrap: true,
+              //     physics: const NeverScrollableScrollPhysics(),
+              //     itemBuilder: (context, index) {
+              //       return CommonMovieListWidget(
+              //         movieImage: profileController.downloadedMovieList[index]
+              //             ["movieImage"],
+              //         movieName: profileController.downloadedMovieList[index]
+              //             ["movieName"],
+              //         movieDuration: profileController.downloadedMovieList[index]
+              //             ["movieDuration"],
+              //         movieSize: profileController.downloadedMovieList[index]
+              //             ["movieSize"],
+              //         movieTagList: profileController.downloadedMovieList[index]
+              //             ["movieTagList"],
+              //             deleteonPressed: (){
+              //   showDeleteDownloadPopup(context);
+              // },
+              //       );
+              //     },
+              //   ),
                 kH20sizedBox,
               ],
             ),

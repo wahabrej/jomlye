@@ -61,65 +61,67 @@ class ProfileController extends GetxController {
   ]);
   final RxInt selectedPaymentMethodIndex = RxInt(-1);
   final RxList movieTagList = RxList(["Action", "2024"]);
-  final RxList<Map<String, dynamic>> downloadedMovieList =
-      RxList<Map<String, dynamic>>([
-    {
-      "movieImage":
-          "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-      "movieTagList": ["Action", "2024"],
-      "movieName": "20-Minute Meals: Delicious Recipes.",
-      "movieDuration": "Time duration: 1 hour 20 sec",
-      "movieSize": "12GB",
-    },
-    {
-      "movieImage":
-          "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-      "movieTagList": ["Action", "2024"],
-      "movieName": "20-Minute Meals: Delicious Recipes.",
-      "movieDuration": "Time duration: 1 hour 20 sec",
-      "movieSize": "12GB",
-    },
-    {
-      "movieImage":
-          "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-      "movieTagList": ["Action", "2024"],
-      "movieName": "20-Minute Meals: Delicious Recipes.",
-      "movieDuration": "Time duration: 1 hour 20 sec",
-      "movieSize": "12GB",
-    },
-    {
-      "movieImage":
-          "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-      "movieTagList": ["Action", "2024"],
-      "movieName": "20-Minute Meals: Delicious Recipes.",
-      "movieDuration": "Time duration: 1 hour 20 sec",
-      "movieSize": "12GB",
-    },
-    {
-      "movieImage":
-          "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-      "movieTagList": ["Action", "2024"],
-      "movieName": "20-Minute Meals: Delicious Recipes.",
-      "movieDuration": "Time duration: 1 hour 20 sec",
-      "movieSize": "12GB",
-    },
-    {
-      "movieImage":
-          "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-      "movieTagList": ["Action", "2024"],
-      "movieName": "20-Minute Meals: Delicious Recipes.",
-      "movieDuration": "Time duration: 1 hour 20 sec",
-      "movieSize": "12GB",
-    },
-    {
-      "movieImage":
-          "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-      "movieTagList": ["Action", "2024"],
-      "movieName": "20-Minute Meals: Delicious Recipes.",
-      "movieDuration": "Time duration: 1 hour 20 sec",
-      "movieSize": "12GB",
-    },
-  ]);
+  // final RxList<Map<String, dynamic>> downloadedMovieList =
+  //     RxList<Map<String, dynamic>>([
+  //   {
+  //     "movieImage":
+  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+  //     "movieTagList": ["Action", "2024"],
+  //     "movieName": "20-Minute Meals: Delicious Recipes.",
+  //     "movieDuration": "Time duration: 1 hour 20 sec",
+  //     "movieSize": "12GB",
+  //   },
+  //   {
+  //     "movieImage":
+  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+  //     "movieTagList": ["Action", "2024"],
+  //     "movieName": "20-Minute Meals: Delicious Recipes.",
+  //     "movieDuration": "Time duration: 1 hour 20 sec",
+  //     "movieSize": "12GB",
+  //   },
+  //   {
+  //     "movieImage":
+  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+  //     "movieTagList": ["Action", "2024"],
+  //     "movieName": "20-Minute Meals: Delicious Recipes.",
+  //     "movieDuration": "Time duration: 1 hour 20 sec",
+  //     "movieSize": "12GB",
+  //   },
+  //   {
+  //     "movieImage":
+  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+  //     "movieTagList": ["Action", "2024"],
+  //     "movieName": "20-Minute Meals: Delicious Recipes.",
+  //     "movieDuration": "Time duration: 1 hour 20 sec",
+  //     "movieSize": "12GB",
+  //   },
+  //   {
+  //     "movieImage":
+  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+  //     "movieTagList": ["Action", "2024"],
+  //     "movieName": "20-Minute Meals: Delicious Recipes.",
+  //     "movieDuration": "Time duration: 1 hour 20 sec",
+  //     "movieSize": "12GB",
+  //   },
+  //   {
+  //     "movieImage":
+  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+  //     "movieTagList": ["Action", "2024"],
+  //     "movieName": "20-Minute Meals: Delicious Recipes.",
+  //     "movieDuration": "Time duration: 1 hour 20 sec",
+  //     "movieSize": "12GB",
+  //   },
+  //   {
+  //     "movieImage":
+  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
+  //     "movieTagList": ["Action", "2024"],
+  //     "movieName": "20-Minute Meals: Delicious Recipes.",
+  //     "movieDuration": "Time duration: 1 hour 20 sec",
+  //     "movieSize": "12GB",
+  //   },
+  // ]);
+  
+  
   final RxList<Map<String, dynamic>> notificationMovieList =
       RxList<Map<String, dynamic>>([
     {
@@ -746,7 +748,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
         url: kuFaqs,
         body: body,
       ) as CommonDM;
-
+     ll("The response is ${response.code}");
       if (response.code == 200) {
         paymentFaqList.clear();
         orderFaqList.clear();
@@ -802,7 +804,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       }
     } catch (e) {
       isRentedVideoLoading.value = false;
-      ll('getFaqList error: $e');
+      ll('getRentedVideo error: $e');
     }
   }
 

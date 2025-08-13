@@ -10,11 +10,14 @@ import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_co
 import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final HomeController homeController = Get.find<HomeController>();
   final ProfileController profileController = Get.find<ProfileController>();
+    final AllVideoPlayerController allVideoPlayerController =
+      Get.find<AllVideoPlayerController>();
   bool isBackPressedOnce = false;
   DateTime? _lastBackPressed;
 
@@ -336,15 +339,61 @@ class HomeScreen extends StatelessWidget {
                                             false;
                                     if (homeController
                                         .movieServerList.isNotEmpty) {
-                                      String videoUrl = homeController
-                                              .movieServerList[0]?.fileUrl ??
-                                          "";
+                       if (homeController
+                                            .movieServerList[index]!.sourceType!
+                                            .toLowerCase() ==
+                                        "youtube") {
+                                      Get.find<AllVideoPlayerController>().videoUrl.value =
+                                          homeController.movieServerList[index]!
+                                                  .fileUrl ??
+                                              "";
+                                      final videoId =
+                                          YoutubePlayer.convertUrlToId(
+                                              allVideoPlayerController
+                                                  .videoUrl.value);
+                                      allVideoPlayerController
+                                              .youtubeController =
+                                          YoutubePlayerController(
+                                        initialVideoId: videoId ?? '',
+                                        flags: const YoutubePlayerFlags(
+                                          autoPlay: false,
+                                          mute: false,
+                                        ),
+                                      );
+                                    } else if (homeController
+                                            .movieServerList[index]!.sourceType!
+                                            .toLowerCase() !=
+                                        "youtube") {
+                                      allVideoPlayerController.videoUrl.value =
+                                          homeController.movieServerList[index]!
+                                                  .fileUrl ??
+                                              "";
+                                      ll("The video url is ${allVideoPlayerController.videoUrl.value}");
+                                      allVideoPlayerController
+                                          .initBetterPlayerVideo(homeController
+                                                  .movieServerList[index]!
+                                                  .fileUrl ??
+                                              "");
                                       Get.find<AllVideoPlayerController>()
                                           .flickManager = FlickManager(
                                         videoPlayerController:
                                             VideoPlayerController.network(
-                                                videoUrl),
+                                                homeController
+                                                        .movieServerList[index]!
+                                                        .fileUrl ??
+                                                    ""),
                                       );
+                                      await allVideoPlayerController
+                                          .parseVideoUrl(
+                                              fileUrl: homeController
+                                                      .movieServerList[index]!
+                                                      .fileUrl ??
+                                                  "",
+                                              fileSource: homeController
+                                                      .movieServerList[index]!
+                                                      .fileSource ??
+                                                  "");
+                                    }
                                     } else {
                                       String videoUrl = "";
                                       Get.find<AllVideoPlayerController>()

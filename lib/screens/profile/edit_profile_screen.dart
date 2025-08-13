@@ -487,7 +487,7 @@ class EditProfileScreen extends StatelessWidget {
                 Row(
                   children: [
                     CustomElevatedButton(
-                      label: ksSkip.tr,
+                      label: ksCancel.tr,
                       onPressed: () {
                         Get.back();
                       },
@@ -500,8 +500,6 @@ class EditProfileScreen extends StatelessWidget {
                       label: ksContinue.tr,
                       onPressed: () async{
                         await profileController.updateProfile();
-                        // Get.toNamed(krEditProfileScreen);
-                        // showCongratulationsPopup(context);
                       },
                       buttonWidth: (width - 56) / 2,
                       buttonHeight: kButtonHeight.h,

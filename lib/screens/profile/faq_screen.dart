@@ -78,7 +78,8 @@ class FAQScreen extends StatelessWidget {
                 thickness: 1,
                 color: cWhiteColor.withOpacity(0.2),
               ),
-              kH16sizedBox,
+            if(profileController.paymentFaqList.isNotEmpty) kH16sizedBox,
+              if(profileController.paymentFaqList.isNotEmpty)
               Text(
                 ksPurchaseAndPayment.tr,
                 style: semiBold20TextStyle(cWhiteColor),
@@ -171,12 +172,12 @@ class FAQScreen extends StatelessWidget {
                         ));
                   },
                  ),
-            kH20sizedBox,
-            Text(
+          if(profileController.orderFaqList.isNotEmpty) kH20sizedBox,
+          if(profileController.orderFaqList.isNotEmpty)  Text(
                 ksOrder.tr,
                 style: semiBold20TextStyle(cWhiteColor),
               ),
-              kH12sizedBox,
+             if(profileController.orderFaqList.isNotEmpty) kH12sizedBox,
               ListView.separated(
                   shrinkWrap: true,
                   padding:  EdgeInsets.zero,
@@ -264,8 +265,32 @@ class FAQScreen extends StatelessWidget {
                         ));
                   },
                  ),
-           
-           
+          if(profileController.orderFaqList.isEmpty && profileController.paymentFaqList.isEmpty)
+               SizedBox(
+                    height: (height * 0.65),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          kiSearchResultPng,
+                          width: 200.w,
+                          height: 200.h,
+                        ),
+                        Text(
+                          ksNoFaq.tr,
+                          style: medium16TextStyle(cPrimaryColor2),
+                        ),
+                        kH16sizedBox,
+                        Text(
+                          ksNoFaqPleaseExploreOther.tr,
+                          style: regular14TextStyle(cWhiteColor.withOpacity(
+                            0.5,
+                          )),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  )
             ],
           ),
         ),

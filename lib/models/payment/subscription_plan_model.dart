@@ -1,4 +1,3 @@
-
 class SubscriptionPlanModel {
     final List<Packages>? packages;
 
@@ -15,9 +14,11 @@ class Packages {
     final int? id;
     final String? name;
     final int? day;
-    
     final int? screens;
-    final int? price;
+    final String? type;
+    final String? priceId;
+    final String? price;
+    final dynamic discount;
     final int? status;
     final DateTime? createdAt;
     final DateTime? updatedAt;
@@ -28,7 +29,10 @@ class Packages {
         this.name,
         this.day,
         this.screens,
+        this.type,
+        this.priceId,
         this.price,
+        this.discount,
         this.status,
         this.createdAt,
         this.updatedAt,
@@ -40,7 +44,10 @@ class Packages {
         name: json["name"],
         day: json["day"],
         screens: json["screens"],
+        type: json["type"],
+        priceId: json["price_id"],
         price: json["price"],
+        discount: json["discount"],
         status: json["status"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),

@@ -229,14 +229,14 @@ class VideoPlayerScreen extends StatelessWidget {
                         );
                       }
 
-                      // Show video player
-                      if (allVideoPlayerController.betterPlayerController !=
-                          null) {
-                        return BetterPlayer(
-                          controller:
-                              allVideoPlayerController.betterPlayerController!,
-                        );
-                      }
+                      // // Show video player
+                      // if (allVideoPlayerController.betterPlayerController !=
+                      //     null) {
+                      //   return BetterPlayer(
+                      //     controller:
+                      //         allVideoPlayerController.betterPlayerController!,
+                      //   );
+                      // }
 
                       return Center(
                         child: CircularProgressIndicator(color: Colors.white),

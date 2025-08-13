@@ -65,6 +65,7 @@ class PaymentController extends GetxController {
     try {
       isPaymentHistoryLoading.value = true;
       String? token = await spController.getBearerToken();
+      ll("the token is $token");
       int? userId = await spController.getUserId();
       Map<String, dynamic> body = {};
       var response = await apiServices.commonApiCall(
