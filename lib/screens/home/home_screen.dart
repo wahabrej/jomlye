@@ -255,9 +255,7 @@ class HomeScreen extends StatelessWidget {
                                                 .newReleaseMoviesList[index]
                                                 .isRental == false && Get.find<GlobalController>().subscribedUserCheck.value) || homeController
                                                 .newReleaseMoviesList[index]
-                                                .isFree==true)
-                                    if (homeController
-                                        .movieServerList.isNotEmpty) {
+                                                .isFree==true){
                                       String videoUrl = homeController
                                               .movieServerList[0]?.fileUrl ??
                                           "";
