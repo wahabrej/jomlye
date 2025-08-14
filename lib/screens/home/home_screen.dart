@@ -245,6 +245,17 @@ class HomeScreen extends StatelessWidget {
                                         homeController.movieDetailsData.value
                                                 ?.isFavorite ??
                                             false;
+                                    if((homeController
+                                                .newReleaseMoviesList[index]
+                                                .isFree==false && homeController
+                                                .newReleaseMoviesList[index]
+                                                .isRental==true && homeController.movieDetailsModel.value?.isRented==true) || (homeController
+                                                .newReleaseMoviesList[index]
+                                                .isFree==false && homeController
+                                                .newReleaseMoviesList[index]
+                                                .isRental == false && Get.find<GlobalController>().subscribedUserCheck.value) || homeController
+                                                .newReleaseMoviesList[index]
+                                                .isFree==true)
                                     if (homeController
                                         .movieServerList.isNotEmpty) {
                                       String videoUrl = homeController
@@ -523,6 +534,7 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
+                    
                     kH16sizedBox,
                     HomeTitleContent(
                       title: ksPopularTvShows.tr,
@@ -559,9 +571,9 @@ class HomeScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () async {
-                                    await homeController.getTvShowDetails(
-                                        showId: homeController
-                                            .popularTvShowsList[index].id!);
+                                    // await homeController.getTvShowDetails(
+                                    //     showId: homeController
+                                    //         .popularTvShowsList[index].id!);
                                     Get.toNamed(krTvShowPlayerScreen);
                                   },
                                   child: MovieContentContainer(
@@ -591,161 +603,6 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    kH20sizedBox,
-                    // Padding(
-                    //   padding:
-                    //       const EdgeInsets.symmetric(horizontal: k20Padding),
-                    //   child: Stack(
-                    //     children: [
-                    //       ClipRRect(
-                    //           borderRadius:
-                    //               BorderRadius.circular(k6BorderRadius),
-                    //           child: Image.network(
-                    //             "https://i.ytimg.com/vi/Le_aY-4FJ7E/maxresdefault.jpg",
-                    //             width: width - 40,
-                    //             height: 210.h,
-                    //             fit: BoxFit.cover,
-                    //           )),
-                    //       Positioned(
-                    //         top: 60,
-                    //         right: width * 0.15,
-                    //         child: Column(
-                    //           children: [
-                    //             Container(
-                    //               width: width * 0.6,
-                    //               height: 24.h,
-                    //               decoration: BoxDecoration(
-                    //                 color: cWhiteColor.withOpacity(0.3),
-                    //                 borderRadius: BorderRadius.circular(100.r),
-                    //               ),
-                    //               child: Padding(
-                    //                 padding: EdgeInsets.symmetric(
-                    //                     horizontal: 6.w, vertical: 3.h),
-                    //                 child: Row(
-                    //                   mainAxisAlignment:
-                    //                       MainAxisAlignment.spaceBetween,
-                    //                   children: [
-                    //                     Row(
-                    //                       children: [
-                    //                         const Icon(
-                    //                           Icons.star,
-                    //                           color: cPrimaryColor2,
-                    //                           size: kIconSize20,
-                    //                         ),
-                    //                         kW6sizedBox,
-                    //                         Text(
-                    //                           "4.6",
-                    //                           style: regular12TextStyle(
-                    //                               cWhiteColor),
-                    //                         ),
-                    //                         kW6sizedBox,
-                    //                         VerticalDivider(
-                    //                           width: 1,
-                    //                           thickness: 1,
-                    //                           color:
-                    //                               cWhiteColor.withOpacity(0.5),
-                    //                         ),
-                    //                       ],
-                    //                     ),
-                    //                     Row(
-                    //                       children: [
-                    //                         const Icon(
-                    //                           Icons.access_time_filled_sharp,
-                    //                           color: cPrimaryColor2,
-                    //                           size: kIconSize20,
-                    //                         ),
-                    //                         kW6sizedBox,
-                    //                         Text(
-                    //                           "2 hr 30 mins",
-                    //                           style: regular12TextStyle(
-                    //                               cWhiteColor),
-                    //                         ),
-                    //                         kW6sizedBox,
-                    //                         VerticalDivider(
-                    //                           width: 1,
-                    //                           thickness: 1,
-                    //                           color:
-                    //                               cWhiteColor.withOpacity(0.5),
-                    //                         ),
-                    //                       ],
-                    //                     ),
-                    //                     Row(
-                    //                       children: [
-                    //                         const Icon(
-                    //                           Icons.calendar_today_outlined,
-                    //                           color: cPrimaryColor2,
-                    //                           size: kIconSize20,
-                    //                         ),
-                    //                         kW6sizedBox,
-                    //                         Text(
-                    //                           "2024",
-                    //                           style: regular12TextStyle(
-                    //                               cWhiteColor),
-                    //                         ),
-                    //                       ],
-                    //                     ),
-                    //                   ],
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             const Text(
-                    //               "3 idiots",
-                    //               style: TextStyle(
-                    //                   fontSize: 32,
-                    //                   fontWeight: FontWeight.w700,
-                    //                   color: cWhiteColor),
-                    //             ),
-                    //             Container(
-                    //               width: 46.w,
-                    //               height: 46.h,
-                    //               decoration: const BoxDecoration(
-                    //                 shape: BoxShape.circle,
-                    //                 color: cPrimaryColor2,
-                    //               ),
-                    //               child: const Icon(
-                    //                 Icons.play_arrow,
-                    //                 size: kIconSize28,
-                    //                 color: cWhiteColor,
-                    //               ),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-
-                    // kH16sizedBox,
-                    // Padding(
-                    //   padding: const EdgeInsets.only(left: k20Padding),
-                    //   child: Row(
-                    //     children: [
-                    //       SizedBox(
-                    //         width: width - 20,
-                    //         height: 140.h,
-                    //         child: ListView.separated(
-                    //           itemCount:
-                    //               homeController.recentPlayedMovies.length,
-                    //           separatorBuilder: (context, index) =>
-                    //               kW10sizedBox,
-                    //           shrinkWrap: true,
-                    //           physics: const AlwaysScrollableScrollPhysics(),
-                    //           scrollDirection: Axis.horizontal,
-                    //           itemBuilder: (context, index) {
-                    //             return MovieCard(
-                    //               imageUrl: homeController
-                    //                   .recentPlayedMovies[index]["imageUrl"],
-                    //               title: homeController
-                    //                   .recentPlayedMovies[index]["title"],
-                    //               duration: homeController
-                    //                   .recentPlayedMovies[index]["duration"],
-                    //             );
-                    //           },
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                     kH16sizedBox,
                     Padding(
                       padding: const EdgeInsets.only(left: k20Padding),

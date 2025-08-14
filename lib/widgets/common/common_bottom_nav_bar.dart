@@ -48,6 +48,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 title: ksMovies.tr,
                 onPressed: () async {
                   // Navigate to popcorn section
+                  Get.find<HomeController>().selectedTitle.value = "";
                   await Get.find<HomeController>().getMovieList(movieType: "");
                   Get.toNamed(krMovieViewAllScreen);
                 },
@@ -57,9 +58,17 @@ class CustomBottomNavBar extends StatelessWidget {
                 width: width,
                 isSelected: selectedIndex == 3,
                 title: ksTv.tr,
-                onPressed: () async {
-                  // Navigate to TV screen
-                },
+                onPressed:() async {
+                        Get.find<HomeController>().resetBottomSheetData();
+                       Get.find<ProfileController>().temporaryPlayListCheckBoxStateList
+                            .clear();
+                        Get.find<HomeController>().isViewAllSearchEnable.value = false;
+                        Get.find<HomeController>().viewAllTextEditingController.clear();
+                        Get.find<HomeController>().selectedTitle.value = ksPopularTvShows;
+                        await Get.find<HomeController>().getTvShows();
+                        Get.toNamed(krTvShowsViewAllScreen);
+                        // Get.toNamed(krMovieViewAllScreen);
+                      },
                 image: kiTvScreen,
               ),
               _BottomNavbarItem(

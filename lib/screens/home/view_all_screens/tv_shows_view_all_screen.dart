@@ -4,6 +4,7 @@ import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
 class TvShowsViewAllScreen extends StatelessWidget {
   TvShowsViewAllScreen({super.key});
@@ -18,96 +19,6 @@ class TvShowsViewAllScreen extends StatelessWidget {
               //* info:: appBar
               appBar: PreferredSize(
                 preferredSize: Size.fromHeight(kAppBarSize.h),
-          //       child: CustomAppBar(
-          //         hasBackButton: false,
-          //         title: GestureDetector(
-          //           onTap: () {
-          //             Get.back();
-          //           },
-          //           child: Container(
-          //             width: 110.w,
-          //             height: h32,
-          //             decoration: BoxDecoration(
-          //               borderRadius: BorderRadius.circular(100.r),
-          //               color: cWhiteColor.withOpacity(0.2),
-          //             ),
-          //             child: Padding(
-          //               padding: const EdgeInsets.symmetric(
-          //                   horizontal: k12Padding, vertical: k2Padding),
-          //         child: Row(
-          //           children: [
-          //             const Icon(
-          //               Icons.arrow_back_ios,
-          //               size: kIconSize12,
-          //               color: cWhiteColor,
-          //             ),
-          //             kW4sizedBox,
-          //             Center(
-          //                 child: Text(
-          //               ksTvShows.tr,
-          //               style: regular16TextStyle(cWhiteColor),
-          //             )),
-          //           ],
-          //         ),
-          //       ),
-          //     ),
-          //   ),
-          //   actions: [
-          //     Container(
-          //       width: 36.w,
-          //       height: 36.h,
-          //       decoration: BoxDecoration(
-          //         shape: BoxShape.circle,
-          //         color: cWhiteColor.withOpacity(0.2),
-          //       ),
-          //       child: const Icon(
-          //         Icons.search,
-          //         color: cWhiteColor,
-          //         size: kIconSize24,
-          //       ),
-          //     ),
-          //     kW6sizedBox,
-          //     Padding(
-          //       padding: const EdgeInsets.only(right: k8Padding),
-          //       child: InkWell(
-          //         onTap: () {
-          //           globalController.commonBottomSheet(
-          //               bottomSheetColor: cBlackColor2,
-          //               bottomSheetHeight: height * 0.8,
-          //               isScrollControlled: true,
-          //               context: context,
-          //               content: AllTvShowsBottomSheetContent(),
-          //               onPressCloseButton: () {
-          //                 Get.back();
-          //               },
-          //               onPressRightButton: () {},
-          //               rightText: "",
-          //               rightTextStyle: semiBold16TextStyle(cWhiteColor),
-          //               title:
-          //                   "${ksFilter.tr} ${homeController.selectedTitle.value}",
-          //               isRightButtonShow: false);
-          //         },
-          //         child: Container(
-          //           width: 40.w,
-          //           height: 40.h,
-          //           decoration: BoxDecoration(
-          //             shape: BoxShape.circle,
-          //               color: homeController.isApplyClicked.value
-          //                   ? cPrimaryColor2
-          //                   : cWhiteColor.withOpacity(0.2),
-          //           ),
-          //           child: Padding(
-          //             padding: const EdgeInsets.all(k12Padding),
-          //             child: SvgPicture.asset(
-          //               kiFilter,
-          //               color: cWhiteColor,
-          //             ),
-          //           ),
-          //         ),
-          //       ),
-          //     ),
-          //   ],
-          // ),
         child: CustomAppBar(
               hasBackButton: false,
               title: homeController.isViewAllSearchEnable.value
@@ -514,9 +425,14 @@ class TvShowsViewAllScreen extends StatelessWidget {
                 ],
               )),
         ),
+              bottomNavigationBar: CustomBottomNavBar(
+              width: width,
+              selectedIndex: 3,
+            ),
       ),
       ),
     );
+    
   }
 }
 
