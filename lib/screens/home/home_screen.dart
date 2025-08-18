@@ -237,7 +237,6 @@ class HomeScreen extends StatelessWidget {
                                 return InkWell(
                                   onTap: () async {
                                     homeController.resetRatingData();
-                                    // homeController.showInterstitialAd();
                                     await homeController.getMovieDetails(
                                         movieId: homeController
                                             .newReleaseMoviesList[index].id!
@@ -246,34 +245,37 @@ class HomeScreen extends StatelessWidget {
                                         homeController.movieDetailsData.value
                                                 ?.isFavorite ??
                                             false;
-                                    if((homeController
-                                                .newReleaseMoviesList[index]
-                                                .isFree==false && homeController
-                                                .newReleaseMoviesList[index]
-                                                .isRental==true && homeController.movieDetailsModel.value?.isRented==true) || (homeController
-                                                .newReleaseMoviesList[index]
-                                                .isFree==false && homeController
-                                                .newReleaseMoviesList[index]
-                                                .isRental == false && Get.find<GlobalController>().subscribedUserCheck.value) || homeController
-                                                .newReleaseMoviesList[index]
-                                                .isFree==true){
-                                      String videoUrl = homeController
-                                              .movieServerList[0]?.fileUrl ??
-                                          "";
-                                      Get.find<AllVideoPlayerController>()
-                                          .flickManager = FlickManager(
-                                        videoPlayerController:
-                                            VideoPlayerController.network(
-                                                videoUrl),
-                                      );
-                                    } else {
-                                      String videoUrl = "";
-                                      Get.find<AllVideoPlayerController>()
-                                          .flickManager = FlickManager(
-                                        videoPlayerController:
-                                            VideoPlayerController.network(
-                                                videoUrl),
-                                      );
+                                    // if((homeController
+                                    //             .newReleaseMoviesList[index]
+                                    //             .isFree==false && homeController
+                                    //             .newReleaseMoviesList[index]
+                                    //             .isRental==true && homeController.movieDetailsModel.value?.isRented==true) || (homeController
+                                    //             .newReleaseMoviesList[index]
+                                    //             .isFree==false && homeController
+                                    //             .newReleaseMoviesList[index]
+                                    //             .isRental == false && Get.find<GlobalController>().subscribedUserCheck.value) || homeController
+                                    //             .newReleaseMoviesList[index]
+                                    //             .isFree==true){
+                                    //   String videoUrl = homeController
+                                    //           .movieServerList[0]?.fileUrl ??
+                                    //       "";
+                                    //   Get.find<AllVideoPlayerController>()
+                                    //       .flickManager = FlickManager(
+                                    //     videoPlayerController:
+                                    //         VideoPlayerController.network(
+                                    //             videoUrl),
+                                    //   );
+                                    // } else {
+                                    //   String videoUrl = "";
+                                    //   Get.find<AllVideoPlayerController>()
+                                    //       .flickManager = FlickManager(
+                                    //     videoPlayerController:
+                                    //         VideoPlayerController.network(
+                                    //             videoUrl),
+                                    //   );
+                                    // }
+                                    if(homeController.movieServerList.isNotEmpty){
+                                    allVideoPlayerController.videoPlayerFunction(isFree: homeController.newReleaseMoviesList[index].isFree,isRental:  homeController.newReleaseMoviesList[index].isRental,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[0]?.fileUrl, fileSource: homeController.movieServerList[0]?.fileSource);
                                     }
 
                                     Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController
@@ -351,74 +353,82 @@ class HomeScreen extends StatelessWidget {
                                         homeController.movieDetailsData.value
                                                 ?.isFavorite ??
                                             false;
-                                    if (homeController
-                                        .movieServerList.isNotEmpty) {
-                       if (homeController
-                                            .movieServerList[index]!.sourceType!
-                                            .toLowerCase() ==
-                                        "youtube") {
-                                      Get.find<AllVideoPlayerController>().videoUrl.value =
-                                          homeController.movieServerList[index]!
-                                                  .fileUrl ??
-                                              "";
-                                      final videoId =
-                                          YoutubePlayer.convertUrlToId(
-                                              allVideoPlayerController
-                                                  .videoUrl.value);
-                                      allVideoPlayerController
-                                              .youtubeController =
-                                          YoutubePlayerController(
-                                        initialVideoId: videoId ?? '',
-                                        flags: const YoutubePlayerFlags(
-                                          autoPlay: false,
-                                          mute: false,
-                                        ),
-                                      );
-                                    } else if (homeController
-                                            .movieServerList[index]!.sourceType!
-                                            .toLowerCase() !=
-                                        "youtube") {
-                                      allVideoPlayerController.videoUrl.value =
-                                          homeController.movieServerList[index]!
-                                                  .fileUrl ??
-                                              "";
-                                      ll("The video url is ${allVideoPlayerController.videoUrl.value}");
-                                      allVideoPlayerController
-                                          .initBetterPlayerVideo(homeController
-                                                  .movieServerList[index]!
-                                                  .fileUrl ??
-                                              "");
-                                      Get.find<AllVideoPlayerController>()
-                                          .flickManager = FlickManager(
-                                        videoPlayerController:
-                                            VideoPlayerController.network(
-                                                homeController
-                                                        .movieServerList[index]!
-                                                        .fileUrl ??
-                                                    ""),
-                                      );
-                                      await allVideoPlayerController
-                                          .parseVideoUrl(
-                                              fileUrl: homeController
-                                                      .movieServerList[index]!
-                                                      .fileUrl ??
-                                                  "",
-                                              fileSource: homeController
-                                                      .movieServerList[index]!
-                                                      .fileSource ??
-                                                  "");
-                                    }
-                                    } else {
-                                      String videoUrl = "";
-                                      Get.find<AllVideoPlayerController>()
-                                          .flickManager = FlickManager(
-                                        videoPlayerController:
-                                            VideoPlayerController.network(
-                                                videoUrl),
-                                      );
+                      //               if (homeController
+                      //                   .movieServerList.isNotEmpty) {
+                      //  if (homeController
+                      //                       .movieServerList[index]!.sourceType!
+                      //                       .toLowerCase() ==
+                      //                   "youtube") {
+                      //                 Get.find<AllVideoPlayerController>().videoUrl.value =
+                      //                     homeController.movieServerList[index]!
+                      //                             .fileUrl ??
+                      //                         "";
+                      //                 final videoId =
+                      //                     YoutubePlayer.convertUrlToId(
+                      //                         allVideoPlayerController
+                      //                             .videoUrl.value);
+                      //                 allVideoPlayerController
+                      //                         .youtubeController =
+                      //                     YoutubePlayerController(
+                      //                   initialVideoId: videoId ?? '',
+                      //                   flags: const YoutubePlayerFlags(
+                      //                     autoPlay: false,
+                      //                     mute: false,
+                      //                   ),
+                      //                 );
+                      //               } else if (homeController
+                      //                       .movieServerList[index]!.sourceType!
+                      //                       .toLowerCase() !=
+                      //                   "youtube") {
+                      //                 allVideoPlayerController.videoUrl.value =
+                      //                     homeController.movieServerList[index]!
+                      //                             .fileUrl ??
+                      //                         "";
+                      //                 ll("The video url is ${allVideoPlayerController.videoUrl.value}");
+                      //                 allVideoPlayerController
+                      //                     .initBetterPlayerVideo(homeController
+                      //                             .movieServerList[index]!
+                      //                             .fileUrl ??
+                      //                         "");
+                      //                 Get.find<AllVideoPlayerController>()
+                      //                     .flickManager = FlickManager(
+                      //                   videoPlayerController:
+                      //                       VideoPlayerController.network(
+                      //                           homeController
+                      //                                   .movieServerList[index]!
+                      //                                   .fileUrl ??
+                      //                               ""),
+                      //                 );
+                      //                 await allVideoPlayerController
+                      //                     .parseVideoUrl(
+                      //                         fileUrl: homeController
+                      //                                 .movieServerList[index]!
+                      //                                 .fileUrl ??
+                      //                             "",
+                      //                         fileSource: homeController
+                      //                                 .movieServerList[index]!
+                      //                                 .fileSource ??
+                      //                             "");
+                      //               }
+                      //               } else {
+                      //                 String videoUrl = "";
+                      //                 Get.find<AllVideoPlayerController>()
+                      //                     .flickManager = FlickManager(
+                      //                   videoPlayerController:
+                      //                       VideoPlayerController.network(
+                      //                           videoUrl),
+                      //                 );
+                      //               }
+
+                                                         if(homeController.movieServerList.isNotEmpty){
+                                    allVideoPlayerController.videoPlayerFunction(isFree: homeController.trendingMoviesList[index].isFree,isRental:  homeController.trendingMoviesList[index].isRental,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[0]?.fileUrl, fileSource: homeController.movieServerList[0]?.fileSource);
                                     }
 
-                                    Get.toNamed(krVideoPlayerScreen);
+                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController
+                                                .trendingMoviesList[index]
+                                                .isFree==false && homeController
+                                                .trendingMoviesList[index]
+                                                .isRental==true,));
                                   },
                                   child: MovieContentContainer(
                                     movieImage: homeController
@@ -574,9 +584,17 @@ class HomeScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () async {
-                                    // await homeController.getTvShowDetails(
-                                    //     showId: homeController
-                                    //         .popularTvShowsList[index].id!);
+                                    await homeController.getTvShowDetails(showId: homeController
+                                        .tvShowEpisodeList[index]?.id??-1);
+                                    allVideoPlayerController.videoPlayerFunction(isFree: homeController
+                                                .popularTvShowsList[index]
+                                                .isFree==0 ? true : false, isRental: homeController
+                                                .popularTvShowsList[index]
+                                                .isRental==0 ? false : true, isRented: homeController
+                                                .popularTvShowsList[index].isRental==0 ? false : true,
+                                                 isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController
+                                                .tvShowEpisodeList[index]?.fileUrl??"", fileSource: homeController
+                                                .tvShowEpisodeList[index]?.fileSource??"");
                                     Get.toNamed(krTvShowPlayerScreen);
                                   },
                                   child: MovieContentContainer(
@@ -587,7 +605,7 @@ class HomeScreen extends StatelessWidget {
                                                 .popularTvShowsList[index]
                                                 .isFree==0 && homeController
                                                 .popularTvShowsList[index]
-                                                .isRental==0 ? true : false,
+                                                .isRental==0 ? false : true,
                                                 isRentable: homeController
                                                 .popularTvShowsList[index]
                                                 .isFree==0 && homeController

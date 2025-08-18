@@ -235,7 +235,7 @@
 //     try {
 //       // Dispose existing controller if any
 //       await _disposeBetterPlayer();
-      
+
 //       // Reset mid-roll ad states
 //       for (var ad in midRollAds) {
 //         ad["shown"] = false;
@@ -284,10 +284,10 @@
 
 //       // Wait for controller to be ready
 //       await Future.delayed(const Duration(milliseconds: 500));
-      
+
 //       // Setup mid-roll ads
 //       _setupMidRollAds();
-      
+
 //     } catch (e) {
 //       print('Error initializing Better Player: $e');
 //     }
@@ -302,7 +302,7 @@
 //       if (event.betterPlayerEventType == BetterPlayerEventType.progress) {
 //         final progress = event.parameters?['progress'];
 //         if (progress == null) return;
-        
+
 //         final currentPos = (progress as Duration).inSeconds;
 
 //         for (final ad in midRollAds) {
@@ -327,10 +327,9 @@
 //   return sharedUrl; // fallback: original URL (in case it's not a Google Drive link)
 // }
 
-
 //   void _playMidRollAd(String adUrl) {
 //     if (Get.context == null) return;
-    
+
 //     isMidRollAdPlaying.value = true;
 //     playlistController?.betterPlayerController?.pause();
 
@@ -415,34 +414,46 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class AllVideoPlayerController extends GetxController {
   late FlickManager flickManager;
-  late YoutubePlayerController youtubeController;
+ late YoutubePlayerController youtubeController;
   VideoPlayerController? videoController;
   RxBool isInitialized = false.obs;
-   //!for video player
+  //!for video player
   // void initVideo(String url) async {
   //   videoController = VideoPlayerController.network(url);
   //   await videoController!.initialize();
   //   isInitialized.value = true;
   //   update();
   // }
-  
+
   // @override
   // void onClose() {
   //   videoController?.dispose();
   //   super.onClose();
   // }
 
-  final RxString videoUrl = RxString('https://www.youtube.com/watch?v=K18cpp_-gP8');
+  // final RxString videoUrl = RxString('');
   final RxBool isMidRollAdPlaying = RxBool(false);
   final RxBool isPlayerInitialized = RxBool(false);
   final RxBool isInitializing = RxBool(false);
 
   // Ad URLs
-  final String preRollAdUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
-  final String postRollAdUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
+  final String preRollAdUrl =
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
+  final String postRollAdUrl =
+      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
   final List<Map<String, dynamic>> midRollAds = [
-    {"time": 15, "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4", "shown": false},
-    {"time": 30, "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4", "shown": false},
+    {
+      "time": 15,
+      "url":
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+      "shown": false
+    },
+    {
+      "time": 30,
+      "url":
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+      "shown": false
+    },
   ];
 
   // Store the current main content URL to avoid re-initialization
@@ -451,11 +462,11 @@ class AllVideoPlayerController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _initializeYouTubeController();
+    // _initializeYouTubeController(videoUrl: "");
   }
 
-  void _initializeYouTubeController() {
-    final videoId = YoutubePlayer.convertUrlToId(videoUrl.value);
+  Future<void> _initializeYouTubeController({required String? videoUrl}) async{
+    final videoId =  YoutubePlayer.convertUrlToId(videoUrl??"");
     youtubeController = YoutubePlayerController(
       initialVideoId: videoId ?? '',
       flags: const YoutubePlayerFlags(
@@ -479,10 +490,10 @@ class AllVideoPlayerController extends GetxController {
 
   //   try {
   //     isInitializing.value = true;
-      
+
   //     // Dispose existing controller if any
   //     await _disposeBetterPlayer();
-      
+
   //     // Reset states
   //     for (var ad in midRollAds) {
   //       ad["shown"] = false;
@@ -554,12 +565,12 @@ class AllVideoPlayerController extends GetxController {
 
   //     // Wait for controller to be ready
   //     await Future.delayed(const Duration(milliseconds: 800));
-      
+
   //     // Setup mid-roll ads
   //     _setupMidRollAds();
-      
+
   //     isPlayerInitialized.value = true;
-      
+
   //   } catch (e) {
   //     print('Error initializing Better Player Plus: $e');
   //     isPlayerInitialized.value = false;
@@ -586,10 +597,10 @@ class AllVideoPlayerController extends GetxController {
   //     if (event.betterPlayerEventType == BetterPlayerEventType.progress) {
   //       final progress = event.parameters?['progress'];
   //       if (progress == null) return;
-        
+
   //       final currentPos = (progress as Duration).inSeconds;
   //       final currentDataSource = playlistController?.betterPlayerController?.betterPlayerDataSource;
-        
+
   //       // Only trigger mid-roll ads for main content (second item in playlist)
   //       if (currentDataSource?.url == currentMainContentUrl) {
   //         for (final ad in midRollAds) {
@@ -604,21 +615,23 @@ class AllVideoPlayerController extends GetxController {
   //   });
   // }
 
-  
-  
+
   final RxString finalUrl = RxString("");
 
-  Future<void> parseVideoUrl({required String fileUrl,required String fileSource}) async {
-          final apiKey = Get.find<GlobalController>().googleDriveApiKey;
-           finalUrl.value = "";
-          if (fileSource == "gdrive") {
-          finalUrl.value =await generateGoogleDriveDirectUrl(fileUrl, apiKey.value);
-          } else {
-            finalUrl.value = fileUrl;
-          }
+  Future<void> parseVideoUrl(
+      {required String fileUrl, required String fileSource}) async {
+    final apiKey = Get.find<GlobalController>().googleDriveApiKey;
+    finalUrl.value = "";
+    if (fileSource == "gdrive") {
+      finalUrl.value =
+          await generateGoogleDriveDirectUrl(fileUrl, apiKey.value);
+    } else {
+      finalUrl.value = fileUrl;
+    }
   }
 
-  Future<String> generateGoogleDriveDirectUrl(String sharedUrl, String apiKey) async{
+  Future<String> generateGoogleDriveDirectUrl(
+      String sharedUrl, String apiKey) async {
     final regExp = RegExp(r'd/([a-zA-Z0-9_-]+)');
     final match = regExp.firstMatch(sharedUrl);
     if (match != null && match.groupCount > 0) {
@@ -631,11 +644,11 @@ class AllVideoPlayerController extends GetxController {
 
   // void _playMidRollAd(String adUrl) {
   //   if (Get.context == null) return;
-    
-  //   isMidRollAdPlaying.value = true;
-    // playlistController?.betterPlayerController?.pause();
 
-    // BetterPlayerController? adController;
+  //   isMidRollAdPlaying.value = true;
+  // playlistController?.betterPlayerController?.pause();
+
+  // BetterPlayerController? adController;
 
   //   showDialog(
   //     context: Get.context!,
@@ -710,32 +723,32 @@ class AllVideoPlayerController extends GetxController {
   // }
   // }
 
-  final RxList movieTypeList = RxList([
-    "HD", "Action", "Super Hit", "Block Buster"
-  ]);
+  final RxList movieTypeList =
+      RxList(["HD", "Action", "Super Hit", "Block Buster"]);
 
   final MediaDownload flutterMediaDownloaderPlugin = MediaDownload();
 
-BetterPlayerController? betterPlayerController;
+  BetterPlayerController? betterPlayerController;
   RxBool isBetterPlayerInitialized = false.obs;
   RxBool isPlaying = false.obs;
   RxBool hasError = false.obs;
-  
+
   void initBetterPlayerVideo(String videoUrl) async {
     try {
       hasError.value = false;
-      
+
       // Dispose previous controller if exists
       if (betterPlayerController != null) {
         betterPlayerController!.dispose();
       }
-      
+
       BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
         BetterPlayerDataSourceType.network,
         videoUrl,
       );
-      
-      BetterPlayerConfiguration betterPlayerConfiguration = BetterPlayerConfiguration(
+
+      BetterPlayerConfiguration betterPlayerConfiguration =
+          BetterPlayerConfiguration(
         aspectRatio: 16 / 9,
         fit: BoxFit.contain,
         autoPlay: false,
@@ -750,23 +763,22 @@ BetterPlayerController? betterPlayerController;
           showControls: true,
         ),
       );
-      
+
       betterPlayerController = BetterPlayerController(
         betterPlayerConfiguration,
         betterPlayerDataSource: betterPlayerDataSource,
       );
-      
+
       // Add listeners
       betterPlayerController!.addEventsListener(_onPlayerEvent);
-      
+
       isInitialized.value = true;
-      
     } catch (e) {
       hasError.value = true;
       print('Video initialization error: $e');
     }
   }
-  
+
   void _onPlayerEvent(BetterPlayerEvent event) {
     switch (event.betterPlayerEventType) {
       case BetterPlayerEventType.play:
@@ -782,15 +794,15 @@ BetterPlayerController? betterPlayerController;
         break;
     }
   }
-  
+
   void play() {
     betterPlayerController?.play();
   }
-  
+
   void pause() {
     betterPlayerController?.pause();
   }
-  
+
   void togglePlayPause() {
     if (isPlaying.value) {
       pause();
@@ -798,11 +810,56 @@ BetterPlayerController? betterPlayerController;
       play();
     }
   }
-  
+
   @override
   void onClose() {
     betterPlayerController?.dispose();
+    youtubeController.dispose();
     super.onClose();
   }
+ //!video player function
+    void videoPlayerFunction(
+      {required bool? isFree,
+      required bool? isRental,
+      required bool? isRented,
+      required bool? isSubscribed,
+      required String? fileUrl,
+      required String? fileSource}) async{
+        ll("The file source is $fileSource");
+        ll("The file url is $fileUrl");
+    if ((isFree == false && isRental == true && isRented == true) ||
+        (isFree == false &&
+            isRented == false &&
+            Get.find<GlobalController>().subscribedUserCheck.value==true) ||
+        isFree == true) {
+      if (fileSource == "youtube") {
+        final RxString videoUrl = RxString(fileUrl??"");
+        // ll("in my youtube player controller loaded data $youtubeController");
+       await _initializeYouTubeController(videoUrl: videoUrl.value);
+                      youtubeController =
+                                          YoutubePlayerController(
+                                        initialVideoId: videoUrl.value,
+                                        // initialVideoId: 'https://www.youtube.com/watch?v=u6Xsayqxij0',
+                                        flags: const YoutubePlayerFlags(
+                                          autoPlay: true,
+                                          mute: false,
+                                        ),
+                                      );
+      } else if (fileSource != "youtube" &&
+          fileSource.toString().toLowerCase() != "gdrive") {
+                                      // flickManager = FlickManager(
+                                      //   videoPlayerController:
+                                      //       VideoPlayerController.network(
+                                      //           "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
+                                      // );
+                                      flickManager = FlickManager(
+                                        videoPlayerController:
+                                            VideoPlayerController.network(
+                                                fileUrl??""),
+                                      );
+          }
+    }
+  }
+
 
 }

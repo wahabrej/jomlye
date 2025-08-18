@@ -1,4 +1,3 @@
-import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
@@ -79,83 +78,31 @@ class VideoPlayerScreen extends StatelessWidget {
                           .movieServerList[homeController.selectedServer.value]
                           ?.fileSource ==
                       "youtube")
-                // YoutubePlayerBuilder(
-                //   player: YoutubePlayer(
-                //     controller: allVideoPlayerController.youtubeController,
-                //     showVideoProgressIndicator: true,
-                //     progressIndicatorColor: Colors.red,
-                //     bottomActions: const [
-                //       SizedBox(width: 14.0),
-                //       CurrentPosition(),
-                //       kW8sizedBox,
-                //       ProgressBar(
-                //         isExpanded: true,
-                //         colors: ProgressBarColors(
-                //           playedColor: cPrimaryColor,
-                //           handleColor: cPrimaryColor,
-                //         ),
-                //       ),
-                //       kW8sizedBox,
-                //       RemainingDuration(),
-                //       SizedBox(width: 14.0),
-                //       FullScreenButton(
-                //         color: cPrimaryColor,
-                //       ),
-                //     ],
-                //   ),
-                //   builder: (context, player) {
-                //     return Stack(
-                //       children: [
-                //         Column(
-                //           children: [
-                //             player,
-                //             const SizedBox(),
-                //           ],
-                //         ),
-                //         Positioned(
-                //           top: 2,
-                //           left: 4,
-                //           child: IconButton(
-                //             icon: const Icon(
-                //               Icons.arrow_back_ios,
-                //               color: cWhiteColor,
-                //               size: kIconSize16,
-                //             ),
-                //             onPressed: () {
-                //               Navigator.pop(context);
-                //             },
-                //           ),
-                //         ),
-                //       ],
-                //     );
-                //   },
-                // ),
-
-                YoutubePlayer(
-                  controller: allVideoPlayerController.youtubeController,
-                  showVideoProgressIndicator: true,
-                  progressIndicatorColor: Colors.red,
-                  onReady: () {
-                    allVideoPlayerController.youtubeController
-                        .seekTo(Duration.zero);
-                  },
-                  bottomActions: const [
-                    SizedBox(width: 14.0),
-                    CurrentPosition(),
-                    kW8sizedBox,
-                    ProgressBar(
-                      isExpanded: true,
-                      colors: ProgressBarColors(
-                        playedColor: cPrimaryColor,
-                        handleColor: cPrimaryColor,
-                      ),
-                    ),
-                    kW8sizedBox,
-                    RemainingDuration(),
-                    SizedBox(width: 14.0),
-                    FullScreenButton(color: cPrimaryColor),
-                  ],
-                ),
+                       YoutubePlayer(
+                                  controller: allVideoPlayerController.youtubeController,
+                                  showVideoProgressIndicator: true,
+                                  progressIndicatorColor: Colors.red,
+                                  onReady: () {
+                                    allVideoPlayerController.youtubeController
+                                        .seekTo(Duration.zero);
+                                  },
+                                  bottomActions: const [
+                                    SizedBox(width: 14.0),
+                                    CurrentPosition(),
+                                    kW8sizedBox,
+                                    ProgressBar(
+                                      isExpanded: true,
+                                      colors: ProgressBarColors(
+                                        playedColor: cPrimaryColor,
+                                        handleColor: cPrimaryColor,
+                                      ),
+                                    ),
+                                    kW8sizedBox,
+                                    RemainingDuration(),
+                                    SizedBox(width: 14.0),
+                                    FullScreenButton(color: cPrimaryColor),
+                                  ],
+                                ),
               // //!flick video player
               if (homeController.movieServerList.isNotEmpty &&
                   homeController
@@ -168,87 +115,97 @@ class VideoPlayerScreen extends StatelessWidget {
                           .toString()
                           .toLowerCase() !=
                       "gdrive")
-                Container(
-                  height: 250,
-                  width: double.infinity,
-                  color: Colors.black,
-                  child: Obx(() {
-                    if (homeController.movieServerList.isNotEmpty &&
-                        homeController
-                                .movieServerList[
-                                    homeController.selectedServer.value]
-                                ?.fileSource !=
-                            "youtube" &&
-                        homeController
-                                .movieServerList[
-                                    homeController.selectedServer.value]
-                                ?.fileSource
-                                .toString()
-                                .toLowerCase() !=
-                            "gdrive") {
-                      String videoUrl = homeController
-                              .movieServerList[
-                                  homeController.selectedServer.value]
-                              ?.fileUrl ??
-                          "";
+                                   AspectRatio(
+                      aspectRatio: 16 / 9,
+                      child: FlickVideoPlayer(
+                        flickManager: allVideoPlayerController.flickManager,
+                      ),
+                    ),
+                      //!current change
+                // Container(
+                //   height: 250,
+                //   width: double.infinity,
+                //   color: Colors.black,
+                //   child: Obx(() {
+                //     if (homeController.movieServerList.isNotEmpty &&
+                //         homeController
+                //                 .movieServerList[
+                //                     homeController.selectedServer.value]
+                //                 ?.fileSource !=
+                //             "youtube" &&
+                //         homeController
+                //                 .movieServerList[
+                //                     homeController.selectedServer.value]
+                //                 ?.fileSource
+                //                 .toString()
+                //                 .toLowerCase() !=
+                //             "gdrive") {
+                //       String videoUrl = homeController
+                //               .movieServerList[
+                //                   homeController.selectedServer.value]
+                //               ?.fileUrl ??
+                //           "";
 
-                      if (videoUrl.isEmpty) {
-                        return Center(
-                          child: Text('No video URL available',
-                              style: TextStyle(color: Colors.white)),
-                        );
-                      }
+                //       if (videoUrl.isEmpty) {
+                //         return Center(
+                //           child: Text('No video URL available',
+                //               style: TextStyle(color: Colors.white)),
+                //         );
+                //       }
+                //       if (!allVideoPlayerController.isInitialized.value) {
+                //         allVideoPlayerController
+                //             .initBetterPlayerVideo(videoUrl);
+                //         return Center(
+                //           child: CircularProgressIndicator(color: Colors.white),
+                //         );
+                //       }
 
-                      // Initialize video if not already initialized
-                      if (!allVideoPlayerController.isInitialized.value) {
-                        allVideoPlayerController
-                            .initBetterPlayerVideo(videoUrl);
-                        return Center(
-                          child: CircularProgressIndicator(color: Colors.white),
-                        );
-                      }
+                //       // Show error if any
+                //       if (allVideoPlayerController.hasError.value) {
+                //         return Center(
+                //           child: Column(
+                //             mainAxisAlignment: MainAxisAlignment.center,
+                //             children: [
+                //               Icon(Icons.error, color: Colors.red, size: 48),
+                //               SizedBox(height: 8),
+                //               Text('Error loading video',
+                //                   style: TextStyle(color: Colors.white)),
+                //               SizedBox(height: 8),
+                //               ElevatedButton(
+                //                 onPressed: () => allVideoPlayerController
+                //                     .initBetterPlayerVideo(videoUrl),
+                //                 child: Text('Retry'),
+                //               ),
+                //             ],
+                //           ),
+                //         );
+                //       }
 
-                      // Show error if any
-                      if (allVideoPlayerController.hasError.value) {
-                        return Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.error, color: Colors.red, size: 48),
-                              SizedBox(height: 8),
-                              Text('Error loading video',
-                                  style: TextStyle(color: Colors.white)),
-                              SizedBox(height: 8),
-                              ElevatedButton(
-                                onPressed: () => allVideoPlayerController
-                                    .initBetterPlayerVideo(videoUrl),
-                                child: Text('Retry'),
-                              ),
-                            ],
-                          ),
-                        );
-                      }
+                //       // // Show video player
+                //       // if (allVideoPlayerController.betterPlayerController !=
+                //       //     null) {
+                //       //   return BetterPlayer(
+                //       //     controller:
+                //       //         allVideoPlayerController.betterPlayerController!,
+                //       //   );
+                //       // }
 
-                      // // Show video player
-                      // if (allVideoPlayerController.betterPlayerController !=
-                      //     null) {
-                      //   return BetterPlayer(
-                      //     controller:
-                      //         allVideoPlayerController.betterPlayerController!,
-                      //   );
-                      // }
+                //       return Center(
+                //         child: CircularProgressIndicator(color: Colors.white),
+                //       );
+                //     }
 
-                      return Center(
-                        child: CircularProgressIndicator(color: Colors.white),
-                      );
-                    }
-
-                    return Center(
-                      child: Text('Video not available',
-                          style: TextStyle(color: Colors.white)),
-                    );
-                  }),
-                ),
+                //     return Center(
+                //       child: Text('Video not available',
+                //           style: TextStyle(color: Colors.white)),
+                //     );
+                //   }),
+                // ),
+            
+            
+             
+             
+             
               //                   Container(
               //   height: 200,
               //   width: double.infinity,
@@ -781,16 +738,6 @@ class VideoPlayerScreen extends StatelessWidget {
                             style: regular14TextStyle(
                                 cWhiteColor.withOpacity(0.5)),
                           ),
-                          // if(homeController.movieDetailsData.value!.description.toString().length>200)
-                          // TextSpan(
-                          //   // text: "Read More",
-                          //   text: "\n${homeController.movieDetailsData.value!.description.toString().length}",
-                          //   style: regular14TextStyle(cWhiteColor),
-                          //   recognizer: TapGestureRecognizer()
-                          //     ..onTap = () {
-                          //       ll('Read More tapped');
-                          //     },
-                          // ),
                         ],
                       ),
                     ),
@@ -1044,60 +991,62 @@ class VideoPlayerScreen extends StatelessWidget {
                             return Obx(() => InkWell(
                                   onTap: () async {
                                     homeController.selectedServer.value = index;
-                                    if (homeController
-                                            .movieServerList[index]!.sourceType!
-                                            .toLowerCase() ==
-                                        "youtube") {
-                                      allVideoPlayerController.videoUrl.value =
-                                          homeController.movieServerList[index]!
-                                                  .fileUrl ??
-                                              "";
-                                      final videoId =
-                                          YoutubePlayer.convertUrlToId(
-                                              allVideoPlayerController
-                                                  .videoUrl.value);
-                                      allVideoPlayerController
-                                              .youtubeController =
-                                          YoutubePlayerController(
-                                        initialVideoId: videoId ?? '',
-                                        flags: const YoutubePlayerFlags(
-                                          autoPlay: false,
-                                          mute: false,
-                                        ),
-                                      );
-                                    } else if (homeController
-                                            .movieServerList[index]!.sourceType!
-                                            .toLowerCase() !=
-                                        "youtube") {
-                                      allVideoPlayerController.videoUrl.value =
-                                          homeController.movieServerList[index]!
-                                                  .fileUrl ??
-                                              "";
-                                      ll("The video url is ${allVideoPlayerController.videoUrl.value}");
-                                      allVideoPlayerController
-                                          .initBetterPlayerVideo(homeController
-                                                  .movieServerList[index]!
-                                                  .fileUrl ??
-                                              "");
-                                      Get.find<AllVideoPlayerController>()
-                                          .flickManager = FlickManager(
-                                        videoPlayerController:
-                                            VideoPlayerController.network(
-                                                homeController
-                                                        .movieServerList[index]!
-                                                        .fileUrl ??
-                                                    ""),
-                                      );
-                                      await allVideoPlayerController
-                                          .parseVideoUrl(
-                                              fileUrl: homeController
-                                                      .movieServerList[index]!
-                                                      .fileUrl ??
-                                                  "",
-                                              fileSource: homeController
-                                                      .movieServerList[index]!
-                                                      .fileSource ??
-                                                  "");
+                                    // if (homeController
+                                    //         .movieServerList[index]!.sourceType!
+                                    //         .toLowerCase() ==
+                                    //     "youtube") {
+                                    //   allVideoPlayerController.videoUrl.value =
+                                    //       homeController.movieServerList[index]!
+                                    //               .fileUrl ??
+                                    //           "";
+                                    //   final videoId =
+                                    //       YoutubePlayer.convertUrlToId(
+                                    //           allVideoPlayerController
+                                    //               .videoUrl.value);
+                                    //   allVideoPlayerController
+                                    //           .youtubeController =
+                                    //       YoutubePlayerController(
+                                    //     initialVideoId: videoId ?? '',
+                                    //     flags: const YoutubePlayerFlags(
+                                    //       autoPlay: false,
+                                    //       mute: false,
+                                    //     ),
+                                    //   );
+                                    // } else if (homeController
+                                    //         .movieServerList[index]!.sourceType!
+                                    //         .toLowerCase() !=
+                                    //     "youtube") {
+                                    //   allVideoPlayerController.videoUrl.value =
+                                    //       homeController.movieServerList[index]!
+                                    //               .fileUrl ??
+                                    //           "";
+                                    //   allVideoPlayerController
+                                    //       .initBetterPlayerVideo(homeController
+                                    //               .movieServerList[index]!
+                                    //               .fileUrl ??
+                                    //           "");
+                                    //   Get.find<AllVideoPlayerController>()
+                                    //       .flickManager = FlickManager(
+                                    //     videoPlayerController:
+                                    //         VideoPlayerController.network(
+                                    //             homeController
+                                    //                     .movieServerList[index]!
+                                    //                     .fileUrl ??
+                                    //                 ""),
+                                    //   );
+                                    //   await allVideoPlayerController
+                                    //       .parseVideoUrl(
+                                    //           fileUrl: homeController
+                                    //                   .movieServerList[index]!
+                                    //                   .fileUrl ??
+                                    //               "",
+                                    //           fileSource: homeController
+                                    //                   .movieServerList[index]!
+                                    //                   .fileSource ??
+                                    //               "");
+                                    // }
+                                     if(homeController.movieServerList.isNotEmpty){
+                                    allVideoPlayerController.videoPlayerFunction(isFree: homeController.movieDetailsData.value?.isPaid==0 ? true : false,isRental: isRentableVideo,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[homeController.selectedServer.value]?.fileUrl, fileSource: homeController.movieServerList[homeController.selectedServer.value]?.fileSource);
                                     }
                                   },
                                   child: Container(

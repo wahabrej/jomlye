@@ -51,7 +51,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                     //!youtube player
                     YoutubePlayerBuilder(
                       player: YoutubePlayer(
-                        controller: allVideoPlayerController.youtubeController,
+                        controller: allVideoPlayerController.youtubeController!,
                         showVideoProgressIndicator: true,
                         progressIndicatorColor: Colors.red,
                       ),
