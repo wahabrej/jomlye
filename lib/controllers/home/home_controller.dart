@@ -1393,11 +1393,14 @@ class HomeController extends GetxController {
   }
 
   //Tv channel details
+  final Rx<String?> liveTvUrl = Rx<String?>(null);
+  final RxInt liveTvSelectedServer = RxInt(0);
   final RxBool isTvChannelDetailsLoading = RxBool(false);
   final Rx<TvChannelDetailsModel?> tvChannelDetailsModel =
       Rx<TvChannelDetailsModel?>(null);
   final Rx<LiveTvDetails?> liveTvDetailsData = Rx<LiveTvDetails?>(null);
-  final RxList<dynamic> relatedLiveTvChannelsList = RxList<dynamic>([]);
+  final RxList<LiveTvDetails> relatedLiveTvChannelsList = RxList<LiveTvDetails>([]);
+  final RxList<Stream> streamList = RxList<Stream>([]);
   Future<void> getTvChannelDetails({int? tvChannelId}) async {
     try {
       isTvChannelDetailsLoading.value = true;
@@ -1413,11 +1416,14 @@ class HomeController extends GetxController {
 
       if (response.code == 200) {
         relatedLiveTvChannelsList.clear();
+        streamList.clear();
         tvChannelDetailsModel.value =
             TvChannelDetailsModel.fromJson(response.data);
         liveTvDetailsData.value = tvChannelDetailsModel.value?.liveTvDetails;
         relatedLiveTvChannelsList
             .addAll(tvChannelDetailsModel.value!.relatedLiveTvs!);
+        streamList
+            .addAll(tvChannelDetailsModel.value!.stream!);
         isTvChannelDetailsLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
@@ -1639,9 +1645,9 @@ class HomeController extends GetxController {
       if (response.code == 200) {
         addCommentTextEditingController.clear();
         rating.value=0;
-        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+        // showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
       } else {
-        showSnackBar(title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);
+        // showSnackBar(title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);
       }
     } catch (e) {
       ll('watchHistoryStore error: $e');

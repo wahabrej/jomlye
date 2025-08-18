@@ -67,6 +67,7 @@ flutter:
     - assets/images/
     - assets/svgs/
     - assets/svgs/profile/
+    - assets/svgs/splash/
 
   # example:
   # fonts:

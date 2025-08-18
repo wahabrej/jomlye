@@ -99,12 +99,15 @@ class FavoriteScreen extends StatelessWidget {
                                     await Get.find<HomeController>().getTvChannelDetails(
                                         tvChannelId: profileController
                                             .favoriteLiveTvList[index].id);
-                                    // Get.toNamed(krLiveTvPlayerScreen);
-                                    Get.to(() => LiveTvPlayerScreen(
-                                          // liveTvUrl: profileController
-                                          //     .favoriteLiveTvList[index]
-                                          //     .,
-                                        ));
+                                    // Get.find<HomeController>().liveTvUrl.value = profileController
+                                    //         .favoriteLiveTvList[index].
+                                    Get.find<HomeController>().liveTvUrl.value = null;
+                                    Get.toNamed(krLiveTvPlayerScreen);
+                                    // Get.to(() => LiveTvPlayerScreen(
+                                    //       // liveTvUrl: profileController
+                                    //       //     .favoriteLiveTvList[index]
+                                    //       //     .,
+                                    //     ));
                                   },
                             child: FeaturedTvChannelsContentContainer(
                               image: profileController.favoriteLiveTvList[index].thumbnail??"",

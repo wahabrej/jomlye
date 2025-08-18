@@ -736,11 +736,15 @@ class HomeScreen extends StatelessWidget {
                                         tvChannelId: homeController
                                             .featuredTvChannelsList[index].id);
                                     // Get.toNamed(krLiveTvPlayerScreen);
-                                    Get.to(() => LiveTvPlayerScreen(
-                                          liveTvUrl: homeController
+                                    // Get.to(() => LiveTvPlayerScreen(
+                                    //       liveTvUrl: homeController
+                                    //           .featuredTvChannelsList[index]
+                                    //           .streamUrl,
+                                    //     ));
+                                        homeController.liveTvUrl.value = homeController
                                               .featuredTvChannelsList[index]
-                                              .streamUrl,
-                                        ));
+                                              .streamUrl??"";
+                                    Get.toNamed(krLiveTvPlayerScreen);
                                   },
                                   child: FeaturedTvChannelsContentContainer(
                                     image: homeController

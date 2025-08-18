@@ -263,7 +263,12 @@ class TvShowPlayerScreen extends StatelessWidget {
                         CommonContainer(
                           image: kiShare,
                           onPressed: () {
-                            Share.share('Share data from vidflix app! 🚀');
+                              Share.share(homeController
+                                    .tvShowEpisodeList.isNotEmpty ? homeController
+                                    .tvShowEpisodeList[
+                                        homeController.selectedServer.value]
+                                    ?.fileUrl ??
+                                "":"Share from vidflix");
                           },
                         ),
                       ],

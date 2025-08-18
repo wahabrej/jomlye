@@ -11,11 +11,11 @@ import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 
 class LiveTvPlayerScreen extends StatelessWidget {
-  LiveTvPlayerScreen({super.key, this.liveTvUrl});
+  LiveTvPlayerScreen({super.key,});
   final AllVideoPlayerController allVideoPLayerController =
       Get.find<AllVideoPlayerController>();
   final HomeController homeController = Get.find<HomeController>();
-  final String? liveTvUrl;
+  // final String? liveTvUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +33,10 @@ class LiveTvPlayerScreen extends StatelessWidget {
                           SizedBox(
                             width: width,
                             child: YoYoPlayer(
-                            // aspectRatio: 16 / 9,
+                            aspectRatio: 16 / 9,
                             // url: homeController.liveTvDetailsData.value?.streamUrl??"",
                             // url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
-                            url: liveTvUrl??"",
+                            url: homeController.liveTvUrl.value??homeController.liveTvDetailsData.value?.streamUrl??"",
                             videoStyle: const VideoStyle(),
                             videoLoadingStyle: const VideoLoadingStyle(),
                                 ),
@@ -85,7 +85,7 @@ class LiveTvPlayerScreen extends StatelessWidget {
                   style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),
                 ),
                 kH12sizedBox,
-                    Text(
+               Text(
                       homeController.liveTvDetailsData.value?.tvName ?? "",
                       style: medium20TextStyle(cWhiteColor),
                     ),
@@ -173,11 +173,57 @@ class LiveTvPlayerScreen extends StatelessWidget {
                           CommonContainer(
                             image: kiShare,
                             onPressed: () {
-                              Share.share('Share data from vidflix app! 🚀');
+                             Share.share(homeController.liveTvDetailsData.value?.streamUrl??"");
                             },
                           ),
                         ],
                       ),
+                       if (homeController.streamList.isNotEmpty) kH16sizedBox,
+                        if (homeController.streamList.isNotEmpty)
+                      SizedBox(
+                        width: width - 60 / 3,
+                        height: 40.h,
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          padding: EdgeInsets.zero,
+                          scrollDirection: Axis.horizontal,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          separatorBuilder: (context, index) => kW10sizedBox,
+                          itemCount: homeController.streamList.length,
+                          itemBuilder: (context, index) {
+                            return Obx(() => InkWell(
+                              onTap: (){
+                               homeController.liveTvSelectedServer.value = index;
+                               homeController.liveTvUrl.value = homeController
+                                              .streamList[index].streamUrl??"";
+                              },
+                                  child: Container(
+                                    width: (width - 50) / 3,
+                                    height: 40.h,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(k6BorderRadius),
+                                      color:
+                                          homeController.liveTvSelectedServer.value ==
+                                                  index
+                                              ? cPrimaryColor
+                                              : cWhiteColor.withOpacity(0.2),
+                                    ),
+                                    child: Center(
+                                        child: Text(
+                                      homeController
+                                              .streamList[index].streamLabel ??
+                                          "",
+                                      textAlign: TextAlign.center,
+                                      style: medium14TextStyle(cWhiteColor),
+                                    )),
+                                  ),
+                                ));
+                         
+                          },
+                        ),
+                      ),
+                    kH16sizedBox,
                       kH16sizedBox,
                       Text(ksChannelDetails.tr,style: medium16TextStyle(cWhiteColor),),
                       kH12sizedBox,
@@ -516,40 +562,53 @@ class LiveTvPlayerScreen extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return Obx(() => InkWell(
                                   onTap: () async {
-                                    await homeController.getMovieDetails(
-                                        movieId: homeController
-                                            .relatedLiveTvChannelsList[index].id!
-                                            .toString());
-                                    if (homeController
-                                        .movieServerList.isNotEmpty) {
-                                      String videoUrl = homeController
-                                              .movieServerList[0]?.fileUrl ??
-                                          "";
-                                      // Get.find<AllVideoPlayerController>()
-                                      //     .flickManager = FlickManager(
-                                      //   videoPlayerController:
-                                      //       VideoPlayerController.network(
-                                      //           videoUrl),
-                                      // );
-                                    } else {
-                                      // String videoUrl = "";
-                                      // Get.find<AllVideoPlayerController>()
-                                      //     .flickManager = FlickManager(
-                                      //   videoPlayerController:
-                                      //       VideoPlayerController.network(
-                                      //           videoUrl),
-                                      // );
-                                    }
+                                    // await homeController.getMovieDetails(
+                                    //     movieId: homeController
+                                    //         .relatedLiveTvChannelsList[index].id!
+                                    //         .toString());
+                                    // if (homeController
+                                    //     .movieServerList.isNotEmpty) {
+                                    //   String videoUrl = homeController
+                                    //           .movieServerList[0]?.fileUrl ??
+                                    //       "";
+                                    //   // Get.find<AllVideoPlayerController>()
+                                    //   //     .flickManager = FlickManager(
+                                    //   //   videoPlayerController:
+                                    //   //       VideoPlayerController.network(
+                                    //   //           videoUrl),
+                                    //   // );
+                                    // } else {
+                                    //   // String videoUrl = "";
+                                    //   // Get.find<AllVideoPlayerController>()
+                                    //   //     .flickManager = FlickManager(
+                                    //   //   videoPlayerController:
+                                    //   //       VideoPlayerController.network(
+                                    //   //           videoUrl),
+                                    //   // );
+                                    // }
+                                
+                        homeController.resetBottomSheetData();
+                        Get.find<ProfileController>().temporaryPlayListCheckBoxStateList
+                            .clear();
+                        homeController.isViewAllSearchEnable.value = false;
+                        homeController.viewAllTextEditingController.clear();
+                        homeController.liveTvUrl.value = homeController
+                                              .relatedLiveTvChannelsList[index]
+                                              .streamUrl??"";
+                                await homeController.getTvChannelDetails(
+                                        tvChannelId: homeController
+                                            .relatedLiveTvChannelsList[index].id);
                                   },
                                   child: MovieContentContainer(
                                     movieImage: homeController
                                         .relatedLiveTvChannelsList[index].thumbnail,
-                                    isPremium: homeController
-                                                .relatedLiveTvChannelsList[index]
-                                                .isPaid ==
-                                            1
-                                        ? true
-                                        : false,
+                                    // isPremium: homeController
+                                    //             .relatedLiveTvChannelsList[index]
+                                    //             . ==
+                                    //         1
+                                    //     ? true
+                                    //     : false,
+                                    isPremium: false,
                                   ),
                                 ));
                           },
