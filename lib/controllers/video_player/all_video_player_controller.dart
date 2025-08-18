@@ -462,7 +462,7 @@ class AllVideoPlayerController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // _initializeYouTubeController(videoUrl: "");
+    _initializeYouTubeController(videoUrl: "https://www.youtube.com/watch?v=u6Xsayqxij0");
   }
 
   Future<void> _initializeYouTubeController({required String? videoUrl}) async{

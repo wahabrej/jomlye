@@ -73,6 +73,14 @@ class VideoPlayerScreen extends StatelessWidget {
                     },
                   ),
                 ),
+              // if((homeController.movieDetailsData.value?.isPaid==1 && Get.find<GlobalController>().subscribedUserCheck.value) || homeController.movieDetailsData.value?.isPaid==0 &&(homeController.movieDetailsModel.value?.isRented==true &&  ))
+              SizedBox(
+                width: width,
+                height: 150.h,
+               child: Image.network(
+                  homeController.movieDetailsData.value?.thumbnail??"",
+                ),
+              ),
               if (homeController.movieServerList.isNotEmpty &&
                   homeController
                           .movieServerList[homeController.selectedServer.value]
