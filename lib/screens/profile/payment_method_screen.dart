@@ -191,11 +191,16 @@ class PaymentMethodScreen extends StatelessWidget {
                       color: cWhiteColor,
                     ),
                     kW4sizedBox,
-                    Center(
-                        child: Text(
-                      ksSelectPaymentMethod.tr,
-                      style: regular16TextStyle(cWhiteColor),
-                    )),
+                    SizedBox(
+                      width: 160.w,
+                      child: Center(
+                          child: Text(
+                                                ksSelectPaymentMethod.tr,
+                                                style: regular16TextStyle(cWhiteColor),
+                                                overflow: TextOverflow.ellipsis,
+                                              )),
+                    ),
+                                                     
                   ],
                 ),
               ),

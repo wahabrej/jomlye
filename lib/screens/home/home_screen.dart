@@ -8,6 +8,7 @@ import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.dart';
+import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -275,7 +276,11 @@ class HomeScreen extends StatelessWidget {
                                       );
                                     }
 
-                                    Get.toNamed(krVideoPlayerScreen);
+                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController
+                                                .newReleaseMoviesList[index]
+                                                .isFree==false && homeController
+                                                .newReleaseMoviesList[index]
+                                                .isRental==true,));
                                   },
                                   child: MovieContentContainer(
                                     movieImage: homeController

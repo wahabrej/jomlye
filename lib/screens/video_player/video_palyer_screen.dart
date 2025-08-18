@@ -15,9 +15,9 @@ import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_co
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerScreen extends StatelessWidget {
-  VideoPlayerScreen({super.key, this.isRentedVideo = false});
+  VideoPlayerScreen({super.key, this.isRentableVideo = false});
 
-  final bool? isRentedVideo;
+  final bool? isRentableVideo;
   final AllVideoPlayerController allVideoPlayerController =
       Get.find<AllVideoPlayerController>();
   final HomeController homeController = Get.find<HomeController>();
@@ -603,7 +603,7 @@ class VideoPlayerScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          if (isRentedVideo == true)
+                          if (homeController.movieDetailsModel.value?.isRented == true)
                             Container(
                               width: 120.w,
                               height: 24.h,
@@ -648,7 +648,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
-                          if (isRentedVideo == true) Spacer(),
+                          if (homeController.movieDetailsModel.value?.isRented == true) Spacer(),
                           Row(
                             children: [
                               const Icon(
@@ -1136,12 +1136,13 @@ class VideoPlayerScreen extends StatelessWidget {
                     // kH16sizedBox,
                     // SubscriptionSelector(),
                     //! For rental video this widget(RentProductDetailsContentContainer)
-                    // kH16sizedBox,
-                    // RentProductDetailsContentContainer(
-                    //   rentPrice: homeController.rentalVideoData.value?.price??"",
-                    //   rentValidity: homeController.rentalVideoData.value?.validity??"",
-                    //   rentExpireDate: homeController.rentalVideoData.value?.expireData.toString()??"",
-                    // ),
+                   if(isRentableVideo==true) kH16sizedBox,
+                   if(isRentableVideo==true)
+                    RentProductDetailsContentContainer(
+                      rentPrice: homeController.rentalVideoData.value?.price??"",
+                      rentValidity: homeController.rentalVideoData.value?.validity??"",
+                      rentExpireDate: homeController.rentalVideoData.value?.expireData.toString()??"",
+                    ),
                     kH12sizedBox,
                     Container(
                       width: width - 40,

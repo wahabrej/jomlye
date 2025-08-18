@@ -122,7 +122,7 @@ class ApiServices {
         return cm;
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
-        showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+        // showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
         return null;
       } else {
         if (!Get.isSnackbarOpen) {
