@@ -388,13 +388,15 @@ class AuthController extends GetxController {
     bool isRememberMe = await spController.getRememberMe()??false;
     await spController.saveRememberMe(isRememberMe);
     await googleSignOut();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.clear();
     if (isRememberMe == false) {
       emailTextEditingController.text = "";
       passwordTextEditingController.text = "";
-      SharedPreferences preferences = await SharedPreferences.getInstance();
+      // SharedPreferences preferences = await SharedPreferences.getInstance();
       // canLogin.value = false;
       // Get.find<AuthenticationController>().isStayLoggedInChecked.value = false;
-      await preferences.clear();
+      // await preferences.clear();
     } else {
       emailTextEditingController.text = await spController.getUserEmail() ?? "";
       passwordTextEditingController.text =

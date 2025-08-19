@@ -825,8 +825,6 @@ class AllVideoPlayerController extends GetxController {
       required bool? isSubscribed,
       required String? fileUrl,
       required String? fileSource}) async{
-        ll("The file source is $fileSource");
-        ll("The file url is $fileUrl");
     if ((isFree == false && isRental == true && isRented == true) ||
         (isFree == false &&
             isRented == false &&

@@ -18,13 +18,13 @@ class SplashScreenController extends GetxController {
     await getRemember();
     startSplashScreen();
     await Get.find<HomeController>().getHomePage();
-    await Get.find<HomeController>().getWatchHistory();
     await Get.find<HomeController>().getLocalAds();
     await globalController.getConfig();
-    await Get.find<PaymentController>().getSubscriptionCheck();
     String? token = await spController.getBearerToken();
     if(token!=null){
+    await Get.find<PaymentController>().getSubscriptionCheck();
     await Get.find<ProfileController>().getPlaylistList();
+    await Get.find<HomeController>().getWatchHistory();
     }
     super.onInit();
   }

@@ -187,7 +187,8 @@ class MovieDetails {
     final String? videoType;
     final String? runtime;
     final String? videoQuality;
-    final int? isPaid;
+    final int? isFree;
+    final int? isRental;
     final int? isOriginal;
     final int? isTrending;
     final int? isFeatured;
@@ -235,7 +236,8 @@ class MovieDetails {
         this.videoType,
         this.runtime,
         this.videoQuality,
-        this.isPaid,
+        this.isFree,
+        this.isRental,
         this.isOriginal,
         this.isTrending,
         this.isFeatured,
@@ -283,7 +285,8 @@ class MovieDetails {
         videoType: json["video_type"],
         runtime: json["runtime"],
         videoQuality: json["video_quality"],
-        isPaid: json["is_paid"],
+        isFree: json["is_free"],
+        isRental: json["is_rental"],
         isOriginal: json["is_original"],
         isTrending: json["is_trending"],
         isFeatured: json["is_featured"],

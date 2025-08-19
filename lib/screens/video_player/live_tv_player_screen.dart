@@ -97,15 +97,15 @@ class LiveTvPlayerScreen extends StatelessWidget {
                     kH16sizedBox,
                      Row(
                         children: [
-                          CommonContainer(
-                            image: kiCrown,
-                            onPressed: null,
-                            containerColor:
-                                homeController.movieDetailsData.value?.isPaid == 1
-                                    ? cPrimaryColor
-                                    : cWhiteColor.withOpacity(0.2),
-                          ),
-                          kW10sizedBox,
+                          // CommonContainer(
+                          //   image: kiCrown,
+                          //   onPressed: null,
+                          //   containerColor:
+                          //       homeController.liveTvDetailsData.value?.isFree == 1
+                          //           ? cPrimaryColor
+                          //           : cWhiteColor.withOpacity(0.2),
+                          // ),
+                          // kW10sizedBox,
                           CommonContainer(
                             image: kiFavorite,
                             containerColor:

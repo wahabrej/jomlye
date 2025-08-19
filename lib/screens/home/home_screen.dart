@@ -1102,9 +1102,12 @@ class LatestBlogPostContent extends StatelessWidget {
                             color: cWhiteColor,
                           ),
                           kW4sizedBox,
-                          Text(
-                            reporter,
-                            style: regular8TextStyle(cWhiteColor),
+                          Expanded(
+                            child: Text(
+                              reporter,
+                              style: regular8TextStyle(cWhiteColor),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
