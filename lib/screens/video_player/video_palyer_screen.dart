@@ -99,7 +99,7 @@ class VideoPlayerScreen extends StatelessWidget {
                         isRentableVideo == true))
                   SizedBox(
                     width: width,
-                    height: 300.h,
+                    height: 200.h,
                     child: Image.network(
                       homeController.movieDetailsData.value?.thumbnail ?? "",
                       fit: BoxFit.fill,
@@ -172,6 +172,9 @@ class VideoPlayerScreen extends StatelessWidget {
                           left: 12,
                           child: GestureDetector(
                             onTap: () {
+                                try {
+                                allVideoPlayerController.youtubeController.dispose();
+                              } catch (_) {}
                               try {
                                 allVideoPlayerController.flickManager.dispose();
                               } catch (_) {}
@@ -1402,6 +1405,18 @@ class VideoPlayerScreen extends StatelessWidget {
                                                             index]
                                                         .isRental ==
                                                     0)
+                                            ? true
+                                            : false,
+                                            isRentable: (homeController
+                                                        .recommendedMovieList[
+                                                            index]
+                                                        .isFree ==
+                                                    0 &&
+                                                homeController
+                                                        .recommendedMovieList[
+                                                            index]
+                                                        .isRental ==
+                                                    1)
                                             ? true
                                             : false,
                                       ),

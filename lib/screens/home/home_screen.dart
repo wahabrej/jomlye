@@ -8,6 +8,7 @@ import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.dart';
+import 'package:vidflix_flutter_app/screens/video_player/tv_show_player_screen.dart';
 import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
@@ -506,18 +507,29 @@ class HomeScreen extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 return InkWell(
                                   onTap: () async {
+                                    // await homeController.getTvShowDetails(showId: homeController
+                                    //     .tvShowEpisodeList[index]?.id??-1);
+                                    homeController.selectedEpisode.value = 0;
                                     await homeController.getTvShowDetails(showId: homeController
-                                        .tvShowEpisodeList[index]?.id??-1);
+                                        .popularTvShowsList[index].id??-1);
+                                         if(homeController.tvShowEpisodeList.isNotEmpty){
                                     allVideoPlayerController.videoPlayerFunction(isFree: homeController
                                                 .popularTvShowsList[index]
                                                 .isFree==0 ? true : false, isRental: homeController
                                                 .popularTvShowsList[index]
-                                                .isRental==0 ? false : true, isRented: homeController
-                                                .popularTvShowsList[index].isRental==0 ? false : true,
+                                                .isRental==0 ? false : true, 
+                                                // isRented: homeController
+                                                // .tvShowEpisodeList[0].isRental==0 ? false : true,
+                                                  isRented:  true,
                                                  isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController
-                                                .tvShowEpisodeList[index]?.fileUrl??"", fileSource: homeController
-                                                .tvShowEpisodeList[index]?.fileSource??"");
-                                    Get.toNamed(krTvShowPlayerScreen);
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl??"", fileSource: homeController
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileSource??"");
+                                         }
+                                    Get.to(()=> TvShowPlayerScreen(isRentableVideo: homeController
+                                                .popularTvShowsList[index]
+                                                .isFree==0 && homeController
+                                                .popularTvShowsList[index]
+                                                .isRental==1 ? true : false,));
                                   },
                                   child: MovieContentContainer(
                                     movieImage: homeController

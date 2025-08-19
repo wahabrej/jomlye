@@ -1,5 +1,6 @@
 // import 'package:flick_video_player/flick_video_player.dart';
 // import 'package:video_player/video_player.dart';
+import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
@@ -14,10 +15,11 @@ import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_co
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TvShowPlayerScreen extends StatelessWidget {
-  TvShowPlayerScreen({super.key});
+  TvShowPlayerScreen({super.key,this.isRentableVideo});
   final AllVideoPlayerController allVideoPlayerController =
       Get.find<AllVideoPlayerController>();
   final HomeController homeController = Get.find<HomeController>();
+    final bool? isRentableVideo;
 
   @override
   Widget build(BuildContext context) {
@@ -29,28 +31,115 @@ class TvShowPlayerScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //!youtube player
-              YoutubePlayerBuilder(
-                player: YoutubePlayer(
-                  controller: allVideoPlayerController.youtubeController,
-                  showVideoProgressIndicator: true,
-                  progressIndicatorColor: Colors.red,
-                ),
-                builder: (context, player) {
-                  return Column(
-                    children: [
-                      player,
-                      const SizedBox(),
-                    ],
-                  );
-                },
-              ),
-              //!Flick player
-              // AspectRatio(
-              //   aspectRatio: 16 / 9,
-              //   child: FlickVideoPlayer(
-              //     flickManager: allVideoPlayerController.flickManager,
+              // YoutubePlayerBuilder(
+              //   player: YoutubePlayer(
+              //     controller: allVideoPlayerController.youtubeController,
+              //     showVideoProgressIndicator: true,
+              //     progressIndicatorColor: Colors.red,
               //   ),
+              //   builder: (context, player) {
+              //     return Column(
+              //       children: [
+              //         player,
+              //         const SizedBox(),
+              //       ],
+              //     );
+              //   },
               // ),
+               if (homeController.tvShowEpisodeList.isEmpty)
+                  SizedBox(
+                    width: width,
+                    height: 200,
+                    child: Image.network(
+                      homeController.tvShowDetailsData.value?.thumbnail ?? "",
+                      fit: BoxFit.fill,
+                      errorBuilder: (context, error, stackTrace) {
+                        return SvgPicture.asset(
+                          kiDummyMovie,
+                          width: width - 40,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
+                  ),
+                if ((homeController.tvShowDetailsData.value?.isFree == 0 &&
+                        Get.find<GlobalController>()
+                                .subscribedUserCheck
+                                .value ==
+                            false) ||
+                    (homeController.tvShowDetailsModel.value?.isRented ==
+                            false &&
+                        isRentableVideo == true))
+                  SizedBox(
+                    width: width,
+                    height: 200.h,
+                    child: Image.network(
+                      homeController.tvShowDetailsData.value?.thumbnail ?? "",
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+              // //!flick video player
+                // if (homeController.tvShowEpisodeList.isNotEmpty && (
+                //         homeController
+                //                 .tvShowEpisodeList[
+                //                     homeController.selectedEpisode.value]
+                //                 ?.fileSource !=
+                //             "youtube" &&
+                //         homeController
+                //                 .tvShowEpisodeList[
+                //                     homeController.selectedEpisode.value]
+                //                 ?.fileSource
+                //                 .toString()
+                //                 .toLowerCase() !=
+                //             "gdrive" &&
+                //         (homeController.tvShowDetailsModel.value?.isRented ==
+                //                 true &&
+                //             isRentableVideo == true)) ||
+                //     homeController.tvShowDetailsData.value?.isFree == 1)
+                //   //  AspectRatio(
+                //   //   aspectRatio: 16 / 9,
+                //   //   child: FlickVideoPlayer(
+                //   //     flickManager: allVideoPlayerController.flickManager,
+                //   //   ),
+                //   // ),
+                //   AspectRatio(
+                //     aspectRatio: 16 / 9,
+                //     child: Stack(
+                //       children: [
+                //         FlickVideoPlayer(
+                //           flickManager: allVideoPlayerController.flickManager,
+                //         ),
+                //         Positioned(
+                //           top: 12,
+                //           left: 12,
+                //           child: GestureDetector(
+                //             onTap: () {
+                //                 try {
+                //                 allVideoPlayerController.youtubeController.dispose();
+                //               } catch (_) {}
+                //               try {
+                //                 allVideoPlayerController.flickManager.dispose();
+                //               } catch (_) {}
+                //               Get.back();
+                //             },
+                //             child: Container(
+                //               decoration: BoxDecoration(
+                //                 color: Colors.black.withOpacity(0.5),
+                //                 shape: BoxShape.circle,
+                //               ),
+                //               padding: const EdgeInsets.all(6),
+                //               child: const Icon(
+                //                 Icons.arrow_back_ios,
+                //                 color: Colors.white,
+                //                 size: kIconSize20,
+                //               ),
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
               kH20sizedBox,
               Padding(
                 padding: const EdgeInsets.only(left: k20Padding),
@@ -221,7 +310,7 @@ class TvShowPlayerScreen extends StatelessWidget {
                           image: kiCrown,
                           onPressed: null,
                           containerColor:
-                              homeController.tvShowDetailsData.value?.isPaid == 1
+                              (homeController.tvShowDetailsData.value?.isFree == 0 && homeController.tvShowDetailsData.value?.isRental==0)
                                   ? cPrimaryColor
                                   : cWhiteColor.withOpacity(0.2),
                         ),
@@ -868,11 +957,22 @@ class TvShowPlayerScreen extends StatelessWidget {
                                   child: MovieContentContainer(
                                     movieImage: homeController
                                         .relatedTvShowsList[index]?.thumbnail,
-                                    // seasonName: ,
                                     isPremium: homeController
                                                 .relatedTvShowsList[index]
-                                                ?.isPaid ==
-                                            1
+                                                ?.isFree ==
+                                            0 && homeController
+                                                .relatedTvShowsList[index]
+                                                ?.isRental ==
+                                            0 
+                                        ? true
+                                        : false,
+                                        isRentable: homeController
+                                                .relatedTvShowsList[index]
+                                                ?.isFree ==
+                                            0 && homeController
+                                                .relatedTvShowsList[index]
+                                                ?.isRental ==
+                                            1 
                                         ? true
                                         : false,
                                   ),

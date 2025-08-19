@@ -7,6 +7,8 @@ class TvShowDetailsModel {
     final List<Cast>? writer;
     final List<TvShows>? relatedTvShows;
     final List<String>? videoTags;
+    final Rental? rental;
+    final bool? isRented;
     TvShowDetailsModel({
         this.shows,
         this.cast,
@@ -14,6 +16,8 @@ class TvShowDetailsModel {
         this.writer,
         this.relatedTvShows,
         this.videoTags,
+        this.rental,
+        this.isRented,
     });
     factory TvShowDetailsModel.fromJson(Map<String, dynamic> json) => TvShowDetailsModel(
         shows: json["shows"] == null ? null : TvShows.fromJson(json["shows"]),
@@ -22,11 +26,13 @@ class TvShowDetailsModel {
         writer: json["writer"] == null ? [] : List<Cast>.from(json["writer"]!.map((x) => Cast.fromJson(x))),
         relatedTvShows: json["related_tv_shows"] == null ? [] : List<TvShows>.from(json["related_tv_shows"]!.map((x) => TvShows.fromJson(x))),
         videoTags: json["video_tags"] == null ? [] : List<String>.from(json["video_tags"]!.map((x) => x)),
+        rental: json["rental"] == null ? null : Rental.fromJson(json["rental"]),
+        isRented: json["is_rented"],
     );
 }
 
 class TvShows {
-    final int? id;
+final int? id;
     final String? title;
     final String? thumbnail;
     final String? poster;
@@ -36,37 +42,46 @@ class TvShows {
     final String? stars;
     final String? director;
     final String? writer;
-    final dynamic rating;
+    final String? rating;
     final DateTime? release;
     final String? country;
     final String? genre;
     final String? language;
-    final dynamic videoType;
-    final dynamic runtime;
+    final String? videoType;
+    final String? runtime;
     final String? videoQuality;
-    final int? isPaid;
     final int? isOriginal;
+    final int? isFeatured;
     final int? isBlockbuster;
+    final int? isRecommended;
     final int? isRealLifeStory;
     final int? status;
     final int? trailer;
-    final dynamic traillerYoutubeSource;
+    final String? traillerYoutubeSource;
     final int? enableDownload;
     final String? focusKeyword;
     final String? metaDescription;
     final String? tags;
     final String? imdbRating;
     final int? isTvseries;
+    final int? isPopular;
     final int? totalRating;
+    final int? isFree;
+    final int? isRental;
+    final int? rentalPrice;
+    final int? rentalDuration;
+    final String? rentalType;
     final int? todayView;
     final int? weeklyView;
     final int? monthlyView;
     final int? totalView;
+    final DateTime? lastViewReset;
     final DateTime? lastEpAdded;
     final String? imdbid;
     final int? tmdbId;
     final DateTime? createdAt;
     final DateTime? updatedAt;
+    final bool? isFavorite;
     final List<Season>? seasons;
 
     TvShows({
@@ -88,9 +103,10 @@ class TvShows {
         this.videoType,
         this.runtime,
         this.videoQuality,
-        this.isPaid,
         this.isOriginal,
+        this.isFeatured,
         this.isBlockbuster,
+        this.isRecommended,
         this.isRealLifeStory,
         this.status,
         this.trailer,
@@ -101,16 +117,24 @@ class TvShows {
         this.tags,
         this.imdbRating,
         this.isTvseries,
+        this.isPopular,
         this.totalRating,
+        this.isFree,
+        this.isRental,
+        this.rentalPrice,
+        this.rentalDuration,
+        this.rentalType,
         this.todayView,
         this.weeklyView,
         this.monthlyView,
         this.totalView,
+        this.lastViewReset,
         this.lastEpAdded,
         this.imdbid,
         this.tmdbId,
         this.createdAt,
         this.updatedAt,
+        this.isFavorite,
         this.seasons,
     });
 
@@ -133,9 +157,10 @@ class TvShows {
         videoType: json["video_type"],
         runtime: json["runtime"],
         videoQuality: json["video_quality"],
-        isPaid: json["is_paid"],
         isOriginal: json["is_original"],
+        isFeatured: json["is_featured"],
         isBlockbuster: json["is_blockbuster"],
+        isRecommended: json["is_recommended"],
         isRealLifeStory: json["is_real_life_story"],
         status: json["status"],
         trailer: json["trailer"],
@@ -146,16 +171,24 @@ class TvShows {
         tags: json["tags"],
         imdbRating: json["imdb_rating"],
         isTvseries: json["is_tvseries"],
+        isPopular: json["is_popular"],
         totalRating: json["total_rating"],
+        isFree: json["is_free"],
+        isRental: json["is_rental"],
+        rentalPrice: json["rental_price"],
+        rentalDuration: json["rental_duration"],
+        rentalType: json["rental_type"],
         todayView: json["today_view"],
         weeklyView: json["weekly_view"],
         monthlyView: json["monthly_view"],
         totalView: json["total_view"],
+        lastViewReset: json["last_view_reset"] == null ? null : DateTime.parse(json["last_view_reset"]),
         lastEpAdded: json["last_ep_added"] == null ? null : DateTime.parse(json["last_ep_added"]),
         imdbid: json["imdbid"],
         tmdbId: json["tmdb_id"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        isFavorite: json["is_favorite"],
         seasons: json["seasons"] == null ? [] : List<Season>.from(json["seasons"]!.map((x) => Season.fromJson(x))),
     );
 }

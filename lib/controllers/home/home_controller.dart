@@ -1695,6 +1695,7 @@ class HomeController extends GetxController {
 
   final RxInt selectedServer = RxInt(0);
   final RxInt selectedSeason = RxInt(0);
+  final RxInt selectedEpisode = RxInt(0);
   final RxBool isTvShowsListExpand = RxBool(true);
   //!reset rating data
   void resetRatingData(){
