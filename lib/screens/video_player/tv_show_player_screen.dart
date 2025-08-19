@@ -213,13 +213,13 @@ class TvShowPlayerScreen extends StatelessWidget {
                                 size: kIconSize20,
                               ),
                               kW6sizedBox,
-                              Text(
-                                DateFormat('d MMM, yyyy').format(DateTime.parse(
-                                    homeController
-                                        .tvShowDetailsData.value?.release
-                                        .toString()??"")),
-                                style: regular12TextStyle(cWhiteColor),
-                              ),
+                              // Text(
+                              //   DateFormat('d MMM, yyyy').format(DateTime.parse(
+                              //       homeController
+                              //           .tvShowDetailsData.value?.release
+                              //           .toString()??"")),
+                              //   style: regular12TextStyle(cWhiteColor),
+                              // ),
                             ],
                           ),
 
@@ -227,39 +227,71 @@ class TvShowPlayerScreen extends StatelessWidget {
                       ),
                     ),
                     kH16sizedBox,
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Row(
+                    //     mainAxisAlignment: MainAxisAlignment.start,
+                    //     children: homeController.tvShowDetailsModel.value!.videoTags!.isNotEmpty ? List.generate(
+                    //       homeController.tvShowDetailsModel.value!.videoTags!.length * 2 - 1,
+                    //       (index) {
+                    //         if (index.isOdd) return kW8sizedBox;
+                    //         final itemIndex = index ~/ 2;
+                    //         final movieType =  homeController.tvShowDetailsModel.value!.videoTags![itemIndex];
+                    //         return Container(
+                    //           decoration: BoxDecoration(
+                    //             border: Border.all(
+                    //               width: 1,
+                    //               color: cPrimaryColor2.withOpacity(0.5),
+                    //             ),
+                    //             borderRadius:
+                    //                 BorderRadius.circular(k4BorderRadius),
+                    //           ),
+                    //           padding: const EdgeInsets.symmetric(
+                    //             horizontal: k4Padding,
+                    //             vertical: k4Padding,
+                    //           ),
+                    //           child: Text(
+                    //             movieType,
+                    //             style: regular14TextStyle(cWhiteColor),
+                    //           ),
+                    //         );
+                    //       },
+                    //     ): [],
+                    //   ),
+                    // ),
                     SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: List.generate(
-                          allVideoPlayerController.movieTypeList.length * 2 - 1,
-                          (index) {
-                            if (index.isOdd) return kW8sizedBox;
-                            final itemIndex = index ~/ 2;
-                            final movieType = allVideoPlayerController
-                                .movieTypeList[itemIndex];
-                            return Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: cPrimaryColor2.withOpacity(0.5),
-                                ),
-                                borderRadius:
-                                    BorderRadius.circular(k4BorderRadius),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: k4Padding,
-                                vertical: k4Padding,
-                              ),
-                              child: Text(
-                                movieType,
-                                style: regular14TextStyle(cWhiteColor),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
+  scrollDirection: Axis.horizontal,
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.start,
+    children: (homeController.tvShowDetailsModel.value?.videoTags?.isNotEmpty ?? false)
+        ? List.generate(
+            homeController.tvShowDetailsModel.value!.videoTags!.length * 2 - 1,
+            (index) {
+              if (index.isOdd) return kW8sizedBox;
+              final itemIndex = index ~/ 2;
+              final movieType = homeController.tvShowDetailsModel.value!.videoTags![itemIndex];
+              return Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 1,
+                    color: cPrimaryColor2.withOpacity(0.5),
+                  ),
+                  borderRadius: BorderRadius.circular(k4BorderRadius),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: k4Padding,
+                  vertical: k4Padding,
+                ),
+                child: Text(
+                  movieType,
+                  style: regular14TextStyle(cWhiteColor),
+                ),
+              );
+            },
+          )
+        : [],
+  ),
+),
                     kH16sizedBox,
                     Text(
                       ksTitle,
@@ -355,7 +387,7 @@ class TvShowPlayerScreen extends StatelessWidget {
                               Share.share(homeController
                                     .tvShowEpisodeList.isNotEmpty ? homeController
                                     .tvShowEpisodeList[
-                                        homeController.selectedServer.value]
+                                        homeController.selectedEpisode.value]
                                     ?.fileUrl ??
                                 "":"Share from vidflix");
                           },

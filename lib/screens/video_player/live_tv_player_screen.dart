@@ -30,17 +30,14 @@ class LiveTvPlayerScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           kH30sizedBox,
-                          SizedBox(
-                            width: width,
-                            child: YoYoPlayer(
-                            aspectRatio: 16 / 9,
-                            // url: homeController.liveTvDetailsData.value?.streamUrl??"",
-                            // url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
-                            url: homeController.liveTvUrl.value??homeController.liveTvDetailsData.value?.streamUrl??"",
-                            videoStyle: const VideoStyle(),
-                            videoLoadingStyle: const VideoLoadingStyle(),
-                                ),
-                          ),
+                          YoYoPlayer(
+                          aspectRatio: 16 / 9,
+                          // url: homeController.liveTvDetailsData.value?.streamUrl??"",
+                          // url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+                          url: homeController.liveTvUrl.value??homeController.liveTvDetailsData.value?.streamUrl??"",
+                          videoStyle: const VideoStyle(),
+                          videoLoadingStyle: const VideoLoadingStyle(),
+                              ),
                           kH20sizedBox,
                           Row(
                             children: [

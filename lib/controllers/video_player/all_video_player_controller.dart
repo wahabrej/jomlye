@@ -723,8 +723,8 @@ class AllVideoPlayerController extends GetxController {
   // }
   // }
 
-  final RxList movieTypeList =
-      RxList(["HD", "Action", "Super Hit", "Block Buster"]);
+  // final RxList movieTypeList =
+  //     RxList(["HD", "Action", "Super Hit", "Block Buster"]);
 
   final MediaDownload flutterMediaDownloaderPlugin = MediaDownload();
 
@@ -818,6 +818,8 @@ class AllVideoPlayerController extends GetxController {
     flickManager.dispose();
     super.onClose();
   }
+  final RxInt totalSeconds = RxInt(0); 
+  final RxInt currentSeconds = RxInt(0); 
  //!video player function
     void videoPlayerFunction(
       {required bool? isFree,
@@ -825,7 +827,7 @@ class AllVideoPlayerController extends GetxController {
       required bool? isRented,
       required bool? isSubscribed,
       required String? fileUrl,
-      required String? fileSource}) async{
+      required String? fileSource,int? seekToPosition=0}) async{
     if ((isFree == false && isRental == true && isRented == true) ||
         (isFree == false &&
             isRented == false &&
@@ -851,14 +853,104 @@ class AllVideoPlayerController extends GetxController {
                                       //       VideoPlayerController.network(
                                       //           "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
                                       // );
+                                      // flickManager = FlickManager(
+                                      //   videoPlayerController:
+                                      //       VideoPlayerController.network(
+                                      //           fileUrl??"",
+                                      //           ),
+                                      // );
                                       flickManager = FlickManager(
-                                        videoPlayerController:
-                                            VideoPlayerController.network(
-                                                fileUrl??""),
-                                      );
+  videoPlayerController: VideoPlayerController.network(fileUrl ?? "")
+    ..initialize().then((_) {
+      final seekSeconds = seekToPosition; 
+      if (seekSeconds != null && seekSeconds > 0) {
+        flickManager.flickVideoManager!.videoPlayerController
+            !.seekTo(Duration(seconds: seekSeconds));
+      }
+      flickManager.flickVideoManager!.videoPlayerController?.addListener(() {
+        final controller = flickManager.flickVideoManager!.videoPlayerController!;
+        totalSeconds.value = controller.value.duration.inSeconds;
+        currentSeconds.value = controller.value.position.inSeconds;
+      });
+    }),
+    
+);
+
           }
     }
   }
+  //   int? seekPositionInSeconds;
+  
+  // void videoPlayerFunction({
+  //   required bool? isFree,
+  //   required bool? isRental,
+  //   required bool? isRented,
+  //   required bool? isSubscribed,
+  //   required String? fileUrl,
+  //   required String? fileSource,
+  //   int? seekPosition=10, // Add this parameter
+  // }) async {
+  //   // Store the seek position
+  //   seekPositionInSeconds = seekPosition;
+    
+  //   if ((isFree == false && isRental == true && isRented == true) ||
+  //       (isFree == false &&
+  //           isRented == false &&
+  //           Get.find<GlobalController>().subscribedUserCheck.value == true) ||
+  //       isFree == true) {
+      
+  //     if (fileSource == "youtube") {
+  //       final RxString videoUrl = RxString(fileUrl ?? "");
+  //       await _initializeYouTubeController(videoUrl: videoUrl.value);
+        
+  //       youtubeController = YoutubePlayerController(
+  //         initialVideoId: videoUrl.value,
+  //         flags: const YoutubePlayerFlags(
+  //           autoPlay: true,
+  //           mute: false,
+  //         ),
+  //       );
+        
+  //       // Seek to position for YouTube after initialization
+  //       if (seekPositionInSeconds != null) {
+  //         _seekToPosition();
+  //       }
+        
+  //     } else if (fileSource != "youtube" &&
+  //         fileSource.toString().toLowerCase() != "gdrive") {
+        
+  //       flickManager = FlickManager(
+  //         videoPlayerController: VideoPlayerController.network(fileUrl ?? ""),
+  //       );
+        
+  //       // Seek to position for regular video after initialization
+  //       if (seekPositionInSeconds != null) {
+  //         _seekToPositionFlick(fileUrl??"");
+  //       }
+  //     }
+  //   }
+  // }
+  
+  // // Method to seek YouTube player
+  // void _seekToPosition() {
+  //   if (youtubeController != null && seekPositionInSeconds != null) {
+  //     youtubeController!.seekTo(Duration(seconds: seekPositionInSeconds!));
+  //   }
+  // }
+  
+  // // Method to seek Flick player
+  // void _seekToPositionFlick(String fileUrl) async {
+  //   if (flickManager.flickControlManager != null && seekPositionInSeconds != null) {
+    
+  //     // Wait for the video to be initialized
+  //     // await flickManager!.flickControlManager!.initialize();
+  //     flickManager.flickControlManager!.seekTo(Duration(seconds: seekPositionInSeconds!));
+  //        flickManager = FlickManager(
+  //         videoPlayerController: VideoPlayerController.network(fileUrl ?? ""),
+  //       );
+  //         ll("Here in seek $seekPositionInSeconds");
+  //   }
+  // }
 
 
 }

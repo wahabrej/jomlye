@@ -582,40 +582,22 @@ class HomeScreen extends StatelessWidget {
                                             ?.watchableType
                                             ?.toLowerCase() ==
                                         "movie") {
+                                        homeController.selectedServer.value=0;
+                                    homeController.resetRatingData();
                                       await homeController.getMovieDetails(
                                           movieId: homeController
                                               .watchHistoryList[index]!
                                               .watchableId!
                                               .toString());
-                                      // if (homeController.movieServerList[index]!
-                                      //         .sourceType!
-                                      //         .toLowerCase() ==
-                                      //     "youtube") {
-                                      //   if (homeController
-                                      //       .movieServerList.isNotEmpty) {
-                                      //     Get.find<AllVideoPlayerController>()
-                                      //         .videoUrl
-                                      //         .value = homeController
-                                      //             .movieServerList[0]!
-                                      //             .fileUrl ??
-                                      //         "";
-                                      //     final videoId = YoutubePlayer
-                                      //         .convertUrlToId(Get.find<
-                                      //                 AllVideoPlayerController>()
-                                      //             .videoUrl
-                                      //             .value);
-                                      //     Get.find<AllVideoPlayerController>()
-                                      //             .youtubeController =
-                                      //         YoutubePlayerController(
-                                      //       initialVideoId: videoId ?? '',
-                                      //       flags: const YoutubePlayerFlags(
-                                      //         autoPlay: false,
-                                      //         mute: false,
-                                      //       ),
-                                      //     );
-                                      //   }
-                                      // }
-                                      Get.toNamed(krVideoPlayerScreen);
+                                               profileController.isFavoriteAdded.value =
+                                        homeController.movieDetailsData.value
+                                                ?.isFavorite ??
+                                            false;
+                                           if(homeController.movieServerList.isNotEmpty){
+                                    allVideoPlayerController.videoPlayerFunction(isFree: homeController.movieDetailsData.value?.isFree==1? true : false,isRental:  homeController.movieDetailsData.value?.isRental==1 ? true : false,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[0]?.fileUrl, fileSource: homeController.movieServerList[0]?.fileSource,seekToPosition: (((double.tryParse((homeController.watchHistoryList[index]?.watchedSeconds ?? "0").replaceAll("mins", "").trim()) ?? 0.0) * 60).round()),);
+                                    }
+                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController.movieDetailsData.value?.isFree==0 && homeController
+                                                .movieDetailsData.value?.isRental==1,));   
                                     } else if (homeController
                                             .watchHistoryList[index]
                                             ?.watchableType

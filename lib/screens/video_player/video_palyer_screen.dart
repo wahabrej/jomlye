@@ -13,32 +13,53 @@ import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class VideoPlayerScreen extends StatelessWidget {
+class VideoPlayerScreen extends StatefulWidget {
   VideoPlayerScreen({super.key, this.isRentableVideo = false});
 
   final bool? isRentableVideo;
+
+  @override
+  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
+}
+
+class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   final AllVideoPlayerController allVideoPlayerController =
       Get.find<AllVideoPlayerController>();
-  final HomeController homeController = Get.find<HomeController>();
-  final ProfileController profileController = Get.find<ProfileController>();
 
+  final HomeController homeController = Get.find<HomeController>();
+
+  final ProfileController profileController = Get.find<ProfileController>();
+  @override
+  void dispose() {
+    ll("Dispose from video player screen");
+        if (Get.find<GlobalController>().userToken.value != "") {
+            homeController.watchHistoryStore(
+                watchableType: 'movie',
+                watchableId: homeController.movieDetailsData.value?.id??-1,
+                // duration: homeController.movieServerList[homeController.selectedServer.value].,
+                duration: Get.find<AllVideoPlayerController>().totalSeconds.value.toString(),
+                watchedSeconds: Get.find<AllVideoPlayerController>().currentSeconds.value.toString());
+    }
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     // Run this once after the first frame is rendered
-    if (Get.find<GlobalController>().userToken.value != "") {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        Future.delayed(const Duration(seconds: 5), () {
-          // Check if this widget is still mounted using context (safe for StatelessWidget)
-          if (ModalRoute.of(context)?.isCurrent == true) {
-            homeController.watchHistoryStore(
-                watchableType: 'movie',
-                watchableId: 1,
-                duration: '1000',
-                watchedSeconds: '900');
-          }
-        });
-      });
-    }
+    // if (Get.find<GlobalController>().userToken.value != "") {
+    //   WidgetsBinding.instance.addPostFrameCallback((_) {
+    //     Future.delayed(const Duration(seconds: 5), () {
+    //       // Check if this widget is still mounted using context (safe for StatelessWidget)
+    //       if (ModalRoute.of(context)?.isCurrent == true) {
+    //         homeController.watchHistoryStore(
+    //             watchableType: 'movie',
+    //             watchableId: homeController.movieDetailsData.value?.id??-1,
+    //             // duration: homeController.movieServerList[homeController.selectedServer.value].,
+    //             duration: "0",
+    //             watchedSeconds: '80');
+    //       }
+    //     });
+    //   });
+    // }
     return WillPopScope(
       onWillPop: () async {
         try {
@@ -96,7 +117,7 @@ class VideoPlayerScreen extends StatelessWidget {
                             false) ||
                     (homeController.movieDetailsModel.value?.isRented ==
                             false &&
-                        isRentableVideo == true))
+                        widget.isRentableVideo == true))
                   SizedBox(
                     width: width,
                     height: 200.h,
@@ -152,7 +173,7 @@ class VideoPlayerScreen extends StatelessWidget {
                             "gdrive" &&
                         (homeController.movieDetailsModel.value?.isRented ==
                                 true &&
-                            isRentableVideo == true)) ||
+                            widget.isRentableVideo == true)) ||
                     homeController.movieDetailsData.value?.isFree == 1)
                   //  AspectRatio(
                   //   aspectRatio: 16 / 9,
@@ -404,7 +425,7 @@ class VideoPlayerScreen extends StatelessWidget {
                             containerColor:
                                 homeController.movieDetailsData.value?.isFree ==
                                             0 &&
-                                        isRentableVideo == false
+                                        widget.isRentableVideo == false
                                     ? cPrimaryColor
                                     : cWhiteColor.withOpacity(0.2),
                           ),
@@ -730,7 +751,7 @@ class VideoPlayerScreen extends StatelessWidget {
                                                     1
                                                 ? true
                                                 : false,
-                                            isRental: isRentableVideo,
+                                            isRental: widget.isRentableVideo,
                                             isRented: homeController
                                                 .movieDetailsModel
                                                 .value
@@ -745,7 +766,9 @@ class VideoPlayerScreen extends StatelessWidget {
                                                 ?.fileUrl,
                                             fileSource: homeController
                                                 .movieServerList[homeController.selectedServer.value]
-                                                ?.fileSource);
+                                                ?.fileSource,
+                                                seekToPosition: 0,
+                                                );
                                       }
                                     },
                                     child: Container(
@@ -784,8 +807,8 @@ class VideoPlayerScreen extends StatelessWidget {
                       // kH16sizedBox,
                       // SubscriptionSelector(),
                       //! For rental video this widget(RentProductDetailsContentContainer)
-                      if (isRentableVideo == true) kH16sizedBox,
-                      if (isRentableVideo == true)
+                      if (widget.isRentableVideo == true) kH16sizedBox,
+                      if (widget.isRentableVideo == true)
                         RentProductDetailsContentContainer(
                           rentPrice:
                               homeController.rentalVideoData.value?.price ?? "",

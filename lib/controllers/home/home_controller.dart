@@ -1,6 +1,7 @@
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
+import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/helpers/ad_helper.dart';
 import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
 import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
@@ -1717,5 +1718,7 @@ class HomeController extends GetxController {
     selectedLanguage.value = "";
     selectedSort.value = "";
     isApplyClicked.value = false;
+    Get.find<AllVideoPlayerController>().totalSeconds.value = 0;
+    Get.find<AllVideoPlayerController>().currentSeconds.value = 0;
   }
 }

@@ -155,41 +155,41 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                             ),
                           ),
                           kH16sizedBox,
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: List.generate(
-                                allVideoPlayerController.movieTypeList.length *
-                                        2 -
-                                    1,
-                                (index) {
-                                  if (index.isOdd) return kW8sizedBox;
-                                  final itemIndex = index ~/ 2;
-                                  final movieType = allVideoPlayerController
-                                      .movieTypeList[itemIndex];
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        width: 1,
-                                        color: cPrimaryColor2.withOpacity(0.5),
-                                      ),
-                                      borderRadius:
-                                          BorderRadius.circular(k4BorderRadius),
-                                    ),
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: k4Padding,
-                                      vertical: k4Padding,
-                                    ),
-                                    child: Text(
-                                      movieType,
-                                      style: regular14TextStyle(cWhiteColor),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
+                          // SingleChildScrollView(
+                          //   scrollDirection: Axis.horizontal,
+                          //   child: Row(
+                          //     mainAxisAlignment: MainAxisAlignment.start,
+                          //     children: List.generate(
+                          //       allVideoPlayerController.movieTypeList.length *
+                          //               2 -
+                          //           1,
+                          //       (index) {
+                          //         if (index.isOdd) return kW8sizedBox;
+                          //         final itemIndex = index ~/ 2;
+                          //         final movieType = allVideoPlayerController
+                          //             .movieTypeList[itemIndex];
+                          //         return Container(
+                          //           decoration: BoxDecoration(
+                          //             border: Border.all(
+                          //               width: 1,
+                          //               color: cPrimaryColor2.withOpacity(0.5),
+                          //             ),
+                          //             borderRadius:
+                          //                 BorderRadius.circular(k4BorderRadius),
+                          //           ),
+                          //           padding: const EdgeInsets.symmetric(
+                          //             horizontal: k4Padding,
+                          //             vertical: k4Padding,
+                          //           ),
+                          //           child: Text(
+                          //             movieType,
+                          //             style: regular14TextStyle(cWhiteColor),
+                          //           ),
+                          //         );
+                          //       },
+                          //     ),
+                          //   ),
+                          // ),
                           kH16sizedBox,
                           Text(
                             ksTitle,
