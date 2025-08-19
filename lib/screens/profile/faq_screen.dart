@@ -155,10 +155,13 @@ class FAQScreen extends StatelessWidget {
                                   )
                                   : Row(
                                       children: [
-                                        Text(
-                                          profileController
-                                                  .paymentFaqList[index]?.question??"",
-                                          style: medium16TextStyle(cWhiteColor),
+                                        SizedBox(
+                                           width: width-80,
+                                          child: Text(
+                                            profileController
+                                                    .paymentFaqList[index]?.question??"",
+                                            style: medium16TextStyle(cWhiteColor),
+                                          ),
                                         ),
                                         const Expanded(child: SizedBox()),
                                         kW20sizedBox,
@@ -248,10 +251,14 @@ class FAQScreen extends StatelessWidget {
                                   )
                                   : Row(
                                       children: [
-                                        Text(
-                                          profileController
-                                                  .orderFaqList[index]?.question??"",
-                                          style: medium16TextStyle(cWhiteColor),
+                                        SizedBox(
+                                          width: width-80,
+                                          child: Text(
+                                            profileController
+                                                    .orderFaqList[index]?.question??"",
+                                            style: medium16TextStyle(cWhiteColor),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         ),
                                         const Expanded(child: SizedBox()),
                                         kW20sizedBox,

@@ -623,7 +623,8 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    kH16sizedBox,
+                   if(homeController.watchHistoryList.isNotEmpty) kH16sizedBox,
+                    if(homeController.watchHistoryList.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(left: k20Padding),
                       child: Row(
