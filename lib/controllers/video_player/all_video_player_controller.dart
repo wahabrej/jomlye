@@ -815,6 +815,7 @@ class AllVideoPlayerController extends GetxController {
   void onClose() {
     betterPlayerController?.dispose();
     youtubeController.dispose();
+    flickManager.dispose();
     super.onClose();
   }
  //!video player function

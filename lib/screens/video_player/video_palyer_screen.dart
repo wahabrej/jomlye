@@ -25,1689 +25,1830 @@ class VideoPlayerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Run this once after the first frame is rendered
-   if(Get.find<GlobalController>().userToken.value != ""){
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(seconds: 5), () {
-        // Check if this widget is still mounted using context (safe for StatelessWidget)
-        if (ModalRoute.of(context)?.isCurrent == true) {
-          homeController.watchHistoryStore(watchableType: 'movie', watchableId: 1, duration: '1000', watchedSeconds: '900');
-        }
+    if (Get.find<GlobalController>().userToken.value != "") {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Future.delayed(const Duration(seconds: 5), () {
+          // Check if this widget is still mounted using context (safe for StatelessWidget)
+          if (ModalRoute.of(context)?.isCurrent == true) {
+            homeController.watchHistoryStore(
+                watchableType: 'movie',
+                watchableId: 1,
+                duration: '1000',
+                watchedSeconds: '900');
+          }
+        });
       });
-    });
-   }
-    return Scaffold(
-      backgroundColor: cBlackColor,
-      body: SingleChildScrollView(
-        child: Obx(
-          () => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              kH40sizedBox,
-              // if(homeController.movieServerList.isNotEmpty && homeController.movieServerList[homeController.selectedServer.value-1]?.sourceType=="youtube")//!needed
-              // YoutubePlayerBuilder(
-              //   player: YoutubePlayer(
-              //     controller: allVideoPlayerController.youtubeController,
-              //     showVideoProgressIndicator: true,
-              //     progressIndicatorColor: Colors.red,
-              //   ),
-              //   builder: (context, player) {
-              //     return Column(
-              //       children: [
-              //         player,
-              //         const SizedBox(),
-              //       ],
-              //     );
-              //   },
-              // ),
-              if (homeController.movieServerList.isEmpty)
-                SizedBox(
-                  width: width,
-                  height: 200,
-                  child: Image.network(
-                    homeController.movieDetailsData.value?.thumbnail ?? "",
-                    errorBuilder: (context, error, stackTrace) {
-                      return SvgPicture.asset(
-                        kiDummyMovie,
-                        width: width - 40,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      );
-                    },
-                  ),
-                ),
-              if((homeController.movieDetailsData.value?.isFree==0 && Get.find<GlobalController>().subscribedUserCheck.value==false) || (homeController.movieDetailsModel.value?.isRented==false &&  isRentableVideo==true))
-              SizedBox(
-                width: width,
-                height: 300.h,
-               child: Image.network(
-                  homeController.movieDetailsData.value?.thumbnail??"",
-                  fit: BoxFit.fill,
-                ),
-              ),
-              if (homeController.movieServerList.isNotEmpty &&
-                  homeController
-                          .movieServerList[homeController.selectedServer.value]
-                          ?.fileSource ==
-                      "youtube")
-                       YoutubePlayer(
-                                  controller: allVideoPlayerController.youtubeController,
-                                  showVideoProgressIndicator: true,
-                                  progressIndicatorColor: Colors.red,
-                                  onReady: () {
-                                    allVideoPlayerController.youtubeController
-                                        .seekTo(Duration.zero);
-                                  },
-                                  bottomActions: const [
-                                    SizedBox(width: 14.0),
-                                    CurrentPosition(),
-                                    kW8sizedBox,
-                                    ProgressBar(
-                                      isExpanded: true,
-                                      colors: ProgressBarColors(
-                                        playedColor: cPrimaryColor,
-                                        handleColor: cPrimaryColor,
-                                      ),
-                                    ),
-                                    kW8sizedBox,
-                                    RemainingDuration(),
-                                    SizedBox(width: 14.0),
-                                    FullScreenButton(color: cPrimaryColor),
-                                  ],
-                                ),
-              // //!flick video player
-              if ((homeController.movieServerList.isNotEmpty &&
-                  homeController
-                          .movieServerList[homeController.selectedServer.value]
-                          ?.fileSource !=
-                      "youtube" &&
-                  homeController
-                          .movieServerList[homeController.selectedServer.value]
-                          ?.fileSource
-                          .toString()
-                          .toLowerCase() !=
-                      "gdrive" && (homeController.movieDetailsModel.value?.isRented==true &&  isRentableVideo==true))|| homeController.movieDetailsData.value?.isFree==1)
-                                   AspectRatio(
-                      aspectRatio: 16 / 9,
-                      child: FlickVideoPlayer(
-                        flickManager: allVideoPlayerController.flickManager,
-                      ),
+    }
+    return WillPopScope(
+      onWillPop: () async {
+        try {
+          allVideoPlayerController.youtubeController.dispose();
+        } catch (_) {}
+        try {
+          allVideoPlayerController.flickManager.dispose();
+        } catch (_) {}
+        return true; // ✅ always allow back navigation
+      },
+      child: Scaffold(
+        backgroundColor: cBlackColor,
+        body: SingleChildScrollView(
+          child: Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                kH40sizedBox,
+                // if(homeController.movieServerList.isNotEmpty && homeController.movieServerList[homeController.selectedServer.value-1]?.sourceType=="youtube")//!needed
+                // YoutubePlayerBuilder(
+                //   player: YoutubePlayer(
+                //     controller: allVideoPlayerController.youtubeController,
+                //     showVideoProgressIndicator: true,
+                //     progressIndicatorColor: Colors.red,
+                //   ),
+                //   builder: (context, player) {
+                //     return Column(
+                //       children: [
+                //         player,
+                //         const SizedBox(),
+                //       ],
+                //     );
+                //   },
+                // ),
+                if (homeController.movieServerList.isEmpty)
+                  SizedBox(
+                    width: width,
+                    height: 200,
+                    child: Image.network(
+                      homeController.movieDetailsData.value?.thumbnail ?? "",
+                      errorBuilder: (context, error, stackTrace) {
+                        return SvgPicture.asset(
+                          kiDummyMovie,
+                          width: width - 40,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        );
+                      },
                     ),
-              kH20sizedBox,
-              Padding(
-                padding: const EdgeInsets.only(left: k20Padding),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding:
-                          EdgeInsets.only(right: 6.w, top: 3.h, bottom: 3.h),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          if (homeController.movieDetailsModel.value?.isRented == true)
-                            Container(
-                              width: 120.w,
-                              height: 24.h,
+                  ),
+                if ((homeController.movieDetailsData.value?.isFree == 0 &&
+                        Get.find<GlobalController>()
+                                .subscribedUserCheck
+                                .value ==
+                            false) ||
+                    (homeController.movieDetailsModel.value?.isRented ==
+                            false &&
+                        isRentableVideo == true))
+                  SizedBox(
+                    width: width,
+                    height: 300.h,
+                    child: Image.network(
+                      homeController.movieDetailsData.value?.thumbnail ?? "",
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                if (homeController.movieServerList.isNotEmpty &&
+                    homeController
+                            .movieServerList[
+                                homeController.selectedServer.value]
+                            ?.fileSource ==
+                        "youtube")
+                  YoutubePlayer(
+                    controller: allVideoPlayerController.youtubeController,
+                    showVideoProgressIndicator: true,
+                    progressIndicatorColor: Colors.red,
+                    onReady: () {
+                      allVideoPlayerController.youtubeController
+                          .seekTo(Duration.zero);
+                    },
+                    bottomActions: const [
+                      SizedBox(width: 14.0),
+                      CurrentPosition(),
+                      kW8sizedBox,
+                      ProgressBar(
+                        isExpanded: true,
+                        colors: ProgressBarColors(
+                          playedColor: cPrimaryColor,
+                          handleColor: cPrimaryColor,
+                        ),
+                      ),
+                      kW8sizedBox,
+                      RemainingDuration(),
+                      SizedBox(width: 14.0),
+                      FullScreenButton(color: cPrimaryColor),
+                    ],
+                  ),
+                // //!flick video player
+                if ((homeController.movieServerList.isNotEmpty &&
+                        homeController
+                                .movieServerList[
+                                    homeController.selectedServer.value]
+                                ?.fileSource !=
+                            "youtube" &&
+                        homeController
+                                .movieServerList[
+                                    homeController.selectedServer.value]
+                                ?.fileSource
+                                .toString()
+                                .toLowerCase() !=
+                            "gdrive" &&
+                        (homeController.movieDetailsModel.value?.isRented ==
+                                true &&
+                            isRentableVideo == true)) ||
+                    homeController.movieDetailsData.value?.isFree == 1)
+                  //  AspectRatio(
+                  //   aspectRatio: 16 / 9,
+                  //   child: FlickVideoPlayer(
+                  //     flickManager: allVideoPlayerController.flickManager,
+                  //   ),
+                  // ),
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Stack(
+                      children: [
+                        FlickVideoPlayer(
+                          flickManager: allVideoPlayerController.flickManager,
+                        ),
+                        Positioned(
+                          top: 12,
+                          left: 12,
+                          child: GestureDetector(
+                            onTap: () {
+                              try {
+                                allVideoPlayerController.flickManager.dispose();
+                              } catch (_) {}
+                              Get.back();
+                            },
+                            child: Container(
                               decoration: BoxDecoration(
-                                color: cWhiteColor.withOpacity(0.1),
-                                borderRadius:
-                                    BorderRadius.circular(k4BorderRadius),
-                                border: Border.all(
-                                  width: 0.65,
-                                  color: cWhiteColor.withOpacity(0.1),
-                                ),
+                                color: Colors.black.withOpacity(0.5),
+                                shape: BoxShape.circle,
                               ),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: k4Padding),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: cPurpleColor,
-                                        borderRadius: BorderRadius.circular(
-                                            k4BorderRadius),
-                                      ),
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: k8Padding,
-                                            vertical: k4Padding),
-                                        child: Text(
-                                          ksRented.tr,
-                                          style:
-                                              regular10TextStyle(cWhiteColor),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                      child: Text(
-                                    "$ksExpire: 10/06/2025",
-                                    style: regular10TextStyle(cWhiteColor),
-                                    overflow: TextOverflow.ellipsis,
-                                  )),
-                                ],
+                              padding: const EdgeInsets.all(6),
+                              child: const Icon(
+                                Icons.arrow_back_ios,
+                                color: Colors.white,
+                                size: kIconSize20,
                               ),
                             ),
-                          if (homeController.movieDetailsModel.value?.isRented == true) Spacer(),
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.star,
-                                color: cAmberColor,
-                                size: kIconSize16,
-                              ),
-                              kW6sizedBox,
-                              Text(
-                                homeController
-                                        .movieDetailsData.value?.imdbRating ??
-                                    "",
-                                style: regular12TextStyle(cWhiteColor),
-                              ),
-                              kW6sizedBox,
-                              SizedBox(
-                                height: 22.h,
-                                child: VerticalDivider(
-                                  width: 1,
-                                  thickness: 1,
-                                  color: cWhiteColor.withOpacity(0.5),
-                                ),
-                              ),
-                            ],
                           ),
-                          kW6sizedBox,
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.access_time_filled_sharp,
-                                color: cPrimaryColor2,
-                                size: kIconSize20,
-                              ),
-                              kW6sizedBox,
-                              Text(
-                                homeController
-                                        .movieDetailsData.value?.runtime ??
-                                    "",
-                                style: regular12TextStyle(cWhiteColor),
-                              ),
-                              kW6sizedBox,
-                              SizedBox(
-                                height: 22.h,
-                                child: VerticalDivider(
-                                  width: 1,
-                                  thickness: 1,
-                                  color: cWhiteColor.withOpacity(0.5),
-                                ),
-                              ),
-                            ],
-                          ),
-                          kW6sizedBox,
-                          Row(
-                            children: [
-                              const Icon(
-                                Icons.calendar_today_outlined,
-                                color: cPrimaryColor2,
-                                size: kIconSize20,
-                              ),
-                              kW6sizedBox,
-                              Text(
-                                DateFormat('d MMM, yyyy').format(DateTime.parse(
-                                    homeController
-                                        .movieDetailsData.value!.release
-                                        .toString())),
-                                style: regular12TextStyle(cWhiteColor),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    kH16sizedBox,
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: List.generate(
-                          homeController.movieDetailsModel.value!.videoTags!
-                                      .length *
-                                  2 -
-                              1,
-                          (index) {
-                            if (index.isOdd) return kW8sizedBox;
-                            final itemIndex = index ~/ 2;
-                            final movieType = homeController
-                                .movieDetailsModel.value?.videoTags?[itemIndex];
-                            return Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  width: 1,
-                                  color: cPrimaryColor2.withOpacity(0.5),
-                                ),
-                                borderRadius:
-                                    BorderRadius.circular(k4BorderRadius),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: k4Padding,
-                                vertical: k4Padding,
-                              ),
-                              child: Text(
-                                movieType ?? "",
-                                style: regular14TextStyle(cWhiteColor),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    kH16sizedBox,
-                    Text(
-                      ksTitle,
-                      style: regular14TextStyle(
-                        cWhiteColor.withOpacity(0.5),
-                      ),
-                    ),
-                    kH12sizedBox,
-                    Text(
-                      homeController.movieDetailsData.value?.title ?? "",
-                      style: medium20TextStyle(cWhiteColor),
-                    ),
-                    kH12sizedBox,
-                    RichText(
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: homeController
-                                    .movieDetailsData.value?.description ??
-                                "",
-                            style: regular14TextStyle(
-                                cWhiteColor.withOpacity(0.5)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    kH16sizedBox,
-                    Row(
-                      children: [
-                        CommonContainer(
-                          image: kiCrown,
-                          onPressed: null,
-                          containerColor:
-                              homeController.movieDetailsData.value?.isFree == 0 && isRentableVideo==false
-                                  ? cPrimaryColor
-                                  : cWhiteColor.withOpacity(0.2),
-                        ),
-                        kW10sizedBox,
-                        CommonContainer(
-                          image: kiFavorite,
-                          containerColor:
-                              profileController.isFavoriteAdded.value
-                                  ? cPrimaryColor2
-                                  : null,
-                          onPressed: () async {
-                            if (Get.find<GlobalController>().userToken.value ==
-                                "") {
-                              showSnackBar(
-                                  title: "Error",
-                                  message:
-                                      "Please Login first then add favourite",
-                                  color: cRedColor);
-                            } else {
-                              profileController.isFavoriteAdded.value =
-                                  !profileController.isFavoriteAdded.value;
-                              await profileController.favoriteAddOrRemove(
-                                  id: homeController
-                                          .movieDetailsData.value?.id ??
-                                      -1,
-                                  type: "movie");
-                            }
-                          },
-                        ),
-                        kW10sizedBox,
-                        CommonContainer(
-                          image: kiAdd,
-                          onPressed: () async {
-                            if (Get.find<GlobalController>().userToken.value ==
-                                "") {
-                              showSnackBar(
-                                  title: "Error",
-                                  message:
-                                      "Please Login first then add favourite",
-                                  color: cRedColor);
-                            } else {
-                              profileController.moviePlayListIds.addAll(
-                                  homeController.movieDetailsModel.value
-                                          ?.playlistIds ??
-                                      []);
-                              for (int i = 0;
-                                  i < profileController.playlistList.length;
-                                  i++) {
-                                final currentId = Get.find<ProfileController>()
-                                    .playlistList[i]
-                                    .id
-                                    .toString();
-                                final bool exists = Get.find<HomeController>()
-                                    .playlistIdsList
-                                    .any((element) =>
-                                        currentId.contains(element.toString()));
-                                Get.find<ProfileController>()
-                                    .temporaryPlayListCheckBoxStateList
-                                    .add(exists);
-                              }
-                              showSaveVideoToPlayListPopup(
-                                  context,
-                                  homeController.movieDetailsData.value?.id ??
-                                      -1);
-                            }
-                          },
-                        ),
-                        kW10sizedBox,
-                       CommonContainer(
-                          image: kiDownload,
-                          containerColor: homeController.movieDetailsModel.value?.download?.isDownloadable==0 ? cWhiteColor.withOpacity(0.1):null,
-                          iconColor: homeController.movieDetailsModel.value?.download?.isDownloadable==0 ? cWhiteColor.withOpacity(0.2) : null,
-                          onPressed: homeController.movieDetailsModel.value?.download?.isDownloadable==1 ? () {
-                            // allVideoPlayerController.flutterMediaDownloaderPlugin.downloadMedia(context,'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
-                            showDownloadVideoPopup(context);
-                            // allVideoPlayerController
-                            //     .flutterMediaDownloaderPlugin
-                            //     .downloadMedia(context,
-                            //         'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
-                          } : null,
-                        ),
-                        //flutter video download
-                        // CommonContainer(
-                        //   image: kiDownload,
-                        //   onPressed: () async {
-                        //     try {
-                        //       showDialog(
-                        //         context: context,
-                        //         barrierDismissible: false,
-                        //         builder: (context) => AlertDialog(
-                        //           content: Row(
-                        //             children: [
-                        //               CircularProgressIndicator(),
-                        //               SizedBox(width: 20),
-                        //               Text('Downloading video...'),
-                        //             ],
-                        //           ),
-                        //         ),
-                        //       );
-
-                        //       String videoUrl =
-                        //           'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4';
-                        //       String fileName =
-                        //           'video_${DateTime.now().millisecondsSinceEpoch}.mp4';
-
-                        //       await allVideoPlayerController.downloadVideo(
-                        //           videoUrl, fileName);
-
-                        //       // Hide loading dialog
-                        //       Navigator.of(context).pop();
-
-                        //       // Show success message
-                        //       ScaffoldMessenger.of(context).showSnackBar(
-                        //         SnackBar(
-                        //           content:
-                        //               Text('Video downloaded successfully!'),
-                        //           backgroundColor: Colors.green,
-                        //         ),
-                        //       );
-                        //     } catch (e) {
-                        //       // Hide loading dialog if still showing
-                        //       Navigator.of(context).pop();
-
-                        //       // Show error message
-                        //       ScaffoldMessenger.of(context).showSnackBar(
-                        //         SnackBar(
-                        //           content:
-                        //               Text('Download failed: ${e.toString()}'),
-                        //           backgroundColor: Colors.red,
-                        //         ),
-                        //       );
-                        //     }
-                        //   },
-                        // ),
-
-                        // kW10sizedBox,
-                        // CommonContainer(
-                        //   image: kiDownload,
-                        //   onPressed: (){
-                        //   },
-                        // ),
-//                         CommonContainer(
-//   image: kiDownload,
-//   onPressed: () async{
-//    await allVideoPlayerController.requestStoragePermission();
-//    await allVideoPlayerController.downloadVideo(
-//       'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
-//       'sample_video.mp4',
-//     );
-//   },
-// ),
-                        // CommonContainer(
-                        //   image: kiDownload,
-                        //   onPressed: () async {
-                        //     try {
-                        //       ll("123 in try block");
-
-                        //       // Request storage permission
-                        //       final permission =
-                        //           await Permission.storage.request();
-                        //       ll("123 in permission $permission");
-
-                        //       if (permission.isGranted) {
-                        //         // Download the video
-                        //         final taskId = await FlutterDownloader.enqueue(
-                        //           // url: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-                        //           url:
-                        //               'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-                        //           savedDir:
-                        //               (await getApplicationDocumentsDirectory())
-                        //                   .path,
-                        //           fileName: 'downloaded_video.mp4',
-                        //           showNotification: true,
-                        //           openFileFromNotification: true,
-                        //         );
-                        //         ll("Task id is $taskId");
-
-                        //         // Show success message
-                        //         showSnackBar(
-                        //           title: ksDownloading.tr,
-                        //           message: 'Downloading Started',
-                        //           color: cPrimaryColor2,
-                        //         );
-                        //       } else if (permission.isPermanentlyDenied) {
-                        //         // Open app settings if permission is permanently denied
-                        //         showSnackBar(
-                        //           title: ksError.tr,
-                        //           message:
-                        //               'Storage permission is permanently denied. Please enable it from settings.',
-                        //           color: cPrimaryColor2,
-                        //         );
-                        //         await openAppSettings();
-                        //       } else {
-                        //         // Handle temporary denied permission
-                        //         showSnackBar(
-                        //           title: ksError.tr,
-                        //           message:
-                        //               'Storage permission is required to download video.',
-                        //           color: cPrimaryColor2,
-                        //         );
-                        //       }
-                        //     } catch (e) {
-                        //       // Handle any errors
-                        //       ScaffoldMessenger.of(context).showSnackBar(
-                        //         SnackBar(
-                        //           content: Text('Error downloading video: $e'),
-                        //           duration: Duration(seconds: 2),
-                        //         ),
-                        //       );
-                        //     }
-                        //   },
-                        // ),
-
-                        kW10sizedBox,
-                        CommonContainer(
-                          image: kiShare,
-                          onPressed: () {
-                            Share.share(homeController
-                                    .movieServerList[
-                                        homeController.selectedServer.value]
-                                    ?.fileUrl ??
-                                "");
-                          },
                         ),
                       ],
                     ),
-                    if (homeController.movieServerList.isNotEmpty) kH16sizedBox,
-                    if (homeController.movieServerList.isNotEmpty)
-                      SizedBox(
-                        width: width - 60 / 3,
-                        height: 40.h,
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          padding: EdgeInsets.zero,
-                          scrollDirection: Axis.horizontal,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          separatorBuilder: (context, index) => kW10sizedBox,
-                          itemCount: homeController.movieServerList.length,
-                          itemBuilder: (context, index) {
-                            return Obx(() => InkWell(
-                                  onTap: () async {
-                                    homeController.selectedServer.value = index;
-                                    // if (homeController
-                                    //         .movieServerList[index]!.sourceType!
-                                    //         .toLowerCase() ==
-                                    //     "youtube") {
-                                    //   allVideoPlayerController.videoUrl.value =
-                                    //       homeController.movieServerList[index]!
-                                    //               .fileUrl ??
-                                    //           "";
-                                    //   final videoId =
-                                    //       YoutubePlayer.convertUrlToId(
-                                    //           allVideoPlayerController
-                                    //               .videoUrl.value);
-                                    //   allVideoPlayerController
-                                    //           .youtubeController =
-                                    //       YoutubePlayerController(
-                                    //     initialVideoId: videoId ?? '',
-                                    //     flags: const YoutubePlayerFlags(
-                                    //       autoPlay: false,
-                                    //       mute: false,
-                                    //     ),
-                                    //   );
-                                    // } else if (homeController
-                                    //         .movieServerList[index]!.sourceType!
-                                    //         .toLowerCase() !=
-                                    //     "youtube") {
-                                    //   allVideoPlayerController.videoUrl.value =
-                                    //       homeController.movieServerList[index]!
-                                    //               .fileUrl ??
-                                    //           "";
-                                    //   allVideoPlayerController
-                                    //       .initBetterPlayerVideo(homeController
-                                    //               .movieServerList[index]!
-                                    //               .fileUrl ??
-                                    //           "");
-                                    //   Get.find<AllVideoPlayerController>()
-                                    //       .flickManager = FlickManager(
-                                    //     videoPlayerController:
-                                    //         VideoPlayerController.network(
-                                    //             homeController
-                                    //                     .movieServerList[index]!
-                                    //                     .fileUrl ??
-                                    //                 ""),
-                                    //   );
-                                    //   await allVideoPlayerController
-                                    //       .parseVideoUrl(
-                                    //           fileUrl: homeController
-                                    //                   .movieServerList[index]!
-                                    //                   .fileUrl ??
-                                    //               "",
-                                    //           fileSource: homeController
-                                    //                   .movieServerList[index]!
-                                    //                   .fileSource ??
-                                    //               "");
-                                    // }
-                                     if(homeController.movieServerList.isNotEmpty){
-                                    allVideoPlayerController.videoPlayerFunction(isFree: homeController.movieDetailsData.value?.isFree==1 ? true : false,isRental: isRentableVideo,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[homeController.selectedServer.value]?.fileUrl, fileSource: homeController.movieServerList[homeController.selectedServer.value]?.fileSource);
-                                    }
-                                  },
-                                  child: Container(
-                                    width: (width - 50) / 3,
-                                    height: 40.h,
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(k6BorderRadius),
-                                      color:
-                                          homeController.selectedServer.value ==
-                                                  index
-                                              ? cPrimaryColor
-                                              : cWhiteColor.withOpacity(0.2),
-                                    ),
-                                    child: Center(
-                                        child: Text(
-                                      homeController
-                                              .movieServerList[index]?.label ??
-                                          "",
-                                      textAlign: TextAlign.center,
-                                      style: medium14TextStyle(cWhiteColor),
-                                    )),
-                                  ),
-                                ));
-                          },
-                        ),
-                      ),
-                    kH16sizedBox,
-                    Padding(
-                      padding: const EdgeInsets.only(right: k20Padding),
-                      child: Divider(
-                        thickness: 1,
-                        color: cWhiteColor.withOpacity(0.2),
-                      ),
-                    ),
-                    // kH16sizedBox,
-                    // SubscriptionSelector(),
-                    //! For rental video this widget(RentProductDetailsContentContainer)
-                   if(isRentableVideo==true) kH16sizedBox,
-                   if(isRentableVideo==true)
-                    RentProductDetailsContentContainer(
-                      rentPrice: homeController.rentalVideoData.value?.price??"",
-                      rentValidity: homeController.rentalVideoData.value?.validity??"",
-                      rentExpireDate: homeController.rentalVideoData.value?.expireData.toString()??"",
-                    ),
-                    kH12sizedBox,
-                    Container(
-                      width: width - 40,
-                      height: 46.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100.r),
-                        color: cWhiteColor.withOpacity(0.1),
-                      ),
-                      child: Padding(
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: k4Padding),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: List.generate(
-                              homeController.movieDetailsTabs.length, (index) {
-                            return GestureDetector(
-                              onTap: () async {
-                                homeController.videoDetailsChangeTab(index);
-                                if (homeController.movietSelectedIndex.value ==
-                                    3) {
-                                  await homeController.getUserReview(
-                                      reviewableId: homeController
-                                          .movieDetailsModel
-                                          .value!
-                                          .details!
-                                          .id!,
-                                      reviewableType: "movie");
-                                }
-                              },
-                              child: Obx(() => Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 16.w, vertical: 8.h),
-                                    decoration: BoxDecoration(
-                                      color: homeController
-                                                  .movietSelectedIndex.value ==
-                                              index
-                                          ? Colors.grey[800]
-                                          : Colors.transparent,
-                                      borderRadius:
-                                          BorderRadius.circular(100.r),
-                                    ),
-                                    child: Container(
-                                      constraints: BoxConstraints(
-                                        maxWidth: (width - 40) /
-                                                homeController
-                                                    .movieDetailsTabs.length -
-                                            14.w,
-                                      ),
-                                      child: Text(
-                                        homeController.movieDetailsTabs[index],
-                                        style: regular14TextStyle(cWhiteColor),
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  )),
-                            );
-                          }),
-                        ),
-                      ),
-                    ),
-
-                    kH12sizedBox,
-                    if (homeController.movietSelectedIndex.value == 0)
-                      SizedBox(
-                        width: width - 20,
-                        height: 50.h,
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          separatorBuilder: (context, index) => kW8sizedBox,
-                          itemCount: homeController.movieCastList.length,
-                          itemBuilder: (context, index) {
-                            return VideoDetailsContentWidget(
-                              imageUrl: homeController
-                                      .movieCastList[index]?.starImage ??
-                                  "",
-                              title: homeController
-                                      .movieCastList[index]?.starName ??
-                                  "",
-                              subTitle: homeController
-                                      .movieCastList[index]?.starType ??
-                                  "",
-                              onPressed: () async {
-                                await homeController.getArtistDetails(
-                                    homeController.movieCastList[index]?.id);
-                                homeController.castSelectedIndex.value = 0;
-                                Get.toNamed(krCastDetailsScreen);
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    if (homeController.movietSelectedIndex.value == 1)
-                      SizedBox(
-                        width: width - 20,
-                        height: 50.h,
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          separatorBuilder: (context, index) => kW8sizedBox,
-                          itemCount: homeController.movieDirectorList.length,
-                          itemBuilder: (context, index) {
-                            return VideoDetailsContentWidget(
-                              imageUrl: homeController
-                                      .movieDirectorList[index]?.starImage ??
-                                  "",
-                              title: homeController
-                                      .movieDirectorList[index]?.starName ??
-                                  "",
-                              subTitle: homeController
-                                      .movieDirectorList[index]?.starType ??
-                                  "",
-                              onPressed: () async {
-                                await homeController.getArtistDetails(
-                                    homeController
-                                        .movieDirectorList[index]?.id);
-                                homeController.castSelectedIndex.value = 0;
-                                Get.toNamed(krCastDetailsScreen);
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    if (homeController.movietSelectedIndex.value == 2)
-                      SizedBox(
-                        width: width - 20,
-                        height: 50.h,
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          separatorBuilder: (context, index) => kW8sizedBox,
-                          itemCount: homeController.movieWriterList.length,
-                          itemBuilder: (context, index) {
-                            return VideoDetailsContentWidget(
-                              imageUrl: homeController
-                                      .movieWriterList[index]?.starImage ??
-                                  "",
-                              title: homeController
-                                      .movieWriterList[index]?.starName ??
-                                  "",
-                              subTitle: homeController
-                                      .movieWriterList[index]?.starType ??
-                                  "",
-                              onPressed: () async {
-                                await homeController.getArtistDetails(
-                                    homeController.movieWriterList[index]?.id);
-                                homeController.castSelectedIndex.value = 0;
-                                Get.toNamed(krCastDetailsScreen);
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    if (homeController.movietSelectedIndex.value == 3)
+                  ),
+                kH20sizedBox,
+                Padding(
+                  padding: const EdgeInsets.only(left: k20Padding),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Padding(
-                        padding: const EdgeInsets.only(right: k20Padding),
-                        child: Column(
+                        padding:
+                            EdgeInsets.only(right: 6.w, top: 3.h, bottom: 3.h),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Container(
-                              width: width,
-                              height: 32.h,
-                              decoration: BoxDecoration(
-                                color: cWhiteColor.withOpacity(0.1),
-                                borderRadius:
-                                    BorderRadius.circular(k8BorderRadius),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: k12Padding),
+                            if (homeController
+                                    .movieDetailsModel.value?.isRented ==
+                                true)
+                              Container(
+                                width: 120.w,
+                                height: 24.h,
+                                decoration: BoxDecoration(
+                                  color: cWhiteColor.withOpacity(0.1),
+                                  borderRadius:
+                                      BorderRadius.circular(k4BorderRadius),
+                                  border: Border.all(
+                                    width: 0.65,
+                                    color: cWhiteColor.withOpacity(0.1),
+                                  ),
+                                ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "${homeController.movieReviewList.length} ${ksReviews.tr}",
-                                      style: semiBold14TextStyle(cWhiteColor),
-                                    ),
-                                    const Spacer(),
-                                    Text(
-                                      ksSubmitRating.tr,
-                                      style: regular14TextStyle(cWhiteColor),
-                                    ),
-                                    kW4sizedBox,
-                                    Row(
-                                      children: List.generate(5, (index) {
-                                        return GestureDetector(
-                                          onTap: () => homeController
-                                              .updateRating(index + 1),
-                                          child: Icon(
-                                            Icons.star,
-                                            size: kIconSize16,
-                                            color: index <
-                                                    homeController.rating.value
-                                                ? cAmberColor
-                                                : Colors.grey,
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: k4Padding),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: cPurpleColor,
+                                          borderRadius: BorderRadius.circular(
+                                              k4BorderRadius),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: k8Padding,
+                                              vertical: k4Padding),
+                                          child: Text(
+                                            ksRented.tr,
+                                            style:
+                                                regular10TextStyle(cWhiteColor),
                                           ),
-                                        );
-                                      }),
+                                        ),
+                                      ),
                                     ),
+                                    Expanded(
+                                        child: Text(
+                                      "$ksExpire: 10/06/2025",
+                                      style: regular10TextStyle(cWhiteColor),
+                                      overflow: TextOverflow.ellipsis,
+                                    )),
                                   ],
                                 ),
                               ),
-                            ),
-                            kH16sizedBox,
-                            CustomModifiedTextField(
-                              hint: ksEnterHere.tr,
-                              controller: homeController
-                                  .addCommentTextEditingController,
-                              fillColor: cBlackColor,
-                              textInputStyle: regular14TextStyle(cWhiteColor),
-                              focusBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.circular(k6BorderRadius),
-                                borderSide: const BorderSide(
-                                  width: 1,
-                                  color: cPrimaryColor2,
-                                ),
-                              ),
-                              maxLines: 4,
-                              inputAction: TextInputAction.newline,
-                              inputType: TextInputType.multiline,
-                              border: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.circular(k6BorderRadius),
-                                borderSide: BorderSide(
-                                  width: 1,
-                                  color: cWhiteColor.withOpacity(0.3),
-                                  style: BorderStyle.solid,
-                                ),
-                              ),
-                              contentPadding: const EdgeInsets.all(12),
-                            ),
-                            kH12sizedBox,
+                            if (homeController
+                                    .movieDetailsModel.value?.isRented ==
+                                true)
+                              Spacer(),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                // CustomElevatedButton(
-                                //   label: ksCancel.tr,
-                                //   onPressed: () {},
-                                //   buttonColor: cWhiteColor.withOpacity(0.1),
-                                //   textStyle: regular14TextStyle(cWhiteColor),
-                                //   buttonWidth: 70.w,
-                                //   buttonHeight: h32.h,
-                                // ),
-                                // kW12sizedBox,
-                                CustomElevatedButton(
-                                  label: ksPostNow.tr,
-                                  onPressed: () async {
-                                    await homeController.userRating(
-                                      reviewableId: homeController
-                                          .movieDetailsModel
-                                          .value!
-                                          .details!
-                                          .id!,
-                                      reviewableType: "movie",
-                                    );
-                                  },
-                                  buttonColor: cPrimaryColor2,
-                                  textStyle: regular14TextStyle(cWhiteColor),
-                                  buttonWidth: 90.w,
-                                  buttonHeight: h32.h,
+                                const Icon(
+                                  Icons.star,
+                                  color: cAmberColor,
+                                  size: kIconSize16,
+                                ),
+                                kW6sizedBox,
+                                Text(
+                                  homeController
+                                          .movieDetailsData.value?.imdbRating ??
+                                      "",
+                                  style: regular12TextStyle(cWhiteColor),
+                                ),
+                                kW6sizedBox,
+                                SizedBox(
+                                  height: 22.h,
+                                  child: VerticalDivider(
+                                    width: 1,
+                                    thickness: 1,
+                                    color: cWhiteColor.withOpacity(0.5),
+                                  ),
                                 ),
                               ],
                             ),
-                            kH12sizedBox,
-                            ListView.separated(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              padding: const EdgeInsets.all(k0Padding),
-                              separatorBuilder: (context, index) => kH8sizedBox,
-                              itemCount: homeController.movieReviewList.length,
-                              itemBuilder: (context, index) {
-                                return Row(
-                                  children: [
-                                    Container(
-                                      width: 40.w,
-                                      height: 40.h,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: CircleAvatar(
-                                        backgroundColor:
-                                            cWhiteColor.withOpacity(0.2),
-                                        child: ClipOval(
-                                          child: Image.network(
-                                            width: 40.w,
-                                            height: 40.h,
-                                            fit: BoxFit.cover,
-                                            homeController
-                                                    .movieReviewList[index]
-                                                    ?.user
-                                                    ?.profileImage ??
-                                                "",
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    kW12sizedBox,
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              homeController
-                                                      .movieReviewList[index]
-                                                      ?.user
-                                                      ?.userName ??
-                                                  "",
-                                              style: medium16TextStyle(
-                                                  cWhiteColor),
-                                            ),
-                                            kW6sizedBox,
-                                            Container(
-                                              width: 6.w,
-                                              height: 6.h,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color:
-                                                    cGreyColor.withOpacity(0.8),
-                                              ),
-                                            ),
-                                            kW6sizedBox,
-                                            Icon(
-                                              Icons.access_time,
-                                              color:
-                                                  cGreyColor.withOpacity(0.8),
-                                              size: kIconSize16,
-                                            ),
-                                            kW6sizedBox,
-                                            Text(
-                                              homeController
-                                                      .movieReviewList[index]
-                                                      ?.createdAt ??
-                                                  "",
-                                              style: regular10TextStyle(
-                                                  cGreyColor.withOpacity(0.8)),
-                                            ),
-                                          ],
-                                        ),
-                                        kH10sizedBox,
-                                        Obx(() => SizedBox(
-                                              width: width - 96,
-                                              child: Row(
-                                                children: [
-                                                  InkWell(
-                                                    onTap: () async {
-                                                      homeController
-                                                              .movieReviewList[
-                                                                  index]!
-                                                              .isLiked!
-                                                              .value =
-                                                          !homeController
-                                                              .movieReviewList[
-                                                                  index]!
-                                                              .isLiked!
-                                                              .value;
-                                                      if (homeController
-                                                              .movieReviewList[
-                                                                  index]!
-                                                              .isLiked!
-                                                              .value ==
-                                                          true) {
-                                                        homeController
-                                                            .movieReviewList[
-                                                                index]!
-                                                            .totalLikes!
-                                                            .value++;
-                                                      }
-                                                      if (homeController
-                                                              .movieReviewList[
-                                                                  index]!
-                                                              .isLiked!
-                                                              .value ==
-                                                          false) {
-                                                        homeController
-                                                            .movieReviewList[
-                                                                index]!
-                                                            .totalLikes!
-                                                            .value--;
-                                                      }
-                                                      await homeController
-                                                          .reviewLikeToggle(
-                                                              reviewId:
-                                                                  homeController
-                                                                      .movieReviewList[
-                                                                          index]!
-                                                                      .id!);
-                                                    },
-                                                    child: Icon(
-                                                      homeController
-                                                                  .movieReviewList[
-                                                                      index]!
-                                                                  .isLiked!
-                                                                  .value ==
-                                                              true
-                                                          ? Icons.favorite
-                                                          : Icons
-                                                              .favorite_outline,
-                                                      color: homeController
-                                                                  .movieReviewList[
-                                                                      index]!
-                                                                  .isLiked!
-                                                                  .value ==
-                                                              true
-                                                          ? cPrimaryColor
-                                                          : cWhiteColor,
-                                                      size: kIconSize20,
-                                                    ),
-                                                  ),
-                                                  kW6sizedBox,
-                                                  Text(
-                                                    homeController
-                                                            .movieReviewList[
-                                                                index]
-                                                            ?.totalLikes
-                                                            ?.value
-                                                            .toString() ??
-                                                        "",
-                                                    style: regular12TextStyle(
-                                                        cGreyColor
-                                                            .withOpacity(0.8)),
-                                                  ),
-                                                ],
-                                              ),
-                                            )),
-                                        kH10sizedBox,
-                                        Text(
-                                          homeController.movieReviewList[index]
-                                                  ?.review ??
-                                              "",
-                                          style: medium12TextStyle(cWhiteColor),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                );
-                              },
+                            kW6sizedBox,
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.access_time_filled_sharp,
+                                  color: cPrimaryColor2,
+                                  size: kIconSize20,
+                                ),
+                                kW6sizedBox,
+                                Text(
+                                  homeController
+                                          .movieDetailsData.value?.runtime ??
+                                      "",
+                                  style: regular12TextStyle(cWhiteColor),
+                                ),
+                                kW6sizedBox,
+                                SizedBox(
+                                  height: 22.h,
+                                  child: VerticalDivider(
+                                    width: 1,
+                                    thickness: 1,
+                                    color: cWhiteColor.withOpacity(0.5),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            kW6sizedBox,
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.calendar_today_outlined,
+                                  color: cPrimaryColor2,
+                                  size: kIconSize20,
+                                ),
+                                kW6sizedBox,
+                                Text(
+                                  DateFormat('d MMM, yyyy').format(
+                                      DateTime.parse(homeController
+                                          .movieDetailsData.value!.release
+                                          .toString())),
+                                  style: regular12TextStyle(cWhiteColor),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
+                      kH16sizedBox,
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: List.generate(
+                            homeController.movieDetailsModel.value!.videoTags!
+                                        .length *
+                                    2 -
+                                1,
+                            (index) {
+                              if (index.isOdd) return kW8sizedBox;
+                              final itemIndex = index ~/ 2;
+                              final movieType = homeController.movieDetailsModel
+                                  .value?.videoTags?[itemIndex];
+                              return Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1,
+                                    color: cPrimaryColor2.withOpacity(0.5),
+                                  ),
+                                  borderRadius:
+                                      BorderRadius.circular(k4BorderRadius),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: k4Padding,
+                                  vertical: k4Padding,
+                                ),
+                                child: Text(
+                                  movieType ?? "",
+                                  style: regular14TextStyle(cWhiteColor),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                      kH16sizedBox,
+                      Text(
+                        ksTitle,
+                        style: regular14TextStyle(
+                          cWhiteColor.withOpacity(0.5),
+                        ),
+                      ),
+                      kH12sizedBox,
+                      Text(
+                        homeController.movieDetailsData.value?.title ?? "",
+                        style: medium20TextStyle(cWhiteColor),
+                      ),
+                      kH12sizedBox,
+                      RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: homeController
+                                      .movieDetailsData.value?.description ??
+                                  "",
+                              style: regular14TextStyle(
+                                  cWhiteColor.withOpacity(0.5)),
+                            ),
+                          ],
+                        ),
+                      ),
+                      kH16sizedBox,
+                      Row(
+                        children: [
+                          CommonContainer(
+                            image: kiCrown,
+                            onPressed: null,
+                            containerColor:
+                                homeController.movieDetailsData.value?.isFree ==
+                                            0 &&
+                                        isRentableVideo == false
+                                    ? cPrimaryColor
+                                    : cWhiteColor.withOpacity(0.2),
+                          ),
+                          kW10sizedBox,
+                          CommonContainer(
+                            image: kiFavorite,
+                            containerColor:
+                                profileController.isFavoriteAdded.value
+                                    ? cPrimaryColor2
+                                    : null,
+                            onPressed: () async {
+                              if (Get.find<GlobalController>()
+                                      .userToken
+                                      .value ==
+                                  "") {
+                                showSnackBar(
+                                    title: "Error",
+                                    message:
+                                        "Please Login first then add favourite",
+                                    color: cRedColor);
+                              } else {
+                                profileController.isFavoriteAdded.value =
+                                    !profileController.isFavoriteAdded.value;
+                                await profileController.favoriteAddOrRemove(
+                                    id: homeController
+                                            .movieDetailsData.value?.id ??
+                                        -1,
+                                    type: "movie");
+                              }
+                            },
+                          ),
+                          kW10sizedBox,
+                          CommonContainer(
+                            image: kiAdd,
+                            onPressed: () async {
+                              if (Get.find<GlobalController>()
+                                      .userToken
+                                      .value ==
+                                  "") {
+                                showSnackBar(
+                                    title: "Error",
+                                    message:
+                                        "Please Login first then add favourite",
+                                    color: cRedColor);
+                              } else {
+                                profileController.moviePlayListIds.addAll(
+                                    homeController.movieDetailsModel.value
+                                            ?.playlistIds ??
+                                        []);
+                                for (int i = 0;
+                                    i < profileController.playlistList.length;
+                                    i++) {
+                                  final currentId =
+                                      Get.find<ProfileController>()
+                                          .playlistList[i]
+                                          .id
+                                          .toString();
+                                  final bool exists = Get.find<HomeController>()
+                                      .playlistIdsList
+                                      .any((element) => currentId
+                                          .contains(element.toString()));
+                                  Get.find<ProfileController>()
+                                      .temporaryPlayListCheckBoxStateList
+                                      .add(exists);
+                                }
+                                showSaveVideoToPlayListPopup(
+                                    context,
+                                    homeController.movieDetailsData.value?.id ??
+                                        -1);
+                              }
+                            },
+                          ),
+                          kW10sizedBox,
+                          CommonContainer(
+                            image: kiDownload,
+                            containerColor: homeController.movieDetailsModel
+                                        .value?.download?.isDownloadable ==
+                                    0
+                                ? cWhiteColor.withOpacity(0.1)
+                                : null,
+                            iconColor: homeController.movieDetailsModel.value
+                                        ?.download?.isDownloadable ==
+                                    0
+                                ? cWhiteColor.withOpacity(0.2)
+                                : null,
+                            onPressed: homeController.movieDetailsModel.value
+                                        ?.download?.isDownloadable ==
+                                    1
+                                ? () {
+                                    // allVideoPlayerController.flutterMediaDownloaderPlugin.downloadMedia(context,'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
+                                    showDownloadVideoPopup(context);
+                                    // allVideoPlayerController
+                                    //     .flutterMediaDownloaderPlugin
+                                    //     .downloadMedia(context,
+                                    //         'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+                                  }
+                                : null,
+                          ),
+                          //flutter video download
+                          // CommonContainer(
+                          //   image: kiDownload,
+                          //   onPressed: () async {
+                          //     try {
+                          //       showDialog(
+                          //         context: context,
+                          //         barrierDismissible: false,
+                          //         builder: (context) => AlertDialog(
+                          //           content: Row(
+                          //             children: [
+                          //               CircularProgressIndicator(),
+                          //               SizedBox(width: 20),
+                          //               Text('Downloading video...'),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //       );
 
-                    kH16sizedBox,
-                    Text(
-                      ksRelatedVideos.tr,
-                      style: medium16TextStyle(cWhiteColor),
-                    ),
-                    kH16sizedBox,
-                    Row(
-                      children: [
+                          //       String videoUrl =
+                          //           'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4';
+                          //       String fileName =
+                          //           'video_${DateTime.now().millisecondsSinceEpoch}.mp4';
+
+                          //       await allVideoPlayerController.downloadVideo(
+                          //           videoUrl, fileName);
+
+                          //       // Hide loading dialog
+                          //       Navigator.of(context).pop();
+
+                          //       // Show success message
+                          //       ScaffoldMessenger.of(context).showSnackBar(
+                          //         SnackBar(
+                          //           content:
+                          //               Text('Video downloaded successfully!'),
+                          //           backgroundColor: Colors.green,
+                          //         ),
+                          //       );
+                          //     } catch (e) {
+                          //       // Hide loading dialog if still showing
+                          //       Navigator.of(context).pop();
+
+                          //       // Show error message
+                          //       ScaffoldMessenger.of(context).showSnackBar(
+                          //         SnackBar(
+                          //           content:
+                          //               Text('Download failed: ${e.toString()}'),
+                          //           backgroundColor: Colors.red,
+                          //         ),
+                          //       );
+                          //     }
+                          //   },
+                          // ),
+
+                          // kW10sizedBox,
+                          // CommonContainer(
+                          //   image: kiDownload,
+                          //   onPressed: (){
+                          //   },
+                          // ),
+                          //                         CommonContainer(
+                          //   image: kiDownload,
+                          //   onPressed: () async{
+                          //    await allVideoPlayerController.requestStoragePermission();
+                          //    await allVideoPlayerController.downloadVideo(
+                          //       'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
+                          //       'sample_video.mp4',
+                          //     );
+                          //   },
+                          // ),
+                          // CommonContainer(
+                          //   image: kiDownload,
+                          //   onPressed: () async {
+                          //     try {
+                          //       ll("123 in try block");
+
+                          //       // Request storage permission
+                          //       final permission =
+                          //           await Permission.storage.request();
+                          //       ll("123 in permission $permission");
+
+                          //       if (permission.isGranted) {
+                          //         // Download the video
+                          //         final taskId = await FlutterDownloader.enqueue(
+                          //           // url: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                          //           url:
+                          //               'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                          //           savedDir:
+                          //               (await getApplicationDocumentsDirectory())
+                          //                   .path,
+                          //           fileName: 'downloaded_video.mp4',
+                          //           showNotification: true,
+                          //           openFileFromNotification: true,
+                          //         );
+                          //         ll("Task id is $taskId");
+
+                          //         // Show success message
+                          //         showSnackBar(
+                          //           title: ksDownloading.tr,
+                          //           message: 'Downloading Started',
+                          //           color: cPrimaryColor2,
+                          //         );
+                          //       } else if (permission.isPermanentlyDenied) {
+                          //         // Open app settings if permission is permanently denied
+                          //         showSnackBar(
+                          //           title: ksError.tr,
+                          //           message:
+                          //               'Storage permission is permanently denied. Please enable it from settings.',
+                          //           color: cPrimaryColor2,
+                          //         );
+                          //         await openAppSettings();
+                          //       } else {
+                          //         // Handle temporary denied permission
+                          //         showSnackBar(
+                          //           title: ksError.tr,
+                          //           message:
+                          //               'Storage permission is required to download video.',
+                          //           color: cPrimaryColor2,
+                          //         );
+                          //       }
+                          //     } catch (e) {
+                          //       // Handle any errors
+                          //       ScaffoldMessenger.of(context).showSnackBar(
+                          //         SnackBar(
+                          //           content: Text('Error downloading video: $e'),
+                          //           duration: Duration(seconds: 2),
+                          //         ),
+                          //       );
+                          //     }
+                          //   },
+                          // ),
+
+                          kW10sizedBox,
+                          CommonContainer(
+                            image: kiShare,
+                            onPressed: () {
+                              Share.share(homeController
+                                      .movieServerList[
+                                          homeController.selectedServer.value]
+                                      ?.fileUrl ??
+                                  "");
+                            },
+                          ),
+                        ],
+                      ),
+                      if (homeController.movieServerList.isNotEmpty)
+                        kH16sizedBox,
+                      if (homeController.movieServerList.isNotEmpty)
                         SizedBox(
-                          width: width - 20,
-                          height: 150.h,
+                          width: width - 60 / 3,
+                          height: 40.h,
                           child: ListView.separated(
-                            itemCount: homeController.relatedMovieList.length,
-                            separatorBuilder: (context, index) => kW10sizedBox,
                             shrinkWrap: true,
-                            physics: const AlwaysScrollableScrollPhysics(),
+                            padding: EdgeInsets.zero,
                             scrollDirection: Axis.horizontal,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            separatorBuilder: (context, index) => kW10sizedBox,
+                            itemCount: homeController.movieServerList.length,
                             itemBuilder: (context, index) {
                               return Obx(() => InkWell(
                                     onTap: () async {
-                                      await homeController.getMovieDetails(
-                                          movieId: homeController
-                                              .relatedMovieList[index].id!
-                                              .toString());
+                                      homeController.selectedServer.value =
+                                          index;
+                                      // if (homeController
+                                      //         .movieServerList[index]!.sourceType!
+                                      //         .toLowerCase() ==
+                                      //     "youtube") {
+                                      //   allVideoPlayerController.videoUrl.value =
+                                      //       homeController.movieServerList[index]!
+                                      //               .fileUrl ??
+                                      //           "";
+                                      //   final videoId =
+                                      //       YoutubePlayer.convertUrlToId(
+                                      //           allVideoPlayerController
+                                      //               .videoUrl.value);
+                                      //   allVideoPlayerController
+                                      //           .youtubeController =
+                                      //       YoutubePlayerController(
+                                      //     initialVideoId: videoId ?? '',
+                                      //     flags: const YoutubePlayerFlags(
+                                      //       autoPlay: false,
+                                      //       mute: false,
+                                      //     ),
+                                      //   );
+                                      // } else if (homeController
+                                      //         .movieServerList[index]!.sourceType!
+                                      //         .toLowerCase() !=
+                                      //     "youtube") {
+                                      //   allVideoPlayerController.videoUrl.value =
+                                      //       homeController.movieServerList[index]!
+                                      //               .fileUrl ??
+                                      //           "";
+                                      //   allVideoPlayerController
+                                      //       .initBetterPlayerVideo(homeController
+                                      //               .movieServerList[index]!
+                                      //               .fileUrl ??
+                                      //           "");
+                                      //   Get.find<AllVideoPlayerController>()
+                                      //       .flickManager = FlickManager(
+                                      //     videoPlayerController:
+                                      //         VideoPlayerController.network(
+                                      //             homeController
+                                      //                     .movieServerList[index]!
+                                      //                     .fileUrl ??
+                                      //                 ""),
+                                      //   );
+                                      //   await allVideoPlayerController
+                                      //       .parseVideoUrl(
+                                      //           fileUrl: homeController
+                                      //                   .movieServerList[index]!
+                                      //                   .fileUrl ??
+                                      //               "",
+                                      //           fileSource: homeController
+                                      //                   .movieServerList[index]!
+                                      //                   .fileSource ??
+                                      //               "");
+                                      // }
                                       if (homeController
                                           .movieServerList.isNotEmpty) {
-                                        String videoUrl = homeController
-                                                .movieServerList[0]?.fileUrl ??
-                                            "";
-                                        Get.find<AllVideoPlayerController>()
-                                            .flickManager = FlickManager(
-                                          videoPlayerController:
-                                              VideoPlayerController.network(
-                                                  videoUrl),
-                                        );
-                                      } else {
-                                        String videoUrl = "";
-                                        Get.find<AllVideoPlayerController>()
-                                            .flickManager = FlickManager(
-                                          videoPlayerController:
-                                              VideoPlayerController.network(
-                                                  videoUrl),
-                                        );
+                                        allVideoPlayerController.videoPlayerFunction(
+                                            isFree: homeController
+                                                        .movieDetailsData
+                                                        .value
+                                                        ?.isFree ==
+                                                    1
+                                                ? true
+                                                : false,
+                                            isRental: isRentableVideo,
+                                            isRented: homeController
+                                                .movieDetailsModel
+                                                .value
+                                                ?.isRented,
+                                            isSubscribed:
+                                                Get.find<GlobalController>()
+                                                    .subscribedUserCheck
+                                                    .value,
+                                            fileUrl: homeController
+                                                .movieServerList[homeController
+                                                    .selectedServer.value]
+                                                ?.fileUrl,
+                                            fileSource: homeController
+                                                .movieServerList[homeController.selectedServer.value]
+                                                ?.fileSource);
                                       }
                                     },
-                                    child: MovieContentContainer(
-                                      movieImage: homeController
-                                          .relatedMovieList[index].thumbnail,
-                                      isPremium: homeController
-                                                  .relatedMovieList[index]
-                                                  .isFree ==
-                                              0 && homeController
-                                                  .relatedMovieList[index]
-                                                  .isRental==0 
-                                          ? true
-                                          : false,
+                                    child: Container(
+                                      width: (width - 50) / 3,
+                                      height: 40.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                            k6BorderRadius),
+                                        color: homeController
+                                                    .selectedServer.value ==
+                                                index
+                                            ? cPrimaryColor
+                                            : cWhiteColor.withOpacity(0.2),
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                        homeController.movieServerList[index]
+                                                ?.label ??
+                                            "",
+                                        textAlign: TextAlign.center,
+                                        style: medium14TextStyle(cWhiteColor),
+                                      )),
                                     ),
                                   ));
                             },
                           ),
                         ),
-                      ],
-                    ),
+                      kH16sizedBox,
+                      Padding(
+                        padding: const EdgeInsets.only(right: k20Padding),
+                        child: Divider(
+                          thickness: 1,
+                          color: cWhiteColor.withOpacity(0.2),
+                        ),
+                      ),
+                      // kH16sizedBox,
+                      // SubscriptionSelector(),
+                      //! For rental video this widget(RentProductDetailsContentContainer)
+                      if (isRentableVideo == true) kH16sizedBox,
+                      if (isRentableVideo == true)
+                        RentProductDetailsContentContainer(
+                          rentPrice:
+                              homeController.rentalVideoData.value?.price ?? "",
+                          rentValidity:
+                              homeController.rentalVideoData.value?.validity ??
+                                  "",
+                          rentExpireDate: homeController
+                                  .rentalVideoData.value?.expireData
+                                  .toString() ??
+                              "",
+                        ),
+                      kH12sizedBox,
+                      Container(
+                        width: width - 40,
+                        height: 46.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(100.r),
+                          color: cWhiteColor.withOpacity(0.1),
+                        ),
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.symmetric(horizontal: k4Padding),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: List.generate(
+                                homeController.movieDetailsTabs.length,
+                                (index) {
+                              return GestureDetector(
+                                onTap: () async {
+                                  homeController.videoDetailsChangeTab(index);
+                                  if (homeController
+                                          .movietSelectedIndex.value ==
+                                      3) {
+                                    await homeController.getUserReview(
+                                        reviewableId: homeController
+                                            .movieDetailsModel
+                                            .value!
+                                            .details!
+                                            .id!,
+                                        reviewableType: "movie");
+                                  }
+                                },
+                                child: Obx(() => Container(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16.w, vertical: 8.h),
+                                      decoration: BoxDecoration(
+                                        color: homeController
+                                                    .movietSelectedIndex
+                                                    .value ==
+                                                index
+                                            ? Colors.grey[800]
+                                            : Colors.transparent,
+                                        borderRadius:
+                                            BorderRadius.circular(100.r),
+                                      ),
+                                      child: Container(
+                                        constraints: BoxConstraints(
+                                          maxWidth: (width - 40) /
+                                                  homeController
+                                                      .movieDetailsTabs.length -
+                                              14.w,
+                                        ),
+                                        child: Text(
+                                          homeController
+                                              .movieDetailsTabs[index],
+                                          style:
+                                              regular14TextStyle(cWhiteColor),
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                      ),
+                                    )),
+                              );
+                            }),
+                          ),
+                        ),
+                      ),
 
-                    kH16sizedBox,
-                            HomeTitleContent(
-                      title: ksRecommendedMovies.tr,
-                      subtitleText:
-                          homeController.recommendedMoviesList.isNotEmpty
-                              ? ksViewAll.tr
-                              : "",
-                      onPressed: () async {
-                        homeController.resetBottomSheetData();
-                        profileController.temporaryPlayListCheckBoxStateList
-                            .clear();
-                        homeController.isViewAllSearchEnable.value = false;
-                        homeController.viewAllTextEditingController.clear();
-                        homeController.selectedTitle.value =
-                            ksRecommendedMovies;
-                        await homeController.getMovieList(
-                            movieType: "recommended");
-                        homeController.isHomeGenreClicked.value = false;
-                        Get.toNamed(krMovieViewAllScreen);
-                      },
-                    ),
-                    kH16sizedBox,
-                    Row(
-                      children: [
+                      kH12sizedBox,
+                      if (homeController.movietSelectedIndex.value == 0)
                         SizedBox(
                           width: width - 20,
-                          height: 150.h,
+                          height: 50.h,
                           child: ListView.separated(
-                            itemCount:
-                                homeController.recommendedMovieList.length,
-                            separatorBuilder: (context, index) => kW10sizedBox,
                             shrinkWrap: true,
                             physics: const AlwaysScrollableScrollPhysics(),
                             scrollDirection: Axis.horizontal,
+                            separatorBuilder: (context, index) => kW8sizedBox,
+                            itemCount: homeController.movieCastList.length,
                             itemBuilder: (context, index) {
-                              return Obx(() => InkWell(
-                                    onTap: () async {
-                                      await homeController.getMovieDetails(
-                                          movieId: homeController
-                                              .recommendedMovieList[index].id!
-                                              .toString());
-                                      if (homeController
-                                          .movieServerList.isNotEmpty) {
-                                        String videoUrl = homeController
-                                                .movieServerList[0]?.fileUrl ??
-                                            "";
-                                        Get.find<AllVideoPlayerController>()
-                                            .flickManager = FlickManager(
-                                          videoPlayerController:
-                                              VideoPlayerController.network(
-                                                  videoUrl),
-                                        );
-                                      } else {
-                                        String videoUrl = "";
-                                        Get.find<AllVideoPlayerController>()
-                                            .flickManager = FlickManager(
-                                          videoPlayerController:
-                                              VideoPlayerController.network(
-                                                  videoUrl),
-                                        );
-                                      }
-                                    },
-                                    child: MovieContentContainer(
-                                      movieImage: homeController
-                                              .recommendedMovieList[index]
-                                              .thumbnail ??
-                                          "",
-                                      isPremium: (homeController
-                                                  .recommendedMovieList[index]
-                                                  .isFree ==
-                                              0 && homeController
-                                                  .recommendedMovieList[index]
-                                                  .isRental == 0)
-                                          ? true
-                                          : false,
-                                    ),
-                                  ));
+                              return VideoDetailsContentWidget(
+                                imageUrl: homeController
+                                        .movieCastList[index]?.starImage ??
+                                    "",
+                                title: homeController
+                                        .movieCastList[index]?.starName ??
+                                    "",
+                                subTitle: homeController
+                                        .movieCastList[index]?.starType ??
+                                    "",
+                                onPressed: () async {
+                                  await homeController.getArtistDetails(
+                                      homeController.movieCastList[index]?.id);
+                                  homeController.castSelectedIndex.value = 0;
+                                  Get.toNamed(krCastDetailsScreen);
+                                },
+                              );
                             },
                           ),
                         ),
-                      ],
-                    ),
-                  ],
+                      if (homeController.movietSelectedIndex.value == 1)
+                        SizedBox(
+                          width: width - 20,
+                          height: 50.h,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            separatorBuilder: (context, index) => kW8sizedBox,
+                            itemCount: homeController.movieDirectorList.length,
+                            itemBuilder: (context, index) {
+                              return VideoDetailsContentWidget(
+                                imageUrl: homeController
+                                        .movieDirectorList[index]?.starImage ??
+                                    "",
+                                title: homeController
+                                        .movieDirectorList[index]?.starName ??
+                                    "",
+                                subTitle: homeController
+                                        .movieDirectorList[index]?.starType ??
+                                    "",
+                                onPressed: () async {
+                                  await homeController.getArtistDetails(
+                                      homeController
+                                          .movieDirectorList[index]?.id);
+                                  homeController.castSelectedIndex.value = 0;
+                                  Get.toNamed(krCastDetailsScreen);
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      if (homeController.movietSelectedIndex.value == 2)
+                        SizedBox(
+                          width: width - 20,
+                          height: 50.h,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            separatorBuilder: (context, index) => kW8sizedBox,
+                            itemCount: homeController.movieWriterList.length,
+                            itemBuilder: (context, index) {
+                              return VideoDetailsContentWidget(
+                                imageUrl: homeController
+                                        .movieWriterList[index]?.starImage ??
+                                    "",
+                                title: homeController
+                                        .movieWriterList[index]?.starName ??
+                                    "",
+                                subTitle: homeController
+                                        .movieWriterList[index]?.starType ??
+                                    "",
+                                onPressed: () async {
+                                  await homeController.getArtistDetails(
+                                      homeController
+                                          .movieWriterList[index]?.id);
+                                  homeController.castSelectedIndex.value = 0;
+                                  Get.toNamed(krCastDetailsScreen);
+                                },
+                              );
+                            },
+                          ),
+                        ),
+                      if (homeController.movietSelectedIndex.value == 3)
+                        Padding(
+                          padding: const EdgeInsets.only(right: k20Padding),
+                          child: Column(
+                            children: [
+                              Container(
+                                width: width,
+                                height: 32.h,
+                                decoration: BoxDecoration(
+                                  color: cWhiteColor.withOpacity(0.1),
+                                  borderRadius:
+                                      BorderRadius.circular(k8BorderRadius),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: k12Padding),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "${homeController.movieReviewList.length} ${ksReviews.tr}",
+                                        style: semiBold14TextStyle(cWhiteColor),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        ksSubmitRating.tr,
+                                        style: regular14TextStyle(cWhiteColor),
+                                      ),
+                                      kW4sizedBox,
+                                      Row(
+                                        children: List.generate(5, (index) {
+                                          return GestureDetector(
+                                            onTap: () => homeController
+                                                .updateRating(index + 1),
+                                            child: Icon(
+                                              Icons.star,
+                                              size: kIconSize16,
+                                              color: index <
+                                                      homeController
+                                                          .rating.value
+                                                  ? cAmberColor
+                                                  : Colors.grey,
+                                            ),
+                                          );
+                                        }),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              kH16sizedBox,
+                              CustomModifiedTextField(
+                                hint: ksEnterHere.tr,
+                                controller: homeController
+                                    .addCommentTextEditingController,
+                                fillColor: cBlackColor,
+                                textInputStyle: regular14TextStyle(cWhiteColor),
+                                focusBorder: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(k6BorderRadius),
+                                  borderSide: const BorderSide(
+                                    width: 1,
+                                    color: cPrimaryColor2,
+                                  ),
+                                ),
+                                maxLines: 4,
+                                inputAction: TextInputAction.newline,
+                                inputType: TextInputType.multiline,
+                                border: OutlineInputBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(k6BorderRadius),
+                                  borderSide: BorderSide(
+                                    width: 1,
+                                    color: cWhiteColor.withOpacity(0.3),
+                                    style: BorderStyle.solid,
+                                  ),
+                                ),
+                                contentPadding: const EdgeInsets.all(12),
+                              ),
+                              kH12sizedBox,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  // CustomElevatedButton(
+                                  //   label: ksCancel.tr,
+                                  //   onPressed: () {},
+                                  //   buttonColor: cWhiteColor.withOpacity(0.1),
+                                  //   textStyle: regular14TextStyle(cWhiteColor),
+                                  //   buttonWidth: 70.w,
+                                  //   buttonHeight: h32.h,
+                                  // ),
+                                  // kW12sizedBox,
+                                  CustomElevatedButton(
+                                    label: ksPostNow.tr,
+                                    onPressed: () async {
+                                      await homeController.userRating(
+                                        reviewableId: homeController
+                                            .movieDetailsModel
+                                            .value!
+                                            .details!
+                                            .id!,
+                                        reviewableType: "movie",
+                                      );
+                                    },
+                                    buttonColor: cPrimaryColor2,
+                                    textStyle: regular14TextStyle(cWhiteColor),
+                                    buttonWidth: 90.w,
+                                    buttonHeight: h32.h,
+                                  ),
+                                ],
+                              ),
+                              kH12sizedBox,
+                              ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                padding: const EdgeInsets.all(k0Padding),
+                                separatorBuilder: (context, index) =>
+                                    kH8sizedBox,
+                                itemCount:
+                                    homeController.movieReviewList.length,
+                                itemBuilder: (context, index) {
+                                  return Row(
+                                    children: [
+                                      Container(
+                                        width: 40.w,
+                                        height: 40.h,
+                                        decoration: const BoxDecoration(
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: CircleAvatar(
+                                          backgroundColor:
+                                              cWhiteColor.withOpacity(0.2),
+                                          child: ClipOval(
+                                            child: Image.network(
+                                              width: 40.w,
+                                              height: 40.h,
+                                              fit: BoxFit.cover,
+                                              homeController
+                                                      .movieReviewList[index]
+                                                      ?.user
+                                                      ?.profileImage ??
+                                                  "",
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      kW12sizedBox,
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text(
+                                                homeController
+                                                        .movieReviewList[index]
+                                                        ?.user
+                                                        ?.userName ??
+                                                    "",
+                                                style: medium16TextStyle(
+                                                    cWhiteColor),
+                                              ),
+                                              kW6sizedBox,
+                                              Container(
+                                                width: 6.w,
+                                                height: 6.h,
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  color: cGreyColor
+                                                      .withOpacity(0.8),
+                                                ),
+                                              ),
+                                              kW6sizedBox,
+                                              Icon(
+                                                Icons.access_time,
+                                                color:
+                                                    cGreyColor.withOpacity(0.8),
+                                                size: kIconSize16,
+                                              ),
+                                              kW6sizedBox,
+                                              Text(
+                                                homeController
+                                                        .movieReviewList[index]
+                                                        ?.createdAt ??
+                                                    "",
+                                                style: regular10TextStyle(
+                                                    cGreyColor
+                                                        .withOpacity(0.8)),
+                                              ),
+                                            ],
+                                          ),
+                                          kH10sizedBox,
+                                          Obx(() => SizedBox(
+                                                width: width - 96,
+                                                child: Row(
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () async {
+                                                        homeController
+                                                                .movieReviewList[
+                                                                    index]!
+                                                                .isLiked!
+                                                                .value =
+                                                            !homeController
+                                                                .movieReviewList[
+                                                                    index]!
+                                                                .isLiked!
+                                                                .value;
+                                                        if (homeController
+                                                                .movieReviewList[
+                                                                    index]!
+                                                                .isLiked!
+                                                                .value ==
+                                                            true) {
+                                                          homeController
+                                                              .movieReviewList[
+                                                                  index]!
+                                                              .totalLikes!
+                                                              .value++;
+                                                        }
+                                                        if (homeController
+                                                                .movieReviewList[
+                                                                    index]!
+                                                                .isLiked!
+                                                                .value ==
+                                                            false) {
+                                                          homeController
+                                                              .movieReviewList[
+                                                                  index]!
+                                                              .totalLikes!
+                                                              .value--;
+                                                        }
+                                                        await homeController
+                                                            .reviewLikeToggle(
+                                                                reviewId: homeController
+                                                                    .movieReviewList[
+                                                                        index]!
+                                                                    .id!);
+                                                      },
+                                                      child: Icon(
+                                                        homeController
+                                                                    .movieReviewList[
+                                                                        index]!
+                                                                    .isLiked!
+                                                                    .value ==
+                                                                true
+                                                            ? Icons.favorite
+                                                            : Icons
+                                                                .favorite_outline,
+                                                        color: homeController
+                                                                    .movieReviewList[
+                                                                        index]!
+                                                                    .isLiked!
+                                                                    .value ==
+                                                                true
+                                                            ? cPrimaryColor
+                                                            : cWhiteColor,
+                                                        size: kIconSize20,
+                                                      ),
+                                                    ),
+                                                    kW6sizedBox,
+                                                    Text(
+                                                      homeController
+                                                              .movieReviewList[
+                                                                  index]
+                                                              ?.totalLikes
+                                                              ?.value
+                                                              .toString() ??
+                                                          "",
+                                                      style: regular12TextStyle(
+                                                          cGreyColor
+                                                              .withOpacity(
+                                                                  0.8)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              )),
+                                          kH10sizedBox,
+                                          Text(
+                                            homeController
+                                                    .movieReviewList[index]
+                                                    ?.review ??
+                                                "",
+                                            style:
+                                                medium12TextStyle(cWhiteColor),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+
+                      kH16sizedBox,
+                      Text(
+                        ksRelatedVideos.tr,
+                        style: medium16TextStyle(cWhiteColor),
+                      ),
+                      kH16sizedBox,
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: width - 20,
+                            height: 150.h,
+                            child: ListView.separated(
+                              itemCount: homeController.relatedMovieList.length,
+                              separatorBuilder: (context, index) =>
+                                  kW10sizedBox,
+                              shrinkWrap: true,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Obx(() => InkWell(
+                                      onTap: () async {
+                                        await homeController.getMovieDetails(
+                                            movieId: homeController
+                                                .relatedMovieList[index].id!
+                                                .toString());
+                                        if (homeController
+                                            .movieServerList.isNotEmpty) {
+                                          String videoUrl = homeController
+                                                  .movieServerList[0]
+                                                  ?.fileUrl ??
+                                              "";
+                                          Get.find<AllVideoPlayerController>()
+                                              .flickManager = FlickManager(
+                                            videoPlayerController:
+                                                VideoPlayerController.network(
+                                                    videoUrl),
+                                          );
+                                        } else {
+                                          String videoUrl = "";
+                                          Get.find<AllVideoPlayerController>()
+                                              .flickManager = FlickManager(
+                                            videoPlayerController:
+                                                VideoPlayerController.network(
+                                                    videoUrl),
+                                          );
+                                        }
+                                      },
+                                      child: MovieContentContainer(
+                                        movieImage: homeController
+                                            .relatedMovieList[index].thumbnail,
+                                        isPremium: homeController
+                                                        .relatedMovieList[index]
+                                                        .isFree ==
+                                                    0 &&
+                                                homeController
+                                                        .relatedMovieList[index]
+                                                        .isRental ==
+                                                    0
+                                            ? true
+                                            : false,
+                                      ),
+                                    ));
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      kH16sizedBox,
+                      HomeTitleContent(
+                        title: ksRecommendedMovies.tr,
+                        subtitleText:
+                            homeController.recommendedMoviesList.isNotEmpty
+                                ? ksViewAll.tr
+                                : "",
+                        onPressed: () async {
+                          homeController.resetBottomSheetData();
+                          profileController.temporaryPlayListCheckBoxStateList
+                              .clear();
+                          homeController.isViewAllSearchEnable.value = false;
+                          homeController.viewAllTextEditingController.clear();
+                          homeController.selectedTitle.value =
+                              ksRecommendedMovies;
+                          await homeController.getMovieList(
+                              movieType: "recommended");
+                          homeController.isHomeGenreClicked.value = false;
+                          Get.toNamed(krMovieViewAllScreen);
+                        },
+                      ),
+                      kH16sizedBox,
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: width - 20,
+                            height: 150.h,
+                            child: ListView.separated(
+                              itemCount:
+                                  homeController.recommendedMovieList.length,
+                              separatorBuilder: (context, index) =>
+                                  kW10sizedBox,
+                              shrinkWrap: true,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Obx(() => InkWell(
+                                      onTap: () async {
+                                        await homeController.getMovieDetails(
+                                            movieId: homeController
+                                                .recommendedMovieList[index].id!
+                                                .toString());
+                                        if (homeController
+                                            .movieServerList.isNotEmpty) {
+                                          String videoUrl = homeController
+                                                  .movieServerList[0]
+                                                  ?.fileUrl ??
+                                              "";
+                                          Get.find<AllVideoPlayerController>()
+                                              .flickManager = FlickManager(
+                                            videoPlayerController:
+                                                VideoPlayerController.network(
+                                                    videoUrl),
+                                          );
+                                        } else {
+                                          String videoUrl = "";
+                                          Get.find<AllVideoPlayerController>()
+                                              .flickManager = FlickManager(
+                                            videoPlayerController:
+                                                VideoPlayerController.network(
+                                                    videoUrl),
+                                          );
+                                        }
+                                      },
+                                      child: MovieContentContainer(
+                                        movieImage: homeController
+                                                .recommendedMovieList[index]
+                                                .thumbnail ??
+                                            "",
+                                        isPremium: (homeController
+                                                        .recommendedMovieList[
+                                                            index]
+                                                        .isFree ==
+                                                    0 &&
+                                                homeController
+                                                        .recommendedMovieList[
+                                                            index]
+                                                        .isRental ==
+                                                    0)
+                                            ? true
+                                            : false,
+                                      ),
+                                    ));
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              kH60sizedBox,
-              //!Comment Widget
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-              //   child: Column(
-              //     children: [
-              //       kH20sizedBox,
-              //       Container(
-              //         width: width,
-              //         decoration: BoxDecoration(
-              //           color: cWhiteColor.withOpacity(0.1),
-              //           borderRadius: BorderRadius.circular(k6BorderRadius),
-              //         ),
-              //         child: Padding(
-              //           padding: const EdgeInsets.symmetric(
-              //               horizontal: k16Padding, vertical: k20Padding),
-              //           child: Row(
-              //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //             children: [
-              //               Text(
-              //                 "10 Comments",
-              //                 style: medium16TextStyle(cWhiteColor),
-              //               ),
-              //               // kW36sizedBox,
-              //               Text(
-              //                 "${ksSubmitRating.tr}:",
-              //                 style: regular16TextStyle(cWhiteColor),
-              //               ),
-              //               //!temporary(this is not valid)
-              //               const Row(
-              //                 children: [
-              //                   Icon(
-              //                     Icons.star_border,
-              //                     size: kIconSize16,
-              //                     color: cWhiteColor,
-              //                   ),
-              //                   Icon(
-              //                     Icons.star_border,
-              //                     size: kIconSize16,
-              //                     color: cWhiteColor,
-              //                   ),
-              //                   Icon(
-              //                     Icons.star_border,
-              //                     size: kIconSize16,
-              //                     color: cWhiteColor,
-              //                   ),
-              //                   Icon(
-              //                     Icons.star_border,
-              //                     size: kIconSize16,
-              //                     color: cWhiteColor,
-              //                   ),
-              //                   Icon(
-              //                     Icons.star_border,
-              //                     size: kIconSize16,
-              //                     color: cWhiteColor,
-              //                   ),
-              //                 ],
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //       kH20sizedBox,
-              //       Row(
-              //         children: [
-              //           Container(
-              //             width: 40.w,
-              //             height: 40.h,
-              //             decoration: const BoxDecoration(
-              //               shape: BoxShape.circle,
-              //             ),
-              //             child: CircleAvatar(
-              //               backgroundColor: cWhiteColor.withOpacity(0.2),
-              //               child: ClipOval(
-              //                 child: Image.network(
-              //                     width: 40.w,
-              //                     height: 40.h,
-              //                     fit: BoxFit.cover,
-              //                     "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D"),
-              //               ),
-              //             ),
-              //           ),
-              //           kW12sizedBox,
-              //           Column(
-              //             crossAxisAlignment: CrossAxisAlignment.start,
-              //             mainAxisAlignment: MainAxisAlignment.start,
-              //             children: [
-              //               Row(
-              //                 children: [
-              //                   Text(
-              //                     "Saikat Ahmmed",
-              //                     style: medium16TextStyle(cWhiteColor),
-              //                   ),
-              //                   kW6sizedBox,
-              //                   Container(
-              //                     width: 6.w,
-              //                     height: 6.h,
-              //                     decoration: BoxDecoration(
-              //                       shape: BoxShape.circle,
-              //                       color: cGreyColor.withOpacity(0.8),
-              //                     ),
-              //                   ),
-              //                   kW6sizedBox,
-              //                   Icon(
-              //                     Icons.access_time,
-              //                     color: cGreyColor.withOpacity(0.8),
-              //                     size: kIconSize16,
-              //                   ),
-              //                   kW6sizedBox,
-              //                   Text(
-              //                     "2 years ago",
-              //                     style: regular10TextStyle(
-              //                         cGreyColor.withOpacity(0.8)),
-              //                   ),
-              //                 ],
-              //               ),
-              //               kH10sizedBox,
-              //               SizedBox(
-              //                 width: width - 96,
-              //                 child: Row(
-              //                   children: [
-              //                     const Icon(
-              //                       Icons.favorite_outline,
-              //                       color: cWhiteColor,
-              //                       size: kIconSize20,
-              //                     ),
-              //                     kW6sizedBox,
-              //                     Text(
-              //                       "100K",
-              //                       style: regular12TextStyle(
-              //                           cGreyColor.withOpacity(0.8)),
-              //                     ),
-              //                     kW12sizedBox,
-              //                     SizedBox(
-              //                       height: h8.h,
-              //                       child: VerticalDivider(
-              //                         width: 1,
-              //                         thickness: 1,
-              //                         color: cWhiteColor.withOpacity(0.14),
-              //                       ),
-              //                     ),
-              //                     kW12sizedBox,
-              //                     SvgPicture.asset(
-              //                       kiMessage,
-              //                       width: 14.w,
-              //                       height: 14.h,
-              //                       color: cWhiteColor,
-              //                     ),
-              //                     kW6sizedBox,
-              //                     Text(
-              //                       "10k replies",
-              //                       style: regular12TextStyle(
-              //                           cGreyColor.withOpacity(0.8)),
-              //                     ),
-              //                     kW6sizedBox,
-              //                     const Icon(
-              //                       Icons.keyboard_arrow_down_outlined,
-              //                       color: cWhiteColor,
-              //                       size: kIconSize20,
-              //                     ),
-              //                     //  Spacer(),
-              //                     const Expanded(child: SizedBox()),
-              //                     Row(
-              //                       children: [
-              //                         SvgPicture.asset(
-              //                           kiReply,
-              //                           width: 16.w,
-              //                           height: 16.h,
-              //                           color: cPrimaryColor2,
-              //                         ),
-              //                         kW14sizedBox,
-              //                         Text(
-              //                           ksReply.tr,
-              //                           style:
-              //                               regular16TextStyle(cPrimaryColor2),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ],
-              //       ),
-              //       kH12sizedBox,
-              //       Padding(
-              //         padding: EdgeInsets.only(left: 52.w),
-              //         child: SizedBox(
-              //           width: width - 72,
-              //           child: Column(
-              //             children: [
-              //               Divider(
-              //                 thickness: 1,
-              //                 color: cWhiteColor.withOpacity(0.14),
-              //               ),
-              //               Text(
-              //                 "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
-              //                 style: regular14TextStyle(cWhiteColor),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //       kH20sizedBox,
-              //       Row(
-              //         children: [
-              //           Container(
-              //             width: 40.w,
-              //             height: 40.h,
-              //             decoration: const BoxDecoration(
-              //               shape: BoxShape.circle,
-              //             ),
-              //             child: CircleAvatar(
-              //               backgroundColor: cWhiteColor.withOpacity(0.2),
-              //               child: ClipOval(
-              //                 child: Image.network(
-              //                     width: 40.w,
-              //                     height: 40.h,
-              //                     fit: BoxFit.cover,
-              //                     "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D"),
-              //               ),
-              //             ),
-              //           ),
-              //           kW12sizedBox,
-              //           Column(
-              //             crossAxisAlignment: CrossAxisAlignment.start,
-              //             mainAxisAlignment: MainAxisAlignment.start,
-              //             children: [
-              //               Row(
-              //                 children: [
-              //                   Text(
-              //                     "Saikat Ahmmed",
-              //                     style: medium16TextStyle(cWhiteColor),
-              //                   ),
-              //                   kW6sizedBox,
-              //                   Container(
-              //                     width: 6.w,
-              //                     height: 6.h,
-              //                     decoration: BoxDecoration(
-              //                       shape: BoxShape.circle,
-              //                       color: cGreyColor.withOpacity(0.8),
-              //                     ),
-              //                   ),
-              //                   kW6sizedBox,
-              //                   Icon(
-              //                     Icons.access_time,
-              //                     color: cGreyColor.withOpacity(0.8),
-              //                     size: kIconSize16,
-              //                   ),
-              //                   kW6sizedBox,
-              //                   Text(
-              //                     "2 years ago",
-              //                     style: regular10TextStyle(
-              //                         cGreyColor.withOpacity(0.8)),
-              //                   ),
-              //                 ],
-              //               ),
-              //               kH10sizedBox,
-              //               SizedBox(
-              //                 width: width - 96,
-              //                 child: Row(
-              //                   children: [
-              //                     const Icon(
-              //                       Icons.favorite_outline,
-              //                       color: cWhiteColor,
-              //                       size: kIconSize20,
-              //                     ),
-              //                     kW6sizedBox,
-              //                     Text(
-              //                       "100K",
-              //                       style: regular12TextStyle(
-              //                           cGreyColor.withOpacity(0.8)),
-              //                     ),
-              //                     kW12sizedBox,
-              //                     SizedBox(
-              //                       height: h8.h,
-              //                       child: VerticalDivider(
-              //                         width: 1,
-              //                         thickness: 1,
-              //                         color: cWhiteColor.withOpacity(0.14),
-              //                       ),
-              //                     ),
-              //                     kW12sizedBox,
-              //                     SvgPicture.asset(
-              //                       kiMessage,
-              //                       width: 14.w,
-              //                       height: 14.h,
-              //                       color: cWhiteColor,
-              //                     ),
-              //                     kW6sizedBox,
-              //                     Text(
-              //                       "10k replies",
-              //                       style: regular12TextStyle(
-              //                           cGreyColor.withOpacity(0.8)),
-              //                     ),
-              //                     kW6sizedBox,
-              //                     const Icon(
-              //                       Icons.keyboard_arrow_down_outlined,
-              //                       color: cWhiteColor,
-              //                       size: kIconSize20,
-              //                     ),
-              //                     const Expanded(child: SizedBox()),
-              //                     Row(
-              //                       children: [
-              //                         SvgPicture.asset(
-              //                           kiReply,
-              //                           width: 16.w,
-              //                           height: 16.h,
-              //                           color: cPrimaryColor2,
-              //                         ),
-              //                         kW14sizedBox,
-              //                         Text(
-              //                           ksReply.tr,
-              //                           style:
-              //                               regular16TextStyle(cPrimaryColor2),
-              //                         ),
-              //                       ],
-              //                     ),
-              //                   ],
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ],
-              //       ),
-              //       kH12sizedBox,
-              //       Padding(
-              //         padding: EdgeInsets.only(left: 52.w),
-              //         child: SizedBox(
-              //           width: width - 72,
-              //           child: Column(
-              //             children: [
-              //               Divider(
-              //                 thickness: 1,
-              //                 color: cWhiteColor.withOpacity(0.14),
-              //               ),
-              //               Text(
-              //                 "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
-              //                 style: regular14TextStyle(cWhiteColor),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ),
-              //       kH12sizedBox,
-              //       Divider(
-              //         thickness: 1,
-              //         color: cWhiteColor.withOpacity(0.14),
-              //       ),
-              //       kH20sizedBox,
-              //       Align(
-              //         alignment: Alignment.centerLeft,
-              //         child: Text(
-              //           ksAddYourComment.tr,
-              //           style: medium16TextStyle(cWhiteColor),
-              //         ),
-              //       ),
-              //       kH20sizedBox,
-              //       CustomModifiedTextField(
-              //         hint: ksEnterHere.tr,
-              //         controller:
-              //             homeController.addCommentTextEditingController,
-              //         fillColor: cBlackColor,
-              //         textInputStyle: regular14TextStyle(cWhiteColor),
-              //         focusBorder: OutlineInputBorder(
-              //           borderRadius: BorderRadius.circular(k6BorderRadius),
-              //           borderSide: const BorderSide(
-              //             width: 1,
-              //             color: cPrimaryColor2,
-              //           ),
-              //         ),
-              //         maxLines: 4,
-              //         inputAction: TextInputAction.newline,
-              //         inputType: TextInputType.multiline,
-              //         border: OutlineInputBorder(
-              //           borderRadius: BorderRadius.circular(k6BorderRadius),
-              //           borderSide: BorderSide(
-              //             width: 1,
-              //             color: cWhiteColor.withOpacity(0.3),
-              //             style: BorderStyle.solid,
-              //           ),
-              //         ),
-              //         contentPadding: const EdgeInsets.all(12),
-              //       ),
-              //       kH12sizedBox,
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: [
-              //           Container(
-              //             width: 34.w,
-              //             height: 34.h,
-              //             decoration: BoxDecoration(
-              //               borderRadius: BorderRadius.circular(k6BorderRadius),
-              //               color: cWhiteColor.withOpacity(0.1),
-              //             ),
-              //             child: Padding(
-              //               padding: const EdgeInsets.all(9.0),
-              //               child: SvgPicture.asset(
-              //                 kiEmoji,
-              //                 width: 16.w,
-              //                 height: 16.h,
-              //                 color: cWhiteColor,
-              //               ),
-              //             ),
-              //           ),
-              //           Row(
-              //             children: [
-              //               CustomElevatedButton(
-              //                 label: ksCancel.tr,
-              //                 onPressed: () {},
-              //                 buttonColor: cWhiteColor.withOpacity(0.1),
-              //                 textStyle: regular16TextStyle(cWhiteColor),
-              //                 buttonWidth: 70.w,
-              //                 buttonHeight: h36.h,
-              //               ),
-              //               kW12sizedBox,
-              //               CustomElevatedButton(
-              //                 label: ksPostNow.tr,
-              //                 onPressed: () {},
-              //                 buttonColor: cPrimaryColor2,
-              //                 textStyle: regular16TextStyle(cWhiteColor),
-              //                 buttonWidth: 90.w,
-              //                 buttonHeight: h36.h,
-              //               ),
-              //             ],
-              //           ),
-              //         ],
-              //       ),
-              //       kH20sizedBox,
-              //     ],
-              //   ),
-              // ),
-            ],
+                kH60sizedBox,
+                //!Comment Widget
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+                //   child: Column(
+                //     children: [
+                //       kH20sizedBox,
+                //       Container(
+                //         width: width,
+                //         decoration: BoxDecoration(
+                //           color: cWhiteColor.withOpacity(0.1),
+                //           borderRadius: BorderRadius.circular(k6BorderRadius),
+                //         ),
+                //         child: Padding(
+                //           padding: const EdgeInsets.symmetric(
+                //               horizontal: k16Padding, vertical: k20Padding),
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //             children: [
+                //               Text(
+                //                 "10 Comments",
+                //                 style: medium16TextStyle(cWhiteColor),
+                //               ),
+                //               // kW36sizedBox,
+                //               Text(
+                //                 "${ksSubmitRating.tr}:",
+                //                 style: regular16TextStyle(cWhiteColor),
+                //               ),
+                //               //!temporary(this is not valid)
+                //               const Row(
+                //                 children: [
+                //                   Icon(
+                //                     Icons.star_border,
+                //                     size: kIconSize16,
+                //                     color: cWhiteColor,
+                //                   ),
+                //                   Icon(
+                //                     Icons.star_border,
+                //                     size: kIconSize16,
+                //                     color: cWhiteColor,
+                //                   ),
+                //                   Icon(
+                //                     Icons.star_border,
+                //                     size: kIconSize16,
+                //                     color: cWhiteColor,
+                //                   ),
+                //                   Icon(
+                //                     Icons.star_border,
+                //                     size: kIconSize16,
+                //                     color: cWhiteColor,
+                //                   ),
+                //                   Icon(
+                //                     Icons.star_border,
+                //                     size: kIconSize16,
+                //                     color: cWhiteColor,
+                //                   ),
+                //                 ],
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //       kH20sizedBox,
+                //       Row(
+                //         children: [
+                //           Container(
+                //             width: 40.w,
+                //             height: 40.h,
+                //             decoration: const BoxDecoration(
+                //               shape: BoxShape.circle,
+                //             ),
+                //             child: CircleAvatar(
+                //               backgroundColor: cWhiteColor.withOpacity(0.2),
+                //               child: ClipOval(
+                //                 child: Image.network(
+                //                     width: 40.w,
+                //                     height: 40.h,
+                //                     fit: BoxFit.cover,
+                //                     "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D"),
+                //               ),
+                //             ),
+                //           ),
+                //           kW12sizedBox,
+                //           Column(
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             mainAxisAlignment: MainAxisAlignment.start,
+                //             children: [
+                //               Row(
+                //                 children: [
+                //                   Text(
+                //                     "Saikat Ahmmed",
+                //                     style: medium16TextStyle(cWhiteColor),
+                //                   ),
+                //                   kW6sizedBox,
+                //                   Container(
+                //                     width: 6.w,
+                //                     height: 6.h,
+                //                     decoration: BoxDecoration(
+                //                       shape: BoxShape.circle,
+                //                       color: cGreyColor.withOpacity(0.8),
+                //                     ),
+                //                   ),
+                //                   kW6sizedBox,
+                //                   Icon(
+                //                     Icons.access_time,
+                //                     color: cGreyColor.withOpacity(0.8),
+                //                     size: kIconSize16,
+                //                   ),
+                //                   kW6sizedBox,
+                //                   Text(
+                //                     "2 years ago",
+                //                     style: regular10TextStyle(
+                //                         cGreyColor.withOpacity(0.8)),
+                //                   ),
+                //                 ],
+                //               ),
+                //               kH10sizedBox,
+                //               SizedBox(
+                //                 width: width - 96,
+                //                 child: Row(
+                //                   children: [
+                //                     const Icon(
+                //                       Icons.favorite_outline,
+                //                       color: cWhiteColor,
+                //                       size: kIconSize20,
+                //                     ),
+                //                     kW6sizedBox,
+                //                     Text(
+                //                       "100K",
+                //                       style: regular12TextStyle(
+                //                           cGreyColor.withOpacity(0.8)),
+                //                     ),
+                //                     kW12sizedBox,
+                //                     SizedBox(
+                //                       height: h8.h,
+                //                       child: VerticalDivider(
+                //                         width: 1,
+                //                         thickness: 1,
+                //                         color: cWhiteColor.withOpacity(0.14),
+                //                       ),
+                //                     ),
+                //                     kW12sizedBox,
+                //                     SvgPicture.asset(
+                //                       kiMessage,
+                //                       width: 14.w,
+                //                       height: 14.h,
+                //                       color: cWhiteColor,
+                //                     ),
+                //                     kW6sizedBox,
+                //                     Text(
+                //                       "10k replies",
+                //                       style: regular12TextStyle(
+                //                           cGreyColor.withOpacity(0.8)),
+                //                     ),
+                //                     kW6sizedBox,
+                //                     const Icon(
+                //                       Icons.keyboard_arrow_down_outlined,
+                //                       color: cWhiteColor,
+                //                       size: kIconSize20,
+                //                     ),
+                //                     //  Spacer(),
+                //                     const Expanded(child: SizedBox()),
+                //                     Row(
+                //                       children: [
+                //                         SvgPicture.asset(
+                //                           kiReply,
+                //                           width: 16.w,
+                //                           height: 16.h,
+                //                           color: cPrimaryColor2,
+                //                         ),
+                //                         kW14sizedBox,
+                //                         Text(
+                //                           ksReply.tr,
+                //                           style:
+                //                               regular16TextStyle(cPrimaryColor2),
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ],
+                //       ),
+                //       kH12sizedBox,
+                //       Padding(
+                //         padding: EdgeInsets.only(left: 52.w),
+                //         child: SizedBox(
+                //           width: width - 72,
+                //           child: Column(
+                //             children: [
+                //               Divider(
+                //                 thickness: 1,
+                //                 color: cWhiteColor.withOpacity(0.14),
+                //               ),
+                //               Text(
+                //                 "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
+                //                 style: regular14TextStyle(cWhiteColor),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //       kH20sizedBox,
+                //       Row(
+                //         children: [
+                //           Container(
+                //             width: 40.w,
+                //             height: 40.h,
+                //             decoration: const BoxDecoration(
+                //               shape: BoxShape.circle,
+                //             ),
+                //             child: CircleAvatar(
+                //               backgroundColor: cWhiteColor.withOpacity(0.2),
+                //               child: ClipOval(
+                //                 child: Image.network(
+                //                     width: 40.w,
+                //                     height: 40.h,
+                //                     fit: BoxFit.cover,
+                //                     "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D"),
+                //               ),
+                //             ),
+                //           ),
+                //           kW12sizedBox,
+                //           Column(
+                //             crossAxisAlignment: CrossAxisAlignment.start,
+                //             mainAxisAlignment: MainAxisAlignment.start,
+                //             children: [
+                //               Row(
+                //                 children: [
+                //                   Text(
+                //                     "Saikat Ahmmed",
+                //                     style: medium16TextStyle(cWhiteColor),
+                //                   ),
+                //                   kW6sizedBox,
+                //                   Container(
+                //                     width: 6.w,
+                //                     height: 6.h,
+                //                     decoration: BoxDecoration(
+                //                       shape: BoxShape.circle,
+                //                       color: cGreyColor.withOpacity(0.8),
+                //                     ),
+                //                   ),
+                //                   kW6sizedBox,
+                //                   Icon(
+                //                     Icons.access_time,
+                //                     color: cGreyColor.withOpacity(0.8),
+                //                     size: kIconSize16,
+                //                   ),
+                //                   kW6sizedBox,
+                //                   Text(
+                //                     "2 years ago",
+                //                     style: regular10TextStyle(
+                //                         cGreyColor.withOpacity(0.8)),
+                //                   ),
+                //                 ],
+                //               ),
+                //               kH10sizedBox,
+                //               SizedBox(
+                //                 width: width - 96,
+                //                 child: Row(
+                //                   children: [
+                //                     const Icon(
+                //                       Icons.favorite_outline,
+                //                       color: cWhiteColor,
+                //                       size: kIconSize20,
+                //                     ),
+                //                     kW6sizedBox,
+                //                     Text(
+                //                       "100K",
+                //                       style: regular12TextStyle(
+                //                           cGreyColor.withOpacity(0.8)),
+                //                     ),
+                //                     kW12sizedBox,
+                //                     SizedBox(
+                //                       height: h8.h,
+                //                       child: VerticalDivider(
+                //                         width: 1,
+                //                         thickness: 1,
+                //                         color: cWhiteColor.withOpacity(0.14),
+                //                       ),
+                //                     ),
+                //                     kW12sizedBox,
+                //                     SvgPicture.asset(
+                //                       kiMessage,
+                //                       width: 14.w,
+                //                       height: 14.h,
+                //                       color: cWhiteColor,
+                //                     ),
+                //                     kW6sizedBox,
+                //                     Text(
+                //                       "10k replies",
+                //                       style: regular12TextStyle(
+                //                           cGreyColor.withOpacity(0.8)),
+                //                     ),
+                //                     kW6sizedBox,
+                //                     const Icon(
+                //                       Icons.keyboard_arrow_down_outlined,
+                //                       color: cWhiteColor,
+                //                       size: kIconSize20,
+                //                     ),
+                //                     const Expanded(child: SizedBox()),
+                //                     Row(
+                //                       children: [
+                //                         SvgPicture.asset(
+                //                           kiReply,
+                //                           width: 16.w,
+                //                           height: 16.h,
+                //                           color: cPrimaryColor2,
+                //                         ),
+                //                         kW14sizedBox,
+                //                         Text(
+                //                           ksReply.tr,
+                //                           style:
+                //                               regular16TextStyle(cPrimaryColor2),
+                //                         ),
+                //                       ],
+                //                     ),
+                //                   ],
+                //                 ),
+                //               ),
+                //             ],
+                //           ),
+                //         ],
+                //       ),
+                //       kH12sizedBox,
+                //       Padding(
+                //         padding: EdgeInsets.only(left: 52.w),
+                //         child: SizedBox(
+                //           width: width - 72,
+                //           child: Column(
+                //             children: [
+                //               Divider(
+                //                 thickness: 1,
+                //                 color: cWhiteColor.withOpacity(0.14),
+                //               ),
+                //               Text(
+                //                 "Lorem ipsum dolor sit amet consectetur. Eget dictum at ipsum ridiculus nec. Viverra mauris molestie ut rhoncus.",
+                //                 style: regular14TextStyle(cWhiteColor),
+                //               ),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //       kH12sizedBox,
+                //       Divider(
+                //         thickness: 1,
+                //         color: cWhiteColor.withOpacity(0.14),
+                //       ),
+                //       kH20sizedBox,
+                //       Align(
+                //         alignment: Alignment.centerLeft,
+                //         child: Text(
+                //           ksAddYourComment.tr,
+                //           style: medium16TextStyle(cWhiteColor),
+                //         ),
+                //       ),
+                //       kH20sizedBox,
+                //       CustomModifiedTextField(
+                //         hint: ksEnterHere.tr,
+                //         controller:
+                //             homeController.addCommentTextEditingController,
+                //         fillColor: cBlackColor,
+                //         textInputStyle: regular14TextStyle(cWhiteColor),
+                //         focusBorder: OutlineInputBorder(
+                //           borderRadius: BorderRadius.circular(k6BorderRadius),
+                //           borderSide: const BorderSide(
+                //             width: 1,
+                //             color: cPrimaryColor2,
+                //           ),
+                //         ),
+                //         maxLines: 4,
+                //         inputAction: TextInputAction.newline,
+                //         inputType: TextInputType.multiline,
+                //         border: OutlineInputBorder(
+                //           borderRadius: BorderRadius.circular(k6BorderRadius),
+                //           borderSide: BorderSide(
+                //             width: 1,
+                //             color: cWhiteColor.withOpacity(0.3),
+                //             style: BorderStyle.solid,
+                //           ),
+                //         ),
+                //         contentPadding: const EdgeInsets.all(12),
+                //       ),
+                //       kH12sizedBox,
+                //       Row(
+                //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //         children: [
+                //           Container(
+                //             width: 34.w,
+                //             height: 34.h,
+                //             decoration: BoxDecoration(
+                //               borderRadius: BorderRadius.circular(k6BorderRadius),
+                //               color: cWhiteColor.withOpacity(0.1),
+                //             ),
+                //             child: Padding(
+                //               padding: const EdgeInsets.all(9.0),
+                //               child: SvgPicture.asset(
+                //                 kiEmoji,
+                //                 width: 16.w,
+                //                 height: 16.h,
+                //                 color: cWhiteColor,
+                //               ),
+                //             ),
+                //           ),
+                //           Row(
+                //             children: [
+                //               CustomElevatedButton(
+                //                 label: ksCancel.tr,
+                //                 onPressed: () {},
+                //                 buttonColor: cWhiteColor.withOpacity(0.1),
+                //                 textStyle: regular16TextStyle(cWhiteColor),
+                //                 buttonWidth: 70.w,
+                //                 buttonHeight: h36.h,
+                //               ),
+                //               kW12sizedBox,
+                //               CustomElevatedButton(
+                //                 label: ksPostNow.tr,
+                //                 onPressed: () {},
+                //                 buttonColor: cPrimaryColor2,
+                //                 textStyle: regular16TextStyle(cWhiteColor),
+                //                 buttonWidth: 90.w,
+                //                 buttonHeight: h36.h,
+                //               ),
+                //             ],
+                //           ),
+                //         ],
+                //       ),
+                //       kH20sizedBox,
+                //     ],
+                //   ),
+                // ),
+              ],
+            ),
           ),
         ),
       ),
@@ -1717,9 +1858,13 @@ class VideoPlayerScreen extends StatelessWidget {
 
 class CommonContainer extends StatelessWidget {
   const CommonContainer(
-      {super.key, required this.image, this.onPressed, this.containerColor,this.iconColor});
+      {super.key,
+      required this.image,
+      this.onPressed,
+      this.containerColor,
+      this.iconColor});
   final String image;
-  final Color? containerColor,iconColor;
+  final Color? containerColor, iconColor;
   final VoidCallback? onPressed;
 
   @override
@@ -1735,7 +1880,10 @@ class CommonContainer extends StatelessWidget {
         ),
         child: Padding(
           padding: const EdgeInsets.all(k12Padding),
-          child: SvgPicture.asset(image,color: iconColor??cWhiteColor,),
+          child: SvgPicture.asset(
+            image,
+            color: iconColor ?? cWhiteColor,
+          ),
         ),
       ),
     );
@@ -1869,10 +2017,10 @@ void showSaveVideoToPlayListPopup(BuildContext context, int movieId) {
   );
 }
 
-
 void showDownloadVideoPopup(BuildContext context) {
   final HomeController homeController = Get.find<HomeController>();
-  final AllVideoPlayerController allVideoPlayerController = Get.find<AllVideoPlayerController>();
+  final AllVideoPlayerController allVideoPlayerController =
+      Get.find<AllVideoPlayerController>();
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -1934,38 +2082,55 @@ void showDownloadVideoPopup(BuildContext context) {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                 return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("${homeController.movieDetailsModel.value!.download!.details![index].title}",style: medium14TextStyle(cWhiteColor),),
-                                CustomElevatedButton(
-                    label: ksDownload.tr,
-                    onPressed: () async {
-                      // homeController.movieDetailsModel.value!.download!.details![index].
-                       await allVideoPlayerController
-                                .flutterMediaDownloaderPlugin
-                                .downloadMedia(context,homeController.movieDetailsModel.value!.download!.details![index].link?? ""
-                      );
-                      Get.back();
-                    },
-                    buttonWidth: 110.w,
-                    buttonHeight: 30.h,
-                    buttonColor: cPrimaryColor,
-                  ),
-                   ],
-                    ),
-                    kH4sizedBox,
-                        Text("Resolution: ${homeController.movieDetailsModel.value!.download!.details![index].resolution}",style: regular14TextStyle(cWhiteColor),),
-                    kH4sizedBox,
-                        Text("Size: ${homeController.movieDetailsModel.value!.download!.details![index].fileSize}",style: regular14TextStyle(cWhiteColor),),
-                  ],
-                 );
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "${homeController.movieDetailsModel.value!.download!.details![index].title}",
+                              style: medium14TextStyle(cWhiteColor),
+                            ),
+                            CustomElevatedButton(
+                              label: ksDownload.tr,
+                              onPressed: () async {
+                                // homeController.movieDetailsModel.value!.download!.details![index].
+                                await allVideoPlayerController
+                                    .flutterMediaDownloaderPlugin
+                                    .downloadMedia(
+                                        context,
+                                        homeController
+                                                .movieDetailsModel
+                                                .value!
+                                                .download!
+                                                .details![index]
+                                                .link ??
+                                            "");
+                                Get.back();
+                              },
+                              buttonWidth: 110.w,
+                              buttonHeight: 30.h,
+                              buttonColor: cPrimaryColor,
+                            ),
+                          ],
+                        ),
+                        kH4sizedBox,
+                        Text(
+                          "Resolution: ${homeController.movieDetailsModel.value!.download!.details![index].resolution}",
+                          style: regular14TextStyle(cWhiteColor),
+                        ),
+                        kH4sizedBox,
+                        Text(
+                          "Size: ${homeController.movieDetailsModel.value!.download!.details![index].fileSize}",
+                          style: regular14TextStyle(cWhiteColor),
+                        ),
+                      ],
+                    );
                   },
                   separatorBuilder: (context, index) => kH8sizedBox,
-                  itemCount: homeController.movieDetailsModel.value!.download!.details!.length),
+                  itemCount: homeController
+                      .movieDetailsModel.value!.download!.details!.length),
               kH16sizedBox,
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.end,
@@ -1985,7 +2150,7 @@ void showDownloadVideoPopup(BuildContext context) {
               //       label: ksSaveNow.tr,
               //       onPressed: () async {
               //         Get.back();
-            
+
               //       },
               //       buttonWidth: 110.w,
               //       buttonHeight: 30.h,
@@ -2000,7 +2165,6 @@ void showDownloadVideoPopup(BuildContext context) {
     },
   );
 }
-
 
 void showCreateNewPlayListPopup(BuildContext context) {
   showDialog(
