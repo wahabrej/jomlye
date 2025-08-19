@@ -14,7 +14,7 @@ import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_co
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
-  VideoPlayerScreen({super.key, this.isRentableVideo = false});
+const VideoPlayerScreen({super.key, this.isRentableVideo = false});
 
   final bool? isRentableVideo;
 
@@ -202,15 +202,20 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                               Get.back();
                             },
                             child: Container(
+                              width: 24,
                               decoration: BoxDecoration(
                                 color: Colors.black.withOpacity(0.5),
                                 shape: BoxShape.circle,
                               ),
-                              padding: const EdgeInsets.all(6),
-                              child: const Icon(
-                                Icons.arrow_back_ios,
-                                color: Colors.white,
-                                size: kIconSize20,
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(7),
+                                  child: const Icon(
+                                    Icons.arrow_back_ios,
+                                    color: Colors.white,
+                                    size: kIconSize16,
+                                  ),
+                                ),
                               ),
                             ),
                           ),

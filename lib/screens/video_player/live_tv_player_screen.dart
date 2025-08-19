@@ -30,14 +30,54 @@ class LiveTvPlayerScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           kH30sizedBox,
-                          YoYoPlayer(
-                          aspectRatio: 16 / 9,
-                          // url: homeController.liveTvDetailsData.value?.streamUrl??"",
-                          // url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
-                          url: homeController.liveTvUrl.value??homeController.liveTvDetailsData.value?.streamUrl??"",
-                          videoStyle: const VideoStyle(),
-                          videoLoadingStyle: const VideoLoadingStyle(),
-                              ),
+                          // YoYoPlayer(
+                          // aspectRatio: 16 / 9,
+                          // // url: homeController.liveTvDetailsData.value?.streamUrl??"",
+                          // // url: "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+                          // url: homeController.liveTvUrl.value??homeController.liveTvDetailsData.value?.streamUrl??"",
+                          // videoStyle: const VideoStyle(),
+                          // videoLoadingStyle: const VideoLoadingStyle(),
+                          //     ),
+                          AspectRatio(
+  aspectRatio: 16 / 9,
+  child: Stack(
+    children: [
+      YoYoPlayer(
+        aspectRatio: 16 / 9,
+        url: homeController.liveTvUrl.value ??
+            homeController.liveTvDetailsData.value?.streamUrl ??
+            "",
+        videoStyle: const VideoStyle(),
+        videoLoadingStyle: const VideoLoadingStyle(),
+      ),
+
+      // 👇 Back Button
+      Positioned(
+        top: 12,
+        left: 12,
+        child: GestureDetector(
+          onTap: () {
+            Get.back(); // or Navigator.pop(context);
+          },
+          child: Container(
+            width: 24,
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.5),
+              shape: BoxShape.circle,
+            ),
+            padding: const EdgeInsets.all(7),
+            child: const Icon(
+              Icons.arrow_back_ios,
+              color: cWhiteColor,
+              size: kIconSize16,
+            ),
+          ),
+        ),
+      ),
+    ],
+  ),
+),
+
                           kH20sizedBox,
                           Row(
                             children: [

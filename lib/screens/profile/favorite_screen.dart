@@ -1,9 +1,11 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:video_player/video_player.dart';
+import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
 import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.dart';
+import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:vidflix_flutter_app/utils/constants/imports.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
 
@@ -132,31 +134,17 @@ class FavoriteScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return InkWell(
-                               onTap: () async {
-                                    await Get.find<HomeController>().getMovieDetails(
+                                  onTap: () async {
+                                    Get.find<HomeController>().selectedServer.value=0;
+                                    Get.find<HomeController>().resetRatingData();
+                                        await Get.find<HomeController>().getMovieDetails(
                                         movieId: profileController.favoriteMovieList[index].id
                                             .toString());
-                                        profileController.isFavoriteAdded.value = true;
-                                    if (profileController.favoriteMovieList.isNotEmpty) {
-                                      // String videoUrl = profileController.favoriteMovieList[0]?.fileUrl ??
-                                      //     "";
-                                       String videoUrl = "";
-                                      Get.find<AllVideoPlayerController>()
-                                          .flickManager = FlickManager(
-                                        videoPlayerController:
-                                            VideoPlayerController.network(
-                                                videoUrl),
-                                      );
-                                    } else {
-                                      String videoUrl = "";
-                                      Get.find<AllVideoPlayerController>()
-                                          .flickManager = FlickManager(
-                                        videoPlayerController:
-                                            VideoPlayerController.network(
-                                                videoUrl),
-                                      );
+                                    profileController.isFavoriteAdded.value = true;
+                                    if(Get.find<HomeController>().movieServerList.isNotEmpty){
+                                   Get.find<AllVideoPlayerController>().videoPlayerFunction(isFree: Get.find<HomeController>().movieDetailsData.value?.isFree==1?true:false,isRental: Get.find<HomeController>().movieDetailsData.value?.isRental==1?true:false,isRented: Get.find<HomeController>().movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: Get.find<HomeController>().movieServerList[0]?.fileUrl, fileSource: Get.find<HomeController>().movieServerList[0]?.fileSource);
                                     }
-                                    Get.toNamed(krVideoPlayerScreen);
+                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: Get.find<HomeController>().movieDetailsData.value?.isFree==0 && Get.find<HomeController>().movieDetailsData.value?.isRental==1,));     
                                   },
                           child: MovieContentContainer(
                             movieImage: profileController.favoriteMovieList[index].thumbnail??"",
@@ -182,11 +170,14 @@ class FavoriteScreen extends StatelessWidget {
                       physics: const AlwaysScrollableScrollPhysics(),
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
-                        return MovieContentContainer(
-                          movieImage: profileController.favoriteTvShowList[index].thumbnail,
-                          // seasonName: profileController.tvSeriesList[index]["season"],
-                          isPremium: profileController.favoriteTvShowList[index].isFree==0 && profileController.favoriteTvShowList[index].isRental==0 ? true : false,
-                          // isSeason: profileController.tvSeriesList[index]["isSeason"],
+                        return InkWell(
+                          onTap: (){
+                            
+                          },
+                          child: MovieContentContainer(
+                            movieImage: profileController.favoriteTvShowList[index].thumbnail,
+                            isPremium: profileController.favoriteTvShowList[index].isFree==0 && profileController.favoriteTvShowList[index].isRental==0 ? true : false,
+                          ),
                         );
                       },
                     ),
