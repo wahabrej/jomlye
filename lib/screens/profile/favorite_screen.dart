@@ -96,6 +96,7 @@ class FavoriteScreen extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () async {
+                                     profileController.isFavoriteAdded.value = true;
                                     await Get.find<HomeController>().getTvChannelDetails(
                                         tvChannelId: profileController
                                             .favoriteLiveTvList[index].id);
