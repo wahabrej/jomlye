@@ -1,7 +1,6 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:video_player/video_player.dart';
 import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
 import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
 import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
@@ -129,7 +128,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     width: width,
                     height: 200.h,
                     child: Image.network(
-                      homeController.movieDetailsData.value?.thumbnail ?? "",
+                      homeController.movieDetailsData.value?.poster ?? "",
                       fit: BoxFit.fill,
                     ),
                   ),

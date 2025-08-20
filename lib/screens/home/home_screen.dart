@@ -247,35 +247,6 @@ class HomeScreen extends StatelessWidget {
                                         homeController.movieDetailsData.value
                                                 ?.isFavorite ??
                                             false;
-                                    // if((homeController
-                                    //             .newReleaseMoviesList[index]
-                                    //             .isFree==false && homeController
-                                    //             .newReleaseMoviesList[index]
-                                    //             .isRental==true && homeController.movieDetailsModel.value?.isRented==true) || (homeController
-                                    //             .newReleaseMoviesList[index]
-                                    //             .isFree==false && homeController
-                                    //             .newReleaseMoviesList[index]
-                                    //             .isRental == false && Get.find<GlobalController>().subscribedUserCheck.value) || homeController
-                                    //             .newReleaseMoviesList[index]
-                                    //             .isFree==true){
-                                    //   String videoUrl = homeController
-                                    //           .movieServerList[0]?.fileUrl ??
-                                    //       "";
-                                    //   Get.find<AllVideoPlayerController>()
-                                    //       .flickManager = FlickManager(
-                                    //     videoPlayerController:
-                                    //         VideoPlayerController.network(
-                                    //             videoUrl),
-                                    //   );
-                                    // } else {
-                                    //   String videoUrl = "";
-                                    //   Get.find<AllVideoPlayerController>()
-                                    //       .flickManager = FlickManager(
-                                    //     videoPlayerController:
-                                    //         VideoPlayerController.network(
-                                    //             videoUrl),
-                                    //   );
-                                    // }
                                     if(homeController.movieServerList.isNotEmpty){
                                     allVideoPlayerController.videoPlayerFunction(isFree: homeController.newReleaseMoviesList[index].isFree,isRental:  homeController.newReleaseMoviesList[index].isRental,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[0]?.fileUrl, fileSource: homeController.movieServerList[0]?.fileSource);
                                     }
