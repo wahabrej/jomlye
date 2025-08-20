@@ -74,7 +74,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         try {
           allVideoPlayerController.flickManager.dispose();
         } catch (_) {}
-        return true; // ✅ always allow back navigation
+        return true;
       },
       child: Scaffold(
         backgroundColor: cBlackColor,
@@ -105,12 +105,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     width: width,
                     height: 200,
                     child: Image.network(
-                      homeController.movieDetailsData.value?.thumbnail ?? "",
+                      homeController.movieDetailsData.value?.poster ?? "",
                       errorBuilder: (context, error, stackTrace) {
                         return SvgPicture.asset(
                           kiDummyMovie,
                           width: width - 40,
-                          height: 100,
+                          height: 200,
                           fit: BoxFit.cover,
                         );
                       },
