@@ -113,6 +113,7 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    if(Get.find<GlobalController>().subscribedUserCheck.value==false)
                     Center(
                         child: SizedBox(
                             width: width - 40,
@@ -876,7 +877,7 @@ class HomeScreen extends StatelessWidget {
                     for (int i = 0; i < homeController.localAdList.length; i++)
                       if (homeController.localAdList[i].position
                               ?.toLowerCase() ==
-                          "footer" )
+                          "footer" && (Get.find<GlobalController>().subscribedUserCheck.value==false))
                         ClipRRect(
                           borderRadius: BorderRadius.circular(k8BorderRadius),
                           child: Padding(
