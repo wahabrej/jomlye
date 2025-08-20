@@ -14,7 +14,7 @@ import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_co
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
-const VideoPlayerScreen({super.key, this.isRentableVideo = false});
+  const VideoPlayerScreen({super.key, this.isRentableVideo = false});
 
   final bool? isRentableVideo;
 
@@ -32,16 +32,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   void dispose() {
     ll("Dispose from video player screen");
-        if (Get.find<GlobalController>().userToken.value != "") {
-            homeController.watchHistoryStore(
-                watchableType: 'movie',
-                watchableId: homeController.movieDetailsData.value?.id??-1,
-                // duration: homeController.movieServerList[homeController.selectedServer.value].,
-                duration: Get.find<AllVideoPlayerController>().totalSeconds.value.toString(),
-                watchedSeconds: Get.find<AllVideoPlayerController>().currentSeconds.value.toString());
+    if (Get.find<GlobalController>().userToken.value != "") {
+      homeController.watchHistoryStore(
+          watchableType: 'movie',
+          watchableId: homeController.movieDetailsData.value?.id ?? -1,
+          // duration: homeController.movieServerList[homeController.selectedServer.value].,
+          duration: Get.find<AllVideoPlayerController>()
+              .totalSeconds
+              .value
+              .toString(),
+          watchedSeconds: Get.find<AllVideoPlayerController>()
+              .currentSeconds
+              .value
+              .toString());
     }
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     // Run this once after the first frame is rendered
@@ -193,8 +200,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           left: 12,
                           child: GestureDetector(
                             onTap: () {
-                                try {
-                                allVideoPlayerController.youtubeController.dispose();
+                              try {
+                                allVideoPlayerController.youtubeController
+                                    .dispose();
                               } catch (_) {}
                               try {
                                 allVideoPlayerController.flickManager.dispose();
@@ -748,32 +756,34 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                       // }
                                       if (homeController
                                           .movieServerList.isNotEmpty) {
-                                        allVideoPlayerController.videoPlayerFunction(
-                                            isFree: homeController
-                                                        .movieDetailsData
-                                                        .value
-                                                        ?.isFree ==
-                                                    1
-                                                ? true
-                                                : false,
-                                            isRental: widget.isRentableVideo,
-                                            isRented: homeController
-                                                .movieDetailsModel
-                                                .value
-                                                ?.isRented,
-                                            isSubscribed:
-                                                Get.find<GlobalController>()
-                                                    .subscribedUserCheck
-                                                    .value,
-                                            fileUrl: homeController
-                                                .movieServerList[homeController
-                                                    .selectedServer.value]
-                                                ?.fileUrl,
-                                            fileSource: homeController
-                                                .movieServerList[homeController.selectedServer.value]
-                                                ?.fileSource,
-                                                seekToPosition: 0,
-                                                );
+                                        allVideoPlayerController
+                                            .videoPlayerFunction(
+                                          isFree: homeController
+                                                      .movieDetailsData
+                                                      .value
+                                                      ?.isFree ==
+                                                  1
+                                              ? true
+                                              : false,
+                                          isRental: widget.isRentableVideo,
+                                          isRented: homeController
+                                              .movieDetailsModel
+                                              .value
+                                              ?.isRented,
+                                          isSubscribed:
+                                              Get.find<GlobalController>()
+                                                  .subscribedUserCheck
+                                                  .value,
+                                          fileUrl: homeController
+                                              .movieServerList[homeController
+                                                  .selectedServer.value]
+                                              ?.fileUrl,
+                                          fileSource: homeController
+                                              .movieServerList[homeController
+                                                  .selectedServer.value]
+                                              ?.fileSource,
+                                          seekToPosition: 0,
+                                        );
                                       }
                                     },
                                     child: Container(
@@ -1287,9 +1297,27 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         ),
 
                       kH16sizedBox,
-                      Text(
-                        ksRelatedVideos.tr,
-                        style: medium16TextStyle(cWhiteColor),
+                      // Text(
+                      //   ksRelatedVideos.tr,
+                      //   style: medium16TextStyle(cWhiteColor),
+                      // ),
+                      HomeTitleContent(
+                        title: ksRelatedVideos.tr,
+                        subtitleText: homeController.relatedMovieList.isNotEmpty
+                            ? ksViewAll.tr
+                            : "",
+                        onPressed: () async {
+                          homeController.resetBottomSheetData();
+                          profileController.temporaryPlayListCheckBoxStateList
+                              .clear();
+                          homeController.isViewAllSearchEnable.value = false;
+                          homeController.viewAllTextEditingController.clear();
+                          homeController.selectedTitle.value = ksRelatedVideos;
+                          await homeController.getMovieList(
+                              movieType: "related");
+                          homeController.isHomeGenreClicked.value = false;
+                          Get.toNamed(krMovieViewAllScreen);
+                        },
                       ),
                       kH16sizedBox,
                       Row(
@@ -1307,31 +1335,56 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                               itemBuilder: (context, index) {
                                 return Obx(() => InkWell(
                                       onTap: () async {
+                                        homeController.resetRatingData();
+                                        homeController.resetBottomSheetData();
                                         await homeController.getMovieDetails(
                                             movieId: homeController
                                                 .relatedMovieList[index].id!
                                                 .toString());
                                         if (homeController
                                             .movieServerList.isNotEmpty) {
-                                          String videoUrl = homeController
+                                          allVideoPlayerController.videoPlayerFunction(
+                                              isFree: homeController.relatedMovieList[index].isFree == 1
+                                                  ? true
+                                                  : false,
+                                              isRental:
+                                                  homeController.relatedMovieList[index].isFree ==
+                                                              0 &&
+                                                          homeController.relatedMovieList[index].isRental ==
+                                                              1
+                                                      ? true
+                                                      : false,
+                                              isRented: homeController
+                                                  .movieDetailsModel
+                                                  .value
+                                                  ?.isRented,
+                                              isSubscribed:
+                                                  Get.find<GlobalController>()
+                                                      .subscribedUserCheck
+                                                      .value,
+                                              fileUrl: homeController
+                                                  .movieServerList[0]?.fileUrl,
+                                              fileSource: homeController
                                                   .movieServerList[0]
-                                                  ?.fileUrl ??
-                                              "";
-                                          Get.find<AllVideoPlayerController>()
-                                              .flickManager = FlickManager(
-                                            videoPlayerController:
-                                                VideoPlayerController.network(
-                                                    videoUrl),
-                                          );
-                                        } else {
-                                          String videoUrl = "";
-                                          Get.find<AllVideoPlayerController>()
-                                              .flickManager = FlickManager(
-                                            videoPlayerController:
-                                                VideoPlayerController.network(
-                                                    videoUrl),
-                                          );
+                                                  ?.fileSource);
                                         }
+                                        Get.offUntil(
+                                          GetPageRoute(
+                                            page: () => VideoPlayerScreen(
+                                              isRentableVideo: homeController
+                                                          .relatedMovieList[
+                                                              index]
+                                                          .isFree ==
+                                                      0 &&
+                                                  homeController
+                                                          .relatedMovieList[
+                                                              index]
+                                                          .isRental ==
+                                                      1,
+                                            ),
+                                          ),
+                                          ModalRoute.withName(krHomeScreen),
+                                        );
                                       },
                                       child: MovieContentContainer(
                                         movieImage: homeController
@@ -1346,6 +1399,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                                     0
                                             ? true
                                             : false,
+                                        isRentable: homeController
+                                                        .relatedMovieList[index]
+                                                        .isFree ==
+                                                    0 &&
+                                                homeController
+                                                        .relatedMovieList[index]
+                                                        .isRental ==
+                                                    1
+                                            ? true
+                                            : false,
                                       ),
                                     ));
                               },
@@ -1353,7 +1416,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           ),
                         ],
                       ),
-
                       kH16sizedBox,
                       HomeTitleContent(
                         title: ksRecommendedMovies.tr,
@@ -1392,31 +1454,55 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                               itemBuilder: (context, index) {
                                 return Obx(() => InkWell(
                                       onTap: () async {
+                                        homeController.resetRatingData();
+                                        homeController.resetBottomSheetData();
                                         await homeController.getMovieDetails(
                                             movieId: homeController
                                                 .recommendedMovieList[index].id!
                                                 .toString());
                                         if (homeController
                                             .movieServerList.isNotEmpty) {
-                                          String videoUrl = homeController
+                                          allVideoPlayerController.videoPlayerFunction(
+                                              isFree: homeController.recommendedMovieList[index].isFree == 1
+                                                  ? true
+                                                  : false,
+                                              isRental:
+                                                  homeController.recommendedMovieList[index].isFree ==
+                                                              0 &&
+                                                          homeController.recommendedMovieList[index].isRental ==
+                                                              1
+                                                      ? true
+                                                      : false,
+                                              isRented: homeController
+                                                  .movieDetailsModel
+                                                  .value
+                                                  ?.isRented,
+                                              isSubscribed:
+                                                  Get.find<GlobalController>()
+                                                      .subscribedUserCheck
+                                                      .value,
+                                              fileUrl: homeController
+                                                  .movieServerList[0]?.fileUrl,
+                                              fileSource: homeController
                                                   .movieServerList[0]
-                                                  ?.fileUrl ??
-                                              "";
-                                          Get.find<AllVideoPlayerController>()
-                                              .flickManager = FlickManager(
-                                            videoPlayerController:
-                                                VideoPlayerController.network(
-                                                    videoUrl),
-                                          );
-                                        } else {
-                                          String videoUrl = "";
-                                          Get.find<AllVideoPlayerController>()
-                                              .flickManager = FlickManager(
-                                            videoPlayerController:
-                                                VideoPlayerController.network(
-                                                    videoUrl),
-                                          );
+                                                  ?.fileSource);
                                         }
+                                        Get.offNamedUntil(
+                                          krVideoPlayerScreen,
+                                          ModalRoute.withName(krHomeScreen),
+                                          arguments: {
+                                            "isRentableVideo": homeController
+                                                        .recommendedMovieList[
+                                                            index]
+                                                        .isFree ==
+                                                    0 &&
+                                                homeController
+                                                        .recommendedMovieList[
+                                                            index]
+                                                        .isRental ==
+                                                    1
+                                          },
+                                        );
                                       },
                                       child: MovieContentContainer(
                                         movieImage: homeController
@@ -1435,7 +1521,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                                     0)
                                             ? true
                                             : false,
-                                            isRentable: (homeController
+                                        isRentable: (homeController
                                                         .recommendedMovieList[
                                                             index]
                                                         .isFree ==
