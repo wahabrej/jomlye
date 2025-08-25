@@ -1,4 +1,4 @@
-import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_model.dart';
+import 'package:flixoo_flutter_app/models/home/view_all/artist/artist_model.dart';
 
 class TvChannelListModel {
     final LiveTvs? liveTvs;

@@ -1,4 +1,4 @@
-# vidflix_flutter_app
+# flixoo_flutter_app
 
 A new Flutter project.
 

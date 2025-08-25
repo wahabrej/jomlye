@@ -1,10 +1,10 @@
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
+import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
 class TvShowsViewAllScreen extends StatelessWidget {
   TvShowsViewAllScreen({super.key});

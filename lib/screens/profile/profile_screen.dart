@@ -1,10 +1,10 @@
-import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/payment/payment_controller.dart';
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
+import 'package:flixoo_flutter_app/controllers/auth/auth_controller.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/payment/payment_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
 class ProfileScreen extends StatelessWidget {
   ProfileScreen({super.key});
@@ -56,7 +56,7 @@ class ProfileScreen extends StatelessWidget {
             ),
             actions: [
               SvgPicture.asset(
-                kiVidflix,
+                kiFlixoo,
                 width: h24.w,
                 height: h24.h,
                 color: cPrimaryColor2,
@@ -64,7 +64,7 @@ class ProfileScreen extends StatelessWidget {
               kW4sizedBox,
               Center(
                 child: Text(
-                  ksVidflix.tr,
+                  ksFlixoo.tr,
                   style: semiBold20TextStyle(cWhiteColor),
                 ),
               ),
@@ -79,61 +79,6 @@ class ProfileScreen extends StatelessWidget {
               () => Column(
                 children: [
                   kH40sizedBox,
-                  // Row(
-                  //   children: [
-                  //     GestureDetector(
-                  //       onTap: () {
-                  //         Get.back();
-                  //       },
-                  //       child: Container(
-                  //         height: h32,
-                  //         decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(100.r),
-                  //           color: cWhiteColor.withOpacity(0.2),
-                  //         ),
-                  //         child: Padding(
-                  //           padding: const EdgeInsets.symmetric(
-                  //               horizontal: k12Padding, vertical: k2Padding),
-                  //           child: Row(
-                  //             children: [
-                  //               const Icon(
-                  //                 Icons.arrow_back_ios,
-                  //                 size: kIconSize12,
-                  //                 color: cWhiteColor,
-                  //               ),
-                  //               kW4sizedBox,
-                  //               Center(
-                  //                   child: Text(
-                  //                 ksProfile.tr,
-                  //                 style: regular16TextStyle(cWhiteColor),
-                  //               )),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     const Expanded(
-                  //       child: SizedBox(),
-                  //     ),
-                  //     SvgPicture.asset(
-                  //       kiVidflix,
-                  //       width: h24.w,
-                  //       height: h24.h,
-                  //       color: cPrimaryColor2,
-                  //     ),
-                  //     kW4sizedBox,
-                  //     Text(
-                  //       ksVidflix.tr,
-                  //       style: semiBold20TextStyle(cWhiteColor),
-                  //     ),
-                  //   ],
-                  // ),
-      
-                  // kH8sizedBox,
-                  // Divider(
-                  //   color: cWhiteColor.withOpacity(0.2),
-                  // ),
-                  // kH40sizedBox,
                   Center(
                           child: Container(
                             width: 100.w,
@@ -465,14 +410,14 @@ class CustomBackHeader extends StatelessWidget {
         ),
         const Expanded(child: SizedBox()),
         SvgPicture.asset(
-          kiVidflix,
+          kiFlixoo,
           width: h24.w,
           height: h24.h,
           color: cPrimaryColor2,
         ),
         kW4sizedBox,
         Text(
-          ksVidflix.tr,
+          ksFlixoo.tr,
           style: semiBold20TextStyle(cWhiteColor),
         ),
       ],

@@ -14,7 +14,7 @@ const String ksUnAuthorizedError = "UnAuthorized request";
 
 
 //* Common
-const String ksVidflix = "VidFlix";
+const String ksFlixoo = "Flixoo";
 
 
 //* initial and splash screen
@@ -155,7 +155,7 @@ const String ksMovies = "Movies";
 const String ksSelectMethod = "Select Method";
 const String ksOnlinePayment = "Online Payment";
 const String ksStartPlan = "Start Plan";
-const String ksLetsContinueEnjoyingVidFlix = "Let's continue enjoying VidFlix";
+const String ksLetsContinueEnjoyingflixoo = "Let's continue enjoying flixoo";
 const String ksBackToHome = "Back To Home";
 const String ksDownloadList = "Download List";
 const String ksDeleteVideo = "Delete Video";

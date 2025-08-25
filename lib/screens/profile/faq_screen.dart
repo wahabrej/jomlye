@@ -1,5 +1,5 @@
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
 
 class FAQScreen extends StatelessWidget {
   FAQScreen({super.key});
@@ -52,7 +52,7 @@ class FAQScreen extends StatelessWidget {
           ),
           actions: [
             SvgPicture.asset(
-              kiVidflix,
+              kiFlixoo,
               width: h24.w,
               height: h24.h,
               color: cPrimaryColor2,
@@ -60,7 +60,7 @@ class FAQScreen extends StatelessWidget {
             kW4sizedBox,
             Center(
               child: Text(
-                ksVidflix.tr,
+                ksFlixoo.tr,
                 style: semiBold20TextStyle(cWhiteColor),
               ),
             ),

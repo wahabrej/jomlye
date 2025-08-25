@@ -1,4 +1,4 @@
-// import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_details_model.dart';
+// import 'package:flixoo_flutter_app/models/home/view_all/movie/movie_details_model.dart';
 
 // class TvShowDetailsModel {
 //     final TvShows? shows;
@@ -278,7 +278,7 @@
 // }
 
 
-import 'package:vidflix_flutter_app/models/home/view_all/movie/movie_details_model.dart';
+import 'package:flixoo_flutter_app/models/home/view_all/movie/movie_details_model.dart';
 class TvShowDetailsModel {
     final TvShows? shows;
     final List<Cast>? cast;

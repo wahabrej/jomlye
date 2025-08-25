@@ -1,6 +1,6 @@
-import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/textfield/common_otp_field.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/auth/auth_controller.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/textfield/common_otp_field.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class OTPScreen extends StatelessWidget {
    OTPScreen({super.key});
@@ -70,7 +70,7 @@ class OTPScreen extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(k20Padding),
                       child: SvgPicture.asset(
-                        kiVidflix,
+                        kiFlixoo,
                         width: 40,
                         height: 40,
                       ),

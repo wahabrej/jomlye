@@ -1,4 +1,4 @@
-import 'package:vidflix_flutter_app/models/common/common_user_model.dart';
+import 'package:flixoo_flutter_app/models/common/common_user_model.dart';
 class CommonLoginUserModel {
     final CommonUserModel? user;
     final String? token;

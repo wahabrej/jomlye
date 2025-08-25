@@ -1,8 +1,8 @@
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class PlayListScreen extends StatelessWidget {
   PlayListScreen({super.key});
@@ -51,7 +51,7 @@ class PlayListScreen extends StatelessWidget {
           ),
           actions: [
             SvgPicture.asset(
-              kiVidflix,
+              kiFlixoo,
               width: h24.w,
               height: h24.h,
               color: cPrimaryColor2,
@@ -59,7 +59,7 @@ class PlayListScreen extends StatelessWidget {
             kW4sizedBox,
             Center(
               child: Text(
-                ksVidflix.tr,
+                ksFlixoo.tr,
                 style: semiBold20TextStyle(cWhiteColor),
               ),
             ),

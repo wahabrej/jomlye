@@ -1,4 +1,4 @@
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -31,12 +31,12 @@ class SplashScreen extends StatelessWidget {
               child: Column(
                 children: [
                   SvgPicture.asset(
-                      kiVidflix,
+                      kiFlixoo,
                       width: 56,
                       height: 75,
                     ),
                     kH30sizedBox,
-                    Text(ksVidflix.tr,style: semiBold20TextStyle(cWhiteColor),),
+                    Text(ksFlixoo.tr,style: semiBold20TextStyle(cWhiteColor),),
                 ],
               ),
             ),

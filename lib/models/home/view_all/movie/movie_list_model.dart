@@ -1,5 +1,5 @@
-import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
-import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
+import 'package:flixoo_flutter_app/models/home/view_all/blog/blog_model.dart';
+import 'package:flixoo_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
 
 class MovieListModel {
     final Movies? movies;

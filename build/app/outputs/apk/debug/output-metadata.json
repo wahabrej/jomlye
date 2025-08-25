@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.spagreen.vidflix_flutter_app",
+  "applicationId": "com.spagreen.flixoo_flutter_app",
   "variantName": "debug",
   "elements": [
     {

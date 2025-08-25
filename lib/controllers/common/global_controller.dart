@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
-import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
-import 'package:vidflix_flutter_app/models/common/config_model.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_text_button.dart';
-import 'package:vidflix_flutter_app/services/api_services.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/utils/constants/urls.dart';
+import 'package:flixoo_flutter_app/models/common/common_data_model.dart';
+import 'package:flixoo_flutter_app/models/common/common_error_model.dart';
+import 'package:flixoo_flutter_app/models/common/config_model.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_text_button.dart';
+import 'package:flixoo_flutter_app/services/api_services.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/urls.dart';
 
 import 'sp_controller.dart';
 

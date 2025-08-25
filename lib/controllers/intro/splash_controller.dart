@@ -1,10 +1,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
-import 'package:vidflix_flutter_app/controllers/payment/payment_controller.dart';
-import 'package:vidflix_flutter_app/services/api_services.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/auth/auth_controller.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/common/sp_controller.dart';
+import 'package:flixoo_flutter_app/controllers/payment/payment_controller.dart';
+import 'package:flixoo_flutter_app/services/api_services.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 import '../home/home_controller.dart';
 import '../profile/profile_controller.dart';
 

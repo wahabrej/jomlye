@@ -3,16 +3,14 @@ import 'package:flick_video_player/flick_video_player.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
-import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.dart';
-import 'package:vidflix_flutter_app/screens/video_player/tv_show_player_screen.dart';
-import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
+import 'package:flixoo_flutter_app/screens/video_player/tv_show_player_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/video_palyer_screen.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -25,7 +23,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    homeController.bannerAd!.load();
     return SafeArea(
       top: false,
       child: WillPopScope(
@@ -56,70 +53,52 @@ class HomeScreen extends StatelessWidget {
           },
           child: Scaffold(
             backgroundColor: cBlackColor,
-            appBar: PreferredSize(
-              preferredSize: Size.fromHeight(kAppBarSize.h),
-              //   //* info:: appBar
-              child: CustomAppBar(
-                hasBackButton: false,
-                title: GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        kiVidflix,
-                        width: h24.w,
-                        height: h24.h,
-                        color: cPrimaryColor2,
-                      ),
-                      kW4sizedBox,
-                      Center(
-                        child: Text(
-                          ksVidflix.tr,
-                          style: semiBold20TextStyle(cWhiteColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                actions: [
-                  GestureDetector(
-                    onTap: () async {
-                      homeController.resetBottomSheetData();
-                      await homeController.getGlobalSearch();
-                      Get.toNamed(krSearchScreen);
-                    },
-                    child: Container(
-                      width: 32.w,
-                      height: 32.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: cWhiteColor.withOpacity(0.2),
-                      ),
-                      child: const Icon(
-                        Icons.search,
-                        color: cWhiteColor,
-                        size: kIconSize24,
-                      ),
-                    ),
-                  ),
-                  kW12sizedBox,
-                ],
-              ),
-            ),
             body: Obx(
               () => SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if(Get.find<GlobalController>().subscribedUserCheck.value==false)
-                    Center(
-                        child: SizedBox(
-                            width: width - 40,
-                            child: BannerAdWidget(
-                                homeController: homeController))),
-                    HomeSlider(),
+                  HomeSlider(),
+  //   return SafeArea(
+  // top: false,
+  // child: WillPopScope(
+  //   onWillPop: () async {
+  //     if (_lastBackPressed == null ||
+  //         DateTime.now().difference(_lastBackPressed!) >
+  //             const Duration(seconds: 2)) {
+  //       _lastBackPressed = DateTime.now();
+  //       isBackPressedOnce = true;
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text('Press again to exit'),
+  //           duration: Duration(seconds: 2),
+  //         ),
+  //       );
+  //       return false;
+  //     } else {
+  //       isBackPressedOnce = false;
+  //       return true;
+  //     }
+  //   },
+  //   child: RefreshIndicator(
+  //     backgroundColor: cWhiteColor,
+  //     color: cPrimaryColor,
+  //     onRefresh: () async {
+  //       await homeController.getHomePage();
+  //     },
+  //     child: Scaffold(
+  //       backgroundColor: cBlackColor,
+  //       body: Obx(
+  //         () => SingleChildScrollView(
+  //           physics: const BouncingScrollPhysics(),
+  //           child: Column(
+  //             crossAxisAlignment: CrossAxisAlignment.start,
+  //             children: [
+  //               Stack(
+  //                 children: [
+  //                   HomeSlider(),
+  //                 ],
+  //               ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -287,6 +266,7 @@ class HomeScreen extends StatelessWidget {
                           ? ksViewAll.tr
                           : "",
                       onPressed: () async {
+                         homeController.selectedServer.value=0;
                         homeController.resetBottomSheetData();
                         profileController.temporaryPlayListCheckBoxStateList
                             .clear();
@@ -368,6 +348,7 @@ class HomeScreen extends StatelessWidget {
                               ? ksViewAll.tr
                               : "",
                       onPressed: () async {
+                         homeController.selectedServer.value=0;
                         homeController.resetBottomSheetData();
                         profileController.temporaryPlayListCheckBoxStateList
                             .clear();
@@ -458,7 +439,6 @@ class HomeScreen extends StatelessWidget {
                         homeController.selectedTitle.value = ksPopularTvShows;
                         await homeController.getTvShows();
                         Get.toNamed(krTvShowsViewAllScreen);
-                        // Get.toNamed(krMovieViewAllScreen);
                       },
                     ),
                     kH16sizedBox,
@@ -487,16 +467,21 @@ class HomeScreen extends StatelessWidget {
                                          if(homeController.tvShowEpisodeList.isNotEmpty){
                                     allVideoPlayerController.videoPlayerFunction(isFree: homeController
                                                 .popularTvShowsList[index]
-                                                .isFree==0 ? true : false, isRental: homeController
+                                                .isFree==1 ? true : false, isRental: homeController
+                                                .popularTvShowsList[index]
+                                                .isFree==0 &&  homeController
                                                 .popularTvShowsList[index]
                                                 .isRental==0 ? false : true, 
                                                 // isRented: homeController
                                                 // .tvShowEpisodeList[0].isRental==0 ? false : true,
-                                                  isRented:  true,
-                                                 isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController
+                                                  isRented:  false,
+                                                 isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value,
+                                                  fileUrl: homeController
                                                 .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl??"", fileSource: homeController
-                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileSource??"");
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType??"");
                                          }
+                                         ll("the file url is ${homeController
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType}");
                                     Get.to(()=> TvShowPlayerScreen(isRentableVideo: homeController
                                                 .popularTvShowsList[index]
                                                 .isFree==0 && homeController
@@ -650,12 +635,6 @@ class HomeScreen extends StatelessWidget {
                                             .featuredTvChannelsList[index].id);
                                     profileController.isFavoriteAdded.value =  homeController
                                               .liveTvDetailsData.value?.isFavorite??false;
-                                    // Get.toNamed(krLiveTvPlayerScreen);
-                                    // Get.to(() => LiveTvPlayerScreen(
-                                    //       liveTvUrl: homeController
-                                    //           .featuredTvChannelsList[index]
-                                    //           .streamUrl,
-                                    //     ));
                                         homeController.liveTvUrl.value = homeController
                                               .featuredTvChannelsList[index]
                                               .streamUrl??"";
@@ -675,55 +654,7 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // kH16sizedBox,
-                    // HomeTitleContent(
-                    //   title: ksTvSeries.tr,
-                    //   subtitleText: homeController.tvShowsList.isNotEmpty
-                    //       ? ksViewAll.tr
-                    //       : "",
-                    //   onPressed: () async {
-                    //     homeController.resetBottomSheetData();
-                    //     profileController.temporaryPlayListCheckBoxStateList
-                    //         .clear();
-                    //     homeController.isViewAllSearchEnable.value = false;
-                    //     homeController.viewAllTextEditingController.clear();
-                    //     await homeController.getTvShows();
-                    //     Get.toNamed(krTvShowsViewAllScreen);
-                    //   },
-                    // ),
-                    // kH16sizedBox,
-                    // Padding(
-                    //   padding: const EdgeInsets.only(left: k20Padding),
-                    //   child: Row(
-                    //     children: [
-                    //       SizedBox(
-                    //         width: width - 20,
-                    //         height: 150.h,
-                    //         child: ListView.separated(
-                    //           itemCount: homeController.tvShowsList.length,
-                    //           separatorBuilder: (context, index) =>
-                    //               kW10sizedBox,
-                    //           shrinkWrap: true,
-                    //           physics: const AlwaysScrollableScrollPhysics(),
-                    //           scrollDirection: Axis.horizontal,
-                    //           itemBuilder: (context, index) {
-                    //             return MovieContentContainer(
-                    //               movieImage: homeController
-                    //                   .tvShowsList[index].thumbnail,
-                    //               // seasonName: homeController.tvShowsList[index].,
-                    //               isPremium: homeController
-                    //                           .tvShowsList[index].isPaid ==
-                    //                       1
-                    //                   ? true
-                    //                   : false,
-                    //             );
-                    //           },
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-
+                   
                     kH16sizedBox,
                     HomeTitleContent(
                       title: ksTopArtists.tr,
@@ -1337,195 +1268,128 @@ class HomeSlider extends StatelessWidget {
     return InkWell(
       onTap: () async {
         homeController.resetRatingData();
-        // homeController.showInterstitialAd();
+        if (homeController.sliderList.isEmpty) return;
+
         await homeController.getMovieDetails(
-            movieId: homeController
-                .sliderList[homeController.currentIndex.value].id!
-                .toString());
-        // Get.find<ProfileController>().isFavoriteAdded.value =
-        //     homeController.sliderList[homeController.currentIndex.value]?.isFavorite ??
-        //         false;
-        if (homeController.movieServerList.isNotEmpty) {
-          String videoUrl = homeController.movieServerList[0]?.fileUrl ?? "";
-          Get.find<AllVideoPlayerController>().flickManager = FlickManager(
-            videoPlayerController: VideoPlayerController.network(videoUrl),
-          );
-        } else {
-          String videoUrl = "";
-          Get.find<AllVideoPlayerController>().flickManager = FlickManager(
-            videoPlayerController: VideoPlayerController.network(videoUrl),
-          );
-        }
+          movieId: homeController
+              .sliderList[homeController.currentIndex.value].id!
+              .toString(),
+        );
+
+        String videoUrl = homeController.movieServerList.isNotEmpty
+            ? homeController.movieServerList[0]?.fileUrl ?? ""
+            : "";
+
+        Get.find<AllVideoPlayerController>().flickManager = FlickManager(
+          videoPlayerController: VideoPlayerController.network(videoUrl),
+        );
+
         Get.toNamed(krVideoPlayerScreen, arguments: "");
       },
       child: Column(
         children: [
-          CarouselSlider(
-            options: CarouselOptions(
-              height: height * 0.45,
-              autoPlay: true,
-              enlargeCenterPage: true,
-              viewportFraction: 1,
-              onPageChanged: (index, reason) {
-                homeController.updateCurrentIndex(index);
-              },
-            ),
-            items: homeController.sliderList.map((slider) {
-              return Stack(
-                children: [
-                  // Background Image
-                  SizedBox(
-                    width: width,
-                    child: ClipRRect(
+          SizedBox(
+            height: height * 0.6,
+            width: width,
+            child: Stack(
+              children: [
+                /// Carousel Slider (full width)
+                CarouselSlider.builder(
+                  itemCount: homeController.sliderList.length,
+                  itemBuilder: (context, index, realIndex) {
+                    final slider = homeController.sliderList[index];
+                    return ClipRRect(
                       borderRadius: BorderRadius.circular(k8BorderRadius.r),
                       child: Image.network(
                         slider.thumbnail ?? "",
-                        fit: BoxFit.cover,
                         width: width,
-                        height: height * 0.45,
+                        height: height * 0.6,
+                        fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) =>
-                            const SizedBox(),
+                            Container(
+                          color: Colors.grey[900],
+                          child: const Center(
+                              child: Icon(Icons.broken_image, color: Colors.white)),
+                        ),
                       ),
-                    ),
+                    );
+                  },
+                  options: CarouselOptions(
+                    height: height * 0.6,
+                    autoPlay: true,
+                    enlargeCenterPage: true,
+                    viewportFraction: 1,
+                    onPageChanged: (index, reason) {
+                      homeController.updateCurrentIndex(index);
+                    },
                   ),
+                ),
 
-                  // // Top Bar (Logo & Search)
-                  // Positioned(
-                  //   top: 40.h,
-                  //   left: 15.w,
-                  //   right: 15.w,
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //     children: [
-                  //       Row(
-                  //         children: [
-                  //           SvgPicture.asset(
-                  //             kiVidflix,
-                  //             width: 28.w,
-                  //             height: 28.w,
-                  //           ),
-                  //           kW6sizedBox,
-                  //           Text(
-                  //             ksVidflix.tr,
-                  //             style: semiBold18TextStyle(cWhiteColor),
-                  //           ),
-                  //         ],
-                  //       ),
-                  //       GestureDetector(
-                  //         onTap: () async {
-                  //           homeController.resetBottomSheetData();
-                  //           await homeController.getGlobalSearch();
-                  //           Get.toNamed(krSearchScreen);
-                  //         },
-                  //         child: Container(
-                  //           width: 32.w,
-                  //           height: 32.h,
-                  //           decoration: BoxDecoration(
-                  //             shape: BoxShape.circle,
-                  //             color: cWhiteColor.withOpacity(0.2),
-                  //           ),
-                  //           child: const Icon(
-                  //             Icons.search,
-                  //             color: cWhiteColor,
-                  //             size: kIconSize24,
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-
-                  // Bottom Overlay Section (Ordered as requested)
-                  Positioned(
-                    bottom: 30.h,
-                    left: 0,
-                    right: 0,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // Tags (Action, Trending, 2024)
-                        // if (slider.tags.isNotEmpty)
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: slider.tags.map<Widget>((tag) {
-                        //     return Container(
-                        //       margin: const EdgeInsets.symmetric(horizontal: 5),
-                        //       padding: const EdgeInsets.symmetric(
-                        //           horizontal: 10, vertical: 4),
-                        //       decoration: BoxDecoration(
-                        //         color: cWhiteColor.withOpacity(0.2),
-                        //         borderRadius: BorderRadius.circular(8.r),
-                        //         border: Border.all(
-                        //           width: 1.33,
-                        //           color: cPrimaryColor2.withOpacity(0.3),
-                        //         ),
-                        //       ),
-                        //       child: Text(
-                        //         tag,
-                        //         style: semiBold14TextStyle(cWhiteColor),
-                        //       ),
-                        //     );
-                        //   }).toList(),
-                        // ),
-                        kH10sizedBox,
-
-                        // Dots Indicator
-                        Obx(() => Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: List.generate(
-                                homeController.sliderList.length,
-                                (index) => Container(
-                                  width:
-                                      homeController.currentIndex.value == index
-                                          ? 24
-                                          : 8,
-                                  height: 8,
-                                  margin:
-                                      const EdgeInsets.symmetric(horizontal: 3),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(100.r),
-                                    color: homeController.currentIndex.value ==
-                                            index
-                                        ? cPrimaryColor2
-                                        : cWhiteColor.withOpacity(0.3),
-                                  ),
+                /// Bottom Dots, Title, Play Button
+               
+                Positioned(
+                  bottom: 20.h,
+                  left: 0,
+                  right: 0,
+                  child: Column(
+                    children: [
+                      // Dots Indicator
+                      Obx(() => Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: List.generate(
+                              homeController.sliderList.length,
+                              (index) => Container(
+                                width: homeController.currentIndex.value == index
+                                    ? 24
+                                    : 8,
+                                height: 8,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 3),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100.r),
+                                  color: homeController.currentIndex.value == index
+                                      ? cPrimaryColor2
+                                      : cWhiteColor.withOpacity(0.3),
                                 ),
                               ),
-                            )),
-                        kH10sizedBox,
+                            ),
+                          )),
+                      kH10sizedBox,
 
-                        // Movie Name (after tags & dots)
-                        SizedBox(
-                          width: width * 0.95,
-                          child: Text(
-                            slider.title ?? "",
-                            style: semiBold24TextStyle(cWhiteColor),
-                            textAlign: TextAlign.center,
-                            overflow: TextOverflow.ellipsis,
-                          ),
+                      // Movie Title
+                      SizedBox(
+                        width: width * 0.9,
+                        child: Text(
+                          homeController
+                                  .sliderList[homeController.currentIndex.value]
+                                  .title ??
+                              "",
+                          style: semiBold24TextStyle(cWhiteColor),
+                          textAlign: TextAlign.center,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        kH10sizedBox,
+                      ),
+                      kH10sizedBox,
 
-                        // Play Button (bottom-most)
-                        Container(
-                          width: 40.w,
-                          height: 40.h,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: cPrimaryColor2,
-                          ),
-                          child: const Icon(
-                            Icons.play_arrow,
-                            size: kIconSize28,
-                            color: cWhiteColor,
-                          ),
+                      // Play Button
+                      Container(
+                        width: 40.w,
+                        height: 40.h,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: cPrimaryColor2,
                         ),
-                      ],
-                    ),
+                        child: const Icon(
+                          Icons.play_arrow,
+                          size: kIconSize28,
+                          color: cWhiteColor,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              );
-            }).toList(),
+                ),
+              ],
+            ),
           ),
           kH10sizedBox,
         ],

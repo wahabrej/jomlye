@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 import 'package:http/http.dart' as http;
-import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
-import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
+import 'package:flixoo_flutter_app/controllers/common/sp_controller.dart';
+import 'package:flixoo_flutter_app/models/common/common_data_model.dart';
 
 class ApiServices {
 

@@ -12,7 +12,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace = "com.spagreen.vidflix_flutter_app"
+    namespace = "com.spagreen.flixoo_flutter_app"
     // namespace 'com.github.yalantis.auto_orientation'
     compileSdk = 35//flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
@@ -28,7 +28,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.spagreen.vidflix_flutter_app"
+        applicationId = "com.spagreen.flixoo_flutter_app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = 24//flutter.minSdkVersion

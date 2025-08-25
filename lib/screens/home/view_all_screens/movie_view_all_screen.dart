@@ -1,14 +1,15 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter/rendering.dart';
 import 'package:video_player/video_player.dart';
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
-import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
+import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
 class MovieViewAllScreen extends StatelessWidget {
   MovieViewAllScreen({super.key});
@@ -441,6 +442,8 @@ class MovieViewAllScreen extends StatelessWidget {
                                         String videoUrl = homeController
                                                 .movieServerList[0]?.fileUrl ??
                                             "";
+                                                  Get.find<ProfileController>().isFavoriteAdded.value = homeController
+                                                .movieDetailsData.value?.isFavorite??false;
                                         Get.find<AllVideoPlayerController>()
                                             .flickManager = FlickManager(
                                           videoPlayerController:

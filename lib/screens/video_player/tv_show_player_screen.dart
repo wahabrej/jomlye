@@ -3,26 +3,54 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
-import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/video_palyer_screen.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class TvShowPlayerScreen extends StatelessWidget {
+class TvShowPlayerScreen extends StatefulWidget {
   TvShowPlayerScreen({super.key,this.isRentableVideo});
-  final AllVideoPlayerController allVideoPlayerController =
-      Get.find<AllVideoPlayerController>();
-  final HomeController homeController = Get.find<HomeController>();
     final bool? isRentableVideo;
 
   @override
+  State<TvShowPlayerScreen> createState() => _TvShowPlayerScreenState();
+}
+
+class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
+  final AllVideoPlayerController allVideoPlayerController =
+      Get.find<AllVideoPlayerController>();
+
+  final HomeController homeController = Get.find<HomeController>();
+    @override
+  void dispose() {
+    ll("Dispose from video player screen");
+    if (Get.find<GlobalController>().userToken.value != "") {
+      homeController.watchHistoryStore(
+          watchableType: 'episode',
+          watchableId: homeController.movieDetailsData.value?.id ?? -1,
+          // duration: homeController.movieServerList[homeController.selectedServer.value].,
+          duration: Get.find<AllVideoPlayerController>()
+              .totalSeconds
+              .value
+              .toString(),
+          watchedSeconds: Get.find<AllVideoPlayerController>()
+              .currentSeconds
+              .value
+              .toString());
+    }
+    super.dispose();
+  }
+
+
+  @override
   Widget build(BuildContext context) {
+    ll("the tv show episode list length ${homeController.tvShowEpisodeList.length}");
     return Scaffold(
       backgroundColor: cBlackColor,
       body: SingleChildScrollView(
@@ -70,7 +98,7 @@ class TvShowPlayerScreen extends StatelessWidget {
                             false) ||
                     (homeController.tvShowDetailsModel.value?.isRented ==
                             false &&
-                        isRentableVideo == true))
+                        widget.isRentableVideo == true))
                   SizedBox(
                     width: width,
                     height: 200.h,
@@ -80,66 +108,111 @@ class TvShowPlayerScreen extends StatelessWidget {
                     ),
                   ),
               // //!flick video player
-                // if (homeController.tvShowEpisodeList.isNotEmpty && (
-                //         homeController
-                //                 .tvShowEpisodeList[
-                //                     homeController.selectedEpisode.value]
-                //                 ?.fileSource !=
-                //             "youtube" &&
-                //         homeController
-                //                 .tvShowEpisodeList[
-                //                     homeController.selectedEpisode.value]
-                //                 ?.fileSource
-                //                 .toString()
-                //                 .toLowerCase() !=
-                //             "gdrive" &&
-                //         (homeController.tvShowDetailsModel.value?.isRented ==
-                //                 true &&
-                //             isRentableVideo == true)) ||
-                //     homeController.tvShowDetailsData.value?.isFree == 1)
+                if (homeController.tvShowEpisodeList.isNotEmpty && (
+                        homeController
+                                .tvShowEpisodeList[
+                                    homeController.selectedEpisode.value]
+                                ?.fileSource !=
+                            "youtube" &&
+                        homeController
+                                .tvShowEpisodeList[
+                                    homeController.selectedEpisode.value]
+                                ?.fileSource
+                                .toString()
+                                .toLowerCase() !=
+                            "gdrive" &&
+                        (homeController.tvShowDetailsModel.value?.isRented ==
+                                true &&
+                            widget.isRentableVideo == true)) ||
+                    homeController.tvShowDetailsData.value?.isFree == 1)
                 //   //  AspectRatio(
                 //   //   aspectRatio: 16 / 9,
                 //   //   child: FlickVideoPlayer(
                 //   //     flickManager: allVideoPlayerController.flickManager,
                 //   //   ),
                 //   // ),
-                //   AspectRatio(
-                //     aspectRatio: 16 / 9,
-                //     child: Stack(
-                //       children: [
-                //         FlickVideoPlayer(
-                //           flickManager: allVideoPlayerController.flickManager,
-                //         ),
-                //         Positioned(
-                //           top: 12,
-                //           left: 12,
-                //           child: GestureDetector(
-                //             onTap: () {
-                //                 try {
-                //                 allVideoPlayerController.youtubeController.dispose();
-                //               } catch (_) {}
-                //               try {
-                //                 allVideoPlayerController.flickManager.dispose();
-                //               } catch (_) {}
-                //               Get.back();
-                //             },
-                //             child: Container(
-                //               decoration: BoxDecoration(
-                //                 color: Colors.black.withOpacity(0.5),
-                //                 shape: BoxShape.circle,
-                //               ),
-                //               padding: const EdgeInsets.all(6),
-                //               child: const Icon(
-                //                 Icons.arrow_back_ios,
-                //                 color: Colors.white,
-                //                 size: kIconSize20,
-                //               ),
-                //             ),
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
+                  // AspectRatio(
+                  //   aspectRatio: 16 / 9,
+                  //   child: Stack(
+                  //     children: [
+                  //       FlickVideoPlayer(
+                  //         flickManager: allVideoPlayerController.flickManager,
+                  //       ),
+                  //       Positioned(
+                  //         top: 12,
+                  //         left: 12,
+                  //         child: GestureDetector(
+                  //           onTap: () {
+                  //               try {
+                  //               allVideoPlayerController.youtubeController.dispose();
+                  //             } catch (_) {}
+                  //             try {
+                  //               allVideoPlayerController.flickManager.dispose();
+                  //             } catch (_) {}
+                  //             Get.back();
+                  //           },
+                  //           child: Container(
+                  //             decoration: BoxDecoration(
+                  //               color: Colors.black.withOpacity(0.5),
+                  //               shape: BoxShape.circle,
+                  //             ),
+                  //             padding: const EdgeInsets.all(6),
+                  //             child: const Icon(
+                  //               Icons.arrow_back_ios,
+                  //               color: Colors.white,
+                  //               size: kIconSize20,
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+             
+
+                   AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Stack(
+                      children: [
+                        FlickVideoPlayer(
+                          flickManager: allVideoPlayerController.flickManager,
+                        ),
+                        Positioned(
+                          top: 12,
+                          left: 12,
+                          child: GestureDetector(
+                            onTap: () {
+                              try {
+                                allVideoPlayerController.youtubeController
+                                    .dispose();
+                              } catch (_) {}
+                              try {
+                                allVideoPlayerController.flickManager.dispose();
+                              } catch (_) {}
+                              Get.back();
+                            },
+                            child: Container(
+                              width: 24,
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.5),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(7),
+                                  child: const Icon(
+                                    Icons.arrow_back_ios,
+                                    color: Colors.white,
+                                    size: kIconSize16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
               kH20sizedBox,
               Padding(
                 padding: const EdgeInsets.only(left: k20Padding),
@@ -389,7 +462,7 @@ class TvShowPlayerScreen extends StatelessWidget {
                                     .tvShowEpisodeList[
                                         homeController.selectedEpisode.value]
                                     ?.fileUrl ??
-                                "":"Share from vidflix");
+                                "":"Share from flixoo");
                           },
                         ),
                       ],

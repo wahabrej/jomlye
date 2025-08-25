@@ -1,6 +1,6 @@
 // // import 'package:flick_video_player/flick_video_player.dart';
 // // import 'package:flutter_media_downloader/flutter_media_downloader.dart';
-// // import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+// // import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 // // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 // // class AllVideoPlayerController extends GetxController {
@@ -38,7 +38,7 @@
 // // import 'package:better_player_plus/better_player_plus.dart';
 // // import 'package:flick_video_player/flick_video_player.dart';
 // // import 'package:flutter_media_downloader/flutter_media_downloader.dart';
-// // import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+// // import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 // // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 // // class AllVideoPlayerController extends GetxController {
@@ -193,7 +193,7 @@
 // import 'package:better_player_plus/better_player_plus.dart';
 // import 'package:flick_video_player/flick_video_player.dart';
 // import 'package:flutter_media_downloader/flutter_media_downloader.dart';
-// import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+// import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 // import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 // class AllVideoPlayerController extends GetxController {
@@ -408,8 +408,8 @@ import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:video_player/video_player.dart';
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class AllVideoPlayerController extends GetxController {
@@ -834,6 +834,7 @@ class AllVideoPlayerController extends GetxController {
             Get.find<GlobalController>().subscribedUserCheck.value==true) ||
         isFree == true) {
       if (fileSource == "youtube") {
+        ll("here in youtube");
         final RxString videoUrl = RxString(fileUrl??"");
         // ll("in my youtube player controller loaded data $youtubeController");
        await _initializeYouTubeController(videoUrl: videoUrl.value);
@@ -848,6 +849,7 @@ class AllVideoPlayerController extends GetxController {
                                       );
       } else if (fileSource != "youtube" &&
           fileSource.toString().toLowerCase() != "gdrive") {
+            ll("here in flickManager");
                                       // flickManager = FlickManager(
                                       //   videoPlayerController:
                                       //       VideoPlayerController.network(

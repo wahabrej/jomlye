@@ -1,5 +1,5 @@
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class OtpTextField extends StatelessWidget {
   final TextEditingController controller;

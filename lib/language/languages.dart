@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:vidflix_flutter_app/utils/constants/strings.dart';
+import 'package:flixoo_flutter_app/utils/constants/strings.dart';
 
 class Languages extends Translations {
   @override
@@ -15,7 +15,7 @@ class Languages extends Translations {
       ksUnAuthorizedError: "UnAuthorized request",
       
       // Common
-      ksVidflix: "VidFlix",
+      ksFlixoo: "Flixoo",
       
       // Initial and Splash Screen
       ksDiscoverAVarietyOfMovies: "Discover a variety of movies, TV shows and series",
@@ -150,7 +150,7 @@ class Languages extends Translations {
       ksSelectMethod: "Select Method",
       ksOnlinePayment: "Online Payment",
       ksStartPlan: "Start Plan",
-      ksLetsContinueEnjoyingVidFlix: "Let's continue enjoying VidFlix",
+      ksLetsContinueEnjoyingflixoo: "Let's continue enjoying flixoo",
       ksBackToHome: "Back To Home",
       ksDownloadList: "Download List",
       ksDeleteVideo: "Delete Video",
@@ -211,7 +211,6 @@ class Languages extends Translations {
       ksUnAuthorizedError: "অনুমোদিত অনুরোধ",
       
       // Common
-      // ksVidflix: "ভিডফ্লিক্স",
       
       // Initial and Splash Screen
       ksDiscoverAVarietyOfMovies: "সিনেমা, টিভি শো এবং সিরিজের বিভিন্ন ধরনের আবিষ্কার করুন",
@@ -346,7 +345,7 @@ class Languages extends Translations {
       ksSelectMethod: "পদ্ধতি নির্বাচন করুন",
       ksOnlinePayment: "অনলাইন পেমেন্ট",
       ksStartPlan: "প্ল্যান শুরু করুন",
-      ksLetsContinueEnjoyingVidFlix: "ভিডফ্লিক্স উপভোগ করতে থাকুন",
+      ksLetsContinueEnjoyingflixoo: "ভিডফ্লিক্স উপভোগ করতে থাকুন",
       ksBackToHome: "হোমে ফিরে যান",
       ksDownloadList: "ডাউনলোড তালিকা",
       ksDeleteVideo: "ভিডিও মুছে ফেলুন",
@@ -407,7 +406,7 @@ class Languages extends Translations {
       ksUnAuthorizedError: "Requête non autorisée",
       
       // Common
-      ksVidflix: "VidFlix",
+      ksFlixoo: "Flixoo",
       
       // Initial and Splash Screen
       ksDiscoverAVarietyOfMovies: "Découvrez une variété de films, d'émissions de télévision et de séries",
@@ -542,7 +541,7 @@ class Languages extends Translations {
       ksSelectMethod: "Sélectionner la méthode",
       ksOnlinePayment: "Paiement en ligne",
       ksStartPlan: "Démarrer le forfait",
-      ksLetsContinueEnjoyingVidFlix: "Continuez à profiter de VidFlix",
+      ksLetsContinueEnjoyingflixoo: "Continuez à profiter de flixoo",
       ksBackToHome: "Retour à l'accueil",
       ksDownloadList: "Liste des téléchargements",
       ksDeleteVideo: "Supprimer la vidéo",
@@ -603,7 +602,7 @@ class Languages extends Translations {
       ksUnAuthorizedError: "طلب غير مصرح به",
 
       // شائع
-      // ksVidflix: "فيديفلكس",
+      // ksflixoo: "فيديفلكس",
       
       // الشاشة الأولية وشاشة البداية
       ksDiscoverAVarietyOfMovies: "اكتشف مجموعة متنوعة من الأفلام والمسلسلات التلفزيونية",
@@ -738,7 +737,7 @@ class Languages extends Translations {
       ksSelectMethod: "اختيار الطريقة",
       ksOnlinePayment: "الدفع عبر الإنترنت",
       ksStartPlan: "بدء الخطة",
-      ksLetsContinueEnjoyingVidFlix: "واصل الاستمتاع بـ VidFlix",
+      ksLetsContinueEnjoyingflixoo: "واصل الاستمتاع بـ flixoo",
       ksBackToHome: "العودة للرئيسية",
       ksDownloadList: "قائمة التحميلات",
       ksDeleteVideo: "حذف الفيديو",

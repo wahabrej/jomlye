@@ -1,7 +1,7 @@
 import 'package:flutter/gestures.dart';
-import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/auth/auth_controller.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({super.key});
@@ -28,9 +28,9 @@ class LandingScreen extends StatelessWidget {
                              Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(kiVidflix,width: 40,height: 40,),
+                      SvgPicture.asset(kiFlixoo,width: 40,height: 40,),
                       kW8sizedBox,
-                      Text(ksVidflix.tr,style: semiBold20TextStyle(cWhiteColor),),
+                      Text(ksFlixoo.tr,style: semiBold20TextStyle(cWhiteColor),),
                     ],
                   ),
                       ],

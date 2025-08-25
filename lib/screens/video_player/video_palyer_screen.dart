@@ -1,15 +1,15 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_checkbox.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/utils/custom_checkbox.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     ll("Dispose from video player screen");
     if (Get.find<GlobalController>().userToken.value != "") {
       homeController.watchHistoryStore(
-          watchableType: 'movie',
+          watchableType: 'tvshow',
           watchableId: homeController.movieDetailsData.value?.id ?? -1,
           // duration: homeController.movieServerList[homeController.selectedServer.value].,
           duration: Get.find<AllVideoPlayerController>()
@@ -129,7 +129,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     height: 200.h,
                     child: Image.network(
                       homeController.movieDetailsData.value?.poster ?? "",
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 if (homeController.movieServerList.isNotEmpty &&

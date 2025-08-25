@@ -1,10 +1,10 @@
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/video_player/video_palyer_screen.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlaylistVideoPlayerScreen extends StatelessWidget {
@@ -255,7 +255,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                 image: kiShare,
                                 onPressed: () {
                                   Share.share(
-                                      'Share data from vidflix app! 🚀');
+                                      'Share data from flixoo app! 🚀');
                                 },
                               ),
                             ],

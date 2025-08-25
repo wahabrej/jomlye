@@ -1,13 +1,13 @@
 import 'package:flick_video_player/flick_video_player.dart';
 import 'package:video_player/video_player.dart';
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
-import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
-import 'package:vidflix_flutter_app/screens/video_player/live_tv_player_screen.dart';
-import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
+import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
+import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/live_tv_player_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/video_palyer_screen.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
 
 class FavoriteScreen extends StatelessWidget {
    FavoriteScreen({super.key});
@@ -65,14 +65,14 @@ class FavoriteScreen extends StatelessWidget {
                               child: SizedBox(),
                             ),
                             SvgPicture.asset(
-                              kiVidflix,
+                              kiFlixoo,
                               width: h24.w,
                               height: h24.h,
                               color: cPrimaryColor2,
                             ),
                             kW4sizedBox,
                             Text(
-                              ksVidflix.tr,
+                              ksFlixoo.tr,
                               style: semiBold20TextStyle(cWhiteColor),
                             ),
                           ],

@@ -1,5 +1,5 @@
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class PaymentSuccessScreen extends StatelessWidget {
   const PaymentSuccessScreen({super.key});
@@ -39,7 +39,7 @@ class PaymentSuccessScreen extends StatelessWidget {
               ),
               kH12sizedBox,
               Text(
-                ksLetsContinueEnjoyingVidFlix.tr,
+                ksLetsContinueEnjoyingflixoo.tr,
                 style: medium16TextStyle(
                   cWhiteColor.withOpacity(0.5),
                 ),

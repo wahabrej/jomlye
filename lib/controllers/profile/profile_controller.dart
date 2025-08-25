@@ -1,21 +1,21 @@
 import 'dart:io';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
-import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
-import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
-import 'package:vidflix_flutter_app/models/profile/faq/faq_model.dart';
-import 'package:vidflix_flutter_app/models/profile/favorite/favorite_list_model.dart';
-import 'package:vidflix_flutter_app/models/profile/playlist/playlist_model.dart';
-import 'package:vidflix_flutter_app/models/profile/playlist/playlist_movie_list_model.dart';
-import 'package:vidflix_flutter_app/models/profile/profile/profile_model.dart';
-import 'package:vidflix_flutter_app/models/profile/profile/update_profile_model.dart';
-import 'package:vidflix_flutter_app/models/profile/rent/rented_video_model.dart';
-import 'package:vidflix_flutter_app/screens/profile/common_webview_screen.dart';
-import 'package:vidflix_flutter_app/services/api_services.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/utils/constants/urls.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/common/sp_controller.dart';
+import 'package:flixoo_flutter_app/models/common/common_data_model.dart';
+import 'package:flixoo_flutter_app/models/common/common_error_model.dart';
+import 'package:flixoo_flutter_app/models/profile/faq/faq_model.dart';
+import 'package:flixoo_flutter_app/models/profile/favorite/favorite_list_model.dart';
+import 'package:flixoo_flutter_app/models/profile/playlist/playlist_model.dart';
+import 'package:flixoo_flutter_app/models/profile/playlist/playlist_movie_list_model.dart';
+import 'package:flixoo_flutter_app/models/profile/profile/profile_model.dart';
+import 'package:flixoo_flutter_app/models/profile/profile/update_profile_model.dart';
+import 'package:flixoo_flutter_app/models/profile/rent/rented_video_model.dart';
+import 'package:flixoo_flutter_app/screens/profile/common_webview_screen.dart';
+import 'package:flixoo_flutter_app/services/api_services.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/urls.dart';
 
 class ProfileController extends GetxController {
   final SpController spController = SpController();

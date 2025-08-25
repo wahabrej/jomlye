@@ -1,6 +1,6 @@
 //* Svg images
 const String kiSplashImage = "assets/svgs/splash/splash.svg";
-const String kiVidflix = "assets/svgs/splash/vidflix.svg";
+const String kiFlixoo = "assets/svgs/splash/flixoo.svg";
 const String kiLandingImage = "assets/svgs/landing_image.svg";
 const String kiPhone = "assets/svgs/phone.svg";
 const String kiGoogle = "assets/svgs/google.svg";

@@ -1,5 +1,5 @@
-import 'package:vidflix_flutter_app/screens/profile/profile_screen.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/screens/profile/profile_screen.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -47,7 +47,7 @@ class SettingsScreen extends StatelessWidget {
                     ),
                     actions: [
                        SvgPicture.asset(
-                      kiVidflix,
+                      kiFlixoo,
                       width: h24.w,
                       height: h24.h,
                       color: cPrimaryColor2,
@@ -55,7 +55,7 @@ class SettingsScreen extends StatelessWidget {
                     kW4sizedBox,
                     Center(
                       child: Text(
-                        ksVidflix.tr,
+                        ksFlixoo.tr,
                         style: semiBold20TextStyle(cWhiteColor),
                       ),
                     ),

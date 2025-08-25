@@ -1,6 +1,6 @@
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class DownloadListScreen extends StatelessWidget {
   DownloadListScreen({super.key});
@@ -55,14 +55,14 @@ class DownloadListScreen extends StatelessWidget {
                       child: SizedBox(),
                     ),
                     SvgPicture.asset(
-                      kiVidflix,
+                      kiFlixoo,
                       width: h24.w,
                       height: h24.h,
                       color: cPrimaryColor2,
                     ),
                     kW4sizedBox,
                     Text(
-                      ksVidflix.tr,
+                      ksFlixoo.tr,
                       style: semiBold20TextStyle(cWhiteColor),
                     ),
                   ],

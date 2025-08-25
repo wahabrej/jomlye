@@ -1,5 +1,5 @@
 //* device height and width
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 double height = 0.0;
 double width = 0.0;

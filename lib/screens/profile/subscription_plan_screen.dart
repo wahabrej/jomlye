@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/payment/payment_controller.dart';
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/payment/payment_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class SubscriptionPlanScreen extends StatelessWidget {
   SubscriptionPlanScreen({super.key});
@@ -56,7 +56,7 @@ class SubscriptionPlanScreen extends StatelessWidget {
             ),
             actions: [
               SvgPicture.asset(
-                kiVidflix,
+                kiFlixoo,
                 width: h24.w,
                 height: h24.h,
                 color: cPrimaryColor2,
@@ -64,7 +64,7 @@ class SubscriptionPlanScreen extends StatelessWidget {
               kW4sizedBox,
               Center(
                 child: Text(
-                  ksVidflix.tr,
+                  ksFlixoo.tr,
                   style: semiBold20TextStyle(cWhiteColor),
                 ),
               ),

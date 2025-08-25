@@ -1,14 +1,14 @@
 import 'package:purchases_flutter/purchases_flutter.dart';
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
-import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
-import 'package:vidflix_flutter_app/models/common/common_error_model.dart';
-import 'package:vidflix_flutter_app/models/payment/payment_history_model.dart';
-import 'package:vidflix_flutter_app/models/payment/subscription_check_model.dart';
-import 'package:vidflix_flutter_app/models/payment/subscription_plan_model.dart';
-import 'package:vidflix_flutter_app/services/api_services.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/utils/constants/urls.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/common/sp_controller.dart';
+import 'package:flixoo_flutter_app/models/common/common_data_model.dart';
+import 'package:flixoo_flutter_app/models/common/common_error_model.dart';
+import 'package:flixoo_flutter_app/models/payment/payment_history_model.dart';
+import 'package:flixoo_flutter_app/models/payment/subscription_check_model.dart';
+import 'package:flixoo_flutter_app/models/payment/subscription_plan_model.dart';
+import 'package:flixoo_flutter_app/services/api_services.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/urls.dart';
 
 class PaymentController extends GetxController {
   final SpController spController = SpController();

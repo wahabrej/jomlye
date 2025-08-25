@@ -1,4 +1,4 @@
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 const Color cPrimaryColor = Color(0xFFD50055);
 const Color cPrimaryColor2 = Color(0xFFD50055);

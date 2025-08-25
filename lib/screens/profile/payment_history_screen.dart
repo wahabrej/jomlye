@@ -1,8 +1,8 @@
 import 'package:flutter/rendering.dart';
 import 'package:intl/intl.dart';
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/controllers/payment/payment_controller.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/payment/payment_controller.dart';
 
 class PaymentHistoryScreen extends StatelessWidget {
   PaymentHistoryScreen({super.key});

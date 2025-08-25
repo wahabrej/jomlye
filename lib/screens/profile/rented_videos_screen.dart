@@ -1,6 +1,6 @@
-import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
 
 class RentedVideoScreen extends StatelessWidget {
    RentedVideoScreen({super.key});
@@ -58,14 +58,14 @@ class RentedVideoScreen extends StatelessWidget {
                               child: SizedBox(),
                             ),
                             SvgPicture.asset(
-                              kiVidflix,
+                              kiFlixoo,
                               width: h24.w,
                               height: h24.h,
                               color: cPrimaryColor2,
                             ),
                             kW4sizedBox,
                             Text(
-                              ksVidflix.tr,
+                              ksFlixoo.tr,
                               style: semiBold20TextStyle(cWhiteColor),
                             ),
                           ],

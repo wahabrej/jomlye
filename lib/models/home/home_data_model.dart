@@ -428,7 +428,7 @@
 // }
 
 
-import 'package:vidflix_flutter_app/models/home/view_all/artist/artist_details_model.dart';
+import 'package:flixoo_flutter_app/models/home/view_all/artist/artist_details_model.dart';
 class HomeDataModel {
     final List<FeaturedMovie>? sliders;
     final List<Country>? genres;

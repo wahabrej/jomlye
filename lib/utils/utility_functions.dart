@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 void heightWidthKeyboardValue(context) {
   height = MediaQuery.of(context).size.height;
