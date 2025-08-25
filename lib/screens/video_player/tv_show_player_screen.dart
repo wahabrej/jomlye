@@ -87,7 +87,7 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                 //     );
                 //   },
                 // ),
-                 if (homeController.tvShowEpisodeList.isEmpty)
+                //  if (homeController.tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl==)
                     SizedBox(
                       width: width,
                       height: 200,
@@ -256,7 +256,6 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                                 kW6sizedBox,
                               ],
                             ),
-      
                           ],
                         ),
                       ),
@@ -560,42 +559,76 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                                         separatorBuilder: (context, index) => kH10sizedBox,
                                         itemCount: homeController.tvShowEpisodeList.length,
                                         itemBuilder: (context, index) {
-                                          return Row(
-                                            children: [
-                                              Image.network(homeController.tvShowEpisodeList[index]?.poster??"", height: 90.h,
-                    width: 150.w,
-                    fit: BoxFit.cover, errorBuilder: (context, error, stackTrace) => Center(
-                  child: SvgPicture.asset(
-                    kiDummyMovie,
-                    height: 90.h,
-                    width: 150.w,
-                    fit: BoxFit.cover,
-                  ),
-                ),),
-                kW8sizedBox,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(homeController.tvShowEpisodeList[index]?.seasonId.toString()??"",style: medium14TextStyle(cWhiteColor),),
-                    kH4sizedBox,
-                    Text(homeController.tvShowEpisodeList[index]?.episodeName??"",style: medium14TextStyle(cWhiteColor),),
-                    kH4sizedBox,
-                    // Text("${ksTimeDuration.tr}: ${homeController.tvShowEpisodeList[index]?.}",style: medium14TextStyle(cWhiteColor),),
-                    Container(
-                      height: 32.h,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(2),
-                        // color: homeController.tvShowEpisodeList[index].isPaid ? cPrimaryColor : cWhiteColor.withOpacity(0.1),
-                        color: cPrimaryColor,
-                      ),
-                      // child: Padding(
-                      //   padding: const EdgeInsets.symmetric(horizontal: k8Padding,vertical: k2Padding),
-                      //   child: Text(homeController.tvShowEpisodeList[index].isPaid ? ksPremium.tr : ksFree.tr),
-                      // ),
-                    ),
-                  ],
-                ),
-                                            ],
+                                          return InkWell(
+                                            onTap: ()async{
+                                                  homeController.resetRatingData();
+                                       homeController.selectedEpisode.value=0;
+                                              profileController.isFavoriteAdded.value = 
+                                        homeController.tvShowDetailsData.value
+                                                ?.isFavorite ??
+                                            false;
+                                      await homeController.getTvShowDetails(
+                                          showId: homeController
+                                              .tvShowEpisodeList[index]!.id!);
+                                               homeController.selectedEpisode.value = index;
+                                         if(homeController.tvShowEpisodeList.isNotEmpty){
+                                    allVideoPlayerController.videoPlayerFunction(
+                                       isFree: homeController.tvShowDetailsData.value?.isFree==1 ?true : false,
+                                      isRental: homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,  
+                                                  isRented:  homeController.tvShowDetailsModel.value?.isRented??false,
+                                                 isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value,
+                                                  fileUrl: homeController
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl??"", fileSource: homeController
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType??"",
+                                                );
+                                         }
+                                        Get.offUntil(
+                                          GetPageRoute(
+                                            page: () => TvShowPlayerScreen(
+                                              isRentableVideo:homeController.tvShowDetailsData.value?.isFree==0 &&
+                                                  homeController.tvShowDetailsData.value?.isRental == 1 ? true : false,
+                                            ),
+                                          ),
+                                          ModalRoute.withName(krHomeScreen),
+                                        );
+                                            },
+                                            child: Row(
+                                              children: [
+                                                Image.network(homeController.tvShowEpisodeList[index]?.poster??"", height: 90.h,
+                                                                width: 150.w,
+                                                                fit: BoxFit.cover, errorBuilder: (context, error, stackTrace) => Center(
+                                                              child: SvgPicture.asset(
+                                                                kiDummyMovie,
+                                                                height: 90.h,
+                                                                width: 150.w,
+                                                                fit: BoxFit.cover,
+                                                              ),
+                                                            ),),
+                                                            kW8sizedBox,
+                                                            Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text(homeController.tvShowEpisodeList[index]?.seasonId.toString()??"",style: medium14TextStyle(cWhiteColor),),
+                                                                kH4sizedBox,
+                                                                Text(homeController.tvShowEpisodeList[index]?.episodeName??"",style: medium14TextStyle(cWhiteColor),),
+                                                                kH4sizedBox,
+                                                                // Text("${ksTimeDuration.tr}: ${homeController.tvShowEpisodeList[index]?.}",style: medium14TextStyle(cWhiteColor),),
+                                                                Container(
+                                                                  height: 32.h,
+                                                                  decoration: BoxDecoration(
+                                                                    borderRadius: BorderRadius.circular(2),
+                                                                    // color: homeController.tvShowEpisodeList[index].isPaid ? cPrimaryColor : cWhiteColor.withOpacity(0.1),
+                                                                    color: cPrimaryColor,
+                                                                  ),
+                                                                  // child: Padding(
+                                                                  //   padding: const EdgeInsets.symmetric(horizontal: k8Padding,vertical: k2Padding),
+                                                                  //   child: Text(homeController.tvShowEpisodeList[index].isPaid ? ksPremium.tr : ksFree.tr),
+                                                                  // ),
+                                                                ),
+                                                              ],
+                                                            ),
+                                              ],
+                                            ),
                                           );
                                         },
                                       ),

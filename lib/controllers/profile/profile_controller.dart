@@ -19,6 +19,16 @@ import 'package:flixoo_flutter_app/utils/constants/urls.dart';
 
 class ProfileController extends GetxController {
   final SpController spController = SpController();
+  String paymentTypeSelection(String paymentType){
+    if(paymentType == "rental"){
+    // return "${Environment.apiUrl.replaceFirst(RegExp(r'api/$'), '')}packages?token=${Get.find<GlobalController>().userToken.value}&payment_type=rental&video_id=1";
+    return "${Environment.apiUrl.replaceFirst(RegExp(r'api/$'), '')}packages?token=klsdfksjdlsjflk&payment_type=rental&video_id=1&video_type=movie";
+    }
+    else{
+    return "http://flixoo.local/packages?token=klsdfksjdlsjflk&payment_type=subscription&package_id=1";
+
+    }
+  }
   final ApiServices apiServices = ApiServices();
   final GlobalController globalController = Get.find<GlobalController>();
   final TextEditingController fullNameTextEditingController =

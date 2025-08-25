@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flixoo_flutter_app/screens/profile/payment_method_screen.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
 import 'package:flixoo_flutter_app/controllers/payment/payment_controller.dart';
@@ -204,7 +205,8 @@ class SubscriptionPlanScreen extends StatelessWidget {
                                 // await Purchases.purchasePackage(
                                 //     paymentController
                                 //         .findStoreProductById(index));
-                                Get.toNamed(krPaymentMethodScreen);
+                                // Get.toNamed(krPaymentMethodScreen);
+                                Get.to(PaymentMethodScreen(paymentType: "",));
                                 // Get.find<GlobalController>().commonBottomSheet(context: context, content: PaymentMethodSelectBottomSheetContent(index: index,), onPressCloseButton: (){}, onPressRightButton: (){}, rightText: "", rightTextStyle: regular12TextStyle(cWhiteColor), title: ksSelectPaymentMethod.tr, isRightButtonShow: false,bottomSheetHeight: height*0.3,bottomSheetColor: cBlackColor2);
                               },
                               buttonColor: cPrimaryColor2,

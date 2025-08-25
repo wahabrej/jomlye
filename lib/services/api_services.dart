@@ -32,6 +32,7 @@ class ApiServices {
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           "Accept": "application/json",
+          "apiKey": Environment.apiKey,
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -47,6 +48,7 @@ class ApiServices {
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           "Accept": "application/json",
+          "apiKey": Environment.apiKey,
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -62,6 +64,7 @@ class ApiServices {
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           "Accept": "application/json",
+          "apiKey": Environment.apiKey,
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -77,6 +80,7 @@ class ApiServices {
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           "Accept": "application/json",
+          "apiKey": Environment.apiKey,
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -159,6 +163,7 @@ class ApiServices {
     ll("Url : $url");
     Dio dio = Dio();
     dio.options.headers['content-Type'] = 'application/json';
+    dio.options.headers['apiKey'] = Environment.apiKey;
     dio.options.headers["authorization"] = "Bearer $token";
     String error = ksSomethingWentWrong.tr;
     try {
@@ -218,6 +223,7 @@ class ApiServices {
         {
           'Authorization': 'Bearer $token',
           'content-Type': 'multipart/form-data',
+          "apiKey": Environment.apiKey,
         },
       );
       // If image is a file on disk, use fromPath instead of fromBytes
@@ -270,6 +276,7 @@ class ApiServices {
         {
           'Authorization': 'Bearer $token',
           'content-Type': 'multipart/form-data',
+          "apiKey": Environment.apiKey,
         },
       );
       // If image is a file on disk, use fromPath instead of fromBytes
@@ -329,6 +336,7 @@ class ApiServices {
         {
           'Authorization': 'Bearer $token',
           'content-Type': 'multipart/form-data',
+          "apiKey": Environment.apiKey,
         },
       );
       // If image is a file on disk, use fromPath instead of fromBytes
