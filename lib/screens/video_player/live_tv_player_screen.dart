@@ -290,28 +290,31 @@ class LiveTvPlayerScreen extends StatelessWidget {
                                             );
                                   }
                                 },
-                                child: Obx(() => Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.w, vertical: 8.h),
-                                      decoration: BoxDecoration(
-                                        color: homeController
-                                                    .liveTvSelectedIndex.value ==
-                                                index
-                                            ? Colors.grey[800]
-                                            : Colors.transparent,
-                                        borderRadius:
-                                            BorderRadius.circular(100.r),
-                                      ),
-                                      child: Container(
-                                        constraints: BoxConstraints(),
-                                        child: Text(
-                                          homeController.liveTvDetailsTabs[index],
-                                          style: regular14TextStyle(cWhiteColor),
-                                          overflow: TextOverflow.ellipsis,
-                                          textAlign: TextAlign.center,
+                                child: Obx(() => Padding(
+                                  padding: const EdgeInsets.only(left: 6),
+                                  child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 16.w, vertical: 8.h),
+                                        decoration: BoxDecoration(
+                                          color: homeController
+                                                      .liveTvSelectedIndex.value ==
+                                                  index
+                                              ? Colors.grey[800]
+                                              : Colors.transparent,
+                                          borderRadius:
+                                              BorderRadius.circular(100.r),
+                                        ),
+                                        child: Container(
+                                          constraints: BoxConstraints(),
+                                          child: Text(
+                                            homeController.liveTvDetailsTabs[index],
+                                            style: regular14TextStyle(cWhiteColor),
+                                            overflow: TextOverflow.ellipsis,
+                                            textAlign: TextAlign.center,
+                                          ),
                                         ),
                                       ),
-                                    )),
+                                )),
                               );
                             }),
                           ),

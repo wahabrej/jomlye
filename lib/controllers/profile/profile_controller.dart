@@ -774,7 +774,8 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
     //!Rented Video
   final RxBool isRentedVideoLoading = RxBool(false);
   final Rx<RentedVideoModel?> rentedVideoModel = Rx<RentedVideoModel?>(null); 
-  final RxList<Rent?> rentedVideoList = RxList<Rent?>([]);
+  final RxList<Rent?> movieRentedVideoList = RxList<Rent?>([]);
+  final RxList<Rent?> tvShowRentedVideoList = RxList<Rent?>([]);
   Future<void> getRentedVideo() async {
     try {
       isRentedVideoLoading.value = true;
@@ -789,9 +790,16 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ) as CommonDM;
 
       if (response.code == 200) {
-        rentedVideoList.clear();
         rentedVideoModel.value = RentedVideoModel.fromJson(response.data);
-        rentedVideoList.addAll(rentedVideoModel.value!.rents!);
+        for(int i=0;i<=rentedVideoModel.value!.rents!.length-1;i++){
+          if(rentedVideoModel.value!.rents![i].videoType?.toLowerCase()=="movie"){
+            movieRentedVideoList.add(rentedVideoModel.value!.rents![i]);
+          }
+          else if(rentedVideoModel.value!.rents![i].videoType?.toLowerCase()=="series"){
+            tvShowRentedVideoList.add(rentedVideoModel.value!.rents![i]);
+          }
+        }
+        // rentedVideoList.addAll(rentedVideoModel.value!.rents!);
         isRentedVideoLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);

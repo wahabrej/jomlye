@@ -1646,6 +1646,7 @@ class HomeController extends GetxController {
       if (response.code == 200) {
         addCommentTextEditingController.clear();
         rating.value=0;
+       await getWatchHistory();
         // showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
       } else {
         // showSnackBar(title: ksError.tr, message: "editPlayList Error!", color: cPrimaryColor2);

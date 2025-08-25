@@ -1,10 +1,8 @@
-import 'package:flick_video_player/flick_video_player.dart';
-import 'package:video_player/video_player.dart';
+import 'package:flixoo_flutter_app/screens/video_player/tv_show_player_screen.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
 import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
 import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
-import 'package:flixoo_flutter_app/screens/video_player/live_tv_player_screen.dart';
 import 'package:flixoo_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
@@ -12,6 +10,8 @@ import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
 class FavoriteScreen extends StatelessWidget {
    FavoriteScreen({super.key});
    final ProfileController profileController = Get.find<ProfileController>();
+   final HomeController homeController = Get.find<HomeController>();
+   final AllVideoPlayerController allVideoPlayerController = Get.find<AllVideoPlayerController>();
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +83,7 @@ class FavoriteScreen extends StatelessWidget {
                       color: cWhiteColor.withOpacity(0.2),
                     ),
                     kH8sizedBox,
+                    if(profileController.favoriteLiveTvList.isNotEmpty)
                     Text(ksTVChannel.tr,style: medium16TextStyle(cWhiteColor),),
                     kH16sizedBox,
                      SizedBox(
@@ -120,6 +121,7 @@ class FavoriteScreen extends StatelessWidget {
                       ),
                     ),
                     kH16sizedBox,
+                    if(profileController.favoriteMovieList.isNotEmpty)
                     Text(ksMovies.tr,style: medium16TextStyle(cWhiteColor),),
                     kH16sizedBox,
                           SizedBox(
@@ -157,6 +159,7 @@ class FavoriteScreen extends StatelessWidget {
                     ),
                   ),
                     kH16sizedBox,
+                    if(profileController.favoriteTvShowList.isNotEmpty)
                     Text(ksTvSeries.tr,style: medium16TextStyle(cWhiteColor),),
                     kH16sizedBox,
                     SizedBox(
@@ -171,8 +174,30 @@ class FavoriteScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap: (){
-                            
+                          onTap: () async {
+                             homeController.resetRatingData();
+                                       homeController.selectedEpisode.value=0;
+                                              profileController.isFavoriteAdded.value = 
+                                        homeController.tvShowDetailsData.value
+                                                ?.isFavorite ??
+                                            false;
+                                      await homeController.getTvShowDetails(
+                                          showId: homeController
+                                              .watchHistoryList[index]!
+                                              .watchableId!);
+                                               homeController.selectedEpisode.value = 0;
+                                         if(homeController.tvShowEpisodeList.isNotEmpty){
+                                    allVideoPlayerController.videoPlayerFunction(
+                                       isFree: homeController.tvShowDetailsData.value?.isFree==1 ?true : false,
+                                      isRental: homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,  
+                                                  isRented:  homeController.tvShowDetailsModel.value?.isRented??false,
+                                                 isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value,
+                                                  fileUrl: homeController
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl??"", fileSource: homeController
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType??"",seekToPosition: (((double.tryParse((homeController.watchHistoryList[index]?.watchedSeconds ?? "0").replaceAll("mins", "").trim()) ?? 0.0) * 60).round()));
+                                         }
+                                    Get.to(()=> TvShowPlayerScreen(isRentableVideo:  homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,));
+                                   
                           },
                           child: MovieContentContainer(
                             movieImage: profileController.favoriteTvShowList[index].thumbnail,
@@ -182,6 +207,8 @@ class FavoriteScreen extends StatelessWidget {
                       },
                     ),
                   ),
+                  if(profileController.favoriteTvShowList.isEmpty && profileController.favoriteMovieList.isEmpty && profileController.favoriteLiveTvList.isEmpty)
+                  SizedBox(),
               ],
             ),
           ),

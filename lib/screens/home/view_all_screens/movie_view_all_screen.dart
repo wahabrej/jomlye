@@ -1,4 +1,5 @@
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flixoo_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:flutter/rendering.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
@@ -103,7 +104,8 @@ class MovieViewAllScreen extends StatelessWidget {
                         Get.back();
                       },
                       child: Container(
-                        width: homeController.selectedTitle.value==ksNewRelease ? 140.w : homeController.selectedTitle.value==ksTrendingMovies ? 170.w : homeController.selectedTitle.value=="" ? 120.w : 190.w,
+                        // width: homeController.selectedTitle.value==ksNewRelease ? 140.w : homeController.selectedTitle.value==ksTrendingMovies ? 170.w : homeController.selectedTitle.value=="" ? 120.w : 190.w,
+                        width: 180.w,
                         height: h32,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100.r),
@@ -120,11 +122,15 @@ class MovieViewAllScreen extends StatelessWidget {
                                 color: cWhiteColor,
                               ),
                               kW4sizedBox,
-                              Center(
-                                  child: Text(
-                               homeController.selectedTitle.value =="" ? ksAllMovies.tr : homeController.selectedTitle.value,
-                                style: regular16TextStyle(cWhiteColor),
-                              )),
+                              SizedBox(
+                                width: 140,
+                                child: Center(
+                                    child: Text(
+                                                                   homeController.selectedTitle.value =="" ? ksAllMovies.tr : homeController.selectedTitle.value,
+                                                                    style: regular16TextStyle(cWhiteColor),
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                  )),
+                              ),
                             ],
                           ),
                         ),
@@ -435,21 +441,37 @@ class MovieViewAllScreen extends StatelessWidget {
                                   itemBuilder: (context, index) {
                                     return InkWell(
                                       onTap: () async {
-                                        await homeController.getMovieDetails(
-                                            movieId: homeController
-                                                .movieList[index]!.id!
-                                                .toString());
-                                        String videoUrl = homeController
-                                                .movieServerList[0]?.fileUrl ??
-                                            "";
-                                                  Get.find<ProfileController>().isFavoriteAdded.value = homeController
-                                                .movieDetailsData.value?.isFavorite??false;
-                                        Get.find<AllVideoPlayerController>()
-                                            .flickManager = FlickManager(
-                                          videoPlayerController:
-                                              VideoPlayerController.network(videoUrl),
-                                        );
-                                        Get.toNamed(krVideoPlayerScreen);
+                                        // await homeController.getMovieDetails(
+                                        //     movieId: homeController
+                                        //         .movieList[index]!.id!
+                                        //         .toString());
+                                        // String videoUrl = homeController
+                                        //         .movieServerList[0]?.fileUrl ??
+                                        //     "";
+                                        //           Get.find<ProfileController>().isFavoriteAdded.value = homeController
+                                        //         .movieDetailsData.value?.isFavorite??false;
+                                        // Get.find<AllVideoPlayerController>()
+                                        //     .flickManager = FlickManager(
+                                        //   videoPlayerController:
+                                        //       VideoPlayerController.network(videoUrl),
+                                        // );
+                                        // Get.toNamed(krVideoPlayerScreen);
+                                          homeController.resetRatingData();
+                                    await homeController.getMovieDetails(
+                                        movieId: homeController.
+                                            movieList[index]!.id
+                                            .toString());
+                                  Get.find<ProfileController>().isFavoriteAdded.value =
+                                        homeController.movieDetailsData.value
+                                                ?.isFavorite ??
+                                            false;
+                                    if(homeController.movieServerList.isNotEmpty){
+                                 Get.find<AllVideoPlayerController>().videoPlayerFunction(isFree: homeController.movieDetailsData.value?.isFree== 1 ? true : false,isRental: homeController.movieDetailsData.value?.isFree==0 &&  homeController.
+                                                movieDetailsData.value?.isRental==1 ? true : false,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[0]?.fileUrl, fileSource: homeController.movieServerList[0]?.fileSource);
+                                    }
+
+                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController.movieDetailsData.value?.isFree== 0 && homeController.
+                                                movieDetailsData.value?.isRental==1 ? true : false,));
                                       },
                                       child: MovieContentContainer(
                                         movieImage: homeController

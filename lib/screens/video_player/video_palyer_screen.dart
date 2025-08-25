@@ -33,7 +33,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     ll("Dispose from video player screen");
     if (Get.find<GlobalController>().userToken.value != "") {
       homeController.watchHistoryStore(
-          watchableType: 'tvshow',
+          watchableType: 'movie',
           watchableId: homeController.movieDetailsData.value?.id ?? -1,
           // duration: homeController.movieServerList[homeController.selectedServer.value].,
           duration: Get.find<AllVideoPlayerController>()
@@ -529,144 +529,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 ? () {
                                     // allVideoPlayerController.flutterMediaDownloaderPlugin.downloadMedia(context,'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
                                     showDownloadVideoPopup(context);
-                                    // allVideoPlayerController
-                                    //     .flutterMediaDownloaderPlugin
-                                    //     .downloadMedia(context,
-                                    //         'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4');
+                                   
                                   }
                                 : null,
                           ),
-                          //flutter video download
-                          // CommonContainer(
-                          //   image: kiDownload,
-                          //   onPressed: () async {
-                          //     try {
-                          //       showDialog(
-                          //         context: context,
-                          //         barrierDismissible: false,
-                          //         builder: (context) => AlertDialog(
-                          //           content: Row(
-                          //             children: [
-                          //               CircularProgressIndicator(),
-                          //               SizedBox(width: 20),
-                          //               Text('Downloading video...'),
-                          //             ],
-                          //           ),
-                          //         ),
-                          //       );
-
-                          //       String videoUrl =
-                          //           'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4';
-                          //       String fileName =
-                          //           'video_${DateTime.now().millisecondsSinceEpoch}.mp4';
-
-                          //       await allVideoPlayerController.downloadVideo(
-                          //           videoUrl, fileName);
-
-                          //       // Hide loading dialog
-                          //       Navigator.of(context).pop();
-
-                          //       // Show success message
-                          //       ScaffoldMessenger.of(context).showSnackBar(
-                          //         SnackBar(
-                          //           content:
-                          //               Text('Video downloaded successfully!'),
-                          //           backgroundColor: Colors.green,
-                          //         ),
-                          //       );
-                          //     } catch (e) {
-                          //       // Hide loading dialog if still showing
-                          //       Navigator.of(context).pop();
-
-                          //       // Show error message
-                          //       ScaffoldMessenger.of(context).showSnackBar(
-                          //         SnackBar(
-                          //           content:
-                          //               Text('Download failed: ${e.toString()}'),
-                          //           backgroundColor: Colors.red,
-                          //         ),
-                          //       );
-                          //     }
-                          //   },
-                          // ),
-
-                          // kW10sizedBox,
-                          // CommonContainer(
-                          //   image: kiDownload,
-                          //   onPressed: (){
-                          //   },
-                          // ),
-                          //                         CommonContainer(
-                          //   image: kiDownload,
-                          //   onPressed: () async{
-                          //    await allVideoPlayerController.requestStoragePermission();
-                          //    await allVideoPlayerController.downloadVideo(
-                          //       'https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4',
-                          //       'sample_video.mp4',
-                          //     );
-                          //   },
-                          // ),
-                          // CommonContainer(
-                          //   image: kiDownload,
-                          //   onPressed: () async {
-                          //     try {
-                          //       ll("123 in try block");
-
-                          //       // Request storage permission
-                          //       final permission =
-                          //           await Permission.storage.request();
-                          //       ll("123 in permission $permission");
-
-                          //       if (permission.isGranted) {
-                          //         // Download the video
-                          //         final taskId = await FlutterDownloader.enqueue(
-                          //           // url: 'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-                          //           url:
-                          //               'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-                          //           savedDir:
-                          //               (await getApplicationDocumentsDirectory())
-                          //                   .path,
-                          //           fileName: 'downloaded_video.mp4',
-                          //           showNotification: true,
-                          //           openFileFromNotification: true,
-                          //         );
-                          //         ll("Task id is $taskId");
-
-                          //         // Show success message
-                          //         showSnackBar(
-                          //           title: ksDownloading.tr,
-                          //           message: 'Downloading Started',
-                          //           color: cPrimaryColor2,
-                          //         );
-                          //       } else if (permission.isPermanentlyDenied) {
-                          //         // Open app settings if permission is permanently denied
-                          //         showSnackBar(
-                          //           title: ksError.tr,
-                          //           message:
-                          //               'Storage permission is permanently denied. Please enable it from settings.',
-                          //           color: cPrimaryColor2,
-                          //         );
-                          //         await openAppSettings();
-                          //       } else {
-                          //         // Handle temporary denied permission
-                          //         showSnackBar(
-                          //           title: ksError.tr,
-                          //           message:
-                          //               'Storage permission is required to download video.',
-                          //           color: cPrimaryColor2,
-                          //         );
-                          //       }
-                          //     } catch (e) {
-                          //       // Handle any errors
-                          //       ScaffoldMessenger.of(context).showSnackBar(
-                          //         SnackBar(
-                          //           content: Text('Error downloading video: $e'),
-                          //           duration: Duration(seconds: 2),
-                          //         ),
-                          //       );
-                          //     }
-                          //   },
-                          // ),
+                        
 
                           kW10sizedBox,
                           CommonContainer(
@@ -681,6 +548,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           ),
                         ],
                       ),
+                     
+                     
                       if (homeController.movieServerList.isNotEmpty)
                         kH16sizedBox,
                       if (homeController.movieServerList.isNotEmpty)

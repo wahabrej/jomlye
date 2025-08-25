@@ -151,13 +151,13 @@ class ProfileScreen extends StatelessWidget {
                     },
                   ),
                   kH8sizedBox,
-                  ProfileCommonWidget(
-                    image: kiNotification,
-                    title: ksNotification.tr,
-                    onPressed: () {
-                      Get.toNamed(krNotificationScreen);
-                    },
-                  ),
+                  // ProfileCommonWidget(
+                  //   image: kiNotification,
+                  //   title: ksNotification.tr,
+                  //   onPressed: () {
+                  //     Get.toNamed(krNotificationScreen);
+                  //   },
+                  // ),
                   kH8sizedBox,
                   ProfileCommonWidget(
                     image: kiCrown,
@@ -180,7 +180,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   kH8sizedBox,
                   ProfileCommonWidget(
-                    image: kiMoney,
+                    image: kiRented,
                     title: ksRentedVideo.tr,
                     onPressed: () async{
                       await profileController.getRentedVideo();

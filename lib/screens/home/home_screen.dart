@@ -465,23 +465,15 @@ class HomeScreen extends StatelessWidget {
                                     await homeController.getTvShowDetails(showId: homeController
                                         .popularTvShowsList[index].id??-1);
                                          if(homeController.tvShowEpisodeList.isNotEmpty){
-                                    allVideoPlayerController.videoPlayerFunction(isFree: homeController
-                                                .popularTvShowsList[index]
-                                                .isFree==1 ? true : false, isRental: homeController
-                                                .popularTvShowsList[index]
-                                                .isFree==0 &&  homeController
-                                                .popularTvShowsList[index]
-                                                .isRental==0 ? false : true, 
-                                                // isRented: homeController
-                                                // .tvShowEpisodeList[0].isRental==0 ? false : true,
-                                                  isRented:  false,
+                                    allVideoPlayerController.videoPlayerFunction(
+                                      isFree: homeController.tvShowDetailsData.value?.isFree==1 ? true : false,
+                                      isRental: homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,  
+                                                  isRented:  homeController.tvShowDetailsModel.value?.isRented??false,
                                                  isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value,
                                                   fileUrl: homeController
                                                 .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl??"", fileSource: homeController
                                                 .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType??"");
                                          }
-                                         ll("the file url is ${homeController
-                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType}");
                                     Get.to(()=> TvShowPlayerScreen(isRentableVideo: homeController
                                                 .popularTvShowsList[index]
                                                 .isFree==0 && homeController
@@ -560,11 +552,29 @@ class HomeScreen extends StatelessWidget {
                                             ?.watchableType
                                             ?.toLowerCase() ==
                                         "episode") {
+                                    homeController.resetRatingData();
+                                       homeController.selectedEpisode.value=0;
+                                              profileController.isFavoriteAdded.value = 
+                                        homeController.tvShowDetailsData.value
+                                                ?.isFavorite ??
+                                            false;
                                       await homeController.getTvShowDetails(
                                           showId: homeController
                                               .watchHistoryList[index]!
                                               .watchableId!);
-                                      Get.toNamed(krTvShowPlayerScreen);
+                                               homeController.selectedEpisode.value = 0;
+                                         if(homeController.tvShowEpisodeList.isNotEmpty){
+                                    allVideoPlayerController.videoPlayerFunction(
+                                       isFree: homeController.tvShowDetailsData.value?.isFree==1 ?true : false,
+                                      isRental: homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,  
+                                                  isRented:  homeController.tvShowDetailsModel.value?.isRented??false,
+                                                 isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value,
+                                                  fileUrl: homeController
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl??"", fileSource: homeController
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType??"",seekToPosition: (((double.tryParse((homeController.watchHistoryList[index]?.watchedSeconds ?? "0").replaceAll("mins", "").trim()) ?? 0.0) * 60).round()));
+                                         }
+                                    Get.to(()=> TvShowPlayerScreen(isRentableVideo:  homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,));
+                                   
                                     }
                                   },
                                   child: MovieCard(

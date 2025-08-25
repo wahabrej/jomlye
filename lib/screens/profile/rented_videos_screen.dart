@@ -1,10 +1,17 @@
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
+import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/tv_show_player_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
 
 class RentedVideoScreen extends StatelessWidget {
    RentedVideoScreen({super.key});
    final ProfileController profileController = Get.find<ProfileController>();
+   final HomeController homeController = Get.find<HomeController>();
+   final AllVideoPlayerController allVideoPlayerController = Get.find<AllVideoPlayerController>();
 
   @override
   Widget build(BuildContext context) {
@@ -76,21 +83,48 @@ class RentedVideoScreen extends StatelessWidget {
                       color: cWhiteColor.withOpacity(0.2),
                     ),
                     kH8sizedBox,
-                    Text(ksTVChannel.tr,style: medium16TextStyle(cWhiteColor),),
+                    Text(ksTvShows.tr,style: medium16TextStyle(cWhiteColor),),
                     kH16sizedBox,
                      SizedBox(
                       width: width - 20,
                       height: 120.h,
                       child: ListView.separated(
-                        itemCount: profileController.rentedVideoList.length,
+                        itemCount: profileController.tvShowRentedVideoList.length,
                         separatorBuilder: (context, index) =>
                             kW8sizedBox,
                         shrinkWrap: true,
                         physics: const AlwaysScrollableScrollPhysics(),
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          return FeaturedTvChannelsContentContainer(
-                            image: profileController.rentedVideoList[index]?.title??'',
+                          return InkWell(
+                            onTap: ()async{
+                                    homeController.resetRatingData();
+                                       homeController.selectedEpisode.value=0;
+                                              profileController.isFavoriteAdded.value = 
+                                        homeController.tvShowDetailsData.value
+                                                ?.isFavorite ??
+                                            false;
+                                      await homeController.getTvShowDetails(
+                                          showId: profileController
+                                              .tvShowRentedVideoList[index]!.id!);
+                                               homeController.selectedEpisode.value = 0;
+                                         if(homeController.tvShowEpisodeList.isNotEmpty){
+                                    allVideoPlayerController.videoPlayerFunction(
+                                       isFree: homeController.tvShowDetailsData.value?.isFree==1 ?true : false,
+                                      isRental: homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,  
+                                                  isRented:  homeController.tvShowDetailsModel.value?.isRented??false,
+                                                 isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value,
+                                                  fileUrl: homeController
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl??"", fileSource: homeController
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType??"",
+                                                );
+                                         }
+                                    Get.to(()=> TvShowPlayerScreen(isRentableVideo: homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,));
+                                   
+                            },
+                            child: FeaturedTvChannelsContentContainer(
+                              image: profileController.tvShowRentedVideoList[index]?.title??'',
+                            ),
                           );
                         },
                       ),
@@ -102,7 +136,7 @@ class RentedVideoScreen extends StatelessWidget {
                     width: width - 20,
                     height: 140.h,
                     child: ListView.separated(
-                      itemCount: profileController.rentedVideoList.length,
+                      itemCount: profileController.movieRentedVideoList.length,
                       separatorBuilder: (context, index) =>
                           kW10sizedBox,
                       shrinkWrap: true,
@@ -110,12 +144,26 @@ class RentedVideoScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap: (){
-                            // Get.to(()=> VideoPlayerScreen(isRentedVideo: true,));
-                            // Get.toNamed(krVideoPlayerScreen);
+                          onTap: ()async{
+                            homeController.resetRatingData();
+                                    await homeController.getMovieDetails(
+                                        movieId: profileController
+                                            .movieRentedVideoList[index]!.id
+                                            .toString());
+                                    profileController.isFavoriteAdded.value =
+                                        homeController.movieDetailsData.value
+                                                ?.isFavorite ??
+                                            false;
+                                    if(homeController.movieServerList.isNotEmpty){
+                                    allVideoPlayerController.videoPlayerFunction(isFree: homeController.movieDetailsData.value?.isFree== 1 ? true : false,isRental: homeController.movieDetailsData.value?.isFree==0 &&  homeController.
+                                                movieDetailsData.value?.isRental==1 ? true : false,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[0]?.fileUrl, fileSource: homeController.movieServerList[0]?.fileSource);
+                                    }
+
+                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController.movieDetailsData.value?.isFree== 0 && homeController.
+                                                movieDetailsData.value?.isRental==1 ? true : false,));
                           },
                           child: RentedVideoContentContainer(
-                             movieImage: profileController.rentedVideoList[index]?.image??"",
+                             movieImage: profileController.movieRentedVideoList[index]?.image??"",
                              isRented: true,
                             // seasonName: profileController.tvSeriesList[index]["season"],
                             // isRented: profileController.rentedVideoList[index]?.videoType??"",

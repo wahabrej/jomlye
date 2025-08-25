@@ -204,7 +204,8 @@ class SubscriptionPlanScreen extends StatelessWidget {
                                 // await Purchases.purchasePackage(
                                 //     paymentController
                                 //         .findStoreProductById(index));
-                                Get.find<GlobalController>().commonBottomSheet(context: context, content: PaymentMethodSelectBottomSheetContent(index: index,), onPressCloseButton: (){}, onPressRightButton: (){}, rightText: "", rightTextStyle: regular12TextStyle(cWhiteColor), title: ksSelectPaymentMethod.tr, isRightButtonShow: false,bottomSheetHeight: height*0.3,bottomSheetColor: cBlackColor2);
+                                Get.toNamed(krPaymentMethodScreen);
+                                // Get.find<GlobalController>().commonBottomSheet(context: context, content: PaymentMethodSelectBottomSheetContent(index: index,), onPressCloseButton: (){}, onPressRightButton: (){}, rightText: "", rightTextStyle: regular12TextStyle(cWhiteColor), title: ksSelectPaymentMethod.tr, isRightButtonShow: false,bottomSheetHeight: height*0.3,bottomSheetColor: cBlackColor2);
                               },
                               buttonColor: cPrimaryColor2,
                               textStyle: regular14TextStyle(cWhiteColor),

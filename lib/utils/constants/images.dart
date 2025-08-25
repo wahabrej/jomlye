@@ -23,6 +23,7 @@ const String kiPopcorn = "assets/svgs/popcorn.svg";
 const String kiTvScreen = "assets/svgs/tv_screen.svg";
 const String kiProfile = "assets/svgs/profile.svg";
 const String kiPlay = "assets/svgs/play.svg";
+const String kiRented = "assets/svgs/rented.svg";
 //*profile
 const String kiUser2 = "assets/svgs/profile/user2.svg";
 const String kiLock = "assets/svgs/profile/lock.svg";

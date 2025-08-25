@@ -1,6 +1,9 @@
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
 import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/tv_show_player_screen.dart';
 import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:flixoo_flutter_app/utils/constants/imports.dart';
@@ -402,9 +405,28 @@ class TvShowsViewAllScreen extends StatelessWidget {
                             itemBuilder: (context, index) {
                               return Obx(() => InkWell(
                                                         onTap: () async {
-                                                          await homeController.getTvShowDetails(
-                                                              showId: homeController.tvShowList[index]!.id!);
-                                                          Get.toNamed(krTvShowPlayerScreen);
+                                                          homeController.resetRatingData();
+                                       homeController.selectedEpisode.value=0;
+                                              Get.find<ProfileController>().isFavoriteAdded.value = 
+                                        homeController.tvShowDetailsData.value
+                                                ?.isFavorite ??
+                                            false;
+                                      await homeController.getTvShowDetails(
+                                          showId: homeController.
+                                              tvShowList[index]
+                                              !.id!);
+                                               homeController.selectedEpisode.value = 0;
+                                         if(homeController.tvShowEpisodeList.isNotEmpty){
+                                  Get.find<AllVideoPlayerController>().videoPlayerFunction(
+                                       isFree: homeController.tvShowDetailsData.value?.isFree==1 ?true : false,
+                                      isRental: homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,  
+                                                  isRented:  homeController.tvShowDetailsModel.value?.isRented??false,
+                                                 isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value,
+                                                  fileUrl: homeController
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl??"", fileSource: homeController
+                                                .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType??"",);
+                                         }
+                                    Get.to(()=> TvShowPlayerScreen(isRentableVideo:  homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,));
                                                         },
                                                         child: MovieContentContainer(
                                                           movieImage:
