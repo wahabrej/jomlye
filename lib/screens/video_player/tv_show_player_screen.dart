@@ -193,7 +193,57 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            // Text("This is test text"),
+                             if (homeController.tvShowDetailsModel.value?.isRented == true)
+                              Container(
+                                width: 120.w,
+                                height: 24.h,
+                                decoration: BoxDecoration(
+                                  color: cWhiteColor.withOpacity(0.1),
+                                  borderRadius:
+                                      BorderRadius.circular(k4BorderRadius),
+                                  border: Border.all(
+                                    width: 0.65,
+                                    color: cWhiteColor.withOpacity(0.1),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: k4Padding),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: cPurpleColor,
+                                          borderRadius: BorderRadius.circular(
+                                              k4BorderRadius),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: k8Padding,
+                                              vertical: k4Padding),
+                                          child: Text(
+                                            ksRented.tr,
+                                            style:
+                                                regular10TextStyle(cWhiteColor),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                        child: Text(
+                                      "$ksExpire: ${homeController
+                                  .tvShowDetailsModel.value?.rental?.expireData
+                                  .toString()}",
+                                      style: regular10TextStyle(cWhiteColor),
+                                      overflow: TextOverflow.ellipsis,
+                                    )),
+                                  ],
+                                ),
+                              ),
+                            if (homeController
+                                    .tvShowDetailsModel.value?.isRented ==
+                                true)
+                              Spacer(),
                             Row(
                               children: [
                                 const Icon(

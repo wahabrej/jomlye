@@ -46,7 +46,7 @@ class SplashScreenController extends GetxController {
     globalController.newReleaseState.value = await spController.getNewReleaseState() ?? true;
     globalController.paymentNotificationState.value = await spController.getPaymentNotificationState() ?? true;
     globalController.appUpdateState.value = await spController.getAppUpdateState() ?? true;
-    globalController.subscriptionState.value = await spController.getSubscriptionState() ?? true;
+    globalController.subscribedUserCheck.value = await spController.getSubscriptionState() ?? true;
     globalController.wifiOnlyState.value = await spController.getWifiOnlyState() ?? true;
     globalController.subscribedUserCheck.value = await spController.getSubscribedUser() ?? false;
     if (state == null || state == false) {

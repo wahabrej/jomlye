@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flixoo_flutter_app/controllers/payment/payment_controller.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
@@ -905,6 +906,7 @@ Future<void> offlinePaymentMethod({required String paymentType,required String p
       if (response.code == 200) {
      showSnackBar(
             title: ksSuccess.tr, message: response.message??"", color: cGreenColor);
+        await Get.find<PaymentController>().getSubscriptionCheck();
         // Get.back();
         Get.offAllNamed(krHomeScreen);
       } else {

@@ -173,7 +173,7 @@ class PaymentController extends GetxController {
       if (response.code == 200) {
         subscriptionCheckModel.value = SubscriptionCheckModel.fromJson(response.data);
         spController.saveSubscribedUser(subscriptionCheckModel.value?.isSubscribed??false);
-        Get.find<GlobalController>().subscriptionState.value = await spController.getSubscribedUser()??false;
+        Get.find<GlobalController>().subscribedUserCheck.value = await spController.getSubscribedUser()??false;
         isSubscriptionCheckLoading.value = false;
       } else {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
