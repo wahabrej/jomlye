@@ -1,12 +1,16 @@
 import 'dart:io';
 
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+
+import '../utils/constants/imports.dart';
+
 class AdHelper{
   static String get bannerAdUnitId{
     if(Platform.isAndroid){
-      return "ca-app-pub-8804541030596323/3997364373";
+      return Get.find<GlobalController>().configModelData.value?.bannerAdsId??"";
     }
     else if(Platform.isIOS){
-      return "<Your ios banner ad id>";
+      return "";
     }
     else{
       throw UnsupportedError("UnSupported Platform");
@@ -14,10 +18,10 @@ class AdHelper{
   } 
   static String get interestitialAdUnitId{
     if(Platform.isAndroid){
-      return "ca-app-pub-8804541030596323/9087438325";
+      return Get.find<GlobalController>().configModelData.value?.interstitialAdsId??"";
     }
     else if(Platform.isIOS){
-      return "<Your ios banner ad id>";
+      return "";
     }
     else{
       throw UnsupportedError("UnSupported Platform");

@@ -328,9 +328,11 @@ class TvChannelsViewAllScreen extends StatelessWidget {
                                       await homeController.getTvChannelDetails(
                                           tvChannelId: homeController
                                               .allTvChannelList[index].id);
-                                              // Get.toNamed(krLiveTvPlayerScreen);
                                               homeController.liveTvUrl.value = homeController
                                               .allTvChannelList[index].streamUrl??"";
+                                  if(Get.find<GlobalController>().subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                               Get.toNamed(krLiveTvPlayerScreen);
                                     },
                                     child: FeaturedTvChannelsContentContainer(

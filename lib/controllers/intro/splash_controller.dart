@@ -19,7 +19,6 @@ class SplashScreenController extends GetxController {
     await Get.find<HomeController>().getHomePage();
     startSplashScreen();
     // await Get.find<HomeController>().getLocalAds();
-    await globalController.getConfig();
     String? token = await spController.getBearerToken();
     if(token!=null){
     await Get.find<PaymentController>().getSubscriptionCheck();

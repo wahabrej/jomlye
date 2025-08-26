@@ -426,6 +426,9 @@ class TvShowsViewAllScreen extends StatelessWidget {
                                                 .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl??"", fileSource: homeController
                                                 .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType??"",);
                                          }
+                                  if(globalController.subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                     Get.to(()=> TvShowPlayerScreen(isRentableVideo:  homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,));
                                                         },
                                                         child: MovieContentContainer(

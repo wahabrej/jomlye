@@ -33,52 +33,6 @@ class HomeController extends GetxController {
   var currentIndex = 0.obs;
   final RxString selectedTitle = RxString("");
 
-//    BannerAd bannerAd = BannerAd(
-//   adUnitId: AdHelper.bannerAdUnitId,
-//   request: AdRequest(),
-//   size: AdSize.banner,
-//   listener: BannerAdListener(
-//     onAdLoaded: (_) => ll('Banner Ad Loaded'),
-//     onAdFailedToLoad: (ad, error) {
-//       ad.dispose();
-//       ll('Banner Ad Failed to Load: $error');
-//     },
-//   ),
-// )..load();
-
-//  BannerAd? bannerAd;
-//   RxBool isBannerAdLoaded = false.obs;
-
-//   @override
-//   void onInit() {
-//     super.onInit();
-//     loadBannerAd();
-//   }
-
-//   void loadBannerAd() {
-//     bannerAd = BannerAd(
-//       adUnitId: AdHelper.bannerAdUnitId,
-//       request: AdRequest(),
-//       size: AdSize.banner,
-//       listener: BannerAdListener(
-//         onAdLoaded: (Ad ad) {
-//           isBannerAdLoaded.value = true;
-//           ll('Banner Ad Loaded');
-//         },
-//         onAdFailedToLoad: (ad, error) {
-//           ad.dispose();
-//           isBannerAdLoaded.value = false;
-//           ll('Banner Ad Failed to Load: $error');
-//         },
-//       ),
-//     );
-//   }
-
-//   @override
-//   void onClose() {
-//     bannerAd!.dispose(); // Dispose the ad when controller is destroyed
-//     super.onClose();
-//   }
  //!Ads
   BannerAd? bannerAd;
   RxBool isBannerAdLoaded = false.obs;
@@ -87,53 +41,52 @@ class HomeController extends GetxController {
   RxBool isInterstitialAdLoaded = false.obs;
 
   @override
-  void onInit() {
+  void onInit() async{
+    await Get.find<GlobalController>().getConfig();
     super.onInit();
+    if(Get.find<GlobalController>().configModelData.value?.bannerAds.toString()=="admob"){
     loadBannerAd();
-    loadInterstitialAd();// Load interstitial ad
+    }
+    if(Get.find<GlobalController>().configModelData.value?.interstitialAds.toString()=="admob"){
+    loadInterstitialAd();
+    }
+   
   }
-
-    Future<void> loadBannerAd() async {
-    // Always dispose previous ad first
-    await disposeBannerAd();
-    
-    bannerAd = BannerAd(
-      adUnitId: AdHelper.bannerAdUnitId,
-      request: const AdRequest(),
-      size: AdSize.banner,
-      listener: BannerAdListener(
-        onAdLoaded: (ad) {
-          isBannerAdLoaded.value = true;
-          ll('Banner Ad Loaded');
-        },
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-          isBannerAdLoaded.value = false;
-          ll('Banner Ad Failed to Load: $error');
-        },
-      ),
-    )..load();
+ Future<void> loadBannerAd() async {
+    try {
+      // Dispose previous ad if exists
+      await disposeBannerAd();
+      
+      bannerAd = BannerAd(
+        adUnitId: AdHelper.bannerAdUnitId,
+        request: const AdRequest(),
+        size: AdSize.banner,
+        listener: BannerAdListener(
+          onAdLoaded: (ad) {
+            isBannerAdLoaded.value = true;
+            ll('Banner Ad Loaded successfully');
+          },
+          onAdFailedToLoad: (ad, error) {
+            isBannerAdLoaded.value = false;
+            ad.dispose();
+            ll('Banner Ad Failed to Load: ${error.message}');
+          },
+          onAdClosed: (ad) {
+            ll('Banner Ad Closed');
+          },
+          onAdOpened: (ad) {
+            ll('Banner Ad Opened');
+          },
+        ),
+      );
+      
+      // Load the ad
+      await bannerAd?.load();
+    } catch (e) {
+      ll('Error loading banner ad: $e');
+      isBannerAdLoaded.value = false;
+    }
   }
-
-  // Banner Ad Load
-  // void loadBannerAd() {
-  //   bannerAd = BannerAd(
-  //     adUnitId: AdHelper.bannerAdUnitId,
-  //     request: AdRequest(),
-  //     size: AdSize.banner,
-  //     listener: BannerAdListener(
-  //       onAdLoaded: (Ad ad) {
-  //         isBannerAdLoaded.value = true;
-  //         ll('Banner Ad Loaded');
-  //       },
-  //       onAdFailedToLoad: (ad, error) {
-  //         ad.dispose();
-  //         isBannerAdLoaded.value = false;
-  //         ll('Banner Ad Failed to Load: $error');
-  //       },
-  //     ),
-  //   )..load();
-  // }
 
   // Interstitial Ad Load
   void loadInterstitialAd() {
@@ -180,17 +133,22 @@ class HomeController extends GetxController {
     }
   }
     Future<void> disposeBannerAd() async {
-    await bannerAd?.dispose();
-    bannerAd = null;
-    isBannerAdLoaded.value = false;
+    if (bannerAd != null) {
+      await bannerAd!.dispose();
+      bannerAd = null;
+      isBannerAdLoaded.value = false;
+    }
   }
 
   @override
   void onClose() {
-    // bannerAd?.dispose();
     disposeBannerAd();
     interstitialAd?.dispose();
     super.onClose();
+  }
+
+   void refreshBannerAd() {
+    loadBannerAd();
   }
 
 

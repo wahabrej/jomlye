@@ -15,6 +15,7 @@ import 'package:flixoo_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final HomeController homeController = Get.find<HomeController>();
+  final GlobalController globalController = Get.find<GlobalController>();
   final ProfileController profileController = Get.find<ProfileController>();
     final AllVideoPlayerController allVideoPlayerController =
       Get.find<AllVideoPlayerController>();
@@ -23,6 +24,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+  //  homeController.bannerAd!.load();
     return SafeArea(
       top: false,
       child: WillPopScope(
@@ -61,6 +63,26 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+         if (globalController.subscribedUserCheck.value == false)
+      Obx(() {
+        if (homeController.isBannerAdLoaded.value && homeController.bannerAd != null) {
+          return Column(
+            children: [
+              kH20sizedBox,
+              Center(
+                child: Container(
+                  key: ValueKey('banner_ad_${homeController.bannerAd.hashCode}'),
+                  alignment: Alignment.center,
+                  width: homeController.bannerAd!.size.width.toDouble(),
+                  height: homeController.bannerAd!.size.height.toDouble(),
+                  child: AdWidget(ad: homeController.bannerAd!),
+                ),
+              ),
+            ],
+          );
+        }
+        return const SizedBox.shrink();
+      }),
                   HomeSlider(),
                     Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -192,7 +214,9 @@ class HomeScreen extends StatelessWidget {
                                     if(homeController.movieServerList.isNotEmpty){
                                     allVideoPlayerController.videoPlayerFunction(isFree: homeController.newReleaseMoviesList[index].isFree,isRental:  homeController.newReleaseMoviesList[index].isRental,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[0]?.fileUrl, fileSource: homeController.movieServerList[0]?.fileSource);
                                     }
-
+                                    if(globalController.subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                     Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController
                                                 .newReleaseMoviesList[index]
                                                 .isFree==false && homeController
@@ -273,7 +297,9 @@ class HomeScreen extends StatelessWidget {
                                    if(homeController.movieServerList.isNotEmpty){
                                     allVideoPlayerController.videoPlayerFunction(isFree: homeController.trendingMoviesList[index].isFree,isRental:  homeController.trendingMoviesList[index].isRental,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[0]?.fileUrl, fileSource: homeController.movieServerList[0]?.fileSource);
                                     }
-
+                                    if(globalController.subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                     Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController
                                                 .trendingMoviesList[index]
                                                 .isFree==false && homeController
@@ -356,6 +382,9 @@ class HomeScreen extends StatelessWidget {
                                            if(homeController.movieServerList.isNotEmpty){
                                     allVideoPlayerController.videoPlayerFunction(isFree: homeController.recommendedMoviesList[index].isFree,isRental:  homeController.recommendedMoviesList[index].isRental,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[0]?.fileUrl, fileSource: homeController.movieServerList[0]?.fileSource);
                                     }
+                                   if(globalController.subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                     Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController
                                                 .recommendedMoviesList[index]
                                                 .isFree==false && homeController
@@ -437,6 +466,9 @@ class HomeScreen extends StatelessWidget {
                                                 .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl??"", fileSource: homeController
                                                 .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType??"");
                                          }
+                                   if(globalController.subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                     Get.to(()=> TvShowPlayerScreen(isRentableVideo: homeController
                                                 .popularTvShowsList[index]
                                                 .isFree==0 && homeController
@@ -508,6 +540,9 @@ class HomeScreen extends StatelessWidget {
                                            if(homeController.movieServerList.isNotEmpty){
                                     allVideoPlayerController.videoPlayerFunction(isFree: homeController.movieDetailsData.value?.isFree==1? true : false,isRental:  homeController.movieDetailsData.value?.isRental==1 ? true : false,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[0]?.fileUrl, fileSource: homeController.movieServerList[0]?.fileSource,seekToPosition: (((double.tryParse((homeController.watchHistoryList[index]?.watchedSeconds ?? "0").replaceAll("mins", "").trim()) ?? 0.0) * 60).round()),);
                                     }
+                              if(globalController.subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                     Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController.movieDetailsData.value?.isFree==0 && homeController
                                                 .movieDetailsData.value?.isRental==1,));   
                                     } else if (homeController
@@ -536,6 +571,9 @@ class HomeScreen extends StatelessWidget {
                                                 .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl??"", fileSource: homeController
                                                 .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType??"",seekToPosition: (((double.tryParse((homeController.watchHistoryList[index]?.watchedSeconds ?? "0").replaceAll("mins", "").trim()) ?? 0.0) * 60).round()));
                                          }
+                                   if(globalController.subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                     Get.to(()=> TvShowPlayerScreen(isRentableVideo:  homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,));
                                    
                                     }
@@ -611,7 +649,9 @@ class HomeScreen extends StatelessWidget {
                                         homeController.liveTvUrl.value = homeController
                                               .featuredTvChannelsList[index]
                                               .streamUrl??"";
-
+                                  if(globalController.subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                     Get.toNamed(krLiveTvPlayerScreen);
                                   },
                                   child: FeaturedTvChannelsContentContainer(
@@ -1256,7 +1296,9 @@ class HomeSlider extends StatelessWidget {
         Get.find<AllVideoPlayerController>().flickManager = FlickManager(
           videoPlayerController: VideoPlayerController.network(videoUrl),
         );
-
+             if(Get.find<GlobalController>().subscribedUserCheck.value==false){
+            homeController.showInterstitialAd();
+                                    }
         Get.toNamed(krVideoPlayerScreen, arguments: "");
       },
       child: Column(
@@ -1370,24 +1412,23 @@ class HomeSlider extends StatelessWidget {
     );
   }
 }
-
 class BannerAdWidget extends StatelessWidget {
   final HomeController homeController;
-
-  const BannerAdWidget({
-    Key? key,
-    required this.homeController,
-  }) : super(key: key);
+  
+  const BannerAdWidget({Key? key, required this.homeController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return homeController.bannerAd != null
-        ? Container(
-            alignment: Alignment.bottomCenter,
-            width: homeController.bannerAd!.size.width.toDouble(),
-            height: homeController.bannerAd!.size.height.toDouble(),
-            child: AdWidget(ad: homeController.bannerAd!),
-          )
-        : const SizedBox.shrink();
+    return Obx(() {
+      if (homeController.isBannerAdLoaded.value && homeController.bannerAd != null) {
+        return Container(
+          alignment: Alignment.center,
+          width: homeController.bannerAd!.size.width.toDouble(),
+          height: homeController.bannerAd!.size.height.toDouble(),
+          child: AdWidget(ad: homeController.bannerAd!),
+        );
+      }
+      return const SizedBox.shrink(); // No space when ad is not loaded
+    });
   }
 }

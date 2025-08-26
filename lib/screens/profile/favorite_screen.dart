@@ -107,6 +107,9 @@ class FavoriteScreen extends StatelessWidget {
                                     // Get.find<HomeController>().liveTvUrl.value = profileController
                                     //         .favoriteLiveTvList[index].
                                     Get.find<HomeController>().liveTvUrl.value = null;
+                                   if(Get.find<GlobalController>().subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                     Get.toNamed(krLiveTvPlayerScreen);
                                     // Get.to(() => LiveTvPlayerScreen(
                                     //       // liveTvUrl: profileController
@@ -147,6 +150,9 @@ class FavoriteScreen extends StatelessWidget {
                                     profileController.isFavoriteAdded.value = true;
                                     if(Get.find<HomeController>().movieServerList.isNotEmpty){
                                    Get.find<AllVideoPlayerController>().videoPlayerFunction(isFree: Get.find<HomeController>().movieDetailsData.value?.isFree==1?true:false,isRental: Get.find<HomeController>().movieDetailsData.value?.isRental==1?true:false,isRented: Get.find<HomeController>().movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: Get.find<HomeController>().movieServerList[0]?.fileUrl, fileSource: Get.find<HomeController>().movieServerList[0]?.fileSource);
+                                    }
+                                 if(Get.find<GlobalController>().subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
                                     }
                                     Get.to(()=> VideoPlayerScreen(isRentableVideo: Get.find<HomeController>().movieDetailsData.value?.isFree==0 && Get.find<HomeController>().movieDetailsData.value?.isRental==1,));     
                                   },
@@ -199,6 +205,9 @@ class FavoriteScreen extends StatelessWidget {
                                                 .tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl??"", fileSource: homeController
                                                 .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType??"",seekToPosition: (((double.tryParse((homeController.watchHistoryList[index]?.watchedSeconds ?? "0").replaceAll("mins", "").trim()) ?? 0.0) * 60).round()));
                                          }
+                                  if(Get.find<GlobalController>().subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                     Get.to(()=> TvShowPlayerScreen(isRentableVideo:  homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,));
                                    
                           },

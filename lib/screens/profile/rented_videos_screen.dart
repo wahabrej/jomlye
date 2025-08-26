@@ -120,6 +120,9 @@ class RentedVideoScreen extends StatelessWidget {
                                                 .tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType??"",
                                                 );
                                          }
+                                   if(Get.find<GlobalController>().subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                     Get.to(()=> TvShowPlayerScreen(isRentableVideo: homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,));
                                    
                             },
@@ -161,7 +164,9 @@ class RentedVideoScreen extends StatelessWidget {
                                     allVideoPlayerController.videoPlayerFunction(isFree: homeController.movieDetailsData.value?.isFree== 1 ? true : false,isRental: homeController.movieDetailsData.value?.isFree==0 &&  homeController.
                                                 movieDetailsData.value?.isRental==1 ? true : false,isRented: homeController.movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: homeController.movieServerList[0]?.fileUrl, fileSource: homeController.movieServerList[0]?.fileSource);
                                     }
-
+                                 if(Get.find<GlobalController>().subscribedUserCheck.value==false){
+                                    homeController.showInterstitialAd();
+                                    }
                                     Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController.movieDetailsData.value?.isFree== 0 && homeController.
                                                 movieDetailsData.value?.isRental==1 ? true : false,));
                           },

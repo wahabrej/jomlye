@@ -28,7 +28,10 @@ class CustomBottomNavBar extends StatelessWidget {
                 width: width,
                 isSelected: selectedIndex == 0,
                 title: ksHome.tr,
-                onPressed: () => Get.offAllNamed(krHomeScreen),
+                onPressed: () async{
+                  await Get.find<HomeController>().loadBannerAd();
+                  Get.offAllNamed(krHomeScreen);
+                },
                 image: kiHome,
               ),
               _BottomNavbarItem(
@@ -37,6 +40,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 title: ksLive.tr,
                 onPressed: () async {
                   // Navigate to live stream
+                  await Get.find<HomeController>().disposeBannerAd();
                   await Get.find<HomeController>().getTvChannel();
                   Get.toNamed(krTvChannelsViewAllScreen);
                 },
@@ -49,6 +53,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 onPressed: () async {
                   // Navigate to popcorn section
                   Get.find<HomeController>().selectedTitle.value = "";
+                  await Get.find<HomeController>().disposeBannerAd();
                   await Get.find<HomeController>().getMovieList(movieType: "");
                   Get.toNamed(krMovieViewAllScreen);
                 },
@@ -66,6 +71,7 @@ class CustomBottomNavBar extends StatelessWidget {
                         Get.find<HomeController>().viewAllTextEditingController.clear();
                         Get.find<HomeController>().selectedTitle.value = ksPopularTvShows;
                         await Get.find<HomeController>().getTvShows();
+                        await Get.find<HomeController>().disposeBannerAd();
                         Get.toNamed(krTvShowsViewAllScreen);
                         // Get.toNamed(krMovieViewAllScreen);
                       },
@@ -76,6 +82,7 @@ class CustomBottomNavBar extends StatelessWidget {
                 isSelected: selectedIndex == 4,
                 title: ksProfile.tr,
                 onPressed: () async{
+                await Get.find<HomeController>().disposeBannerAd();
                   if(Get.find<GlobalController>().userToken.value==""){
                     Get.toNamed(krSignInScreen);
                   }
