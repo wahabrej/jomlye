@@ -18,6 +18,7 @@ const String kuInterestStore = "interest-store";
 //User profile
 const String kuProfile = "user-details";
 const String kuUpdateProfile = "update-profile";
+const String kuOfflinePayment = "offline-success";
 const String kuChangePassword = "change-password";
 //Home
 const String kuHome = "home";

@@ -1,4 +1,5 @@
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flixoo_flutter_app/screens/profile/payment_method_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
@@ -673,8 +674,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           color: cWhiteColor.withOpacity(0.2),
                         ),
                       ),
-                      // kH16sizedBox,
-                      // SubscriptionSelector(),
                       //! For rental video this widget(RentProductDetailsContentContainer)
                       if (widget.isRentableVideo == true) kH16sizedBox,
                       if (widget.isRentableVideo == true)
@@ -688,6 +687,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                   .rentalVideoData.value?.expireData
                                   .toString() ??
                               "",
+                              id: homeController.movieDetailsData.value?.id.toString(),
+                              videoType: "movie",
                         ),
                       kH12sizedBox,
                       Container(
@@ -2346,8 +2347,8 @@ class SubscriptionSelector extends StatelessWidget {
 
 class RentProductDetailsContentContainer extends StatelessWidget {
   const RentProductDetailsContentContainer(
-      {super.key, this.rentPrice, this.rentValidity, this.rentExpireDate});
-  final String? rentPrice, rentValidity, rentExpireDate;
+      {super.key, this.rentPrice, this.rentValidity, this.rentExpireDate,this.id,this.videoType});
+  final String? rentPrice, rentValidity, rentExpireDate,id,videoType;
 
   @override
   Widget build(BuildContext context) {
@@ -2401,7 +2402,7 @@ class RentProductDetailsContentContainer extends StatelessWidget {
             CustomElevatedButton(
               label: ksProceedToPayment.tr,
               onPressed: () {
-                Get.toNamed(krPaymentMethodScreen);
+                Get.to(()=> PaymentMethodScreen(paymentType: "rental", planId: id!, videoType: videoType??""));
               },
               textStyle: semiBold14TextStyle(cWhiteColor),
               buttonWidth: width - 80,

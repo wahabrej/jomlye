@@ -191,7 +191,8 @@ class ProfileController extends GetxController {
       "movieSize": "New Released",
     },
   ]);
-
+ final RxBool isPaymentMethodSelected = RxBool(false);
+ final TextEditingController transactionKeyTextEditingController = TextEditingController();
   late InAppWebViewController privacyWebViewController;
   final RxBool privacyIsLoading = RxBool(false);
   // final String privacyPolicyUrl =
@@ -882,4 +883,37 @@ Future<void> changeLanguage(String language) async {
 }
 
 final RxBool isplaylistListExpand = RxBool(true);
+
+
+Future<void> offlinePaymentMethod({required String paymentType,required String planId,String? videoType}) async {
+    try {
+      String? token = await spController.getBearerToken();
+      int? userId = await spController.getUserId();
+      Map<String, String> body = {
+        "paymentType": paymentType,
+        "transaction_key": transactionKeyTextEditingController.text.trim().toString(),
+       "plan_id": planId,
+      if(videoType!="")  "video_type": videoType??"",
+        "user_id": userId.toString(),
+      };
+      var response = await apiServices.commonApiCall(
+        url: kuOfflinePayment,
+        requestMethod: kPost,
+        body: body,
+        token: token,
+      ) as CommonDM;
+      if (response.code == 200) {
+     showSnackBar(
+            title: ksSuccess.tr, message: response.message??"", color: cGreenColor);
+        // Get.back();
+        Get.offAllNamed(krHomeScreen);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "offlinePaymentMethod Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('offlinePaymentMethod error: $e');
+    }
+  }
+  
 }

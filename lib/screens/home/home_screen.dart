@@ -51,9 +51,6 @@ class HomeScreen extends StatelessWidget {
           color: cPrimaryColor,
           onRefresh: () async {
             await homeController.getHomePage();
-            if(Get.find<GlobalController>().userId.value!=1){
-              await homeController.getWatchHistory();
-            }
           },
           child: Scaffold(
             backgroundColor: cBlackColor,

@@ -438,6 +438,8 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                                 homeController.tvShowDetailsModel.value?.rental?.expireData
                                   .toString() ??
                               "",
+                              id: homeController.tvShowDetailsData.value?.id.toString(),
+                              videoType: "series",
                         ),
 
                  if (homeController.tvShowsSeasonList.isNotEmpty) kH16sizedBox,
