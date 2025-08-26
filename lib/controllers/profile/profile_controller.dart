@@ -904,6 +904,7 @@ Future<void> offlinePaymentMethod({required String paymentType,required String p
         token: token,
       ) as CommonDM;
       if (response.code == 200) {
+        transactionKeyTextEditingController.clear();
      showSnackBar(
             title: ksSuccess.tr, message: response.message??"", color: cGreenColor);
         await Get.find<PaymentController>().getSubscriptionCheck();
