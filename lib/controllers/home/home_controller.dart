@@ -44,10 +44,10 @@ class HomeController extends GetxController {
   void onInit() async{
     await Get.find<GlobalController>().getConfig();
     super.onInit();
-    if(Get.find<GlobalController>().configModelData.value?.bannerAds.toString()=="admob"){
+    if(Get.find<GlobalController>().configModelData.value?.bannerAds.toString().toLowerCase()=="admob"){
     loadBannerAd();
     }
-    if(Get.find<GlobalController>().configModelData.value?.interstitialAds.toString()=="admob"){
+    if(Get.find<GlobalController>().configModelData.value?.interstitialAds.toString().toLowerCase()=="admob"){
     loadInterstitialAd();
     }
    
