@@ -24,7 +24,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  //  homeController.bannerAd!.load();
     return SafeArea(
       top: false,
       child: WillPopScope(
@@ -68,7 +67,6 @@ class HomeScreen extends StatelessWidget {
         if (homeController.isBannerAdLoaded.value && homeController.bannerAd != null) {
           return Column(
             children: [
-              kH20sizedBox,
               Center(
                 child: Container(
                   key: ValueKey('banner_ad_${homeController.bannerAd.hashCode}'),

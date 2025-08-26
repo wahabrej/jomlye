@@ -1,4 +1,4 @@
-package com.spagreen.flixoo_flutter_app
+package com.spagreen.flixoo
 
 import io.flutter.embedding.android.FlutterActivity
 
