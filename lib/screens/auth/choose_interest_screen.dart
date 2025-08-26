@@ -8,20 +8,20 @@ class ChooseInterestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        backgroundColor: cBlackColor,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                kH24sizedBox,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+    return Obx(() => SafeArea(
+          top: false,
+          child: Scaffold(
+            backgroundColor: cBlackColor,
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    kH24sizedBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
                     CustomElevatedButton(
                         label: ksBack,
                         onPressed: () {
@@ -108,7 +108,7 @@ class ChooseInterestScreen extends StatelessWidget {
                     CustomElevatedButton(
                       label: ksSkip.tr,
                       onPressed: () {
-                        Get.toNamed(krEditProfileScreen);
+                        Get.offAllNamed(krHomeScreen);
                       },
                       buttonWidth: (width - 56) / 2,
                       buttonHeight: kButtonHeight.h,
@@ -133,6 +133,7 @@ class ChooseInterestScreen extends StatelessWidget {
           ),
         ),
       ),
+    ),
     );
   }
 }

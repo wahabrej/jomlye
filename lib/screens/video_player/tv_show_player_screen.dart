@@ -87,7 +87,7 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                 //     );
                 //   },
                 // ),
-                //  if (homeController.tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl==)
+                  if (homeController.tvShowEpisodeList.isEmpty && (homeController.tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl==null || homeController.tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl==""))
                     SizedBox(
                       width: width,
                       height: 200,
@@ -562,7 +562,6 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                                           return InkWell(
                                             onTap: ()async{
                                                   homeController.resetRatingData();
-                                       homeController.selectedEpisode.value=0;
                                               profileController.isFavoriteAdded.value = 
                                         homeController.tvShowDetailsData.value
                                                 ?.isFavorite ??
@@ -570,7 +569,7 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                                       await homeController.getTvShowDetails(
                                           showId: homeController
                                               .tvShowEpisodeList[index]!.id!);
-                                               homeController.selectedEpisode.value = index;
+                                               homeController.selectedEpisode.value = index-1;
                                          if(homeController.tvShowEpisodeList.isNotEmpty){
                                     allVideoPlayerController.videoPlayerFunction(
                                        isFree: homeController.tvShowDetailsData.value?.isFree==1 ?true : false,
