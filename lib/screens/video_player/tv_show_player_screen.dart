@@ -404,25 +404,9 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                           kW10sizedBox,
                           CommonContainer(
                             image: kiDownload,
-                            containerColor: homeController.movieDetailsModel
-                                        .value?.download?.isDownloadable ==
-                                    0
-                                ? cWhiteColor.withOpacity(0.1)
-                                : null,
-                            iconColor: homeController.movieDetailsModel.value
-                                        ?.download?.isDownloadable ==
-                                    0
-                                ? cWhiteColor.withOpacity(0.2)
-                                : null,
-                            onPressed: homeController.movieDetailsModel.value
-                                        ?.download?.isDownloadable ==
-                                    1
-                                ? () {
-                                    // allVideoPlayerController.flutterMediaDownloaderPlugin.downloadMedia(context,'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf');
-                                    showDownloadVideoPopup(context);
-                                   
-                                  }
-                                : null,
+                            containerColor:  cWhiteColor.withOpacity(0.1),
+                            iconColor:  cWhiteColor.withOpacity(0.2),
+                            onPressed: null,
                           ),
                         
 
@@ -443,6 +427,20 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                     ],
                   ),
                 ),
+                        //! For rental video this widget(RentProductDetailsContentContainer)
+                      if (widget.isRentableVideo == true) kH16sizedBox,
+                      if (widget.isRentableVideo == true)
+                        RentProductDetailsContentContainer(
+                          rentPrice:
+                              homeController.tvShowDetailsModel.value?.rental?.price.toString() ?? "",
+                          rentValidity:
+                               homeController.tvShowDetailsModel.value?.rental?.validity.toString() ?? "",
+                          rentExpireDate:
+                                homeController.tvShowDetailsModel.value?.rental?.expireData
+                                  .toString() ??
+                              "",
+                        ),
+
                  if (homeController.tvShowsSeasonList.isNotEmpty) kH16sizedBox,
                       if (homeController.tvShowsSeasonList.isNotEmpty)
                         Padding(
@@ -569,7 +567,7 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                                       await homeController.getTvShowDetails(
                                           showId: homeController
                                               .tvShowEpisodeList[index]!.id!);
-                                               homeController.selectedEpisode.value = index-1;
+                                               homeController.selectedEpisode.value = index;
                                          if(homeController.tvShowEpisodeList.isNotEmpty){
                                     allVideoPlayerController.videoPlayerFunction(
                                        isFree: homeController.tvShowDetailsData.value?.isFree==1 ?true : false,

@@ -147,6 +147,7 @@ class AuthController extends GetxController {
 
       if (response.code == 200) {
         Get.toNamed(krChooseInterestScreen);
+        
       } else {
         showSnackBar(
             title: ksError.tr, message: "signUp Error!", color: cPrimaryColor2);

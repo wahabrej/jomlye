@@ -79,11 +79,6 @@ class PhoneSignInScreen extends StatelessWidget {
                 kH16sizedBox,
                 const Row(
                   children: [
-                    CommonContainer(
-                      image: kiPhone,
-                      isSelected: true,
-                    ),
-                    kW12sizedBox,
                     CommonContainer(image: kiGoogle),
                     kW12sizedBox,
                     CommonContainer(image: kiFacebook),

@@ -86,15 +86,8 @@ class SignInScreen extends StatelessWidget {
                         )),
                     kH16sizedBox,
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        CommonContainer(
-                          image: kiPhone,
-                          onPressed: () {
-                            authController.resetAuth();
-                            Get.toNamed(krPhoneSignInScreen);
-                          },
-                        ),
-                        kW12sizedBox,
                         CommonContainer(
                           image: kiGoogle,
                           onPressed: () async {

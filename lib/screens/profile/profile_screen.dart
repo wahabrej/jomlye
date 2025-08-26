@@ -122,8 +122,8 @@ class ProfileScreen extends StatelessWidget {
                     onPressed: () {
                       profileController.firstNameTextEditingController.text = globalController.userFirstName.value;
                       profileController.lastNameTextEditingController.text = globalController.userLastName.value;
-                      profileController.emailTextEditingController.text = globalController.userEmail.value;
-                      profileController.phoneTextEditingController.text = globalController.userPhone.value;
+                      profileController.emailTextEditingController.text = globalController.userEmail.value=="null" ? "" : globalController.userEmail.value;
+                      profileController.phoneTextEditingController.text = globalController.userPhone.value=="null" ? "" : globalController.userPhone.value;
                       profileController.getUserImage.value = globalController.userImage.value;
                       profileController.selectedGender.value = globalController.userGender.value=="1" ? "Male" : "Female";
                       profileController.profileImageFile.value = null;

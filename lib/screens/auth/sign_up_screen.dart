@@ -81,13 +81,8 @@ class SignUpScreen extends StatelessWidget {
                       )),
                   kH16sizedBox,
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CommonContainer(
-                        image: kiPhone,
-                        onPressed: () {
-                          Get.toNamed(krPhoneSignInScreen);
-                        },
-                      ),
                       kW12sizedBox,
                       CommonContainer(image: kiGoogle),
                       kW12sizedBox,

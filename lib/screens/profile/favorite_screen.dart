@@ -85,7 +85,8 @@ class FavoriteScreen extends StatelessWidget {
                     kH8sizedBox,
                     if(profileController.favoriteLiveTvList.isNotEmpty)
                     Text(ksTVChannel.tr,style: medium16TextStyle(cWhiteColor),),
-                    kH16sizedBox,
+                   if(profileController.favoriteLiveTvList.isNotEmpty) kH16sizedBox,
+                   if(profileController.favoriteLiveTvList.isNotEmpty)
                      SizedBox(
                       width: width - 20,
                       height: 120.h,
@@ -122,8 +123,9 @@ class FavoriteScreen extends StatelessWidget {
                     ),
                     kH16sizedBox,
                     if(profileController.favoriteMovieList.isNotEmpty)
-                    Text(ksMovies.tr,style: medium16TextStyle(cWhiteColor),),
+                   if(profileController.favoriteMovieList.isNotEmpty) Text(ksMovies.tr,style: medium16TextStyle(cWhiteColor),),
                     kH16sizedBox,
+                    if(profileController.favoriteMovieList.isNotEmpty)
                           SizedBox(
                     width: width - 20,
                     height: 150.h,
@@ -161,7 +163,8 @@ class FavoriteScreen extends StatelessWidget {
                     kH16sizedBox,
                     if(profileController.favoriteTvShowList.isNotEmpty)
                     Text(ksTvSeries.tr,style: medium16TextStyle(cWhiteColor),),
-                    kH16sizedBox,
+                  if(profileController.favoriteTvShowList.isNotEmpty)  kH16sizedBox,
+                  if(profileController.favoriteTvShowList.isNotEmpty)
                     SizedBox(
                     width: width - 20,
                     height: 150.h,
@@ -208,7 +211,33 @@ class FavoriteScreen extends StatelessWidget {
                     ),
                   ),
                   if(profileController.favoriteTvShowList.isEmpty && profileController.favoriteMovieList.isEmpty && profileController.favoriteLiveTvList.isEmpty)
-                  SizedBox(),
+                  SizedBox(
+                        height: (height * 0.6),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              kiSearchResultPng,
+                              width: 200.w,
+                              height: 200.h,
+                            ),
+                            Text(
+                              ksNoVideoFound.tr,
+                              style: medium16TextStyle(cPrimaryColor2),
+                            ),
+                            kH16sizedBox,
+                            Text(
+                              ksNoVideosFoundPleaseCheckFilter.tr,
+                              style:
+                                  regular14TextStyle(cWhiteColor.withOpacity(
+                                0.5,
+                              )),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+
               ],
             ),
           ),

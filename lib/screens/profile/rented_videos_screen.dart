@@ -83,8 +83,9 @@ class RentedVideoScreen extends StatelessWidget {
                       color: cWhiteColor.withOpacity(0.2),
                     ),
                     kH8sizedBox,
-                    Text(ksTvShows.tr,style: medium16TextStyle(cWhiteColor),),
-                    kH16sizedBox,
+                   if(profileController.tvShowRentedVideoList.isNotEmpty) Text(ksTvShows.tr,style: medium16TextStyle(cWhiteColor),),
+                    if(profileController.movieRentedVideoList.isNotEmpty)  kH16sizedBox,
+                   if(profileController.tvShowRentedVideoList.isNotEmpty)
                      SizedBox(
                       width: width - 20,
                       height: 120.h,
@@ -130,8 +131,10 @@ class RentedVideoScreen extends StatelessWidget {
                       ),
                     ),
                     kH16sizedBox,
-                    Text(ksMovies.tr,style: medium16TextStyle(cWhiteColor),),
+                  if(profileController.movieRentedVideoList.isNotEmpty)  Text(ksMovies.tr,style: medium16TextStyle(cWhiteColor),),
+                  if(profileController.movieRentedVideoList.isNotEmpty) 
                     kH16sizedBox,
+                     if(profileController.movieRentedVideoList.isNotEmpty) 
                     SizedBox(
                     width: width - 20,
                     height: 140.h,
@@ -173,6 +176,33 @@ class RentedVideoScreen extends StatelessWidget {
                       },
                     ),
                   ),
+                  if(profileController.movieRentedVideoList.isEmpty && profileController.tvShowRentedVideoList.isEmpty)
+                  SizedBox(
+                        height: (height * 0.65),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              kiSearchResultPng,
+                              width: 200.w,
+                              height: 200.h,
+                            ),
+                            Text(
+                              ksNoVideoFound.tr,
+                              style: medium16TextStyle(cPrimaryColor2),
+                            ),
+                            kH16sizedBox,
+                            Text(
+                              ksNoVideosFoundPleaseCheckFilter.tr,
+                              style:
+                                  regular14TextStyle(cWhiteColor.withOpacity(
+                                0.5,
+                              )),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
               ],
             ),
           ),

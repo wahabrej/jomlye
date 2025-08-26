@@ -136,56 +136,63 @@ class EditProfileScreen extends StatelessWidget {
                   ),
                 ):Stack(
                   children: [
-                            //  Center(
-                            //                 child: Container(
-                            //                   width: 100.w,
-                            //                   height: 100.h,
-                            //                   decoration: const BoxDecoration(
-                            //                     shape: BoxShape.circle,
-                            //                   ),
-                            //                   child: CircleAvatar(
-                            //                     backgroundColor: cWhiteColor.withOpacity(0.2),
-                            //                     child: Image.file(
-                            //                       width: 100.w,
-                            //                       height: 100.h,
-                            //                       fit: BoxFit.cover,
-                            //                       profileController
-                            //                           .profileImageFile
-                            //                           .value!,
-                            //                     ),
-                            //                   ),
-                            //                 ),
-                            //               ),
-                        Center(
-                        child: Container(
-                          width: 100.w,
-                          height: 100.h,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              width: 2,
-                              color: cPrimaryColor2.withOpacity(0.2),
-                            ),
+                      //   Center(
+                      //   child: Container(
+                      //     width: 100.w,
+                      //     height: 100.h,
+                      //     decoration: BoxDecoration(
+                      //       shape: BoxShape.circle,
+                      //       border: Border.all(
+                      //         width: 2,
+                      //         color: cPrimaryColor2.withOpacity(0.2),
+                      //       ),
+                      //     ),
+                      //     child: CircleAvatar(
+                      //       backgroundColor: cPrimaryColor2.withOpacity(0.2),
+                      //       child: ClipOval(
+                      //         child: Image.file(
+                      //           width: 98.w,
+                      //           height: 98.h,
+                      //           fit: BoxFit.fill,
+                      //           profileController.profileImageFile.value!,
+                      //           errorBuilder: (context, error, stackTrace) {
+                      //             return const Icon(
+                      //               Icons.person,
+                      //               size: 60,
+                      //             );
+                      //           },
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
+                               Center(
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 2,
+                            color: cPrimaryColor.withOpacity(0.2),
                           ),
-                          child: CircleAvatar(
-                            backgroundColor: cPrimaryColor2.withOpacity(0.2),
-                            child: ClipOval(
-                              child: Image.file(
-                                width: 98.w,
-                                height: 98.h,
-                                fit: BoxFit.fill,
-                                profileController.profileImageFile.value!,
-                                errorBuilder: (context, error, stackTrace) {
-                                  return const Icon(
-                                    Icons.person,
-                                    size: 60,
-                                  );
-                                },
-                              ),
-                            ),
+                        ),
+                        child: ClipOval(
+                          child: Image.file(
+                            // width: 68,
+                            // height: 68,
+                            fit: BoxFit.cover,
+                            profileController.profileImageFile.value!,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(
+                                Icons.person,
+                                size: 70,
+                              );
+                            },
                           ),
                         ),
                       ),
+                    ),
                     Positioned(
                       top: 0,
                       left: 60.w,
