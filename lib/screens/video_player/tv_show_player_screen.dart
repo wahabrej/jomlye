@@ -87,7 +87,7 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                 //     );
                 //   },
                 // ),
-                  if (homeController.tvShowEpisodeList.isEmpty && (homeController.tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl==null || homeController.tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl==""))
+                  if (homeController.tvShowEpisodeList.isEmpty || (homeController.tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl==null || homeController.tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl==""))
                     SizedBox(
                       width: width,
                       height: 200,
@@ -103,8 +103,8 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                           );
                         },
                       ),
-                    ),
-                  if ((homeController.tvShowDetailsData.value?.isFree == 0 &&
+                    )
+                    else if ((homeController.tvShowDetailsData.value?.isFree == 0 &&
                           Get.find<GlobalController>()
                                   .subscribedUserCheck
                                   .value ==
@@ -119,9 +119,9 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                         homeController.tvShowDetailsData.value?.thumbnail ?? "",
                         fit: BoxFit.fill,
                       ),
-                    ),
+                    )
                 // //!flick video player
-                  if (homeController.tvShowEpisodeList.isNotEmpty && (
+                    else if (homeController.tvShowEpisodeList.isNotEmpty && (
                           homeController
                                   .tvShowEpisodeList[
                                       homeController.selectedEpisode.value]
