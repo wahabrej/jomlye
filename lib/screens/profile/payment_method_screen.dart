@@ -298,7 +298,7 @@ class PaymentMethodScreen extends StatelessWidget {
             // if (url != null && url.toString().contains("payment/success")) {
             if (url != null && url.toString().contains("home")) {
               debugPrint("✅ Payment success detected, redirecting to Home...");
-              Get.offAllNamed(krHomeScreen); // replace with your HomeScreen route
+              Get.offAllNamed(krHomeScreen);
             }
           },
           onLoadError: (controller, url, code, message) {

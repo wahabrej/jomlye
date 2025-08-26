@@ -1641,6 +1641,7 @@ class HomeController extends GetxController {
         body: body,
         token: token,
         requestMethod: kPost,
+        isVideoPlay: true,
       ) as CommonDM;
 
       if (response.code == 200) {

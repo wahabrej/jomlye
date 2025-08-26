@@ -334,6 +334,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       if(profileImageFile.value?.path!=null && profileImageFile.value?.path!=""){
         value.add(profileImageFile.value?.path);
       }
+      ll("The body is $body");
       var response =  key.isNotEmpty ? await apiServices.mediaUploadMultipleKeyAndValue(
         url: kuUpdateProfile,
         body: body,
@@ -369,6 +370,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
             await spController.getUserGender() ?? "";
          globalController.userGender.value =
             await spController.getUserGender() ?? "";
+            ll(globalController.userImage.value );
         Get.back();
       } else {
         showSnackBar(

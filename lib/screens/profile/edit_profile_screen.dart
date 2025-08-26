@@ -85,30 +85,36 @@ class EditProfileScreen extends StatelessWidget {
        profileController.profileImageFile.value == null ? Center(
                   child: Stack(
                     children: [
-                      Container(
-                        width: 100.w,
-                        height: 100.h,
+                      Center(
+                      child: Container(
+                        width: 100,
+                        height: 100,
                         decoration: BoxDecoration(
-                          color: cWhiteColor.withOpacity(0.2),
                           shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 2,
+                            color: cPrimaryColor.withOpacity(0.2),
+                          ),
                         ),
-                        child: Image.network(
-                          profileController.getUserImage.value,
-                          width: 50,
-                          height: 50,
-                          color: cWhiteColor,
-                                 errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            const Icon(
-                                      Icons.person,
-                                      size: 80,
-                                      color: cPrimaryColor2,
-                                    ),
+                        child: ClipOval(
+                          child: Image.network(
+                            // width: 68,
+                            // height: 68,
+                            fit: BoxFit.cover,
+                            Get.find<GlobalController>().userImage.value,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(
+                                Icons.person,
+                                size: 70,
+                              );
+                            },
+                          ),
                         ),
                       ),
+                    ),
                       Positioned(
                         bottom: 2,
-                        right: 0,
+                        right: width*0.3,
                         child: InkWell(
                           onTap: () {
                             showImageSourcePopup(context);
@@ -136,36 +142,6 @@ class EditProfileScreen extends StatelessWidget {
                   ),
                 ):Stack(
                   children: [
-                      //   Center(
-                      //   child: Container(
-                      //     width: 100.w,
-                      //     height: 100.h,
-                      //     decoration: BoxDecoration(
-                      //       shape: BoxShape.circle,
-                      //       border: Border.all(
-                      //         width: 2,
-                      //         color: cPrimaryColor2.withOpacity(0.2),
-                      //       ),
-                      //     ),
-                      //     child: CircleAvatar(
-                      //       backgroundColor: cPrimaryColor2.withOpacity(0.2),
-                      //       child: ClipOval(
-                      //         child: Image.file(
-                      //           width: 98.w,
-                      //           height: 98.h,
-                      //           fit: BoxFit.fill,
-                      //           profileController.profileImageFile.value!,
-                      //           errorBuilder: (context, error, stackTrace) {
-                      //             return const Icon(
-                      //               Icons.person,
-                      //               size: 60,
-                      //             );
-                      //           },
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                                Center(
                       child: Container(
                         width: 100,

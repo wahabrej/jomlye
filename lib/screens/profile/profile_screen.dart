@@ -79,32 +79,33 @@ class ProfileScreen extends StatelessWidget {
               () => Column(
                 children: [
                   kH40sizedBox,
-                  Center(
-                          child: Container(
-                            width: 100.w,
-                            height: 100.h,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                            ),
-                            child: CircleAvatar(
-                              backgroundColor: cWhiteColor.withOpacity(0.2),
-                              child: ClipOval(
-                                child: Image.network(
-                                  width: 100.w,
-                                  height: 100.h,
-                                  fit: BoxFit.cover,
-                                  globalController.userImage.value,
-                                  errorBuilder: (context, error, stackTrace) =>
-                                   const Icon(
-                                    Icons.person,
-                                    size: 80,
-                                    color: cPrimaryColor2,
-                                  ),
-                                ),
-                              ),
-                            ),
+              Center(
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 2,
+                            color: cPrimaryColor.withOpacity(0.2),
                           ),
                         ),
+                        child: ClipOval(
+                          child: Image.network(
+                            // width: 68,
+                            // height: 68,
+                            fit: BoxFit.cover,
+                            Get.find<GlobalController>().userImage.value,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(
+                                Icons.person,
+                                size: 70,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
                   kH20sizedBox,
                   Text(
                     "${globalController.userFirstName.value} ${globalController.userLastName.value}",

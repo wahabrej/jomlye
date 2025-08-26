@@ -146,8 +146,34 @@ class AuthController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
+         SignInModel signUpData = SignInModel.fromJson(response.data);
+        await spController.saveBearerToken(signUpData.token);
+        await spController.saveRememberMe(isRememberMe.value);
+        await spController.saveUserId(signUpData.user!.id);
+        await spController.saveUserImage(signUpData.user!.image);
+        await spController.saveUserEmail(signUpData.user!.email);
+        await spController.saveUserFirstName(signUpData.user!.firstName);
+        await spController.saveUserLastName(signUpData.user!.lastName);
+        await spController.saveUserPhoneNumber(signUpData.user!.phone);
+        await spController.saveUserGender(signUpData.user!.gender);
+        await Get.find<HomeController>().getHomePage();
         Get.toNamed(krChooseInterestScreen);
-        
+        globalController.userFirstName.value =
+            await spController.getUserFirstName() ?? "";
+        globalController.userLastName.value =
+            await spController.getUserLastName() ?? "";
+        globalController.userEmail.value =
+            await spController.getUserEmail() ?? "";
+        globalController.userImage.value =
+            await spController.getUserImage() ?? "";
+        globalController.userId.value = await spController.getUserId() ?? -1;
+        globalController.userToken.value =
+            await spController.getBearerToken() ?? "";
+        globalController.userPhone.value =
+            await spController.getUserPhoneNumber() ?? "";
+        globalController.userGender.value =
+            await spController.getUserGender() ?? "";
+
       } else {
         showSnackBar(
             title: ksError.tr, message: "signUp Error!", color: cPrimaryColor2);
@@ -391,6 +417,7 @@ class AuthController extends GetxController {
     await googleSignOut();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
+    await Get.find<HomeController>().getWatchHistory();
     if (isRememberMe == false) {
       emailTextEditingController.text = "";
       passwordTextEditingController.text = "";

@@ -50,22 +50,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Run this once after the first frame is rendered
-    // if (Get.find<GlobalController>().userToken.value != "") {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     Future.delayed(const Duration(seconds: 5), () {
-    //       // Check if this widget is still mounted using context (safe for StatelessWidget)
-    //       if (ModalRoute.of(context)?.isCurrent == true) {
-    //         homeController.watchHistoryStore(
-    //             watchableType: 'movie',
-    //             watchableId: homeController.movieDetailsData.value?.id??-1,
-    //             // duration: homeController.movieServerList[homeController.selectedServer.value].,
-    //             duration: "0",
-    //             watchedSeconds: '80');
-    //       }
-    //     });
-    //   });
-    // }
     return WillPopScope(
       onWillPop: () async {
         try {
@@ -282,7 +266,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                     ),
                                     Expanded(
                                         child: Text(
-                                      "$ksExpire: 10/06/2025",
+                                      "$ksExpire: ${homeController
+                                  .rentalVideoData.value?.expireData
+                                  .toString()}",
                                       style: regular10TextStyle(cWhiteColor),
                                       overflow: TextOverflow.ellipsis,
                                     )),

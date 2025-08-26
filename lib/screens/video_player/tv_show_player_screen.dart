@@ -427,7 +427,6 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                     ],
                   ),
                 ),
-                        //! For rental video this widget(RentProductDetailsContentContainer)
                       if (widget.isRentableVideo == true) kH16sizedBox,
                       if (widget.isRentableVideo == true)
                         RentProductDetailsContentContainer(

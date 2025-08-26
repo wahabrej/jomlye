@@ -99,6 +99,7 @@ class ApiServices {
     Map<String, dynamic>? body,
     required String requestMethod,
     int? timer,
+    bool? isVideoPlay=false,
   }) async {
     ll("Url : $url");
     final http.Client client = http.Client();
@@ -126,11 +127,15 @@ class ApiServices {
         return cm;
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
+         if(isVideoPlay==false){
         showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+         }
         return null;
       } else {
         if (!Get.isSnackbarOpen) {
+          if(isVideoPlay==false){
           showSnackBar(title: "${response.statusCode} ${ksError.tr}", message: error, color: cRedColor);
+          }
         }
         return null;
       }

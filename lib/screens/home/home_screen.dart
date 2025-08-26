@@ -50,6 +50,9 @@ class HomeScreen extends StatelessWidget {
           color: cPrimaryColor,
           onRefresh: () async {
             await homeController.getHomePage();
+            if(Get.find<GlobalController>().userId.value!=1){
+              await homeController.getWatchHistory();
+            }
           },
           child: Scaffold(
             backgroundColor: cBlackColor,
@@ -59,48 +62,8 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                   HomeSlider(),
-  //   return SafeArea(
-  // top: false,
-  // child: WillPopScope(
-  //   onWillPop: () async {
-  //     if (_lastBackPressed == null ||
-  //         DateTime.now().difference(_lastBackPressed!) >
-  //             const Duration(seconds: 2)) {
-  //       _lastBackPressed = DateTime.now();
-  //       isBackPressedOnce = true;
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text('Press again to exit'),
-  //           duration: Duration(seconds: 2),
-  //         ),
-  //       );
-  //       return false;
-  //     } else {
-  //       isBackPressedOnce = false;
-  //       return true;
-  //     }
-  //   },
-  //   child: RefreshIndicator(
-  //     backgroundColor: cWhiteColor,
-  //     color: cPrimaryColor,
-  //     onRefresh: () async {
-  //       await homeController.getHomePage();
-  //     },
-  //     child: Scaffold(
-  //       backgroundColor: cBlackColor,
-  //       body: Obx(
-  //         () => SingleChildScrollView(
-  //           physics: const BouncingScrollPhysics(),
-  //           child: Column(
-  //             crossAxisAlignment: CrossAxisAlignment.start,
-  //             children: [
-  //               Stack(
-  //                 children: [
-  //                   HomeSlider(),
-  //                 ],
-  //               ),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(
