@@ -11,15 +11,11 @@ import 'package:flixoo_flutter_app/controllers/common/binder_controller.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Get.put(GlobalController());
-  Stripe.publishableKey =  Get.find<GlobalController>().configModelData.value?.stripeKey??"pk_test_51RCwabBLHhtXKxC7Mfsz74GGTVv47g2JkehS3PQBshS3omOnsWanVW6DAEd8mQBIj3ftU1K8Q1x60NqhygNqVAq8005zZaL7p9"; //"pk_test_51RCwabBLHhtXKxC7Mfsz74GGTVv47g2JkehS3PQBshS3omOnsWanVW6DAEd8mQBIj3ftU1K8Q1x60NqhygNqVAq8005zZaL7p9";
+  Stripe.publishableKey =  Get.find<GlobalController>().configModelData.value?.stripeKey??"pk_test_51RCwabBLHhtXKxC7Mfsz74GGTVv47g2JkehS3PQBshS3omOnsWanVW6DAEd8mQBIj3ftU1K8Q1x60NqhygNqVAq8005zZaL7p9";
   await Stripe.instance.applySettings();
    MobileAds.instance.initialize();
   await dotenv.load(fileName: Environment.fileName);
   ll("Filename : ${Environment.fileName}");
-  // RequestConfiguration requestConfiguration = RequestConfiguration(
-  //   testDeviceIds: ["a0824a2e-4a1f-4a6d-b908-6a3ec2c37d1f"],
-  // );
-//  await MobileAds.instance.updateRequestConfiguration(requestConfiguration);
 
   await MobileAds.instance.initialize();
   await PurchaseApi.initRevenueCat();
@@ -30,7 +26,7 @@ void main() async {
       statusBarBrightness: Brightness.light,
     ),
   );
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge); //!device default bottom part show
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(const MyApp());

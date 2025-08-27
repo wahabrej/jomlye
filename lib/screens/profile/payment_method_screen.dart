@@ -10,8 +10,10 @@ class PaymentMethodScreen extends StatelessWidget {
     required this.paymentType,
     required this.planId,
     required this.videoType,
+    this.payableAmount
   });
   final String paymentType, planId, videoType;
+  final double? payableAmount;
 
   final ProfileController profileController = Get.find<ProfileController>();
   final GlobalController globalController = Get.find<GlobalController>();
@@ -127,7 +129,7 @@ class PaymentMethodScreen extends StatelessWidget {
                                 profileController.selectedPaymentMethod.value =
                                     "stripe";
 
-                                double amount = 20.0;
+                                double amount = payableAmount??-1;
 
                                 if (amount <= 0) {
                                   showSnackBar(
@@ -138,7 +140,7 @@ class PaymentMethodScreen extends StatelessWidget {
                                 }
 
                                 await profileController
-                                    .paymentSheetInitialization(amount, "USD");
+                                    .paymentSheetInitialization(amount, "USD",paymentType,planId,videoType);
                               } catch (e) {
                                 if (kDebugMode) {
                                   ll("Error in payment button tap: ${e.toString()}");

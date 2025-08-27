@@ -840,6 +840,7 @@ Future<void> offlinePaymentMethod({required String paymentType,required String p
        "plan_id": planId,
       if(videoType!="")  "video_type": videoType??"",
         "user_id": userId.toString(),
+        "status": paymentType.contains("offline") ? "0" : "1",
       };
       var response = await apiServices.commonApiCall(
         url: kuOfflinePayment,
@@ -907,29 +908,32 @@ makeIntentForPayment(double amountToPayable, String currency) async {
     } else {
       ll("Payment intent creation failed: ${errorMsg.toString()}");
     }
-    rethrow; // Re-throw to handle in calling method
+    rethrow;
   }
 }
 
-showPaymentSheet() async {
+showPaymentSheet(String paymentType, String planId,String? videoType) async {
   try {
-    await Stripe.instance.presentPaymentSheet().then((val) {
+    await Stripe.instance.presentPaymentSheet().then((val) async{
       intantPaymentData = null;
       // Payment successful
       showSnackBar(
-        title: "Success", 
+        title: "Success",
         message: "Payment completed successfully", 
-        color: Colors.green
+        color: cGreenColor,
       );
+      await offlinePaymentMethod(paymentType: "stripe",planId: planId,videoType: videoType);
     }).onError((errorMsg, sTrace) {
       if (kDebugMode) {
         ll("Payment sheet error: ${errorMsg.toString()} ${sTrace.toString()}");
       }
-      showSnackBar(
+      else{
+         showSnackBar(
         title: ksError.tr, 
         message: "Payment was cancelled or failed", 
         color: cPrimaryColor2
       );
+      }
     });
   } on StripeException catch (error) {
     if (kDebugMode) {
@@ -952,12 +956,12 @@ showPaymentSheet() async {
   }
 }
 
-paymentSheetInitialization(double amountToPayable, String currency) async {
+paymentSheetInitialization(double amountToPayable, String currency, String paymentType, String planId,String? videoType) async {
   try {
     // Validate inputs before proceeding
     if (amountToPayable <= 0) {
       showSnackBar(
-        title: ksError.tr, 
+        title: ksError.tr,
         message: "Invalid payment amount", 
         color: cPrimaryColor2
       );
@@ -984,7 +988,7 @@ paymentSheetInitialization(double amountToPayable, String currency) async {
       ll("Payment sheet initialized successfully");
     });
     
-    await showPaymentSheet();
+    await showPaymentSheet(paymentType,planId,videoType);
   } catch (errorMsg) {
     if (kDebugMode) {
       ll("Payment initialization error: ${errorMsg.toString()}");

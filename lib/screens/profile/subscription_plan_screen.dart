@@ -202,12 +202,8 @@ class SubscriptionPlanScreen extends StatelessWidget {
                             CustomElevatedButton(
                               label: ksGetStarted.tr,
                               onPressed: () async {
-                                // await Purchases.purchasePackage(
-                                //     paymentController
-                                //         .findStoreProductById(index));
-                                // Get.toNamed(krPaymentMethodScreen);
-                                Get.to(()=>PaymentMethodScreen(paymentType: "offline", planId: paymentController.subscriptionPlanList[index]!.id.toString(), videoType: "",));
-                                // Get.find<GlobalController>().commonBottomSheet(context: context, content: PaymentMethodSelectBottomSheetContent(index: index,), onPressCloseButton: (){}, onPressRightButton: (){}, rightText: "", rightTextStyle: regular12TextStyle(cWhiteColor), title: ksSelectPaymentMethod.tr, isRightButtonShow: false,bottomSheetHeight: height*0.3,bottomSheetColor: cBlackColor2);
+                                Get.find<ProfileController>().selectedPaymentMethod.value = "";
+                                Get.to(()=>PaymentMethodScreen(paymentType: "offline", planId: paymentController.subscriptionPlanList[index]!.id.toString(), videoType: "",payableAmount: double.parse(paymentController.subscriptionPlanList[index]?.price ?? "0"),));
                               },
                               buttonColor: cPrimaryColor2,
                               textStyle: regular14TextStyle(cWhiteColor),
@@ -247,7 +243,6 @@ class PaymentMethodSelectBottomSheetContent extends StatelessWidget {
         },buttonWidth: width-40,textStyle: medium14TextStyle(cBlackColor),buttonColor: cWhiteColor,borderColor: cWhiteColor,),
         kH12sizedBox,
         CustomElevatedButton(label: "Other Payment Getway", onPressed: (){
-          // Get.back();
           
           Get.toNamed(krPaymentMethodScreen);},buttonWidth: width-40,textStyle: medium14TextStyle(cWhiteColor),buttonColor: cPrimaryColor,borderColor: cPrimaryColor,),
       ],
