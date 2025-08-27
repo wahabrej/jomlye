@@ -230,6 +230,12 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "flutter_file_downloader",
+      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/flutter_file_downloader-2.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.15"
+    },
+    {
       "name": "flutter_inappwebview",
       "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/flutter_inappwebview-6.1.5",
       "packageUri": "lib/",

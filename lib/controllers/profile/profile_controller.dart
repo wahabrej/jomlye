@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
 import 'package:flixoo_flutter_app/controllers/payment/payment_controller.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -830,13 +831,14 @@ Future<void> changeLanguage(String language) async {
 final RxBool isplaylistListExpand = RxBool(true);
 
 
-Future<void> offlinePaymentMethod({required String paymentType,required String planId,String? videoType}) async {
+Future<void> offlinePaymentMethod({required String paymentType,required String planId,String? videoType,String? transactionId}) async {
     try {
       String? token = await spController.getBearerToken();
       int? userId = await spController.getUserId();
       Map<String, String> body = {
-        "paymentType": paymentType,
-        "transaction_key": transactionKeyTextEditingController.text.trim().toString(),
+        "payment_type": paymentType=="rental" ? "rental" : paymentType,
+        "transaction_key": transactionId?? transactionKeyTextEditingController.text.trim().toString(),
+        
        "plan_id": planId,
       if(videoType!="")  "video_type": videoType??"",
         "user_id": userId.toString(),
@@ -854,7 +856,17 @@ Future<void> offlinePaymentMethod({required String paymentType,required String p
             title: ksSuccess.tr, message: response.message??"", color: cGreenColor);
         await Get.find<PaymentController>().getSubscriptionCheck();
         // Get.back();
-        Get.offAllNamed(krHomeScreen);
+        if(paymentType=="rental" && videoType=="movie"){
+          await Get.find<HomeController>().getMovieDetails(movieId: planId);
+          Get.back();
+        }
+        if(paymentType=="rental" && videoType=="series"){
+          await Get.find<HomeController>().getTvShowDetails(showId: int.parse(planId.toString()));
+          Get.back();
+        }
+        else{
+          Get.offAllNamed(krHomeScreen);
+        }
       } else {
         showSnackBar(
             title: ksError.tr, message: "offlinePaymentMethod Error!", color: cPrimaryColor2);
@@ -863,7 +875,8 @@ Future<void> offlinePaymentMethod({required String paymentType,required String p
       ll('offlinePaymentMethod error: $e');
     }
   }
-  Map<String, dynamic>? intantPaymentData; 
+
+Map<String, dynamic>? intantPaymentData; 
 
 makeIntentForPayment(double amountToPayable, String currency) async {
   try {
@@ -912,27 +925,43 @@ makeIntentForPayment(double amountToPayable, String currency) async {
   }
 }
 
-showPaymentSheet(String paymentType, String planId,String? videoType) async {
+showPaymentSheet(String paymentType, String planId, String? videoType) async {
   try {
-    await Stripe.instance.presentPaymentSheet().then((val) async{
+    await Stripe.instance.presentPaymentSheet().then((val) async {
+      // Extract transaction ID from the payment intent
+      String? transactionId = intantPaymentData?['id']; // This is the payment intent ID
+      
+      // Alternative: You can also get more detailed payment information
+      String? clientSecret = intantPaymentData?['client_secret'];
+      ll("Client Secret: $clientSecret");
+      
       intantPaymentData = null;
+      
       // Payment successful
       showSnackBar(
         title: "Success",
         message: "Payment completed successfully", 
         color: cGreenColor,
       );
-      await offlinePaymentMethod(paymentType: "stripe",planId: planId,videoType: videoType);
+      
+      // Pass the transaction ID to your offline payment method
+      await offlinePaymentMethod(
+        paymentType: paymentType == "rental" ? "rental" : "stripe",
+        planId: planId,
+        videoType: videoType,
+        transactionId: transactionId,
+        // transactionId: transactionId, // Add this parameter to your method
+      );
+      
     }).onError((errorMsg, sTrace) {
       if (kDebugMode) {
         ll("Payment sheet error: ${errorMsg.toString()} ${sTrace.toString()}");
-      }
-      else{
-         showSnackBar(
-        title: ksError.tr, 
-        message: "Payment was cancelled or failed", 
-        color: cPrimaryColor2
-      );
+      } else {
+        showSnackBar(
+          title: ksError.tr, 
+          message: "Payment was cancelled or failed", 
+          color: cPrimaryColor2
+        );
       }
     });
   } on StripeException catch (error) {
@@ -956,7 +985,38 @@ showPaymentSheet(String paymentType, String planId,String? videoType) async {
   }
 }
 
-paymentSheetInitialization(double amountToPayable, String currency, String paymentType, String planId,String? videoType) async {
+// Alternative method to get more detailed payment information
+Future<Map<String, dynamic>?> getPaymentIntentDetails(String paymentIntentId) async {
+  try {
+    var response = await http.get(
+      Uri.parse("https://api.stripe.com/v1/payment_intents/$paymentIntentId"),
+      headers: {
+        "Authorization": "Bearer ${Get.find<GlobalController>().configModelData.value?.stripeSecret}",
+      }
+    );
+    
+    if (response.statusCode == 200) {
+      var paymentDetails = jsonDecode(response.body);
+      ll("Payment Details: ${paymentDetails.toString()}");
+      
+      // You can extract various IDs:
+      String? paymentIntentId = paymentDetails['id']; // Payment Intent ID
+      String? chargeId = paymentDetails['charges']?['data']?[0]?['id']; // Charge ID
+      String? balanceTransactionId = paymentDetails['charges']?['data']?[0]?['balance_transaction']; // Balance Transaction ID
+      
+      ll("Payment Intent ID: $paymentIntentId");
+      ll("Charge ID: $chargeId");
+      ll("Balance Transaction ID: $balanceTransactionId");
+      
+      return paymentDetails;
+    }
+  } catch (e) {
+    ll("Error getting payment details: $e");
+  }
+  return null;
+}
+
+paymentSheetInitialization(double amountToPayable, String currency, String paymentType, String planId, String? videoType) async {
   try {
     // Validate inputs before proceeding
     if (amountToPayable <= 0) {
@@ -988,7 +1048,7 @@ paymentSheetInitialization(double amountToPayable, String currency, String payme
       ll("Payment sheet initialized successfully");
     });
     
-    await showPaymentSheet(paymentType,planId,videoType);
+    await showPaymentSheet(paymentType, planId, videoType);
   } catch (errorMsg) {
     if (kDebugMode) {
       ll("Payment initialization error: ${errorMsg.toString()}");

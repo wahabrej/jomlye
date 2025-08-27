@@ -1,6 +1,7 @@
 
 import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 // import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
@@ -288,6 +289,31 @@ class AllVideoPlayerController extends GetxController {
   //     RxList(["HD", "Action", "Super Hit", "Block Buster"]);
 
   // final MediaDownload flutterMediaDownloaderPlugin = MediaDownload();
+     Future<void> downloadVideo(BuildContext context, String url) async {
+    try {
+      FileDownloader.downloadFile(
+        url: url,
+        name: 'video_${DateTime.now().millisecondsSinceEpoch}.mp4',
+        onProgress: (name, progress) {
+          print('Download progress: $progress%');
+        },
+        onDownloadCompleted: (path) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Download completed: $path')),
+          );
+        },
+        onDownloadError: (error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Download error: $error')),
+          );
+        },
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Download failed: $e')),
+      );
+    }
+  }
 
   BetterPlayerController? betterPlayerController;
   RxBool isBetterPlayerInitialized = false.obs;

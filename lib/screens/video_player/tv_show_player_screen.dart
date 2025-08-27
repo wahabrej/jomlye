@@ -137,9 +137,11 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                           (homeController.tvShowDetailsModel.value?.isRented ==
                                   true &&
                               widget.isRentableVideo == true)) ||
-                      homeController.tvShowDetailsData.value?.isFree == 1 ||  Get.find<GlobalController>()
+                      homeController.tvShowDetailsData.value?.isFree == 1 || (Get.find<GlobalController>()
                                                   .subscribedUserCheck
-                                                  .value==true)
+                                                  .value==true && (homeController.movieDetailsModel.value?.isRented ==
+                                false &&
+                            widget.isRentableVideo == false)))
                      AspectRatio(
                       aspectRatio: 16 / 9,
                       child: Stack(
@@ -311,6 +313,7 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                           ],
                         ),
                       ),
+                    
                       kH16sizedBox,
                       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -479,8 +482,9 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                     ],
                   ),
                 ),
-                      if (widget.isRentableVideo == true) kH16sizedBox,
-                      if (widget.isRentableVideo == true)
+                   
+                      if (widget.isRentableVideo == true && homeController.tvShowDetailsModel.value?.isRented==false) kH16sizedBox,
+                      if (widget.isRentableVideo == true && homeController.tvShowDetailsModel.value?.isRented==false)
                         RentProductDetailsContentContainer(
                           rentPrice:
                               homeController.tvShowDetailsModel.value?.rental?.price.toString() ?? "",

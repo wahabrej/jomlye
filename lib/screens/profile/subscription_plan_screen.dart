@@ -203,7 +203,9 @@ class SubscriptionPlanScreen extends StatelessWidget {
                               label: ksGetStarted.tr,
                               onPressed: () async {
                                 Get.find<ProfileController>().selectedPaymentMethod.value = "";
-                                Get.to(()=>PaymentMethodScreen(paymentType: "offline", planId: paymentController.subscriptionPlanList[index]!.id.toString(), videoType: "",payableAmount: double.parse(paymentController.subscriptionPlanList[index]?.price ?? "0"),));
+                               if(Get.find<GlobalController>().userToken.value!=""){
+                                 Get.to(()=>PaymentMethodScreen(paymentType: "offline", planId: paymentController.subscriptionPlanList[index]!.id.toString(), videoType: "",payableAmount: double.parse(paymentController.subscriptionPlanList[index]?.price ?? "0"),));
+                               }
                               },
                               buttonColor: cPrimaryColor2,
                               textStyle: regular14TextStyle(cWhiteColor),
