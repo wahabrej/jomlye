@@ -167,7 +167,7 @@ class ProfileScreen extends StatelessWidget {
                     onPressed: () async{
                       await Get.find<PaymentController>().getSubscriptionPlan();
                       Get.toNamed(krSubscriptionPlanScreen);
-                     await Get.find<PaymentController>().initializeInAppPurchase();
+                    //  await Get.find<PaymentController>().initializeInAppPurchase();
                     },
                   ),
                   kH8sizedBox,

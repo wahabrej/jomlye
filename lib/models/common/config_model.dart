@@ -1,11 +1,14 @@
+
 class ConfigModel {
     final String? currencySymbol;
     final String? googleDriveApiKey;
-    final dynamic bannerAds;
-    final dynamic bannerAdsId;
-    final dynamic interstitialAds;
-    final dynamic interstitialAdsId;
-    final dynamic admobPublisherId;
+    final String? bannerAds;
+    final String? bannerAdsId;
+    final String? interstitialAds;
+    final String? interstitialAdsId;
+    final String? admobPublisherId;
+    final String? stripeKey;
+    final String? stripeSecret;
 
     ConfigModel({
         this.currencySymbol,
@@ -15,6 +18,8 @@ class ConfigModel {
         this.interstitialAds,
         this.interstitialAdsId,
         this.admobPublisherId,
+        this.stripeKey,
+        this.stripeSecret,
     });
 
     factory ConfigModel.fromJson(Map<String, dynamic> json) => ConfigModel(
@@ -25,15 +30,7 @@ class ConfigModel {
         interstitialAds: json["interstitial_ads"],
         interstitialAdsId: json["interstitial_ads_id"],
         admobPublisherId: json["admob_publisher_id"],
+        stripeKey: json["stripe_key"],
+        stripeSecret: json["stripe_secret"],
     );
-
-    Map<String, dynamic> toJson() => {
-        "currency_symbol": currencySymbol,
-        "google_drive_api_key": googleDriveApiKey,
-        "banner_ads": bannerAds,
-        "banner_ads_id": bannerAdsId,
-        "interstitial_ads": interstitialAds,
-        "interstitial_ads_id": interstitialAdsId,
-        "admob_publisher_id": admobPublisherId,
-    };
 }

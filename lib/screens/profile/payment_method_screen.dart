@@ -16,9 +16,6 @@ class PaymentMethodScreen extends StatelessWidget {
   final ProfileController profileController = Get.find<ProfileController>();
   final GlobalController globalController = Get.find<GlobalController>();
 
-  // final String url =
-  //     Get.find<ProfileController>().paymentTypeSelection("rental");
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -68,95 +65,144 @@ class PaymentMethodScreen extends StatelessWidget {
             ),
           ),
         ),
-        // body: InAppWebView(
-        //   initialUrlRequest: URLRequest(
-        //     url: WebUri(url),
-        //     headers: {
-        //       "apiKey": "${Environment.apiKey}",
-        //     },
-        //   ),
-        //   initialOptions: InAppWebViewGroupOptions(
-        //     crossPlatform: InAppWebViewOptions(
-        //       useShouldOverrideUrlLoading: true,
-        //       mediaPlaybackRequiresUserGesture: false,
-        //     ),
-        //     android: AndroidInAppWebViewOptions(
-        //       useHybridComposition: true,
-        //     ),
-        //     ios: IOSInAppWebViewOptions(
-        //       allowsInlineMediaPlayback: true,
-        //     ),
-        //   ),
-        //   onWebViewCreated: (controller) {
-        //     debugPrint("WebView created");
-        //   },
-        //   onLoadStart: (controller, url) {
-        //     debugPrint("Started loading: $url");
-        //   },
-        //   onLoadStop: (controller, url) async {
-        //     ll("Finished loading: $url");
-
-        //     // ✅ Check for success redirect
-        //     // if (url != null && url.toString().contains("payment/success")) {
-        //     if (url != null && url.toString().contains("home")) {
-        //       debugPrint("✅ Payment success detected, redirecting to Home...");
-        //       Get.offAllNamed(krHomeScreen);
-        //     }
-        //   },
-        //   onLoadError: (controller, url, code, message) {
-        //     ll("Error $code: $message");
-        //   },
-        // ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: k20Padding),
           child: Obx(() => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   kH20sizedBox,
-                  Obx(() => InkWell(
-                        splashColor: cTransparentColor,
-                        highlightColor: cTransparentColor,
-                        onTap: () {
-                          profileController.isPaymentMethodSelected.value =
-                              true;
-                        },
-                        child: Container(
-                          width: (width - 70) / 4,
-                          height: 60.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(k6BorderRadius),
-                            color: cWhiteColor.withOpacity(0.1),
-                            border: Border.all(
-                              width: 1,
-                              color: profileController
-                                      .isPaymentMethodSelected.value
-                                  ? cPrimaryColor
-                                  : cTransparentColor,
+                  Obx(() => Row(
+                        children: [
+                          InkWell(
+                            splashColor: cTransparentColor,
+                            highlightColor: cTransparentColor,
+                            onTap: () {
+                              profileController.selectedPaymentMethod.value =
+                                  "offline";
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: (width - 60) / 3,
+                                  height: 60.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(k6BorderRadius),
+                                    color: cWhiteColor.withOpacity(0.1),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: profileController
+                                                  .selectedPaymentMethod
+                                                  .value ==
+                                              "offline"
+                                          ? cPrimaryColor
+                                          : cTransparentColor,
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(k16Padding),
+                                    child: SvgPicture.asset(
+                                      kiOffline,
+                                      color: cWhiteColor,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                kH8sizedBox,
+                                Text(
+                                  "Offline",
+                                  style: semiBold14TextStyle(cWhiteColor),
+                                ),
+                              ],
                             ),
                           ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(k16Padding),
-                            child: SvgPicture.asset(
-                              kiOffline,
-                              color: cWhiteColor,
-                              fit: BoxFit.cover,
+                          kW10sizedBox,
+                          InkWell(
+                            splashColor: cTransparentColor,
+                            highlightColor: cTransparentColor,
+                            onTap: () async {
+                              try {
+                                ll("Stripe payment initiated");
+                                profileController.selectedPaymentMethod.value =
+                                    "stripe";
+
+                                double amount = 20.0;
+
+                                if (amount <= 0) {
+                                  showSnackBar(
+                                      title: "Error",
+                                      message: "Invalid payment amount",
+                                      color: Colors.red);
+                                  return;
+                                }
+
+                                await profileController
+                                    .paymentSheetInitialization(amount, "USD");
+                              } catch (e) {
+                                if (kDebugMode) {
+                                  ll("Error in payment button tap: ${e.toString()}");
+                                }
+                                showSnackBar(
+                                    title: "Error",
+                                    message:
+                                        "Failed to process payment. Please try again.",
+                                    color: Colors.red);
+                              }
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: (width - 60) / 3,
+                                  height: 60.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(k6BorderRadius),
+                                    color: cWhiteColor.withOpacity(0.1),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: profileController
+                                                  .selectedPaymentMethod
+                                                  .value ==
+                                              "stripe"
+                                          ? cPrimaryColor
+                                          : cTransparentColor,
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(k16Padding),
+                                    child: SvgPicture.asset(
+                                      kiStripe,
+                                      color: cWhiteColor,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                kH8sizedBox,
+                                Text(
+                                  "Stripe",
+                                  style: semiBold14TextStyle(cWhiteColor),
+                                ),
+                              ],
                             ),
                           ),
-                        ),
+                        ],
                       )),
-                  kH8sizedBox,
-                  Text(
-                    "Offline",
-                    style: semiBold14TextStyle(cWhiteColor),
-                  ),
+                  if (profileController.selectedPaymentMethod.value ==
+                      "offline")
                     kH100sizedBox,
+                  if (profileController.selectedPaymentMethod.value ==
+                      "offline")
                     Text(
                       "Transaction Key",
                       style: semiBold14TextStyle(cWhiteColor),
                     ),
-                  // if (profileController.isPaymentMethodSelected.value)
+                  if (profileController.selectedPaymentMethod.value ==
+                      "offline")
                     kH12sizedBox,
-                  // if (profileController.isPaymentMethodSelected.value)
+                  if (profileController.selectedPaymentMethod.value ==
+                      "offline")
                     SizedBox(
                       height: kTextFieldHeight.h,
                       child: CustomModifiedTextField(
@@ -183,21 +229,25 @@ class PaymentMethodScreen extends StatelessWidget {
                         contentPadding: const EdgeInsets.all(12),
                       ),
                     ),
-                  kH30sizedBox,
-                  CustomElevatedButton(
-                    label: ksStartPlan.tr,
-                    onPressed: () {
-                      // Get.toNamed(krPaymentSuccessScreen);
-                      profileController.offlinePaymentMethod(
-                          paymentType: paymentType,
-                          planId: planId,
-                          videoType: videoType);
-                    },
-                    buttonColor: cPrimaryColor2,
-                    buttonHeight: 40.h,
-                    buttonWidth: width - 40,
-                    textStyle: regular14TextStyle(cWhiteColor),
-                  ),
+                  if (profileController.selectedPaymentMethod.value ==
+                      "offline")
+                    kH30sizedBox,
+                  if (profileController.selectedPaymentMethod.value ==
+                      "offline")
+                    CustomElevatedButton(
+                      label: ksStartPlan.tr,
+                      onPressed: () {
+                        // Get.toNamed(krPaymentSuccessScreen);
+                        profileController.offlinePaymentMethod(
+                            paymentType: paymentType,
+                            planId: planId,
+                            videoType: videoType);
+                      },
+                      buttonColor: cPrimaryColor2,
+                      buttonHeight: 40.h,
+                      buttonWidth: width - 40,
+                      textStyle: regular14TextStyle(cWhiteColor),
+                    ),
                 ],
               )),
         ),

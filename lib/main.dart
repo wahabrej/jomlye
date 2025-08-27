@@ -1,3 +1,5 @@
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 // import 'package:onesignal_flutter/onesignal_flutter.dart';
 // import 'package:flixoo_flutter_app/controllers/common/sp_controller.dart';
@@ -8,6 +10,9 @@ import 'package:flixoo_flutter_app/controllers/common/binder_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Get.put(GlobalController());
+  Stripe.publishableKey =  Get.find<GlobalController>().configModelData.value?.stripeKey??"pk_test_51RCwabBLHhtXKxC7Mfsz74GGTVv47g2JkehS3PQBshS3omOnsWanVW6DAEd8mQBIj3ftU1K8Q1x60NqhygNqVAq8005zZaL7p9"; //"pk_test_51RCwabBLHhtXKxC7Mfsz74GGTVv47g2JkehS3PQBshS3omOnsWanVW6DAEd8mQBIj3ftU1K8Q1x60NqhygNqVAq8005zZaL7p9";
+  await Stripe.instance.applySettings();
    MobileAds.instance.initialize();
   await dotenv.load(fileName: Environment.fileName);
   ll("Filename : ${Environment.fileName}");

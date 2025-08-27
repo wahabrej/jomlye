@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flixoo_flutter_app/controllers/payment/payment_controller.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
 import 'package:flixoo_flutter_app/controllers/common/sp_controller.dart';
@@ -17,6 +18,7 @@ import 'package:flixoo_flutter_app/screens/profile/common_webview_screen.dart';
 import 'package:flixoo_flutter_app/services/api_services.dart';
 import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 import 'package:flixoo_flutter_app/utils/constants/urls.dart';
+import 'package:http/http.dart' as http;
 
 class ProfileController extends GetxController {
   final SpController spController = SpController();
@@ -72,66 +74,6 @@ class ProfileController extends GetxController {
   ]);
   final RxInt selectedPaymentMethodIndex = RxInt(-1);
   final RxList movieTagList = RxList(["Action", "2024"]);
-  // final RxList<Map<String, dynamic>> downloadedMovieList =
-  //     RxList<Map<String, dynamic>>([
-  //   {
-  //     "movieImage":
-  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-  //     "movieTagList": ["Action", "2024"],
-  //     "movieName": "20-Minute Meals: Delicious Recipes.",
-  //     "movieDuration": "Time duration: 1 hour 20 sec",
-  //     "movieSize": "12GB",
-  //   },
-  //   {
-  //     "movieImage":
-  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-  //     "movieTagList": ["Action", "2024"],
-  //     "movieName": "20-Minute Meals: Delicious Recipes.",
-  //     "movieDuration": "Time duration: 1 hour 20 sec",
-  //     "movieSize": "12GB",
-  //   },
-  //   {
-  //     "movieImage":
-  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-  //     "movieTagList": ["Action", "2024"],
-  //     "movieName": "20-Minute Meals: Delicious Recipes.",
-  //     "movieDuration": "Time duration: 1 hour 20 sec",
-  //     "movieSize": "12GB",
-  //   },
-  //   {
-  //     "movieImage":
-  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-  //     "movieTagList": ["Action", "2024"],
-  //     "movieName": "20-Minute Meals: Delicious Recipes.",
-  //     "movieDuration": "Time duration: 1 hour 20 sec",
-  //     "movieSize": "12GB",
-  //   },
-  //   {
-  //     "movieImage":
-  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-  //     "movieTagList": ["Action", "2024"],
-  //     "movieName": "20-Minute Meals: Delicious Recipes.",
-  //     "movieDuration": "Time duration: 1 hour 20 sec",
-  //     "movieSize": "12GB",
-  //   },
-  //   {
-  //     "movieImage":
-  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-  //     "movieTagList": ["Action", "2024"],
-  //     "movieName": "20-Minute Meals: Delicious Recipes.",
-  //     "movieDuration": "Time duration: 1 hour 20 sec",
-  //     "movieSize": "12GB",
-  //   },
-  //   {
-  //     "movieImage":
-  //         "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-  //     "movieTagList": ["Action", "2024"],
-  //     "movieName": "20-Minute Meals: Delicious Recipes.",
-  //     "movieDuration": "Time duration: 1 hour 20 sec",
-  //     "movieSize": "12GB",
-  //   },
-  // ]);
-  
   
   final RxList<Map<String, dynamic>> notificationMovieList =
       RxList<Map<String, dynamic>>([
@@ -192,7 +134,7 @@ class ProfileController extends GetxController {
       "movieSize": "New Released",
     },
   ]);
- final RxBool isPaymentMethodSelected = RxBool(false);
+ final RxString selectedPaymentMethod = RxString("");
  final TextEditingController transactionKeyTextEditingController = TextEditingController();
   late InAppWebViewController privacyWebViewController;
   final RxBool privacyIsLoading = RxBool(false);
@@ -804,6 +746,8 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
       ) as CommonDM;
 
       if (response.code == 200) {
+        movieRentedVideoList.clear();
+        tvShowRentedVideoList.clear();
         rentedVideoModel.value = RentedVideoModel.fromJson(response.data);
         for(int i=0;i<=rentedVideoModel.value!.rents!.length-1;i++){
           if(rentedVideoModel.value!.rents![i].videoType?.toLowerCase()=="movie"){
@@ -918,5 +862,138 @@ Future<void> offlinePaymentMethod({required String paymentType,required String p
       ll('offlinePaymentMethod error: $e');
     }
   }
-  
+  Map<String, dynamic>? intantPaymentData; 
+
+makeIntentForPayment(double amountToPayable, String currency) async {
+  try {
+    // Validate inputs
+    if (amountToPayable <= 0) {
+      throw Exception("Amount must be greater than 0");
+    }
+    if (currency.isEmpty) {
+      throw Exception("Currency cannot be empty");
+    }
+
+    // Convert amount to cents (Stripe expects amounts in smallest currency unit)
+    int amountInCents = (amountToPayable * 100).round();
+    
+    // Ensure all values are properly formatted and not null
+    Map<String, String> paymentInfo = {
+      "amount": amountInCents.toString(),
+      "currency": currency.toLowerCase(),
+      "payment_method_types[]": "card",
+    };
+    
+    var responseFromStripeAPI = await http.post(
+      Uri.parse("https://api.stripe.com/v1/payment_intents"),
+      body: paymentInfo,
+      headers: {
+        "Authorization": "Bearer ${Get.find<GlobalController>().configModelData.value?.stripeSecret}",
+        "Content-Type": "application/x-www-form-urlencoded"
+      }
+    );
+    
+    ll("Response from api ${responseFromStripeAPI.body}");
+    
+    if (responseFromStripeAPI.statusCode == 200) {
+      return jsonDecode(responseFromStripeAPI.body);
+    } else {
+      throw Exception("Stripe API Error: ${responseFromStripeAPI.statusCode} - ${responseFromStripeAPI.body}");
+    }
+  } catch (errorMsg, s) {
+    if (kDebugMode) {
+      ll("Error in makeIntentForPayment: $errorMsg");
+      ll("Stack trace: $s");
+    } else {
+      ll("Payment intent creation failed: ${errorMsg.toString()}");
+    }
+    rethrow; // Re-throw to handle in calling method
+  }
+}
+
+showPaymentSheet() async {
+  try {
+    await Stripe.instance.presentPaymentSheet().then((val) {
+      intantPaymentData = null;
+      // Payment successful
+      showSnackBar(
+        title: "Success", 
+        message: "Payment completed successfully", 
+        color: Colors.green
+      );
+    }).onError((errorMsg, sTrace) {
+      if (kDebugMode) {
+        ll("Payment sheet error: ${errorMsg.toString()} ${sTrace.toString()}");
+      }
+      showSnackBar(
+        title: ksError.tr, 
+        message: "Payment was cancelled or failed", 
+        color: cPrimaryColor2
+      );
+    });
+  } on StripeException catch (error) {
+    if (kDebugMode) {
+      ll("Stripe exception: ${error.toString()}");
+    }
+    showSnackBar(
+      title: ksError.tr, 
+      message: "Stripe payment failed: ${error.error.localizedMessage ?? 'Unknown error'}", 
+      color: cPrimaryColor2
+    );
+  } catch (errorMsg) {
+    if (kDebugMode) {
+      ll("General payment error: ${errorMsg.toString()}");
+    }
+    showSnackBar(
+      title: ksError.tr, 
+      message: "Payment failed. Please try again.", 
+      color: cPrimaryColor2
+    );
+  }
+}
+
+paymentSheetInitialization(double amountToPayable, String currency) async {
+  try {
+    // Validate inputs before proceeding
+    if (amountToPayable <= 0) {
+      showSnackBar(
+        title: ksError.tr, 
+        message: "Invalid payment amount", 
+        color: cPrimaryColor2
+      );
+      return;
+    }
+
+    // Show loading indicator
+    // You might want to add a loading state here
+
+    intantPaymentData = await makeIntentForPayment(amountToPayable, currency);
+    
+    if (intantPaymentData == null || intantPaymentData!['client_secret'] == null) {
+      throw Exception("Failed to create payment intent");
+    }
+
+    await Stripe.instance.initPaymentSheet(
+      paymentSheetParameters: SetupPaymentSheetParameters(
+        allowsDelayedPaymentMethods: true,
+        paymentIntentClientSecret: intantPaymentData!['client_secret'],
+        style: ThemeMode.dark,
+        merchantDisplayName: "Spagreen Creative",
+      )
+    ).then((val) {
+      ll("Payment sheet initialized successfully");
+    });
+    
+    await showPaymentSheet();
+  } catch (errorMsg) {
+    if (kDebugMode) {
+      ll("Payment initialization error: ${errorMsg.toString()}");
+    }
+    showSnackBar(
+      title: ksError.tr, 
+      message: "Failed to initialize payment. Please try again.", 
+      color: cPrimaryColor2
+    );
+  }
+}
 }

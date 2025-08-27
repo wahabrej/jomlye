@@ -2080,17 +2080,17 @@ void showDownloadVideoPopup(BuildContext context) {
                               label: ksDownload.tr,
                               onPressed: () async {
                                 // homeController.movieDetailsModel.value!.download!.details![index].
-                                await allVideoPlayerController
-                                    .flutterMediaDownloaderPlugin
-                                    .downloadMedia(
-                                        context,
-                                        homeController
-                                                .movieDetailsModel
-                                                .value!
-                                                .download!
-                                                .details![index]
-                                                .link ??
-                                            "");
+                                // await allVideoPlayerController
+                                //     .flutterMediaDownloaderPlugin
+                                //     .downloadMedia(
+                                //         context,
+                                //         homeController
+                                //                 .movieDetailsModel
+                                //                 .value!
+                                //                 .download!
+                                //                 .details![index]
+                                //                 .link ??
+                                //             "");
                                 Get.back();
                               },
                               buttonWidth: 110.w,

@@ -40,7 +40,7 @@ dependencies:
   google_sign_in: ^6.2.2
   # flutter_facebook_auth: ^7.1.2
   flutter_downloader: ^1.11.8
-  flutter_media_downloader: ^2.0.0
+  # flutter_media_downloader: ^2.0.0
   lecle_yoyo_player: ^0.0.7
   shared_preferences: ^2.5.3
   purchases_flutter: ^8.10.4
@@ -48,6 +48,7 @@ dependencies:
   # onesignal_flutter: ^5.3.4
   better_player_plus: ^1.0.8
   flutter_widget_from_html: ^0.15.3
+  flutter_stripe: ^11.5.0
   # permission_handler: ^12.0.0+1
   # permission_handler: ^10.4.3
 

@@ -206,7 +206,7 @@ class SubscriptionPlanScreen extends StatelessWidget {
                                 //     paymentController
                                 //         .findStoreProductById(index));
                                 // Get.toNamed(krPaymentMethodScreen);
-                                Get.to(PaymentMethodScreen(paymentType: "offline", planId: paymentController.subscriptionPlanList[index]!.id.toString(), videoType: "",));
+                                Get.to(()=>PaymentMethodScreen(paymentType: "offline", planId: paymentController.subscriptionPlanList[index]!.id.toString(), videoType: "",));
                                 // Get.find<GlobalController>().commonBottomSheet(context: context, content: PaymentMethodSelectBottomSheetContent(index: index,), onPressCloseButton: (){}, onPressRightButton: (){}, rightText: "", rightTextStyle: regular12TextStyle(cWhiteColor), title: ksSelectPaymentMethod.tr, isRightButtonShow: false,bottomSheetHeight: height*0.3,bottomSheetColor: cBlackColor2);
                               },
                               buttonColor: cPrimaryColor2,

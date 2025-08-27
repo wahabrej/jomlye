@@ -1,7 +1,7 @@
 
 import 'package:better_player_plus/better_player_plus.dart';
 import 'package:flick_video_player/flick_video_player.dart';
-import 'package:flutter_media_downloader/flutter_media_downloader.dart';
+// import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
 import 'package:flixoo_flutter_app/utils/constants/imports.dart';
@@ -16,26 +16,6 @@ class AllVideoPlayerController extends GetxController {
   final RxBool isMidRollAdPlaying = RxBool(false);
   final RxBool isPlayerInitialized = RxBool(false);
   final RxBool isInitializing = RxBool(false);
-
-  // Ad URLs
-  final String preRollAdUrl =
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4";
-  final String postRollAdUrl =
-      "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4";
-  final List<Map<String, dynamic>> midRollAds = [
-    {
-      "time": 15,
-      "url":
-          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-      "shown": false
-    },
-    {
-      "time": 30,
-      "url":
-          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-      "shown": false
-    },
-  ];
 
   // Store the current main content URL to avoid re-initialization
   String? currentMainContentUrl;
@@ -307,7 +287,7 @@ class AllVideoPlayerController extends GetxController {
   // final RxList movieTypeList =
   //     RxList(["HD", "Action", "Super Hit", "Block Buster"]);
 
-  final MediaDownload flutterMediaDownloaderPlugin = MediaDownload();
+  // final MediaDownload flutterMediaDownloaderPlugin = MediaDownload();
 
   BetterPlayerController? betterPlayerController;
   RxBool isBetterPlayerInitialized = false.obs;
