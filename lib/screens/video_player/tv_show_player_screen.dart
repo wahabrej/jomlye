@@ -92,7 +92,7 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                       width: width,
                       height: 200,
                       child: Image.network(
-                        homeController.tvShowDetailsData.value?.thumbnail ?? "",
+                        homeController.tvShowDetailsData.value?.poster ?? "",
                         fit: BoxFit.fill,
                         errorBuilder: (context, error, stackTrace) {
                           return SvgPicture.asset(
@@ -116,7 +116,7 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                       width: width,
                       height: 200.h,
                       child: Image.network(
-                        homeController.tvShowDetailsData.value?.thumbnail ?? "",
+                        homeController.tvShowDetailsData.value?.poster ?? "",
                         fit: BoxFit.fill,
                       ),
                     )

@@ -91,6 +91,38 @@ class _PlaylistVideoPlayerScreenState extends State<PlaylistVideoPlayerScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         kH40sizedBox,
+                  if (homeController.movieServerList.isEmpty)
+                  SizedBox(
+                    width: width,
+                    height: 250,
+                    child: Image.network(
+                      homeController.movieDetailsData.value?.poster ?? "",
+                      errorBuilder: (context, error, stackTrace) {
+                        return SvgPicture.asset(
+                          kiDummyMovie,
+                          width: width - 40,
+                          height: 200,
+                          fit: BoxFit.cover,
+                        );
+                      },
+                    ),
+                  ),
+                        if ((homeController.movieDetailsData.value?.isFree == 0 &&
+                        Get.find<GlobalController>()
+                                .subscribedUserCheck
+                                .value ==
+                            false) ||
+                    (homeController.movieDetailsModel.value?.isRented ==
+                            false &&
+                       homeController.movieDetailsData.value?.isRental== 1 ? true: false))
+                  SizedBox(
+                    width: width,
+                    height: 250.h,
+                    child: Image.network(
+                      homeController.movieDetailsData.value?.poster ?? "",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                         //!youtube player
                         // YoutubePlayerBuilder(
                         //   player: YoutubePlayer(
@@ -341,7 +373,7 @@ class _PlaylistVideoPlayerScreenState extends State<PlaylistVideoPlayerScreen> {
                               ),
                               kH12sizedBox,
                               Text(
-                                profileController.playlistMovieList[profileController.selectedPlayListMovieIndex.value].name ?? "",
+                                homeController.movieDetailsData.value?.title??"",
                                 style: medium20TextStyle(cWhiteColor),
                               ),
                               kH12sizedBox,
@@ -369,39 +401,127 @@ class _PlaylistVideoPlayerScreenState extends State<PlaylistVideoPlayerScreen> {
                                 ),
                               ),
                               kH16sizedBox,
-                              Row(
-                                children: [
-                                  const CommonContainer(
-                                    image: kiCrown,
-                                  ),
-                                  kW10sizedBox,
-                                  const CommonContainer(
-                                    image: kiFavorite,
-                                  ),
-                                  kW10sizedBox,
-                                  CommonContainer(
-                                    image: kiMinus,
-                                    onPressed: () {
-                                      showDeletePlayListMoviePopup(
-                                          context: context,
-                                          movieId: profileController
-                                              .playlistMovieList[profileController.selectedPlayListMovieIndex.value].id!);
-                                    },
-                                  ),
-                                  kW10sizedBox,
-                                  const CommonContainer(
-                                    image: kiDownload,
-                                  ),
-                                  kW10sizedBox,
-                                  CommonContainer(
-                                    image: kiShare,
-                                    onPressed: () {
-                                      Share.share(
-                                          'Share data from flixoo app! 🚀');
-                                    },
-                                  ),
-                                ],
-                              ),
+                               kH16sizedBox,
+                      Row(
+                        children: [
+                          CommonContainer(
+                            image: kiCrown,
+                            onPressed: null,
+                            containerColor:
+                                (homeController.movieDetailsData.value?.isFree ==
+                                            0 &&
+                                     homeController.movieDetailsData.value?.isRental ==1) 
+                                    ? cPrimaryColor
+                                    : cWhiteColor.withOpacity(0.2),
+                          ),
+                          kW10sizedBox,
+                          CommonContainer(
+                            image: kiFavorite,
+                            containerColor:
+                                profileController.isFavoriteAdded.value
+                                    ? cPrimaryColor2
+                                    : null,
+                            onPressed: () async {
+                              if (Get.find<GlobalController>()
+                                      .userToken
+                                      .value ==
+                                  "") {
+                                showSnackBar(
+                                    title: "Error",
+                                    message:
+                                        "Please Login first then add favourite",
+                                    color: cRedColor);
+                              } else {
+                                profileController.isFavoriteAdded.value =
+                                    !profileController.isFavoriteAdded.value;
+                                await profileController.favoriteAddOrRemove(
+                                    id: homeController
+                                            .movieDetailsData.value?.id ??
+                                        -1,
+                                    type: "movie");
+                              }
+                            },
+                          ),
+                          kW10sizedBox,
+                          CommonContainer(
+                            image: kiAdd,
+                            onPressed: () async {
+                              if (Get.find<GlobalController>()
+                                      .userToken
+                                      .value ==
+                                  "") {
+                                showSnackBar(
+                                    title: "Error",
+                                    message:
+                                        "Please Login first then add favourite",
+                                    color: cRedColor);
+                              } else {
+                                profileController.moviePlayListIds.addAll(
+                                    homeController.movieDetailsModel.value
+                                            ?.playlistIds ??
+                                        []);
+                                for (int i = 0;
+                                    i < profileController.playlistList.length;
+                                    i++) {
+                                  final currentId =
+                                      Get.find<ProfileController>()
+                                          .playlistList[i]
+                                          .id
+                                          .toString();
+                                  final bool exists = Get.find<HomeController>()
+                                      .playlistIdsList
+                                      .any((element) => currentId
+                                          .contains(element.toString()));
+                                  Get.find<ProfileController>()
+                                      .temporaryPlayListCheckBoxStateList
+                                      .add(exists);
+                                }
+                                showSaveVideoToPlayListPopup(
+                                    context,
+                                    homeController.movieDetailsData.value?.id ??
+                                        -1);
+                              }
+                            },
+                          ),
+                          kW10sizedBox,
+                          CommonContainer(
+                            image: kiDownload,
+                            containerColor: homeController.movieDetailsModel
+                                        .value?.download?.isDownloadable ==
+                                    0
+                                ? cWhiteColor.withOpacity(0.1)
+                                : null,
+                            iconColor: homeController.movieDetailsModel.value
+                                        ?.download?.isDownloadable ==
+                                    0
+                                ? cWhiteColor.withOpacity(0.2)
+                                : null,
+                            onPressed: homeController.movieDetailsModel.value
+                                        ?.download?.isDownloadable ==
+                                    1
+                                ? () {
+                                    showDownloadVideoPopup(context);
+                                   
+                                  }
+                                : null,
+                          ),
+                        
+
+                          kW10sizedBox,
+                          CommonContainer(
+                            image: kiShare,
+                            onPressed: () {
+                              Share.share(homeController
+                                      .movieServerList[
+                                          homeController.selectedServer.value]
+                                      ?.fileUrl ??
+                                  "");
+                            },
+                          ),
+                        ],
+                      ),
+                     
+                             
                                 if (homeController.movieServerList.isNotEmpty)
                           kH16sizedBox,
                         if (homeController.movieServerList.isNotEmpty)
@@ -575,6 +695,7 @@ class _PlaylistVideoPlayerScreenState extends State<PlaylistVideoPlayerScreen> {
                                           itemBuilder: (context, index) {
                                             return InkWell(
                                                    onTap: () async {
+                                                    ll("here here");
                                           homeController.resetRatingData();
                                           homeController.resetBottomSheetData();
                                           await homeController.getMovieDetails(
