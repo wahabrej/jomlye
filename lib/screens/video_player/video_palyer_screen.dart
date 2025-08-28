@@ -613,6 +613,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             },
                           ),
                         ),
+                    
                       kH16sizedBox,
                       Padding(
                         padding: const EdgeInsets.only(right: k20Padding),

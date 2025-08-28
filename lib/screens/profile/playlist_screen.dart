@@ -1,5 +1,7 @@
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
 import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
 import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:flixoo_flutter_app/utils/constants/imports.dart';
@@ -85,6 +87,22 @@ class PlayListScreen extends StatelessWidget {
                       onTap: ()async{
                         profileController.selectedPlayListId.value = profileController.playlistList[index].id??-1;
                         await profileController.getPlaylisMovieList(playListId: profileController.playlistList[index].id??-1);
+                        if(profileController.playlistList.isNotEmpty){
+                        profileController.selectedPlayListMovieIndex.value = 0;
+                        await Get.find<HomeController>().getMovieDetails(movieId: profileController.playlistList[index].id.toString());
+                                    Get.find<HomeController>().resetRatingData();
+                                        await Get.find<HomeController>().getMovieDetails(
+                                        movieId: profileController.playlistList[index].id
+                                            .toString());
+                                    profileController.isFavoriteAdded.value = Get.find<HomeController>().movieDetailsData.value?.isFavorite??false;
+                                    Get.find<HomeController>().selectedServer.value = 0;
+                                    if(Get.find<HomeController>().movieServerList.isNotEmpty ){
+                                   Get.find<AllVideoPlayerController>().videoPlayerFunction(isFree: Get.find<HomeController>().movieDetailsData.value?.isFree==1?true:false,isRental: Get.find<HomeController>().movieDetailsData.value?.isRental==1?true:false,isRented: Get.find<HomeController>().movieDetailsModel.value?.isRented, isSubscribed: Get.find<GlobalController>().subscribedUserCheck.value, fileUrl: Get.find<HomeController>().movieServerList[0]?.fileUrl, fileSource: Get.find<HomeController>().movieServerList[0]?.fileSource);
+                                    }
+                                 if(Get.find<GlobalController>().subscribedUserCheck.value==false){
+                                    Get.find<HomeController>().showInterstitialAd();
+                                    }
+                        }
                         Get.toNamed(krPlaylistPlayerScreen);
                       },
                       child: PlayListWidget(

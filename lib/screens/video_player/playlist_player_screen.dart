@@ -1,3 +1,6 @@
+import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
@@ -8,10 +11,11 @@ import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_con
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class PlaylistVideoPlayerScreen extends StatelessWidget {
-  PlaylistVideoPlayerScreen({super.key});
+  PlaylistVideoPlayerScreen({super.key,});
   final AllVideoPlayerController allVideoPlayerController =
       Get.find<AllVideoPlayerController>();
   final ProfileController profileController = Get.find<ProfileController>();
+  final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,22 +52,23 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                 : Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      kH40sizedBox,
                       //!youtube player
-                      YoutubePlayerBuilder(
-                        player: YoutubePlayer(
-                          controller: allVideoPlayerController.youtubeController,
-                          showVideoProgressIndicator: true,
-                          progressIndicatorColor: Colors.red,
-                        ),
-                        builder: (context, player) {
-                          return Column(
-                            children: [
-                              player,
-                              const SizedBox(),
-                            ],
-                          );
-                        },
-                      ),
+                      // YoutubePlayerBuilder(
+                      //   player: YoutubePlayer(
+                      //     controller: allVideoPlayerController.youtubeController,
+                      //     showVideoProgressIndicator: true,
+                      //     progressIndicatorColor: Colors.red,
+                      //   ),
+                      //   builder: (context, player) {
+                      //     return Column(
+                      //       children: [
+                      //         player,
+                      //         const SizedBox(),
+                      //       ],
+                      //     );
+                      //   },
+                      // ),
                       //!Flick player
                       // AspectRatio(
                       //   aspectRatio: 16 / 9,
@@ -71,6 +76,104 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                       //     flickManager: allVideoPlayerController.flickManager,
                       //   ),
                       // ),
+
+                      if (homeController.movieServerList.isNotEmpty &&
+                    homeController
+                            .movieServerList[
+                                homeController.selectedServer.value]
+                            ?.fileSource ==
+                        "youtube")
+                  YoutubePlayer(
+                    controller: allVideoPlayerController.youtubeController,
+                    showVideoProgressIndicator: true,
+                    progressIndicatorColor: Colors.red,
+                    onReady: () {
+                      allVideoPlayerController.youtubeController
+                          .seekTo(Duration.zero);
+                    },
+                    bottomActions: const [
+                      SizedBox(width: 14.0),
+                      CurrentPosition(),
+                      kW8sizedBox,
+                      ProgressBar(
+                        isExpanded: true,
+                        colors: ProgressBarColors(
+                          playedColor: cPrimaryColor,
+                          handleColor: cPrimaryColor,
+                        ),
+                      ),
+                      kW8sizedBox,
+                      RemainingDuration(),
+                      SizedBox(width: 14.0),
+                      FullScreenButton(color: cPrimaryColor),
+                    ],
+                  ),
+                // //!flick video player
+                if ((homeController.movieServerList.isNotEmpty &&
+                        homeController
+                                .movieServerList[
+                                    homeController.selectedServer.value]
+                                ?.fileSource !=
+                            "youtube" &&
+                        homeController
+                                .movieServerList[
+                                    homeController.selectedServer.value]
+                                ?.fileSource
+                                .toString()
+                                .toLowerCase() !=
+                            "gdrive" &&
+                        (homeController.movieDetailsModel.value?.isRented ==
+                                true &&
+                            homeController.movieDetailsData.value?.isRental==1 ? true:false)) ||
+                    homeController.movieDetailsData.value?.isFree == 1 || (Get.find<GlobalController>()
+                                                  .subscribedUserCheck
+                                                  .value==true && (homeController.movieDetailsModel.value?.isRented ==
+                                false &&
+                            homeController.movieDetailsData.value?.isRental==1 ? true:false)))
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: Stack(
+                      children: [
+                        FlickVideoPlayer(
+                          flickManager: allVideoPlayerController.flickManager,
+                        ),
+                        Positioned(
+                          top: 12,
+                          left: 12,
+                          child: GestureDetector(
+                            onTap: () {
+                              try {
+                                allVideoPlayerController.youtubeController
+                                    .dispose();
+                              } catch (_) {}
+                              try {
+                                allVideoPlayerController.flickManager.dispose();
+                              } catch (_) {}
+                              Get.back();
+                            },
+                            child: Container(
+                              width: 24,
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.5),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(7),
+                                  child: const Icon(
+                                    Icons.arrow_back_ios,
+                                    color: Colors.white,
+                                    size: kIconSize16,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
                       kH20sizedBox,
                       Padding(
                         padding: const EdgeInsets.only(
@@ -94,7 +197,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                       kW6sizedBox,
                                       Text(
                                         // profileController.playlistMovieList[profileController.selectedPlayListMovieIndex.value].imdbRating ??//!Change here
-                                            "",
+                                        profileController.playlistMovieList[profileController.selectedPlayListMovieIndex.value].imdbRating ?? "",
                                         style: regular12TextStyle(cWhiteColor),
                                       ),
                                       kW6sizedBox,
@@ -119,7 +222,7 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                       kW6sizedBox,
                                       Text(
                                         // profileController.playlistMovieList[profileController.selectedPlayListMovieIndex.value].runtime ??//!Change here
-                                            "",
+                                        profileController.playlistMovieList[profileController.selectedPlayListMovieIndex.value].runtime??"",
                                         style: regular12TextStyle(cWhiteColor),
                                       ),
                                       kW6sizedBox,
@@ -261,11 +364,93 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            // Text("hdsvg",style: semiBold16TextStyle(cWhiteColor),),
+                              if (homeController.movieServerList.isNotEmpty)
+                        kH16sizedBox,
+                      if (homeController.movieServerList.isNotEmpty)
+                        SizedBox(
+                          width: width - 60 / 3,
+                          height: 40.h,
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            padding: EdgeInsets.zero,
+                            scrollDirection: Axis.horizontal,
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            separatorBuilder: (context, index) => kW10sizedBox,
+                            itemCount: homeController.movieServerList.length,
+                            itemBuilder: (context, index) {
+                              return Obx(() => InkWell(
+                                    onTap: () async {
+                                      homeController.selectedServer.value =
+                                          index;
+                                      if (homeController
+                                          .movieServerList.isNotEmpty) {
+                                        allVideoPlayerController
+                                            .videoPlayerFunction(
+                                          isFree: homeController
+                                                      .movieDetailsData
+                                                      .value
+                                                      ?.isFree ==
+                                                  1
+                                              ? true
+                                              : false,
+                                          isRental: (homeController.movieDetailsData.value?.isFree == 0 && homeController.movieDetailsData.value?.isRental==1) ? true : false,
+                                          isRented: homeController
+                                              .movieDetailsModel
+                                              .value
+                                              ?.isRented,
+                                          isSubscribed:
+                                              Get.find<GlobalController>()
+                                                  .subscribedUserCheck
+                                                  .value,
+                                          fileUrl: homeController
+                                              .movieServerList[homeController
+                                                  .selectedServer.value]
+                                              ?.fileUrl,
+                                          fileSource: homeController
+                                              .movieServerList[homeController
+                                                  .selectedServer.value]
+                                              ?.fileSource,
+                                          seekToPosition: 0,
+                                        );
+                                      }
+                                    },
+                                    child: Container(
+                                      width: (width - 50) / 3,
+                                      height: 40.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                            k6BorderRadius),
+                                        color: homeController
+                                                    .selectedServer.value ==
+                                                index
+                                            ? cPrimaryColor
+                                            : cWhiteColor.withOpacity(0.2),
+                                      ),
+                                      child: Center(
+                                          child: Text(
+                                        homeController.movieServerList[index]
+                                                ?.label ??
+                                            "",
+                                        textAlign: TextAlign.center,
+                                        style: medium14TextStyle(cWhiteColor),
+                                      )),
+                                    ),
+                                  ));
+                            },
+                          ),
+                        ),
+                    
+                      kH16sizedBox,
+                      Padding(
+                        padding: const EdgeInsets.only(right: k20Padding),
+                        child: Divider(
+                          thickness: 1,
+                          color: cWhiteColor.withOpacity(0.2),
+                        ),
+                      ),
                             kH20sizedBox,
                             Container(
                               width: width,
-                              // height: 100,
                               decoration: BoxDecoration(
                                 color: cBlackColor2,
                                 borderRadius: BorderRadius.circular(10),
@@ -350,86 +535,131 @@ class PlaylistVideoPlayerScreen extends StatelessWidget {
                                         itemCount: profileController
                                             .playlistMovieList.length,
                                         itemBuilder: (context, index) {
-                                          return Row(
-                                            children: [
-                                              Image.network(
-                                                profileController
-                                                        .playlistMovieList[index]
-                                                        .thumbnail ??
-                                                    "",
-                                                height: 80.h,
-                                                width: 150.w,
-                                                fit: BoxFit.cover,
-                                                errorBuilder: (context, error,
-                                                        stackTrace) =>
-                                                    Center(
-                                                  child: SvgPicture.asset(
-                                                    kiDummyMovie,
-                                                    height: 80.h,
-                                                    width: 150.w,
-                                                    fit: BoxFit.cover,
+                                          return InkWell(
+                                                 onTap: () async {
+                                        homeController.resetRatingData();
+                                        homeController.resetBottomSheetData();
+                                        await homeController.getMovieDetails(
+                                            movieId: profileController
+                                                .playlistMovieList[index].id!
+                                                .toString());
+                                        if (homeController
+                                            .movieServerList.isNotEmpty) {
+                                          allVideoPlayerController.videoPlayerFunction(
+                                              isFree: homeController.movieDetailsData.value?.isFree == 1
+                                                  ? true
+                                                  : false,
+                                              isRental:
+                                                  homeController.movieDetailsData.value?.isFree ==
+                                                              0 &&
+                                                          homeController.movieDetailsData.value?.isRental ==
+                                                              1
+                                                      ? true
+                                                      : false,
+                                              isRented: homeController
+                                                  .movieDetailsModel
+                                                  .value
+                                                  ?.isRented,
+                                              isSubscribed:
+                                                  Get.find<GlobalController>()
+                                                      .subscribedUserCheck
+                                                      .value,
+                                              fileUrl: homeController
+                                                  .movieServerList[0]?.fileUrl,
+                                              fileSource: homeController
+                                                  .movieServerList[0]
+                                                  ?.fileSource);
+                                        }
+                                        Get.offUntil(
+                                          GetPageRoute(
+                                            page: () => PlaylistVideoPlayerScreen(
+                                            ),
+                                          ),
+                                          ModalRoute.withName(krPlayListScreen),
+                                        );
+                                      },
+                                            child: Row(
+                                              children: [
+                                                Image.network(
+                                                  profileController
+                                                          .playlistMovieList[index]
+                                                          .thumbnail ??
+                                                      "",
+                                                  height: 80.h,
+                                                  width: 150.w,
+                                                  fit: BoxFit.cover,
+                                                  errorBuilder: (context, error,
+                                                          stackTrace) =>
+                                                      Center(
+                                                    child: SvgPicture.asset(
+                                                      kiDummyMovie,
+                                                      height: 80.h,
+                                                      width: 150.w,
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
-                                              ),
-                                              kW8sizedBox,
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    profileController
-                                                        .playlistMovieList[index]
-                                                        .id
-                                                        .toString(),
-                                                    style: medium14TextStyle(
-                                                        cWhiteColor),
-                                                  ),
-                                                  kH4sizedBox,
-                                                  SizedBox(
-                                                      width: width * 0.55,
-                                                      child: Text(
-                                                        profileController
-                                                                .playlistMovieList[
-                                                                    index]
-                                                                .name ??
-                                                            "",
-                                                        style: medium14TextStyle(
-                                                            cWhiteColor),
-                                                      )),
-                                                  kH4sizedBox,
-                                                  Text(
-                                                    // "${ksTimeDuration.tr}: ${profileController.playlistMovieList[index].runtime}",//!Change here
-                                                    "",
-                                                    style: medium14TextStyle(
-                                                        cWhiteColor),
-                                                  ),
-                                                  kH4sizedBox,
-                                                  Container(
-                                                    height: 20.h,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              2),
-                                                      // color: profileController.playlistMovieList[index].isPaid == 1 ? cPrimaryColor : cWhiteColor.withOpacity(0.1),//!Change here
-                                                      color: cPrimaryColor,
+                                                kW8sizedBox,
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      profileController
+                                                          .playlistMovieList[index]
+                                                          .id
+                                                          .toString(),
+                                                      style: medium14TextStyle(
+                                                          cWhiteColor),
                                                     ),
-                                                    child: Padding(
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          horizontal: k8Padding,
-                                                          vertical: k2Padding),
-                                                      child: Center(
-                                                          child: Text(
-                                                        // profileController.playlistMovieList[index].isPaid == 1 ? ksPremium.tr : ksFree.tr,//!Change here
-                                                        "",
-                                                        style: regular12TextStyle(
-                                                            cWhiteColor),
-                                                      )),
+                                                    kH4sizedBox,
+                                                    SizedBox(
+                                                        width: width * 0.55,
+                                                        child: Text(
+                                                          profileController
+                                                                  .playlistMovieList[
+                                                                      index]
+                                                                  .name ??
+                                                              "",
+                                                          style: medium14TextStyle(
+                                                              cWhiteColor),
+                                                        )),
+                                                    kH4sizedBox,
+                                                    Text(
+                                                      // "${ksTimeDuration.tr}: ${profileController.playlistMovieList[index].runtime}",//!Change here
+                                                      profileController.playlistMovieList[index].runtime??""
+                                                      "",
+                                                      style: medium14TextStyle(
+                                                          cWhiteColor),
                                                     ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                    kH4sizedBox,
+                                                    Container(
+                                                      height: 20.h,
+                                                      decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                                2),
+                                                        // color: profileController.playlistMovieList[index].isPaid == 1 ? cPrimaryColor : cWhiteColor.withOpacity(0.1),//!Change here
+                                                        color: cPrimaryColor,
+                                                      ),
+                                                      child: Padding(
+                                                        padding: const EdgeInsets
+                                                            .symmetric(
+                                                            horizontal: k8Padding,
+                                                            vertical: k2Padding),
+                                                        child: Center(
+                                                            child: Text(
+                                                          // profileController.playlistMovieList[index].isPaid == 1 ? ksPremium.tr : ksFree.tr,//!Change here
+                                                          "",
+                                                          style: regular12TextStyle(
+                                                              cWhiteColor),
+                                                        )),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           );
                                         },
                                       ),

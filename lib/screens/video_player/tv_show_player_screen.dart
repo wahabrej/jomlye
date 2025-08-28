@@ -417,47 +417,6 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                           ),
                           kW10sizedBox,
                           CommonContainer(
-                            image: kiAdd,
-                            onPressed: () async {
-                              if (Get.find<GlobalController>()
-                                      .userToken
-                                      .value ==
-                                  "") {
-                                showSnackBar(
-                                    title: "Error",
-                                    message:
-                                        "Please Login first then add favourite",
-                                    color: cRedColor);
-                              } else {
-                                profileController.moviePlayListIds.addAll(
-                                    homeController.movieDetailsModel.value
-                                            ?.playlistIds ??
-                                        []);
-                                for (int i = 0;
-                                    i < profileController.playlistList.length;
-                                    i++) {
-                                  final currentId =
-                                      Get.find<ProfileController>()
-                                          .playlistList[i]
-                                          .id
-                                          .toString();
-                                  final bool exists = Get.find<HomeController>()
-                                      .playlistIdsList
-                                      .any((element) => currentId
-                                          .contains(element.toString()));
-                                  Get.find<ProfileController>()
-                                      .temporaryPlayListCheckBoxStateList
-                                      .add(exists);
-                                }
-                                showSaveVideoToPlayListPopup(
-                                    context,
-                                    homeController.tvShowDetailsData.value?.id ??
-                                        -1);
-                              }
-                            },
-                          ),
-                          kW10sizedBox,
-                          CommonContainer(
                             image: kiDownload,
                             containerColor:  cWhiteColor.withOpacity(0.1),
                             iconColor:  cWhiteColor.withOpacity(0.2),

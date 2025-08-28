@@ -50,38 +50,6 @@ class PaymentHistoryScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                // const Expanded(
-                //   child: SizedBox(),
-                // ),
-                // Container(
-                //   width: 40.w,
-                //   height: 40.h,
-                //   decoration: BoxDecoration(
-                //     shape: BoxShape.circle,
-                //     color: cWhiteColor.withOpacity(0.2),
-                //   ),
-                //   child: const Icon(
-                //     Icons.search,
-                //     color: cWhiteColor,
-                //     size: kIconSize24,
-                //   ),
-                // ),
-                // kW6sizedBox,
-                // Container(
-                //   width: 40.w,
-                //   height: 40.h,
-                //   decoration: const BoxDecoration(
-                //     shape: BoxShape.circle,
-                //     color: cPrimaryColor2,
-                //   ),
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(k12Padding),
-                //     child: SvgPicture.asset(
-                //       kiFilter,
-                //       color: cWhiteColor,
-                //     ),
-                //   ),
-                // ),
               ],
             ),
             kH8sizedBox,
@@ -119,90 +87,72 @@ class PaymentHistoryScreen extends StatelessWidget {
                   )
                 : paymentController.isPaymentHistoryLoading.value
                     ? const CircularProgressIndicator()
-                    : NotificationListener<ScrollNotification>(
-                        onNotification: (scrollNotification) {
-                          if (paymentController.paymentHistoryScrollController
-                                      .position.userScrollDirection ==
-                                  ScrollDirection.reverse &&
-                              scrollNotification.metrics.pixels ==
-                                  scrollNotification.metrics.maxScrollExtent &&
-                              !paymentController
-                                  .paymentHistoryListScrolled.value) {
-                            paymentController.paymentHistoryListScrolled.value =
-                                true;
-                            if (paymentController
-                                .paymentHistoryList.isNotEmpty) {
-                              paymentController.getMorePaymentHistory(null);
-                            }
-                            return true;
-                          }
-                          return false;
-                        },
-                        child: Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                ListView.separated(
-                                    shrinkWrap: true,
-                                    padding: const EdgeInsets.all(k0Padding),
-                                    separatorBuilder: (context, index) =>
-                                        kH10sizedBox,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: paymentController
-                                        .paymentHistoryList.length,
-                                    itemBuilder: (context, index) {
-                                      return InkWell(
-                                        onTap: () {
-                                          Get.find<GlobalController>()
-                                              .commonBottomSheet(
-                                                  context: context,
-                                                  content:
-                                                      PaymentHistoryBottomSheetContent(
-                                                    timeAndDate: DateFormat(
-                                                            'dd/MM/yyyy, hh:mm a')
-                                                        .format(paymentController
-                                                            .paymentHistoryList[
-                                                                index]!
-                                                            .createdAt!),
-                                                            paymentMethod:  "${paymentController.paymentHistoryList[index]?.paymentMethod}",
-                                                            
-                                                    amount:
-                                                        "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.price}",
-                                                        transactionId: "${paymentController.paymentHistoryList[index]?.trxId}",
-                                                  ),
-                                                  onPressCloseButton: () {},
-                                                  onPressRightButton: () {},
-                                                  rightText: "Done",
-                                                  rightTextStyle:
-                                                      regular14TextStyle(
-                                                          cWhiteColor),
-                                                  title: "Package Name",
-                                                  isRightButtonShow: false,
-                                                  bottomSheetColor:
-                                                      cBlackColor2);
-                                        },
-                                        child: PaymentHistoryWidget(
-                                            image: kiCrown,
-                                            packageName: "Package Name",
-                                            transactionId: paymentController
-                                                    .paymentHistoryList[index]
-                                                    ?.trxId ??
-                                                "",
-                                            price:
-                                                "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.price}",
-                                            dateTime: DateFormat(
-                                                    'dd/MM/yyyy, hh:mm a')
-                                                .format(paymentController
-                                                    .paymentHistoryList[index]!
-                                                    .createdAt!)),
-                                      );
-                                    }),
-                              ],
+                    : Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Container(
+                              height: 560.h,
+                              child: ListView.separated(
+                                  shrinkWrap: true,
+                                  padding: const EdgeInsets.all(k0Padding),
+                                  separatorBuilder: (context, index) =>
+                                      kH10sizedBox,
+                                      // physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: paymentController
+                                      .paymentHistoryList.length,
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Get.find<GlobalController>()
+                                            .commonBottomSheet(
+                                                context: context,
+                                                content:
+                                                    PaymentHistoryBottomSheetContent(
+                                                  timeAndDate: DateFormat(
+                                                          'dd/MM/yyyy, hh:mm a')
+                                                      .format(paymentController
+                                                          .paymentHistoryList[
+                                                              index]!
+                                                          .createdAt!),
+                                                          paymentMethod:  "${paymentController.paymentHistoryList[index]?.paymentMethod}",
+                                                          
+                                                  amount:
+                                                      "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.price}",
+                                                      transactionId: "${paymentController.paymentHistoryList[index]?.trxId}",
+                                                ),
+                                                onPressCloseButton: () {},
+                                                onPressRightButton: () {},
+                                                rightText: "Done",
+                                                rightTextStyle:
+                                                    regular14TextStyle(
+                                                        cWhiteColor),
+                                                title: "Package Name",
+                                                isRightButtonShow: false,
+                                                bottomSheetColor:
+                                                    cBlackColor2);
+                                      },
+                                      child: PaymentHistoryWidget(
+                                          image: kiCrown,
+                                          packageName: "Package Name",
+                                          transactionId: paymentController
+                                                  .paymentHistoryList[index]
+                                                  ?.trxId ??
+                                              "",
+                                          price:
+                                              "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.price}",
+                                          dateTime: DateFormat(
+                                                  'dd/MM/yyyy, hh:mm a')
+                                              .format(paymentController
+                                                  .paymentHistoryList[index]!
+                                                  .createdAt!)),
+                                    );
+                                  }),
                             ),
-                          ),
+                          ],
                         ),
                       ),
+                    ),
           ],
         ),
       ),

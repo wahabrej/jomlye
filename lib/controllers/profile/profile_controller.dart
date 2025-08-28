@@ -831,7 +831,7 @@ Future<void> changeLanguage(String language) async {
 final RxBool isplaylistListExpand = RxBool(true);
 
 
-Future<void> offlinePaymentMethod({required String paymentType,required String planId,String? videoType,String? transactionId}) async {
+Future<void> offlinePaymentMethod({required String paymentType,required String planId,String? videoType,String? transactionId,String? paymentgetWayMethod="offline"}) async {
     try {
       String? token = await spController.getBearerToken();
       int? userId = await spController.getUserId();
@@ -842,7 +842,7 @@ Future<void> offlinePaymentMethod({required String paymentType,required String p
        "plan_id": planId,
       if(videoType!="")  "video_type": videoType??"",
         "user_id": userId.toString(),
-        "status": paymentType.contains("offline") ? "0" : "1",
+        "status": paymentgetWayMethod!.contains("offline") ? "0" : "1",
       };
       var response = await apiServices.commonApiCall(
         url: kuOfflinePayment,
@@ -950,6 +950,7 @@ showPaymentSheet(String paymentType, String planId, String? videoType) async {
         planId: planId,
         videoType: videoType,
         transactionId: transactionId,
+        paymentgetWayMethod: "stripe"
         // transactionId: transactionId, // Add this parameter to your method
       );
       
