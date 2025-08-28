@@ -118,7 +118,7 @@ class ApiServices {
         timer: timer,
         client: client,
       );
-      ll("response statusCode : ${response.statusCode}");
+      final responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
         final object = json.decode(response.body.toString());
         final prettyString = const JsonEncoder.withIndent('  ').convert(object);
@@ -128,13 +128,14 @@ class ApiServices {
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
          if(isVideoPlay==false){
-        showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+        showSnackBar(title: "", message: responseBody["message"], color: cRedColor);
          }
         return null;
       } else {
         if (!Get.isSnackbarOpen) {
           if(isVideoPlay==false){
-          showSnackBar(title: "${response.statusCode} ${ksError.tr}", message: error, color: cRedColor);
+            ll("${response.body}");
+          showSnackBar(title: "", message: responseBody["message"], color: cRedColor);
           }
         }
         return null;

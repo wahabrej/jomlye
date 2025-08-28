@@ -167,8 +167,7 @@ class RentedVideoScreen extends StatelessWidget {
                                  if(Get.find<GlobalController>().subscribedUserCheck.value==false){
                                     homeController.showInterstitialAd();
                                     }
-                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController.movieDetailsData.value?.isFree== 0 && homeController.
-                                                movieDetailsData.value?.isRental==1 ? true : false,));
+                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: true,));
                           },
                           child: RentedVideoContentContainer(
                              movieImage: profileController.movieRentedVideoList[index]?.image??"",

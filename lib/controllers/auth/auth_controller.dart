@@ -410,14 +410,13 @@ class AuthController extends GetxController {
   //! signOut
   void signOut() async {
     await SpController().onLogout();
-    // await OneSignal.logout();
     resetUserData();
     bool isRememberMe = await spController.getRememberMe()??false;
     await spController.saveRememberMe(isRememberMe);
     await googleSignOut();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
-    await Get.find<HomeController>().getWatchHistory();
+    Get.find<HomeController>().watchHistoryList.clear();
     if (isRememberMe == false) {
       emailTextEditingController.text = "";
       passwordTextEditingController.text = "";
