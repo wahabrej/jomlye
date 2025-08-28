@@ -35,7 +35,7 @@ dependencies:
   share_plus: ^11.0.0
   intl: ^0.20.2
   google_sign_in: ^6.2.2
-  # flutter_facebook_auth: ^7.1.2
+  flutter_facebook_auth: ^7.1.2
   flutter_downloader: ^1.11.8
   lecle_yoyo_player: ^0.0.7
   shared_preferences: ^2.5.3
