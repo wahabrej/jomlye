@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "178907860226",
+    "project_id": "flixoo-7a96d",
+    "storage_bucket": "flixoo-7a96d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178907860226:android:835551f41bb5a95f0ec61b",
+        "android_client_info": {
+          "package_name": "com.spagreen.flixoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178907860226-453a7bqjb0ed63g7l5joa3o7nkobqdmb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spagreen.flixoo",
+            "certificate_hash": "31da28705267ef484b113ab08c49636775a22a4d"
+          }
+        },
+        {
+          "client_id": "178907860226-utajpdu16upq07u2i48f83u39emu0hvb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spagreen.flixoo",
+            "certificate_hash": "88c9182d24b05b6ebd864049f84b47a352f00bf5"
+          }
+        },
+        {
+          "client_id": "178907860226-saq5e7j8r4j0mvc0ig2v5uk7aoufingu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYdEI94bJEjRTsA-K5s3hecwGkI7gAFN4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178907860226-saq5e7j8r4j0mvc0ig2v5uk7aoufingu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,7 +1,6 @@
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
 import 'package:flixoo_flutter_app/controllers/common/sp_controller.dart';
@@ -412,7 +411,8 @@ class AuthController extends GetxController {
   void signOut() async {
     await SpController().onLogout();
     resetUserData();
-    bool isRememberMe = await spController.getRememberMe()??false;
+    // bool isRememberMe = await spController.getRememberMe()??false;
+    bool isRememberMe = false;
     await spController.saveRememberMe(isRememberMe);
     await googleSignOut();
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -421,19 +421,14 @@ class AuthController extends GetxController {
     if (isRememberMe == false) {
       emailTextEditingController.text = "";
       passwordTextEditingController.text = "";
-      // SharedPreferences preferences = await SharedPreferences.getInstance();
-      // canLogin.value = false;
-      // Get.find<AuthenticationController>().isStayLoggedInChecked.value = false;
-      // await preferences.clear();
     } else {
       emailTextEditingController.text = await spController.getUserEmail() ?? "";
       passwordTextEditingController.text =
           await spController.getUserPassword() ?? "";
-      // canLogin.value = true;
-      // isStayLoggedInChecked.value = true;
     }
     Get.offAllNamed(krSignInScreen);
   }
+
 
   final GoogleSignIn googleSignIn = GoogleSignIn(
     scopes: [
@@ -445,27 +440,18 @@ class AuthController extends GetxController {
   Future<void> signInWithGoogle() async {
   try {
     final account = await googleSignIn.signIn();
-    ll("the account is $account");
     if (account == null) return;
     final auth = await account.authentication;
     final accessToken = auth.accessToken;
-  ll("The access token is $accessToken");
     Map<String, dynamic> body = {
       "access_token": accessToken,
       "provider": "google",
     };
-   await Clipboard.setData(ClipboardData(text: accessToken??""));
     var response = await apiServices.commonApiCall(
       url: kuSocialLogin,
       body: body,
       requestMethod: kPost,
     ) as CommonDM;
-      showSnackBar(
-        title: "",
-        message: "access token $accessToken",
-        color: cPrimaryColor2,
-      );
-    
     if (response.code == 200) {
       phoneLoginUserModel.value = CommonLoginUserModel.fromJson(response.data);
         userData.value = phoneLoginUserModel.value?.user;
@@ -504,7 +490,7 @@ class AuthController extends GetxController {
     ll('Google login error: $e');
     showSnackBar(
       title: ksError.tr,
-      message: "Something went wrong!",
+      message: "Google login error",
       color: cPrimaryColor2,
     );
   }

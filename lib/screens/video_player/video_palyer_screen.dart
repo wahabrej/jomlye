@@ -1911,9 +1911,11 @@ class RentProductDetailsContentContainer extends StatelessWidget {
               onPressed: () {
                  Get.find<ProfileController>().selectedPaymentMethod.value = "";
              if(Get.find<GlobalController>().userToken.value!=""){
-                Get.to(()=> PaymentMethodScreen(paymentType: "rental", planId: id!, videoType: videoType??"",payableAmount: double.parse(
+                Get.to(()=> PaymentMethodScreen(paymentType: "rental", planId: id!, videoType: videoType??"",
+                payableAmount: double.parse(
   (rentPrice ?? "0").replaceAll(RegExp(r'[^\d.]'), '')
-),));
+),
+));
               }
               },
               textStyle: semiBold14TextStyle(cWhiteColor),

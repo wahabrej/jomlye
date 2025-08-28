@@ -84,7 +84,12 @@ class SignUpScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       kW12sizedBox,
-                      CommonContainer(image: kiGoogle),
+                            CommonContainer(
+                          image: kiGoogle,
+                          onPressed: () async {
+                            await authController.signInWithGoogle();
+                          },
+                        ),
                       kW12sizedBox,
                       CommonContainer(image: kiFacebook),
                     ],

@@ -62,6 +62,10 @@ xmlns:tools="http://schemas.android.com/tools"
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
+            <provider
+    android:authorities="com.facebook.app.FacebookContentProvider738927445685237"
+    android:name="com.facebook.FacebookContentProvider"
+    android:exported="true" />
         </intent>
     </queries>
 </manifest>

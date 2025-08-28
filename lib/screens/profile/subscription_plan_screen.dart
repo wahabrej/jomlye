@@ -204,7 +204,10 @@ class SubscriptionPlanScreen extends StatelessWidget {
                               onPressed: () async {
                                 Get.find<ProfileController>().selectedPaymentMethod.value = "";
                                if(Get.find<GlobalController>().userToken.value!=""){
-                                 Get.to(()=>PaymentMethodScreen(paymentType: "offline", planId: paymentController.subscriptionPlanList[index]!.id.toString(), videoType: "",payableAmount: double.parse(paymentController.subscriptionPlanList[index]?.price ?? "0"),));
+                                 Get.to(()=>PaymentMethodScreen(paymentType: "offline", planId: paymentController.subscriptionPlanList[index]!.id.toString(), videoType: "",payableAmount: double.parse(
+  (paymentController.subscriptionPlanList[index]?.price ?? "0")
+      .replaceAll(RegExp(r'[^\d.]'), ''))
+));
                                }
                               },
                               buttonColor: cPrimaryColor2,

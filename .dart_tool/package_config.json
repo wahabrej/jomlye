@@ -477,15 +477,15 @@
     },
     {
       "name": "google_sign_in",
-      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/google_sign_in-6.2.2",
+      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/google_sign_in-6.3.0",
       "packageUri": "lib/",
-      "languageVersion": "3.3"
+      "languageVersion": "3.6"
     },
     {
       "name": "google_sign_in_android",
-      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/google_sign_in_android-6.1.35",
+      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/google_sign_in_android-6.2.1",
       "packageUri": "lib/",
-      "languageVersion": "3.5"
+      "languageVersion": "3.6"
     },
     {
       "name": "google_sign_in_ios",

@@ -143,13 +143,13 @@ class ApiServices {
     } on SocketException {
       error = ksNoInternetConnectionMessage.tr;
       if (!Get.isSnackbarOpen) {
-        showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        showSnackBar(title: "", message: error, color: cRedColor);
       }
       return null;
     } catch (e) {
       ll(e.toString());
       if (!Get.isSnackbarOpen) {
-        showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        showSnackBar(title: "", message: error, color: cRedColor);
       }
       return null;
     } finally {

@@ -1560,6 +1560,7 @@ class HomeController extends GetxController {
         token: token,
         url: "$kuWatchHistory?user_id=${userId.toString()}",
         body: body,
+        isVideoPlay: true,
       ) as CommonDM;
       if (response.code == 200) {
         watchHistoryList.clear();
