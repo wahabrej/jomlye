@@ -91,7 +91,12 @@ class SignUpScreen extends StatelessWidget {
                           },
                         ),
                       kW12sizedBox,
-                      CommonContainer(image: kiFacebook),
+                      CommonContainer(
+                          image: kiFacebook,
+                          onPressed: () async {
+                          await authController.signInWithFacebook();
+                          },
+                        ),
                     ],
                   ),
                   kH16sizedBox,
@@ -378,9 +383,6 @@ class SignUpScreen extends StatelessWidget {
                       label: ksSignUp.tr,
                       onPressed: () async {
                         await authController.signUp();
-                        //!chnage here logic
-                        await authController.getInterestList();
-                        Get.toNamed(krChooseInterestScreen);
                       },
                       buttonWidth: width - 40,
                       buttonColor: cPrimaryColor2),

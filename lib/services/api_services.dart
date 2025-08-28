@@ -148,9 +148,9 @@ class ApiServices {
       return null;
     } catch (e) {
       ll(e.toString());
-      if (!Get.isSnackbarOpen) {
-        showSnackBar(title: "", message: error, color: cRedColor);
-      }
+      // if (!Get.isSnackbarOpen) {
+      //   showSnackBar(title: "", message: error, color: cRedColor);
+      // }
       return null;
     } finally {
       client.close();

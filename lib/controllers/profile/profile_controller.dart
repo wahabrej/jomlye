@@ -937,12 +937,12 @@ showPaymentSheet(String paymentType, String planId, String? videoType) async {
       
       intantPaymentData = null;
       
-      // Payment successful
-      showSnackBar(
-        title: "Success",
-        message: "Payment completed successfully", 
-        color: cGreenColor,
-      );
+      // // Payment successful
+      // showSnackBar(
+      //   title: "Success",
+      //   message: "Payment completed successfully", 
+      //   color: cGreenColor,
+      // );
       
       // Pass the transaction ID to your offline payment method
       await offlinePaymentMethod(

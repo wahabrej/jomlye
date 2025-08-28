@@ -113,7 +113,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   kH6sizedBox,
                   Text(
-                    globalController.userEmail.value,
+                    globalController.userEmail.value!= "null" ? globalController.userEmail.value : "",
                     style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),
                   ),
                   kH30sizedBox,
@@ -274,7 +274,7 @@ class ProfileScreen extends StatelessWidget {
                   ),
                   kH8sizedBox,
                   Text(
-                    "Version 0.0.2",
+                    "Version 0.0.1",
                     style: regular14TextStyle(cWhiteColor.withOpacity(0.5)),
                   ),
                   kH20sizedBox,

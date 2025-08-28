@@ -147,6 +147,7 @@ class AuthController extends GetxController {
 
       if (response.code == 200) {
          SignInModel signUpData = SignInModel.fromJson(response.data);
+         await getInterestList();
         await spController.saveBearerToken(signUpData.token);
         await spController.saveRememberMe(isRememberMe.value);
         await spController.saveUserId(signUpData.user!.id);
@@ -228,7 +229,7 @@ class AuthController extends GetxController {
   Future<void> interestStore() async {
     try {
       Map<String, dynamic> body = {
-        "email": "rokyh459@gmail.com", //!change it(its hard coded)
+        "email": Get.find<GlobalController>().userEmail.value,
         for (int i = 0; i < selectedInterestIdList.length; i++)
           "interest_ids[$i]": "${selectedInterestIdList[i]}"
       };
@@ -505,9 +506,9 @@ class AuthController extends GetxController {
     final LoginResult result = await FacebookAuth.instance.login(
       permissions: ['email', 'public_profile'],
     );
-
     if (result.status == LoginStatus.success) {
       final accessToken = result.accessToken?.tokenString??"";
+   ll("The access key is $accessToken");
 
       // if (accessToken == null) {
       //   ll("Facebook access token is null");
@@ -528,7 +529,33 @@ class AuthController extends GetxController {
       ) as CommonDM;
   ll("The status code is ${response.code}");
       if (response.code == 200) {
-        Get.toNamed(krHomeScreen);
+            phoneLoginUserModel.value = CommonLoginUserModel.fromJson(response.data);
+        userData.value = phoneLoginUserModel.value?.user;
+        await spController.saveBearerToken(phoneLoginUserModel.value?.token);
+        await spController.saveUserId(userData.value?.id);
+        await spController.saveUserImage(userData.value?.image);
+        await spController.saveUserEmail(userData.value?.email);
+        await spController.saveUserFirstName(userData.value?.firstName);
+        await spController.saveUserLastName(userData.value?.lastName);
+        await spController.saveUserPhoneNumber(userData.value?.phone);
+        await spController.saveUserGender(userData.value?.gender);
+          Get.offAllNamed(krHomeScreen);
+        globalController.userFirstName.value =
+            await spController.getUserFirstName() ?? "";
+        globalController.userLastName.value =
+            await spController.getUserLastName() ?? "";
+        globalController.userEmail.value =
+            await spController.getUserEmail() ?? "";
+        globalController.userImage.value =
+            await spController.getUserImage() ?? "";
+        globalController.userId.value = await spController.getUserId() ?? -1;
+        globalController.userToken.value =
+            await spController.getBearerToken() ?? "";
+        globalController.userPhone.value =
+            await spController.getUserPhoneNumber() ?? "";
+        globalController.userGender.value =
+            await spController.getUserGender() ?? "";
+
       } else {
         showSnackBar(
           title: ksError.tr,

@@ -79,6 +79,7 @@ class PaymentController extends GetxController {
         paymentHistoryList.clear();
         paymentHistoryData.value = PaymentHistoryModel.fromJson(response.data);
         paymentHistoryList.addAll(paymentHistoryData.value!.paymentHistory!.data!);
+        ll("the payment history list length is ${paymentHistoryList.length}");
          paymentHistoryListSubLink.value = paymentHistoryData.value!.paymentHistory!.nextPageUrl;
         if (paymentHistoryListSubLink.value != null) {
           paymentHistoryListScrolled.value = false;

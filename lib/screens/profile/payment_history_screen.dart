@@ -50,38 +50,38 @@ class PaymentHistoryScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Expanded(
-                  child: SizedBox(),
-                ),
-                Container(
-                  width: 40.w,
-                  height: 40.h,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: cWhiteColor.withOpacity(0.2),
-                  ),
-                  child: const Icon(
-                    Icons.search,
-                    color: cWhiteColor,
-                    size: kIconSize24,
-                  ),
-                ),
-                kW6sizedBox,
-                Container(
-                  width: 40.w,
-                  height: 40.h,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: cPrimaryColor2,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(k12Padding),
-                    child: SvgPicture.asset(
-                      kiFilter,
-                      color: cWhiteColor,
-                    ),
-                  ),
-                ),
+                // const Expanded(
+                //   child: SizedBox(),
+                // ),
+                // Container(
+                //   width: 40.w,
+                //   height: 40.h,
+                //   decoration: BoxDecoration(
+                //     shape: BoxShape.circle,
+                //     color: cWhiteColor.withOpacity(0.2),
+                //   ),
+                //   child: const Icon(
+                //     Icons.search,
+                //     color: cWhiteColor,
+                //     size: kIconSize24,
+                //   ),
+                // ),
+                // kW6sizedBox,
+                // Container(
+                //   width: 40.w,
+                //   height: 40.h,
+                //   decoration: const BoxDecoration(
+                //     shape: BoxShape.circle,
+                //     color: cPrimaryColor2,
+                //   ),
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(k12Padding),
+                //     child: SvgPicture.asset(
+                //       kiFilter,
+                //       color: cWhiteColor,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             kH8sizedBox,
@@ -165,9 +165,11 @@ class PaymentHistoryScreen extends StatelessWidget {
                                                             .paymentHistoryList[
                                                                 index]!
                                                             .createdAt!),
+                                                            paymentMethod:  "${paymentController.paymentHistoryList[index]?.paymentMethod}",
+                                                            
                                                     amount:
-                                                        "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.amount}",
-                                                        transactionId: "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.transactionId}",
+                                                        "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.price}",
+                                                        transactionId: "${paymentController.paymentHistoryList[index]?.trxId}",
                                                   ),
                                                   onPressCloseButton: () {},
                                                   onPressRightButton: () {},
@@ -185,10 +187,10 @@ class PaymentHistoryScreen extends StatelessWidget {
                                             packageName: "Package Name",
                                             transactionId: paymentController
                                                     .paymentHistoryList[index]
-                                                    ?.transactionId ??
+                                                    ?.trxId ??
                                                 "",
                                             price:
-                                                "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.amount}",
+                                                "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.price}",
                                             dateTime: DateFormat(
                                                     'dd/MM/yyyy, hh:mm a')
                                                 .format(paymentController
@@ -296,8 +298,8 @@ class PaymentHistoryWidget extends StatelessWidget {
 
 class PaymentHistoryBottomSheetContent extends StatelessWidget {
   const PaymentHistoryBottomSheetContent(
-      {super.key, this.timeAndDate, this.amount, this.transactionId});
-  final String? timeAndDate, amount, transactionId;
+      {super.key, this.timeAndDate, this.amount, this.transactionId,this.paymentMethod});
+  final String? timeAndDate, amount, transactionId,paymentMethod;
 
   @override
   Widget build(BuildContext context) {
@@ -330,21 +332,21 @@ class PaymentHistoryBottomSheetContent extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "bkash",
+                              paymentMethod??"",
                               style: regular14TextStyle(cWhiteColor),
                             ),
-                            Image.network(
-                              "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcuU7XHlUY2MShKGdYaPQb2GmaEOpyX0AJgg&s",
-                              width: 24.w,
-                              height: 24.h,
-                              errorBuilder: (context, error, stackTrace) {
-                                return SvgPicture.asset(
-                                  kiMoney,
-                                  width: 20.w,
-                                  height: 20.h,
-                                );
-                              },
-                            ),
+                            // Image.network(
+                            //   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcuU7XHlUY2MShKGdYaPQb2GmaEOpyX0AJgg&s",
+                            //   width: 24.w,
+                            //   height: 24.h,
+                            //   errorBuilder: (context, error, stackTrace) {
+                            //     return SvgPicture.asset(
+                            //       kiMoney,
+                            //       width: 20.w,
+                            //       height: 20.h,
+                            //     );
+                            //   },
+                            // ),
                           ],
                         ),
                       ),
