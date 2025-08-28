@@ -1099,15 +1099,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         ),
 
                       kH16sizedBox,
-                      // Text(
-                      //   ksRelatedVideos.tr,
-                      //   style: medium16TextStyle(cWhiteColor),
-                      // ),
                       HomeTitleContent(
                         title: ksRelatedVideos.tr,
-                        subtitleText: homeController.relatedMovieList.isNotEmpty
-                            ? ksViewAll.tr
-                            : "",
+                        subtitleText: "",
                         onPressed: () async {
                           homeController.resetBottomSheetData();
                           profileController.temporaryPlayListCheckBoxStateList

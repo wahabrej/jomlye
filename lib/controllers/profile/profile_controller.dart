@@ -469,7 +469,7 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
   final RxBool isPlaylistMovieListLoading = RxBool(false);
   final Rx<PlaylistMovieListModel?> playlistMovieListModel = Rx<PlaylistMovieListModel?>(null);
   final Rx<PlaylistDetails?> playlistDetailsData = Rx<PlaylistDetails?>(null);
-  final RxList<PlayListMovie> playlistMovieList = RxList<PlayListMovie>([]);
+  final RxList<PlayListVideo> playlistMovieList = RxList<PlayListVideo>([]);
   Future<void> getPlaylisMovieList({required int playListId}) async {
     try {
       isPlaylistMovieListLoading.value = true;
@@ -484,9 +484,9 @@ final Rx<UpdateProfileModel?> updateProfileModel = Rx<UpdateProfileModel?>(null)
 
       if (response.code == 200) {
         playlistMovieList.clear();
-        PlaylistMovieListModel playlistMovieListModel = PlaylistMovieListModel.fromJson(response.data);
-        playlistDetailsData.value = playlistMovieListModel.playlistDetails;
-        playlistMovieList.addAll(playlistMovieListModel.playListMovies!);
+         playlistMovieListModel.value = PlaylistMovieListModel.fromJson(response.data);
+        playlistDetailsData.value = playlistMovieListModel.value!.playlistDetails;
+        playlistMovieList.addAll(playlistMovieListModel.value!.playListVideos!);
         ll("the palylist movie list length ${playlistMovieList.length}");
         isPlaylistMovieListLoading.value = false;
       } else {
