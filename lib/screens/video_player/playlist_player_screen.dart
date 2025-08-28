@@ -94,7 +94,7 @@ class _PlaylistVideoPlayerScreenState extends State<PlaylistVideoPlayerScreen> {
                   if (homeController.movieServerList.isEmpty)
                   SizedBox(
                     width: width,
-                    height: 250,
+                    height: 200,
                     child: Image.network(
                       homeController.movieDetailsData.value?.poster ?? "",
                       errorBuilder: (context, error, stackTrace) {
@@ -117,7 +117,7 @@ class _PlaylistVideoPlayerScreenState extends State<PlaylistVideoPlayerScreen> {
                        homeController.movieDetailsData.value?.isRental== 1 ? true: false))
                   SizedBox(
                     width: width,
-                    height: 250.h,
+                    height: 200.h,
                     child: Image.network(
                       homeController.movieDetailsData.value?.poster ?? "",
                       fit: BoxFit.cover,
@@ -291,7 +291,6 @@ class _PlaylistVideoPlayerScreenState extends State<PlaylistVideoPlayerScreen> {
                                         ),
                                         kW6sizedBox,
                                         Text(
-                                          // profileController.playlistMovieList[profileController.selectedPlayListMovieIndex.value].runtime ??//!Change here
                                           profileController.playlistMovieList[profileController.selectedPlayListMovieIndex.value].runtime??"",
                                           style: regular12TextStyle(cWhiteColor),
                                         ),

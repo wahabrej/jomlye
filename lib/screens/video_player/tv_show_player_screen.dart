@@ -555,8 +555,8 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                                          Icon(Icons.timer_outlined,size: kIconSize14,color: cWhiteColor.withOpacity(0.8),),
                                          kW4sizedBox,
                                         //  Text("${homeController.tvShowsSeasonList[homeController.selectedSeason.value]!.createdAt}",style: regular10TextStyle(cWhiteColor),),
-                                         Text(   DateFormat('yyyy').format(DateTime.parse(
-                                      homeController.tvShowsSeasonList[homeController.selectedSeason.value]!.createdAt.toString())),style: regular10TextStyle(cWhiteColor),),
+                                     homeController.tvShowDetailsData.value?.release==null ? Text("") :  Text(DateFormat('yyyy').format(DateTime.parse(
+                                      homeController.tvShowDetailsData.value!.release.toString())),style: regular10TextStyle(cWhiteColor),),
                                     ],
                                   ),
                                   kH8sizedBox,

@@ -336,7 +336,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   ),
                   kW6sizedBox,
                   Flexible(
-                    child: Text(
+                    child: homeController
+                              .movieDetailsData.value?.release == null ? Text("") : Text(
                       DateFormat('d MMM, yyyy').format(
                           DateTime.parse(homeController
                               .movieDetailsData.value!.release
