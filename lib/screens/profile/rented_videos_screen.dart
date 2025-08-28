@@ -154,7 +154,7 @@ class RentedVideoScreen extends StatelessWidget {
                             homeController.resetRatingData();
                                     await homeController.getMovieDetails(
                                         movieId: profileController
-                                            .movieRentedVideoList[index]!.id
+                                            .movieRentedVideoList[index]!.videoId
                                             .toString());
                                     profileController.isFavoriteAdded.value =
                                         homeController.movieDetailsData.value
