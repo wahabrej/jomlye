@@ -203,14 +203,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-            Padding(
+  Padding(
   padding: EdgeInsets.only(right: 6.w, top: 3.h, bottom: 3.h),
   child: Row(
     mainAxisAlignment: MainAxisAlignment.start,
     children: [
       if (homeController.movieDetailsModel.value?.isRented == true)
         Flexible(
-          flex: 2,
+          flex: 3,
           child: Container(
             width: 120.w,
             height: 24.h,
@@ -1907,6 +1907,8 @@ class RentProductDetailsContentContainer extends StatelessWidget {
               onPressed: () {
                  Get.find<ProfileController>().selectedPaymentMethod.value = "";
              if(Get.find<GlobalController>().userToken.value!=""){
+              Get.find<ProfileController>().ispaymentButtonClicked.value = false;
+              Get.find<ProfileController>().transactionKeyTextEditingController.clear();
                 Get.to(()=> PaymentMethodScreen(paymentType: "rental", planId: id!, videoType: videoType??"",
                 payableAmount: double.parse(
   (rentPrice ?? "0").replaceAll(RegExp(r'[^\d.]'), '')

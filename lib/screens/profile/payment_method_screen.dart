@@ -228,6 +228,11 @@ class PaymentMethodScreen extends StatelessWidget {
                             style: BorderStyle.solid,
                           ),
                         ),
+                        onChanged: (v){
+                          profileController.transactionKeyTextEditingController.text = v;
+                          ll("This is ${profileController.transactionKeyTextEditingController.text}");
+                          profileController.checkPaymentButtonPressState();
+                        },
                         contentPadding: const EdgeInsets.all(12),
                       ),
                     ),
@@ -238,14 +243,13 @@ class PaymentMethodScreen extends StatelessWidget {
                       "offline")
                     CustomElevatedButton(
                       label: ksStartPlan.tr,
-                      onPressed: () {
-                        // Get.toNamed(krPaymentSuccessScreen);
+                      onPressed: profileController.checkPaymentButtonPressState() ? () {
                         profileController.offlinePaymentMethod(
                             paymentType: paymentType,
                             planId: planId,
                             videoType: videoType);
-                      },
-                      buttonColor: cPrimaryColor2,
+                      }: null,
+                      buttonColor: profileController.checkPaymentButtonPressState() ?cPrimaryColor: cWhiteColor.withOpacity(0.1),
                       buttonHeight: 40.h,
                       buttonWidth: width - 40,
                       textStyle: regular14TextStyle(cWhiteColor),

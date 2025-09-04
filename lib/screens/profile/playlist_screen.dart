@@ -239,11 +239,11 @@ class PlayListBottomSheetContent extends StatelessWidget {
                           profileController.playListValueList[index]["title"];
                       Get.back();
                       if (profileController.selectedPlayListValue.value ==
-                          ksEdit.tr) {
+                          ksEdit) {
                         showEditPlayListPopup(context);
                       }
                       if (profileController.selectedPlayListValue.value ==
-                          ksDelete.tr) {
+                          ksDelete) {
                         showDeletePlayListPopup(context);
                       }
                     },

@@ -830,9 +830,19 @@ Future<void> changeLanguage(String language) async {
 
 final RxBool isplaylistListExpand = RxBool(true);
 
-
+//!offline payment
+final RxBool ispaymentButtonClicked = RxBool(false);
+bool checkPaymentButtonPressState(){
+  if(ispaymentButtonClicked.value==false || transactionKeyTextEditingController.text.trim().toString()!=""){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
 Future<void> offlinePaymentMethod({required String paymentType,required String planId,String? videoType,String? transactionId,String? paymentgetWayMethod="offline"}) async {
     try {
+      ispaymentButtonClicked.value = true;
       String? token = await spController.getBearerToken();
       int? userId = await spController.getUserId();
       Map<String, String> body = {
@@ -868,14 +878,17 @@ Future<void> offlinePaymentMethod({required String paymentType,required String p
           Get.offAllNamed(krHomeScreen);
         }
       } else {
+        ispaymentButtonClicked.value = false;
         showSnackBar(
             title: ksError.tr, message: "offlinePaymentMethod Error!", color: cPrimaryColor2);
       }
     } catch (e) {
+      ispaymentButtonClicked.value = false;
       ll('offlinePaymentMethod error: $e');
     }
   }
 
+ //!Stripe Payment
 Map<String, dynamic>? intantPaymentData; 
 
 makeIntentForPayment(double amountToPayable, String currency) async {

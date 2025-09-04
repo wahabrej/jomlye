@@ -204,6 +204,8 @@ class SubscriptionPlanScreen extends StatelessWidget {
                               onPressed: () async {
                                 Get.find<ProfileController>().selectedPaymentMethod.value = "";
                                if(Get.find<GlobalController>().userToken.value!=""){
+                                Get.find<ProfileController>().ispaymentButtonClicked.value = false;
+                                Get.find<ProfileController>().transactionKeyTextEditingController.clear();
                                  Get.to(()=>PaymentMethodScreen(paymentType: "offline", planId: paymentController.subscriptionPlanList[index]!.id.toString(), videoType: "",payableAmount: double.parse(
   (paymentController.subscriptionPlanList[index]?.price ?? "0")
       .replaceAll(RegExp(r'[^\d.]'), ''))
@@ -248,7 +250,8 @@ class PaymentMethodSelectBottomSheetContent extends StatelessWidget {
         },buttonWidth: width-40,textStyle: medium14TextStyle(cBlackColor),buttonColor: cWhiteColor,borderColor: cWhiteColor,),
         kH12sizedBox,
         CustomElevatedButton(label: "Other Payment Getway", onPressed: (){
-          
+          Get.find<ProfileController>().ispaymentButtonClicked.value = false;
+          Get.find<ProfileController>().transactionKeyTextEditingController.clear();
           Get.toNamed(krPaymentMethodScreen);},buttonWidth: width-40,textStyle: medium14TextStyle(cWhiteColor),buttonColor: cPrimaryColor,borderColor: cPrimaryColor,),
       ],
     );
