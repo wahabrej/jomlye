@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "518845356344-srau44tt8to0k3af79krakm2545isfqt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.spagreen.flixoo",
+            "certificate_hash": "31da28705267ef484b113ab08c49636775a22a4d"
+          }
+        },
+        {
           "client_id": "518845356344-g6ge34uccq3ssn86oq40knhjrppim83o.apps.googleusercontent.com",
           "client_type": 3
         }
