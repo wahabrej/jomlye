@@ -39,13 +39,14 @@ dependencies:
   flutter_downloader: ^1.11.8
   lecle_yoyo_player: ^0.0.7
   shared_preferences: ^2.5.3
-  purchases_flutter: ^8.10.4
+  # purchases_flutter: ^8.10.4
   google_mobile_ads: ^5.3.1
   # onesignal_flutter: ^5.3.4
   better_player_plus: ^1.0.8
   flutter_widget_from_html: ^0.15.3
   flutter_stripe: ^11.5.0
   flutter_file_downloader: ^2.1.0
+  purchases_flutter: ^9.5.0
 
 dev_dependencies:
   flutter_test:

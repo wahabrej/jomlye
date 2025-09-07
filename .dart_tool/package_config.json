@@ -152,6 +152,12 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "equatable",
+      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/equatable-2.0.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "facebook_auth_desktop",
       "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/facebook_auth_desktop-2.1.1",
       "packageUri": "lib/",
@@ -777,9 +783,9 @@
     },
     {
       "name": "purchases_flutter",
-      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.4",
+      "rootUri": "file:///Users/murad/.pub-cache/hosted/pub.dev/purchases_flutter-9.5.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.6"
     },
     {
       "name": "rxdart",

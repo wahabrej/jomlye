@@ -98,6 +98,10 @@ dio_web_adapter
 3.3
 file:///Users/murad/.pub-cache/hosted/pub.dev/dio_web_adapter-2.1.1/
 file:///Users/murad/.pub-cache/hosted/pub.dev/dio_web_adapter-2.1.1/lib/
+equatable
+2.12
+file:///Users/murad/.pub-cache/hosted/pub.dev/equatable-2.0.7/
+file:///Users/murad/.pub-cache/hosted/pub.dev/equatable-2.0.7/lib/
 facebook_auth_desktop
 3.3
 file:///Users/murad/.pub-cache/hosted/pub.dev/facebook_auth_desktop-2.1.1/
@@ -499,9 +503,9 @@ provider
 file:///Users/murad/.pub-cache/hosted/pub.dev/provider-6.1.4/
 file:///Users/murad/.pub-cache/hosted/pub.dev/provider-6.1.4/lib/
 purchases_flutter
-2.18
-file:///Users/murad/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.4/
-file:///Users/murad/.pub-cache/hosted/pub.dev/purchases_flutter-8.10.4/lib/
+3.6
+file:///Users/murad/.pub-cache/hosted/pub.dev/purchases_flutter-9.5.0/
+file:///Users/murad/.pub-cache/hosted/pub.dev/purchases_flutter-9.5.0/lib/
 rxdart
 2.12
 file:///Users/murad/.pub-cache/hosted/pub.dev/rxdart-0.28.0/
