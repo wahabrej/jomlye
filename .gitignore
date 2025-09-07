@@ -66,8 +66,6 @@ unlinked_spec.ds
 **/android/gradlew
 **/android/gradlew.bat
 **/android/**/GeneratedPluginRegistrant.java
-**/android/key.properties
-*.jks
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
