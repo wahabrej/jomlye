@@ -48,24 +48,24 @@ const String kuPlaylistMovies = "get-play-list-movies";
 const String kuDeletePlaylistMovie = "playlists/remove-movie";
 const String kuCreatePlaylist = "create-playlist";
 const String kuPlaylistAddMovie = "playlists/add-movie";
-
-//!Contact us
+//Contact us
 const String kuContactUs = "contact-us";
-//!favorite
+//favorite
 const String kuFavoriteList = "favorites";
 const String kuFavoriteAddOrRemove = "favorite/toggle";
-//!global search
+//global search
 const String kuGlobalSearch = "global-search";
-//!faqs
+//faqs
 const String kuFaqs = "faqs";
-//! Tv Channels
+//Tv Channels
 const String kuTvChannel = "live-tvs";
 const String kuLiveTvDetails = "live-tv-details";
-//!payment
+//payment
 const String kuSubscriptionPlan = "packages";
 const String kuPaymentHistory = "payment-history";
 const String kuSubscriptionCheck = "get-subscription";
-
+//delete account
+const String kuDeleteAccount = "delete-account";
 //! config
 const String kuConfig = "config";
 //!ads

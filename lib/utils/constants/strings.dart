@@ -72,6 +72,7 @@ const String ksSelectGender = "Select Gender";
 const String ksSelectImageSource = "Select image source";
 const String ksGallery = "Gallery";
 const String ksCamera = "Camera";
+const String ksDeleteAccount = "Delete Account";
 
 //*Home
 const String ksExploreMovieByGenre = "Explore Movie by Genre";
@@ -166,6 +167,7 @@ const String ksDeleteNotification = "Delete Notification";
 const String ksAreYouSureYouDeleteThisNotification = "Are you sure you want to delete this notification from list?";
 const String ksDelete = "Delete";
 const String ksAreYouSureYouWantToLogoutNow = "Are you sure you want to logout now?";
+const String ksAreYouSureYouWantToDeleteYourAccount = "Are you sure you want to delete your account?";
 const String ksManageNotification = "Manage Notification";
 const String ksManageDownload = "Manage Download";
 const String ksGeneralNotification = "General Notification";

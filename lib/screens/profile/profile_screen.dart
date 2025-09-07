@@ -267,9 +267,19 @@ class ProfileScreen extends StatelessWidget {
                   ProfileCommonWidget(
                     image: kiLogout,
                     title: ksLogout.tr,
-                    containerColor: cPrimaryColor2,
+                    containerColor: cPrimaryColor,
                     onPressed: () {
                       showLogoutPopup(context);
+                    },
+                  ),
+                  kH8sizedBox,
+                  ProfileCommonWidget(
+                    image: kiDelete,
+                    title: ksDeleteAccount.tr,
+                    // containerColor: ,
+                    containerColor: cRedColor.withOpacity(0.1),
+                    onPressed: () {
+                      showDeletePopup(context);
                     },
                   ),
                   kH8sizedBox,
@@ -326,14 +336,14 @@ class ProfileCommonWidget extends StatelessWidget {
                 image,
                 width: h16.w,
                 height: h16.h,
-                color: cWhiteColor,
+                color: image == kiDelete ? cRedColor : cWhiteColor,
               ),
             ),
           ),
           kW16sizedBox,
           Text(
             title,
-            style: regular16TextStyle(cWhiteColor),
+            style: regular16TextStyle( title==ksDeleteAccount ? cRedColor : cWhiteColor),
           ),
           const Expanded(child: SizedBox()),
           if (selectedLanguage != null)
@@ -507,6 +517,103 @@ void showLogoutPopup(BuildContext context) {
                     label: ksLogout.tr,
                     onPressed: () {
                     Get.find<AuthController>().signOut();
+                    },
+                    buttonWidth: 80.w,
+                    buttonHeight: 36.h,
+                    buttonColor: cPrimaryColor2,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+
+void showDeletePopup(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        insetPadding: const EdgeInsets.symmetric(horizontal: k20Padding),
+        backgroundColor: cBlackColor2,
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+              horizontal: k20Padding, vertical: k30Padding),
+          width: width.w,
+          decoration: BoxDecoration(
+            color: cBlackColor2,
+            borderRadius: BorderRadius.circular(k16BorderRadius.r),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: h36.w,
+                    height: h36.h,
+                    decoration: BoxDecoration(
+                      color: cWhiteColor.withOpacity(0.2),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(k10Padding),
+                      child: SvgPicture.asset(
+                        kiDelete,
+                        color: cWhiteColor,
+                      ),
+                    ),
+                  ),
+                  kW12sizedBox,
+                  Text(
+                    ksDeleteAccount.tr,
+                    style: semiBold18TextStyle(cWhiteColor),
+                  ),
+                  const Expanded(child: SizedBox()),
+                  InkWell(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: const Icon(
+                        Icons.close,
+                        size: kIconSize20,
+                        color: cWhiteColor,
+                      )),
+                ], 
+              ),
+              kH8sizedBox,
+              Divider(
+                thickness: 1,
+                color: cWhiteColor.withOpacity(0.1),
+              ),
+              kH8sizedBox,
+              Text(
+                ksAreYouSureYouWantToDeleteYourAccount.tr,
+                style: regular16TextStyle(cWhiteColor),
+              ),
+              kH16sizedBox,
+              
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  CustomElevatedButton(
+                    label: ksCancel.tr,
+                    onPressed: () {
+                      Get.back();
+                    },
+                    buttonWidth: 80.w,
+                    buttonHeight: 36.h,
+                    buttonColor: cWhiteColor.withOpacity(0.2),
+                  ),
+                  kW12sizedBox,
+                  CustomElevatedButton(
+                    label: ksDelete.tr,
+                    onPressed: () {
+                    Get.find<ProfileController>().deleteAccount(userId: Get.find<GlobalController>().userId.value);
                     },
                     buttonWidth: 80.w,
                     buttonHeight: 36.h,

@@ -441,9 +441,11 @@ class AuthController extends GetxController {
   Future<void> signInWithGoogle() async {
   try {
     final account = await googleSignIn.signIn();
+    ll("The account is $account");
     if (account == null) return;
     final auth = await account.authentication;
     final accessToken = auth.accessToken;
+    ll("the access token is $accessToken");
     Map<String, dynamic> body = {
       "access_token": accessToken,
       "provider": "google",

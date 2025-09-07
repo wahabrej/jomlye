@@ -1074,4 +1074,50 @@ paymentSheetInitialization(double amountToPayable, String currency, String payme
     );
   }
 }
+
+  // Future<void> deleteAccount({required int userId}) async {
+  //   try {
+  //     String? token = await spController.getBearerToken();
+  //     ll("The token is $token");
+  //     Map<String,dynamic> body = {};
+  //     var response = await apiServices.commonApiCall(
+  //       url: "$kuDeleteAccount/$userId",
+  //       body: body,
+  //       token: token,
+  //       requestMethod: kGet,
+  //     ) as CommonDM;
+
+  //     if (response.code == 200) {
+  //       Get.back();
+  //       showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+  //     } else {
+  //       showSnackBar(
+  //           title: ksError.tr, message: "Delete Account Error!", color: cPrimaryColor2);
+  //     }
+  //   } catch (e) {
+  //     ll('Delete Account Error: $e');
+  //   }
+  // }
+
+  Future<void> deleteAccount({required int userId}) async {
+    try {
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: "$kuDeleteAccount/${userId.toString()}",
+        body: body,
+      ) as CommonDM;
+           if (response.code == 200) {
+            Get.offAllNamed(krSignInScreen);
+        showSnackBar(title: "Success", message: response.message??"", color: cGreenColor);
+      } else {
+        showSnackBar(
+            title: ksError.tr, message: "Delete Account Error!", color: cPrimaryColor2);
+      }
+    } catch (e) {
+      ll('Delete Account Error: $e');
+    }
+  }
 }
