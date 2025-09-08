@@ -16,7 +16,7 @@ android {
     namespace = "com.spagreen.flixoo"
     // namespace 'com.github.yalantis.auto_orientation'
     compileSdk = 35//flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = 26.1.1//flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
