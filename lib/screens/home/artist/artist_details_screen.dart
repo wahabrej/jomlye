@@ -103,12 +103,10 @@ class CastDetailsScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    
+
                     Positioned(
                       top: 30,
-                      // bottom: 0,
                       left: width * 0.36,
-                      // right: 0,
                       child: Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
