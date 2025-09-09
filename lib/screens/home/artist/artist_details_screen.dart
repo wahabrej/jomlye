@@ -66,89 +66,44 @@ class CastDetailsScreen extends StatelessWidget {
                       kiCastBackgroundPng,
                       width: width - 40,
                     ),
-                    // Positioned(
-                    //   top: 0,
-                    //   bottom: 0,
-                    //   left: 20,
-                    //   child: Center(
-                    //     child: Container(
-                    //       width: 100.h,
-                    //       height: 100.h,
-                    //       decoration: BoxDecoration(
-                    //         shape: BoxShape.circle,
-                    //         border: Border.all(
-                    //           width: 1,
-                    //           color: cPrimaryColor.withOpacity(0.2),
-                    //         ),
-                    //       ),
-                    //       child: CircleAvatar(
-                    //         backgroundColor: cPrimaryColor.withOpacity(0.2),
-                    //         child: ClipOval(
-                    //           child: Image.network(
-                    //             width: 100.h,
-                    //             height: 100.h,
-                    //             fit: BoxFit.cover,
-                    //             homeController
-                    //                     .artistDetailsData.value?.starImage ??
-                    //                 "",
-                    //             errorBuilder: (context, error, stackTrace) {
-                    //               return const Icon(
-                    //                 Icons.person,
-                    //                 size: 70,
-                    //               );
-                    //             },
-                    //           ),
-                    //         ),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-
-
-// SOLUTION 2: Use BoxFit.fitWidth or BoxFit.fitHeight
-Positioned(
-  top: 0,
-  bottom: 0,
-  left: 20,
-  child: Center(
-    child: Container(
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          width: 1,
-          color: cPrimaryColor.withOpacity(0.2),
-        ),
-      ),
-      child: ClipOval(
-        child: homeController.artistDetailsData.value?.starImage?.isNotEmpty == true
-            ? Image.network(
-                homeController.artistDetailsData.value!.starImage!,
-                width: 100,
-                height: 100,
-                fit: BoxFit.fitWidth, // or BoxFit.fitHeight - shows full image
-                alignment: Alignment.center,
-                errorBuilder: (context, error, stackTrace) {
-                  return Container(
-                    width: 100,
-                    height: 100,
-                    color: cPrimaryColor.withOpacity(0.1),
-                    child: const Icon(Icons.person, size: 50),
-                  );
-                },
-              )
-            : Container(
-                width: 100,
-                height: 100,
-                color: cPrimaryColor.withOpacity(0.1),
-                child: const Icon(Icons.person, size: 50),
-              ),
-      ),
-    ),
-  ),
-),
-
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
+                      left: 20,
+                      child: Center(
+                        child: Container(
+                          width: 100.h,
+                          height: 100.h,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              width: 1,
+                              color: cPrimaryColor.withOpacity(0.2),
+                            ),
+                          ),
+                          child: CircleAvatar(
+                            backgroundColor: cPrimaryColor.withOpacity(0.2),
+                            child: ClipOval(
+                              child: Image.network(
+                                width: 100.h,
+                                height: 100.h,
+                                fit: BoxFit.cover,
+                                homeController
+                                        .artistDetailsData.value?.starImage ??
+                                    "",
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(
+                                    Icons.person,
+                                    size: 70,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    
                     Positioned(
                       top: 30,
                       // bottom: 0,
