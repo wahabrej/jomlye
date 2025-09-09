@@ -210,7 +210,7 @@ class LiveTvPlayerScreen extends StatelessWidget {
                           CommonContainer(
                             image: kiShare,
                             onPressed: () {
-                             Share.share(homeController.liveTvDetailsData.value?.streamUrl??"");
+                             Share.share(homeController.tvChannelDetailsModel.value?.shareLink??"");
                             },
                           ),
                         ],

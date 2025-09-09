@@ -12,6 +12,7 @@ class MovieDetailsModel {
     final Rental? rental;
     final Download? download;
     final bool? isRented;
+    final String? shareLink;
 
     MovieDetailsModel({
         this.details,
@@ -27,6 +28,7 @@ class MovieDetailsModel {
         this.rental,
         this.download,
         this.isRented,
+        this.shareLink,
     });
 
     factory MovieDetailsModel.fromJson(Map<String, dynamic> json) => MovieDetailsModel(
@@ -43,6 +45,7 @@ class MovieDetailsModel {
         rental: json["rental"] == null ? null : Rental.fromJson(json["rental"]),
         download: json["download"] == null ? null : Download.fromJson(json["download"]),
         isRented: json["is_rented"],
+        shareLink: json["share_link"],
     );
 }
 

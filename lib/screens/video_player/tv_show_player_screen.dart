@@ -428,11 +428,7 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                           CommonContainer(
                             image: kiShare,
                             onPressed: () {
-                              Share.share(homeController
-                                      .movieServerList[
-                                          homeController.selectedServer.value]
-                                      ?.fileUrl ??
-                                  "");
+                              Share.share(homeController.tvShowDetailsModel.value?.shareLink??"");
                             },
                           ),
                         ],

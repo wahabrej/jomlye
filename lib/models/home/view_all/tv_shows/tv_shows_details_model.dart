@@ -8,6 +8,7 @@ class TvShowDetailsModel {
     final List<String>? videoTags;
     final Rental? rental;
     final bool? isRented;
+    final String? shareLink;
 
     TvShowDetailsModel({
         this.shows,
@@ -18,6 +19,7 @@ class TvShowDetailsModel {
         this.videoTags,
         this.rental,
         this.isRented,
+        this.shareLink,
     });
 
     factory TvShowDetailsModel.fromJson(Map<String, dynamic> json) => TvShowDetailsModel(
@@ -29,6 +31,7 @@ class TvShowDetailsModel {
         videoTags: json["video_tags"] == null ? [] : List<String>.from(json["video_tags"]!.map((x) => x)),
         rental: json["rental"] == null ? null : Rental.fromJson(json["rental"]),
         isRented: json["is_rented"],
+        shareLink: json["share_link"],
     );
 }
 

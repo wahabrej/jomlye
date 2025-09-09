@@ -528,11 +528,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           CommonContainer(
                             image: kiShare,
                             onPressed: () {
-                              Share.share(homeController
-                                      .movieServerList[
-                                          homeController.selectedServer.value]
-                                      ?.fileUrl ??
-                                  "");
+                              Share.share(homeController.movieDetailsModel.value?.shareLink??"");
                             },
                           ),
                         ],
