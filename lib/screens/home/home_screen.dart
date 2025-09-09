@@ -694,9 +694,7 @@ class HomeScreen extends StatelessWidget {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 return TopArtistContent(
-                                  image: homeController
-                                          .topArtistsList[index].starImage ??
-                                      "",
+                                  image: homeController.topArtistsList[index].starImage ?? "",
                                   name: homeController
                                           .topArtistsList[index].starName ??
                                       "",
@@ -1030,8 +1028,6 @@ class MovieCard extends StatelessWidget {
                 style: regular10TextStyle(cWhiteColor),
               ),
               kH4sizedBox,
-
-              // ✅ Progress Bar
               Container(
                 height: 6,
                 width: 100,
@@ -1085,12 +1081,12 @@ class TopArtistContent extends StatelessWidget {
                 image,
                 width: contentWidth ?? 88.w,
                 height: contentHeight ?? 88.h,
-                fit: BoxFit.cover,
+                fit: BoxFit.fill,
                 errorBuilder: (context, error, stackTrace) => Center(
                   child: SvgPicture.asset(
                     kiDummyMovie,
-                    height: 100.h,
-                    width: 100.w,
+                    width: contentWidth ?? 88.w,
+                    height: contentHeight ?? 88.h,
                     fit: BoxFit.fill,
                   ),
                 ),

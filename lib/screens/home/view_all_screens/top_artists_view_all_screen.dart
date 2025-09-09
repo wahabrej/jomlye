@@ -1,7 +1,6 @@
 import 'package:flutter/rendering.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
 import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
-import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
 import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:flixoo_flutter_app/utils/constants/imports.dart';
@@ -202,7 +201,7 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                     thickness: 1,
                     color: cWhiteColor.withOpacity(0.2),
                   ),
-                  kH16sizedBox,
+                 if (homeController.isApplyClicked.value) kH16sizedBox,
                   if (homeController.isApplyClicked.value)
                     Row(
                       children: [
@@ -334,49 +333,79 @@ class TopArtistsViewAllScreen extends StatelessWidget {
                                 child: SingleChildScrollView(
                                   controller:
                                       homeController.artistListScrollController,
-                                  child: Column(
-                                    children: [
-                                      GridView.builder(
-                                        shrinkWrap: true,
-                                        padding: EdgeInsets.zero,
-                                        physics:
-                                            const NeverScrollableScrollPhysics(),
-                                        gridDelegate:
-                                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 3,
-                                          crossAxisSpacing: 10,
-                                          mainAxisSpacing: 10,
-                                          childAspectRatio: 1,
-                                        ),
-                                        itemCount:
-                                            homeController.artistList.length,
-                                        itemBuilder: (context, index) {
-                                          return GestureDetector(
-                                            onTap: () async {
-                                              await homeController
-                                                  .getArtistDetails(
-                                                      homeController
-                                                          .artistList[index]
-                                                          .id);
-                                              Get.toNamed(krCastDetailsScreen);
-                                            },
-                                            child: TopArtistContent(
-                                              image: homeController
-                                                      .artistList[index]
-                                                      .starImage ??
-                                                  "",
-                                              name: homeController
-                                                      .artistList[index]
-                                                      .starName ??
-                                                  "",
-                                              contentWidth: (width - 60) / 3,
-                                              contentHeight: 120.h,
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ],
-                                  ),
+                                  child: 
+                               Column(
+  children: [
+    GridView.builder(
+      shrinkWrap: true,
+      padding: EdgeInsets.zero,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 0.8, 
+      ),
+      itemCount: homeController.artistList.length,
+      itemBuilder: (context, index) {
+        return GestureDetector(
+          onTap: () async {
+            await homeController.getArtistDetails(
+              homeController.artistList[index].id,
+            );
+            Get.toNamed(krCastDetailsScreen);
+          },
+          child: AspectRatio(
+            aspectRatio: 1, // 👈 ensures square image container
+            child: Stack(
+              children: [
+                // Artist Image
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(k4BorderRadius),
+                  child: Image.network(
+                    homeController.artistList[index].starImage ?? "",
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.fill,
+                         errorBuilder: (context, error, stackTrace) => Center(
+                  child: SvgPicture.asset(
+                    kiDummyMovie,
+                   width: width,
+                    height: height,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                  ),
+                ),
+
+                // Name Overlay
+                Positioned(
+                  bottom: 4,
+                  left: 4,
+                  right: 4,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.6),
+                      borderRadius: BorderRadius.circular(k4BorderRadius),
+                    ),
+                    child: Text(
+                      homeController.artistList[index].starName ?? "",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: semiBold10TextStyle(cWhiteColor),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    ),
+  ],
+),
                                 ),
                               ),
                             ),

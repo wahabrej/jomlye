@@ -495,7 +495,7 @@ class MovieViewAllScreen extends StatelessWidget {
               ],
             ),
           ),
-              bottomNavigationBar: CustomBottomNavBar(
+           bottomNavigationBar: CustomBottomNavBar(
               width: width,
               selectedIndex: 2,
             ),
