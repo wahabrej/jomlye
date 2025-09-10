@@ -208,7 +208,7 @@ class FavoriteScreen extends StatelessWidget {
                                   if(Get.find<GlobalController>().subscribedUserCheck.value==false){
                                     homeController.showInterstitialAd();
                                     }
-                                    Get.to(()=> TvShowPlayerScreen(isRentableVideo:  homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,));
+                                    Get.to(()=> TvShowPlayerScreen(isRentableVideo: homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,));
                                    
                           },
                           child: MovieContentContainer(

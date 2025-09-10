@@ -107,7 +107,7 @@ class RentedVideoScreen extends StatelessWidget {
                                             false;
                                       await homeController.getTvShowDetails(
                                           showId: profileController
-                                              .tvShowRentedVideoList[index]!.id!);
+                                              .tvShowRentedVideoList[index]!.videoId!);
                                                homeController.selectedEpisode.value = 0;
                                          if(homeController.tvShowEpisodeList.isNotEmpty){
                                     allVideoPlayerController.videoPlayerFunction(

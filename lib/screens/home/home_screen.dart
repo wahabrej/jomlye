@@ -212,11 +212,8 @@ class HomeScreen extends StatelessWidget {
                                     if(globalController.subscribedUserCheck.value==false){
                                     homeController.showInterstitialAd();
                                     }
-                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController
-                                                .newReleaseMoviesList[index]
-                                                .isFree==false && homeController
-                                                .newReleaseMoviesList[index]
-                                                .isRental==true,));
+                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController.movieDetailsData.value?.isFree== 0 && homeController.
+                                                movieDetailsData.value?.isRental==1 ? true : false,));
                                   },
                                   child: MovieContentContainer(
                                     movieImage: homeController
@@ -295,11 +292,8 @@ class HomeScreen extends StatelessWidget {
                                     if(globalController.subscribedUserCheck.value==false){
                                     homeController.showInterstitialAd();
                                     }
-                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController
-                                                .trendingMoviesList[index]
-                                                .isFree==false && homeController
-                                                .trendingMoviesList[index]
-                                                .isRental==true,));
+                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController.movieDetailsData.value?.isFree== 0 && homeController.
+                                                movieDetailsData.value?.isRental==1 ? true : false,));
                                   },
                                   child: MovieContentContainer(
                                     movieImage: homeController
@@ -380,11 +374,8 @@ class HomeScreen extends StatelessWidget {
                                    if(globalController.subscribedUserCheck.value==false){
                                     homeController.showInterstitialAd();
                                     }
-                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController
-                                                .recommendedMoviesList[index]
-                                                .isFree==false && homeController
-                                                .recommendedMoviesList[index]
-                                                .isRental==true,));     
+                                    Get.to(()=> VideoPlayerScreen(isRentableVideo: homeController.movieDetailsData.value?.isFree== 0 && homeController.
+                                                movieDetailsData.value?.isRental==1 ? true : false,));     
                                   },
                                   child: MovieContentContainer(
                                     movieImage: homeController
@@ -464,11 +455,7 @@ class HomeScreen extends StatelessWidget {
                                    if(globalController.subscribedUserCheck.value==false){
                                     homeController.showInterstitialAd();
                                     }
-                                    Get.to(()=> TvShowPlayerScreen(isRentableVideo: homeController
-                                                .popularTvShowsList[index]
-                                                .isFree==0 && homeController
-                                                .popularTvShowsList[index]
-                                                .isRental==1 ? true : false,));
+                                    Get.to(()=> TvShowPlayerScreen(isRentableVideo: homeController.tvShowDetailsData.value?.isFree==0 && homeController.tvShowDetailsData.value?.isRental==1 ? true : false,));
                                   },
                                   child: MovieContentContainer(
                                     movieImage: homeController

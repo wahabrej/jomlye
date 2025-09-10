@@ -1141,16 +1141,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                         Get.offUntil(
                                           GetPageRoute(
                                             page: () => VideoPlayerScreen(
-                                              isRentableVideo: homeController
-                                                          .relatedMovieList[
-                                                              index]
-                                                          .isFree ==
-                                                      0 &&
-                                                  homeController
-                                                          .relatedMovieList[
-                                                              index]
-                                                          .isRental ==
-                                                      1,
+                                             isRentableVideo: homeController.movieDetailsData.value?.isFree== 0 && homeController.
+                                                movieDetailsData.value?.isRental==1 ? true : false,
                                             ),
                                           ),
                                           ModalRoute.withName(krHomeScreen),
