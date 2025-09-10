@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
 import 'package:flixoo_flutter_app/controllers/payment/payment_controller.dart';
+import 'package:flixoo_flutter_app/screens/video_player/tv_show_player_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -831,15 +833,8 @@ Future<void> changeLanguage(String language) async {
 final RxBool isplaylistListExpand = RxBool(true);
 
 //!offline payment
-final RxBool ispaymentButtonClicked = RxBool(false);
-bool checkPaymentButtonPressState(){
-  if(ispaymentButtonClicked.value==false || transactionKeyTextEditingController.text.trim().toString()!=""){
-    return true;
-  }
-  else{
-    return false;
-  }
-}
+final RxBool ispaymentButtonClicked = RxBool(true);
+
 Future<void> offlinePaymentMethod({required String paymentType,required String planId,String? videoType,String? transactionId,String? paymentgetWayMethod="offline"}) async {
     try {
       ispaymentButtonClicked.value = true;
@@ -861,20 +856,39 @@ Future<void> offlinePaymentMethod({required String paymentType,required String p
         token: token,
       ) as CommonDM;
       if (response.code == 200) {
+        ll("the payment type is $paymentType");
         transactionKeyTextEditingController.clear();
+        ispaymentButtonClicked.value = true;
      showSnackBar(
             title: ksSuccess.tr, message: response.message??"", color: cGreenColor);
         await Get.find<PaymentController>().getSubscriptionCheck();
         // Get.back();
         if(paymentType=="rental" && videoType=="movie"){
+          ll("here is rental movie");
           await Get.find<HomeController>().getMovieDetails(movieId: planId);
-          Get.back();
+           Get.offUntil(
+                                          GetPageRoute(
+                                            page: () => VideoPlayerScreen(
+                                              isRentableVideo: true,
+                                            ),
+                                          ),
+                                          ModalRoute.withName(krHomeScreen),
+                                        );
         }
-        if(paymentType=="rental" && videoType=="series"){
+        else if(paymentType=="rental" && videoType=="series"){
+          ll("here is rental series");
           await Get.find<HomeController>().getTvShowDetails(showId: int.parse(planId.toString()));
-          Get.back();
+           Get.offUntil(
+                                          GetPageRoute(
+                                            page: () => TvShowPlayerScreen(
+                                              isRentableVideo: true,
+                                            ),
+                                          ),
+                                          ModalRoute.withName(krHomeScreen),
+                                        );
         }
         else{
+          ispaymentButtonClicked.value = false;
           Get.offAllNamed(krHomeScreen);
         }
       } else {

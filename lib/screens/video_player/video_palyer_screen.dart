@@ -1879,7 +1879,7 @@ class RentProductDetailsContentContainer extends StatelessWidget {
               onPressed: () {
                  Get.find<ProfileController>().selectedPaymentMethod.value = "";
              if(Get.find<GlobalController>().userToken.value!=""){
-              Get.find<ProfileController>().ispaymentButtonClicked.value = false;
+              Get.find<ProfileController>().ispaymentButtonClicked.value = true;
               Get.find<ProfileController>().transactionKeyTextEditingController.clear();
                 Get.to(()=> PaymentMethodScreen(paymentType: "rental", planId: id!, videoType: videoType??"",
                 payableAmount: double.parse(

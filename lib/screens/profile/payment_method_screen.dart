@@ -73,7 +73,7 @@ class PaymentMethodScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   kH20sizedBox,
-                  Obx(() => Row(
+                  Row(
                         children: [
                           InkWell(
                             splashColor: cTransparentColor,
@@ -190,7 +190,7 @@ class PaymentMethodScreen extends StatelessWidget {
                             ),
                           ),
                         ],
-                      )),
+                      ),
                   if (profileController.selectedPaymentMethod.value ==
                       "offline")
                     kH100sizedBox,
@@ -230,8 +230,13 @@ class PaymentMethodScreen extends StatelessWidget {
                         ),
                         onChanged: (v){
                           profileController.transactionKeyTextEditingController.text = v;
-                          ll("This is ${profileController.transactionKeyTextEditingController.text}");
-                          profileController.checkPaymentButtonPressState();
+                          // ll("This is ${profileController.transactionKeyTextEditingController.text}");
+                          if(v.toString().trim()==""){
+                            profileController.ispaymentButtonClicked.value = true;
+                          }
+                          else{
+                            profileController.ispaymentButtonClicked.value = false;
+                          }
                         },
                         contentPadding: const EdgeInsets.all(12),
                       ),
@@ -243,13 +248,13 @@ class PaymentMethodScreen extends StatelessWidget {
                       "offline")
                     CustomElevatedButton(
                       label: ksStartPlan.tr,
-                      onPressed: profileController.checkPaymentButtonPressState() ? () {
+                      onPressed: profileController.ispaymentButtonClicked.value==false ? () {
                         profileController.offlinePaymentMethod(
                             paymentType: paymentType,
                             planId: planId,
                             videoType: videoType);
                       }: null,
-                      buttonColor: profileController.checkPaymentButtonPressState() ?cPrimaryColor: cWhiteColor.withOpacity(0.1),
+                      buttonColor: profileController.ispaymentButtonClicked.value==false ?cPrimaryColor: cWhiteColor.withOpacity(0.1),
                       buttonHeight: 40.h,
                       buttonWidth: width - 40,
                       textStyle: regular14TextStyle(cWhiteColor),

@@ -190,130 +190,135 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                   padding: const EdgeInsets.only(left: k20Padding),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                             if (homeController.tvShowDetailsModel.value?.isRented == true)
-                              Container(
-                                width: 120.w,
-                                height: 24.h,
-                                decoration: BoxDecoration(
-                                  color: cWhiteColor.withOpacity(0.1),
-                                  borderRadius:
-                                      BorderRadius.circular(k4BorderRadius),
-                                  border: Border.all(
-                                    width: 0.65,
-                                    color: cWhiteColor.withOpacity(0.1),
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: k4Padding),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: cPurpleColor,
-                                          borderRadius: BorderRadius.circular(
-                                              k4BorderRadius),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: k8Padding,
-                                              vertical: k4Padding),
-                                          child: Text(
-                                            ksRented.tr,
-                                            style:
-                                                regular10TextStyle(cWhiteColor),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                        child: Text(
-                                      "$ksExpire: ${homeController
-                                  .tvShowDetailsModel.value?.rental?.expireData
-                                  .toString()}",
-                                      style: regular10TextStyle(cWhiteColor),
-                                      overflow: TextOverflow.ellipsis,
-                                    )),
-                                  ],
-                                ),
-                              ),
-                            if (homeController
-                                    .tvShowDetailsModel.value?.isRented ==
-                                true)
-                              Spacer(),
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.star,
-                                  color: cAmberColor,
-                                  size: kIconSize16,
-                                ),
-                                kW6sizedBox,
-                                Text(
-                                  homeController
-                                          .tvShowDetailsData.value?.imdbRating ??
-                                      "",
-                                  style: regular12TextStyle(cWhiteColor),
-                                ),
-                                kW6sizedBox,
-                                SizedBox(
-                                  height: 22.h,
-                                  child: VerticalDivider(
-                                    width: 1,
-                                    thickness: 1,
-                                    color: cWhiteColor.withOpacity(0.5),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            kW6sizedBox,
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.access_time_filled_sharp,
-                                  color: cPrimaryColor2,
-                                  size: kIconSize20,
-                                ),
-                                kW6sizedBox,
-                                Text(
-                                  homeController
-                                          .tvShowDetailsData.value?.runtime ??
-                                      "",
-                                  style: regular12TextStyle(cWhiteColor),
-                                ),
-                                kW6sizedBox,
-                                SizedBox(
-                                  height: 22.h,
-                                  child: VerticalDivider(
-                                    width: 1,
-                                    thickness: 1,
-                                    color: cWhiteColor.withOpacity(0.5),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            kW6sizedBox,
-                            Row(
-                              children: [
-                                const Icon(
-                                  Icons.calendar_today_outlined,
-                                  color: cPrimaryColor2,
-                                  size: kIconSize20,
-                                ),
-                                kW6sizedBox,
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    
+                   children: [
+  Padding(
+  padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 3.h),
+  child: Wrap(
+    spacing: 8.w,
+    runSpacing: 4.h,
+    crossAxisAlignment: WrapCrossAlignment.center,
+    children: [
+      // Rental status section
+      if (homeController.tvShowDetailsModel.value?.isRented == true)
+        Container(
+          width: 180.w,
+          height: 24.h,
+          decoration: BoxDecoration(
+            color: cWhiteColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(k4BorderRadius),
+            border: Border.all(
+              width: 0.65,
+              color: cWhiteColor.withOpacity(0.1),
+            ),
+          ),
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: k4Padding),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: cPurpleColor,
+                    borderRadius: BorderRadius.circular(k4BorderRadius),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: k8Padding, vertical: k4Padding),
+                    child: Text(
+                      ksRented.tr,
+                      style: regular10TextStyle(cWhiteColor),
+                    ),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Text(
+                  "$ksExpire: ${_formatExpireDate(homeController.tvShowDetailsModel.value?.rental?.expireData?.toString() ?? '')}",
+                  style: regular10TextStyle(cWhiteColor),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+      
+      // Star Rating
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.star,
+            color: cAmberColor,
+            size: kIconSize16,
+          ),
+          kW6sizedBox,
+          Text(
+            homeController.tvShowDetailsData.value?.imdbRating ?? "",
+            style: regular12TextStyle(cWhiteColor),
+          ),
+        ],
+      ),
+      
+      // Divider 1
+      SizedBox(
+        height: 22.h,
+        child: VerticalDivider(
+          width: 1,
+          thickness: 1,
+          color: cWhiteColor.withOpacity(0.5),
+        ),
+      ),
+      
+      // Runtime
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.access_time_filled_sharp,
+            color: cPrimaryColor2,
+            size: kIconSize20,
+          ),
+          kW6sizedBox,
+          Text(
+            homeController.tvShowDetailsData.value?.runtime ?? "",
+            style: regular12TextStyle(cWhiteColor),
+          ),
+        ],
+      ),
+      
+      // Divider 2
+      SizedBox(
+        height: 22.h,
+        child: VerticalDivider(
+          width: 1,
+          thickness: 1,
+          color: cWhiteColor.withOpacity(0.5),
+        ),
+      ),
+      
+      // Release Date
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(
+            Icons.calendar_today_outlined,
+            color: cPrimaryColor2,
+            size: kIconSize20,
+          ),
+          kW6sizedBox,
+          homeController.tvShowDetailsData.value?.release == null 
+              ? const SizedBox.shrink()
+              : Text(
+                  DateFormat('d MMM, yyyy').format(
+                      DateTime.parse(homeController
+                          .tvShowDetailsData.value!.release
+                          .toString())),
+                  style: regular12TextStyle(cWhiteColor),
+                ),
+        ],
+      ),
+    ],
+  ),
+),
                       kH16sizedBox,
                       SingleChildScrollView(
         scrollDirection: Axis.horizontal,
@@ -1104,3 +1109,27 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
   }
 }
 
+// Add this method in your class for TV show date formatting
+String _formatExpireDate(String dateString) {
+  if (dateString.isEmpty) return '';
+  
+  try {
+    DateTime dateTime = DateTime.parse(dateString);
+    
+    String day = dateTime.day.toString().padLeft(2, '0');
+    String month = DateFormat('MMM').format(dateTime);
+    String year = dateTime.year.toString();
+    
+    int hour = dateTime.hour;
+    String period = hour >= 12 ? 'PM' : 'AM';
+    if (hour > 12) hour -= 12;
+    if (hour == 0) hour = 12;
+    
+    String minute = dateTime.minute.toString().padLeft(2, '0');
+    // String second = dateTime.second.toString().padLeft(2, '0');
+    
+    return "$day $month $year $hour:$minute $period";//$second sec
+  } catch (e) {
+    return dateString;
+  }
+}
