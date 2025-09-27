@@ -1262,7 +1262,7 @@ class HomeSlider extends StatelessWidget {
 
         await homeController.getMovieDetails(
           movieId: homeController
-              .sliderList[homeController.currentIndex.value].id!
+              .sliderList[homeController.currentIndex.value]!.id!
               .toString(),
         );
 
@@ -1293,7 +1293,7 @@ class HomeSlider extends StatelessWidget {
                     return ClipRRect(
                       borderRadius: BorderRadius.circular(k8BorderRadius.r),
                       child: Image.network(
-                        slider.thumbnail ?? "",
+                        slider?.thumbnail ?? "",
                         width: width,
                         height: height * 0.6,
                         fit: BoxFit.cover,
@@ -1354,7 +1354,7 @@ class HomeSlider extends StatelessWidget {
                         child: Text(
                           homeController
                                   .sliderList[homeController.currentIndex.value]
-                                  .title ??
+                                  ?.title ??
                               "",
                           style: semiBold24TextStyle(cWhiteColor),
                           textAlign: TextAlign.center,

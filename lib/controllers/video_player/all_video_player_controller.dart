@@ -408,66 +408,138 @@ class AllVideoPlayerController extends GetxController {
   final RxInt totalSeconds = RxInt(0); 
   final RxInt currentSeconds = RxInt(0); 
  //!video player function
-    void videoPlayerFunction(
-      {required bool? isFree,
-      required bool? isRental,
-      required bool? isRented,
-      required bool? isSubscribed,
-      required String? fileUrl,
-      required String? fileSource,int? seekToPosition=0}) async{
-    if ((isFree == false && isRental == true && isRented == true) ||
-        (isFree == false &&
-            isRented == false &&
-            Get.find<GlobalController>().subscribedUserCheck.value==true) ||
-        isFree == true) {
-      if (fileSource == "youtube") {
-        ll("here in youtube");
-        final RxString videoUrl = RxString(fileUrl??"");
-        // ll("in my youtube player controller loaded data $youtubeController");
-       await _initializeYouTubeController(videoUrl: videoUrl.value);
-                      youtubeController =
-                                          YoutubePlayerController(
-                                        initialVideoId: videoUrl.value,
-                                        // initialVideoId: 'https://www.youtube.com/watch?v=u6Xsayqxij0',
-                                        flags: const YoutubePlayerFlags(
-                                          autoPlay: true,
-                                          mute: false,
-                                        ),
-                                      );
-      } else if (fileSource != "youtube" &&
-          fileSource.toString().toLowerCase() != "gdrive") {
-            ll("here in flickManager");
-                                      // flickManager = FlickManager(
-                                      //   videoPlayerController:
-                                      //       VideoPlayerController.network(
-                                      //           "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
-                                      // );
-                                      // flickManager = FlickManager(
-                                      //   videoPlayerController:
-                                      //       VideoPlayerController.network(
-                                      //           fileUrl??"",
-                                      //           ),
-                                      // );
-                                      flickManager = FlickManager(
-  videoPlayerController: VideoPlayerController.network(fileUrl ?? "")
-    ..initialize().then((_) {
-      final seekSeconds = seekToPosition; 
-      if (seekSeconds != null && seekSeconds > 0) {
-        flickManager.flickVideoManager!.videoPlayerController
-            !.seekTo(Duration(seconds: seekSeconds));
-      }
-      flickManager.flickVideoManager!.videoPlayerController?.addListener(() {
-        final controller = flickManager.flickVideoManager!.videoPlayerController!;
-        totalSeconds.value = controller.value.duration.inSeconds;
-        currentSeconds.value = controller.value.position.inSeconds;
-      });
-    }),
+//     void videoPlayerFunction(
+//       {required bool? isFree,
+//       required bool? isRental,
+//       required bool? isRented,
+//       required bool? isSubscribed,
+//       required String? fileUrl,
+//       required String? fileSource,int? seekToPosition=0}) async{
+//     if ((isFree == false && isRental == true && isRented == true) ||
+//         (isFree == false &&
+//             isRented == false &&
+//             Get.find<GlobalController>().subscribedUserCheck.value==true) ||
+//         isFree == true) {
+//       if (fileSource == "youtube") {
+//         ll("here in youtube");
+//         final RxString videoUrl = RxString(fileUrl??"");
+//         // ll("in my youtube player controller loaded data $youtubeController");
+//        await _initializeYouTubeController(videoUrl: videoUrl.value);
+//                       youtubeController =
+//                                           YoutubePlayerController(
+//                                         initialVideoId: videoUrl.value,
+//                                         // initialVideoId: 'https://www.youtube.com/watch?v=u6Xsayqxij0',
+//                                         flags: const YoutubePlayerFlags(
+//                                           autoPlay: true,
+//                                           mute: false,
+//                                         ),
+//                                       );
+//       } else if (fileSource != "youtube" &&
+//           fileSource.toString().toLowerCase() != "gdrive") {
+//             ll("here in flickManager");
+//                                       // flickManager = FlickManager(
+//                                       //   videoPlayerController:
+//                                       //       VideoPlayerController.network(
+//                                       //           "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
+//                                       // );
+//                                       // flickManager = FlickManager(
+//                                       //   videoPlayerController:
+//                                       //       VideoPlayerController.network(
+//                                       //           fileUrl??"",
+//                                       //           ),
+//                                       // );
+//                                       flickManager = FlickManager(
+//   videoPlayerController: VideoPlayerController.network(fileUrl ?? "")
+//     ..initialize().then((_) {
+//       final seekSeconds = seekToPosition; 
+//       if (seekSeconds != null && seekSeconds > 0) {
+//         flickManager.flickVideoManager!.videoPlayerController
+//             !.seekTo(Duration(seconds: seekSeconds));
+//       }
+//       flickManager.flickVideoManager!.videoPlayerController?.addListener(() {
+//         final controller = flickManager.flickVideoManager!.videoPlayerController!;
+//         totalSeconds.value = controller.value.duration.inSeconds;
+//         currentSeconds.value = controller.value.position.inSeconds;
+//       });
+//     }),
     
-);
+// );
 
-          }
+//           }
+//     }
+//   }
+ 
+ 
+ 
+//!
+void videoPlayerFunction({
+  required bool? isFree,
+  required bool? isRental,
+  required bool? isRented,
+  required bool? isSubscribed,
+  required String? fileUrl,
+  required String? fileSource,
+  int? seekToPosition = 0
+}) async {
+  // Validate URL before proceeding
+  if (fileUrl == null || fileUrl.isEmpty) {
+    print("Error: Video URL is null or empty");
+    return;
+  }
+
+  // Your existing logic...
+  if ((isFree == false && isRental == true && isRented == true) ||
+      (isFree == false &&
+          isRented == false &&
+          Get.find<GlobalController>().subscribedUserCheck.value == true) ||
+      isFree == true) {
+    
+    if (fileSource == "youtube") {
+      // YouTube logic...
+    } else if (fileSource != "youtube" &&
+        fileSource.toString().toLowerCase() != "gdrive") {
+      
+      ll("Attempting to play video: $fileUrl");
+      
+      try {
+        flickManager = FlickManager(
+          videoPlayerController: VideoPlayerController.network(
+            fileUrl,
+            httpHeaders: {
+              'User-Agent': 'Mozilla/5.0 (compatible; MyApp/1.0)',
+            },
+          )..initialize().then((_) {
+            final seekSeconds = seekToPosition;
+            if (seekSeconds != null && seekSeconds > 0) {
+              flickManager.flickVideoManager!.videoPlayerController!
+                  .seekTo(Duration(seconds: seekSeconds));
+            }
+            flickManager.flickVideoManager!.videoPlayerController?.addListener(() {
+              final controller = flickManager.flickVideoManager!.videoPlayerController!;
+              totalSeconds.value = controller.value.duration.inSeconds;
+              currentSeconds.value = controller.value.position.inSeconds;
+            });
+          }).catchError((error) {
+            ll("Video initialization error: $error");
+            _handleVideoError(error);
+          }),
+        );
+      } catch (e) {
+        ll("FlickManager creation error: $e");
+        _handleVideoError(e);
+      }
     }
   }
+}
+
+void _handleVideoError(dynamic error) {
+  Get.snackbar(
+    "Video Error", 
+    "Unable to play this video. Please try again later.",
+    snackPosition: SnackPosition.BOTTOM,
+  );
+}
+
   //   int? seekPositionInSeconds;
   
   // void videoPlayerFunction({

@@ -199,7 +199,7 @@ class HomeController extends GetxController {
   //!Home Api implement
   //*Home
   final Rx<HomeDataModel?> homeDataModel = Rx<HomeDataModel?>(null);
-  final RxList<FeaturedMovie> sliderList = RxList<FeaturedMovie>([]);
+  final RxList<FeaturedMovie?> sliderList = RxList<FeaturedMovie?>([]);
   final RxList<Country> genreList = RxList<Country>([]);
   final RxList<FeaturedMovie> newReleaseMoviesList =
       RxList<FeaturedMovie>([]);
