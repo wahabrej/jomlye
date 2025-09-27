@@ -326,7 +326,6 @@ class HomeScreen extends StatelessWidget {
                               ? ksViewAll.tr
                               : "",
                       onPressed: () async {
-                         homeController.selectedServer.value=0;
                         homeController.resetBottomSheetData();
                         profileController.temporaryPlayListCheckBoxStateList
                             .clear();

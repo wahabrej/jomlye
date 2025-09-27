@@ -3,13 +3,6 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="com.android.vending.BILLING"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-    <!-- For Android 13+ (API 33 and above) -->
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 
     <application
@@ -18,7 +11,6 @@
         android:requestLegacyExternalStorage="true"
         android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher">
-        8
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -47,10 +39,10 @@
         </activity>
 
         <!-- Facebook provider must be inside <application>, not inside <queries> -->
-        <provider
+        <!-- <provider
             android:authorities="com.facebook.app.FacebookContentProvider738927445685237"
             android:name="com.facebook.FacebookContentProvider"
-            android:exported="true" />
+            android:exported="true" /> -->
 
         <meta-data
             android:name="flutterEmbedding"

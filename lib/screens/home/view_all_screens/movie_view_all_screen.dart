@@ -123,7 +123,7 @@ class MovieViewAllScreen extends StatelessWidget {
                               ),
                               kW4sizedBox,
                               SizedBox(
-                                width: 140,
+                                width: 100,
                                 child: Center(
                                     child: Text(
                                                                    homeController.selectedTitle.value =="" ? ksAllMovies.tr : homeController.selectedTitle.value,

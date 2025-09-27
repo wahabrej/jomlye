@@ -1,3 +1,4 @@
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -10,6 +11,17 @@ import 'package:flixoo_flutter_app/controllers/common/binder_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+//   await Firebase.initializeApp(
+//   options: FirebaseOptions(
+//     apiKey: "AIzaSyB9L86tkJJfSjOBzhE1r8DB3EJece8-svY",
+//     appId: "1:518845356344:android:6bb9f707d0387de7fac9cd",
+//     messagingSenderId: "518845356344",
+//     projectId: "flixoo-ded7e",
+//     storageBucket: "flixoo-ded7e.firebasestorage.app",
+//   ),
+// );
+
   Get.put(GlobalController());
   Stripe.publishableKey =  Get.find<GlobalController>().configModelData.value?.stripeKey??"pk_test_51RCwabBLHhtXKxC7Mfsz74GGTVv47g2JkehS3PQBshS3omOnsWanVW6DAEd8mQBIj3ftU1K8Q1x60NqhygNqVAq8005zZaL7p9";
   await Stripe.instance.applySettings();

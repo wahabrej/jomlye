@@ -91,12 +91,12 @@ class SignUpScreen extends StatelessWidget {
                           },
                         ),
                       kW12sizedBox,
-                      CommonContainer(
-                          image: kiFacebook,
-                          onPressed: () async {
-                          await authController.signInWithFacebook();
-                          },
-                        ),
+                      // CommonContainer(
+                      //     image: kiFacebook,
+                      //     onPressed: () async {
+                      //     await authController.signInWithFacebook();
+                      //     },
+                      //   ),
                     ],
                   ),
                   kH16sizedBox,

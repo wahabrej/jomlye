@@ -10,7 +10,7 @@ class AdHelper{
       return Get.find<GlobalController>().configModelData.value?.bannerAdsId??"";
     }
     else if(Platform.isIOS){
-      return "";
+      return "ca-app-pub-8804541030596323/2426710878";
     }
     else{
       throw UnsupportedError("UnSupported Platform");
@@ -21,7 +21,7 @@ class AdHelper{
       return Get.find<GlobalController>().configModelData.value?.interstitialAdsId??"";
     }
     else if(Platform.isIOS){
-      return "";
+      return "ca-app-pub-8804541030596323/6149515225";
     }
     else{
       throw UnsupportedError("UnSupported Platform");

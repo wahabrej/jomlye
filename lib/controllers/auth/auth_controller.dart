@@ -1,5 +1,7 @@
+// import 'dart:developer';
+
+// import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
@@ -415,7 +417,7 @@ class AuthController extends GetxController {
     // bool isRememberMe = await spController.getRememberMe()??false;
     bool isRememberMe = false;
     await spController.saveRememberMe(isRememberMe);
-    await googleSignOut();
+    // await googleSignOut();
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
     Get.find<HomeController>().watchHistoryList.clear();
@@ -430,14 +432,13 @@ class AuthController extends GetxController {
     Get.offAllNamed(krSignInScreen);
   }
 
-
   final GoogleSignIn googleSignIn = GoogleSignIn(
     scopes: [
       'email',
     ],
   );
 
- //!Google sign in
+//  //!Google sign in
   Future<void> signInWithGoogle() async {
   try {
     final account = await googleSignIn.signIn();
@@ -450,6 +451,8 @@ class AuthController extends GetxController {
       "access_token": accessToken,
       "provider": "google",
     };
+
+    ll("the access token is $accessToken");
     var response = await apiServices.commonApiCall(
       url: kuSocialLogin,
       body: body,
@@ -502,83 +505,293 @@ class AuthController extends GetxController {
     Future<void> googleSignOut() async {
     await googleSignIn.signOut();
   }
+
+//!changes
+
+//   // Updated for v7.x: Use GoogleSignIn.instance instead of GoogleSignIn()
+//   final GoogleSignIn _googleSignIn = GoogleSignIn.instance;
+//   final FirebaseAuth _auth = FirebaseAuth.instance;
+//   // static AuthController authInstance =
+//   // Get.put(AuthController(), permanent: true);
+
+//   // Manual state management for current user (v7.x requirement)
+//   final Rx<GoogleSignInAccount?> _currentGoogleUser = Rx<GoogleSignInAccount?>(null);
+//   GoogleSignInAccount? get currentGoogleUser => _currentGoogleUser.value;
+
+//   // Initialization state tracking
+//   final RxBool _isGoogleSignInInitialized = false.obs;
+//   bool get isGoogleSignInInitialized => _isGoogleSignInInitialized.value;
+
+//   @override
+//   void onReady() {
+//     super.onReady();
+//     // Initialize Google Sign-In asynchronously (v7.x requirement)
+//     _initializeGoogleSignIn();
+//   }
+
+//     /// Ensure Google Sign-In is initialized before use
+//   Future<void> _ensureGoogleSignInInitialized() async {
+//     if (!_isGoogleSignInInitialized.value) {
+//       await _initializeGoogleSignIn();
+//     }
+//   }
+
+//   /// Initialize Google Sign-In (v7.x requirement)
+// Future<void> _initializeGoogleSignIn() async {
+//   try {
+//     await _googleSignIn.initialize(
+//       serverClientId: "518845356344-g6ge34uccq3ssn86oq40knhjrppim83o.apps.googleusercontent.com",
+//     );
+//     _isGoogleSignInInitialized.value = true;
+//     log("Google Sign-In initialized successfully");
+//   } catch (e) {
+//     log("Failed to initialize Google Sign-In: $e");
+//     _isGoogleSignInInitialized.value = false;
+//   }
+// }
+
+// Future<void> signInWithGoogle() async {
+//   try {
+//     // Use mobile-compatible signIn() (v7.x) instead of authenticate()
+//     // final GoogleSignInAccount? googleUser = await _googleSignIn();
+//         await _ensureGoogleSignInInitialized();
+
+//       if (!_isGoogleSignInInitialized.value) {
+//         throw Exception("Google Sign-In not initialized");
+//       }
+
+//       // Use authenticate() instead of signIn() (v7.x)
+//       GoogleSignInAccount googleSignInAccount = await _googleSignIn.authenticate(
+//         scopeHint: ['email','profile'],
+//       );
+
+//     _currentGoogleUser.value = googleSignInAccount;
+//     // if (googleSignInAccount == null) return; // user canceled
+//      GoogleSignInAuthentication googleSignInAuthentication =
+//           googleSignInAccount.authentication;
+//         AuthCredential credential = GoogleAuthProvider.credential(
+//   idToken: googleSignInAuthentication.idToken,
+//   accessToken: _currentGoogleUser.value?.id,
+// );
+//    log("the credential is $credential");
+//       final User? user = (await _auth.signInWithCredential(credential)).user;
+
+//     if (user != null) {
+//       // Get access token for your API
+//       final accessToken = googleSignInAuthentication.idToken;
+//       ll('The access token is $accessToken');
+
+//       Map<String, dynamic> body = {
+//         "access_token": accessToken,
+//         "provider": "google",
+//       };
+
+//       // Call your API
+//       var response = await apiServices.commonApiCall(
+//       url: kuSocialLogin,
+//        body: body,
+//       requestMethod: kPost,
+//     ) as CommonDM;
+//       ll("the response is $response");
+
+//       if (response.code == 200) {
+//         // Save API response to shared preferences
+//         phoneLoginUserModel.value = CommonLoginUserModel.fromJson(response.data);
+//         userData.value = phoneLoginUserModel.value?.user;
+
+//         await spController.saveBearerToken(phoneLoginUserModel.value?.token);
+//         await spController.saveUserId(userData.value?.id);
+//         await spController.saveUserImage(userData.value?.image);
+//         await spController.saveUserEmail(userData.value?.email);
+//         await spController.saveUserFirstName(userData.value?.firstName);
+//         await spController.saveUserLastName(userData.value?.lastName);
+//         await spController.saveUserPhoneNumber(userData.value?.phone);
+//         await spController.saveUserGender(userData.value?.gender);
+
+//         // Update global state
+//         globalController.userFirstName.value = await spController.getUserFirstName() ?? "";
+//         globalController.userLastName.value = await spController.getUserLastName() ?? "";
+//         globalController.userEmail.value = await spController.getUserEmail() ?? "";
+//         globalController.userImage.value = await spController.getUserImage() ?? "";
+//         globalController.userId.value = await spController.getUserId() ?? -1;
+//         globalController.userToken.value = await spController.getBearerToken() ?? "";
+//         globalController.userPhone.value = await spController.getUserPhoneNumber() ?? "";
+//         globalController.userGender.value = await spController.getUserGender() ?? "";
+
+//         // Navigate to home
+//         Get.offAllNamed(krHomeScreen);
+//       } else {
+//         Get.snackbar("Error", "Google login failed!");
+//       }
+//     } else {
+//       Get.snackbar("Error", "Firebase login failed!");
+//     }
+//   } on FirebaseAuthException catch (e) {
+//     ll("Firebase Error: ${e.message}");
+//     Get.snackbar("Error", "Firebase login failed!");
+//   } catch (e) {
+//     ll("Google login error: $e");
+//     Get.snackbar("Error", "Google login error");
+//   }
+// }
+
+  
+//   /// Silent authentication for v7.x
+  
+  
+//   Future<GoogleSignInAccount?> attemptSilentGoogleSignIn() async {
+//     try {
+//       await _ensureGoogleSignInInitialized();
+
+//       if (!_isGoogleSignInInitialized.value) {
+//         return null;
+//       }
+
+//       // Use attemptLightweightAuthentication() instead of signInSilently() (v7.x)
+//       final result = _googleSignIn.attemptLightweightAuthentication();
+
+//       // Handle both sync and async returns
+//       GoogleSignInAccount? account;
+//       if (result is Future<GoogleSignInAccount?>) {
+//         account = await result;
+//       } else {
+//         account = result as GoogleSignInAccount?;
+//       }
+//       // Update manual state management
+//       _currentGoogleUser.value = account;
+//       return account;
+//     } catch (error) {
+//       ll('Silent Google sign-in failed: $error');
+//       _currentGoogleUser.value = null;
+//       return null;
+//     }
+//   }
+
+//   /// Enhanced scope management for v7.x
+//   Future<String?> getAccessTokenForScopes(List<String> scopes) async {
+//     try {
+//       await _ensureGoogleSignInInitialized();
+
+//       if (!_isGoogleSignInInitialized.value) {
+//         return null;
+//       }
+
+//       final authClient = _googleSignIn.authorizationClient;
+
+//       // Try to get existing authorization
+//       var authorization = await authClient.authorizationForScopes(scopes);
+
+//       if (authorization == null) {
+//         // Request new authorization from user
+//         authorization = await authClient.authorizeScopes(scopes);
+//       }
+
+//       return authorization.accessToken;
+//     } catch (error) {
+//       ll('Failed to get access token for scopes: $error');
+//       return null;
+//     }
+//   }
+
+//   /// Error message helper for Google Sign-In exceptions (v7.x)
+//   String _getGoogleSignInErrorMessage(GoogleSignInException exception) {
+//     switch (exception.code.name) {
+//       case 'canceled':
+//         return 'Sign-in was cancelled. Please try again if you want to continue.';
+//       case 'interrupted':
+//         return 'Sign-in was interrupted. Please try again.';
+//       case 'clientConfigurationError':
+//         return 'There is a configuration issue with Google Sign-In. Please contact support.';
+//       case 'providerConfigurationError':
+//         return 'Google Sign-In is currently unavailable. Please try again later or contact support.';
+//       case 'uiUnavailable':
+//         return 'Google Sign-In is currently unavailable. Please try again later or contact support.';
+//       case 'userMismatch':
+//         return 'There was an issue with your account. Please sign out and try again.';
+//       case 'unknownError':
+//       default:
+//         return 'An unexpected error occurred during Google Sign-In. Please try again.';
+//     }
+//   }
+
+
   //!Facebook login
-  Future<void> signInWithFacebook() async {
-  try {
-    final LoginResult result = await FacebookAuth.instance.login(
-      permissions: ['email', 'public_profile'],
-    );
-    if (result.status == LoginStatus.success) {
-      final accessToken = result.accessToken?.tokenString??"";
-   ll("The access key is $accessToken");
+//   Future<void> signInWithFacebook() async {
+//   try {
+//     final LoginResult result = await FacebookAuth.instance.login(
+//       permissions: ['email', 'public_profile'],
+//     );
+//     if (result.status == LoginStatus.success) {
+//       final accessToken = result.accessToken?.tokenString??"";
+//    ll("The access key is $accessToken");
 
-      // if (accessToken == null) {
-      //   ll("Facebook access token is null");
-      //   return;
-      // }
+//       // if (accessToken == null) {
+//       //   ll("Facebook access token is null");
+//       //   return;
+//       // }
 
-      Map<String, dynamic> body = {
-        "access_token": accessToken,
-        "provider": "facebook",
-      };
+//       Map<String, dynamic> body = {
+//         "access_token": accessToken,
+//         "provider": "facebook",
+//       };
 
-      // ll("Sending Facebook login request with body: $body");
+//       // ll("Sending Facebook login request with body: $body");
 
-      var response = await apiServices.commonApiCall(
-        url: kuSocialLogin,
-        body: body,
-        requestMethod: kPost,
-      ) as CommonDM;
-  ll("The status code is ${response.code}");
-      if (response.code == 200) {
-            phoneLoginUserModel.value = CommonLoginUserModel.fromJson(response.data);
-        userData.value = phoneLoginUserModel.value?.user;
-        await spController.saveBearerToken(phoneLoginUserModel.value?.token);
-        await spController.saveUserId(userData.value?.id);
-        await spController.saveUserImage(userData.value?.image);
-        await spController.saveUserEmail(userData.value?.email);
-        await spController.saveUserFirstName(userData.value?.firstName);
-        await spController.saveUserLastName(userData.value?.lastName);
-        await spController.saveUserPhoneNumber(userData.value?.phone);
-        await spController.saveUserGender(userData.value?.gender);
-          Get.offAllNamed(krHomeScreen);
-        globalController.userFirstName.value =
-            await spController.getUserFirstName() ?? "";
-        globalController.userLastName.value =
-            await spController.getUserLastName() ?? "";
-        globalController.userEmail.value =
-            await spController.getUserEmail() ?? "";
-        globalController.userImage.value =
-            await spController.getUserImage() ?? "";
-        globalController.userId.value = await spController.getUserId() ?? -1;
-        globalController.userToken.value =
-            await spController.getBearerToken() ?? "";
-        globalController.userPhone.value =
-            await spController.getUserPhoneNumber() ?? "";
-        globalController.userGender.value =
-            await spController.getUserGender() ?? "";
+//       var response = await apiServices.commonApiCall(
+//         url: kuSocialLogin,
+//         body: body,
+//         requestMethod: kPost,
+//       ) as CommonDM;
+//   ll("The status code is ${response.code}");
+//       if (response.code == 200) {
+//             phoneLoginUserModel.value = CommonLoginUserModel.fromJson(response.data);
+//         userData.value = phoneLoginUserModel.value?.user;
+//         await spController.saveBearerToken(phoneLoginUserModel.value?.token);
+//         await spController.saveUserId(userData.value?.id);
+//         await spController.saveUserImage(userData.value?.image);
+//         await spController.saveUserEmail(userData.value?.email);
+//         await spController.saveUserFirstName(userData.value?.firstName);
+//         await spController.saveUserLastName(userData.value?.lastName);
+//         await spController.saveUserPhoneNumber(userData.value?.phone);
+//         await spController.saveUserGender(userData.value?.gender);
+//           Get.offAllNamed(krHomeScreen);
+//         globalController.userFirstName.value =
+//             await spController.getUserFirstName() ?? "";
+//         globalController.userLastName.value =
+//             await spController.getUserLastName() ?? "";
+//         globalController.userEmail.value =
+//             await spController.getUserEmail() ?? "";
+//         globalController.userImage.value =
+//             await spController.getUserImage() ?? "";
+//         globalController.userId.value = await spController.getUserId() ?? -1;
+//         globalController.userToken.value =
+//             await spController.getBearerToken() ?? "";
+//         globalController.userPhone.value =
+//             await spController.getUserPhoneNumber() ?? "";
+//         globalController.userGender.value =
+//             await spController.getUserGender() ?? "";
 
-      } else {
-        showSnackBar(
-          title: ksError.tr,
-          message: "Facebook login failed!",
-          color: cPrimaryColor2,
-        );
-      }
-    } else if (result.status == LoginStatus.cancelled) {
-      ll("Facebook login cancelled by user");
-    } else {
-      ll("Facebook login failed: ${result.message}");
-    }
-  } catch (e) {
-    ll('Facebook login error: $e');
-    showSnackBar(
-      title: ksError.tr,
-      message: 'Facebook login error: $e',
-      color: cPrimaryColor2,
-    );
-  }
-}
+//       } else {
+//         showSnackBar(
+//           title: ksError.tr,
+//           message: "Facebook login failed!",
+//           color: cPrimaryColor2,
+//         );
+//       }
+//     } else if (result.status == LoginStatus.cancelled) {
+//       ll("Facebook login cancelled by user");
+//     } else {
+//       ll("Facebook login failed: ${result.message}");
+//     }
+//   } catch (e) {
+//     ll('Facebook login error: $e');
+//     showSnackBar(
+//       title: ksError.tr,
+//       message: 'Facebook login error: $e',
+//       color: cPrimaryColor2,
+//     );
+//   }
+// }
 
   
   final RxList selectedInterestList = RxList([]);
