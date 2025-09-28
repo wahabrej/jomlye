@@ -240,6 +240,7 @@ class HomeController extends GetxController {
         topArtistsList.clear();
         latestBlogsList.clear();
         sliderList.addAll(homeDataModel.value!.sliders!);
+        ll("the slider list elngth is ${homeDataModel.value!.sliders!.length}");
         genreList.addAll(homeDataModel.value!.genres!);
         newReleaseMoviesList.addAll(homeDataModel.value!.newReleaseMovies!);
         trendingMoviesList.addAll(homeDataModel.value!.trendingMovies!);
