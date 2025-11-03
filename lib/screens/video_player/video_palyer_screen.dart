@@ -149,9 +149,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         (homeController.movieDetailsModel.value?.isRented ==
                                 true &&
                             widget.isRentableVideo == true)) ||
-                    homeController.movieDetailsData.value?.isFree == 1 || (Get.find<GlobalController>()
-                                                  .subscribedUserCheck
-                                                  .value==true && (homeController.movieDetailsModel.value?.isRented ==
+                    homeController.movieDetailsData.value?.isFree == 1 ||
+                    (Get.find<GlobalController>().subscribedUserCheck.value ==
+                            true &&
+                        (homeController.movieDetailsModel.value?.isRented ==
                                 false &&
                             widget.isRentableVideo == false)))
                   AspectRatio(
@@ -203,134 +204,148 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-    Padding(
-  padding: EdgeInsets.only(right: 6.w, top: 3.h, bottom: 3.h),
-  child: Wrap(
-    spacing: 8.w,
-    runSpacing: 4.h,
-    crossAxisAlignment: WrapCrossAlignment.center,
-    children: [
-      // Rental status section
-      if (homeController.movieDetailsModel.value?.isRented == true)
-        Container(
-          width: 190.w,
-          height: 24.h,
-          decoration: BoxDecoration(
-            color: cWhiteColor.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(k4BorderRadius),
-            border: Border.all(
-              width: 0.65,
-              color: cWhiteColor.withOpacity(0.1),
-            ),
-          ),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: k4Padding),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: cPurpleColor,
-                    borderRadius: BorderRadius.circular(k4BorderRadius),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: k8Padding, vertical: k4Padding),
-                    child: Text(
-                      ksRented.tr,
-                      style: regular10TextStyle(cWhiteColor),
-                    ),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Text(
-                  "$ksExpire: ${_formatExpireDate(homeController.rentalVideoData.value?.expireData?.toString() ?? '')}",
-                  style: regular10TextStyle(cWhiteColor),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
-        ),
-      
-      // Star Rating
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            Icons.star,
-            color: cAmberColor,
-            size: kIconSize16,
-          ),
-          kW6sizedBox,
-          Text(
-            homeController.movieDetailsData.value?.imdbRating ?? "",
-            style: regular12TextStyle(cWhiteColor),
-          ),
-        ],
-      ),
-      
-      // Divider 1
-      SizedBox(
-        height: 22.h,
-        child: VerticalDivider(
-          width: 1,
-          thickness: 1,
-          color: cWhiteColor.withOpacity(0.5),
-        ),
-      ),
-      
-      // Runtime
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            Icons.access_time_filled_sharp,
-            color: cPrimaryColor2,
-            size: kIconSize20,
-          ),
-          kW6sizedBox,
-          Text(
-            homeController.movieDetailsData.value?.runtime ?? "",
-            style: regular12TextStyle(cWhiteColor),
-          ),
-        ],
-      ),
-      
-      // Divider 2
-      SizedBox(
-        height: 22.h,
-        child: VerticalDivider(
-          width: 1,
-          thickness: 1,
-          color: cWhiteColor.withOpacity(0.5),
-        ),
-      ),
-      
-      // Release Date
-      Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Icon(
-            Icons.calendar_today_outlined,
-            color: cPrimaryColor2,
-            size: kIconSize20,
-          ),
-          kW6sizedBox,
-          homeController.movieDetailsData.value?.release == null 
-              ? const SizedBox.shrink()
-              : Text(
-                  DateFormat('d MMM, yyyy').format(
-                      DateTime.parse(homeController
-                          .movieDetailsData.value!.release
-                          .toString())),
-                  style: regular12TextStyle(cWhiteColor),
-                ),
-        ],
-      ),
-    ],
-  ),
-),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(right: 6.w, top: 3.h, bottom: 3.h),
+                        child: Wrap(
+                          spacing: 8.w,
+                          runSpacing: 4.h,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            // Rental status section
+                            if (homeController
+                                    .movieDetailsModel.value?.isRented ==
+                                true)
+                              Container(
+                                width: 190.w,
+                                height: 24.h,
+                                decoration: BoxDecoration(
+                                  color: cWhiteColor.withOpacity(0.1),
+                                  borderRadius:
+                                      BorderRadius.circular(k4BorderRadius),
+                                  border: Border.all(
+                                    width: 0.65,
+                                    color: cWhiteColor.withOpacity(0.1),
+                                  ),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: k4Padding),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: cPurpleColor,
+                                          borderRadius: BorderRadius.circular(
+                                              k4BorderRadius),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: k8Padding,
+                                              vertical: k4Padding),
+                                          child: Text(
+                                            ksRented.tr,
+                                            style:
+                                                regular10TextStyle(cWhiteColor),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        "$ksExpire: ${_formatExpireDate(homeController.rentalVideoData.value?.expireData?.toString() ?? '')}",
+                                        style: regular10TextStyle(cWhiteColor),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                            // Star Rating
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.star,
+                                  color: cAmberColor,
+                                  size: kIconSize16,
+                                ),
+                                kW6sizedBox,
+                                Text(
+                                  homeController
+                                          .movieDetailsData.value?.imdbRating ??
+                                      "",
+                                  style: regular12TextStyle(cWhiteColor),
+                                ),
+                              ],
+                            ),
+
+                            // Divider 1
+                            SizedBox(
+                              height: 22.h,
+                              child: VerticalDivider(
+                                width: 1,
+                                thickness: 1,
+                                color: cWhiteColor.withOpacity(0.5),
+                              ),
+                            ),
+
+                            // Runtime
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.access_time_filled_sharp,
+                                  color: cPrimaryColor2,
+                                  size: kIconSize20,
+                                ),
+                                kW6sizedBox,
+                                Text(
+                                  homeController
+                                          .movieDetailsData.value?.runtime ??
+                                      "",
+                                  style: regular12TextStyle(cWhiteColor),
+                                ),
+                              ],
+                            ),
+
+                            // Divider 2
+                            SizedBox(
+                              height: 22.h,
+                              child: VerticalDivider(
+                                width: 1,
+                                thickness: 1,
+                                color: cWhiteColor.withOpacity(0.5),
+                              ),
+                            ),
+
+                            // Release Date
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  Icons.calendar_today_outlined,
+                                  color: cPrimaryColor2,
+                                  size: kIconSize20,
+                                ),
+                                kW6sizedBox,
+                                homeController
+                                            .movieDetailsData.value?.release ==
+                                        null
+                                    ? const SizedBox.shrink()
+                                    : Text(
+                                        DateFormat('d MMM, yyyy').format(
+                                            DateTime.parse(homeController
+                                                .movieDetailsData.value!.release
+                                                .toString())),
+                                        style: regular12TextStyle(cWhiteColor),
+                                      ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                       kH16sizedBox,
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -494,23 +509,21 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                     1
                                 ? () {
                                     showDownloadVideoPopup(context);
-                                   
                                   }
                                 : null,
                           ),
-                        
-
                           kW10sizedBox,
                           CommonContainer(
                             image: kiShare,
                             onPressed: () {
-                              Share.share(homeController.movieDetailsModel.value?.shareLink??"");
+                              Share.share(homeController
+                                      .movieDetailsModel.value?.shareLink ??
+                                  "");
                             },
                           ),
                         ],
                       ),
-                     
-                     
+
                       if (homeController.movieServerList.isNotEmpty)
                         kH16sizedBox,
                       if (homeController.movieServerList.isNotEmpty)
@@ -586,7 +599,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             },
                           ),
                         ),
-                    
+
                       kH16sizedBox,
                       Padding(
                         padding: const EdgeInsets.only(right: k20Padding),
@@ -597,7 +610,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                       ),
                       //! For rental video this widget(RentProductDetailsContentContainer)
                       if (widget.isRentableVideo == true) kH16sizedBox,
-                      if (widget.isRentableVideo == true && homeController.movieDetailsModel.value?.isRented==false)
+                      if (widget.isRentableVideo == true &&
+                          homeController.movieDetailsModel.value?.isRented ==
+                              false)
                         RentProductDetailsContentContainer(
                           rentPrice:
                               homeController.rentalVideoData.value?.price ?? "",
@@ -608,8 +623,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                   .rentalVideoData.value?.expireData
                                   .toString() ??
                               "",
-                              id: homeController.movieDetailsData.value?.id.toString(),
-                              videoType: "movie",
+                          id: homeController.movieDetailsData.value?.id
+                              .toString(),
+                          videoType: "movie",
                         ),
                       kH12sizedBox,
                       Container(
@@ -1141,8 +1157,18 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                         Get.offUntil(
                                           GetPageRoute(
                                             page: () => VideoPlayerScreen(
-                                             isRentableVideo: homeController.movieDetailsData.value?.isFree== 0 && homeController.
-                                                movieDetailsData.value?.isRental==1 ? true : false,
+                                              isRentableVideo: homeController
+                                                              .movieDetailsData
+                                                              .value
+                                                              ?.isFree ==
+                                                          0 &&
+                                                      homeController
+                                                              .movieDetailsData
+                                                              .value
+                                                              ?.isRental ==
+                                                          1
+                                                  ? true
+                                                  : false,
                                             ),
                                           ),
                                           ModalRoute.withName(krHomeScreen),
@@ -1554,10 +1580,11 @@ void showDownloadVideoPopup(BuildContext context) {
                             CustomElevatedButton(
                               label: ksDownload.tr,
                               onPressed: () async {
-                               await allVideoPlayerController.downloadVideo(
-    context,
-    homeController.movieDetailsModel.value!.download!.details![index].link ?? ""
-  );
+                                await allVideoPlayerController.downloadVideo(
+                                    context,
+                                    homeController.movieDetailsModel.value!
+                                            .download!.details![index].link ??
+                                        "");
                                 Get.back();
                               },
                               buttonWidth: 110.w,
@@ -1814,8 +1841,13 @@ class SubscriptionSelector extends StatelessWidget {
 
 class RentProductDetailsContentContainer extends StatelessWidget {
   const RentProductDetailsContentContainer(
-      {super.key, this.rentPrice, this.rentValidity, this.rentExpireDate,this.id,this.videoType});
-  final String? rentPrice, rentValidity, rentExpireDate,id,videoType;
+      {super.key,
+      this.rentPrice,
+      this.rentValidity,
+      this.rentExpireDate,
+      this.id,
+      this.videoType});
+  final String? rentPrice, rentValidity, rentExpireDate, id, videoType;
 
   @override
   Widget build(BuildContext context) {
@@ -1869,16 +1901,21 @@ class RentProductDetailsContentContainer extends StatelessWidget {
             CustomElevatedButton(
               label: ksProceedToPayment.tr,
               onPressed: () {
-                 Get.find<ProfileController>().selectedPaymentMethod.value = "";
-             if(Get.find<GlobalController>().userToken.value!=""){
-              Get.find<ProfileController>().ispaymentButtonClicked.value = true;
-              Get.find<ProfileController>().transactionKeyTextEditingController.clear();
-                Get.to(()=> PaymentMethodScreen(paymentType: "rental", planId: id!, videoType: videoType??"",
-                payableAmount: double.parse(
-  (rentPrice ?? "0").replaceAll(RegExp(r'[^\d.]'), '')
-),
-));
-              }
+                Get.find<ProfileController>().selectedPaymentMethod.value = "";
+                if (Get.find<GlobalController>().userToken.value != "") {
+                  Get.find<ProfileController>().ispaymentButtonClicked.value =
+                      true;
+                  Get.find<ProfileController>()
+                      .transactionKeyTextEditingController
+                      .clear();
+                  Get.to(() => PaymentMethodScreen(
+                        paymentType: "rental",
+                        planId: id!,
+                        videoType: videoType ?? "",
+                        payableAmount: double.parse((rentPrice ?? "0")
+                            .replaceAll(RegExp(r'[^\d.]'), '')),
+                      ));
+                }
               },
               textStyle: semiBold14TextStyle(cWhiteColor),
               buttonWidth: width - 80,
@@ -1964,22 +2001,22 @@ class RentProductDetailsRow extends StatelessWidget {
 // Add this method in your class
 String _formatExpireDate(String dateString) {
   if (dateString.isEmpty) return '';
-  
+
   try {
     DateTime dateTime = DateTime.parse(dateString);
-    
+
     String day = dateTime.day.toString().padLeft(2, '0');
     String month = DateFormat('MMM').format(dateTime);
     String year = dateTime.year.toString();
-    
+
     int hour = dateTime.hour;
     String period = hour >= 12 ? 'PM' : 'AM';
     if (hour > 12) hour -= 12;
     if (hour == 0) hour = 12;
-    
+
     String minute = dateTime.minute.toString().padLeft(2, '0');
     // String second = dateTime.second.toString().padLeft(2, '0');
-    
+
     return "$day $month $year $hour:$minute $period"; // $second sec
   } catch (e) {
     return dateString;

@@ -78,7 +78,7 @@ class HomeScreen extends StatelessWidget {
         }
         return const SizedBox.shrink();
       }),
-                  HomeSlider(),
+                 if(homeController.sliderList.isNotEmpty) HomeSlider(),
                     Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -159,12 +159,11 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     kH16sizedBox,
+                    if(homeController.newReleaseMoviesList.isNotEmpty)
                     HomeTitleContent(
                       title: ksNewRelease.tr,
                       subtitleText:
-                          homeController.newReleaseMoviesList.isNotEmpty
-                              ? ksViewAll.tr
-                              : "",
+                          ksViewAll.tr,
                       onPressed: () async {
                         homeController.selectedServer.value=0;
                         homeController.resetBottomSheetData();
@@ -179,7 +178,8 @@ class HomeScreen extends StatelessWidget {
                         Get.toNamed(krMovieViewAllScreen);
                       },
                     ),
-                    kH16sizedBox,
+                    if(homeController.newReleaseMoviesList.isNotEmpty) kH16sizedBox,
+                    if(homeController.newReleaseMoviesList.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(left: k20Padding),
                       child: Row(
@@ -239,11 +239,11 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     kH16sizedBox,
+                    if(homeController.trendingMoviesList.isNotEmpty)
                     HomeTitleContent(
                       title: ksTrendingMovies.tr,
-                      subtitleText: homeController.trendingMoviesList.isNotEmpty
-                          ? ksViewAll.tr
-                          : "",
+                      subtitleText: 
+                           ksViewAll.tr,
                       onPressed: () async {
                          homeController.selectedServer.value=0;
                         homeController.resetBottomSheetData();
@@ -258,7 +258,8 @@ class HomeScreen extends StatelessWidget {
                         Get.toNamed(krMovieViewAllScreen);
                       },
                     ),
-                    kH16sizedBox,
+                   if(homeController.trendingMoviesList.isNotEmpty)  kH16sizedBox,
+                    if(homeController.trendingMoviesList.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(left: k20Padding),
                       child: Row(
@@ -319,12 +320,10 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     kH16sizedBox,
+                    if(homeController.recommendedMoviesList.isNotEmpty)
                     HomeTitleContent(
                       title: ksRecommendedMovies.tr,
-                      subtitleText:
-                          homeController.recommendedMoviesList.isNotEmpty
-                              ? ksViewAll.tr
-                              : "",
+                      subtitleText: ksViewAll.tr,
                       onPressed: () async {
                         homeController.resetBottomSheetData();
                         profileController.temporaryPlayListCheckBoxStateList
@@ -339,7 +338,8 @@ class HomeScreen extends StatelessWidget {
                         Get.toNamed(krMovieViewAllScreen);
                       },
                     ),
-                    kH16sizedBox,
+                  if(homeController.recommendedMoviesList.isNotEmpty)  kH16sizedBox,
+                   if(homeController.recommendedMoviesList.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(left: k20Padding),
                       child: Row(
@@ -402,11 +402,10 @@ class HomeScreen extends StatelessWidget {
                     ),
                     
                     kH16sizedBox,
+                    if(homeController.popularTvShowsList.isNotEmpty)
                     HomeTitleContent(
                       title: ksPopularTvShows.tr,
-                      subtitleText: homeController.popularTvShowsList.isNotEmpty
-                          ? ksViewAll.tr
-                          : "",
+                      subtitleText: ksViewAll.tr,
                       onPressed: () async {
                         homeController.resetBottomSheetData();
                         profileController.temporaryPlayListCheckBoxStateList
@@ -418,7 +417,8 @@ class HomeScreen extends StatelessWidget {
                         Get.toNamed(krTvShowsViewAllScreen);
                       },
                     ),
-                    kH16sizedBox,
+                 if(homeController.popularTvShowsList.isNotEmpty)   kH16sizedBox,
+                  if(homeController.popularTvShowsList.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(left: k20Padding),
                       child: Row(
@@ -588,12 +588,10 @@ class HomeScreen extends StatelessWidget {
                     ),
 
                     kH16sizedBox,
+                    if( homeController.featuredTvChannelsList.isNotEmpty)
                     HomeTitleContent(
                       title: ksFeaturedTvChannels.tr,
-                      subtitleText:
-                          homeController.featuredTvChannelsList.isNotEmpty
-                              ? ksViewAll.tr
-                              : "",
+                      subtitleText: ksViewAll.tr,
                       onPressed: () async {
                         homeController.resetBottomSheetData();
                         profileController.temporaryPlayListCheckBoxStateList
@@ -604,7 +602,8 @@ class HomeScreen extends StatelessWidget {
                         Get.toNamed(krTvChannelsViewAllScreen);
                       },
                     ),
-                    kH16sizedBox,
+                   if( homeController.featuredTvChannelsList.isNotEmpty) kH16sizedBox,
+                    if( homeController.featuredTvChannelsList.isNotEmpty)
                     Padding(
                       padding: const EdgeInsets.only(left: k20Padding),
                       child: Row(
@@ -649,12 +648,11 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                    
-                    kH16sizedBox,
+                   if(homeController.topArtistsList.isNotEmpty) kH16sizedBox,
+                   if(homeController.topArtistsList.isNotEmpty) 
                     HomeTitleContent(
                       title: ksTopArtists.tr,
-                      subtitleText: homeController.topArtistsList.isNotEmpty
-                          ? ksViewAll.tr
-                          : "",
+                      subtitleText: ksViewAll.tr,
                       onPressed: () async {
                         homeController.resetBottomSheetData();
                         homeController.isViewAllSearchEnable.value = false;
@@ -663,7 +661,8 @@ class HomeScreen extends StatelessWidget {
                         Get.toNamed(krTopArtistsViewAllScreen);
                       },
                     ),
-                    kH16sizedBox,
+                  if(homeController.topArtistsList.isNotEmpty)   kH16sizedBox,
+                if(homeController.topArtistsList.isNotEmpty) 
                     Padding(
                       padding: const EdgeInsets.only(left: k20Padding),
                       child: Row(
@@ -1392,7 +1391,7 @@ class HomeSlider extends StatelessWidget {
 class BannerAdWidget extends StatelessWidget {
   final HomeController homeController;
   
-  const BannerAdWidget({Key? key, required this.homeController}) : super(key: key);
+  const BannerAdWidget({super.key, required this.homeController});
 
   @override
   Widget build(BuildContext context) {
