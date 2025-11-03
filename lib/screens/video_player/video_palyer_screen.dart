@@ -69,135 +69,130 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 kH40sizedBox,
-                if (homeController.movieServerList.isEmpty)
-                  SizedBox(
-                    width: width,
-                    height: 200,
-                    child: Image.network(
-                      homeController.movieDetailsData.value?.poster ?? "",
-                      errorBuilder: (context, error, stackTrace) {
-                        return SvgPicture.asset(
-                          kiDummyMovie,
-                          width: width - 40,
-                          height: 200,
+                Builder(
+                  builder: (_) {
+                    final movieData = homeController.movieDetailsData.value;
+                    final serverList = homeController.movieServerList;
+                    final selectedServerIndex =
+                        homeController.selectedServer.value;
+                    final selectedServer = serverList.isNotEmpty
+                        ? serverList[selectedServerIndex]
+                        : null;
+                    final globalController = Get.find<GlobalController>();
+
+                    if (serverList.isEmpty ||
+                        selectedServer?.fileUrl == null ||
+                        selectedServer?.fileUrl!.isEmpty == true) {
+                      // Case 1: No server or invalid video link → show poster
+                      return SizedBox(
+                        width: width,
+                        height: 200,
+                        child: Image.network(
+                          movieData?.poster ?? "",
                           fit: BoxFit.cover,
-                        );
-                      },
-                    ),
-                  ),
-                if ((homeController.movieDetailsData.value?.isFree == 0 &&
-                        Get.find<GlobalController>()
-                                .subscribedUserCheck
-                                .value ==
-                            false) ||
-                    (homeController.movieDetailsModel.value?.isRented ==
-                            false &&
-                        widget.isRentableVideo == true))
-                  SizedBox(
-                    width: width,
-                    height: 200.h,
-                    child: Image.network(
-                      homeController.movieDetailsData.value?.poster ?? "",
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                if (homeController.movieServerList.isNotEmpty &&
-                    homeController
-                            .movieServerList[
-                                homeController.selectedServer.value]
-                            ?.fileSource ==
-                        "youtube")
-                  YoutubePlayer(
-                    controller: allVideoPlayerController.youtubeController,
-                    showVideoProgressIndicator: true,
-                    progressIndicatorColor: Colors.red,
-                    onReady: () {
-                      allVideoPlayerController.youtubeController
-                          .seekTo(Duration.zero);
-                    },
-                    bottomActions: const [
-                      SizedBox(width: 14.0),
-                      CurrentPosition(),
-                      kW8sizedBox,
-                      ProgressBar(
-                        isExpanded: true,
-                        colors: ProgressBarColors(
-                          playedColor: cPrimaryColor,
-                          handleColor: cPrimaryColor,
+                          errorBuilder: (context, error, stackTrace) {
+                            return SvgPicture.asset(
+                              kiDummyMovie,
+                              width: width - 40,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            );
+                          },
                         ),
-                      ),
-                      kW8sizedBox,
-                      RemainingDuration(),
-                      SizedBox(width: 14.0),
-                      FullScreenButton(color: cPrimaryColor),
-                    ],
-                  ),
-                // //!flick video player
-                if ((homeController.movieServerList.isNotEmpty &&
-                        homeController
-                                .movieServerList[
-                                    homeController.selectedServer.value]
-                                ?.fileSource !=
-                            "youtube" &&
-                        homeController
-                                .movieServerList[
-                                    homeController.selectedServer.value]
-                                ?.fileSource
-                                .toString()
-                                .toLowerCase() !=
-                            "gdrive" &&
-                        (homeController.movieDetailsModel.value?.isRented ==
-                                true &&
-                            widget.isRentableVideo == true)) ||
-                    homeController.movieDetailsData.value?.isFree == 1 ||
-                    (Get.find<GlobalController>().subscribedUserCheck.value ==
-                            true &&
+                      );
+                    } else if ((movieData?.isFree == 0 &&
+                            globalController.subscribedUserCheck.value ==
+                                false) ||
                         (homeController.movieDetailsModel.value?.isRented ==
                                 false &&
-                            widget.isRentableVideo == false)))
-                  AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Stack(
-                      children: [
-                        FlickVideoPlayer(
-                          flickManager: allVideoPlayerController.flickManager,
+                            widget.isRentableVideo == true)) {
+                      // Case 2: Video restricted → show poster
+                      return SizedBox(
+                        width: width,
+                        height: 200.h,
+                        child: Image.network(
+                          movieData?.poster ?? "",
+                          fit: BoxFit.cover,
                         ),
-                        Positioned(
-                          top: 12,
-                          left: 12,
-                          child: GestureDetector(
-                            onTap: () {
-                              try {
-                                allVideoPlayerController.youtubeController
-                                    .dispose();
-                              } catch (_) {}
-                              try {
-                                allVideoPlayerController.flickManager.dispose();
-                              } catch (_) {}
-                              Get.back();
-                            },
-                            child: Container(
-                              width: 24,
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.5),
-                                shape: BoxShape.circle,
-                              ),
-                              child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(7),
-                                  child: const Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Colors.white,
-                                    size: kIconSize16,
+                      );
+                    } else if (selectedServer?.fileSource?.toLowerCase() ==
+                        "youtube") {
+                      // Case 3: YouTube player
+                      return YoutubePlayer(
+                        controller: allVideoPlayerController.youtubeController,
+                        showVideoProgressIndicator: true,
+                        progressIndicatorColor: Colors.red,
+                        onReady: () {
+                          allVideoPlayerController.youtubeController
+                              .seekTo(Duration.zero);
+                        },
+                        bottomActions: const [
+                          SizedBox(width: 14.0),
+                          CurrentPosition(),
+                          kW8sizedBox,
+                          ProgressBar(
+                            isExpanded: true,
+                            colors: ProgressBarColors(
+                              playedColor: cPrimaryColor,
+                              handleColor: cPrimaryColor,
+                            ),
+                          ),
+                          kW8sizedBox,
+                          RemainingDuration(),
+                          SizedBox(width: 14.0),
+                          FullScreenButton(color: cPrimaryColor),
+                        ],
+                      );
+                    } else {
+                      // Case 4: Flick / regular video player
+                      return AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Stack(
+                          children: [
+                            FlickVideoPlayer(
+                              flickManager:
+                                  allVideoPlayerController.flickManager,
+                            ),
+                            Positioned(
+                              top: 12,
+                              left: 12,
+                              child: GestureDetector(
+                                onTap: () {
+                                  try {
+                                    allVideoPlayerController.youtubeController
+                                        ?.dispose();
+                                  } catch (_) {}
+                                  try {
+                                    allVideoPlayerController.flickManager
+                                        ?.dispose();
+                                  } catch (_) {}
+                                  Get.back();
+                                },
+                                child: Container(
+                                  width: 24,
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.5),
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(7),
+                                      child: Icon(
+                                        Icons.arrow_back_ios,
+                                        color: Colors.white,
+                                        size: kIconSize16,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ),
+                      );
+                    }
+                  },
+                ),
                 kH20sizedBox,
                 Padding(
                   padding: const EdgeInsets.only(left: k20Padding),
@@ -1092,6 +1087,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                       HomeTitleContent(
                         title: ksRelatedVideos.tr,
                         subtitleText: "",
+                        isHorizontalPadding: false,
                         onPressed: () async {
                           homeController.resetBottomSheetData();
                           profileController.temporaryPlayListCheckBoxStateList
@@ -1207,6 +1203,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                       kH16sizedBox,
                       HomeTitleContent(
                         title: ksRecommendedMovies.tr,
+                        isHorizontalPadding: false,
                         subtitleText:
                             homeController.recommendedMoviesList.isNotEmpty
                                 ? ksViewAll.tr
