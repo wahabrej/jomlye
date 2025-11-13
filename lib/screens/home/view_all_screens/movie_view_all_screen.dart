@@ -1,7 +1,5 @@
-import 'package:flick_video_player/flick_video_player.dart';
 import 'package:flixoo_flutter_app/screens/video_player/video_palyer_screen.dart';
 import 'package:flutter/rendering.dart';
-import 'package:video_player/video_player.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
 import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
 import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';

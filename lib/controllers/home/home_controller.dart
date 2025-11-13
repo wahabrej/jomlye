@@ -704,15 +704,15 @@ class HomeController extends GetxController {
         ErrorModel errorModel = ErrorModel.fromJson(response.data);
         isTvShowLoading.value = false;
         if (errorModel.errors.isEmpty) {
-          showSnackBar(
-              title: ksError.tr,
-              message: response.message.toString(),
-              color: cPrimaryColor2);
+          // showSnackBar(
+          //     title: ksError.tr,
+          //     message: response.message.toString(),
+          //     color: cPrimaryColor2);
         } else {
-          showSnackBar(
-              title: ksError.tr,
-              message: errorModel.errors[0].message,
-              color: cPrimaryColor2);
+          // showSnackBar(
+          //     title: ksError.tr,
+          //     message: errorModel.errors[0].message,
+          //     color: cPrimaryColor2);
         }
       }
     } catch (e) {
