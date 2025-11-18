@@ -47,5 +47,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires camera access to allow users to take or upload photos and videos.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app requires microphone access for recording audio in video content.</string>
 </dict>
 </plist>
