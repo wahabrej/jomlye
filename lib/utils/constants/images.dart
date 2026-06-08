@@ -1,3 +1,6 @@
+//* Png images
+const String kiFlixooPng = "assets/images/flixoo.png";
+
 //* Svg images
 const String kiSplashImage = "assets/svgs/splash/splash.svg";
 const String kiFlixoo = "assets/svgs/splash/flixoo.svg";

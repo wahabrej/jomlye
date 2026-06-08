@@ -18,7 +18,7 @@ class SubscriptionPlanScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: cBlackColor,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kAppBarSize.h),
+          preferredSize: Size.fromHeight(64.h),
           //   //* info:: appBar
           child: CustomAppBar(
             hasBackButton: false,
@@ -56,10 +56,10 @@ class SubscriptionPlanScreen extends StatelessWidget {
               ),
             ),
             actions: [
-              SvgPicture.asset(
-                kiFlixoo,
-                width: h24.w,
-                height: h24.h,
+              Image.asset(
+                kiFlixooPng,
+                width: 60.w,
+                height: 60.h,
                 color: cPrimaryColor2,
               ),
               kW4sizedBox,

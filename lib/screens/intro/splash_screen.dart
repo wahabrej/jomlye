@@ -26,14 +26,15 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: height/2.5,
-              right: width/2.75,
+              top: height/2.8,
+              left: width/2.8,
               child: Column(
                 children: [
-                  SvgPicture.asset(
-                      kiFlixoo,
-                      width: 56,
-                      height: 75,
+                  Image.asset(
+                      kiFlixooPng,
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.contain,
                     ),
                     kH30sizedBox,
                     Text(ksFlixoo.tr,style: semiBold20TextStyle(cWhiteColor),),

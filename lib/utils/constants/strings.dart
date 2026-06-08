@@ -14,7 +14,7 @@ const String ksUnAuthorizedError = "UnAuthorized request";
 
 
 //* Common
-const String ksFlixoo = "Flixoo";
+const String ksFlixoo = "JomLayanz";
 
 
 //* initial and splash screen

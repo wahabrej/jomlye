@@ -57,11 +57,11 @@ class SignInScreen extends StatelessWidget {
                           color: cWhiteColor.withOpacity(0.1),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(k20Padding),
-                          child: SvgPicture.asset(
-                            kiFlixoo,
-                            width: 40,
-                            height: 40,
+                          padding: const EdgeInsets.all(k12Padding),
+                          child: Image.asset(
+                            kiFlixooPng,
+                            width: 60,
+                            height: 60,
                           ),
                         ),
                       ),
@@ -236,6 +236,7 @@ class SignInScreen extends StatelessWidget {
                         onPressed: () async {
                           await SpController().saveUserPassword(authController
                               .passwordTextEditingController.text
+                              .trim()
                               .toString());
                           await authController.signIn();
                         },

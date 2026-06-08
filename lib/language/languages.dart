@@ -15,7 +15,7 @@ class Languages extends Translations {
       ksUnAuthorizedError: "UnAuthorized request",
       
       // Common
-      ksFlixoo: "Flixoo",
+      ksFlixoo: "JomLayanz",
       
       // Initial and Splash Screen
       ksDiscoverAVarietyOfMovies: "Discover a variety of movies, TV shows and series",
@@ -406,7 +406,7 @@ class Languages extends Translations {
       ksUnAuthorizedError: "Requête non autorisée",
       
       // Common
-      ksFlixoo: "Flixoo",
+      ksFlixoo: "JomLayanz",
       
       // Initial and Splash Screen
       ksDiscoverAVarietyOfMovies: "Découvrez une variété de films, d'émissions de télévision et de séries",

@@ -28,7 +28,7 @@ class LandingScreen extends StatelessWidget {
                              Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SvgPicture.asset(kiFlixoo,width: 40,height: 40,),
+                      Image.asset(kiFlixooPng,width: 120,height: 120,),
                       kW8sizedBox,
                       Text(ksFlixoo.tr,style: semiBold20TextStyle(cWhiteColor),),
                     ],

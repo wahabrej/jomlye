@@ -8,8 +8,8 @@ class CustomTextButton extends StatelessWidget {
     required this.textStyle,
     this.isIconExits,
     this.icon,
-    Key? key, this.mainAxisAlignment, this.padding,
-  }) : super(key: key);
+    super.key, this.mainAxisAlignment, this.padding,
+  });
 
   final VoidCallback? onPressed;
   final String text;

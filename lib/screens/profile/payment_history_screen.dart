@@ -91,7 +91,7 @@ class PaymentHistoryScreen extends StatelessWidget {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            Container(
+                            SizedBox(
                               height: 560.h,
                               child: ListView.separated(
                                   shrinkWrap: true,

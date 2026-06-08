@@ -75,7 +75,7 @@ class AuthController extends GetxController {
     try {
       Map<String, dynamic> body = {
         'email': emailTextEditingController.text.trim().toString(),
-        "password": passwordTextEditingController.text.toString(),
+        "password": passwordTextEditingController.text.trim().toString(),
       };
       ll("body : $body");
       var response = await apiServices.commonApiCall(

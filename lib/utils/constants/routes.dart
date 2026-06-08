@@ -24,7 +24,6 @@ import 'package:flixoo_flutter_app/screens/profile/favorite_screen.dart';
 import 'package:flixoo_flutter_app/screens/profile/language_screen.dart';
 import 'package:flixoo_flutter_app/screens/profile/notification_screen.dart';
 import 'package:flixoo_flutter_app/screens/profile/payment_history_screen.dart';
-import 'package:flixoo_flutter_app/screens/profile/payment_method_screen.dart';
 import 'package:flixoo_flutter_app/screens/profile/payment_success_screen.dart';
 import 'package:flixoo_flutter_app/screens/profile/playlist_screen.dart';
 import 'package:flixoo_flutter_app/screens/profile/profile_screen.dart';

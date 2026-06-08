@@ -44,7 +44,7 @@ class CustomModifiedTextField extends StatelessWidget {
     this.inputAction = TextInputAction.next,
     this.onSubmit,
     this.onChanged,
-    Key? key,
+    super.key,
     this.errorText,
     this.textInputStyle,
     this.textHintStyle,
@@ -57,7 +57,7 @@ class CustomModifiedTextField extends StatelessWidget {
     this.suffixIconColor,
     this.suffixIconSize,
     this.textAlign,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

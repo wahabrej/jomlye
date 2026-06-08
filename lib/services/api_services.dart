@@ -134,7 +134,7 @@ class ApiServices {
       } else {
         if (!Get.isSnackbarOpen) {
           if(isVideoPlay==false){
-            ll("${response.body}");
+            ll(response.body);
           showSnackBar(title: "", message: responseBody["message"], color: cRedColor);
           }
         }

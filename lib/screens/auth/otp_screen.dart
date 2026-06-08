@@ -68,11 +68,11 @@ class OTPScreen extends StatelessWidget {
                       color: cWhiteColor.withOpacity(0.1),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(k20Padding),
-                      child: SvgPicture.asset(
-                        kiFlixoo,
-                        width: 40,
-                        height: 40,
+                      padding: const EdgeInsets.all(k12Padding),
+                      child: Image.asset(
+                        kiFlixooPng,
+                        width: 60,
+                        height: 60,
                       ),
                     ),
                   ),

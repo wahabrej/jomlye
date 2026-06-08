@@ -2,7 +2,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
 import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
 import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
-import 'package:flixoo_flutter_app/screens/video_player/live_tv_player_screen.dart';
 import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
 import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
 import 'package:flixoo_flutter_app/utils/constants/imports.dart';

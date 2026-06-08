@@ -55,10 +55,10 @@ class NotificationScreen extends StatelessWidget {
                     const Expanded(
                       child: SizedBox(),
                     ),
-                    SvgPicture.asset(
-                      kiFlixoo,
-                      width: h24.w,
-                      height: h24.h,
+                    Image.asset(
+                      kiFlixooPng,
+                      width: 60.w,
+                      height: 60.h,
                       color: cPrimaryColor2,
                     ),
                     kW4sizedBox,

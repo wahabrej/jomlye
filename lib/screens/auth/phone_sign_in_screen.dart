@@ -50,10 +50,10 @@ class PhoneSignInScreen extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(k20Padding),
-                      child: SvgPicture.asset(
-                        kiFlixoo,
-                        width: 40,
-                        height: 40,
+                      child: Image.asset(
+                        kiFlixooPng,
+                        width: 60,
+                        height: 60,
                       ),
                     ),
                   ),

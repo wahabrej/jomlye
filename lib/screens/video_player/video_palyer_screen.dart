@@ -160,11 +160,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 onTap: () {
                                   try {
                                     allVideoPlayerController.youtubeController
-                                        ?.dispose();
+                                        .dispose();
                                   } catch (_) {}
                                   try {
                                     allVideoPlayerController.flickManager
-                                        ?.dispose();
+                                        .dispose();
                                   } catch (_) {}
                                   Get.back();
                                 },
