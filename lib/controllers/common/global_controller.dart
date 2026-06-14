@@ -1,8 +1,12 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_text_button.dart';
-import 'package:vidflix_flutter_app/services/api_services.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/models/common/common_data_model.dart';
+import 'package:flixoo_flutter_app/models/common/common_error_model.dart';
+import 'package:flixoo_flutter_app/models/common/config_model.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_text_button.dart';
+import 'package:flixoo_flutter_app/services/api_services.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/urls.dart';
 
 import 'sp_controller.dart';
 
@@ -10,19 +14,27 @@ class GlobalController extends GetxController {
   final SpController spController = SpController();
   final ApiServices apiServices = ApiServices();
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
   //* globally handler user name,email, and others
   final RxString userFirstName = RxString("");
   final RxString userLastName = RxString("");
   final RxString  userEmail = RxString("");
   final RxString  userPhone = RxString("");
   final RxString  userImage = RxString("");
+  final RxString  userGender = RxString("");
   final RxString  userToken = RxString("");
+  final RxString  currency = RxString("");
+  final RxString  googleDriveApiKey = RxString("");
   final RxInt  userId = RxInt(-1);
+  final RxString privacyPolicyUrl = RxString("");
+  final RxString paymentPolicyUrl = RxString("");
+  final RxString termsAndConditionUrl = RxString("");
+  final RxBool generalNotificationState = RxBool(true);
+  final RxBool newReleaseState = RxBool(true);
+  final RxBool paymentNotificationState = RxBool(true);
+  final RxBool appUpdateState = RxBool(true);
+  final RxBool subscriptionState = RxBool(true);
+  final RxBool subscribedUserCheck = RxBool(false);
+  final RxBool wifiOnlyState = RxBool(true);
 
 
   //* info:: common bottom-sheet
@@ -34,12 +46,13 @@ class GlobalController extends GetxController {
       required String rightText,
       required TextStyle rightTextStyle,
       required String title,
-      required bool isRightButtonShow,
+      required bool isRightButtonShow, 
       double? bottomSheetHeight,
       bool? isScrollControlled,
       Color? bottomSheetColor,
       isSearchShow,
       RxBool? isBottomSheetRightButtonActive,
+      bool? isTitleShow=true,
       bool? isDismissible}) {
     showModalBottomSheet<void>(
       isDismissible: isDismissible ?? true,
@@ -69,7 +82,9 @@ class GlobalController extends GetxController {
                     height: 2,
                     width: width * .1,
                   ),
+                  if(isTitleShow==true)
                   kH40sizedBox,
+                  if(isTitleShow==true)
                    Padding(
                      padding: const EdgeInsets.symmetric(horizontal: k20Padding),
                      child: Divider(
@@ -109,6 +124,7 @@ class GlobalController extends GetxController {
             //     size: screenWiseSize(kIconSize24, 4),
             //   ),
             // ),
+            if(isTitleShow==true)
             Positioned(
               top: h32,
               child: Text(
@@ -133,7 +149,7 @@ class GlobalController extends GetxController {
     );
   }
 
-    ImagePicker _picker = ImagePicker();
+   final ImagePicker _picker = ImagePicker();
 
   Future<bool> selectImageSource(
       RxBool isChanged, imageLink, imageFile, String source,
@@ -166,5 +182,47 @@ class GlobalController extends GetxController {
       return false;
     }
   }
+    final RxBool isConfigLoading = RxBool(false);
+  final Rx<ConfigModel?> configModelData = Rx<ConfigModel?>(null);
+  Future<void> getConfig() async {
+    try {
+      isConfigLoading.value = true;
+      String? token = await spController.getBearerToken();
+      Map<String, dynamic> body = {};
+      var response = await apiServices.commonApiCall(
+        requestMethod: kGet,
+        token: token,
+        url: kuConfig,
+        body: body,
+      ) as CommonDM;
+
+      if (response.code == 200) {
+        configModelData.value = ConfigModel.fromJson(response.data);
+        spController.saveCurrency(configModelData.value?.currencySymbol??"");
+        spController.saveGoogleDriveApiKey(configModelData.value?.googleDriveApiKey??"");
+        currency.value = await spController.getCurrency() ?? "";
+        googleDriveApiKey.value = await spController.getGoogleDriveApiKey() ?? "";
+        isConfigLoading.value = false;
+      } else {
+        ErrorModel errorModel = ErrorModel.fromJson(response.data);
+        isConfigLoading.value = false;
+        if (errorModel.errors.isEmpty) {
+          showSnackBar(
+              title: ksError.tr,
+              message: response.message.toString(),
+              color: cPrimaryColor2);
+        } else {
+          showSnackBar(
+              title: ksError.tr,
+              message: errorModel.errors[0].message,
+              color: cPrimaryColor2);
+        }
+      }
+    } catch (e) {
+      isConfigLoading.value = false;
+      ll('getConfig error: $e');
+    }
+  }
+
 
 }

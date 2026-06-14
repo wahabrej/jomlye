@@ -1,6 +1,4 @@
-
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -8,6 +6,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     heightWidthKeyboardValue(context);
+    unFocus(context);
     
     return SafeArea(
       top: false,
@@ -27,17 +26,18 @@ class SplashScreen extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: height/2.5,
-              right: width/2.75,
+              top: height/2.8,
+              left: width/2.8,
               child: Column(
                 children: [
-                  SvgPicture.asset(
-                      kiVidflix,
-                      width: 56,
-                      height: 75,
+                  Image.asset(
+                      kiFlixooPng,
+                      width: 120,
+                      height: 120,
+                      fit: BoxFit.contain,
                     ),
                     kH30sizedBox,
-                    Text(ksVidflix.tr,style: semiBold20TextStyle(cWhiteColor),),
+                    Text(ksFlixoo.tr,style: semiBold20TextStyle(cWhiteColor),),
                 ],
               ),
             ),

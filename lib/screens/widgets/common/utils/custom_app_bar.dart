@@ -1,6 +1,6 @@
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_icon_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-// import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_icon_button.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_icon_button.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+// import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_icon_button.dart';
 
 // class CustomAppBar extends StatelessWidget {
 //   const CustomAppBar({

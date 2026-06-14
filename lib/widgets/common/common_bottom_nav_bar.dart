@@ -1,5 +1,8 @@
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/common/sp_controller.dart';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -25,46 +28,68 @@ class CustomBottomNavBar extends StatelessWidget {
                 width: width,
                 isSelected: selectedIndex == 0,
                 title: ksHome.tr,
-                onPressed: () => Get.offAllNamed(krHomeScreen),
+                onPressed: () async{
+                  await Get.find<HomeController>().loadBannerAd();
+                  Get.offAllNamed(krHomeScreen);
+                },
                 image: kiHome,
               ),
               _BottomNavbarItem(
                 width: width,
                 isSelected: selectedIndex == 1,
-                title: "Live",
+                title: ksLive.tr,
                 onPressed: () async {
                   // Navigate to live stream
+                  await Get.find<HomeController>().disposeBannerAd();
+                  await Get.find<HomeController>().getTvChannel();
+                  Get.toNamed(krTvChannelsViewAllScreen);
                 },
                 image: kiLiveStream,
               ),
               _BottomNavbarItem(
                 width: width,
                 isSelected: selectedIndex == 2,
-                title: "Food",
+                title: ksMovies.tr,
                 onPressed: () async {
                   // Navigate to popcorn section
+                  Get.find<HomeController>().selectedTitle.value = "";
+                  await Get.find<HomeController>().disposeBannerAd();
+                  await Get.find<HomeController>().getMovieList(movieType: "");
+                  Get.toNamed(krMovieViewAllScreen);
                 },
                 image: kiPopcorn,
               ),
               _BottomNavbarItem(
                 width: width,
                 isSelected: selectedIndex == 3,
-                title: "TV",
-                onPressed: () async {
-                  // Navigate to TV screen
-                },
+                title: ksTv.tr,
+                onPressed:() async {
+                        Get.find<HomeController>().resetBottomSheetData();
+                       Get.find<ProfileController>().temporaryPlayListCheckBoxStateList
+                            .clear();
+                        Get.find<HomeController>().isViewAllSearchEnable.value = false;
+                        Get.find<HomeController>().viewAllTextEditingController.clear();
+                        Get.find<HomeController>().selectedTitle.value = ksPopularTvShows;
+                        await Get.find<HomeController>().getTvShows();
+                        await Get.find<HomeController>().disposeBannerAd();
+                        Get.toNamed(krTvShowsViewAllScreen);
+                        // Get.toNamed(krMovieViewAllScreen);
+                      },
                 image: kiTvScreen,
               ),
               _BottomNavbarItem(
                 width: width,
                 isSelected: selectedIndex == 4,
-                title: "Profile",
-                onPressed: () {
+                title: ksProfile.tr,
+                onPressed: () async{
+                await Get.find<HomeController>().disposeBannerAd();
                   if(Get.find<GlobalController>().userToken.value==""){
                     Get.toNamed(krSignInScreen);
                   }
                   else{
                     Get.toNamed(krProfileScreen);
+                    final int userId = await SpController().getUserId()??-1;
+                    await Get.find<ProfileController>().getProfile(userId: userId);
                   }
                 },
                 image: kiProfile,
@@ -85,7 +110,6 @@ class _BottomNavbarItem extends StatelessWidget {
   final VoidCallback? onPressed;
 
   const _BottomNavbarItem({
-    super.key,
     required this.width,
     required this.isSelected,
     required this.title,

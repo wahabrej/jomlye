@@ -1,5 +1,8 @@
-package com.example.vidflix_flutter_app
+package com.spagreen.flixoo
 
 import io.flutter.embedding.android.FlutterActivity
 
-class MainActivity: FlutterActivity()
+import io.flutter.embedding.android.FlutterFragmentActivity
+
+class MainActivity: FlutterFragmentActivity() {
+}

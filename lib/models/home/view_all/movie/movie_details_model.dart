@@ -4,8 +4,15 @@ class MovieDetailsModel {
     final List<Cast>? cast;
     final List<Cast>? director;
     final List<Cast>? writer;
+    // final List<Review>? reviews;
     final List<MovieDetails>? relatedMovie;
     final List<MovieDetails>? recommendedMovie;
+    final List<int>? playlistIds;
+    List<String>? videoTags;
+    final Rental? rental;
+    final Download? download;
+    final bool? isRented;
+    final String? shareLink;
 
     MovieDetailsModel({
         this.details,
@@ -13,8 +20,15 @@ class MovieDetailsModel {
         this.cast,
         this.director,
         this.writer,
+        // this.reviews,
         this.relatedMovie,
         this.recommendedMovie,
+        this.playlistIds,
+        this.videoTags,
+        this.rental,
+        this.download,
+        this.isRented,
+        this.shareLink,
     });
 
     factory MovieDetailsModel.fromJson(Map<String, dynamic> json) => MovieDetailsModel(
@@ -23,10 +37,73 @@ class MovieDetailsModel {
         cast: json["cast"] == null ? [] : List<Cast>.from(json["cast"]!.map((x) => Cast.fromJson(x))),
         director: json["director"] == null ? [] : List<Cast>.from(json["director"]!.map((x) => Cast.fromJson(x))),
         writer: json["writer"] == null ? [] : List<Cast>.from(json["writer"]!.map((x) => Cast.fromJson(x))),
+        // reviews: List<Review>.from(json["reviews"].map((x) => Review.fromJson(x))),
         relatedMovie: json["related_movie"] == null ? [] : List<MovieDetails>.from(json["related_movie"]!.map((x) => MovieDetails.fromJson(x))),
         recommendedMovie: json["recommended_movie"] == null ? [] : List<MovieDetails>.from(json["recommended_movie"]!.map((x) => MovieDetails.fromJson(x))),
+        playlistIds: json["playlist_ids"] == null ? [] : List<int>.from(json["playlist_ids"]!.map((x) => x)),
+        videoTags: json["video_tags"] == null ? [] : List<String>.from(json["video_tags"]!.map((x) => x)),
+        rental: json["rental"] == null ? null : Rental.fromJson(json["rental"]),
+        download: json["download"] == null ? null : Download.fromJson(json["download"]),
+        isRented: json["is_rented"],
+        shareLink: json["share_link"],
     );
 }
+
+
+class Download {
+    final int? isDownloadable;
+    final List<Detail>? details;
+
+    Download({
+        this.isDownloadable,
+        this.details,
+    });
+
+    factory Download.fromJson(Map<String, dynamic> json) => Download(
+        isDownloadable: json["is_downloadable"],
+        details: json["details"] == null ? [] : List<Detail>.from(json["details"]!.map((x) => Detail.fromJson(x))),
+    );
+}
+
+class Detail {
+    final int? id;
+    final String? title;
+    final String? link;
+    final String? resolution;
+    final String? fileSize;
+    final int? status;
+    final String? downloadableType;
+    final int? downloadableId;
+    final DateTime? createdAt;
+    final DateTime? updatedAt;
+
+    Detail({
+        this.id,
+        this.title,
+        this.link,
+        this.resolution,
+        this.fileSize,
+        this.status,
+        this.downloadableType,
+        this.downloadableId,
+        this.createdAt,
+        this.updatedAt,
+    });
+
+    factory Detail.fromJson(Map<String, dynamic> json) => Detail(
+        id: json["id"],
+        title: json["title"],
+        link: json["link"],
+        resolution: json["resolution"],
+        fileSize: json["file_size"],
+        status: json["status"],
+        downloadableType: json["downloadable_type"],
+        downloadableId: json["downloadable_id"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    );
+}
+
 
 class Cast {
     final int? id;
@@ -67,6 +144,33 @@ class Cast {
     );
 }
 
+// class Review {
+//     final int reviewId;
+//     final int userId;
+//     final String name;
+//     final String review;
+//     final int rating;
+//     final String image;
+
+//     Review({
+//         required this.reviewId,
+//         required this.userId,
+//         required this.name,
+//         required this.review,
+//         required this.rating,
+//         required this.image,
+//     });
+
+//     factory Review.fromJson(Map<String, dynamic> json) => Review(
+//         reviewId: json["review_id"],
+//         userId: json["user_id"],
+//         name: json["name"],
+//         review: json["review"],
+//         rating: json["rating"],
+//         image: json["image"],
+//     );
+// }
+
 class MovieDetails {
     final int? id;
     final String? title;
@@ -86,7 +190,8 @@ class MovieDetails {
     final String? videoType;
     final String? runtime;
     final String? videoQuality;
-    final int? isPaid;
+    final int? isFree;
+    final int? isRental;
     final int? isOriginal;
     final int? isTrending;
     final int? isFeatured;
@@ -112,6 +217,8 @@ class MovieDetails {
     final int? tmdbId;
     final DateTime? createdAt;
     final DateTime? updatedAt;
+    final bool? isFavorite;
+    
 
     MovieDetails({
         this.id,
@@ -132,7 +239,8 @@ class MovieDetails {
         this.videoType,
         this.runtime,
         this.videoQuality,
-        this.isPaid,
+        this.isFree,
+        this.isRental,
         this.isOriginal,
         this.isTrending,
         this.isFeatured,
@@ -158,6 +266,7 @@ class MovieDetails {
         this.tmdbId,
         this.createdAt,
         this.updatedAt,
+        this.isFavorite,
     });
 
     factory MovieDetails.fromJson(Map<String, dynamic> json) => MovieDetails(
@@ -179,7 +288,8 @@ class MovieDetails {
         videoType: json["video_type"],
         runtime: json["runtime"],
         videoQuality: json["video_quality"],
-        isPaid: json["is_paid"],
+        isFree: json["is_free"],
+        isRental: json["is_rental"],
         isOriginal: json["is_original"],
         isTrending: json["is_trending"],
         isFeatured: json["is_featured"],
@@ -205,6 +315,7 @@ class MovieDetails {
         tmdbId: json["tmdb_id"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        isFavorite: json["is_favorite"],
     );
 }
 
@@ -244,5 +355,24 @@ class Server {
         order: json["order"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    );
+}
+
+
+class Rental {
+    final String? price;
+    final String? validity;
+    final DateTime? expireData;
+
+    Rental({
+        this.price,
+        this.validity,
+        this.expireData,
+    });
+
+    factory Rental.fromJson(Map<String, dynamic> json) => Rental(
+        price: json["price"],
+        validity: json["validity"],
+        expireData: json["expire_data"] == null ? null : DateTime.parse(json["expire_data"]),
     );
 }

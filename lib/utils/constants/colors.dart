@@ -1,6 +1,6 @@
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
-const Color cPrimaryColor = Color(0xFF05AAFD);
+const Color cPrimaryColor = Color(0xFFD50055);
 const Color cPrimaryColor2 = Color(0xFFD50055);
 const Color cWhiteColor = Color(0xFFFFFFFF);
 const Color cRedColor = Color(0xFFFF5E5E);
@@ -14,6 +14,8 @@ const Color cGreyColor = Color(0xFFF1F1F1);
 const Color cAmberColor = Color(0xFFFFC526);
 const Color cBlackColor3 = Color(0xFF525252);
 const Color cGreyBoxColor2 = Color(0xFFD9D9D9);
+const Color cTextColor2 = Color(0xFF666666);
+const Color cPurpleColor = Color(0xFF6C52EE);
 const Color cTransparentColor = Colors.transparent;
 
 const Color cLineColor = Color(0xFFD5D8E2);

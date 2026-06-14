@@ -1,4 +1,4 @@
-import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
+import 'package:flixoo_flutter_app/models/home/view_all/blog/blog_model.dart';
 
 class BlogDetailsModel {
     final Detailes? details;

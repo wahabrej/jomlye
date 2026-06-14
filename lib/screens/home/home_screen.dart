@@ -1,715 +1,1123 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flick_video_player/flick_video_player.dart';
+import 'package:flixoo_flutter_app/controllers/common/sp_controller.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
-import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/controllers/video_player/all_video_player_controller.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/widgets/common/common_bottom_nav_bar.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
+import 'package:flixoo_flutter_app/screens/video_player/tv_show_player_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/video_palyer_screen.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/widgets/common/common_bottom_nav_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
   final HomeController homeController = Get.find<HomeController>();
+  final GlobalController globalController = Get.find<GlobalController>();
+  final ProfileController profileController = Get.find<ProfileController>();
+  final AllVideoPlayerController allVideoPlayerController =
+      Get.find<AllVideoPlayerController>();
+  bool isBackPressedOnce = false;
+  DateTime? _lastBackPressed;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       top: false,
-      child: Scaffold(
-        backgroundColor: cBlackColor,
-        body: Obx(
-          () => SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                HomeSlider(),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                  child: Text(
-                    ksExploreByGenre,
-                    style: medium16TextStyle(cWhiteColor),
-                  ),
-                ),
-                kH16sizedBox,
-                Padding(
-                  padding: const EdgeInsets.only(left: k20Padding),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: width - 20,
-                        height: 34.h,
-                        child: ListView.separated(
-                          itemCount: homeController.genreList.length,
-                          separatorBuilder: (context, index) => kW8sizedBox,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return Obx(() => GestureDetector(
-                                  onTap: () {
-                                    homeController.selectedGenre.value =
-                                        homeController.genreList[index].name ??
-                                            "";
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color:
-                                          homeController.selectedGenre.value ==
-                                                  homeController
-                                                      .genreList[index].name
-                                              ? cPrimaryColor2
-                                              : cWhiteColor.withOpacity(0.1),
-                                      borderRadius: BorderRadius.circular(6.r),
-                                    ),
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 16.w, vertical: 6.h),
-                                      child: Center(
-                                        child: Text(
-                                          homeController
-                                                  .genreList[index].name ??
-                                              "",
-                                          style:
-                                              regular14TextStyle(cWhiteColor),
-                                          textAlign: TextAlign.center,
-                                          overflow: TextOverflow.clip,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ));
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                kH16sizedBox,
-                HomeTitleContent(
-                  title: ksNewRelease.tr,
-                  subtitleText: ksViewAll,
-                  onPressed: () async {
-                    homeController.resetBottomNavBarData();
-                    homeController.isViewAllSearchEnable.value = false;
-                    homeController.viewAllTextEditingController.clear();
-                    homeController.selectedTitle.value = ksNewRelease;
-                    await homeController.getMovieList(movieType: "newRelease");
-                    Get.toNamed(krMovieViewAllScreen);
-                  },
-                ),
-                kH16sizedBox,
-                Padding(
-                  padding: const EdgeInsets.only(left: k20Padding),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: width - 20,
-                        height: 150.h,
-                        child: ListView.separated(
-                          itemCount: homeController.newReleaseMoviesList.length,
-                          separatorBuilder: (context, index) => kW8sizedBox,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () async {
-                                await homeController.getMovieDetails(
-                                    movieId: homeController
-                                        .newReleaseMoviesList[index].id!
-                                        .toString());
-                                        if(homeController
-                                        .movieServerList.isNotEmpty){
-                                        String videoUrl = homeController
-                                        .movieServerList[0]?.fileUrl ??
-                                    "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                );
-                                        }
-                                        else{
-                                          String videoUrl = "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                ); 
-                                        }
-                   
-                                Get.toNamed(krVideoPlayerScreen);
-                              },
-                              child: MovieContentContainer(
-                                movieImage: homeController
-                                    .newReleaseMoviesList[index].thumbnail,
-                                isPremium: homeController
-                                            .newReleaseMoviesList[index]
-                                            .isPaid ==
-                                        1
-                                    ? true
-                                    : false,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                kH16sizedBox,
-                HomeTitleContent(
-                  title: ksTrendingMovies.tr,
-                  subtitleText: ksViewAll,
-                  onPressed: () async {
-                    homeController.resetBottomNavBarData();
-                    homeController.isViewAllSearchEnable.value = false;
-                    homeController.viewAllTextEditingController.clear();
-                    homeController.selectedTitle.value = ksTrendingMovies;
-                    await homeController.getMovieList(movieType: "trending");
-                    Get.toNamed(krMovieViewAllScreen);
-                  },
-                ),
-                kH16sizedBox,
-                Padding(
-                  padding: const EdgeInsets.only(left: k20Padding),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: width - 20,
-                        height: 150.h,
-                        child: ListView.separated(
-                          itemCount: homeController.trendingMoviesList.length,
-                          separatorBuilder: (context, index) => kW8sizedBox,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () async {
-                                await homeController.getMovieDetails(
-                                    movieId: homeController
-                                        .trendingMoviesList[index].id!
-                                        .toString());
-                                        if(homeController
-                                        .movieServerList.isNotEmpty){
-                                        String videoUrl = homeController
-                                        .movieServerList[0]?.fileUrl ??
-                                    "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                );
-                                        }
-                                        else{
-                                          String videoUrl = "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                ); 
-                                        }
-                   
-                                Get.toNamed(krVideoPlayerScreen);
-                              },
-                              child: MovieContentContainer(
-                                movieImage: homeController
-                                    .trendingMoviesList[index].thumbnail,
-                                // seasonName: ,
-                                isPremium: homeController
-                                            .trendingMoviesList[index].isPaid ==
-                                        1
-                                    ? true
-                                    : false,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                kH16sizedBox,
-                HomeTitleContent(
-                  title: ksRecommendedMovies.tr,
-                  subtitleText: ksViewAll,
-                  onPressed: () async {
-                    homeController.resetBottomNavBarData();
-                    homeController.isViewAllSearchEnable.value = false;
-                    homeController.viewAllTextEditingController.clear();
-                    homeController.selectedTitle.value = ksRecommendedMovies;
-                    await homeController.getMovieList(movieType: "recommended");
-                    Get.toNamed(krMovieViewAllScreen);
-                  },
-                ),
-                kH16sizedBox,
-                Padding(
-                  padding: const EdgeInsets.only(left: k20Padding),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: width - 20,
-                        height: 150.h,
-                        child: ListView.separated(
-                          itemCount:
-                              homeController.recommendedMoviesList.length,
-                          separatorBuilder: (context, index) => kW8sizedBox,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                             onTap: () async {
-                                await homeController.getMovieDetails(
-                                    movieId: homeController
-                                        .recommendedMoviesList[index].id!
-                                        .toString());
-                                        if(homeController
-                                        .movieServerList.isNotEmpty){
-                                        String videoUrl = homeController
-                                        .movieServerList[0]?.fileUrl ??
-                                    "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                );
-                                        }
-                                        else{
-                                          String videoUrl = "";
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                ); 
-                                        }
-                   
-                                Get.toNamed(krVideoPlayerScreen);
-                              },
-                              child: MovieContentContainer(
-                                movieImage: homeController
-                                    .recommendedMoviesList[index].thumbnail,
-                                // seasonName: ,
-                                isPremium: homeController
-                                            .recommendedMoviesList[index]
-                                            .isPaid ==
-                                        1
-                                    ? true
-                                    : false,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                kH16sizedBox,
-                HomeTitleContent(
-                  title: ksPopularTvShows.tr,
-                  subtitleText: ksViewAll,
-                  onPressed: () async {
-                    homeController.resetBottomNavBarData();
-                    homeController.isViewAllSearchEnable.value = false;
-                    homeController.viewAllTextEditingController.clear();
-                    homeController.selectedTitle.value = ksPopularTvShows;
-                    await homeController.getTvShows();
-                    Get.toNamed(krTvShowsViewAllScreen);
-                    // Get.toNamed(krMovieViewAllScreen);
-                  },
-                ),
-                kH16sizedBox,
-                Padding(
-                  padding: const EdgeInsets.only(left: k20Padding),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: width - 20,
-                        height: 150.h,
-                        child: ListView.separated(
-                          itemCount: homeController.popularTvShowsList.length,
-                          separatorBuilder: (context, index) => kW8sizedBox,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return InkWell(
-                              onTap: () {
-                                const String videoUrl =
-                                    "https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4"; //!dummy video url
-                                Get.find<AllVideoPlayerController>()
-                                    .flickManager = FlickManager(
-                                  videoPlayerController:
-                                      VideoPlayerController.network(videoUrl),
-                                );
-                                Get.toNamed(krVideoPlayerScreen);
-                              },
-                              child: MovieContentContainer(
-                                movieImage: homeController
-                                    .popularTvShowsList[index].thumbnail,
-                                // seasonName: ,
-                                isPremium: homeController
-                                            .popularTvShowsList[index].isPaid ==
-                                        1
-                                    ? true
-                                    : false,
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                kH20sizedBox,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-                  child: Stack(
-                    children: [
-                      ClipRRect(
-                          borderRadius: BorderRadius.circular(k6BorderRadius),
-                          child: Image.network(
-                            "https://i.ytimg.com/vi/Le_aY-4FJ7E/maxresdefault.jpg",
-                            width: width - 40,
-                            height: 210.h,
-                            fit: BoxFit.cover,
-                          )),
-                      Positioned(
-                        top: 60,
-                        right: width * 0.15,
-                        child: Column(
-                          children: [
-                            Container(
-                              width: width * 0.6,
-                              height: 24.h,
-                              decoration: BoxDecoration(
-                                color: cWhiteColor.withOpacity(0.3),
-                                borderRadius: BorderRadius.circular(100.r),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 6.w, vertical: 3.h),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.star,
-                                          color: cPrimaryColor2,
-                                          size: kIconSize20,
-                                        ),
-                                        kW6sizedBox,
-                                        Text(
-                                          "4.6",
-                                          style:
-                                              regular12TextStyle(cWhiteColor),
-                                        ),
-                                        kW6sizedBox,
-                                        VerticalDivider(
-                                          width: 1,
-                                          thickness: 1,
-                                          color: cWhiteColor.withOpacity(0.5),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.access_time_filled_sharp,
-                                          color: cPrimaryColor2,
-                                          size: kIconSize20,
-                                        ),
-                                        kW6sizedBox,
-                                        Text(
-                                          "2 hr 30 mins",
-                                          style:
-                                              regular12TextStyle(cWhiteColor),
-                                        ),
-                                        kW6sizedBox,
-                                        VerticalDivider(
-                                          width: 1,
-                                          thickness: 1,
-                                          color: cWhiteColor.withOpacity(0.5),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.calendar_today_outlined,
-                                          color: cPrimaryColor2,
-                                          size: kIconSize20,
-                                        ),
-                                        kW6sizedBox,
-                                        Text(
-                                          "2024",
-                                          style:
-                                              regular12TextStyle(cWhiteColor),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+      child: WillPopScope(
+        onWillPop: () async {
+          if (_lastBackPressed == null ||
+              DateTime.now().difference(_lastBackPressed!) >
+                  const Duration(seconds: 2)) {
+            _lastBackPressed = DateTime.now();
+            isBackPressedOnce = true;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Press again to exit'),
+                duration: Duration(seconds: 2),
+              ),
+            );
+            return false;
+          } else {
+            isBackPressedOnce = false;
+            return true;
+          }
+        },
+        //!referesh indicator for home
+        child: RefreshIndicator(
+          backgroundColor: cWhiteColor,
+          color: cPrimaryColor,
+          onRefresh: () async {
+            await homeController.getHomePage();
+            String? token = await SpController().getBearerToken();
+            if (token != null) {
+              await Get.find<HomeController>().getWatchHistory();
+            }
+          },
+          child: Scaffold(
+            backgroundColor: cBlackColor,
+            body: Obx(
+              () => SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (globalController.subscribedUserCheck.value == false)
+                      Obx(() {
+                        if (homeController.isBannerAdLoaded.value &&
+                            homeController.bannerAd != null) {
+                          return Column(
+                            children: [
+                              Center(
+                                child: Container(
+                                  key: ValueKey(
+                                      'banner_ad_${homeController.bannerAd.hashCode}'),
+                                  alignment: Alignment.center,
+                                  width: homeController.bannerAd!.size.width
+                                      .toDouble(),
+                                  height: homeController.bannerAd!.size.height
+                                      .toDouble(),
+                                  child: AdWidget(ad: homeController.bannerAd!),
                                 ),
                               ),
+                            ],
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      }),
+                    if (homeController.sliderList.isNotEmpty) HomeSlider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: k20Padding),
+                          child: Text(
+                            ksExploreMovieByGenre.tr,
+                            style: medium16TextStyle(cWhiteColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                    kH16sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.only(left: k20Padding),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: width - 20,
+                            height: 34.h,
+                            child: ListView.separated(
+                              itemCount: homeController.genreList.length,
+                              separatorBuilder: (context, index) => kW8sizedBox,
+                              shrinkWrap: true,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return Obx(() => GestureDetector(
+                                      onTap: () {
+                                        homeController.selectedGenre.value =
+                                            homeController
+                                                    .genreList[index].name ??
+                                                "";
+                                        homeController.selectedGenreId.value =
+                                            homeController
+                                                    .genreList[index].id ??
+                                                -1;
+                                        homeController.isApplyClicked.value =
+                                            true;
+                                        homeController.getFilterMovieList();
+                                        homeController
+                                            .isHomeGenreClicked.value = true;
+                                        Get.toNamed(krMovieViewAllScreen);
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: homeController
+                                                      .selectedGenreId.value ==
+                                                  homeController
+                                                      .genreList[index].id
+                                              ? cPrimaryColor2
+                                              : cWhiteColor.withOpacity(0.1),
+                                          borderRadius:
+                                              BorderRadius.circular(6.r),
+                                        ),
+                                        child: Padding(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 16.w, vertical: 6.h),
+                                          child: Center(
+                                            child: Text(
+                                              homeController
+                                                      .genreList[index].name ??
+                                                  "",
+                                              style: regular14TextStyle(
+                                                  cWhiteColor),
+                                              textAlign: TextAlign.center,
+                                              overflow: TextOverflow.clip,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ));
+                              },
                             ),
-                            const Text(
-                              "3 idiots",
-                              style: TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w700,
-                                  color: cWhiteColor),
-                            ),
-                            Container(
-                              width: 46.w,
-                              height: 46.h,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: cPrimaryColor2,
-                              ),
-                              child: const Icon(
-                                Icons.play_arrow,
-                                size: kIconSize28,
-                                color: cWhiteColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                    kH16sizedBox,
+                    if (homeController.newReleaseMoviesList.isNotEmpty)
+                      HomeTitleContent(
+                        title: ksNewRelease.tr,
+                        subtitleText: ksViewAll.tr,
+                        onPressed: () async {
+                          homeController.selectedServer.value = 0;
+                          homeController.resetBottomSheetData();
+                          profileController.temporaryPlayListCheckBoxStateList
+                              .clear();
+                          homeController.isViewAllSearchEnable.value = false;
+                          homeController.viewAllTextEditingController.clear();
+                          homeController.selectedTitle.value = ksNewRelease;
+                          await homeController.getMovieList(
+                              movieType: "newRelease");
+                          homeController.isHomeGenreClicked.value = false;
+                          Get.toNamed(krMovieViewAllScreen);
+                        },
+                      ),
+                    if (homeController.newReleaseMoviesList.isNotEmpty)
+                      kH16sizedBox,
+                    if (homeController.newReleaseMoviesList.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: k20Padding),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: width - 20,
+                              height: 150.h,
+                              child: ListView.separated(
+                                itemCount:
+                                    homeController.newReleaseMoviesList.length,
+                                separatorBuilder: (context, index) =>
+                                    kW8sizedBox,
+                                shrinkWrap: true,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () async {
+                                      homeController.resetRatingData();
+                                      await homeController.getMovieDetails(
+                                          movieId: homeController
+                                              .newReleaseMoviesList[index].id!
+                                              .toString());
+                                      profileController.isFavoriteAdded.value =
+                                          homeController.movieDetailsData.value
+                                                  ?.isFavorite ??
+                                              false;
+                                      if (homeController
+                                          .movieServerList.isNotEmpty) {
+                                        allVideoPlayerController
+                                            .videoPlayerFunction(
+                                                isFree: homeController
+                                                    .newReleaseMoviesList[index]
+                                                    .isFree,
+                                                isRental:
+                                                    homeController
+                                                        .newReleaseMoviesList[
+                                                            index]
+                                                        .isRental,
+                                                isRented:
+                                                    homeController
+                                                        .movieDetailsModel
+                                                        .value
+                                                        ?.isRented,
+                                                isSubscribed:
+                                                    Get.find<GlobalController>()
+                                                        .subscribedUserCheck
+                                                        .value,
+                                                fileUrl: homeController
+                                                    .movieServerList[0]
+                                                    ?.fileUrl,
+                                                fileSource: homeController
+                                                    .movieServerList[0]
+                                                    ?.fileSource);
+                                      }
+                                      if (globalController
+                                              .subscribedUserCheck.value ==
+                                          false) {
+                                        homeController.showInterstitialAd();
+                                      }
+                                      Get.to(() => VideoPlayerScreen(
+                                            isRentableVideo: homeController
+                                                            .movieDetailsData
+                                                            .value
+                                                            ?.isFree ==
+                                                        0 &&
+                                                    homeController
+                                                            .movieDetailsData
+                                                            .value
+                                                            ?.isRental ==
+                                                        1
+                                                ? true
+                                                : false,
+                                          ));
+                                    },
+                                    child: MovieContentContainer(
+                                      movieImage: homeController
+                                          .newReleaseMoviesList[index]
+                                          .thumbnail,
+                                      isPremium: homeController
+                                                  .newReleaseMoviesList[index]
+                                                  .isFree ==
+                                              false &&
+                                          homeController
+                                                  .newReleaseMoviesList[index]
+                                                  .isRental ==
+                                              false,
+                                      isRentable: homeController
+                                                  .newReleaseMoviesList[index]
+                                                  .isFree ==
+                                              false &&
+                                          homeController
+                                                  .newReleaseMoviesList[index]
+                                                  .isRental ==
+                                              true,
+                                      price: homeController
+                                          .newReleaseMoviesList[index].price,
+                                    ),
+                                  );
+                                },
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                kH16sizedBox,
-                Padding(
-                  padding: const EdgeInsets.only(left: k20Padding),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: width - 20,
-                        height: 140.h,
-                        child: ListView.separated(
-                          itemCount: homeController.recentPlayedMovies.length,
-                          separatorBuilder: (context, index) => kW10sizedBox,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return MovieCard(
-                              imageUrl: homeController.recentPlayedMovies[index]
-                                  ["imageUrl"],
-                              title: homeController.recentPlayedMovies[index]
-                                  ["title"],
-                              duration: homeController.recentPlayedMovies[index]
-                                  ["duration"],
-                            );
-                          },
-                        ),
+                    kH16sizedBox,
+                    if (homeController.trendingMoviesList.isNotEmpty)
+                      HomeTitleContent(
+                        title: ksTrendingMovies.tr,
+                        subtitleText: ksViewAll.tr,
+                        onPressed: () async {
+                          homeController.selectedServer.value = 0;
+                          homeController.resetBottomSheetData();
+                          profileController.temporaryPlayListCheckBoxStateList
+                              .clear();
+                          homeController.isViewAllSearchEnable.value = false;
+                          homeController.viewAllTextEditingController.clear();
+                          homeController.selectedTitle.value = ksTrendingMovies;
+                          await homeController.getMovieList(
+                              movieType: "trending");
+                          homeController.isHomeGenreClicked.value = false;
+                          Get.toNamed(krMovieViewAllScreen);
+                        },
                       ),
-                    ],
-                  ),
-                ),
-                kH16sizedBox,
-                HomeTitleContent(
-                  title: ksFeaturedTvChannels.tr,
-                  subtitleText: ksViewAll,
-                  onPressed: () {
-                    homeController.resetBottomNavBarData();
-                    homeController.isViewAllSearchEnable.value = false;
-                    homeController.viewAllTextEditingController.clear();
-                    Get.toNamed(krTvChannelsViewAllScreen);
-                  },
-                ),
-                kH16sizedBox,
-                Padding(
-                  padding: const EdgeInsets.only(left: k20Padding),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: width - 20,
-                        height: 120.h,
-                        child: ListView.separated(
-                          itemCount:
-                              homeController.featuredTvChannelsList.length,
-                          separatorBuilder: (context, index) => kW8sizedBox,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return FeaturedTvChannelsContentContainer(
-                              image: homeController
-                                      .featuredTvChannelsList[index]
-                                      .thumbnail ??
-                                  "",
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                kH16sizedBox,
-                HomeTitleContent(
-                  title: ksTvSeries.tr,
-                  subtitleText: ksViewAll,
-                  onPressed: () async {
-                    homeController.resetBottomNavBarData();
-                    homeController.isViewAllSearchEnable.value = false;
-                    homeController.viewAllTextEditingController.clear();
-                  },
-                ),
-                kH16sizedBox,
-                Padding(
-                  padding: const EdgeInsets.only(left: k20Padding),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: width - 20,
-                        height: 150.h,
-                        child: ListView.separated(
-                          itemCount: homeController.tvShowsList.length,
-                          separatorBuilder: (context, index) => kW10sizedBox,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return MovieContentContainer(
-                              movieImage:
-                                  homeController.tvShowsList[index].thumbnail,
-                              // seasonName: homeController.tvShowsList[index].,
-                              isPremium:
-                                  homeController.tvShowsList[index].isPaid == 1
-                                      ? true
-                                      : false,
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                kH16sizedBox,
-                HomeTitleContent(
-                  title: ksTopArtists.tr,
-                  subtitleText: ksViewAll,
-                  onPressed: () async {
-                    homeController.resetBottomNavBarData();
-                    homeController.isViewAllSearchEnable.value = false;
-                    homeController.viewAllTextEditingController.clear();
-                    await homeController.getArtistList();
-                    Get.toNamed(krTopArtistsViewAllScreen);
-                  },
-                ),
-                kH16sizedBox,
-                Padding(
-                  padding: const EdgeInsets.only(left: k20Padding),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: width - 20,
-                        height: 88.h,
-                        child: ListView.separated(
-                          itemCount: homeController.topArtistsList.length,
-                          separatorBuilder: (context, index) => kW10sizedBox,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return TopArtistContent(
-                              image: homeController
-                                      .topArtistsList[index].starImage ??
-                                  "",
-                              name: homeController
-                                      .topArtistsList[index].starName ??
-                                  "",
-                              onPressed: () async {
-                                await homeController.getArtistDetails(
-                                    homeController.topArtistsList[index].id);
-                                Get.toNamed(krCastDetailsScreen);
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                kH16sizedBox,
-                HomeTitleContent(
-                  title: ksLatestBlog.tr,
-                  subtitleText: ksViewAll,
-                  onPressed: () async {
-                    homeController.resetBottomNavBarData();
-                    homeController.isViewAllSearchEnable.value = false;
-                    homeController.viewAllTextEditingController.clear();
-                    await homeController.getBlogList();
-                    homeController.selectedBlogCategories.value = "";
-                    homeController.selectedBlogCategoryId.value = "";
-                    homeController.selectedYear.value = "";
-                    Get.toNamed(krAllBlogsViewAllScreen);
-                  },
-                ),
-                kH16sizedBox,
-                Padding(
-                  padding: const EdgeInsets.only(left: k20Padding),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: width - 20,
-                        height: 210.h,
-                        child: ListView.separated(
-                          itemCount: homeController.latestBlogsList.length,
-                          separatorBuilder: (context, index) => kW10sizedBox,
-                          shrinkWrap: true,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () async {
-                                await homeController.getBlogDetails(
-                                    homeController.latestBlogsList[index].id);
-                                Get.toNamed(krBlogSingleScreen);
-                              },
-                              child: LatestBlogPostContent(
-                                image: homeController
-                                        .latestBlogsList[index].image ??
-                                    "",
-                                title: homeController
-                                        .latestBlogsList[index].title ??
-                                    "",
-                                subTitle: homeController
-                                        .latestBlogsList[index].seoTitle ??
-                                    "",
-                                date: DateFormat('d MMM, yyyy').format(
-                                    DateTime.parse(homeController
-                                        .latestBlogsList[index].createdAt
-                                        .toString())),
-                                reporter: homeController
-                                        .latestBlogsList[index].author ??
-                                    "",
-                                isTop:
-                                    homeController.latestBlogsList[index].isTop,
+                    if (homeController.trendingMoviesList.isNotEmpty)
+                      kH16sizedBox,
+                    if (homeController.trendingMoviesList.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: k20Padding),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: width - 20,
+                              height: 150.h,
+                              child: ListView.separated(
+                                itemCount:
+                                    homeController.trendingMoviesList.length,
+                                separatorBuilder: (context, index) =>
+                                    kW8sizedBox,
+                                shrinkWrap: true,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () async {
+                                      homeController.selectedServer.value = 0;
+                                      homeController.resetRatingData();
+                                      await homeController.getMovieDetails(
+                                          movieId: homeController
+                                              .trendingMoviesList[index].id!
+                                              .toString());
+                                      profileController.isFavoriteAdded.value =
+                                          homeController.movieDetailsData.value
+                                                  ?.isFavorite ??
+                                              false;
+                                      if (homeController
+                                          .movieServerList.isNotEmpty) {
+                                        allVideoPlayerController
+                                            .videoPlayerFunction(
+                                                isFree: homeController
+                                                    .trendingMoviesList[index]
+                                                    .isFree,
+                                                isRental:
+                                                    homeController
+                                                        .trendingMoviesList[
+                                                            index]
+                                                        .isRental,
+                                                isRented:
+                                                    homeController
+                                                        .movieDetailsModel
+                                                        .value
+                                                        ?.isRented,
+                                                isSubscribed:
+                                                    Get.find<GlobalController>()
+                                                        .subscribedUserCheck
+                                                        .value,
+                                                fileUrl: homeController
+                                                    .movieServerList[0]
+                                                    ?.fileUrl,
+                                                fileSource: homeController
+                                                    .movieServerList[0]
+                                                    ?.fileSource);
+                                      }
+                                      if (globalController
+                                              .subscribedUserCheck.value ==
+                                          false) {
+                                        homeController.showInterstitialAd();
+                                      }
+                                      Get.to(() => VideoPlayerScreen(
+                                            isRentableVideo: homeController
+                                                            .movieDetailsData
+                                                            .value
+                                                            ?.isFree ==
+                                                        0 &&
+                                                    homeController
+                                                            .movieDetailsData
+                                                            .value
+                                                            ?.isRental ==
+                                                        1
+                                                ? true
+                                                : false,
+                                          ));
+                                    },
+                                    child: MovieContentContainer(
+                                      movieImage: homeController
+                                          .trendingMoviesList[index].thumbnail,
+                                      isPremium: homeController
+                                                  .trendingMoviesList[index]
+                                                  .isFree ==
+                                              false &&
+                                          homeController
+                                                  .trendingMoviesList[index]
+                                                  .isRental ==
+                                              false,
+                                      isRentable: homeController
+                                                  .trendingMoviesList[index]
+                                                  .isFree ==
+                                              false &&
+                                          homeController
+                                                  .trendingMoviesList[index]
+                                                  .isRental ==
+                                              true,
+                                      price: homeController
+                                          .trendingMoviesList[index].price,
+                                    ),
+                                  );
+                                },
                               ),
-                            );
-                          },
+                            ),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
+                    kH16sizedBox,
+                    if (homeController.recommendedMoviesList.isNotEmpty)
+                      HomeTitleContent(
+                        title: ksRecommendedMovies.tr,
+                        subtitleText: ksViewAll.tr,
+                        onPressed: () async {
+                          homeController.resetBottomSheetData();
+                          profileController.temporaryPlayListCheckBoxStateList
+                              .clear();
+                          homeController.isViewAllSearchEnable.value = false;
+                          homeController.viewAllTextEditingController.clear();
+                          homeController.selectedTitle.value =
+                              ksRecommendedMovies;
+                          await homeController.getMovieList(
+                              movieType: "recommended");
+                          homeController.isHomeGenreClicked.value = false;
+                          Get.toNamed(krMovieViewAllScreen);
+                        },
+                      ),
+                    if (homeController.recommendedMoviesList.isNotEmpty)
+                      kH16sizedBox,
+                    if (homeController.recommendedMoviesList.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: k20Padding),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: width - 20,
+                              height: 150.h,
+                              child: ListView.separated(
+                                itemCount:
+                                    homeController.recommendedMoviesList.length,
+                                separatorBuilder: (context, index) =>
+                                    kW8sizedBox,
+                                shrinkWrap: true,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () async {
+                                      homeController.selectedServer.value = 0;
+                                      homeController.resetRatingData();
+                                      await homeController.getMovieDetails(
+                                          movieId: homeController
+                                              .recommendedMoviesList[index].id!
+                                              .toString());
+                                      profileController.isFavoriteAdded.value =
+                                          homeController.movieDetailsData.value
+                                                  ?.isFavorite ??
+                                              false;
+                                      if (homeController
+                                          .movieServerList.isNotEmpty) {
+                                        allVideoPlayerController
+                                            .videoPlayerFunction(
+                                                isFree: homeController
+                                                    .recommendedMoviesList[
+                                                        index]
+                                                    .isFree,
+                                                isRental:
+                                                    homeController
+                                                        .recommendedMoviesList[
+                                                            index]
+                                                        .isRental,
+                                                isRented:
+                                                    homeController
+                                                        .movieDetailsModel
+                                                        .value
+                                                        ?.isRented,
+                                                isSubscribed:
+                                                    Get.find<GlobalController>()
+                                                        .subscribedUserCheck
+                                                        .value,
+                                                fileUrl: homeController
+                                                    .movieServerList[0]
+                                                    ?.fileUrl,
+                                                fileSource: homeController
+                                                    .movieServerList[0]
+                                                    ?.fileSource);
+                                      }
+                                      if (globalController
+                                              .subscribedUserCheck.value ==
+                                          false) {
+                                        homeController.showInterstitialAd();
+                                      }
+                                      Get.to(() => VideoPlayerScreen(
+                                            isRentableVideo: homeController
+                                                            .movieDetailsData
+                                                            .value
+                                                            ?.isFree ==
+                                                        0 &&
+                                                    homeController
+                                                            .movieDetailsData
+                                                            .value
+                                                            ?.isRental ==
+                                                        1
+                                                ? true
+                                                : false,
+                                          ));
+                                    },
+                                    child: MovieContentContainer(
+                                      movieImage: homeController
+                                          .recommendedMoviesList[index]
+                                          .thumbnail,
+                                      // seasonName: ,
+                                      isPremium: homeController
+                                                  .recommendedMoviesList[index]
+                                                  .isFree ==
+                                              false &&
+                                          homeController
+                                                  .recommendedMoviesList[index]
+                                                  .isRental ==
+                                              false,
+                                      isRentable: homeController
+                                                  .recommendedMoviesList[index]
+                                                  .isFree ==
+                                              false &&
+                                          homeController
+                                                  .recommendedMoviesList[index]
+                                                  .isRental ==
+                                              true,
+                                      price: homeController
+                                          .recommendedMoviesList[index].price,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    kH16sizedBox,
+                    if (homeController.popularTvShowsList.isNotEmpty)
+                      HomeTitleContent(
+                        title: ksPopularTvShows.tr,
+                        subtitleText: ksViewAll.tr,
+                        onPressed: () async {
+                          homeController.resetBottomSheetData();
+                          profileController.temporaryPlayListCheckBoxStateList
+                              .clear();
+                          homeController.isViewAllSearchEnable.value = false;
+                          homeController.viewAllTextEditingController.clear();
+                          homeController.selectedTitle.value = ksPopularTvShows;
+                          await homeController.getTvShows();
+                          Get.toNamed(krTvShowsViewAllScreen);
+                        },
+                      ),
+                    if (homeController.popularTvShowsList.isNotEmpty)
+                      kH16sizedBox,
+                    if (homeController.popularTvShowsList.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: k20Padding),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: width - 20,
+                              height: 150.h,
+                              child: ListView.separated(
+                                itemCount:
+                                    homeController.popularTvShowsList.length,
+                                separatorBuilder: (context, index) =>
+                                    kW8sizedBox,
+                                shrinkWrap: true,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () async {
+                                      // await homeController.getTvShowDetails(showId: homeController
+                                      //     .tvShowEpisodeList[index]?.id??-1);
+                                      homeController.selectedEpisode.value = 0;
+                                      await homeController.getTvShowDetails(
+                                          showId: homeController
+                                                  .popularTvShowsList[index]
+                                                  .id ??
+                                              -1);
+                                      if (homeController
+                                          .tvShowEpisodeList.isNotEmpty) {
+                                        allVideoPlayerController.videoPlayerFunction(
+                                            isFree: homeController
+                                                        .tvShowDetailsData
+                                                        .value
+                                                        ?.isFree ==
+                                                    1
+                                                ? true
+                                                : false,
+                                            isRental: homeController.tvShowDetailsData
+                                                            .value?.isFree ==
+                                                        0 &&
+                                                    homeController
+                                                            .tvShowDetailsData
+                                                            .value
+                                                            ?.isRental ==
+                                                        1
+                                                ? true
+                                                : false,
+                                            isRented: homeController
+                                                    .tvShowDetailsModel
+                                                    .value
+                                                    ?.isRented ??
+                                                false,
+                                            isSubscribed: Get.find<GlobalController>()
+                                                .subscribedUserCheck
+                                                .value,
+                                            fileUrl: homeController.tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl ?? "",
+                                            fileSource: homeController.tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType ?? "");
+                                      }
+                                      if (globalController
+                                              .subscribedUserCheck.value ==
+                                          false) {
+                                        homeController.showInterstitialAd();
+                                      }
+                                      Get.to(() => TvShowPlayerScreen(
+                                            isRentableVideo: homeController
+                                                            .tvShowDetailsData
+                                                            .value
+                                                            ?.isFree ==
+                                                        0 &&
+                                                    homeController
+                                                            .tvShowDetailsData
+                                                            .value
+                                                            ?.isRental ==
+                                                        1
+                                                ? true
+                                                : false,
+                                          ));
+                                    },
+                                    child: MovieContentContainer(
+                                      movieImage: homeController
+                                          .popularTvShowsList[index].thumbnail,
+                                      // seasonName: ,
+                                      isPremium: homeController
+                                                      .popularTvShowsList[index]
+                                                      .isFree ==
+                                                  0 &&
+                                              homeController
+                                                      .popularTvShowsList[index]
+                                                      .isRental ==
+                                                  0
+                                          ? true
+                                          : false,
+                                      isRentable: homeController
+                                                      .popularTvShowsList[index]
+                                                      .isFree ==
+                                                  0 &&
+                                              homeController
+                                                      .popularTvShowsList[index]
+                                                      .isRental ==
+                                                  1
+                                          ? true
+                                          : false,
+                                      price: homeController
+                                                  .popularTvShowsList[index]
+                                                  .rentalPrice !=
+                                              null
+                                          ? homeController
+                                              .popularTvShowsList[index]
+                                              .rentalPrice
+                                              .toString()
+                                          : "",
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (homeController.watchHistoryList.isNotEmpty)
+                      kH16sizedBox,
+                    if (homeController.watchHistoryList.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: k20Padding),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: width - 20,
+                              height: 150.h,
+                              child: ListView.separated(
+                                itemCount:
+                                    homeController.watchHistoryList.length,
+                                separatorBuilder: (context, index) =>
+                                    kW10sizedBox,
+                                shrinkWrap: true,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () async {
+                                      if (homeController.watchHistoryList[index]
+                                              ?.watchableType
+                                              ?.toLowerCase() ==
+                                          "movie") {
+                                        homeController.selectedServer.value = 0;
+                                        homeController.resetRatingData();
+                                        await homeController.getMovieDetails(
+                                            movieId: homeController
+                                                .watchHistoryList[index]!
+                                                .watchableId!
+                                                .toString());
+                                        profileController.isFavoriteAdded
+                                            .value = homeController
+                                                .movieDetailsData
+                                                .value
+                                                ?.isFavorite ??
+                                            false;
+                                        if (homeController
+                                            .movieServerList.isNotEmpty) {
+                                          allVideoPlayerController
+                                              .videoPlayerFunction(
+                                            isFree: homeController
+                                                        .movieDetailsData
+                                                        .value
+                                                        ?.isFree ==
+                                                    1
+                                                ? true
+                                                : false,
+                                            isRental: homeController
+                                                        .movieDetailsData
+                                                        .value
+                                                        ?.isRental ==
+                                                    1
+                                                ? true
+                                                : false,
+                                            isRented: homeController
+                                                .movieDetailsModel
+                                                .value
+                                                ?.isRented,
+                                            isSubscribed:
+                                                Get.find<GlobalController>()
+                                                    .subscribedUserCheck
+                                                    .value,
+                                            fileUrl: homeController
+                                                .movieServerList[0]?.fileUrl,
+                                            fileSource: homeController
+                                                .movieServerList[0]?.fileSource,
+                                            seekToPosition: (((double.tryParse(
+                                                            (homeController
+                                                                        .watchHistoryList[
+                                                                            index]
+                                                                        ?.watchedSeconds ??
+                                                                    "0")
+                                                                .replaceAll(
+                                                                    "mins", "")
+                                                                .trim()) ??
+                                                        0.0) *
+                                                    60)
+                                                .round()),
+                                          );
+                                        }
+                                        if (globalController
+                                                .subscribedUserCheck.value ==
+                                            false) {
+                                          homeController.showInterstitialAd();
+                                        }
+                                        Get.to(() => VideoPlayerScreen(
+                                              isRentableVideo: homeController
+                                                          .movieDetailsData
+                                                          .value
+                                                          ?.isFree ==
+                                                      0 &&
+                                                  homeController
+                                                          .movieDetailsData
+                                                          .value
+                                                          ?.isRental ==
+                                                      1,
+                                            ));
+                                      } else if (homeController
+                                              .watchHistoryList[index]
+                                              ?.watchableType
+                                              ?.toLowerCase() ==
+                                          "episode") {
+                                        homeController.resetRatingData();
+                                        homeController.selectedEpisode.value =
+                                            0;
+                                        profileController.isFavoriteAdded
+                                            .value = homeController
+                                                .tvShowDetailsData
+                                                .value
+                                                ?.isFavorite ??
+                                            false;
+                                        await homeController.getTvShowDetails(
+                                            showId: homeController
+                                                .watchHistoryList[index]!
+                                                .watchableId!);
+                                        homeController.selectedEpisode.value =
+                                            0;
+                                        if (homeController
+                                            .tvShowEpisodeList.isNotEmpty) {
+                                          allVideoPlayerController.videoPlayerFunction(
+                                              isFree: homeController
+                                                          .tvShowDetailsData
+                                                          .value
+                                                          ?.isFree ==
+                                                      1
+                                                  ? true
+                                                  : false,
+                                              isRental: homeController
+                                                              .tvShowDetailsData
+                                                              .value
+                                                              ?.isFree ==
+                                                          0 &&
+                                                      homeController.tvShowDetailsData
+                                                              .value?.isRental ==
+                                                          1
+                                                  ? true
+                                                  : false,
+                                              isRented: homeController
+                                                      .tvShowDetailsModel
+                                                      .value
+                                                      ?.isRented ??
+                                                  false,
+                                              isSubscribed: Get.find<GlobalController>()
+                                                  .subscribedUserCheck
+                                                  .value,
+                                              fileUrl: homeController.tvShowEpisodeList[homeController.selectedEpisode.value]?.fileUrl ?? "",
+                                              fileSource: homeController.tvShowEpisodeList[homeController.selectedEpisode.value]?.sourceType ?? "",
+                                              seekToPosition: (((double.tryParse((homeController.watchHistoryList[index]?.watchedSeconds ?? "0").replaceAll("mins", "").trim()) ?? 0.0) * 60).round()));
+                                        }
+                                        if (globalController
+                                                .subscribedUserCheck.value ==
+                                            false) {
+                                          homeController.showInterstitialAd();
+                                        }
+                                        Get.to(() => TvShowPlayerScreen(
+                                              isRentableVideo: homeController
+                                                              .tvShowDetailsData
+                                                              .value
+                                                              ?.isFree ==
+                                                          0 &&
+                                                      homeController
+                                                              .tvShowDetailsData
+                                                              .value
+                                                              ?.isRental ==
+                                                          1
+                                                  ? true
+                                                  : false,
+                                            ));
+                                      }
+                                    },
+                                    child: MovieCard(
+                                      imageUrl: homeController
+                                              .watchHistoryList[index]
+                                              ?.watchableDetails
+                                              ?.thumbnail ??
+                                          "",
+                                      title: homeController
+                                              .watchHistoryList[index]
+                                              ?.watchableDetails
+                                              ?.title ??
+                                          "",
+                                      duration: homeController
+                                              .watchHistoryList[index]
+                                              ?.duration ??
+                                          "",
+                                      completePercentage: homeController
+                                              .watchHistoryList[index]
+                                              ?.completionPercentage ??
+                                          "",
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    kH16sizedBox,
+                    if (homeController.featuredTvChannelsList.isNotEmpty)
+                      HomeTitleContent(
+                        title: ksFeaturedTvChannels.tr,
+                        subtitleText: ksViewAll.tr,
+                        onPressed: () async {
+                          homeController.resetBottomSheetData();
+                          profileController.temporaryPlayListCheckBoxStateList
+                              .clear();
+                          homeController.isViewAllSearchEnable.value = false;
+                          homeController.viewAllTextEditingController.clear();
+                          await homeController.getTvChannel();
+                          Get.toNamed(krTvChannelsViewAllScreen);
+                        },
+                      ),
+                    if (homeController.featuredTvChannelsList.isNotEmpty)
+                      kH16sizedBox,
+                    if (homeController.featuredTvChannelsList.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: k20Padding),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: width - 20,
+                              height: 120.h,
+                              child: ListView.separated(
+                                itemCount: homeController
+                                    .featuredTvChannelsList.length,
+                                separatorBuilder: (context, index) =>
+                                    kW8sizedBox,
+                                shrinkWrap: true,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return InkWell(
+                                    onTap: () async {
+                                      await homeController.getTvChannelDetails(
+                                          tvChannelId: homeController
+                                              .featuredTvChannelsList[index]
+                                              .id);
+                                      profileController.isFavoriteAdded.value =
+                                          homeController.liveTvDetailsData.value
+                                                  ?.isFavorite ??
+                                              false;
+                                      homeController.liveTvUrl.value =
+                                          homeController
+                                                  .featuredTvChannelsList[index]
+                                                  .streamUrl ??
+                                              "";
+                                      if (globalController
+                                              .subscribedUserCheck.value ==
+                                          false) {
+                                        homeController.showInterstitialAd();
+                                      }
+                                      Get.toNamed(krLiveTvPlayerScreen);
+                                    },
+                                    child: FeaturedTvChannelsContentContainer(
+                                      image: homeController
+                                              .featuredTvChannelsList[index]
+                                              .thumbnail ??
+                                          "",
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    if (homeController.topArtistsList.isNotEmpty) kH16sizedBox,
+                    if (homeController.topArtistsList.isNotEmpty)
+                      HomeTitleContent(
+                        title: ksTopArtists.tr,
+                        subtitleText: ksViewAll.tr,
+                        onPressed: () async {
+                          homeController.resetBottomSheetData();
+                          homeController.isViewAllSearchEnable.value = false;
+                          homeController.viewAllTextEditingController.clear();
+                          await homeController.getArtistList();
+                          Get.toNamed(krTopArtistsViewAllScreen);
+                        },
+                      ),
+                    if (homeController.topArtistsList.isNotEmpty) kH16sizedBox,
+                    if (homeController.topArtistsList.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.only(left: k20Padding),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: width - 20,
+                              height: 88.h,
+                              child: ListView.separated(
+                                itemCount: homeController.topArtistsList.length,
+                                separatorBuilder: (context, index) =>
+                                    kW10sizedBox,
+                                shrinkWrap: true,
+                                physics: const AlwaysScrollableScrollPhysics(),
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context, index) {
+                                  return TopArtistContent(
+                                    image: homeController
+                                            .topArtistsList[index].starImage ??
+                                        "",
+                                    name: homeController
+                                            .topArtistsList[index].starName ??
+                                        "",
+                                    onPressed: () async {
+                                      await homeController.getArtistDetails(
+                                          homeController
+                                              .topArtistsList[index].id);
+                                      homeController.castSelectedIndex.value =
+                                          0;
+                                      Get.toNamed(krCastDetailsScreen);
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    kH16sizedBox,
+                    HomeTitleContent(
+                      title: ksLatestBlog.tr,
+                      subtitleText: homeController.latestBlogsList.isNotEmpty
+                          ? ksViewAll.tr
+                          : "",
+                      onPressed: () async {
+                        homeController.resetBottomSheetData();
+                        homeController.isViewAllSearchEnable.value = false;
+                        homeController.viewAllTextEditingController.clear();
+                        await homeController.getBlogList();
+                        Get.toNamed(krAllBlogsViewAllScreen);
+                      },
+                    ),
+                    kH16sizedBox,
+                    Padding(
+                      padding: const EdgeInsets.only(left: k16Padding),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: width - 20,
+                            height: 210.h,
+                            child: ListView.separated(
+                              itemCount: homeController.latestBlogsList.length,
+                              padding: const EdgeInsets.all(k0Padding),
+                              separatorBuilder: (context, index) =>
+                                  kW10sizedBox,
+                              shrinkWrap: true,
+                              physics: const AlwaysScrollableScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () async {
+                                    homeController.resetRatingData();
+                                    await homeController.getBlogDetails(
+                                        homeController
+                                            .latestBlogsList[index].id);
+                                    Get.toNamed(krBlogSingleScreen);
+                                    await homeController.getUserReview(
+                                        reviewableId: homeController
+                                            .latestBlogsList[index].id!,
+                                        reviewableType: "blog");
+                                  },
+                                  child: LatestBlogPostContent(
+                                    image: homeController
+                                            .latestBlogsList[index].image ??
+                                        "",
+                                    title: homeController
+                                            .latestBlogsList[index].title ??
+                                        "",
+                                    subTitle: homeController
+                                            .latestBlogsList[index].seoTitle ??
+                                        "",
+                                    date: DateFormat('d MMM, yyyy').format(
+                                        DateTime.parse(homeController
+                                            .latestBlogsList[index].createdAt
+                                            .toString())),
+                                    reporter: homeController
+                                            .latestBlogsList[index].author ??
+                                        "",
+                                    isTop: homeController
+                                        .latestBlogsList[index].isTop,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    for (int i = 0; i < homeController.localAdList.length; i++)
+                      if (homeController.localAdList[i].position
+                                  ?.toLowerCase() ==
+                              "footer" &&
+                          (Get.find<GlobalController>()
+                                  .subscribedUserCheck
+                                  .value ==
+                              false))
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(k8BorderRadius),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                    vertical: k12Padding,
+                                    horizontal: k28Padding)
+                                .copyWith(right: 8),
+                            child: SizedBox(
+                              width: width,
+                              child: Image.network(
+                                homeController.localAdList[i].banner ?? "",
+                                errorBuilder: (context, error, stackTrace) {
+                                  return SvgPicture.asset(
+                                    kiDummyMovie,
+                                    width: width - 40,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                  ],
                 ),
-              ],
+              ),
+            ),
+            bottomNavigationBar: CustomBottomNavBar(
+              width: width,
+              selectedIndex: 0,
             ),
           ),
-        ),
-        bottomNavigationBar: CustomBottomNavBar(
-          width: width,
-          selectedIndex: 0,
-          // isFirstButtonClicked: true,
-          // isSecondButtonClicked: false,
-          // isThirdButtonClicked: false,
-          // isFourthButtonClicked: false,
-          // isFifthButtonClicked: false,
         ),
       ),
     );
@@ -733,7 +1141,7 @@ class LatestBlogPostContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      //!extra added this sized nox. remove it
+      //!extra added this sized box. remove it
       width: (width - 30) / 2,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(k6BorderRadius),
@@ -824,9 +1232,12 @@ class LatestBlogPostContent extends StatelessWidget {
                             color: cWhiteColor,
                           ),
                           kW4sizedBox,
-                          Text(
-                            reporter,
-                            style: regular8TextStyle(cWhiteColor),
+                          Expanded(
+                            child: Text(
+                              reporter,
+                              style: regular8TextStyle(cWhiteColor),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
@@ -846,30 +1257,48 @@ class LatestBlogPostContent extends StatelessWidget {
 class MovieCard extends StatelessWidget {
   const MovieCard({
     super.key,
-    required this.imageUrl,
-    required this.title,
-    required this.duration,
+    this.imageUrl,
+    this.title,
+    this.duration,
+    this.completePercentage,
   });
-  final String imageUrl, title, duration;
+
+  final String? imageUrl, title, duration, completePercentage;
 
   @override
   Widget build(BuildContext context) {
+    // Parse percentage value safely
+    double percentage =
+        double.parse((completePercentage ?? '0').replaceAll('%', ''));
+    percentage = percentage.clamp(0.0, 100.0);
+
     return Stack(
       children: [
+        // Background Image
         ClipRRect(
           borderRadius: BorderRadius.circular(k6BorderRadius),
           child: Image.network(
-            imageUrl,
-            width: 100.w,
-            height: 140.h,
+            imageUrl ?? "",
+            width: (width - 70) / 2.6,
+            height: 150.h,
             fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) => Center(
+              child: SvgPicture.asset(
+                kiDummyMovie,
+                width: (width - 70) / 2.6,
+                height: 150.h,
+                fit: BoxFit.fill,
+              ),
+            ),
           ),
         ),
+
+        // Gradient Overlay
         Container(
-          width: 100.w,
-          height: 140.h,
+          width: (width - 70) / 2.6,
+          height: 150.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(k6BorderRadius),
             gradient: LinearGradient(
               begin: Alignment.bottomCenter,
               end: Alignment.center,
@@ -880,6 +1309,8 @@ class MovieCard extends StatelessWidget {
             ),
           ),
         ),
+
+        // Title, Duration and Progress Bar
         Positioned(
           bottom: 10,
           left: 10,
@@ -888,18 +1319,34 @@ class MovieCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                title ?? "",
                 style: semiBold12TextStyle(cWhiteColor),
               ),
               kH4sizedBox,
-              Text(duration, style: regular10TextStyle(cWhiteColor)),
+              Text(
+                duration ?? "",
+                style: regular10TextStyle(cWhiteColor),
+              ),
               kH4sizedBox,
               Container(
-                height: 3,
+                height: 6,
                 width: 100,
                 decoration: BoxDecoration(
-                  color: cPrimaryColor2,
-                  borderRadius: BorderRadius.circular(4),
+                  color: Colors.white, // Background track
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Stack(
+                  children: [
+                    FractionallySizedBox(
+                      widthFactor: percentage / 100,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: cPrimaryColor2, // Filled portion
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -934,15 +1381,15 @@ class TopArtistContent extends StatelessWidget {
                 image,
                 width: contentWidth ?? 88.w,
                 height: contentHeight ?? 88.h,
-                fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) => Center(
-                child: SvgPicture.asset(
-                  kiDummyMovie,
-                  height: contentHeight ?? 210.h,
-                  width: (width - 30),
-                  fit: BoxFit.fill,
+                fit: BoxFit.fill,
+                errorBuilder: (context, error, stackTrace) => Center(
+                  child: SvgPicture.asset(
+                    kiDummyMovie,
+                    width: contentWidth ?? 88.w,
+                    height: contentHeight ?? 88.h,
+                    fit: BoxFit.fill,
+                  ),
                 ),
-              ),
               )),
           Positioned(
             bottom: 4,
@@ -1040,9 +1487,14 @@ class HomeTitleContent extends StatelessWidget {
 }
 
 class MovieContentContainer extends StatelessWidget {
-  const MovieContentContainer({super.key, this.movieImage, this.isPremium});
-  final String? movieImage;
-  final bool? isPremium;
+  const MovieContentContainer(
+      {super.key,
+      this.movieImage,
+      this.price,
+      this.isPremium,
+      this.isRentable});
+  final String? movieImage, price;
+  final bool? isPremium, isRentable;
 
   @override
   Widget build(BuildContext context) {
@@ -1070,7 +1522,7 @@ class MovieContentContainer extends StatelessWidget {
             ),
           ),
         ),
-        if (isPremium == true)
+        if (isPremium == true && isRentable == false)
           Positioned(
               top: 4,
               right: 4,
@@ -1090,6 +1542,26 @@ class MovieContentContainer extends StatelessWidget {
                   )),
                 ),
               )),
+        if (isRentable == true && isPremium == false)
+          Positioned(
+              top: 4,
+              right: 4,
+              child: Container(
+                height: 16.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(k6BorderRadius),
+                  color: cPurpleColor,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: k4Padding, vertical: 1),
+                  child: Center(
+                      child: Text(
+                    isRentable! ? "Rent ${price ?? ""} " : "",
+                    style: regular10TextStyle(cWhiteColor),
+                  )),
+                ),
+              )),
       ],
     );
   }
@@ -1097,191 +1569,171 @@ class MovieContentContainer extends StatelessWidget {
 
 class HomeSlider extends StatelessWidget {
   HomeSlider({super.key});
+
   final HomeController homeController = Get.find<HomeController>();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CarouselSlider(
-          options: CarouselOptions(
-            height: height * 0.45,
-            autoPlay: true,
-            enlargeCenterPage: true,
-            // viewportFraction: 0.9,
-            viewportFraction: 1,
-            onPageChanged: (index, reason) {
-              homeController.updateCurrentIndex(index);
-            },
-          ),
-          items: homeController.sliderList.map((slider) {
-            return Stack(
-              children: [
-                SizedBox(
-                  width: width,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(k8BorderRadius.r),
-                    child: Image.network(
-                      slider.thumbnail ?? "",
-                      fit: BoxFit.cover,
-                      width: width,
-                      height: height * 0.45,
-                      errorBuilder: (context, error, stackTrace) => Center(
-                        child: SvgPicture.asset(
-                          kiDummyMovie,
-                          width: width,
-                          height: height * 0.45,
-                          fit: BoxFit.cover,
-                        ),
+    return Obx(() => InkWell(
+          onTap: () async {
+            homeController.resetRatingData();
+            if (homeController.sliderList.isEmpty) return;
+
+            await homeController.getMovieDetails(
+              movieId: homeController
+                  .sliderList[homeController.currentIndex.value]!.id!
+                  .toString(),
+            );
+
+            String videoUrl = homeController.movieServerList.isNotEmpty
+                ? homeController.movieServerList[0]?.fileUrl ?? ""
+                : "";
+
+            Get.find<AllVideoPlayerController>().flickManager = FlickManager(
+              videoPlayerController: VideoPlayerController.network(videoUrl),
+            );
+            if (Get.find<GlobalController>().subscribedUserCheck.value ==
+                false) {
+              homeController.showInterstitialAd();
+            }
+            Get.toNamed(krVideoPlayerScreen, arguments: "");
+          },
+          child: Column(
+            children: [
+              SizedBox(
+                height: height * 0.6,
+                width: width,
+                child: Stack(
+                  children: [
+                    /// Carousel Slider (full width)
+                    CarouselSlider.builder(
+                      itemCount: homeController.sliderList.length,
+                      itemBuilder: (context, index, realIndex) {
+                        final slider = homeController.sliderList[index];
+                        return ClipRRect(
+                          borderRadius: BorderRadius.circular(k8BorderRadius.r),
+                          child: Image.network(
+                            slider?.thumbnail ?? "",
+                            width: width,
+                            height: height * 0.6,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                              color: Colors.grey[900],
+                              child: const Center(
+                                  child: Icon(Icons.broken_image,
+                                      color: Colors.white)),
+                            ),
+                          ),
+                        );
+                      },
+                      options: CarouselOptions(
+                        height: height * 0.6,
+                        autoPlay: true,
+                        enlargeCenterPage: true,
+                        viewportFraction: 1,
+                        onPageChanged: (index, reason) {
+                          homeController.updateCurrentIndex(index);
+                        },
                       ),
                     ),
-                  ),
-                ),
-                Positioned(
-                  top: 30,
-                  left: 15,
-                  child: Row(
-                    children: [
-                      SvgPicture.asset(
-                        kiVidflix,
-                        width: 28.w,
-                        height: 28.w,
-                      ),
-                      kW6sizedBox,
-                      Text(
-                        ksVidflix.tr,
-                        style: semiBold18TextStyle(cWhiteColor),
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  top: 30,
-                  right: 15,
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.toNamed(krSearchScreen);
-                    },
-                    child: Container(
-                      width: 32.w,
-                      height: 32.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: cWhiteColor.withOpacity(0.2),
-                      ),
-                      child: const Icon(
-                        Icons.search,
-                        color: cWhiteColor,
-                        size: kIconSize24,
-                      ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: 100,
-                  left: width * 0.5,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Obx(() => Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(
-                              homeController.sliderList.length,
-                              (index) => Container(
-                                width:
-                                    homeController.currentIndex.value == index
+
+                    /// Bottom Dots, Title, Play Button
+
+                    Positioned(
+                      bottom: 20.h,
+                      left: 0,
+                      right: 0,
+                      child: Column(
+                        children: [
+                          // Dots Indicator
+                          Obx(() => Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: List.generate(
+                                  homeController.sliderList.length,
+                                  (index) => Container(
+                                    width: homeController.currentIndex.value ==
+                                            index
                                         ? 24
                                         : 8,
-                                height:
-                                    homeController.currentIndex.value == index
-                                        ? 6
-                                        : 8,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 3),
-                                decoration: homeController.currentIndex.value ==
-                                        index
-                                    ? BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(100.r),
-                                        color:
-                                            homeController.currentIndex.value ==
-                                                    index
-                                                ? cPrimaryColor2
-                                                : cLineColor,
-                                      )
-                                    : BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color:
-                                            homeController.currentIndex.value ==
-                                                    index
-                                                ? cPrimaryColor2
-                                                : cLineColor,
-                                      ),
-                              ),
+                                    height: 8,
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 3),
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(100.r),
+                                      color:
+                                          homeController.currentIndex.value ==
+                                                  index
+                                              ? cPrimaryColor2
+                                              : cWhiteColor.withOpacity(0.3),
+                                    ),
+                                  ),
+                                ),
+                              )),
+                          kH10sizedBox,
+
+                          // Movie Title
+                          SizedBox(
+                            width: width * 0.9,
+                            child: Text(
+                              homeController
+                                      .sliderList[
+                                          homeController.currentIndex.value]
+                                      ?.title ??
+                                  "",
+                              style: semiBold24TextStyle(cWhiteColor),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                          )),
-                      kH10sizedBox,
-                    ],
-                  ),
-                ),
-                // Positioned(
-                //   bottom: 75,
-                //   left: width * 0.3,
-                //   child: Row(
-                //     children: slider.tags.map<Widget>((tag) {
-                //       return Container(
-                //         margin: const EdgeInsets.only(right: 5),
-                //         padding: const EdgeInsets.symmetric(
-                //             horizontal: 8, vertical: 4),
-                //         decoration: BoxDecoration(
-                //           color: cWhiteColor.withOpacity(0.2),
-                //           borderRadius: BorderRadius.circular(8.r),
-                //           border: Border.all(
-                //             width: 1.33,
-                //             color: cPrimaryColor2.withOpacity(0.3),
-                //           ),
-                //         ),
-                //         child: Text(
-                //           tag,
-                //           style: semiBold14TextStyle(cWhiteColor),
-                //         ),
-                //       );
-                //     }).toList(),
-                //   ),
-                // ),
-                kH10sizedBox,
-                Positioned(
-                  bottom: 60,
-                  left: width * 0.4,
-                  child: Text(
-                    slider.title ?? "",
-                    style: semiBold24TextStyle(cWhiteColor),
-                  ),
-                ),
-                Positioned(
-                  bottom: 6,
-                  left: width * 0.55,
-                  child: Container(
-                    width: 40.w,
-                    height: 40.h,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: cPrimaryColor2,
+                          ),
+                          kH10sizedBox,
+
+                          // Play Button
+                          Container(
+                            width: 40.w,
+                            height: 40.h,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: cPrimaryColor2,
+                            ),
+                            child: const Icon(
+                              Icons.play_arrow,
+                              size: kIconSize28,
+                              color: cWhiteColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    child: const Icon(
-                      Icons.play_arrow,
-                      size: kIconSize28,
-                      color: cWhiteColor,
-                    ),
-                  ),
+                  ],
                 ),
-              ],
-            );
-          }).toList(),
-        ),
-        kH10sizedBox,
-      ],
-    );
+              ),
+              kH10sizedBox,
+            ],
+          ),
+        ));
+  }
+}
+
+class BannerAdWidget extends StatelessWidget {
+  final HomeController homeController;
+
+  const BannerAdWidget({super.key, required this.homeController});
+
+  @override
+  Widget build(BuildContext context) {
+    return Obx(() {
+      if (homeController.isBannerAdLoaded.value &&
+          homeController.bannerAd != null) {
+        return Container(
+          alignment: Alignment.center,
+          width: homeController.bannerAd!.size.width.toDouble(),
+          height: homeController.bannerAd!.size.height.toDouble(),
+          child: AdWidget(ad: homeController.bannerAd!),
+        );
+      }
+      return const SizedBox.shrink(); // No space when ad is not loaded
+    });
   }
 }

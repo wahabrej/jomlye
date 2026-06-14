@@ -1,7 +1,10 @@
+//* Png images
+const String kiFlixooPng = "assets/images/flixoo.png";
+
 //* Svg images
-const String kiSplashImage = "assets/svgs/splash.svg";
+const String kiSplashImage = "assets/svgs/splash/splash.svg";
+const String kiFlixoo = "assets/svgs/splash/flixoo.svg";
 const String kiLandingImage = "assets/svgs/landing_image.svg";
-const String kiVidflix = "assets/svgs/vidflix.svg";
 const String kiPhone = "assets/svgs/phone.svg";
 const String kiGoogle = "assets/svgs/google.svg";
 const String kiFacebook = "assets/svgs/facebook.svg";
@@ -23,6 +26,9 @@ const String kiPopcorn = "assets/svgs/popcorn.svg";
 const String kiTvScreen = "assets/svgs/tv_screen.svg";
 const String kiProfile = "assets/svgs/profile.svg";
 const String kiPlay = "assets/svgs/play.svg";
+const String kiRented = "assets/svgs/rented.svg";
+const String kiOffline = "assets/svgs/offline.svg";
+const String kiStripe  = "assets/svgs/stripe.svg";
 //*profile
 const String kiUser2 = "assets/svgs/profile/user2.svg";
 const String kiLock = "assets/svgs/profile/lock.svg";
@@ -44,7 +50,10 @@ const String kiActiveCheck = "assets/svgs/profile/active_check.svg";
 const String kiCheck2 = "assets/svgs/profile/check2.svg";
 const String kiDelete = "assets/svgs/profile/delete.svg";
 const String kiContactUs2 = "assets/svgs/profile/contact_us2.svg";
+const String kiMinus = "assets/svgs/profile/minus.svg";
 const String kiDummyMovie = "assets/svgs/dummy_movie.svg";
+const String kiEdit = "assets/svgs/edit.svg";
+const String kiCopy = "assets/svgs/copy.svg";
 //* images
 const String kiGallery = "assets/images/gallery.png";
 const String kiEditProfile = "assets/images/edit_profile.png";

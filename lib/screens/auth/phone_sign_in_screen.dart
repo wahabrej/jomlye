@@ -1,9 +1,8 @@
-import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
-import 'package:vidflix_flutter_app/screens/auth/sign_in_screen.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
-import 'package:vidflix_flutter_app/utils/constants/images.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/auth/auth_controller.dart';
+import 'package:flixoo_flutter_app/screens/auth/sign_in_screen.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class PhoneSignInScreen extends StatelessWidget {
   PhoneSignInScreen({super.key});
@@ -51,10 +50,10 @@ class PhoneSignInScreen extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(k20Padding),
-                      child: SvgPicture.asset(
-                        kiVidflix,
-                        width: 40,
-                        height: 40,
+                      child: Image.asset(
+                        kiFlixooPng,
+                        width: 60,
+                        height: 60,
                       ),
                     ),
                   ),
@@ -80,11 +79,6 @@ class PhoneSignInScreen extends StatelessWidget {
                 kH16sizedBox,
                 const Row(
                   children: [
-                    CommonContainer(
-                      image: kiPhone,
-                      isSelected: true,
-                    ),
-                    kW12sizedBox,
                     CommonContainer(image: kiGoogle),
                     kW12sizedBox,
                     CommonContainer(image: kiFacebook),
@@ -155,8 +149,9 @@ class PhoneSignInScreen extends StatelessWidget {
                 kH16sizedBox,
                 CustomElevatedButton(
                     label: ksSendOTP.tr,
-                    onPressed: () {
-                      authController.resetAuth();
+                    onPressed: () async{
+                      await authController.phoneLogin();
+                      // authController.resetAuth();
                       Get.toNamed(krOTPScreen);
                     },
                     buttonWidth: width - 40,

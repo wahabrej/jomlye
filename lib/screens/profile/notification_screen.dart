@@ -1,7 +1,7 @@
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/profile/download_list_screen.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/profile/download_list_screen.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class NotificationScreen extends StatelessWidget {
   NotificationScreen({super.key});
@@ -55,15 +55,15 @@ class NotificationScreen extends StatelessWidget {
                     const Expanded(
                       child: SizedBox(),
                     ),
-                    SvgPicture.asset(
-                      kiVidflix,
-                      width: h24.w,
-                      height: h24.h,
+                    Image.asset(
+                      kiFlixooPng,
+                      width: 60.w,
+                      height: 60.h,
                       color: cPrimaryColor2,
                     ),
                     kW4sizedBox,
                     Text(
-                      ksVidflix.tr,
+                      ksFlixoo.tr,
                       style: semiBold20TextStyle(cWhiteColor),
                     ),
                   ],

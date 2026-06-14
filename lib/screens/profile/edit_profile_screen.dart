@@ -1,8 +1,8 @@
-import 'package:vidflix_flutter_app/controllers/common/global_controller.dart';
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({super.key});
@@ -85,30 +85,36 @@ class EditProfileScreen extends StatelessWidget {
        profileController.profileImageFile.value == null ? Center(
                   child: Stack(
                     children: [
-                      Container(
-                        width: 100.w,
-                        height: 100.h,
+                      Center(
+                      child: Container(
+                        width: 100,
+                        height: 100,
                         decoration: BoxDecoration(
-                          color: cWhiteColor.withOpacity(0.2),
                           shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 2,
+                            color: cPrimaryColor.withOpacity(0.2),
+                          ),
                         ),
-                        child: Image.network(
-                          profileController.getUserImage.value,
-                          width: 50,
-                          height: 50,
-                          color: cWhiteColor,
-                                 errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            const Icon(
-                                      Icons.person,
-                                      size: 80,
-                                      color: cPrimaryColor2,
-                                    ),
+                        child: ClipOval(
+                          child: Image.network(
+                            // width: 68,
+                            // height: 68,
+                            fit: BoxFit.cover,
+                            Get.find<GlobalController>().userImage.value,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(
+                                Icons.person,
+                                size: 70,
+                              );
+                            },
+                          ),
                         ),
                       ),
+                    ),
                       Positioned(
                         bottom: 2,
-                        right: 0,
+                        right: width*0.3,
                         child: InkWell(
                           onTap: () {
                             showImageSourcePopup(context);
@@ -136,33 +142,33 @@ class EditProfileScreen extends StatelessWidget {
                   ),
                 ):Stack(
                   children: [
-                             Center(
-                                            child: Container(
-                                              width: 100.w,
-                                              height: 100.h,
-                                              decoration: const BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                // border: Border.all(
-                                                //   width: 2,
-                                                //   color: cPrimaryColor
-                                                //       .withOpacity(0.2),
-                                                // ),
-                                              ),
-                                              child: CircleAvatar(
-                                                backgroundColor: cWhiteColor.withOpacity(0.2),
-                                                child: ClipOval(
-                                                  child: Image.file(
-                                                    width: 100.w,
-                                                    height: 100.h,
-                                                    fit: BoxFit.cover,
-                                                    profileController
-                                                        .profileImageFile
-                                                        .value!,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                               Center(
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 2,
+                            color: cPrimaryColor.withOpacity(0.2),
+                          ),
+                        ),
+                        child: ClipOval(
+                          child: Image.file(
+                            // width: 68,
+                            // height: 68,
+                            fit: BoxFit.cover,
+                            profileController.profileImageFile.value!,
+                            errorBuilder: (context, error, stackTrace) {
+                              return const Icon(
+                                Icons.person,
+                                size: 70,
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
                     Positioned(
                       top: 0,
                       left: 60.w,
@@ -417,7 +423,7 @@ class EditProfileScreen extends StatelessWidget {
                         context: context,
                         bottomSheetColor: cBlackColor2,
                         content: GenderContent(),
-                        bottomSheetHeight: height * 0.25,
+                        bottomSheetHeight: height * 0.3,
                         onPressCloseButton: () {
                           Get.back();
                         },
@@ -464,9 +470,9 @@ class EditProfileScreen extends StatelessWidget {
                 Row(
                   children: [
                     CustomElevatedButton(
-                      label: ksSkip.tr,
+                      label: ksCancel.tr,
                       onPressed: () {
-                        // Get.toNamed(krEditProfileScreen);
+                        Get.back();
                       },
                       buttonWidth: (width - 56) / 2,
                       buttonHeight: kButtonHeight.h,
@@ -477,8 +483,6 @@ class EditProfileScreen extends StatelessWidget {
                       label: ksContinue.tr,
                       onPressed: () async{
                         await profileController.updateProfile();
-                        // Get.toNamed(krEditProfileScreen);
-                        // showCongratulationsPopup(context);
                       },
                       buttonWidth: (width - 56) / 2,
                       buttonHeight: kButtonHeight.h,

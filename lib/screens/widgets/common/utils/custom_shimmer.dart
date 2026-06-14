@@ -1,4 +1,4 @@
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ShimmerCommon extends StatelessWidget {

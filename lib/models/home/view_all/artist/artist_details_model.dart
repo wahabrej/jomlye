@@ -15,26 +15,67 @@ class ArtistDetailsModel {
 }
 
 class Details {
+    // final int? id;
+    // final String? starName;
+    // final String? slug;
+    // final String? starType;
+    // final dynamic countryId;
+    // final dynamic starDob;
+    // final dynamic ranking;
+    // final dynamic gender;
+    // final String? background;
+    // final dynamic totalMovies;
+    // final String? starImage;
+    // final dynamic starDesc;
+    // final int? view;
+    // final int? status;
+    // final DateTime? createdAt;
+    // final DateTime? updatedAt;
+    // final dynamic countryName;
+    // final dynamic country;
     final int? id;
     final String? starName;
     final String? slug;
     final String? starType;
-    final dynamic countryId;
-    final dynamic starDob;
-    final dynamic ranking;
-    final dynamic gender;
-    final String? background;
-    final dynamic totalMovies;
+    final int? countryId;
+    final DateTime? starDob;
+    final String? ranking;
+    final String? gender;
+    final List<String>? industries;
     final String? starImage;
-    final dynamic starDesc;
+    final String? starDesc;
     final int? view;
     final int? status;
+    final String? facebook;
+    final dynamic twitter;
+    final dynamic instagram;
     final DateTime? createdAt;
     final DateTime? updatedAt;
-    final dynamic countryName;
-    final dynamic country;
+    final String? countryName;
+    final int? totalMovies;
+    final int? totalTvShows;
+    final List<String>? industryNames;
+    final Country? country;
 
     Details({
+        // this.id,
+        // this.starName,
+        // this.slug,
+        // this.starType,
+        // this.countryId,
+        // this.starDob,
+        // this.ranking,
+        // this.gender,
+        // this.background,
+        // this.totalMovies,
+        // this.starImage,
+        // this.starDesc,
+        // this.view,
+        // this.status,
+        // this.createdAt,
+        // this.updatedAt,
+        // this.countryName,
+        // this.country,
         this.id,
         this.starName,
         this.slug,
@@ -43,39 +84,101 @@ class Details {
         this.starDob,
         this.ranking,
         this.gender,
-        this.background,
-        this.totalMovies,
+        this.industries,
         this.starImage,
         this.starDesc,
         this.view,
         this.status,
+        this.facebook,
+        this.twitter,
+        this.instagram,
         this.createdAt,
         this.updatedAt,
         this.countryName,
+        this.totalMovies,
+        this.totalTvShows,
+        this.industryNames,
         this.country,
     });
 
     factory Details.fromJson(Map<String, dynamic> json) => Details(
+        // id: json["id"],
+        // starName: json["star_name"],
+        // slug: json["slug"],
+        // starType: json["star_type"],
+        // countryId: json["country_id"],
+        // starDob: json["star_dob"],
+        // ranking: json["ranking"],
+        // gender: json["gender"],
+        // background: json["background"],
+        // totalMovies: json["total_movies"],
+        // starImage: json["star_image"],
+        // starDesc: json["star_desc"],
+        // view: json["view"],
+        // status: json["status"],
+        // createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        // updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        // countryName: json["country_name"],
+        // country: json["country"],
         id: json["id"],
         starName: json["star_name"],
         slug: json["slug"],
         starType: json["star_type"],
         countryId: json["country_id"],
-        starDob: json["star_dob"],
+        starDob: json["star_dob"] == null ? null : DateTime.parse(json["star_dob"]),
         ranking: json["ranking"],
         gender: json["gender"],
-        background: json["background"],
-        totalMovies: json["total_movies"],
+        industries: json["industries"] == null ? [] : List<String>.from(json["industries"]!.map((x) => x)),
         starImage: json["star_image"],
         starDesc: json["star_desc"],
         view: json["view"],
         status: json["status"],
+        facebook: json["facebook"],
+        twitter: json["twitter"],
+        instagram: json["instagram"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
         countryName: json["country_name"],
-        country: json["country"],
+        totalMovies: json["total_movies"],
+        totalTvShows: json["total_tv_shows"],
+        industryNames: json["industry_names"] == null ? [] : List<String>.from(json["industry_names"]!.map((x) => x)),
+        country: json["country"] == null ? null : Country.fromJson(json["country"]),
     );
 }
+
+class Country {
+    final int? id;
+    final String? name;
+    final String? slug;
+    final dynamic description;
+    final String? flag;
+    final int? status;
+    final DateTime? createdAt;
+    final DateTime? updatedAt;
+
+    Country({
+        this.id,
+        this.name,
+        this.slug,
+        this.description,
+        this.flag,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+    });
+
+    factory Country.fromJson(Map<String, dynamic> json) => Country(
+        id: json["id"],
+        name: json["name"],
+        slug: json["slug"],
+        description: json["description"],
+        flag: json["flag"],
+        status: json["status"],
+        createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+    );
+}
+
 
 class Movie {
     final int? id;

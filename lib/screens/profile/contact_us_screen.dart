@@ -1,7 +1,7 @@
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class ContactUsScreen extends StatelessWidget {
   ContactUsScreen({super.key});
@@ -12,7 +12,7 @@ class ContactUsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: cBlackColor,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kAppBarSize.h),
+        preferredSize: Size.fromHeight(64.h),
         //   //* info:: appBar
         child: CustomAppBar(
           hasBackButton: false,
@@ -49,16 +49,16 @@ class ContactUsScreen extends StatelessWidget {
             ),
           ),
           actions: [
-            SvgPicture.asset(
-              kiVidflix,
-              width: h24.w,
-              height: h24.h,
+            Image.asset(
+              kiFlixooPng,
+              width: 60.w,
+              height: 60.h,
               color: cPrimaryColor2,
             ),
             kW4sizedBox,
             Center(
               child: Text(
-                ksVidflix.tr,
+                ksFlixoo.tr,
                 style: semiBold20TextStyle(cWhiteColor),
               ),
             ),
@@ -149,7 +149,7 @@ class ContactUsScreen extends StatelessWidget {
                   contentPadding: const EdgeInsets.all(12),
                 ),
               ),
-               kH16sizedBox,
+              kH16sizedBox,
               Text(
                 ksSubject.tr,
                 style: semiBold16TextStyle(cWhiteColor),
@@ -180,7 +180,7 @@ class ContactUsScreen extends StatelessWidget {
                   contentPadding: const EdgeInsets.all(12),
                 ),
               ),
-               kH16sizedBox,
+              kH16sizedBox,
               Text(
                 ksMessage.tr,
                 style: semiBold16TextStyle(cWhiteColor),
@@ -217,7 +217,14 @@ class ContactUsScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  CustomElevatedButton(label: ksSend.tr, onPressed: (){},buttonColor: cPrimaryColor2,buttonWidth: 120.w,),
+                  CustomElevatedButton(
+                    label: ksSend.tr,
+                    onPressed: () async {
+                      await profileController.contactUs();
+                    },
+                    buttonColor: cPrimaryColor2,
+                    buttonWidth: 120.w,
+                  ),
                 ],
               ),
             ],

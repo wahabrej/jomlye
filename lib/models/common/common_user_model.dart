@@ -29,6 +29,7 @@ class CommonUserModel {
     final dynamic rememberToken;
     final DateTime? createdAt;
     final DateTime? updatedAt;
+    final String? subscriptionPlan;
 
     CommonUserModel({
         this.id,
@@ -60,6 +61,7 @@ class CommonUserModel {
         this.rememberToken,
         this.createdAt,
         this.updatedAt,
+        this.subscriptionPlan,
     });
 
     factory CommonUserModel.fromJson(Map<String, dynamic> json) => CommonUserModel(
@@ -92,5 +94,6 @@ class CommonUserModel {
         rememberToken: json["remember_token"],
         createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
         updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
+        subscriptionPlan: json["subscription_plan"],
     );
 }

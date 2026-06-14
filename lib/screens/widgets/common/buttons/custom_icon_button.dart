@@ -1,14 +1,14 @@
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class CustomIconButton extends StatelessWidget {
   const CustomIconButton({
-    Key? key,
+    super.key,
     required this.onPress,
     required this.icon,
     this.iconColor,
     this.size,
     this.hasBorder = true,
-  }) : super(key: key);
+  });
 
   final Function()? onPress;
   final IconData? icon;

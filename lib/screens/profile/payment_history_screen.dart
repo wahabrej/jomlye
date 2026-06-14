@@ -1,7 +1,12 @@
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/payment/payment_controller.dart';
 
 class PaymentHistoryScreen extends StatelessWidget {
-  const PaymentHistoryScreen({super.key});
+  PaymentHistoryScreen({super.key});
+  final PaymentController paymentController = Get.find<PaymentController>();
 
   @override
   Widget build(BuildContext context) {
@@ -9,100 +14,146 @@ class PaymentHistoryScreen extends StatelessWidget {
       backgroundColor: cBlackColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              kH40sizedBox,
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Container(
-                      height: h32,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100.r),
-                        color: cWhiteColor.withOpacity(0.2),
+        child: Column(
+          children: [
+            kH40sizedBox,
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Container(
+                    height: h32,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100.r),
+                      color: cWhiteColor.withOpacity(0.2),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: k12Padding, vertical: k2Padding),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.arrow_back_ios,
+                            size: kIconSize12,
+                            color: cWhiteColor,
+                          ),
+                          kW4sizedBox,
+                          Center(
+                              child: Text(
+                            ksPaymentHistory.tr,
+                            style: regular16TextStyle(cWhiteColor),
+                          )),
+                        ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: k12Padding, vertical: k2Padding),
-                        child: Row(
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            kH8sizedBox,
+            Divider(
+              thickness: 1,
+              color: cWhiteColor.withOpacity(0.2),
+            ),
+            kH16sizedBox,
+            // PaymentHistoryWidget(),
+            paymentController.paymentHistoryList.isEmpty
+                ? SizedBox(
+                    height: (height * 0.65),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          kiSearchResultPng,
+                          width: 200.w,
+                          height: 200.h,
+                        ),
+                        Text(
+                          ksNoPaymentHistoryFound.tr,
+                          style: medium16TextStyle(cPrimaryColor2),
+                        ),
+                        kH16sizedBox,
+                        Text(
+                          ksNoPaymentHistoryFoundPleaseCheckFilter.tr,
+                          style: regular14TextStyle(cWhiteColor.withOpacity(
+                            0.5,
+                          )),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  )
+                : paymentController.isPaymentHistoryLoading.value
+                    ? const CircularProgressIndicator()
+                    : Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
                           children: [
-                            const Icon(
-                              Icons.arrow_back_ios,
-                              size: kIconSize12,
-                              color: cWhiteColor,
+                            SizedBox(
+                              height: 560.h,
+                              child: ListView.separated(
+                                  shrinkWrap: true,
+                                  padding: const EdgeInsets.all(k0Padding),
+                                  separatorBuilder: (context, index) =>
+                                      kH10sizedBox,
+                                      // physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: paymentController
+                                      .paymentHistoryList.length,
+                                  itemBuilder: (context, index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Get.find<GlobalController>()
+                                            .commonBottomSheet(
+                                                context: context,
+                                                content:
+                                                    PaymentHistoryBottomSheetContent(
+                                                  timeAndDate: DateFormat(
+                                                          'dd/MM/yyyy, hh:mm a')
+                                                      .format(paymentController
+                                                          .paymentHistoryList[
+                                                              index]!
+                                                          .createdAt!),
+                                                          paymentMethod:  "${paymentController.paymentHistoryList[index]?.paymentMethod}",
+                                                          
+                                                  amount:
+                                                      "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.price}",
+                                                      transactionId: "${paymentController.paymentHistoryList[index]?.trxId}",
+                                                ),
+                                                onPressCloseButton: () {},
+                                                onPressRightButton: () {},
+                                                rightText: "Done",
+                                                rightTextStyle:
+                                                    regular14TextStyle(
+                                                        cWhiteColor),
+                                                title: "Package Name",
+                                                isRightButtonShow: false,
+                                                bottomSheetColor:
+                                                    cBlackColor2);
+                                      },
+                                      child: PaymentHistoryWidget(
+                                          image: kiCrown,
+                                          packageName: "Package Name",
+                                          transactionId: paymentController
+                                                  .paymentHistoryList[index]
+                                                  ?.trxId ??
+                                              "",
+                                          price:
+                                              "${Get.find<GlobalController>().currency.value}${paymentController.paymentHistoryList[index]?.price}",
+                                          dateTime: DateFormat(
+                                                  'dd/MM/yyyy, hh:mm a')
+                                              .format(paymentController
+                                                  .paymentHistoryList[index]!
+                                                  .createdAt!)),
+                                    );
+                                  }),
                             ),
-                            kW4sizedBox,
-                            Center(
-                                child: Text(
-                              ksPaymentHistory.tr,
-                              style: regular16TextStyle(cWhiteColor),
-                            )),
                           ],
                         ),
                       ),
                     ),
-                  ),
-                  const Expanded(
-                    child: SizedBox(),
-                  ),
-                  Container(
-                    width: 40.w,
-                    height: 40.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: cWhiteColor.withOpacity(0.2),
-                    ),
-                    child: const Icon(
-                      Icons.search,
-                      color: cWhiteColor,
-                      size: kIconSize24,
-                    ),
-                  ),
-                  kW6sizedBox,
-                  Container(
-                    width: 40.w,
-                    height: 40.h,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: cPrimaryColor2,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(k12Padding),
-                      child: SvgPicture.asset(
-                        kiFilter,
-                        color: cWhiteColor,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              kH8sizedBox,
-              Divider(
-                thickness: 1,
-                color: cWhiteColor.withOpacity(0.2),
-              ),
-              kH16sizedBox,
-              // PaymentHistoryWidget(),
-              ListView.separated(
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.all(k0Padding),
-                  separatorBuilder: (context, index) => kH10sizedBox,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: 6,//!remove it when real data
-                  itemBuilder: (context, index) {
-                    return const PaymentHistoryWidget(
-                        image: kiCrown,
-                        packageName: "Basic Plan",
-                        transactionId: "Transaction ID: DCB54DO",
-                        price: "\$20.00",
-                        dateTime: "18/02/2025, 04:23 am");
-                  }),
-            ],
-          ),
+          ],
         ),
       ),
     );
@@ -114,10 +165,10 @@ class PaymentHistoryWidget extends StatelessWidget {
       {super.key,
       required this.image,
       required this.packageName,
-      required this.transactionId,
+      this.transactionId,
       required this.price,
       required this.dateTime});
-  final String image, packageName, transactionId, price, dateTime;
+  final String? image, packageName, transactionId, price, dateTime;
 
   @override
   Widget build(BuildContext context) {
@@ -149,29 +200,34 @@ class PaymentHistoryWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  packageName,
+                  packageName ?? "",
                   style: medium16TextStyle(cWhiteColor),
                 ),
                 kH6sizedBox,
-                Text(
-                  transactionId,
-                  style: regular12TextStyle(cWhiteColor),
+                SizedBox(
+                  width: (width*0.4),
+                  child: Text(
+                    "Transaction ID: $transactionId",
+                    style: regular12TextStyle(cWhiteColor),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
               ],
             ),
+            kW4sizedBox,
             // const Expanded(child: SizedBox()),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(
-                    price,
+                    price ?? "",
                     style: medium16TextStyle(cPrimaryColor2),
-                     overflow: TextOverflow.ellipsis,
+                    overflow: TextOverflow.ellipsis,
                   ),
                   kH6sizedBox,
                   Text(
-                    dateTime,
+                    dateTime ?? "",
                     style: regular12TextStyle(cWhiteColor),
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -186,6 +242,191 @@ class PaymentHistoryWidget extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class PaymentHistoryBottomSheetContent extends StatelessWidget {
+  const PaymentHistoryBottomSheetContent(
+      {super.key, this.timeAndDate, this.amount, this.transactionId,this.paymentMethod});
+  final String? timeAndDate, amount, transactionId,paymentMethod;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        kH16sizedBox,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+          child: Row(
+            children: [
+              SizedBox(
+                width: (width - 56) / 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ksPaymentGetway.tr,
+                      style: regular14TextStyle(cWhiteColor),
+                    ),
+                    kH10sizedBox,
+                    Container(
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        color: cWhiteColor.withOpacity(0.04),
+                        borderRadius: BorderRadius.circular(k6BorderRadius),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(k12Padding),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              paymentMethod??"",
+                              style: regular14TextStyle(cWhiteColor),
+                            ),
+                            // Image.network(
+                            //   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQcuU7XHlUY2MShKGdYaPQb2GmaEOpyX0AJgg&s",
+                            //   width: 24.w,
+                            //   height: 24.h,
+                            //   errorBuilder: (context, error, stackTrace) {
+                            //     return SvgPicture.asset(
+                            //       kiMoney,
+                            //       width: 20.w,
+                            //       height: 20.h,
+                            //     );
+                            //   },
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              kW16sizedBox,
+              SizedBox(
+                width: (width - 56) / 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ksTimeAndDate.tr,
+                      style: regular14TextStyle(cWhiteColor),
+                    ),
+                    kH10sizedBox,
+                    Container(
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        color: cWhiteColor.withOpacity(0.04),
+                        borderRadius: BorderRadius.circular(k6BorderRadius),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(k12Padding),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              timeAndDate ?? "",
+                              style: regular14TextStyle(cWhiteColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        kH16sizedBox,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+          child: Row(
+            children: [
+              SizedBox(
+                width: (width - 56) / 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ksAmount.tr,
+                      style: regular14TextStyle(cWhiteColor),
+                    ),
+                    kH10sizedBox,
+                    Container(
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        color: cWhiteColor.withOpacity(0.04),
+                        borderRadius: BorderRadius.circular(k6BorderRadius),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(k12Padding),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              amount ?? "",
+                              style: regular14TextStyle(cWhiteColor),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              kW16sizedBox,
+              SizedBox(
+                width: (width - 56) / 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      ksTransactionId.tr,
+                      style: regular14TextStyle(cWhiteColor),
+                    ),
+                    kH10sizedBox,
+                    Container(
+                      height: 50.h,
+                      decoration: BoxDecoration(
+                        color: cWhiteColor.withOpacity(0.04),
+                        borderRadius: BorderRadius.circular(k6BorderRadius),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(k12Padding),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                transactionId ?? "",
+                                style: regular14TextStyle(cWhiteColor),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            InkWell(
+                                onTap: () {
+                                  Clipboard.setData(
+                                      ClipboardData(text: transactionId ?? ""));
+                                  // ScaffoldMessenger.of(context).showSnackBar(
+                                  //   const SnackBar(
+                                  //       content: Text('Copied to clipboard ')),
+                                  // );
+                                },
+                                child: SvgPicture.asset(kiCopy)),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "518845356344",
+    "project_id": "flixoo-ded7e",
+    "storage_bucket": "flixoo-ded7e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518845356344:android:6bb9f707d0387de7fac9cd",
+        "android_client_info": {
+          "package_name": "com.jomlayanz"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "518845356344-8gkni0j5o383prjfof15hpg28rio4shn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jomlayanz",
+            "certificate_hash": "88c9182d24b05b6ebd864049f84b47a352f00bf5"
+          }
+        },
+        {
+          "client_id": "518845356344-srau44tt8to0k3af79krakm2545isfqt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jomlayanz",
+            "certificate_hash": "31da28705267ef484b113ab08c49636775a22a4d"
+          }
+        },
+        {
+          "client_id": "518845356344-g6ge34uccq3ssn86oq40knhjrppim83o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9L86tkJJfSjOBzhE1r8DB3EJece8-svY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "518845356344-g6ge34uccq3ssn86oq40knhjrppim83o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

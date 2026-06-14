@@ -1,4 +1,4 @@
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 dynamic screenWiseSize(size, difference) {
   return isDeviceScreenLarge() ? size : size - difference;

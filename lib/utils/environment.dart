@@ -1,4 +1,4 @@
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class Environment {
   static String get fileName {
@@ -15,9 +15,10 @@ class Environment {
   static String get baseUrl {
     return dotenv.get('Base_Url');
   }
-
   static String get imageBaseUrl {
     return dotenv.get('Image_Base_Url');
   }
-
+  static String get apiKey {
+    return dotenv.get('ApiKey');
+  }
 }

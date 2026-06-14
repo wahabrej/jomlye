@@ -2,20 +2,23 @@ const kGet = "GET";
 const kPost = "POST";
 const kPut = "PUT";
 const kDelete = "DELETE";
-//Auth
+//!Auth
 const String kuSignIn = "login";
 const String kuSignUp = "signup";
 const String kuForgotPassword = "forgot-password";
 const String kuOtpVerify = "otp-verify";
 const String kuUpdatePassword = "update-password";
 const String kuLogout = "logout";
-//interest
+const String kuPhoneLogin = "phone-login";
+const String kuSocialLogin = "social-login";
+//!Interest
 const String kuInterest = "interest";
 const String kuInterestStore = "interest-store";
 
 //User profile
-const String kuProfile = "profile";
+const String kuProfile = "user-details";
 const String kuUpdateProfile = "update-profile";
+const String kuOfflinePayment = "offline-success";
 const String kuChangePassword = "change-password";
 //Home
 const String kuHome = "home";
@@ -35,3 +38,45 @@ const String kuTvShowFilter = "tv-show-filter";
 const String kuMovies = "movies";
 const String kuMovieFilter = "movie-filter";
 const String kuMovieDetails = "movie-details";
+
+//!Profile
+//playlist
+const String kuPlayList = "playlists";
+const String kuUpdatePlaylist = "update-playlist";
+const String kuDeletePlaylist = "delete-playlist";
+const String kuPlaylistMovies = "get-play-list-movies";
+const String kuDeletePlaylistMovie = "playlists/remove-movie";
+const String kuCreatePlaylist = "create-playlist";
+const String kuPlaylistAddMovie = "playlists/add-movie";
+//Contact us
+const String kuContactUs = "contact-us";
+//favorite
+const String kuFavoriteList = "favorites";
+const String kuFavoriteAddOrRemove = "favorite/toggle";
+//global search
+const String kuGlobalSearch = "global-search";
+//faqs
+const String kuFaqs = "faqs";
+//Tv Channels
+const String kuTvChannel = "live-tvs";
+const String kuLiveTvDetails = "live-tv-details";
+//payment
+const String kuSubscriptionPlan = "packages";
+const String kuPaymentHistory = "payment-history";
+const String kuSubscriptionCheck = "get-subscription";
+//delete account
+const String kuDeleteAccount = "delete-account";
+//! config
+const String kuConfig = "config";
+//!ads
+const String kuAds = "ads";
+//!review & rating
+const String kuRating = "rating";
+const String kuReviewList = "review-list";
+const String kuLikeToggle = "like-toggle";
+//!Rented video
+const String kuRentedVideoList = "rent-video-list";
+
+//!Watch History
+const String kuWatchHistory = "watch-histories";
+const String kuWatchHistoryStore = "watch-history-store";

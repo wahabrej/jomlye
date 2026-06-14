@@ -1,8 +1,8 @@
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class CustomListTile extends StatelessWidget {
   const CustomListTile({
-    Key? key,
+    super.key,
     this.title,
     this.subtitle,
     this.onPressed,
@@ -15,7 +15,7 @@ class CustomListTile extends StatelessWidget {
     this.alignLeadingWithTitle = false,
     this.titleTextStyle,
     this.subTitleTextStyle,
-  }) : super(key: key);
+  });
 
   final dynamic title, subtitle;
   final Function()? onPressed;

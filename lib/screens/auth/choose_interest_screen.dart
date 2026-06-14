@@ -1,6 +1,6 @@
-import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/auth/auth_controller.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class ChooseInterestScreen extends StatelessWidget {
   ChooseInterestScreen({super.key});
@@ -8,20 +8,20 @@ class ChooseInterestScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      top: false,
-      child: Scaffold(
-        backgroundColor: cBlackColor,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: k20Padding),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                kH24sizedBox,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+    return Obx(() => SafeArea(
+          top: false,
+          child: Scaffold(
+            backgroundColor: cBlackColor,
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: k20Padding),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    kH24sizedBox,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
                     CustomElevatedButton(
                         label: ksBack,
                         onPressed: () {
@@ -108,7 +108,7 @@ class ChooseInterestScreen extends StatelessWidget {
                     CustomElevatedButton(
                       label: ksSkip.tr,
                       onPressed: () {
-                        Get.toNamed(krEditProfileScreen);
+                        Get.offAllNamed(krHomeScreen);
                       },
                       buttonWidth: (width - 56) / 2,
                       buttonHeight: kButtonHeight.h,
@@ -133,6 +133,7 @@ class ChooseInterestScreen extends StatelessWidget {
           ),
         ),
       ),
+    ),
     );
   }
 }

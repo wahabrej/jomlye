@@ -1,5 +1,6 @@
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/common/sp_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class VideoQualityScreen extends StatelessWidget {
    VideoQualityScreen({super.key});
@@ -10,7 +11,7 @@ class VideoQualityScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: cBlackColor,
          appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kAppBarSize.h),
+          preferredSize: Size.fromHeight(64.h),
         //   //* info:: appBar
           child: CustomAppBar(
             hasBackButton: false,
@@ -47,16 +48,16 @@ class VideoQualityScreen extends StatelessWidget {
                       ),
                     ),
                     actions: [
-                       SvgPicture.asset(
-                      kiVidflix,
-                      width: h24.w,
-                      height: h24.h,
+                       Image.asset(
+                      kiFlixooPng,
+                      width: 60.w,
+                      height: 60.h,
                       color: cPrimaryColor2,
                     ),
                     kW4sizedBox,
                     Center(
                       child: Text(
-                        ksVidflix.tr,
+                        ksFlixoo.tr,
                         style: semiBold20TextStyle(cWhiteColor),
                       ),
                     ),
@@ -80,8 +81,15 @@ class VideoQualityScreen extends StatelessWidget {
                     return Obx(() => VideoQualityItem(
                                           videoQuality: profileController.videoQualityList[index]["quality"],
                                           state: profileController.videoQualityList[index]["state"],
-                                          onPressed: (){
-                                           profileController.videoQualityList[index]["state"] = true;
+                                          onPressed: () async {
+                                            profileController.videoQualityList[profileController.previousVideoQualityIndex.value]["state"] = false;
+                                            profileController.selectedVideoQualityIndex.value = index;
+                                            profileController.previousVideoQualityIndex.value = index;
+                                            if(profileController.selectedVideoQualityIndex.value==index){
+                                            profileController.videoQualityList[index]["state"] = true;
+                                            SpController().saveVideoQualityIndex(index);
+                                            profileController.previousVideoQualityIndex.value = await SpController().getVideoQualityIndex()?? -1;
+                                            }
                                           },
                                         ));
                   },),

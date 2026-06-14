@@ -1,7 +1,9 @@
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/profile/settings/manage_notification_screen.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/common/sp_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/profile/settings/manage_notification_screen.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class ManageDownloadScreen extends StatelessWidget {
  ManageDownloadScreen({super.key});
@@ -12,7 +14,7 @@ class ManageDownloadScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: cBlackColor,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kAppBarSize.h),
+        preferredSize: Size.fromHeight(64.h),
         //* info:: appBar
         child: CustomAppBar(
           hasBackButton: false,
@@ -49,16 +51,16 @@ class ManageDownloadScreen extends StatelessWidget {
             ),
           ),
           actions: [
-            SvgPicture.asset(
-              kiVidflix,
-              width: h24.w,
-              height: h24.h,
+            Image.asset(
+              kiFlixooPng,
+              width: 60.w,
+              height: 60.h,
               color: cPrimaryColor2,
             ),
             kW4sizedBox,
             Center(
               child: Text(
-                ksVidflix.tr,
+                ksFlixoo.tr,
                 style: semiBold20TextStyle(cWhiteColor),
               ),
             ),
@@ -70,7 +72,16 @@ class ManageDownloadScreen extends StatelessWidget {
         child: Column(
           children: [
             kH16sizedBox,
-            ManageNotificationContentRow(titleText: ksWifiOnly.tr,switchState: profileController.wifiOnlyState,),
+            ManageNotificationContentRow(titleText: ksWifiOnly.tr,switchState: Get.find<GlobalController>().wifiOnlyState,
+            onPressed: () async {
+                Get.find<GlobalController>().wifiOnlyState.value =
+                    !Get.find<GlobalController>().wifiOnlyState.value;
+                SpController().saveWifiOnlyState(
+                    Get.find<GlobalController>().wifiOnlyState.value);
+                Get.find<GlobalController>().wifiOnlyState.value =
+                    await SpController().getWifiOnlyState() ?? true;
+              },
+            ),
             kH12sizedBox,
             Row(
           children: [

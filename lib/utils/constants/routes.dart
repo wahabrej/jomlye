@@ -1,42 +1,44 @@
-import 'package:vidflix_flutter_app/screens/auth/choose_interest_screen.dart';
-import 'package:vidflix_flutter_app/screens/auth/forgot_password_screen.dart';
-import 'package:vidflix_flutter_app/screens/auth/otp_screen.dart';
-import 'package:vidflix_flutter_app/screens/auth/phone_sign_in_screen.dart';
-import 'package:vidflix_flutter_app/screens/auth/reset_password_screen.dart';
-import 'package:vidflix_flutter_app/screens/auth/sign_in_screen.dart';
-import 'package:vidflix_flutter_app/screens/auth/sign_up_screen.dart';
-import 'package:vidflix_flutter_app/screens/home/blog/blog_single_screen.dart';
-import 'package:vidflix_flutter_app/screens/home/artist/artist_details_screen.dart';
-import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
-import 'package:vidflix_flutter_app/screens/home/search_screen.dart';
-import 'package:vidflix_flutter_app/screens/home/view_all_screens/all_blogs_view_all_screen.dart';
-import 'package:vidflix_flutter_app/screens/home/view_all_screens/top_artists_view_all_screen.dart';
-import 'package:vidflix_flutter_app/screens/home/view_all_screens/tv_channels_view_all_screen.dart';
-import 'package:vidflix_flutter_app/screens/home/view_all_screens/movie_view_all_screen.dart';
-import 'package:vidflix_flutter_app/screens/home/view_all_screens/tv_shows_view_all_screen.dart';
-import 'package:vidflix_flutter_app/screens/intro/landing_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/change_password_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/contact_us_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/download_list_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/edit_profile_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/faq_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/favorite_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/language_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/notification_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/payment_history_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/payment_method_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/payment_success_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/playlist_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/profile_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/settings/manage_download_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/settings/manage_notification_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/settings/settings_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/settings/video_quality_screen.dart';
-import 'package:vidflix_flutter_app/screens/profile/subscription_plan_screen.dart';
-import 'package:vidflix_flutter_app/screens/video_player/tv_show_player_screen.dart';
-import 'package:vidflix_flutter_app/screens/video_player/video_palyer_screen.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/screens/intro/splash_screen.dart';
+import 'package:flixoo_flutter_app/screens/auth/choose_interest_screen.dart';
+import 'package:flixoo_flutter_app/screens/auth/forgot_password_screen.dart';
+import 'package:flixoo_flutter_app/screens/auth/otp_screen.dart';
+import 'package:flixoo_flutter_app/screens/auth/phone_sign_in_screen.dart';
+import 'package:flixoo_flutter_app/screens/auth/reset_password_screen.dart';
+import 'package:flixoo_flutter_app/screens/auth/sign_in_screen.dart';
+import 'package:flixoo_flutter_app/screens/auth/sign_up_screen.dart';
+import 'package:flixoo_flutter_app/screens/home/blog/blog_single_screen.dart';
+import 'package:flixoo_flutter_app/screens/home/artist/artist_details_screen.dart';
+import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
+import 'package:flixoo_flutter_app/screens/home/search_screen.dart';
+import 'package:flixoo_flutter_app/screens/home/view_all_screens/all_blogs_view_all_screen.dart';
+import 'package:flixoo_flutter_app/screens/home/view_all_screens/top_artists_view_all_screen.dart';
+import 'package:flixoo_flutter_app/screens/home/view_all_screens/tv_channels_view_all_screen.dart';
+import 'package:flixoo_flutter_app/screens/home/view_all_screens/movie_view_all_screen.dart';
+import 'package:flixoo_flutter_app/screens/home/view_all_screens/tv_shows_view_all_screen.dart';
+import 'package:flixoo_flutter_app/screens/intro/landing_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/change_password_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/contact_us_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/download_list_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/edit_profile_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/faq_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/favorite_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/language_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/notification_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/payment_history_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/payment_success_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/playlist_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/profile_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/rented_videos_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/settings/manage_download_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/settings/manage_notification_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/settings/settings_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/settings/video_quality_screen.dart';
+import 'package:flixoo_flutter_app/screens/profile/subscription_plan_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/live_tv_player_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/playlist_player_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/tv_show_player_screen.dart';
+import 'package:flixoo_flutter_app/screens/video_player/video_palyer_screen.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/screens/intro/splash_screen.dart';
 //*intro
 const String krSplashScreen = '/splash-screen';
 const String krLandingScreen = '/landing-screen';
@@ -65,8 +67,9 @@ const String krManageDownloadScreen = '/manage-download-screen';
 const String krVideoQualityScreen = '/video-quality-screen';
 const String krPlayListScreen = '/playlist-screen';
 const String krChangePasswordScreen = '/change-password-screen';
-const String krFaqScereen = '/faq-screen';
+const String krFaqScreen = '/faq-screen';
 const String krContactUsScreen = '/contact-us-screen';
+const String krRentedVideoScreen = '/rented-video-screen';
 
 //*Home
 const String krHomeScreen = '/home-screen';
@@ -82,6 +85,8 @@ const String krCastDetailsScreen = '/cast-details-screen';
 //*Video Player Screen
 const String krVideoPlayerScreen = '/video-player-screen';
 const String krTvShowPlayerScreen = '/tvshow-player-screen';
+const String krPlaylistPlayerScreen = '/playlist-player-screen';
+const String krLiveTvPlayerScreen = '/live-tv-player-screen';
 
 
 List<GetPage<dynamic>>? routes = [
@@ -103,7 +108,6 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krPaymentHistoryScreen, page: () => PaymentHistoryScreen(), transition: Transition.noTransition),
    GetPage(name: krNotificationScreen, page: () => NotificationScreen(), transition: Transition.noTransition),
    GetPage(name: krFavoriteScreen, page: () => FavoriteScreen(), transition: Transition.noTransition),
-   GetPage(name: krPaymentMethodScreen, page: () => PaymentMethodScreen(), transition: Transition.noTransition),
    GetPage(name: krPaymentSuccessScreen, page: () => PaymentSuccessScreen(), transition: Transition.noTransition),
    GetPage(name: krDownloadListScreen, page: () => DownloadListScreen(), transition: Transition.noTransition),
    GetPage(name: krDownloadListScreen, page: () => DownloadListScreen(), transition: Transition.noTransition),
@@ -113,8 +117,9 @@ List<GetPage<dynamic>>? routes = [
    GetPage(name: krVideoQualityScreen, page: () => VideoQualityScreen(), transition: Transition.noTransition),
    GetPage(name: krPlayListScreen, page: () => PlayListScreen(), transition: Transition.noTransition),
    GetPage(name: krChangePasswordScreen, page: () => ChangePasswordScreen(), transition: Transition.noTransition),
-   GetPage(name: krFaqScereen, page: () => FAQScreen(), transition: Transition.noTransition),
+   GetPage(name: krFaqScreen, page: () => FAQScreen(), transition: Transition.noTransition),
    GetPage(name: krContactUsScreen, page: () => ContactUsScreen(), transition: Transition.noTransition),
+   GetPage(name: krRentedVideoScreen, page: () => RentedVideoScreen(), transition: Transition.noTransition),
    //*Home 
    GetPage(name: krHomeScreen, page: () => HomeScreen(), transition: Transition.noTransition),
    GetPage(name: krMovieViewAllScreen, page: () => MovieViewAllScreen(), transition: Transition.noTransition),
@@ -129,5 +134,6 @@ List<GetPage<dynamic>>? routes = [
    //* video player
    GetPage(name: krVideoPlayerScreen, page: () => VideoPlayerScreen(), transition: Transition.noTransition),
    GetPage(name: krTvShowPlayerScreen, page: () => TvShowPlayerScreen(), transition: Transition.noTransition),
-
+   GetPage(name: krPlaylistPlayerScreen, page: () => PlaylistVideoPlayerScreen(), transition: Transition.noTransition),
+   GetPage(name: krLiveTvPlayerScreen, page: () => LiveTvPlayerScreen(), transition: Transition.noTransition),
 ];

@@ -1,6 +1,6 @@
-import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/textfield/common_otp_field.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/auth/auth_controller.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/textfield/common_otp_field.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class OTPScreen extends StatelessWidget {
    OTPScreen({super.key});
@@ -68,11 +68,11 @@ class OTPScreen extends StatelessWidget {
                       color: cWhiteColor.withOpacity(0.1),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(k20Padding),
-                      child: SvgPicture.asset(
-                        kiVidflix,
-                        width: 40,
-                        height: 40,
+                      padding: const EdgeInsets.all(k12Padding),
+                      child: Image.asset(
+                        kiFlixooPng,
+                        width: 60,
+                        height: 60,
                       ),
                     ),
                   ),
@@ -96,16 +96,26 @@ class OTPScreen extends StatelessWidget {
                  OtpTextField(
                             controller: authController
                                 .otpTextEditingController,
-                            onChange: (value) {
+                            onChange: (value) async {
                               // registrationHelper.checkCanOTPVerifyNow();
                               // authenticationController.checkCanOTPVerifyNow();
-                            },
-                            onSubmit: (v){
-                              if(authController
+                                if(authController
                                 .otpTextEditingController.text.length==6){
-                                   authController.otpVerification();
+                                  await authController.otpVerification();
                                 }
                             },
+                            // onSubmit: (v)async{
+                            //   if(authController
+                            //     .otpTextEditingController.text.length==6){
+                            //       await authController.otpVerification();
+                            //     }
+                            // },
+                            // onCompleted: (v)async{
+                            //   if(authController
+                            //     .otpTextEditingController.text.length==6){
+                            //       await authController.otpVerification();
+                            //     }
+                            // },
                           ),
                     kH40sizedBox,
               ],

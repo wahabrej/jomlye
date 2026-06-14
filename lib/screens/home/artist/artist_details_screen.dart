@@ -1,6 +1,11 @@
-import 'package:vidflix_flutter_app/controllers/home/home_controller.dart';
-import 'package:vidflix_flutter_app/screens/home/home_screen.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
+import 'package:flixoo_flutter_app/screens/video_player/video_palyer_screen.dart';
+import 'package:intl/intl.dart';
+import 'package:flixoo_flutter_app/controllers/home/home_controller.dart';
+import 'package:flixoo_flutter_app/screens/home/home_screen.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class CastDetailsScreen extends StatelessWidget {
   CastDetailsScreen({super.key});
@@ -65,84 +70,68 @@ class CastDetailsScreen extends StatelessWidget {
                       top: 0,
                       bottom: 0,
                       left: 20,
-                      //  child: Container(
-                      //    width: 100.w,
-                      //    height: 100.h,
-                      //    decoration:  BoxDecoration(
-                      //      shape: BoxShape.circle,
-                      //      border: Border.all(
-                      //        width: 2,
-                      //        color: cPrimaryColor2,
-                      //      ),
-                      //    ),
-                      //    child: CircleAvatar(
-                      //      backgroundColor: cWhiteColor.withOpacity(0.2),
-                      //      child: ClipOval(
-                      //        child: Image.network(
-                      //          "https://plus.unsplash.com/premium_photo-1688350808212-4e6908a03925?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fHVzZXJ8ZW58MHx8MHx8fDA%3D",
-                      //          width: 96.w,
-                      //          height: 95.h,
-                      //          fit: BoxFit.cover,
-                      //        ),
-                      //      ),
-                      //    ),
-                      //  ),
                       child: Center(
                         child: Container(
-                          width: 98.w,
-                          height: 98.h,
+                          width: 100.h,
+                          height: 100.h,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              width: 2,
-                              color: cPrimaryColor2,
+                              width: 1,
+                              color: cPrimaryColor.withOpacity(0.2),
                             ),
                           ),
                           child: CircleAvatar(
-                            backgroundColor: cPrimaryColor2,
+                            backgroundColor: cPrimaryColor.withOpacity(0.2),
                             child: ClipOval(
                               child: Image.network(
-                                width: 100,
-                                height: 100,
+                                width: 100.h,
+                                height: 100.h,
                                 fit: BoxFit.cover,
                                 homeController
                                         .artistDetailsData.value?.starImage ??
                                     "",
-                                // loadingBuilder: imageLoadingBuilder,
-                                errorBuilder: (context, error, stackTrace) =>
-                                    Center(
-                                  child: SvgPicture.asset(
-                                    kiDummyMovie,
-                                  ),
-                                ),
+                                errorBuilder: (context, error, stackTrace) {
+                                  return const Icon(
+                                    Icons.person,
+                                    size: 70,
+                                  );
+                                },
                               ),
                             ),
                           ),
                         ),
                       ),
                     ),
+
                     Positioned(
-                      top: 40,
-                      // bottom: 0,
-                      left: width * 0.34,
-                      // right: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            homeController.artistDetailsData.value?.starName ??
-                                "",
-                            style: semiBold24TextStyle(cWhiteColor),
-                          ),
-                          // kH6sizedBox,
-                          Text(
-                            homeController.artistDetailsData.value?.starType ??
-                                "",
-                            style: regular16TextStyle(
-                              cWhiteColor.withOpacity(0.7),
+                      top: 30,
+                      left: width * 0.36,
+                      child: Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: width*0.52,
+                              child: Text(
+                                homeController
+                                        .artistDetailsData.value?.starName ??
+                                    "",
+                                style: semiBold24TextStyle(cWhiteColor),
+                                overflow: TextOverflow.clip,
+                              ),
                             ),
-                          ),
-                        ],
+                            // kH6sizedBox,
+                            Text(
+                              homeController
+                                      .artistDetailsData.value?.starType ??
+                                  "",
+                              style: regular16TextStyle(
+                                cWhiteColor.withOpacity(0.7),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -150,14 +139,6 @@ class CastDetailsScreen extends StatelessWidget {
                 kH16sizedBox,
                 Text(ksCastDetails.tr, style: medium16TextStyle(cWhiteColor)),
                 kH12sizedBox,
-                // Container(
-                //   width: width-40,
-                //   height: 46.h,
-                //   decoration: BoxDecoration(
-                //     borderRadius: BorderRadius.circular(100.r),
-                //     color: cWhiteColor.withOpacity(0.1),
-                //   ),
-                // ),
                 Container(
                   width: width - 40,
                   height: 46.h,
@@ -167,22 +148,23 @@ class CastDetailsScreen extends StatelessWidget {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children:
-                        List.generate(homeController.tabs.length, (index) {
+                    children: List.generate(
+                        homeController.castDetailsTabs.length, (index) {
                       return GestureDetector(
-                        onTap: () => homeController.changeTab(index),
+                        onTap: () =>
+                            homeController.actorDetailsChangeTab(index),
                         child: Obx(() => Container(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 16.w, vertical: 8.h),
                               decoration: BoxDecoration(
-                                color:
-                                    homeController.selectedIndex.value == index
-                                        ? Colors.grey[800]
-                                        : Colors.transparent,
+                                color: homeController.castSelectedIndex.value ==
+                                        index
+                                    ? Colors.grey[800]
+                                    : Colors.transparent,
                                 borderRadius: BorderRadius.circular(100.r),
                               ),
                               child: Text(
-                                homeController.tabs[index],
+                                homeController.castDetailsTabs[index],
                                 style: regular14TextStyle(cWhiteColor),
                               ),
                             )),
@@ -190,13 +172,14 @@ class CastDetailsScreen extends StatelessWidget {
                     }),
                   ),
                 ),
+
                 kH16sizedBox,
                 Divider(
                   thickness: 1,
                   color: cWhiteColor.withOpacity(0.2),
                 ),
                 kH16sizedBox,
-                if (homeController.selectedIndex.value == 0)
+                if (homeController.castSelectedIndex.value == 0)
                   GridView.builder(
                     shrinkWrap: true,
                     padding: EdgeInsets.zero,
@@ -210,17 +193,69 @@ class CastDetailsScreen extends StatelessWidget {
                     ),
                     itemCount: homeController.artistMovieList.length,
                     itemBuilder: (context, index) {
-                      return MovieContentContainer(
-                        movieImage:
-                            homeController.artistMovieList[index].thumbnail,
-                        isPremium:
-                            homeController.artistMovieList[index].isPaid == 1
-                                ? true
-                                : false,
+                      return InkWell(
+                        onTap: () async {
+                          homeController.resetRatingData();
+                          await homeController.getMovieDetails(
+                              movieId: homeController.artistMovieList[index].id!
+                                  .toString());
+                          Get.find<ProfileController>().isFavoriteAdded.value =
+                              homeController
+                                      .movieDetailsData.value?.isFavorite ??
+                                  false;
+                          if (homeController.movieServerList.isNotEmpty) {
+                            Get.find<AllVideoPlayerController>().videoPlayerFunction(
+                                isFree: homeController
+                                            .movieDetailsData.value?.isFree ==
+                                        1
+                                    ? true
+                                    : false,
+                                isRental: homeController.movieDetailsData.value
+                                                ?.isFree ==
+                                            0 &&
+                                        homeController.movieDetailsData.value
+                                                ?.isRental ==
+                                            1
+                                    ? true
+                                    : false,
+                                isRented: homeController
+                                    .movieDetailsModel.value?.isRented,
+                                isSubscribed: Get.find<GlobalController>()
+                                    .subscribedUserCheck
+                                    .value,
+                                fileUrl:
+                                    homeController.movieServerList[0]?.fileUrl,
+                                fileSource:
+                                    homeController.movieServerList[0]?.fileSource);
+                          }
+                          if (Get.find<GlobalController>()
+                                  .subscribedUserCheck
+                                  .value ==
+                              false) {
+                            homeController.showInterstitialAd();
+                          }
+                          Get.to(() => VideoPlayerScreen(
+                              isRentableVideo: homeController
+                                              .movieDetailsData.value?.isFree ==
+                                          0 &&
+                                      homeController.movieDetailsData.value
+                                              ?.isRental ==
+                                          1
+                                  ? true
+                                  : false));
+                        },
+                        child: MovieContentContainer(
+                          movieImage:
+                              homeController.artistMovieList[index].thumbnail,
+                          isPremium:
+                              homeController.artistMovieList[index].isPaid == 1
+                                  ? true
+                                  : false,
+                        ),
                       );
                     },
                   ),
-                if (homeController.selectedIndex.value == 1)
+                if (homeController.castSelectedIndex.value == 1)
                   Container(
                     width: width - 40,
                     decoration: BoxDecoration(
@@ -255,8 +290,8 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                homeController
-                                        .artistDetailsData.value?.country ??
+                                homeController.artistDetailsData.value?.country
+                                        ?.name ??
                                     "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
@@ -270,9 +305,12 @@ class CastDetailsScreen extends StatelessWidget {
                                 style: regular16TextStyle(
                                     cWhiteColor.withOpacity(0.7)),
                               ),
+                              // Text(homeController.artistDetailsData.value?.background ?? "",
+                              //   style: regular16TextStyle(cWhiteColor),
+                              // ),
                               Text(
-                                homeController
-                                        .artistDetailsData.value?.background ??
+                                homeController.artistDetailsData.value?.country
+                                        ?.name ??
                                     "",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
@@ -288,10 +326,16 @@ class CastDetailsScreen extends StatelessWidget {
                               ),
                               Text(
                                 homeController
-                                        .artistDetailsData.value?.starDob ??
-                                    "",
+                                            .artistDetailsData.value?.starDob ==
+                                        null
+                                    ? ""
+                                    : DateFormat('d MMM, yyyy').format(
+                                        homeController
+                                            .artistDetailsData.value!.starDob!),
                                 style: regular16TextStyle(cWhiteColor),
                               ),
+                              // DateFormat('d MMM, yyyy').format(
+                              //           homeController.artistDetailsData.value?.starDob?.toString()??""),
                             ],
                           ),
                           kH16sizedBox,
@@ -303,9 +347,13 @@ class CastDetailsScreen extends StatelessWidget {
                                     cWhiteColor.withOpacity(0.7)),
                               ),
                               Text(
-                                homeController
-                                        .artistDetailsData.value?.totalMovies ??
-                                    "",
+                                homeController.artistDetailsData.value
+                                            ?.totalMovies !=
+                                        null
+                                    ? homeController
+                                        .artistDetailsData.value!.totalMovies
+                                        .toString()
+                                    : "0",
                                 style: regular16TextStyle(cWhiteColor),
                               ),
                             ],

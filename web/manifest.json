@@ -1,6 +1,6 @@
 {
-    "name": "vidflix_flutter_app",
-    "short_name": "vidflix_flutter_app",
+    "name": "flixoo_flutter_app",
+    "short_name": "flixoo_flutter_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

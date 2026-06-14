@@ -1,5 +1,5 @@
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_icon_button.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_icon_button.dart';
 
 class CustomModifiedTextField extends StatelessWidget {
   final String? label, hint, errorText;
@@ -44,7 +44,7 @@ class CustomModifiedTextField extends StatelessWidget {
     this.inputAction = TextInputAction.next,
     this.onSubmit,
     this.onChanged,
-    Key? key,
+    super.key,
     this.errorText,
     this.textInputStyle,
     this.textHintStyle,
@@ -57,7 +57,7 @@ class CustomModifiedTextField extends StatelessWidget {
     this.suffixIconColor,
     this.suffixIconSize,
     this.textAlign,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

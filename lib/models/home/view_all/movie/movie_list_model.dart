@@ -1,5 +1,5 @@
-import 'package:vidflix_flutter_app/models/home/view_all/blog/blog_model.dart';
-import 'package:vidflix_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
+import 'package:flixoo_flutter_app/models/home/view_all/blog/blog_model.dart';
+import 'package:flixoo_flutter_app/models/home/view_all/tv_shows/tv_shows_model.dart';
 
 class MovieListModel {
     final Movies? movies;
@@ -22,7 +22,7 @@ class Filter {
     final List<Countries>? country;
     final List<Countries>? genre;
     final List<int>? year;
-    final Map<String, String>? sort;
+    final List<String>? sort;
 
     Filter({
         this.categories,
@@ -39,7 +39,7 @@ class Filter {
         country: json["country"] == null ? [] : List<Countries>.from(json["country"]!.map((x) => Countries.fromJson(x))),
         genre: json["genre"] == null ? [] : List<Countries>.from(json["genre"]!.map((x) => Countries.fromJson(x))),
         year: json["year"] == null ? [] : List<int>.from(json["year"]!.map((x) => x)),
-        sort: Map.from(json["sort"]!).map((k, v) => MapEntry<String, String>(k, v)),
+        sort: json["sort"] == null ? [] : List<String>.from(json["sort"]!.map((x) => x)),
     );
 }
 

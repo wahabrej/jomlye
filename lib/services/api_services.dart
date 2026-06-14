@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 import 'package:http/http.dart' as http;
-import 'package:vidflix_flutter_app/controllers/common/sp_controller.dart';
-import 'package:vidflix_flutter_app/models/common/common_data_model.dart';
+import 'package:flixoo_flutter_app/controllers/common/sp_controller.dart';
+import 'package:flixoo_flutter_app/models/common/common_data_model.dart';
 
 class ApiServices {
 
@@ -32,6 +32,7 @@ class ApiServices {
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           "Accept": "application/json",
+          "apiKey": Environment.apiKey,
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -47,6 +48,7 @@ class ApiServices {
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           "Accept": "application/json",
+          "apiKey": Environment.apiKey,
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -62,6 +64,7 @@ class ApiServices {
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           "Accept": "application/json",
+          "apiKey": Environment.apiKey,
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -77,6 +80,7 @@ class ApiServices {
         headers: {
           if (token != null) 'Authorization': 'Bearer $token',
           "Accept": "application/json",
+          "apiKey": Environment.apiKey,
         },
       ).timeout(
         Duration(seconds: timer ?? 30),
@@ -95,6 +99,7 @@ class ApiServices {
     Map<String, dynamic>? body,
     required String requestMethod,
     int? timer,
+    bool? isVideoPlay=false,
   }) async {
     ll("Url : $url");
     final http.Client client = http.Client();
@@ -113,7 +118,7 @@ class ApiServices {
         timer: timer,
         client: client,
       );
-      ll("response statusCode : ${response.statusCode}");
+      final responseBody = jsonDecode(response.body);
       if (response.statusCode == 200) {
         final object = json.decode(response.body.toString());
         final prettyString = const JsonEncoder.withIndent('  ').convert(object);
@@ -122,25 +127,30 @@ class ApiServices {
         return cm;
       } else if (response.statusCode == 401 || response.statusCode == 403) {
         await SpController().onLogout();
-        showSnackBar(title: ksError.tr, message: ksUnAuthorizedError.tr, color: cRedColor);
+         if(isVideoPlay==false){
+        showSnackBar(title: "", message: responseBody["message"], color: cRedColor);
+         }
         return null;
       } else {
         if (!Get.isSnackbarOpen) {
-          showSnackBar(title: "${response.statusCode} ${ksError.tr}", message: error, color: cRedColor);
+          if(isVideoPlay==false){
+            ll(response.body);
+          showSnackBar(title: "", message: responseBody["message"], color: cRedColor);
+          }
         }
         return null;
       }
     } on SocketException {
       error = ksNoInternetConnectionMessage.tr;
       if (!Get.isSnackbarOpen) {
-        showSnackBar(title: ksError.tr, message: error, color: cRedColor);
+        showSnackBar(title: "", message: error, color: cRedColor);
       }
       return null;
     } catch (e) {
       ll(e.toString());
-      if (!Get.isSnackbarOpen) {
-        showSnackBar(title: ksError.tr, message: error, color: cRedColor);
-      }
+      // if (!Get.isSnackbarOpen) {
+      //   showSnackBar(title: "", message: error, color: cRedColor);
+      // }
       return null;
     } finally {
       client.close();
@@ -159,6 +169,7 @@ class ApiServices {
     ll("Url : $url");
     Dio dio = Dio();
     dio.options.headers['content-Type'] = 'application/json';
+    dio.options.headers['apiKey'] = Environment.apiKey;
     dio.options.headers["authorization"] = "Bearer $token";
     String error = ksSomethingWentWrong.tr;
     try {
@@ -218,6 +229,7 @@ class ApiServices {
         {
           'Authorization': 'Bearer $token',
           'content-Type': 'multipart/form-data',
+          "apiKey": Environment.apiKey,
         },
       );
       // If image is a file on disk, use fromPath instead of fromBytes
@@ -270,6 +282,7 @@ class ApiServices {
         {
           'Authorization': 'Bearer $token',
           'content-Type': 'multipart/form-data',
+          "apiKey": Environment.apiKey,
         },
       );
       // If image is a file on disk, use fromPath instead of fromBytes
@@ -329,6 +342,7 @@ class ApiServices {
         {
           'Authorization': 'Bearer $token',
           'content-Type': 'multipart/form-data',
+          "apiKey": Environment.apiKey,
         },
       );
       // If image is a file on disk, use fromPath instead of fromBytes

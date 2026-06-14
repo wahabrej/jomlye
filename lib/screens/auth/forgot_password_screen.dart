@@ -1,7 +1,7 @@
-import 'package:vidflix_flutter_app/controllers/auth/auth_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/auth/auth_controller.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textfield.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
   ForgotPasswordScreen({super.key});
@@ -69,11 +69,11 @@ class ForgotPasswordScreen extends StatelessWidget {
                       color: cWhiteColor.withOpacity(0.1),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(k20Padding),
-                      child: SvgPicture.asset(
-                        kiVidflix,
-                        width: 40,
-                        height: 40,
+                      padding: const EdgeInsets.all(k12Padding),
+                      child: Image.asset(
+                        kiFlixooPng,
+                        width: 80,
+                        height: 80,
                       ),
                     ),
                   ),

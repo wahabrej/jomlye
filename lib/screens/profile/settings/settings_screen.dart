@@ -1,6 +1,5 @@
-import 'package:vidflix_flutter_app/screens/profile/profile_screen.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/utils/custom_app_bar.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/screens/profile/profile_screen.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -10,7 +9,7 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: cBlackColor,
        appBar: PreferredSize(
-          preferredSize: Size.fromHeight(kAppBarSize.h),
+          preferredSize: Size.fromHeight(64.h),
         //* info:: appBar
           child: CustomAppBar(
             hasBackButton: false,
@@ -47,16 +46,16 @@ class SettingsScreen extends StatelessWidget {
                       ),
                     ),
                     actions: [
-                       SvgPicture.asset(
-                      kiVidflix,
-                      width: h24.w,
-                      height: h24.h,
+                       Image.asset(
+                      kiFlixooPng,
+                      width: 60.w,
+                      height: 60.h,
                       color: cPrimaryColor2,
                     ),
                     kW4sizedBox,
                     Center(
                       child: Text(
-                        ksVidflix.tr,
+                        ksFlixoo.tr,
                         style: semiBold20TextStyle(cWhiteColor),
                       ),
                     ),

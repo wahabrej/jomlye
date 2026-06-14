@@ -1,6 +1,6 @@
-import 'package:vidflix_flutter_app/controllers/profile/profile_controller.dart';
-import 'package:vidflix_flutter_app/screens/widgets/common/buttons/custom_button.dart';
-import 'package:vidflix_flutter_app/utils/constants/imports.dart';
+import 'package:flixoo_flutter_app/controllers/profile/profile_controller.dart';
+import 'package:flixoo_flutter_app/screens/widgets/common/buttons/custom_button.dart';
+import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 
 class DownloadListScreen extends StatelessWidget {
   DownloadListScreen({super.key});
@@ -54,15 +54,15 @@ class DownloadListScreen extends StatelessWidget {
                     const Expanded(
                       child: SizedBox(),
                     ),
-                    SvgPicture.asset(
-                      kiVidflix,
-                      width: h24.w,
-                      height: h24.h,
+                    Image.asset(
+                      kiFlixooPng,
+                      width: 60.w,
+                      height: 60.h,
                       color: cPrimaryColor2,
                     ),
                     kW4sizedBox,
                     Text(
-                      ksVidflix.tr,
+                      ksFlixoo.tr,
                       style: semiBold20TextStyle(cWhiteColor),
                     ),
                   ],
@@ -72,30 +72,30 @@ class DownloadListScreen extends StatelessWidget {
                   color: cWhiteColor.withOpacity(0.2),
                 ),
                 kH8sizedBox,
-                ListView.separated(
-                  padding: const EdgeInsets.all(k0Padding),
-                  separatorBuilder: (context, index) => kH16sizedBox,
-                  itemCount: profileController.downloadedMovieList.length,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return CommonMovieListWidget(
-                      movieImage: profileController.downloadedMovieList[index]
-                          ["movieImage"],
-                      movieName: profileController.downloadedMovieList[index]
-                          ["movieName"],
-                      movieDuration: profileController.downloadedMovieList[index]
-                          ["movieDuration"],
-                      movieSize: profileController.downloadedMovieList[index]
-                          ["movieSize"],
-                      movieTagList: profileController.downloadedMovieList[index]
-                          ["movieTagList"],
-                          deleteonPressed: (){
-                showDeleteDownloadPopup(context);
-              },
-                    );
-                  },
-                ),
+              //   ListView.separated(
+              //     padding: const EdgeInsets.all(k0Padding),
+              //     separatorBuilder: (context, index) => kH16sizedBox,
+              //     itemCount: profileController.downloadedMovieList.length,
+              //     shrinkWrap: true,
+              //     physics: const NeverScrollableScrollPhysics(),
+              //     itemBuilder: (context, index) {
+              //       return CommonMovieListWidget(
+              //         movieImage: profileController.downloadedMovieList[index]
+              //             ["movieImage"],
+              //         movieName: profileController.downloadedMovieList[index]
+              //             ["movieName"],
+              //         movieDuration: profileController.downloadedMovieList[index]
+              //             ["movieDuration"],
+              //         movieSize: profileController.downloadedMovieList[index]
+              //             ["movieSize"],
+              //         movieTagList: profileController.downloadedMovieList[index]
+              //             ["movieTagList"],
+              //             deleteonPressed: (){
+              //   showDeleteDownloadPopup(context);
+              // },
+              //       );
+              //     },
+              //   ),
                 kH20sizedBox,
               ],
             ),
