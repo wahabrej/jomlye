@@ -144,7 +144,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         ],
                       );
                     } else {
-                      // Case 4: Flick / regular video player (Orientation & Back button ফিক্সড)
+                      // Case 4: Flick / regular video player
                       return OrientationBuilder(
                         builder: (context, orientation) {
                           final isLandscape =
@@ -156,15 +156,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 : 16 / 9,
                             child: Stack(
                               children: [
-                                // ভিডিও প্লেয়ার লেয়ার (ব্যাকগ্রাউন্ডে ফুল স্পেস নেবে)
+                                // ভিডিও প্লেয়ার
                                 Positioned.fill(
                                   child: FlickVideoPlayer(
                                     flickManager:
                                         allVideoPlayerController.flickManager,
                                     flickVideoWithControls:
                                         const FlickVideoWithControls(
-                                      videoFit: BoxFit
-                                          .contain, // ভিডিওর রেশিও ঠিক রাখবে, সাবটাইটেল কাটবে না
+                                      videoFit: BoxFit.contain,
                                       controls: FlickPortraitControls(),
                                     ),
                                     flickVideoWithControlsFullscreen:
@@ -175,42 +174,35 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                   ),
                                 ),
 
-                                // ব্যাক বাটন লেয়ার (সবসময় উপরে বামে থাকবে)
+                                // ✅ Back button — একদম top-left কর্নারে
                                 Positioned(
-                                  top: isLandscape
-                                      ? 16
-                                      : 12, // ল্যান্ডস্কেপে টপ বার থেকে সেফ ডিস্ট্যান্স
-                                  left: 16, // বাম পাশ থেকে মার্জিন
-                                  child: SafeArea(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        try {
-                                          allVideoPlayerController
-                                              .youtubeController
-                                              .dispose();
-                                        } catch (_) {}
-                                        try {
-                                          allVideoPlayerController.flickManager
-                                              .dispose();
-                                        } catch (_) {}
-                                        Get.back();
-                                      },
-                                      child: Container(
-                                        width:
-                                            36, // টাচ রেসপন্স ভালো পাওয়ার জন্য সাইজ পারফেক্ট করা হয়েছে
-                                        height: 36,
-                                        decoration: BoxDecoration(
-                                          color: Colors.black.withOpacity(
-                                              0.6), // ভিডিওর ওপর স্পষ্ট দেখানোর জন্য ডার্ক অপাসিটি
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: const Center(
-                                          child: Icon(
-                                            Icons
-                                                .arrow_back_ios_new, // আইকন সেন্টারিং ঠিক রাখার জন্য নিউ আইকন গ্লিচ ফ্রি
-                                            color: Colors.white,
-                                            size: 16,
-                                          ),
+                                  top: 8,
+                                  left: 8,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      try {
+                                        allVideoPlayerController
+                                            .youtubeController
+                                            .dispose();
+                                      } catch (_) {}
+                                      try {
+                                        allVideoPlayerController.flickManager
+                                            .dispose();
+                                      } catch (_) {}
+                                      Get.back();
+                                    },
+                                    child: Container(
+                                      width: 32,
+                                      height: 32,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black.withOpacity(0.4),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Center(
+                                        child: Icon(
+                                          Icons.arrow_back_ios_new,
+                                          color: Colors.white,
+                                          size: 14,
                                         ),
                                       ),
                                     ),
