@@ -56,39 +56,115 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     super.dispose();
   }
 
-  /// Builds a single row in the subtitle dropdown. [selected] highlights the
-  /// active track and shows a trailing check.
-  PopupMenuItem<int> _subtitleMenuItem(
+  /// Builds a single tappable row in the subtitle selector panel. [selected]
+  /// highlights the active track and shows a trailing check. [onTap] applies
+  /// the choice and closes the panel.
+  Widget _subtitleMenuItem(
     String label,
     bool selected, {
-    required int value,
+    required bool isOff,
+    required VoidCallback onTap,
   }) {
-    return PopupMenuItem<int>(
-      value: value,
-      height: 40,
-      child: Row(
-        children: [
-          Icon(
-            value < 0 ? Icons.subtitles_off : Icons.subtitles,
-            size: 18,
-            color: selected ? cPrimaryColor : Colors.white54,
-          ),
-          kW8sizedBox,
-          Expanded(
-            child: Text(
-              label,
-              style: TextStyle(
-                color: selected ? cPrimaryColor : Colors.white,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
-                fontSize: 14,
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: 42,
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Row(
+          children: [
+            Icon(
+              isOff ? Icons.subtitles_off : Icons.subtitles,
+              size: 18,
+              color: selected ? cPrimaryColor : Colors.white54,
+            ),
+            kW8sizedBox,
+            Expanded(
+              child: Text(
+                label,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: selected ? cPrimaryColor : Colors.white,
+                  fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
+                  fontSize: 14,
+                ),
               ),
             ),
-          ),
-          if (selected)
-            const Icon(Icons.check, color: cPrimaryColor, size: 18),
-        ],
+            if (selected)
+              const Icon(Icons.check, color: cPrimaryColor, size: 18),
+          ],
+        ),
       ),
     );
+  }
+
+  /// The subtitle/language selector overlay. Rendered directly inside the
+  /// player [Stack] (both portrait and fullscreen) and toggled by
+  /// [AllVideoPlayerController.isSubtitleMenuOpen]. We use this instead of a
+  /// [PopupMenuButton] because a popup menu renders into the root navigator
+  /// overlay, which gets clipped/dismissed by flick's separate fullscreen route
+  /// and its auto-hiding landscape controls — that was why the language could
+  /// not be changed (or needed many taps) in fullscreen/landscape.
+  Widget _subtitleMenuPanel(
+    BuildContext context,
+    List<SubtitleModel> subtitles,
+  ) {
+    return Obx(() {
+      if (!allVideoPlayerController.isSubtitleMenuOpen.value) {
+        return const SizedBox.shrink();
+      }
+      final selected = allVideoPlayerController.selectedSubtitle.value;
+      return Positioned.fill(
+        child: Stack(
+          children: [
+            // Tap-outside scrim to dismiss.
+            Positioned.fill(
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: allVideoPlayerController.closeSubtitleMenu,
+                child: const SizedBox.expand(),
+              ),
+            ),
+            Positioned(
+              top: 44,
+              right: 8,
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  width: 200,
+                  constraints: const BoxConstraints(maxHeight: 260),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1A1A1A),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _subtitleMenuItem(
+                          "Off",
+                          selected == null,
+                          isOff: true,
+                          onTap: () =>
+                              allVideoPlayerController.selectSubtitle(null),
+                        ),
+                        for (final sub in subtitles)
+                          _subtitleMenuItem(
+                            sub.label ?? sub.language ?? "Unknown",
+                            selected?.id == sub.id,
+                            isOff: false,
+                            onTap: () =>
+                                allVideoPlayerController.selectSubtitle(sub),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   /// The subtitle caption overlay (the actual text drawn over the video).
@@ -119,24 +195,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     return Obx(() {
       final selected = allVideoPlayerController.selectedSubtitle.value;
       final isOn = selected != null;
-      return PopupMenuButton<int>(
-        tooltip: "Subtitle / CC",
-        color: const Color(0xFF1A1A1A),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
-        position: PopupMenuPosition.under,
-        onSelected: (i) =>
-            allVideoPlayerController.selectSubtitle(i < 0 ? null : subtitles[i]),
-        itemBuilder: (_) => [
-          _subtitleMenuItem("Off", selected == null, value: -1),
-          for (int i = 0; i < subtitles.length; i++)
-            _subtitleMenuItem(
-              subtitles[i].label ?? subtitles[i].language ?? "Unknown",
-              selected?.id == subtitles[i].id,
-              value: i,
-            ),
-        ],
+      return GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: allVideoPlayerController.toggleSubtitleMenu,
         child: Container(
           width: 32,
           height: 32,
@@ -382,6 +443,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                               child: _subtitleButton(
                                                   context, subtitles),
                                             ),
+                                          if (hasSubtitles)
+                                            _subtitleMenuPanel(
+                                                context, subtitles),
                                         ],
                                       ),
                                     ),
@@ -406,6 +470,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                     right: 8,
                                     child: _subtitleButton(context, subtitles),
                                   ),
+
+                                // ✅ Subtitle selector panel — custom overlay
+                                // that works identically in portrait and
+                                // fullscreen (unlike a PopupMenuButton).
+                                if (hasSubtitles)
+                                  _subtitleMenuPanel(context, subtitles),
                               ],
                             ),
                           );

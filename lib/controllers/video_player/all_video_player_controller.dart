@@ -24,9 +24,25 @@ class AllVideoPlayerController extends GetxController {
   /// whether the overlay is shown at all.
   final Rxn<SubtitleModel> selectedSubtitle = Rxn<SubtitleModel>();
 
+  /// Whether the in-player subtitle/language selector panel is open. We drive
+  /// the selector with our own overlay (instead of a [PopupMenuButton]) so it
+  /// works the same in portrait and in flick's fullscreen route — a popup menu
+  /// renders into the root navigator overlay and gets clipped/dismissed by the
+  /// fullscreen route + auto-hiding landscape controls.
+  final RxBool isSubtitleMenuOpen = false.obs;
+
+  void toggleSubtitleMenu() {
+    isSubtitleMenuOpen.value = !isSubtitleMenuOpen.value;
+  }
+
+  void closeSubtitleMenu() {
+    if (isSubtitleMenuOpen.value) isSubtitleMenuOpen.value = false;
+  }
+
   /// Selects a subtitle track, or `null` to turn subtitles off.
   void selectSubtitle(SubtitleModel? subtitle) {
     selectedSubtitle.value = subtitle;
+    isSubtitleMenuOpen.value = false;
   }
 
   /// Resets the device back to portrait and restores the system UI overlays.
