@@ -502,6 +502,33 @@ class HomeController extends GetxController {
       ) as CommonDM;
 
       if (response.code == 200) {
+        // ===== TEMP DEBUG: find subtitle data in the API response =====
+        try {
+          final raw = response.data;
+          if (raw is Map) {
+            ll("MOVIE_DETAILS_KEYS => ${raw.keys.toList()}");
+            raw.forEach((k, v) {
+              final keyStr = k.toString().toLowerCase();
+              final valStr = v.toString().toLowerCase();
+              if (keyStr.contains('sub') ||
+                  keyStr.contains('caption') ||
+                  keyStr.contains('track') ||
+                  valStr.contains('.vtt') ||
+                  valStr.contains('.srt') ||
+                  valStr.contains('subtitle')) {
+                ll("SUBTITLE_FIELD [$k] => $v");
+              }
+            });
+            // also peek inside the first server, subtitles may be per-server
+            final servers = raw["server"];
+            if (servers is List && servers.isNotEmpty && servers.first is Map) {
+              ll("SERVER0_KEYS => ${(servers.first as Map).keys.toList()}");
+            }
+          }
+        } catch (e) {
+          ll("SUBTITLE_DEBUG_ERROR => $e");
+        }
+        // ===== END TEMP DEBUG =====
         movieServerList.clear();
         movieCastList.clear();
         movieDirectorList.clear();
@@ -511,6 +538,11 @@ class HomeController extends GetxController {
         recommendedMovieList.clear();
         playlistIdsList.clear();
          movieDetailsModel.value = MovieDetailsModel.fromJson(response.data);
+        // New movie loaded — drop any subtitle picked for the previous movie
+        // so a stale track doesn't carry over.
+        if (Get.isRegistered<AllVideoPlayerController>()) {
+          Get.find<AllVideoPlayerController>().selectSubtitle(null);
+        }
         movieDetailsData.value = movieDetailsModel.value!.details;
         rentalVideoData.value = movieDetailsModel.value!.rental;
         movieServerList.addAll(movieDetailsModel.value!.server!);

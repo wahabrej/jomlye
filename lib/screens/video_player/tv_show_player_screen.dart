@@ -154,16 +154,12 @@ class _TvShowPlayerScreenState extends State<TvShowPlayerScreen> {
                               top: 12,
                               left: 12,
                               child: GestureDetector(
-                                onTap: () {
-                                  try {
-                                    allVideoPlayerController.youtubeController
-                                        .dispose();
-                                  } catch (_) {}
-                                  try {
-                                    allVideoPlayerController.flickManager
-                                        .dispose();
-                                  } catch (_) {}
-                                  Get.back();
+                                onTap: () async {
+                                  final canPop = await allVideoPlayerController
+                                      .handlePlayerBack();
+                                  if (canPop) {
+                                    Get.back();
+                                  }
                                 },
                                 child: Container(
                                   width: 24,

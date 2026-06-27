@@ -52,13 +52,7 @@ class _PlaylistVideoPlayerScreenState extends State<PlaylistVideoPlayerScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        try {
-          allVideoPlayerController.youtubeController.dispose();
-        } catch (_) {}
-        try {
-          allVideoPlayerController.flickManager.dispose();
-        } catch (_) {}
-        return true;
+        return await allVideoPlayerController.handlePlayerBack();
       },
       child: Scaffold(
         backgroundColor: cBlackColor,
@@ -205,17 +199,13 @@ class _PlaylistVideoPlayerScreenState extends State<PlaylistVideoPlayerScreen> {
                                     top: 12,
                                     left: 12,
                                     child: GestureDetector(
-                                      onTap: () {
-                                        try {
-                                          allVideoPlayerController
-                                              .youtubeController
-                                              .dispose();
-                                        } catch (_) {}
-                                        try {
-                                          allVideoPlayerController.flickManager
-                                              .dispose();
-                                        } catch (_) {}
-                                        Get.back();
+                                      onTap: () async {
+                                        final canPop =
+                                            await allVideoPlayerController
+                                                .handlePlayerBack();
+                                        if (canPop) {
+                                          Get.back();
+                                        }
                                       },
                                       child: Container(
                                         width: 24,

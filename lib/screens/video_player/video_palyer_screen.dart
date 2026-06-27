@@ -11,6 +11,8 @@ import 'package:flixoo_flutter_app/screens/widgets/common/textfield/custom_textf
 import 'package:flixoo_flutter_app/screens/widgets/common/utils/custom_checkbox.dart';
 import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 import 'package:flixoo_flutter_app/controllers/video_player/all_video_player_controller.dart';
+import 'package:flixoo_flutter_app/models/subtitle_model.dart';
+import 'package:flixoo_flutter_app/screens/video_player/subtitle_widget.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
@@ -29,14 +31,18 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   final HomeController homeController = Get.find<HomeController>();
 
   final ProfileController profileController = Get.find<ProfileController>();
+
   @override
   void dispose() {
     ll("Dispose from video player screen");
+
     if (Get.find<GlobalController>().userToken.value != "") {
       homeController.watchHistoryStore(
           watchableType: 'movie',
           watchableId: homeController.movieDetailsData.value?.id ?? -1,
+
           // duration: homeController.movieServerList[homeController.selectedServer.value].,
+
           duration: Get.find<AllVideoPlayerController>()
               .totalSeconds
               .value
@@ -46,20 +52,187 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               .value
               .toString());
     }
+
     super.dispose();
+  }
+
+  /// Builds a single row in the subtitle dropdown. [selected] highlights the
+  /// active track and shows a trailing check.
+  PopupMenuItem<int> _subtitleMenuItem(
+    String label,
+    bool selected, {
+    required int value,
+  }) {
+    return PopupMenuItem<int>(
+      value: value,
+      height: 40,
+      child: Row(
+        children: [
+          Icon(
+            value < 0 ? Icons.subtitles_off : Icons.subtitles,
+            size: 18,
+            color: selected ? cPrimaryColor : Colors.white54,
+          ),
+          kW8sizedBox,
+          Expanded(
+            child: Text(
+              label,
+              style: TextStyle(
+                color: selected ? cPrimaryColor : Colors.white,
+                fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
+                fontSize: 14,
+              ),
+            ),
+          ),
+          if (selected)
+            const Icon(Icons.check, color: cPrimaryColor, size: 18),
+        ],
+      ),
+    );
+  }
+
+  /// The subtitle caption overlay (the actual text drawn over the video).
+  /// Used in both the portrait stack and the fullscreen/landscape controls so
+  /// captions stay visible after rotating to fullscreen.
+  Widget _subtitleOverlayLayer() {
+    return Positioned.fill(
+      child: IgnorePointer(
+        child: Obx(() {
+          final selected = allVideoPlayerController.selectedSubtitle.value;
+          final url = selected?.fileUrl ?? "";
+          if (url.isEmpty) return const SizedBox.shrink();
+          return SubtitleOverlay(
+            subtitleUrl: url,
+            flickManager: allVideoPlayerController.flickManager,
+          );
+        }),
+      ),
+    );
+  }
+
+  /// The CC / language selector button (top-right). Shared by portrait and
+  /// fullscreen so the language dropdown is reachable in landscape too.
+  Widget _subtitleButton(
+    BuildContext context,
+    List<SubtitleModel> subtitles,
+  ) {
+    return Obx(() {
+      final selected = allVideoPlayerController.selectedSubtitle.value;
+      final isOn = selected != null;
+      return PopupMenuButton<int>(
+        tooltip: "Subtitle / CC",
+        color: const Color(0xFF1A1A1A),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        position: PopupMenuPosition.under,
+        onSelected: (i) =>
+            allVideoPlayerController.selectSubtitle(i < 0 ? null : subtitles[i]),
+        itemBuilder: (_) => [
+          _subtitleMenuItem("Off", selected == null, value: -1),
+          for (int i = 0; i < subtitles.length; i++)
+            _subtitleMenuItem(
+              subtitles[i].label ?? subtitles[i].language ?? "Unknown",
+              selected?.id == subtitles[i].id,
+              value: i,
+            ),
+        ],
+        child: Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.4),
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Icon(
+              isOn ? Icons.subtitles : Icons.subtitles_off,
+              color: isOn ? cPrimaryColor : Colors.white,
+              size: 18,
+            ),
+          ),
+        ),
+      );
+    });
+  }
+
+  /// Handles the in-player back button. While in landscape (either flick's
+  /// fullscreen route or a device rotation) we DON'T pop the screen — popping
+  /// mid-rotation is what flashed a black screen. Instead we exit fullscreen /
+  /// restore portrait and stay on the (now portrait) detail page, like YouTube.
+  /// In portrait, a normal back closes the screen.
+  Future<void> _onPlayerBackPressed(BuildContext context) async {
+    final controlManager =
+        allVideoPlayerController.flickManager.flickControlManager;
+    final bool isFullscreen = allVideoPlayerController.isFlickInitialized.value &&
+        (controlManager?.isFullscreen ?? false);
+    final bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
+    if (isFullscreen || isLandscape) {
+      if (isFullscreen) {
+        try {
+          controlManager?.exitFullscreen();
+        } catch (_) {}
+      }
+      await allVideoPlayerController.resetOrientationToPortrait();
+      return; // stay on the screen
+    }
+
+    final canPop = await allVideoPlayerController.handlePlayerBack();
+    if (canPop) Get.back();
+  }
+
+  /// The circular back button shown over the player (top-left). Shared by the
+  /// portrait stack and the fullscreen controls so it's reachable in landscape.
+  Widget _playerBackButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _onPlayerBackPressed(context),
+      child: Container(
+        width: 32,
+        height: 32,
+        decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0.4),
+          shape: BoxShape.circle,
+        ),
+        child: const Center(
+          child: Icon(
+            Icons.arrow_back_ios_new,
+            color: Colors.white,
+            size: 14,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        try {
-          allVideoPlayerController.youtubeController.dispose();
-        } catch (_) {}
-        try {
-          allVideoPlayerController.flickManager.dispose();
-        } catch (_) {}
-        return true;
+        // In landscape (flick fullscreen or a device rotation) we never pop —
+        // popping while the screen is rotated flashed a black screen. Restore
+        // portrait and stay; a second back then closes the screen normally.
+        final controlManager =
+            allVideoPlayerController.flickManager.flickControlManager;
+        final bool isFullscreen =
+            allVideoPlayerController.isFlickInitialized.value &&
+                (controlManager?.isFullscreen ?? false);
+        final bool isLandscape =
+            MediaQuery.of(context).orientation == Orientation.landscape;
+        if (isFullscreen || isLandscape) {
+          if (isFullscreen) {
+            try {
+              controlManager?.exitFullscreen();
+            } catch (_) {}
+          }
+          await allVideoPlayerController.resetOrientationToPortrait();
+          return false;
+        }
+        // Portrait: pause, restore portrait and allow the pop. We do NOT dispose
+        // the players here — disposing during the pop transition caused the
+        // black screen the client reported.
+        return await allVideoPlayerController.handlePlayerBack();
       },
       child: Scaffold(
         backgroundColor: cBlackColor,
@@ -72,18 +245,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 Builder(
                   builder: (_) {
                     final movieData = homeController.movieDetailsData.value;
+
                     final serverList = homeController.movieServerList;
+
                     final selectedServerIndex =
                         homeController.selectedServer.value;
+
                     final selectedServer = serverList.isNotEmpty
                         ? serverList[selectedServerIndex]
                         : null;
+
                     final globalController = Get.find<GlobalController>();
 
                     if (serverList.isEmpty ||
                         selectedServer?.fileUrl == null ||
                         selectedServer?.fileUrl!.isEmpty == true) {
                       // Case 1: No server or invalid video link → show poster
+
                       return SizedBox(
                         width: width,
                         height: 200,
@@ -107,6 +285,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 false &&
                             widget.isRentableVideo == true)) {
                       // Case 2: Video restricted → show poster
+
                       return SizedBox(
                         width: width,
                         height: 200.h,
@@ -118,6 +297,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     } else if (selectedServer?.fileSource?.toLowerCase() ==
                         "youtube") {
                       // Case 3: YouTube player
+
                       return YoutubePlayer(
                         controller: allVideoPlayerController.youtubeController,
                         showVideoProgressIndicator: true,
@@ -145,6 +325,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                       );
                     } else {
                       // Case 4: Flick / regular video player
+
+                      // Subtitle tracks for the currently playing movie (if the
+                      // backend returned any). The selector button only shows
+                      // when at least one subtitle track is available; the user
+                      // picks a language from the selector sheet.
+                      final subtitles =
+                          homeController.movieDetailsModel.value?.subtitles ??
+                              [];
+                      final bool hasSubtitles = subtitles.isNotEmpty;
+
                       return OrientationBuilder(
                         builder: (context, orientation) {
                           final isLandscape =
@@ -157,6 +347,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             child: Stack(
                               children: [
                                 // ভিডিও প্লেয়ার
+
                                 Positioned.fill(
                                   child: FlickVideoPlayer(
                                     flickManager:
@@ -166,48 +357,55 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                       videoFit: BoxFit.contain,
                                       controls: FlickPortraitControls(),
                                     ),
+                                    // Fullscreen (landscape) controls must
+                                    // include the subtitle overlay + CC button
+                                    // too, otherwise captions and the language
+                                    // selector disappear after rotating.
                                     flickVideoWithControlsFullscreen:
-                                        const FlickVideoWithControls(
+                                        FlickVideoWithControls(
                                       videoFit: BoxFit.contain,
-                                      controls: FlickLandscapeControls(),
+                                      controls: Stack(
+                                        fit: StackFit.expand,
+                                        children: [
+                                          const FlickLandscapeControls(),
+                                          if (hasSubtitles)
+                                            _subtitleOverlayLayer(),
+                                          Positioned(
+                                            top: 8,
+                                            left: 8,
+                                            child: _playerBackButton(context),
+                                          ),
+                                          if (hasSubtitles)
+                                            Positioned(
+                                              top: 8,
+                                              right: 8,
+                                              child: _subtitleButton(
+                                                  context, subtitles),
+                                            ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
+
+                                // ✅ Subtitle overlay — shows the selected track
+                                if (hasSubtitles) _subtitleOverlayLayer(),
 
                                 // ✅ Back button — একদম top-left কর্নারে
                                 Positioned(
                                   top: 8,
                                   left: 8,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      try {
-                                        allVideoPlayerController
-                                            .youtubeController
-                                            .dispose();
-                                      } catch (_) {}
-                                      try {
-                                        allVideoPlayerController.flickManager
-                                            .dispose();
-                                      } catch (_) {}
-                                      Get.back();
-                                    },
-                                    child: Container(
-                                      width: 32,
-                                      height: 32,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black.withOpacity(0.4),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: const Center(
-                                        child: Icon(
-                                          Icons.arrow_back_ios_new,
-                                          color: Colors.white,
-                                          size: 14,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
+                                  child: _playerBackButton(context),
                                 ),
+
+                                // ✅ Subtitle selector — dropdown anchored to
+                                // the button (top-right corner)
+                                if (hasSubtitles)
+                                  Positioned(
+                                    top: 8,
+                                    right: 8,
+                                    child: _subtitleButton(context, subtitles),
+                                  ),
                               ],
                             ),
                           );
@@ -216,6 +414,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                     }
                   },
                 ),
+                // Detail content (tabs, cast, related lists) is only shown in
+                // portrait. In landscape the player is fullscreen, so rendering
+                // this underneath just causes RenderFlex overflow when widths
+                // are recomputed for the rotated screen.
+                if (MediaQuery.of(context).orientation ==
+                    Orientation.portrait) ...[
                 kH20sizedBox,
                 Padding(
                   padding: const EdgeInsets.only(left: k20Padding),
@@ -231,6 +435,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
                             // Rental status section
+
                             if (homeController
                                     .movieDetailsModel.value?.isRented ==
                                 true)
@@ -281,6 +486,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                               ),
 
                             // Star Rating
+
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -300,6 +506,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             ),
 
                             // Divider 1
+
                             SizedBox(
                               height: 22.h,
                               child: VerticalDivider(
@@ -310,6 +517,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             ),
 
                             // Runtime
+
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -329,6 +537,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             ),
 
                             // Divider 2
+
                             SizedBox(
                               height: 22.h,
                               child: VerticalDivider(
@@ -339,6 +548,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             ),
 
                             // Release Date
+
                             Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -364,7 +574,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           ],
                         ),
                       ),
+
                       kH16sizedBox,
+
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -376,9 +588,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 1,
                             (index) {
                               if (index.isOdd) return kW8sizedBox;
+
                               final itemIndex = index ~/ 2;
+
                               final movieType = homeController.movieDetailsModel
                                   .value?.videoTags?[itemIndex];
+
                               return Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
@@ -401,19 +616,25 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           ),
                         ),
                       ),
+
                       kH16sizedBox,
+
                       Text(
                         ksTitle,
                         style: regular14TextStyle(
                           cWhiteColor.withOpacity(0.5),
                         ),
                       ),
+
                       kH12sizedBox,
+
                       Text(
                         homeController.movieDetailsData.value?.title ?? "",
                         style: medium20TextStyle(cWhiteColor),
                       ),
+
                       kH12sizedBox,
+
                       RichText(
                         text: TextSpan(
                           children: [
@@ -427,7 +648,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           ],
                         ),
                       ),
+
                       kH16sizedBox,
+
                       Row(
                         children: [
                           CommonContainer(
@@ -460,6 +683,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                               } else {
                                 profileController.isFavoriteAdded.value =
                                     !profileController.isFavoriteAdded.value;
+
                                 await profileController.favoriteAddOrRemove(
                                     id: homeController
                                             .movieDetailsData.value?.id ??
@@ -486,6 +710,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                     homeController.movieDetailsModel.value
                                             ?.playlistIds ??
                                         []);
+
                                 for (int i = 0;
                                     i < profileController.playlistList.length;
                                     i++) {
@@ -494,14 +719,17 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                           .playlistList[i]
                                           .id
                                           .toString();
+
                                   final bool exists = Get.find<HomeController>()
                                       .playlistIdsList
                                       .any((element) => currentId
                                           .contains(element.toString()));
+
                                   Get.find<ProfileController>()
                                       .temporaryPlayListCheckBoxStateList
                                       .add(exists);
                                 }
+
                                 showSaveVideoToPlayListPopup(
                                     context,
                                     homeController.movieDetailsData.value?.id ??
@@ -544,6 +772,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
                       if (homeController.movieServerList.isNotEmpty)
                         kH16sizedBox,
+
                       if (homeController.movieServerList.isNotEmpty)
                         SizedBox(
                           width: width - 60 / 3,
@@ -560,6 +789,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                     onTap: () async {
                                       homeController.selectedServer.value =
                                           index;
+
                                       if (homeController
                                           .movieServerList.isNotEmpty) {
                                         allVideoPlayerController
@@ -619,6 +849,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         ),
 
                       kH16sizedBox,
+
                       Padding(
                         padding: const EdgeInsets.only(right: k20Padding),
                         child: Divider(
@@ -626,8 +857,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           color: cWhiteColor.withOpacity(0.2),
                         ),
                       ),
+
                       //! For rental video this widget(RentProductDetailsContentContainer)
+
                       if (widget.isRentableVideo == true) kH16sizedBox,
+
                       if (widget.isRentableVideo == true &&
                           homeController.movieDetailsModel.value?.isRented ==
                               false)
@@ -645,7 +879,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                               .toString(),
                           videoType: "movie",
                         ),
+
                       kH12sizedBox,
+
                       Container(
                         width: width - 40,
                         height: 46.h,
@@ -664,6 +900,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                               return GestureDetector(
                                 onTap: () async {
                                   homeController.videoDetailsChangeTab(index);
+
                                   if (homeController
                                           .movietSelectedIndex.value ==
                                       3) {
@@ -713,6 +950,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                       ),
 
                       kH12sizedBox,
+
                       if (homeController.movietSelectedIndex.value == 0)
                         SizedBox(
                           width: width - 20,
@@ -737,13 +975,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 onPressed: () async {
                                   await homeController.getArtistDetails(
                                       homeController.movieCastList[index]?.id);
+
                                   homeController.castSelectedIndex.value = 0;
+
                                   Get.toNamed(krCastDetailsScreen);
                                 },
                               );
                             },
                           ),
                         ),
+
                       if (homeController.movietSelectedIndex.value == 1)
                         SizedBox(
                           width: width - 20,
@@ -769,13 +1010,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                   await homeController.getArtistDetails(
                                       homeController
                                           .movieDirectorList[index]?.id);
+
                                   homeController.castSelectedIndex.value = 0;
+
                                   Get.toNamed(krCastDetailsScreen);
                                 },
                               );
                             },
                           ),
                         ),
+
                       if (homeController.movietSelectedIndex.value == 2)
                         SizedBox(
                           width: width - 20,
@@ -801,13 +1045,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                   await homeController.getArtistDetails(
                                       homeController
                                           .movieWriterList[index]?.id);
+
                                   homeController.castSelectedIndex.value = 0;
+
                                   Get.toNamed(krCastDetailsScreen);
                                 },
                               );
                             },
                           ),
                         ),
+
                       if (homeController.movietSelectedIndex.value == 3)
                         Padding(
                           padding: const EdgeInsets.only(right: k20Padding),
@@ -892,14 +1139,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
                                   // CustomElevatedButton(
+
                                   //   label: ksCancel.tr,
+
                                   //   onPressed: () {},
+
                                   //   buttonColor: cWhiteColor.withOpacity(0.1),
+
                                   //   textStyle: regular14TextStyle(cWhiteColor),
+
                                   //   buttonWidth: 70.w,
+
                                   //   buttonHeight: h32.h,
+
                                   // ),
+
                                   // kW12sizedBox,
+
                                   CustomElevatedButton(
                                     label: ksPostNow.tr,
                                     onPressed: () async {
@@ -1018,6 +1274,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                                                     index]!
                                                                 .isLiked!
                                                                 .value;
+
                                                         if (homeController
                                                                 .movieReviewList[
                                                                     index]!
@@ -1030,6 +1287,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                                               .totalLikes!
                                                               .value++;
                                                         }
+
                                                         if (homeController
                                                                 .movieReviewList[
                                                                     index]!
@@ -1042,6 +1300,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                                               .totalLikes!
                                                               .value--;
                                                         }
+
                                                         await homeController
                                                             .reviewLikeToggle(
                                                                 reviewId: homeController
@@ -1107,24 +1366,34 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                         ),
 
                       kH16sizedBox,
+
                       HomeTitleContent(
                         title: ksRelatedVideos.tr,
                         subtitleText: "",
                         isHorizontalPadding: false,
                         onPressed: () async {
                           homeController.resetBottomSheetData();
+
                           profileController.temporaryPlayListCheckBoxStateList
                               .clear();
+
                           homeController.isViewAllSearchEnable.value = false;
+
                           homeController.viewAllTextEditingController.clear();
+
                           homeController.selectedTitle.value = ksRelatedVideos;
+
                           await homeController.getMovieList(
                               movieType: "related");
+
                           homeController.isHomeGenreClicked.value = false;
+
                           Get.toNamed(krMovieViewAllScreen);
                         },
                       ),
+
                       kH16sizedBox,
+
                       Row(
                         children: [
                           SizedBox(
@@ -1141,11 +1410,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 return Obx(() => InkWell(
                                       onTap: () async {
                                         homeController.resetRatingData();
+
                                         homeController.resetBottomSheetData();
+
                                         await homeController.getMovieDetails(
                                             movieId: homeController
                                                 .relatedMovieList[index].id!
                                                 .toString());
+
                                         if (homeController
                                             .movieServerList.isNotEmpty) {
                                           allVideoPlayerController.videoPlayerFunction(
@@ -1173,6 +1445,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                                   .movieServerList[0]
                                                   ?.fileSource);
                                         }
+
                                         Get.offUntil(
                                           GetPageRoute(
                                             page: () => VideoPlayerScreen(
@@ -1223,7 +1496,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                           ),
                         ],
                       ),
+
                       kH16sizedBox,
+
                       HomeTitleContent(
                         title: ksRecommendedMovies.tr,
                         isHorizontalPadding: false,
@@ -1233,19 +1508,28 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 : "",
                         onPressed: () async {
                           homeController.resetBottomSheetData();
+
                           profileController.temporaryPlayListCheckBoxStateList
                               .clear();
+
                           homeController.isViewAllSearchEnable.value = false;
+
                           homeController.viewAllTextEditingController.clear();
+
                           homeController.selectedTitle.value =
                               ksRecommendedMovies;
+
                           await homeController.getMovieList(
                               movieType: "recommended");
+
                           homeController.isHomeGenreClicked.value = false;
+
                           Get.toNamed(krMovieViewAllScreen);
                         },
                       ),
+
                       kH16sizedBox,
+
                       Row(
                         children: [
                           SizedBox(
@@ -1263,11 +1547,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                 return Obx(() => InkWell(
                                       onTap: () async {
                                         homeController.resetRatingData();
+
                                         homeController.resetBottomSheetData();
+
                                         await homeController.getMovieDetails(
                                             movieId: homeController
                                                 .recommendedMovieList[index].id!
                                                 .toString());
+
                                         if (homeController
                                             .movieServerList.isNotEmpty) {
                                           allVideoPlayerController.videoPlayerFunction(
@@ -1295,6 +1582,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                                   .movieServerList[0]
                                                   ?.fileSource);
                                         }
+
                                         Get.offNamedUntil(
                                           krVideoPlayerScreen,
                                           ModalRoute.withName(krHomeScreen),
@@ -1352,6 +1640,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   ),
                 ),
                 kH60sizedBox,
+                ],
               ],
             ),
           ),
@@ -1368,8 +1657,11 @@ class CommonContainer extends StatelessWidget {
       this.onPressed,
       this.containerColor,
       this.iconColor});
+
   final String image;
+
   final Color? containerColor, iconColor;
+
   final VoidCallback? onPressed;
 
   @override
@@ -1397,6 +1689,7 @@ class CommonContainer extends StatelessWidget {
 
 void showSaveVideoToPlayListPopup(BuildContext context, int movieId) {
   final ProfileController profileController = Get.find<ProfileController>();
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -1469,16 +1762,21 @@ void showSaveVideoToPlayListPopup(BuildContext context, int movieId) {
                                   .temporaryPlayListCheckBoxStateList[index] =
                               !profileController
                                   .temporaryPlayListCheckBoxStateList[index];
+
                           if (profileController.moviePlayListIds.contains(
                               profileController.playlistList[index].id)) {
                             profileController.moviePlayListIds.remove(
                                 profileController.playlistList[index].id);
+
                             // authController.selectedInterestList.remove(
+
                             //     authController.interestList[index].title);
                           } else {
                             profileController.moviePlayListIds
                                 .add(profileController.playlistList[index].id);
+
                             // authController.selectedInterestList.add(
+
                             //     authController.interestList[index].title);
                           }
                         },
@@ -1494,6 +1792,7 @@ void showSaveVideoToPlayListPopup(BuildContext context, int movieId) {
                     label: ksCreateNewPlaylist.tr,
                     onPressed: () {
                       Get.back();
+
                       showCreateNewPlayListPopup(context);
                     },
                     buttonWidth: 140.w,
@@ -1505,6 +1804,7 @@ void showSaveVideoToPlayListPopup(BuildContext context, int movieId) {
                     label: ksSaveNow.tr,
                     onPressed: () async {
                       Get.back();
+
                       await profileController.playlistAddMovie(
                           movieId: movieId);
                     },
@@ -1524,8 +1824,10 @@ void showSaveVideoToPlayListPopup(BuildContext context, int movieId) {
 
 void showDownloadVideoPopup(BuildContext context) {
   final HomeController homeController = Get.find<HomeController>();
+
   final AllVideoPlayerController allVideoPlayerController =
       Get.find<AllVideoPlayerController>();
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -1577,12 +1879,16 @@ void showDownloadVideoPopup(BuildContext context) {
                       )),
                 ],
               ),
+
               kH8sizedBox,
+
               Divider(
                 thickness: 1,
                 color: cWhiteColor.withOpacity(0.1),
               ),
+
               kH8sizedBox,
+
               ListView.separated(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -1605,6 +1911,7 @@ void showDownloadVideoPopup(BuildContext context) {
                                     homeController.movieDetailsModel.value!
                                             .download!.details![index].link ??
                                         "");
+
                                 Get.back();
                               },
                               buttonWidth: 110.w,
@@ -1629,32 +1936,57 @@ void showDownloadVideoPopup(BuildContext context) {
                   separatorBuilder: (context, index) => kH8sizedBox,
                   itemCount: homeController
                       .movieDetailsModel.value!.download!.details!.length),
+
               kH16sizedBox,
+
               // Row(
+
               //   mainAxisAlignment: MainAxisAlignment.end,
+
               //   children: [
+
               //     CustomElevatedButton(
+
               //       label: ksCreateNewPlaylist.tr,
+
               //       onPressed: () {
+
               //         Get.back();
+
               //         showCreateNewPlayListPopup(context);
+
               //       },
+
               //       buttonWidth: 140.w,
+
               //       buttonHeight: 30.h,
+
               //       buttonColor: cWhiteColor.withOpacity(0.2),
+
               //     ),
+
               //     kW12sizedBox,
+
               //     CustomElevatedButton(
+
               //       label: ksSaveNow.tr,
+
               //       onPressed: () async {
+
               //         Get.back();
 
               //       },
+
               //       buttonWidth: 110.w,
+
               //       buttonHeight: 30.h,
+
               //       buttonColor: cPrimaryColor2,
+
               //     ),
+
               //   ],
+
               // ),
             ],
           ),
@@ -1759,19 +2091,30 @@ void showCreateNewPlayListPopup(BuildContext context) {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   // CustomElevatedButton(
+
                   //   label: ksCancel.tr,
+
                   //   onPressed: () {
+
                   //     Get.back();
+
                   //   },
+
                   //   buttonWidth: 80.w,
+
                   //   buttonHeight: 30.h,
+
                   //   buttonColor: cWhiteColor.withOpacity(0.2),
+
                   // ),
+
                   // kW12sizedBox,
+
                   CustomElevatedButton(
                     label: ksCreateNew.tr,
                     onPressed: () async {
                       Get.back();
+
                       await Get.find<ProfileController>().createPlayList();
                     },
                     buttonWidth: 110.w,
@@ -1790,6 +2133,7 @@ void showCreateNewPlayListPopup(BuildContext context) {
 
 class SubscriptionSelector extends StatelessWidget {
   SubscriptionSelector({super.key});
+
   final HomeController controller = Get.put(HomeController());
 
   @override
@@ -1815,8 +2159,11 @@ class SubscriptionSelector extends StatelessWidget {
 
   Widget _buildOption(String packageName) {
     final isSelected = controller.selectedPackage.value == packageName;
+
     final package = controller.packageDetails[packageName]!;
+
     final price = package['price']!;
+
     final duration = package['duration']!;
 
     return InkWell(
@@ -1867,6 +2214,7 @@ class RentProductDetailsContentContainer extends StatelessWidget {
       this.rentExpireDate,
       this.id,
       this.videoType});
+
   final String? rentPrice, rentValidity, rentExpireDate, id, videoType;
 
   @override
@@ -1885,49 +2233,71 @@ class RentProductDetailsContentContainer extends StatelessWidget {
               title: ksVideoCost.tr,
               value: rentPrice ?? "",
             ),
+
             kH12sizedBox,
+
             RentProductDetailsRow(
               title: ksValidity.tr,
               value: rentValidity ?? "",
             ),
+
             // kH12sizedBox,
+
             // RentProductDetailsRow(
+
             //   title: ksDeviceLimit.tr,
+
             //   value: "2",
+
             // ),
+
             kH12sizedBox,
+
             RentProductDetailsRow(
               title: ksExpireDate.tr,
+
               value: DateFormat('d MMM, yyyy, hh:mm a')
                   .format(DateTime.parse(rentExpireDate ?? "")),
+
               // value: "sfhbvsbgjbrgjhdrhjbgjdsfbvjsbfgjbdfgdejbgj",
             ),
+
             kH12sizedBox,
+
             RentProductDetailsRow(
               title: ksAds.tr,
               value: "Not Shown",
             ),
+
             kH12sizedBox,
+
             RentProductDetailsRow(
               title: ksDownload.tr,
               value: "Not Allowed",
             ),
+
             kH12sizedBox,
+
             RentProductDetailsRow(
               title: ksPremiumContent.tr,
               value: "Not Allowed",
             ),
+
             kH20sizedBox,
+
             CustomElevatedButton(
               label: ksProceedToPayment.tr,
               onPressed: () {
                 Get.find<ProfileController>().selectedPaymentMethod.value = "";
+
                 if (Get.find<GlobalController>().userToken.value != "") {
                   Get.find<ProfileController>().ispaymentButtonClicked.value =
                       true;
+
                   Get.find<ProfileController>()
                       .transactionKeyTextEditingController
                       .clear();
+
                   Get.to(() => PaymentMethodScreen(
                         paymentType: "rental",
                         planId: id!,
@@ -1950,7 +2320,9 @@ class RentProductDetailsContentContainer extends StatelessWidget {
 class VideoDetailsContentWidget extends StatelessWidget {
   const VideoDetailsContentWidget(
       {super.key, this.imageUrl, this.title, this.subTitle, this.onPressed});
+
   final String? imageUrl, title, subTitle;
+
   final VoidCallback? onPressed;
 
   @override
@@ -1997,6 +2369,7 @@ class VideoDetailsContentWidget extends StatelessWidget {
 
 class RentProductDetailsRow extends StatelessWidget {
   const RentProductDetailsRow({super.key, this.title, this.value});
+
   final String? title, value;
 
   @override
@@ -2019,6 +2392,7 @@ class RentProductDetailsRow extends StatelessWidget {
 }
 
 // Add this method in your class
+
 String _formatExpireDate(String dateString) {
   if (dateString.isEmpty) return '';
 
@@ -2026,15 +2400,21 @@ String _formatExpireDate(String dateString) {
     DateTime dateTime = DateTime.parse(dateString);
 
     String day = dateTime.day.toString().padLeft(2, '0');
+
     String month = DateFormat('MMM').format(dateTime);
+
     String year = dateTime.year.toString();
 
     int hour = dateTime.hour;
+
     String period = hour >= 12 ? 'PM' : 'AM';
+
     if (hour > 12) hour -= 12;
+
     if (hour == 0) hour = 12;
 
     String minute = dateTime.minute.toString().padLeft(2, '0');
+
     // String second = dateTime.second.toString().padLeft(2, '0');
 
     return "$day $month $year $hour:$minute $period"; // $second sec

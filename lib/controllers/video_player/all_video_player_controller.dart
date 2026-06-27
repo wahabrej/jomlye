@@ -5,14 +5,63 @@ import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 // import 'package:flutter_media_downloader/flutter_media_downloader.dart';
 import 'package:video_player/video_player.dart';
 import 'package:flixoo_flutter_app/controllers/common/global_controller.dart';
+import 'package:flixoo_flutter_app/models/subtitle_model.dart';
 import 'package:flixoo_flutter_app/utils/constants/imports.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class AllVideoPlayerController extends GetxController {
   late FlickManager flickManager;
- late YoutubePlayerController youtubeController;
+  late YoutubePlayerController youtubeController;
   VideoPlayerController? videoController;
   RxBool isInitialized = false.obs;
+
+  /// True once [flickManager] has been created at least once. Guards against
+  /// touching a `late` field that was never assigned (e.g. for YouTube videos).
+  final RxBool isFlickInitialized = false.obs;
+
+  /// The subtitle track the user picked from the selector sheet. `null` means
+  /// subtitles are off. Drives which `.vtt`/`.srt` file the overlay loads, and
+  /// whether the overlay is shown at all.
+  final Rxn<SubtitleModel> selectedSubtitle = Rxn<SubtitleModel>();
+
+  /// Selects a subtitle track, or `null` to turn subtitles off.
+  void selectSubtitle(SubtitleModel? subtitle) {
+    selectedSubtitle.value = subtitle;
+  }
+
+  /// Resets the device back to portrait and restores the system UI overlays.
+  /// Called when leaving the player / exiting fullscreen so we never get stuck
+  /// on a black landscape screen.
+  Future<void> resetOrientationToPortrait() async {
+    await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  }
+
+  /// Handles a back press from the player screen.
+  ///
+  /// Returns `false` when we only exited fullscreen (the screen should stay),
+  /// and `true` when the screen is allowed to pop. We intentionally do NOT
+  /// dispose [flickManager] here — disposing it during the pop transition (or
+  /// while its fullscreen overlay is still active) is what caused the black
+  /// screen. The manager is reused/replaced on the next playback instead.
+  Future<bool> handlePlayerBack() async {
+    if (isFlickInitialized.value) {
+      try {
+        final controlManager = flickManager.flickControlManager;
+        if (controlManager != null && controlManager.isFullscreen) {
+          controlManager.exitFullscreen();
+          await resetOrientationToPortrait();
+          return false;
+        }
+        controlManager?.pause();
+      } catch (_) {}
+    }
+    try {
+      youtubeController.pause();
+    } catch (_) {}
+    await resetOrientationToPortrait();
+    return true;
+  }
 
   final RxBool isMidRollAdPlaying = RxBool(false);
   final RxBool isPlayerInitialized = RxBool(false);
@@ -24,11 +73,12 @@ class AllVideoPlayerController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _initializeYouTubeController(videoUrl: "https://www.youtube.com/watch?v=u6Xsayqxij0");
+    _initializeYouTubeController(
+        videoUrl: "https://www.youtube.com/watch?v=u6Xsayqxij0");
   }
 
-  Future<void> _initializeYouTubeController({required String? videoUrl}) async{
-    final videoId =  YoutubePlayer.convertUrlToId(videoUrl??"");
+  Future<void> _initializeYouTubeController({required String? videoUrl}) async {
+    final videoId = YoutubePlayer.convertUrlToId(videoUrl ?? "");
     youtubeController = YoutubePlayerController(
       initialVideoId: videoId ?? '',
       flags: const YoutubePlayerFlags(
@@ -38,162 +88,25 @@ class AllVideoPlayerController extends GetxController {
     );
   }
 
-  // // Initialize Better Player Plus with ads - only if URL changed
-  // Future<void> initializeBetterPlayerWithAds(String mainContentUrl) async {
-  //   // Check if already initialized with the same URL
-  //   if (isPlayerInitialized.value && currentMainContentUrl == mainContentUrl) {
-  //     return;
-  //   }
-
-  //   // Prevent multiple simultaneous initializations
-  //   if (isInitializing.value) {
-  //     return;
-  //   }
-
-  //   try {
-  //     isInitializing.value = true;
-
-  //     // Dispose existing controller if any
-  //     await _disposeBetterPlayer();
-
-  //     // Reset states
-  //     for (var ad in midRollAds) {
-  //       ad["shown"] = false;
-  //     }
-  //     isMidRollAdPlaying.value = false;
-  //     isPlayerInitialized.value = false;
-
-  //     // Store current URL
-  //     currentMainContentUrl = mainContentUrl;
-
-  //     // Create playlist data sources
-  //     final List<BetterPlayerDataSource> playlist = [
-  //       BetterPlayerDataSource(
-  //         BetterPlayerDataSourceType.network,
-  //         preRollAdUrl,
-  //         cacheConfiguration: const BetterPlayerCacheConfiguration(
-  //           useCache: true,
-  //           preCacheSize: 10 * 1024 * 1024,
-  //           maxCacheSize: 100 * 1024 * 1024,
-  //         ),
-  //       ),
-  //       BetterPlayerDataSource(
-  //         BetterPlayerDataSourceType.network,
-  //         mainContentUrl,
-  //         cacheConfiguration: const BetterPlayerCacheConfiguration(
-  //           useCache: true,
-  //           preCacheSize: 20 * 1024 * 1024,
-  //           maxCacheSize: 200 * 1024 * 1024,
-  //         ),
-  //         videoFormat: BetterPlayerVideoFormat.other,
-  //       ),
-  //       BetterPlayerDataSource(
-  //         BetterPlayerDataSourceType.network,
-  //         postRollAdUrl,
-  //         cacheConfiguration: const BetterPlayerCacheConfiguration(
-  //           useCache: true,
-  //           preCacheSize: 10 * 1024 * 1024,
-  //           maxCacheSize: 100 * 1024 * 1024,
-  //         ),
-  //       ),
-  //     ];
-
-  //     // Initialize playlist controller
-  //     playlistController = BetterPlayerPlaylistController(
-  //       playlist,
-  //       betterPlayerConfiguration: BetterPlayerConfiguration(
-  //         autoPlay: true,
-  //         aspectRatio: 16/9,
-  //         fit: BoxFit.contain,
-  //         autoDispose: false,
-  //         startAt: Duration.zero,
-  //         controlsConfiguration: const BetterPlayerControlsConfiguration(
-  //           showControls: true,
-  //           enableSkips: false,
-  //           enableProgressText: true,
-  //           enableMute: true,
-  //           enableFullscreen: true,
-  //           enablePlaybackSpeed: true,
-  //           controlsHideTime: Duration(seconds: 3),
-  //           enableOverflowMenu: true,
-  //         ),
-  //         eventListener: _onBetterPlayerEvent,
-  //       ),
-  //       betterPlayerPlaylistConfiguration: const BetterPlayerPlaylistConfiguration(
-  //         loopVideos: false,
-  //         nextVideoDelay: Duration(seconds: 1),
-  //       ),
-  //     );
-
-  //     // Wait for controller to be ready
-  //     await Future.delayed(const Duration(milliseconds: 800));
-
-  //     // Setup mid-roll ads
-  //     _setupMidRollAds();
-
-  //     isPlayerInitialized.value = true;
-
-  //   } catch (e) {
-  //     print('Error initializing Better Player Plus: $e');
-  //     isPlayerInitialized.value = false;
-  //   } finally {
-  //     isInitializing.value = false;
-  //   }
-  // }
-
-  // void _onBetterPlayerEvent(BetterPlayerEvent event) {
-  //   if (event.betterPlayerEventType == BetterPlayerEventType.initialized) {
-  //     // Reset position when video initializes
-  //     Future.delayed(const Duration(milliseconds: 100), () {
-  //       playlistController?.betterPlayerController?.seekTo(Duration.zero);
-  //     });
-  //   }
-  // }
-
-  // void _setupMidRollAds() {
-  //   if (playlistController?.betterPlayerController == null) return;
-
-  //   playlistController!.betterPlayerController!.addEventsListener((event) {
-  //     if (isMidRollAdPlaying.value) return;
-
-  //     if (event.betterPlayerEventType == BetterPlayerEventType.progress) {
-  //       final progress = event.parameters?['progress'];
-  //       if (progress == null) return;
-
-  //       final currentPos = (progress as Duration).inSeconds;
-  //       final currentDataSource = playlistController?.betterPlayerController?.betterPlayerDataSource;
-
-  //       // Only trigger mid-roll ads for main content (second item in playlist)
-  //       if (currentDataSource?.url == currentMainContentUrl) {
-  //         for (final ad in midRollAds) {
-  //           if (currentPos >= ad["time"] && !ad["shown"]) {
-  //             ad["shown"] = true;
-  //             _playMidRollAd(ad["url"]);
-  //             break;
-  //           }
-  //         }
-  //       }
-  //     }
-  //   });
-  // }
-
 
   final RxString finalUrl = RxString("");
 
   Future<void> parseVideoUrl(
       {required String fileUrl, required String fileSource}) async {
-    final apiKey = Get.find<GlobalController>().googleDriveApiKey;
+    final apiKey = Get
+        .find<GlobalController>()
+        .googleDriveApiKey;
     finalUrl.value = "";
     if (fileSource == "gdrive") {
       finalUrl.value =
-          await generateGoogleDriveDirectUrl(fileUrl, apiKey.value);
+      await generateGoogleDriveDirectUrl(fileUrl, apiKey.value);
     } else {
       finalUrl.value = fileUrl;
     }
   }
 
-  Future<String> generateGoogleDriveDirectUrl(
-      String sharedUrl, String apiKey) async {
+  Future<String> generateGoogleDriveDirectUrl(String sharedUrl,
+      String apiKey) async {
     final regExp = RegExp(r'd/([a-zA-Z0-9_-]+)');
     final match = regExp.firstMatch(sharedUrl);
     if (match != null && match.groupCount > 0) {
@@ -204,96 +117,14 @@ class AllVideoPlayerController extends GetxController {
     return sharedUrl; // fallback: original URL (in case it's not a Google Drive link)
   }
 
-  // void _playMidRollAd(String adUrl) {
-  //   if (Get.context == null) return;
 
-  //   isMidRollAdPlaying.value = true;
-  // playlistController?.betterPlayerController?.pause();
-
-  // BetterPlayerController? adController;
-
-  //   showDialog(
-  //     context: Get.context!,
-  //     barrierDismissible: false,
-  //     builder: (context) {
-  //       adController = BetterPlayerController(
-  //         BetterPlayerConfiguration(
-  //           autoPlay: true,
-  //           aspectRatio: 16/9,
-  //           fit: BoxFit.contain,
-  //           controlsConfiguration: const BetterPlayerControlsConfiguration(
-  //             showControls: true,
-  //             enableSkips: true,
-  //             enableFullscreen: false,
-  //             controlsHideTime: Duration(seconds: 2),
-  //           ),
-  //         ),
-  //         betterPlayerDataSource: BetterPlayerDataSource(
-  //           BetterPlayerDataSourceType.network,
-  //           adUrl,
-  //           cacheConfiguration: const BetterPlayerCacheConfiguration(useCache: true),
-  //         ),
-  //       );
-
-  //       return AlertDialog(
-  //         title: const Text("Advertisement"),
-  //         content: SizedBox(
-  //           width: MediaQuery.of(context).size.width * 0.8,
-  //           height: 200,
-  //           child: BetterPlayer(controller: adController!),
-  //         ),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () {
-  //               adController?.dispose();
-  //               Navigator.pop(context);
-  //               isMidRollAdPlaying.value = false;
-  //               playlistController?.betterPlayerController?.play();
-  //             },
-  //             child: const Text("Close"),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-
-  // Future<void> _disposeBetterPlayer() async {
-  //   try {
-  //     betterPlayerController?.dispose();
-  //     playlistController?.dispose();
-  //     betterPlayerController = null;
-  //     playlistController = null;
-  //     isPlayerInitialized.value = false;
-  //     currentMainContentUrl = null;
-  //   } catch (e) {
-  //     print('Error disposing Better Player Plus: $e');
-  //   }
-  // }
-
-  // Method to reset player for new content
-  // void resetPlayer() {
-  //   _disposeBetterPlayer();
-  // }
-
-  // @override
-  // void onClose() {
-  //   youtubeController.dispose();
-  //   _disposeBetterPlayer();
-  //   videoController?.dispose();
-  //   super.onClose();
-  // }
-  // }
-
-  // final RxList movieTypeList =
-  //     RxList(["HD", "Action", "Super Hit", "Block Buster"]);
-
-  // final MediaDownload flutterMediaDownloaderPlugin = MediaDownload();
-     Future<void> downloadVideo(BuildContext context, String url) async {
+  Future<void> downloadVideo(BuildContext context, String url) async {
     try {
       FileDownloader.downloadFile(
         url: url,
-        name: 'video_${DateTime.now().millisecondsSinceEpoch}.mp4',
+        name: 'video_${DateTime
+            .now()
+            .millisecondsSinceEpoch}.mp4',
         onProgress: (name, progress) {
           print('Download progress: $progress%');
         },
@@ -335,7 +166,7 @@ class AllVideoPlayerController extends GetxController {
       );
 
       BetterPlayerConfiguration betterPlayerConfiguration =
-          BetterPlayerConfiguration(
+      BetterPlayerConfiguration(
         aspectRatio: 16 / 9,
         fit: BoxFit.contain,
         autoPlay: false,
@@ -405,213 +236,88 @@ class AllVideoPlayerController extends GetxController {
     flickManager.dispose();
     super.onClose();
   }
-  final RxInt totalSeconds = RxInt(0); 
-  final RxInt currentSeconds = RxInt(0); 
- //!video player function
-//     void videoPlayerFunction(
-//       {required bool? isFree,
-//       required bool? isRental,
-//       required bool? isRented,
-//       required bool? isSubscribed,
-//       required String? fileUrl,
-//       required String? fileSource,int? seekToPosition=0}) async{
-//     if ((isFree == false && isRental == true && isRented == true) ||
-//         (isFree == false &&
-//             isRented == false &&
-//             Get.find<GlobalController>().subscribedUserCheck.value==true) ||
-//         isFree == true) {
-//       if (fileSource == "youtube") {
-//         ll("here in youtube");
-//         final RxString videoUrl = RxString(fileUrl??"");
-//         // ll("in my youtube player controller loaded data $youtubeController");
-//        await _initializeYouTubeController(videoUrl: videoUrl.value);
-//                       youtubeController =
-//                                           YoutubePlayerController(
-//                                         initialVideoId: videoUrl.value,
-//                                         // initialVideoId: 'https://www.youtube.com/watch?v=u6Xsayqxij0',
-//                                         flags: const YoutubePlayerFlags(
-//                                           autoPlay: true,
-//                                           mute: false,
-//                                         ),
-//                                       );
-//       } else if (fileSource != "youtube" &&
-//           fileSource.toString().toLowerCase() != "gdrive") {
-//             ll("here in flickManager");
-//                                       // flickManager = FlickManager(
-//                                       //   videoPlayerController:
-//                                       //       VideoPlayerController.network(
-//                                       //           "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"),
-//                                       // );
-//                                       // flickManager = FlickManager(
-//                                       //   videoPlayerController:
-//                                       //       VideoPlayerController.network(
-//                                       //           fileUrl??"",
-//                                       //           ),
-//                                       // );
-//                                       flickManager = FlickManager(
-//   videoPlayerController: VideoPlayerController.network(fileUrl ?? "")
-//     ..initialize().then((_) {
-//       final seekSeconds = seekToPosition; 
-//       if (seekSeconds != null && seekSeconds > 0) {
-//         flickManager.flickVideoManager!.videoPlayerController
-//             !.seekTo(Duration(seconds: seekSeconds));
-//       }
-//       flickManager.flickVideoManager!.videoPlayerController?.addListener(() {
-//         final controller = flickManager.flickVideoManager!.videoPlayerController!;
-//         totalSeconds.value = controller.value.duration.inSeconds;
-//         currentSeconds.value = controller.value.position.inSeconds;
-//       });
-//     }),
-    
-// );
 
-//           }
-//     }
-//   }
- 
- 
- 
-//!
-void videoPlayerFunction({
-  required bool? isFree,
-  required bool? isRental,
-  required bool? isRented,
-  required bool? isSubscribed,
-  required String? fileUrl,
-  required String? fileSource,
-  int? seekToPosition = 0
-}) async {
-  // Validate URL before proceeding
-  if (fileUrl == null || fileUrl.isEmpty) {
-    print("Error: Video URL is null or empty");
-    return;
-  }
+  final RxInt totalSeconds = RxInt(0);
+  final RxInt currentSeconds = RxInt(0);
 
-  // Your existing logic...
-  if ((isFree == false && isRental == true && isRented == true) ||
-      (isFree == false &&
-          isRented == false &&
-          Get.find<GlobalController>().subscribedUserCheck.value == true) ||
-      isFree == true) {
-    
-    if (fileSource == "youtube") {
-      // YouTube logic...
-    } else if (fileSource != "youtube" &&
-        fileSource.toString().toLowerCase() != "gdrive") {
-      
-      ll("Attempting to play video: $fileUrl");
-      
-      try {
-        flickManager = FlickManager(
-          videoPlayerController: VideoPlayerController.network(
-            fileUrl,
-            httpHeaders: {
-              'User-Agent': 'Mozilla/5.0 (compatible; MyApp/1.0)',
-            },
-          )..initialize().then((_) {
-            final seekSeconds = seekToPosition;
-            if (seekSeconds != null && seekSeconds > 0) {
-              flickManager.flickVideoManager!.videoPlayerController!
-                  .seekTo(Duration(seconds: seekSeconds));
-            }
-            flickManager.flickVideoManager!.videoPlayerController?.addListener(() {
-              final controller = flickManager.flickVideoManager!.videoPlayerController!;
-              totalSeconds.value = controller.value.duration.inSeconds;
-              currentSeconds.value = controller.value.position.inSeconds;
-            });
-          }).catchError((error) {
-            ll("Video initialization error: $error");
-            _handleVideoError(error);
-          }),
-        );
-      } catch (e) {
-        ll("FlickManager creation error: $e");
-        _handleVideoError(e);
+  void videoPlayerFunction({
+    required bool? isFree,
+    required bool? isRental,
+    required bool? isRented,
+    required bool? isSubscribed,
+    required String? fileUrl,
+    required String? fileSource,
+    int? seekToPosition = 0
+  }) async {
+    // Validate URL before proceeding
+    if (fileUrl == null || fileUrl.isEmpty) {
+      print("Error: Video URL is null or empty");
+      return;
+    }
+
+    // Your existing logic...
+    if ((isFree == false && isRental == true && isRented == true) ||
+        (isFree == false &&
+            isRented == false &&
+            Get
+                .find<GlobalController>()
+                .subscribedUserCheck
+                .value == true) ||
+        isFree == true) {
+      if (fileSource == "youtube") {
+        // YouTube logic...
+      } else if (fileSource != "youtube" &&
+          fileSource.toString().toLowerCase() != "gdrive") {
+        ll("Attempting to play video: $fileUrl");
+
+        try {
+          // Release the previous player (if any) before building a new one so
+          // we don't leak native resources when switching servers / videos.
+          if (isFlickInitialized.value) {
+            try {
+              flickManager.dispose();
+            } catch (_) {}
+          }
+          isFlickInitialized.value = true;
+          flickManager = FlickManager(
+            videoPlayerController: VideoPlayerController.network(
+              fileUrl,
+              httpHeaders: {
+                'User-Agent': 'Mozilla/5.0 (compatible; MyApp/1.0)',
+              },
+            )
+              ..initialize().then((_) {
+                final seekSeconds = seekToPosition;
+                if (seekSeconds != null && seekSeconds > 0) {
+                  flickManager.flickVideoManager!.videoPlayerController!
+                      .seekTo(Duration(seconds: seekSeconds));
+                }
+                flickManager.flickVideoManager!.videoPlayerController
+                    ?.addListener(() {
+                  final controller = flickManager.flickVideoManager!
+                      .videoPlayerController!;
+                  totalSeconds.value = controller.value.duration.inSeconds;
+                  currentSeconds.value = controller.value.position.inSeconds;
+                });
+              }).catchError((error) {
+                ll("Video initialization error: $error");
+                _handleVideoError(error);
+              }),
+          );
+        } catch (e) {
+          ll("FlickManager creation error: $e");
+          _handleVideoError(e);
+        }
       }
     }
   }
+
+  void _handleVideoError(dynamic error) {
+    Get.snackbar(
+      "Video Error",
+      "Unable to play this video. Please try again later.",
+      snackPosition: SnackPosition.BOTTOM,
+    );
+  }
 }
 
-void _handleVideoError(dynamic error) {
-  Get.snackbar(
-    "Video Error", 
-    "Unable to play this video. Please try again later.",
-    snackPosition: SnackPosition.BOTTOM,
-  );
-}
-
-  //   int? seekPositionInSeconds;
-  
-  // void videoPlayerFunction({
-  //   required bool? isFree,
-  //   required bool? isRental,
-  //   required bool? isRented,
-  //   required bool? isSubscribed,
-  //   required String? fileUrl,
-  //   required String? fileSource,
-  //   int? seekPosition=10, // Add this parameter
-  // }) async {
-  //   // Store the seek position
-  //   seekPositionInSeconds = seekPosition;
-    
-  //   if ((isFree == false && isRental == true && isRented == true) ||
-  //       (isFree == false &&
-  //           isRented == false &&
-  //           Get.find<GlobalController>().subscribedUserCheck.value == true) ||
-  //       isFree == true) {
-      
-  //     if (fileSource == "youtube") {
-  //       final RxString videoUrl = RxString(fileUrl ?? "");
-  //       await _initializeYouTubeController(videoUrl: videoUrl.value);
-        
-  //       youtubeController = YoutubePlayerController(
-  //         initialVideoId: videoUrl.value,
-  //         flags: const YoutubePlayerFlags(
-  //           autoPlay: true,
-  //           mute: false,
-  //         ),
-  //       );
-        
-  //       // Seek to position for YouTube after initialization
-  //       if (seekPositionInSeconds != null) {
-  //         _seekToPosition();
-  //       }
-        
-  //     } else if (fileSource != "youtube" &&
-  //         fileSource.toString().toLowerCase() != "gdrive") {
-        
-  //       flickManager = FlickManager(
-  //         videoPlayerController: VideoPlayerController.network(fileUrl ?? ""),
-  //       );
-        
-  //       // Seek to position for regular video after initialization
-  //       if (seekPositionInSeconds != null) {
-  //         _seekToPositionFlick(fileUrl??"");
-  //       }
-  //     }
-  //   }
-  // }
-  
-  // // Method to seek YouTube player
-  // void _seekToPosition() {
-  //   if (youtubeController != null && seekPositionInSeconds != null) {
-  //     youtubeController!.seekTo(Duration(seconds: seekPositionInSeconds!));
-  //   }
-  // }
-  
-  // // Method to seek Flick player
-  // void _seekToPositionFlick(String fileUrl) async {
-  //   if (flickManager.flickControlManager != null && seekPositionInSeconds != null) {
-    
-  //     // Wait for the video to be initialized
-  //     // await flickManager!.flickControlManager!.initialize();
-  //     flickManager.flickControlManager!.seekTo(Duration(seconds: seekPositionInSeconds!));
-  //        flickManager = FlickManager(
-  //         videoPlayerController: VideoPlayerController.network(fileUrl ?? ""),
-  //       );
-  //         ll("Here in seek $seekPositionInSeconds");
-  //   }
-  // }
-
-
-}

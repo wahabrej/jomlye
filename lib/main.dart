@@ -23,9 +23,13 @@ void main() async {
 // );
 
   Get.put(GlobalController());
-  Stripe.publishableKey =  Get.find<GlobalController>().configModelData.value?.stripeKey??"pk_test_51RCwabBLHhtXKxC7Mfsz74GGTVv47g2JkehS3PQBshS3omOnsWanVW6DAEd8mQBIj3ftU1K8Q1x60NqhygNqVAq8005zZaL7p9";
+  Stripe.publishableKey = Get.find<GlobalController>()
+          .configModelData
+          .value
+          ?.stripeKey ??
+      "pk_test_51RCwabBLHhtXKxC7Mfsz74GGTVv47g2JkehS3PQBshS3omOnsWanVW6DAEd8mQBIj3ftU1K8Q1x60NqhygNqVAq8005zZaL7p9";
   await Stripe.instance.applySettings();
-   MobileAds.instance.initialize();
+  MobileAds.instance.initialize();
   await dotenv.load(fileName: Environment.fileName);
   ll("Filename : ${Environment.fileName}");
 
@@ -40,7 +44,8 @@ void main() async {
   );
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
     runApp(const MyApp());
   });
 }
@@ -56,7 +61,8 @@ class MyApp extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+          if (!currentFocus.hasPrimaryFocus &&
+              currentFocus.focusedChild != null) {
             FocusManager.instance.primaryFocus!.unfocus();
           }
         },

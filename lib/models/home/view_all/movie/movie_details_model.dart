@@ -1,3 +1,5 @@
+import 'package:flixoo_flutter_app/models/subtitle_model.dart';
+
 class MovieDetailsModel {
     final MovieDetails? details;
     final List<Server>? server;
@@ -9,6 +11,7 @@ class MovieDetailsModel {
     final List<MovieDetails>? recommendedMovie;
     final List<int>? playlistIds;
     List<String>? videoTags;
+    final List<SubtitleModel>? subtitles;
     final Rental? rental;
     final Download? download;
     final bool? isRented;
@@ -25,6 +28,7 @@ class MovieDetailsModel {
         this.recommendedMovie,
         this.playlistIds,
         this.videoTags,
+        this.subtitles,
         this.rental,
         this.download,
         this.isRented,
@@ -34,6 +38,10 @@ class MovieDetailsModel {
     factory MovieDetailsModel.fromJson(Map<String, dynamic> json) => MovieDetailsModel(
         details: json["details"] == null ? null : MovieDetails.fromJson(json["details"]),
         server: json["server"] == null ? [] : List<Server>.from(json["server"]!.map((x) => Server.fromJson(x))),
+        subtitles: json["subtitles"] == null
+            ? []
+            : List<SubtitleModel>.from(
+                json["subtitles"]!.map((x) => SubtitleModel.fromJson(x))),
         cast: json["cast"] == null ? [] : List<Cast>.from(json["cast"]!.map((x) => Cast.fromJson(x))),
         director: json["director"] == null ? [] : List<Cast>.from(json["director"]!.map((x) => Cast.fromJson(x))),
         writer: json["writer"] == null ? [] : List<Cast>.from(json["writer"]!.map((x) => Cast.fromJson(x))),

@@ -233,7 +233,7 @@
       "name": "flutter",
       "rootUri": "file:///Users/mohammadwahab/Development/flutter/packages/flutter",
       "packageUri": "lib/",
-      "languageVersion": "3.10"
+      "languageVersion": "3.9"
     },
     {
       "name": "flutter_cache_manager",
@@ -323,7 +323,7 @@
       "name": "flutter_localizations",
       "rootUri": "file:///Users/mohammadwahab/Development/flutter/packages/flutter_localizations",
       "packageUri": "lib/",
-      "languageVersion": "3.10"
+      "languageVersion": "3.9"
     },
     {
       "name": "flutter_plugin_android_lifecycle",
@@ -359,13 +359,13 @@
       "name": "flutter_test",
       "rootUri": "file:///Users/mohammadwahab/Development/flutter/packages/flutter_test",
       "packageUri": "lib/",
-      "languageVersion": "3.10"
+      "languageVersion": "3.9"
     },
     {
       "name": "flutter_web_plugins",
       "rootUri": "file:///Users/mohammadwahab/Development/flutter/packages/flutter_web_plugins",
       "packageUri": "lib/",
-      "languageVersion": "3.10"
+      "languageVersion": "3.9"
     },
     {
       "name": "flutter_widget_from_html",
@@ -621,7 +621,7 @@
     },
     {
       "name": "matcher",
-      "rootUri": "file:///Users/mohammadwahab/.pub-cache/hosted/pub.dev/matcher-0.12.19",
+      "rootUri": "file:///Users/mohammadwahab/.pub-cache/hosted/pub.dev/matcher-0.12.18",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
@@ -633,7 +633,7 @@
     },
     {
       "name": "meta",
-      "rootUri": "file:///Users/mohammadwahab/.pub-cache/hosted/pub.dev/meta-1.18.0",
+      "rootUri": "file:///Users/mohammadwahab/.pub-cache/hosted/pub.dev/meta-1.17.0",
       "packageUri": "lib/",
       "languageVersion": "3.5"
     },
@@ -821,7 +821,7 @@
       "name": "sky_engine",
       "rootUri": "file:///Users/mohammadwahab/Development/flutter/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
-      "languageVersion": "3.10"
+      "languageVersion": "3.9"
     },
     {
       "name": "source_span",
@@ -915,7 +915,7 @@
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/mohammadwahab/.pub-cache/hosted/pub.dev/test_api-0.7.11",
+      "rootUri": "file:///Users/mohammadwahab/.pub-cache/hosted/pub.dev/test_api-0.7.9",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
@@ -1143,8 +1143,8 @@
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.12.1",
+  "generatorVersion": "3.11.0",
   "flutterRoot": "file:///Users/mohammadwahab/Development/flutter",
-  "flutterVersion": "3.44.1",
+  "flutterVersion": "3.41.2",
   "pubCache": "file:///Users/mohammadwahab/.pub-cache"
 }
